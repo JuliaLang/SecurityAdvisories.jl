@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-108",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2020-12284"
+    ],
+    "summary": "cbs_jpeg_split_fragment in libavcodec/cbs_jpeg.c in FFmpeg 4.1 and 4.2.2 has a heap-based buffer ove...",
+    "details": "cbs_jpeg_split_fragment in libavcodec/cbs_jpeg.c in FFmpeg 4.1 and 4.2.2 has a heap-based buffer overflow during JPEG_MARKER_SOS handling because of a missing length check.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.3.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=19734"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/1812352d767ccf5431aa440123e2e260a4db2726"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/a3a3730b5456ca00587455004d40c047f7b20a99"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202007-58"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4431-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4722"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=19734"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/1812352d767ccf5431aa440123e2e260a4db2726"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/a3a3730b5456ca00587455004d40c047f7b20a99"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202007-58"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4431-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4722"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-12284",
+                "imported": "2025-10-18T14:07:17.062Z",
+                "modified": "2024-11-21T04:59:26.903Z",
+                "published": "2020-04-28T06:15:10.777Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-12284",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-12284"
+            }
+        ]
+    }
+}

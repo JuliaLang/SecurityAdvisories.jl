@@ -1,0 +1,64 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-114",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2021-33815"
+    ],
+    "summary": "dwa_uncompress in libavcodec/exr.c in FFmpeg 4.4 allows an out-of-bounds array access because dc_cou...",
+    "details": "dwa_uncompress in libavcodec/exr.c in FFmpeg 4.4 allows an out-of-bounds array access because dc_count is not strictly checked.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "4.4.0+0"
+                        },
+                        {
+                            "fixed": "4.4.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/26d3c81bc5ef2f8c3f09d45eaeacfb4b1139a777"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202312-14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/26d3c81bc5ef2f8c3f09d45eaeacfb4b1139a777"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202312-14"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-33815",
+                "imported": "2025-10-18T14:07:17.117Z",
+                "modified": "2024-11-21T06:09:37.263Z",
+                "published": "2021-06-03T17:15:15.073Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-33815",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-33815"
+            }
+        ]
+    }
+}

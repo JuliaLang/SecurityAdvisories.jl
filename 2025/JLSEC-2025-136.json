@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-136",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2024-35369"
+    ],
+    "summary": "In FFmpeg version n6.1.1, specifically within the avcodec/speexdec.c module, a potential security vu...",
+    "details": "In FFmpeg version n6.1.1, specifically within the avcodec/speexdec.c module, a potential security vulnerability exists due to insufficient validation of certain parameters when parsing Speex codec extradata. This vulnerability could lead to integer overflow conditions, potentially resulting in undefined behavior or crashes during the decoding process.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "6.1.1+0"
+                        },
+                        {
+                            "fixed": "6.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/1047524396/455093807666f2e351d674750c8cd0b8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/blob/n6.1.1/libavcodec/speexdec.c#L1423"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ffmpeg/ffmpeg/commit/0895ef0d6d6406ee6cd158fc4d47d80f201b8e9c"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-35369",
+                "imported": "2025-10-18T14:07:17.227Z",
+                "modified": "2025-06-03T16:06:20.667Z",
+                "published": "2024-11-29T17:15:07.707Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-35369",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35369"
+            }
+        ]
+    }
+}

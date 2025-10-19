@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-140",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2024-35366"
+    ],
+    "summary": "FFmpeg n6.1.1 is Integer Overflow",
+    "details": "FFmpeg n6.1.1 is Integer Overflow. The vulnerability exists in the parse_options function of sbgdec.c within the libavformat module. When parsing certain options, the software does not adequately validate the input. This allows for negative duration values to be accepted without proper bounds checking.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "6.1.1+0"
+                        },
+                        {
+                            "fixed": "6.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/1047524396/1e72f170d58c2547ebd4db4cdf6cfabf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/blob/n6.1.1/libavformat/sbgdec.c#L389"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ffmpeg/ffmpeg/commit/0bed22d597b78999151e3bde0768b7fe763fc2a6"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-35366",
+                "imported": "2025-10-18T14:07:17.234Z",
+                "modified": "2025-06-03T16:03:53.080Z",
+                "published": "2024-11-29T20:15:19.863Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-35366",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35366"
+            }
+        ]
+    }
+}

@@ -1,0 +1,92 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-110",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2020-35964"
+    ],
+    "summary": "track_header in libavformat/vividas.c in FFmpeg 4.3.1 has an out-of-bounds write because of incorrec...",
+    "details": "track_header in libavformat/vividas.c in FFmpeg 4.3.1 has an out-of-bounds write because of incorrect extradata packing.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "4.3.1+2"
+                        },
+                        {
+                            "fixed": "4.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.4.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26622"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-24"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26622"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-24"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-35964",
+                "imported": "2025-10-18T14:07:17.065Z",
+                "modified": "2024-11-21T05:28:36.243Z",
+                "published": "2021-01-03T19:15:11.720Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-35964",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35964"
+            }
+        ]
+    }
+}

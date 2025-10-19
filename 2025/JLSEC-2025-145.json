@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-145",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2024-36613"
+    ],
+    "summary": "FFmpeg n6.1.1 has a vulnerability in the DXA demuxer of the libavformat library allowing for an inte...",
+    "details": "FFmpeg n6.1.1 has a vulnerability in the DXA demuxer of the libavformat library allowing for an integer overflow, potentially resulting in a denial-of-service (DoS) condition or other undefined behavior.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "6.1.1+0"
+                        },
+                        {
+                            "fixed": "6.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/1047524396/0f4d90ef87553f772f888223085ac806"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/blob/n6.1.1/libavformat/dxa.c#L125"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ffmpeg/ffmpeg/commit/50d8e4f27398fd5778485a827d7a2817921f8540"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-36613",
+                "imported": "2025-10-18T14:07:17.239Z",
+                "modified": "2025-06-03T16:02:11.443Z",
+                "published": "2025-01-03T18:15:15.343Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-36613",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-36613"
+            }
+        ]
+    }
+}

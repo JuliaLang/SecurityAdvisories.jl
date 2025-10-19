@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-120",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2022-3964"
+    ],
+    "summary": "A vulnerability classified as problematic has been found in ffmpeg",
+    "details": "A vulnerability classified as problematic has been found in ffmpeg. This affects an unknown part of the file libavcodec/rpzaenc.c of the component QuickTime RPZA Video Encoder. The manipulation of the argument y_size leads to out-of-bounds read. It is possible to initiate the attack remotely. The name of the patch is 92f9b28ed84a77138105475beba16c146bdaf984. It is recommended to apply a patch to fix this issue. The associated identifier of this vulnerability is VDB-213543.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "4.4.0+0"
+                        },
+                        {
+                            "fixed": "4.4.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/92f9b28ed84a77138105475beba16c146bdaf984"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202312-14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.213543"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/92f9b28ed84a77138105475beba16c146bdaf984"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202312-14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.213543"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-3964",
+                "imported": "2025-10-18T14:07:17.200Z",
+                "modified": "2024-11-21T07:20:37.760Z",
+                "published": "2022-11-13T08:15:14.657Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-3964",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3964"
+            }
+        ]
+    }
+}

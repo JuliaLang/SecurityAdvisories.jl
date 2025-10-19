@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-113",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2020-21041"
+    ],
+    "summary": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via apng_do_inverse_blend in libavcodec/pngenc.c,...",
+    "details": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via apng_do_inverse_blend in libavcodec/pngenc.c, which could let a remote malicious user cause a Denial of Service",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.3.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/08/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://trac.ffmpeg.org/ticket/7989"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4990"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/08/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://trac.ffmpeg.org/ticket/7989"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4990"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-21041",
+                "imported": "2025-10-18T14:07:17.069Z",
+                "modified": "2024-11-21T05:12:23.010Z",
+                "published": "2021-05-24T18:15:07.800Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-21041",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-21041"
+            }
+        ]
+    }
+}

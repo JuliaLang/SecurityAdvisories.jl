@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-109",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2020-14212"
+    ],
+    "summary": "FFmpeg through 4.3 has a heap-based buffer overflow in avio_get_str in libavformat/aviobuf.c because...",
+    "details": "FFmpeg through 4.3 has a heap-based buffer overflow in avio_get_str in libavformat/aviobuf.c because dnn_backend_native.c calls ff_dnn_load_model_native and a certain index check is omitted.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "4.3.1+0"
+                        },
+                        {
+                            "fixed": "4.3.1+2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://patchwork.ffmpeg.org/project/ffmpeg/list/?series=1463"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202007-58"
+        },
+        {
+            "type": "WEB",
+            "url": "https://trac.ffmpeg.org/ticket/8716"
+        },
+        {
+            "type": "WEB",
+            "url": "https://patchwork.ffmpeg.org/project/ffmpeg/list/?series=1463"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202007-58"
+        },
+        {
+            "type": "WEB",
+            "url": "https://trac.ffmpeg.org/ticket/8716"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-14212",
+                "imported": "2025-10-18T14:07:17.064Z",
+                "modified": "2024-11-21T05:02:52.750Z",
+                "published": "2020-06-16T22:15:10.443Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14212",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14212"
+            }
+        ]
+    }
+}

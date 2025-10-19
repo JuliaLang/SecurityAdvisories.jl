@@ -1,0 +1,108 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-127",
+    "modified": "2025-10-19T19:08:53.760Z",
+    "published": "2025-10-19T19:08:53.760Z",
+    "upstream": [
+        "CVE-2024-31585"
+    ],
+    "summary": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in libavfilt...",
+    "details": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in libavfilter/avf_showspectrum.c. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted input.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "6.1.1+0"
+                        },
+                        {
+                            "fixed": "7.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/1047524396/dc2c64ffe0c3934a6176bcd2c5cf5656"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/blobdiff/aec67d3d7d2895bfea61aa1358d9d8e956f8615c..ab0fdaedd1e7224f7e84ea22fcbfaa4ca75a6c06:/libavfilter/avf_showspectrum.c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/blobdiff/bf2d7b20ea1c7d15dcbaedd479f40295e5c83430..3061bf668feffc7c1f0b244205167b3b86da8015:/libavfilter/avf_showspectrum.c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/3061bf668feffc7c1f0b244205167b3b86da8015"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/81df787b53eb5c6433731f6eaaf7f2a94d8a8c80"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ffmpeg/ffmpeg/commit/ab0fdaedd1e7224f7e84ea22fcbfaa4ca75a6c06"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6G7EYH2JAK5OJPVNC6AXYQ5K7YGYNCDN/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IPETICRXUOGRIM4U3BCRTIKE3IZWCSBT/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/LE3ASLH6QF2E5OVJI5VA3JSEPJFFFMNY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/1047524396/dc2c64ffe0c3934a6176bcd2c5cf5656"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/commit/81df787b53eb5c6433731f6eaaf7f2a94d8a8c80"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ffmpeg/ffmpeg/commit/ab0fdaedd1e7224f7e84ea22fcbfaa4ca75a6c06"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6G7EYH2JAK5OJPVNC6AXYQ5K7YGYNCDN/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/IPETICRXUOGRIM4U3BCRTIKE3IZWCSBT/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LE3ASLH6QF2E5OVJI5VA3JSEPJFFFMNY/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-31585",
+                "imported": "2025-10-18T14:07:17.214Z",
+                "modified": "2025-06-09T16:15:34.637Z",
+                "published": "2024-04-17T19:15:08.007Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-31585",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31585"
+            }
+        ]
+    }
+}
