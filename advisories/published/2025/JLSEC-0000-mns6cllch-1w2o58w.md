@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllch-1w2o58w"
+modified = 2025-10-19T21:13:23.537Z
+upstream = ["CVE-2020-35457"]
+references = ["https://gitlab.gnome.org/GNOME/glib/-/commit/63c5b62f0a984fac9a9700b12f54fe878e016a5d", "https://gitlab.gnome.org/GNOME/glib/-/issues/2197", "https://gitlab.gnome.org/GNOME/glib/-/releases/2.65.3", "https://gitlab.gnome.org/GNOME/glib/-/commit/63c5b62f0a984fac9a9700b12f54fe878e016a5d", "https://gitlab.gnome.org/GNOME/glib/-/issues/2197", "https://gitlab.gnome.org/GNOME/glib/-/releases/2.65.3"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2020-35457"
+imported = 2025-10-19T21:13:23.537Z
+modified = 2024-11-21T05:27:19.393Z
+published = 2020-12-14T23:15:12.173Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-35457"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2020-35457"
+```
+
+# GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in g_op...
+
+GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in g_option_group_add_entries. NOTE: the vendor's position is "Realistically this is not a security issue. The standard pattern is for callers to provide a static list of option entries in a fixed number of calls to g_option_group_add_entries()." The researcher states that this pattern is undocumented
+

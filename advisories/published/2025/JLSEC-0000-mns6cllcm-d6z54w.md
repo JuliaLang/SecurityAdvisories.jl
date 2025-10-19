@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllcm-d6z54w"
+modified = 2025-10-19T21:13:23.542Z
+upstream = ["CVE-2021-27219"]
+references = ["https://gitlab.gnome.org/GNOME/glib/-/issues/2319", "https://lists.apache.org/thread.html/rf9fa47ab66495c78bb4120b0754dd9531ca2ff0430f6685ac9b07772%40%3Cdev.mina.apache.org%3E", "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/2REA7RVKN7ZHRLJOEGBRQKJIPZQPAELZ/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/JJMPNDO4GDVURYQFYKFOWY5HAF4FTEPN/", "https://security.gentoo.org/glsa/202107-13", "https://security.netapp.com/advisory/ntap-20210319-0004/", "https://gitlab.gnome.org/GNOME/glib/-/issues/2319", "https://lists.apache.org/thread.html/rf9fa47ab66495c78bb4120b0754dd9531ca2ff0430f6685ac9b07772%40%3Cdev.mina.apache.org%3E", "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/2REA7RVKN7ZHRLJOEGBRQKJIPZQPAELZ/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/JJMPNDO4GDVURYQFYKFOWY5HAF4FTEPN/", "https://security.gentoo.org/glsa/202107-13", "https://security.netapp.com/advisory/ntap-20210319-0004/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2021-27219"
+imported = 2025-10-19T21:13:23.542Z
+modified = 2024-11-21T05:57:37.410Z
+published = 2021-02-15T17:15:13.137Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-27219"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2021-27219"
+```
+
+# An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3
+
+An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3. The function g_bytes_new has an integer overflow on 64-bit platforms due to an implicit cast from 64 bits to 32 bits. The overflow could potentially lead to memory corruption.
+

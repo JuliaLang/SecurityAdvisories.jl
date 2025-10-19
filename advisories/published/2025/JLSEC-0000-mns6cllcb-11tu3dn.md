@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllcb-11tu3dn"
+modified = 2025-10-19T21:13:23.531Z
+upstream = ["CVE-2019-12450"]
+references = ["http://lists.opensuse.org/opensuse-security-announce/2019-06/msg00076.html", "https://access.redhat.com/errata/RHSA-2019:3530", "https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174", "https://lists.debian.org/debian-lts-announce/2019/06/msg00013.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/2W4WIOAGO3M743M5KZLVQZM3NGHQDYLI/", "https://security.netapp.com/advisory/ntap-20190606-0003/", "https://usn.ubuntu.com/4014-1/", "https://usn.ubuntu.com/4014-2/", "http://lists.opensuse.org/opensuse-security-announce/2019-06/msg00076.html", "https://access.redhat.com/errata/RHSA-2019:3530", "https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174", "https://lists.debian.org/debian-lts-announce/2019/06/msg00013.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/2W4WIOAGO3M743M5KZLVQZM3NGHQDYLI/", "https://security.netapp.com/advisory/ntap-20190606-0003/", "https://usn.ubuntu.com/4014-1/", "https://usn.ubuntu.com/4014-2/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2019-12450"
+imported = 2025-10-19T21:13:23.531Z
+modified = 2024-11-21T04:22:52.573Z
+published = 2019-05-29T17:29:00.413Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-12450"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2019-12450"
+```
+
+# file_copy_fallback in gio/gfile.c in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict fil...
+
+file_copy_fallback in gio/gfile.c in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict file permissions while a copy operation is in progress. Instead, default permissions are used.
+

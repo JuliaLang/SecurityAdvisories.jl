@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllcr-tht5ol"
+modified = 2025-10-19T21:13:23.547Z
+upstream = ["CVE-2021-3800"]
+references = ["https://access.redhat.com/security/cve/CVE-2021-3800", "https://bugzilla.redhat.com/show_bug.cgi?id=1938284", "https://gitlab.gnome.org/GNOME/glib/-/commit/3529bb4450a51995", "https://lists.debian.org/debian-lts-announce/2022/09/msg00020.html", "https://security.netapp.com/advisory/ntap-20221028-0004/", "https://www.openwall.com/lists/oss-security/2017/06/23/8", "https://access.redhat.com/security/cve/CVE-2021-3800", "https://bugzilla.redhat.com/show_bug.cgi?id=1938284", "https://gitlab.gnome.org/GNOME/glib/-/commit/3529bb4450a51995", "https://lists.debian.org/debian-lts-announce/2022/09/msg00020.html", "https://security.netapp.com/advisory/ntap-20221028-0004/", "https://www.openwall.com/lists/oss-security/2017/06/23/8"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2021-3800"
+imported = 2025-10-19T21:13:23.547Z
+modified = 2024-11-21T06:22:28.277Z
+published = 2022-08-23T16:15:09.980Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3800"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2021-3800"
+```
+
+# A flaw was found in glib before version 2.63.6
+
+A flaw was found in glib before version 2.63.6. Due to random charset alias, pkexec can leak content from files owned by privileged users to unprivileged ones under the right condition.
+

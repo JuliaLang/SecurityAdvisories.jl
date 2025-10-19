@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllcs-1isa7jh"
+modified = 2025-10-19T21:13:23.548Z
+upstream = ["CVE-2023-29499"]
+references = ["https://access.redhat.com/security/cve/CVE-2023-29499", "https://bugzilla.redhat.com/show_bug.cgi?id=2211828", "https://gitlab.gnome.org/GNOME/glib/-/issues/2794", "https://lists.debian.org/debian-lts-announce/2023/09/msg00030.html", "https://security.gentoo.org/glsa/202311-18", "https://security.netapp.com/advisory/ntap-20231103-0001/", "https://access.redhat.com/security/cve/CVE-2023-29499", "https://bugzilla.redhat.com/show_bug.cgi?id=2211828", "https://gitlab.gnome.org/GNOME/glib/-/issues/2794", "https://lists.debian.org/debian-lts-announce/2023/09/msg00030.html", "https://security.gentoo.org/glsa/202311-18", "https://security.netapp.com/advisory/ntap-20231103-0001/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.76.5+0"]
+
+[[jlsec_sources]]
+id = "CVE-2023-29499"
+imported = 2025-10-19T21:13:23.548Z
+modified = 2024-11-21T07:57:10.807Z
+published = 2023-09-14T20:15:09.420Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-29499"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2023-29499"
+```
+
+# A flaw was found in GLib
+
+A flaw was found in GLib. GVariant deserialization fails to validate that the input conforms to the expected format, leading to denial of service.
+

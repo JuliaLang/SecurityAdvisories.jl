@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6clmbt-1z0j8vm"
+modified = 2025-10-19T21:13:24.809Z
+upstream = ["CVE-2023-32643"]
+references = ["https://gitlab.gnome.org/GNOME/glib/-/issues/2840", "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835", "https://security.netapp.com/advisory/ntap-20240426-0005/", "https://gitlab.gnome.org/GNOME/glib/-/issues/2840", "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835", "https://security.netapp.com/advisory/ntap-20240426-0005/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.76.5+0"]
+
+[[jlsec_sources]]
+id = "CVE-2023-32643"
+imported = 2025-10-19T21:13:24.809Z
+modified = 2024-11-21T08:03:45.570Z
+published = 2023-09-14T20:15:09.770Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-32643"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2023-32643"
+```
+
+# A flaw was found in GLib
+
+A flaw was found in GLib. The GVariant deserialization code is vulnerable to a heap buffer overflow introduced by the fix for CVE-2023-32665. This bug does not affect any released version of GLib, but does affect GLib distributors who followed the guidance of GLib developers to backport the initial fix for CVE-2023-32665.
+
