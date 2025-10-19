@@ -137,3 +137,12 @@ using JSON3: JSON3
     @test startswith(sprint(print, EUVD.advisory(vuln)), "```toml")
     @test contains(sprint(print, EUVD.advisory(vuln)), "id = \"EUVD-2025-32379\"")
 end
+
+@testset "sometimes EUVD has terrible product information" begin
+    vuln = JSON3.read(joinpath(@__DIR__, "EUVD-2023-33066.json"))
+    vpv = EUVD.vendor_product_versions(vuln)
+    @test length(vpv) == 3
+    @test vpv == [("Fedora", "", "")
+                  ("Red Hat", "", "")
+                  ("n/a", "", "")]
+end
