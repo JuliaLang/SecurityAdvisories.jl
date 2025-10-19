@@ -8,9 +8,6 @@ references = ["https://access.redhat.com/security/cve/CVE-2023-32611", "https://
 [[affected]]
 pkg = "Glib_jll"
 ranges = ["< 2.76.5+0"]
-[[affected]]
-pkg = "GlibNetworking_jll"
-ranges = ["*"]
 
 [[jlsec_sources]]
 id = "CVE-2023-32611"

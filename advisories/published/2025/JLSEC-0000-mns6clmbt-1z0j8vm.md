@@ -8,9 +8,6 @@ references = ["https://gitlab.gnome.org/GNOME/glib/-/issues/2840", "https://http
 [[affected]]
 pkg = "Glib_jll"
 ranges = ["< 2.76.5+0"]
-[[affected]]
-pkg = "GlibNetworking_jll"
-ranges = ["*"]
 
 [[jlsec_sources]]
 id = "CVE-2023-32643"
