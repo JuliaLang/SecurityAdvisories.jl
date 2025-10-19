@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-159",
+    "modified": "2025-10-19T22:31:43.957Z",
+    "published": "2025-10-19T22:31:43.957Z",
+    "upstream": [
+        "CVE-2021-3800"
+    ],
+    "summary": "A flaw was found in glib before version 2.63.6",
+    "details": "A flaw was found in glib before version 2.63.6. Due to random charset alias, pkexec can leak content from files owned by privileged users to unprivileged ones under the right condition.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.68.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-3800"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1938284"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/commit/3529bb4450a51995"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221028-0004/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2017/06/23/8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2021-3800"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1938284"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/commit/3529bb4450a51995"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221028-0004/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2017/06/23/8"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3800",
+                "imported": "2025-10-19T21:13:23.547Z",
+                "modified": "2024-11-21T06:22:28.277Z",
+                "published": "2022-08-23T16:15:09.980Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3800",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3800"
+            }
+        ]
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-163",
+    "modified": "2025-10-19T22:31:43.957Z",
+    "published": "2025-10-19T22:31:43.957Z",
+    "upstream": [
+        "CVE-2023-32643"
+    ],
+    "summary": "A flaw was found in GLib",
+    "details": "A flaw was found in GLib. The GVariant deserialization code is vulnerable to a heap buffer overflow introduced by the fix for CVE-2023-32665. This bug does not affect any released version of GLib, but does affect GLib distributors who followed the guidance of GLib developers to backport the initial fix for CVE-2023-32665.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.76.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2840"
+        },
+        {
+            "type": "WEB",
+            "url": "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240426-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2840"
+        },
+        {
+            "type": "WEB",
+            "url": "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240426-0005/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-32643",
+                "imported": "2025-10-19T21:13:24.809Z",
+                "modified": "2024-11-21T08:03:45.570Z",
+                "published": "2023-09-14T20:15:09.770Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-32643",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32643"
+            }
+        ]
+    }
+}

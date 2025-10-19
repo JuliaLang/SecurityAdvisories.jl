@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-158",
+    "modified": "2025-10-19T22:31:43.957Z",
+    "published": "2025-10-19T22:31:43.957Z",
+    "upstream": [
+        "CVE-2021-28153"
+    ],
+    "summary": "An issue was discovered in GNOME GLib before 2.66.8",
+    "details": "An issue was discovered in GNOME GLib before 2.66.8. When g_file_replace() is used with G_FILE_CREATE_REPLACE_DESTINATION to replace a path that is a dangling symlink, it incorrectly also creates the target of the symlink as an empty file, which could conceivably have security relevance if the symlink is attacker-controlled. (If the path is a symlink to a file that already exists, then the contents of that file correctly remain unchanged.)",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.68.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2325"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RXTD5HCP2K4AAUSWWZTBKQNHRCTAEOF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ICUTQPHZNZWX2DZR46QFLQZRHVMHIILJ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210416-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2325"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RXTD5HCP2K4AAUSWWZTBKQNHRCTAEOF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ICUTQPHZNZWX2DZR46QFLQZRHVMHIILJ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210416-0003/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-28153",
+                "imported": "2025-10-19T21:13:23.544Z",
+                "modified": "2024-11-21T05:59:11.820Z",
+                "published": "2021-03-11T22:15:12.777Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-28153",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-28153"
+            }
+        ]
+    }
+}

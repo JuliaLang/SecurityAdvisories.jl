@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-162",
+    "modified": "2025-10-19T22:31:43.957Z",
+    "published": "2025-10-19T22:31:43.957Z",
+    "upstream": [
+        "CVE-2023-32636"
+    ],
+    "summary": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of servi...",
+    "details": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of service introduced by additional input validation added to resolve CVE-2023-29499. The offset table validation may be very slow. This bug does not affect any released version of glib but does affect glib distributors who followed the guidance of glib developers to backport the initial fix for CVE-2023-29499.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.76.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2841"
+        },
+        {
+            "type": "WEB",
+            "url": "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20231110-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2841"
+        },
+        {
+            "type": "WEB",
+            "url": "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20231110-0002/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-32636",
+                "imported": "2025-10-19T21:13:24.605Z",
+                "modified": "2024-11-21T08:03:44.800Z",
+                "published": "2023-09-14T20:15:09.653Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-32636",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32636"
+            }
+        ]
+    }
+}
