@@ -1,0 +1,68 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-96",
+    "modified": "2025-10-19T18:40:48.457Z",
+    "published": "2025-10-19T18:40:48.457Z",
+    "upstream": [
+        "CVE-2025-5318"
+    ],
+    "summary": "A flaw was found in the libssh library in versions less than 0.11.2",
+    "details": "A flaw was found in the libssh library in versions less than 0.11.2. An out-of-bounds read can be triggered in the sftp_handle function due to an incorrect comparison check that permits the function to access memory beyond the valid handle list and to return an invalid pointer, which is used in further processing. This vulnerability allows an authenticated remote attacker to potentially read unintended memory regions, exposing sensitive information or affect service behavior.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.11.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libssh_jll",
+                "purl": "pkg:julia/libssh_jll?uuid=a8d4f100-aa25-5708-be18-96e0805c2c9d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:18231"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:18275"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2025-5318"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2369131"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.libssh.org/security/advisories/CVE-2025-5318.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-5318",
+                "imported": "2025-10-18T14:10:40.078Z",
+                "modified": "2025-10-17T03:15:35.317Z",
+                "published": "2025-06-24T14:15:30.523Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5318",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5318"
+            }
+        ]
+    }
+}
