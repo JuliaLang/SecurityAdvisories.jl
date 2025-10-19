@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns69f53e-53c2hl"
+modified = 2025-10-19T19:44:23.690Z
+upstream = ["CVE-2022-25308"]
+references = ["https://access.redhat.com/security/cve/CVE-2022-25308", "https://bugzilla.redhat.com/show_bug.cgi?id=2047890", "https://github.com/fribidi/fribidi/issues/181", "https://github.com/fribidi/fribidi/pull/184", "https://access.redhat.com/security/cve/CVE-2022-25308", "https://bugzilla.redhat.com/show_bug.cgi?id=2047890", "https://github.com/fribidi/fribidi/issues/181", "https://github.com/fribidi/fribidi/pull/184"]
+
+[[affected]]
+pkg = "FriBidi_jll"
+ranges = ["< 1.0.14+0"]
+
+[[jlsec_sources]]
+id = "CVE-2022-25308"
+imported = 2025-10-19T19:44:23.690Z
+modified = 2024-11-21T06:51:58.117Z
+published = 2022-09-06T18:15:11.437Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25308"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2022-25308"
+```
+
+# A stack-based buffer overflow flaw was found in the Fribidi package
+
+A stack-based buffer overflow flaw was found in the Fribidi package. This flaw allows an attacker to pass a specially crafted file to the Fribidi application, which leads to a possible memory leak or a denial of service.
+

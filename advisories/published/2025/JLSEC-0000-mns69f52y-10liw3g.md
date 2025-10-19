@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns69f52y-10liw3g"
+modified = 2025-10-19T19:44:23.674Z
+upstream = ["CVE-2019-18397"]
+references = ["https://access.redhat.com/errata/RHSA-2019:4326", "https://access.redhat.com/errata/RHSA-2019:4361", "https://access.redhat.com/errata/RHSA-2020:0291", "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=944327", "https://github.com/fribidi/fribidi/commit/034c6e9a1d296286305f4cfd1e0072b879f52568", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TFS3N6KKXPI6ATDNEUFRSLX7R6BOBNIP/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/W5UJRTG32FDNI7T637Q6PZYL3UCRR5HR/", "https://marc.info/?l=oss-security&m=157322128105807&w=2", "https://security-tracker.debian.org/tracker/CVE-2019-18397", "https://security.gentoo.org/glsa/202003-41", "https://access.redhat.com/errata/RHSA-2019:4326", "https://access.redhat.com/errata/RHSA-2019:4361", "https://access.redhat.com/errata/RHSA-2020:0291", "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=944327", "https://github.com/fribidi/fribidi/commit/034c6e9a1d296286305f4cfd1e0072b879f52568", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TFS3N6KKXPI6ATDNEUFRSLX7R6BOBNIP/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/W5UJRTG32FDNI7T637Q6PZYL3UCRR5HR/", "https://marc.info/?l=oss-security&m=157322128105807&w=2", "https://security-tracker.debian.org/tracker/CVE-2019-18397", "https://security.gentoo.org/glsa/202003-41"]
+
+[[affected]]
+pkg = "FriBidi_jll"
+ranges = ["< 1.0.10+0"]
+
+[[jlsec_sources]]
+id = "CVE-2019-18397"
+imported = 2025-10-19T19:44:23.674Z
+modified = 2024-11-21T04:33:12.027Z
+published = 2019-11-13T14:15:10.287Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-18397"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2019-18397"
+```
+
+# A buffer overflow in the fribidi_get_par_embedding_levels_ex() function in lib/fribidi-bidi.c of GNU...
+
+A buffer overflow in the fribidi_get_par_embedding_levels_ex() function in lib/fribidi-bidi.c of GNU FriBidi through 1.0.7 allows an attacker to cause a denial of service or possibly execute arbitrary code by delivering crafted text content to a user, when this content is then rendered by an application that uses FriBidi for text layout calculations. Examples include any GNOME or GTK+ based application that uses Pango for text layout, as this internally uses FriBidi for bidirectional text layout. For example, the attacker can construct a crafted text file to be opened in GEdit, or a crafted IRC message to be viewed in HexChat.
+
