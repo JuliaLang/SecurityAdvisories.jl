@@ -7,7 +7,7 @@ references = ["https://access.redhat.com/errata/RHSA-2025:18231", "https://acces
 
 [[affected]]
 pkg = "libssh_jll"
-ranges = ["*"]
+ranges = ["< 0.11.3+0"]
 
 [[jlsec_sources]]
 id = "CVE-2025-5318"
