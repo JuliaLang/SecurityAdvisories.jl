@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllco-1n7v0k0"
+modified = 2025-10-19T21:13:23.544Z
+upstream = ["CVE-2021-28153"]
+references = ["https://gitlab.gnome.org/GNOME/glib/-/issues/2325", "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RXTD5HCP2K4AAUSWWZTBKQNHRCTAEOF/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ICUTQPHZNZWX2DZR46QFLQZRHVMHIILJ/", "https://security.gentoo.org/glsa/202107-13", "https://security.netapp.com/advisory/ntap-20210416-0003/", "https://gitlab.gnome.org/GNOME/glib/-/issues/2325", "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RXTD5HCP2K4AAUSWWZTBKQNHRCTAEOF/", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ICUTQPHZNZWX2DZR46QFLQZRHVMHIILJ/", "https://security.gentoo.org/glsa/202107-13", "https://security.netapp.com/advisory/ntap-20210416-0003/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2021-28153"
+imported = 2025-10-19T21:13:23.544Z
+modified = 2024-11-21T05:59:11.820Z
+published = 2021-03-11T22:15:12.777Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-28153"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2021-28153"
+```
+
+# An issue was discovered in GNOME GLib before 2.66.8
+
+An issue was discovered in GNOME GLib before 2.66.8. When g_file_replace() is used with G_FILE_CREATE_REPLACE_DESTINATION to replace a path that is a dangling symlink, it incorrectly also creates the target of the symlink as an empty file, which could conceivably have security relevance if the symlink is attacker-controlled. (If the path is a symlink to a file that already exists, then the contents of that file correctly remain unchanged.)
+

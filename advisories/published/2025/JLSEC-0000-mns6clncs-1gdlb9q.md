@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6clncs-1gdlb9q"
+modified = 2025-10-19T21:13:26.140Z
+upstream = ["CVE-2025-6052"]
+references = ["https://access.redhat.com/security/cve/CVE-2025-6052", "https://bugzilla.redhat.com/show_bug.cgi?id=2372666"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = [">= 2.76.5+0, < 2.86.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2025-6052"
+imported = 2025-10-19T21:13:26.140Z
+modified = 2025-08-20T17:27:24.260Z
+published = 2025-06-13T16:15:28.230Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-6052"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2025-6052"
+```
+
+# A flaw was found in how GLib’s GString manages memory when adding data to strings
+
+A flaw was found in how GLib’s GString manages memory when adding data to strings. If a string is already very large, combining it with more input can cause a hidden overflow in the size calculation. This makes the system think it has enough memory when it doesn’t. As a result, data may be written past the end of the allocated memory, leading to crashes or memory corruption.
+

@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns6cllce-131sn2n"
+modified = 2025-10-19T21:13:23.534Z
+upstream = ["CVE-2019-13012"]
+references = ["http://lists.opensuse.org/opensuse-security-announce/2019-07/msg00022.html", "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=931234#12", "https://gitlab.gnome.org/GNOME/glib/commit/5e4da714f00f6bfb2ccd6d73d61329c6f3a08429", "https://gitlab.gnome.org/GNOME/glib/issues/1658", "https://gitlab.gnome.org/GNOME/glib/merge_requests/450", "https://lists.apache.org/thread.html/r58af02e294bd07f487e2c64ffc0a29b837db5600e33b6e698b9d696b%40%3Cissues.bookkeeper.apache.org%3E", "https://lists.apache.org/thread.html/rf4c02775860db415b4955778a131c2795223f61cb8c6a450893651e4%40%3Cissues.bookkeeper.apache.org%3E", "https://lists.debian.org/debian-lts-announce/2019/07/msg00029.html", "https://lists.debian.org/debian-lts-announce/2019/08/msg00004.html", "https://security.netapp.com/advisory/ntap-20190806-0003/", "https://usn.ubuntu.com/4049-1/", "https://usn.ubuntu.com/4049-2/", "http://lists.opensuse.org/opensuse-security-announce/2019-07/msg00022.html", "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=931234#12", "https://gitlab.gnome.org/GNOME/glib/commit/5e4da714f00f6bfb2ccd6d73d61329c6f3a08429", "https://gitlab.gnome.org/GNOME/glib/issues/1658", "https://gitlab.gnome.org/GNOME/glib/merge_requests/450", "https://lists.apache.org/thread.html/r58af02e294bd07f487e2c64ffc0a29b837db5600e33b6e698b9d696b%40%3Cissues.bookkeeper.apache.org%3E", "https://lists.apache.org/thread.html/rf4c02775860db415b4955778a131c2795223f61cb8c6a450893651e4%40%3Cissues.bookkeeper.apache.org%3E", "https://lists.debian.org/debian-lts-announce/2019/07/msg00029.html", "https://lists.debian.org/debian-lts-announce/2019/08/msg00004.html", "https://security.netapp.com/advisory/ntap-20190806-0003/", "https://usn.ubuntu.com/4049-1/", "https://usn.ubuntu.com/4049-2/"]
+
+[[affected]]
+pkg = "Glib_jll"
+ranges = ["< 2.68.1+0"]
+
+[[jlsec_sources]]
+id = "CVE-2019-13012"
+imported = 2025-10-19T21:13:23.534Z
+modified = 2024-11-21T04:24:01.900Z
+published = 2019-06-28T15:15:10.970Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-13012"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2019-13012"
+```
+
+# The keyfile settings backend in GNOME GLib (aka glib2.0) before 2.60.0 creates directories using g_f...
+
+The keyfile settings backend in GNOME GLib (aka glib2.0) before 2.60.0 creates directories using g_file_make_directory_with_parents (kfsb->dir, NULL, NULL) and files using g_file_replace_contents (kfsb->file, contents, length, NULL, FALSE, G_FILE_CREATE_REPLACE_DESTINATION, NULL, NULL, NULL). Consequently, it does not properly restrict directory (and file) permissions. Instead, for directories, 0777 permissions are used; for files, default file permissions are used. This is similar to CVE-2019-12450.
+
