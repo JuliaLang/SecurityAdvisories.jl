@@ -30,7 +30,7 @@ function vpzip(vendors,products)
     zip(vendors,products)
 end
 function vendor_product_versions(vuln)
-    [(get(get(v, :vendor, Dict()), :name, ""), get(get(p, :product, Dict), :name, ""), get(p, :product_version, "")) for (v,p) in vpzip(vuln.enisaIdVendor, vuln.enisaIdProduct)]
+    [(get(get(v, :vendor, Dict()), :name, ""), get(get(p, :product, Dict()), :name, ""), get(p, :product_version, "")) for (v,p) in vpzip(vuln.enisaIdVendor, vuln.enisaIdProduct)]
 end
 
 function build_headers()
