@@ -2,6 +2,14 @@ using SecurityAdvisories
 using Dates: Dates, DateTime
 using TimeZones: TimeZones, ZonedDateTime
 
+function union_unique!(existing, additions)
+    for addition in additions
+        addition in existing && throw(ArgumentError("value $addition already exists in the $(typeof(existing))"))
+        push!(existing, addition)
+    end
+    return existing
+end
+
 function main()
     all_advisories_path = joinpath(@__DIR__, "..", "advisories")
     published_advisories_path = joinpath(@__DIR__, "..", "advisories", "published")
@@ -16,8 +24,10 @@ function main()
         last_id = max(last_id, something(tryparse(Int, chopprefix(chopsuffix(file, ".md"), prefix)), 0))
     end
 
-    # Then go through the published advisories and ensure all IDs are assigned
-    # and that the dates accurately match the commit dates
+    # Then go through the published advisories and ensure all IDs are assigned,
+    # that the dates accurately match the commit dates, and there are no
+    # duplicate aliases/upstreams in the database
+    ids = Set{String}()
     n_updated = 0
     now = Dates.now(Dates.UTC)
     for (root, _, files) in walkdir(published_advisories_path), file in files
@@ -25,6 +35,8 @@ function main()
         SecurityAdvisories.is_jlsec_advisory_path(path) || continue
         advisory = SecurityAdvisories.parsefile(path)
         updated = false
+
+        # First assign ids and determine the modified and published timestamps
         if startswith(advisory.id, string(SecurityAdvisories.PREFIX, "-0000-"))
             last_id += 1
             advisory.id = string(SecurityAdvisories.PREFIX, "-", year, "-", last_id)
@@ -40,6 +52,8 @@ function main()
             git_published = readchomp(`git log -1 --format="%cd" --date=iso-strict --diff-filter=A -- $path`)
             published = isempty(git_published) ? modified : DateTime(ZonedDateTime(git_published), Dates.UTC)
         end
+
+        # Now update the timestamps (if we need to)
         if something(advisory.withdrawn, typemin(DateTime)) > advisory.modified
             # If the withdrawn date is _after_ the previously stored modified time, then it's a new modification
             # The effective time of the widthdraw will be upon publication to this repo — the new modified time
@@ -58,6 +72,9 @@ function main()
             advisory.published = now
             updated = true
         end
+
+        # Ensure this advisory isn't already represented in the database in any manner
+        union_unique!(ids, [advisory.id; advisory.aliases; advisory.upstream])
 
         if updated
             # TODO: we could do better by applying a git diff that only includes the semantically meaningful parts
