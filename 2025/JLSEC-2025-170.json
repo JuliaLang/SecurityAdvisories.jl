@@ -1,0 +1,80 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-170",
+    "modified": "2025-10-20T22:55:27.993Z",
+    "published": "2025-10-20T22:55:27.993Z",
+    "upstream": [
+        "CVE-2022-25308"
+    ],
+    "summary": "A stack-based buffer overflow flaw was found in the Fribidi package",
+    "details": "A stack-based buffer overflow flaw was found in the Fribidi package. This flaw allows an attacker to pass a specially crafted file to the Fribidi application, which leads to a possible memory leak or a denial of service.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.0.14+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FriBidi_jll",
+                "purl": "pkg:julia/FriBidi_jll?uuid=559328eb-81f9-559d-9380-de523a88c83c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-25308"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2047890"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/fribidi/fribidi/issues/181"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/fribidi/fribidi/pull/184"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-25308"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2047890"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/fribidi/fribidi/issues/181"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/fribidi/fribidi/pull/184"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-25308",
+                "imported": "2025-10-19T19:44:23.690Z",
+                "modified": "2024-11-21T06:51:58.117Z",
+                "published": "2022-09-06T18:15:11.437Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25308",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25308"
+            }
+        ]
+    }
+}
