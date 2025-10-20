@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns69f53h-1kqdk9z"
+modified = 2025-10-19T19:44:23.693Z
+upstream = ["CVE-2022-25310"]
+references = ["https://access.redhat.com/security/cve/CVE-2022-25310", "https://bugzilla.redhat.com/show_bug.cgi?id=2047923", "https://github.com/fribidi/fribidi/issues/183", "https://github.com/fribidi/fribidi/pull/186", "https://access.redhat.com/security/cve/CVE-2022-25310", "https://bugzilla.redhat.com/show_bug.cgi?id=2047923", "https://github.com/fribidi/fribidi/issues/183", "https://github.com/fribidi/fribidi/pull/186"]
+
+[[affected]]
+pkg = "FriBidi_jll"
+ranges = ["< 1.0.14+0"]
+
+[[jlsec_sources]]
+id = "CVE-2022-25310"
+imported = 2025-10-19T19:44:23.693Z
+modified = 2024-11-21T06:51:58.347Z
+published = 2022-09-06T18:15:11.557Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25310"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2022-25310"
+```
+
+# A segmentation fault (SEGV) flaw was found in the Fribidi package and affects the fribidi_remove_bid...
+
+A segmentation fault (SEGV) flaw was found in the Fribidi package and affects the fribidi_remove_bidi_marks() function of the lib/fribidi.c file. This flaw allows an attacker to pass a specially crafted file to Fribidi, leading to a crash and causing a denial of service.
+
