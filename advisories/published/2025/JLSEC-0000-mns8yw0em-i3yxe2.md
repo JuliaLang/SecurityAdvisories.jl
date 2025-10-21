@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns8yw0em-i3yxe2"
+modified = 2025-10-21T17:12:53.518Z
+upstream = ["CVE-2020-12279"]
+references = ["https://github.com/git/git/security/advisories/GHSA-589j-mmg9-733v", "https://github.com/libgit2/libgit2/commit/64c612cc3e25eff5fb02c59ef5a66ba7a14751e4", "https://github.com/libgit2/libgit2/releases/tag/v0.28.4", "https://github.com/libgit2/libgit2/releases/tag/v0.99.0", "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html", "https://lists.debian.org/debian-lts-announce/2023/02/msg00034.html", "https://github.com/git/git/security/advisories/GHSA-589j-mmg9-733v", "https://github.com/libgit2/libgit2/commit/64c612cc3e25eff5fb02c59ef5a66ba7a14751e4", "https://github.com/libgit2/libgit2/releases/tag/v0.28.4", "https://github.com/libgit2/libgit2/releases/tag/v0.99.0", "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html", "https://lists.debian.org/debian-lts-announce/2023/02/msg00034.html"]
+
+[[affected]]
+pkg = "LibGit2_jll"
+ranges = ["< 0.28.5+0"]
+
+[[jlsec_sources]]
+id = "CVE-2020-12279"
+imported = 2025-10-21T17:12:53.517Z
+modified = 2024-11-21T04:59:26.230Z
+published = 2020-04-27T17:15:13.470Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-12279"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2020-12279"
+```
+
+# An issue was discovered in libgit2 before 0.28.4 and 0.9x before 0.99.0
+
+An issue was discovered in libgit2 before 0.28.4 and 0.9x before 0.99.0. checkout.c mishandles equivalent filenames that exist because of NTFS short names. This may allow remote code execution when cloning a repository. This issue is similar to CVE-2019-1353.
+
