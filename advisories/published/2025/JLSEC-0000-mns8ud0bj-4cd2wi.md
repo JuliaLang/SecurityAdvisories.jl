@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns8ud0bj-4cd2wi"
+modified = 2025-10-21T15:06:08.479Z
+upstream = ["CVE-2022-26345"]
+references = ["http://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00674.html", "http://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00674.html"]
+
+[[affected]]
+pkg = "IntelOpenMP_jll"
+ranges = ["< 2023.1.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2022-26345"
+imported = 2025-10-21T15:06:08.448Z
+modified = 2024-11-21T06:53:47.710Z
+published = 2023-02-16T20:15:13.057Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-26345"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2022-26345"
+```
+
+# Uncontrolled search path element in the Intel(R) oneAPI Toolkit OpenMP before version 2022.1 may all...
+
+Uncontrolled search path element in the Intel(R) oneAPI Toolkit OpenMP before version 2022.1 may allow an authenticated user to potentially enable escalation of privilege via local access.
+
