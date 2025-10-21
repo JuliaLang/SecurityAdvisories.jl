@@ -1,0 +1,64 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-179",
+    "modified": "2025-10-21T17:39:06.495Z",
+    "published": "2025-10-21T17:39:06.495Z",
+    "upstream": [
+        "CVE-2020-17541"
+    ],
+    "summary": "Libjpeg-turbo all version have a stack-based buffer overflow in the \"transform\" component",
+    "details": "Libjpeg-turbo all version have a stack-based buffer overflow in the \"transform\" component. A remote attacker can send a malformed jpeg file to the service and cause arbitrary code execution or denial of service of the target service.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "JpegTurbo_jll",
+                "purl": "pkg:julia/JpegTurbo_jll?uuid=aacddb02-875f-59d6-b918-886e6ef4fbf8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cwe.mitre.org/data/definitions/121.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libjpeg-turbo/libjpeg-turbo/issues/392"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cwe.mitre.org/data/definitions/121.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libjpeg-turbo/libjpeg-turbo/issues/392"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-17541",
+                "imported": "2025-10-21T15:03:32.798Z",
+                "modified": "2024-11-21T05:08:19.537Z",
+                "published": "2021-06-01T15:15:07.417Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-17541",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-17541"
+            }
+        ]
+    }
+}
