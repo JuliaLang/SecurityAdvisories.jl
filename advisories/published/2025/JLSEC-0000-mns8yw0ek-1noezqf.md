@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns8yw0ek-1noezqf"
+modified = 2025-10-21T17:12:53.516Z
+upstream = ["CVE-2020-12278"]
+references = ["https://github.com/git/git/security/advisories/GHSA-5wph-8frv-58vj", "https://github.com/libgit2/libgit2/commit/3f7851eadca36a99627ad78cbe56a40d3776ed01", "https://github.com/libgit2/libgit2/commit/e1832eb20a7089f6383cfce474f213157f5300cb", "https://github.com/libgit2/libgit2/releases/tag/v0.28.4", "https://github.com/libgit2/libgit2/releases/tag/v0.99.0", "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html", "https://lists.debian.org/debian-lts-announce/2023/02/msg00034.html", "https://github.com/git/git/security/advisories/GHSA-5wph-8frv-58vj", "https://github.com/libgit2/libgit2/commit/3f7851eadca36a99627ad78cbe56a40d3776ed01", "https://github.com/libgit2/libgit2/commit/e1832eb20a7089f6383cfce474f213157f5300cb", "https://github.com/libgit2/libgit2/releases/tag/v0.28.4", "https://github.com/libgit2/libgit2/releases/tag/v0.99.0", "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html", "https://lists.debian.org/debian-lts-announce/2023/02/msg00034.html"]
+
+[[affected]]
+pkg = "LibGit2_jll"
+ranges = ["< 0.28.5+0"]
+
+[[jlsec_sources]]
+id = "CVE-2020-12278"
+imported = 2025-10-21T17:12:53.516Z
+modified = 2024-11-21T04:59:26.073Z
+published = 2020-04-27T17:15:13.407Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-12278"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2020-12278"
+```
+
+# An issue was discovered in libgit2 before 0.28.4 and 0.9x before 0.99.0
+
+An issue was discovered in libgit2 before 0.28.4 and 0.9x before 0.99.0. path.c mishandles equivalent filenames that exist because of NTFS Alternate Data Streams. This may allow remote code execution when cloning a repository. This issue is similar to CVE-2019-1352.
+
