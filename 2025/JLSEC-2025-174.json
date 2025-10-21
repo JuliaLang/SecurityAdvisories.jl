@@ -1,0 +1,112 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-174",
+    "modified": "2025-10-21T17:24:37.757Z",
+    "published": "2025-10-21T17:24:37.757Z",
+    "upstream": [
+        "CVE-2018-18751"
+    ],
+    "summary": "An issue was discovered in GNU gettext 0.19.8",
+    "details": "An issue was discovered in GNU gettext 0.19.8. There is a double free in default_add_message in read-catalog.c, related to an invalid free in po_gram_parse in po-gram-gen.y, as demonstrated by lt-msgfmt.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.20.1+1"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Gettext_jll",
+                "purl": "pkg:julia/Gettext_jll?uuid=78b55507-aeef-58d4-861c-77aaff3498b1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00061.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00065.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-09/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:3643"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/doublefree"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/heapcorruption"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3815-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3815-2/"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00061.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00065.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-09/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:3643"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/doublefree"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/heapcorruption"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3815-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3815-2/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-18751",
+                "imported": "2025-10-19T19:45:10.904Z",
+                "modified": "2024-11-21T03:56:31.223Z",
+                "published": "2018-10-29T12:29:09.617Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-18751",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-18751"
+            }
+        ]
+    }
+}
