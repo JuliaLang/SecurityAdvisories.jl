@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns8u9o6x-5igwq3"
+modified = 2025-10-21T15:03:32.793Z
+upstream = ["CVE-2018-20330"]
+references = ["https://github.com/libjpeg-turbo/libjpeg-turbo/issues/304", "https://usn.ubuntu.com/4190-1/", "https://github.com/libjpeg-turbo/libjpeg-turbo/issues/304", "https://usn.ubuntu.com/4190-1/"]
+
+[[affected]]
+pkg = "JpegTurbo_jll"
+ranges = ["< 2.1.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2018-20330"
+imported = 2025-10-21T15:03:32.793Z
+modified = 2024-11-21T04:01:14.810Z
+published = 2018-12-21T09:29:00.247Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-20330"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2018-20330"
+```
+
+# The tjLoadImage function in libjpeg-turbo 2.0.1 has an integer overflow with a resultant heap-based ...
+
+The tjLoadImage function in libjpeg-turbo 2.0.1 has an integer overflow with a resultant heap-based buffer overflow via a BMP image because multiplication of pitch and height is mishandled, as demonstrated by tjbench.
+

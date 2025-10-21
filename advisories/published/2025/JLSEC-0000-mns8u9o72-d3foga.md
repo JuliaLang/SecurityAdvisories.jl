@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mns8u9o72-d3foga"
+modified = 2025-10-21T15:03:32.798Z
+upstream = ["CVE-2020-17541"]
+references = ["https://cwe.mitre.org/data/definitions/121.html", "https://github.com/libjpeg-turbo/libjpeg-turbo/issues/392", "https://cwe.mitre.org/data/definitions/121.html", "https://github.com/libjpeg-turbo/libjpeg-turbo/issues/392"]
+
+[[affected]]
+pkg = "JpegTurbo_jll"
+ranges = ["< 2.1.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2020-17541"
+imported = 2025-10-21T15:03:32.798Z
+modified = 2024-11-21T05:08:19.537Z
+published = 2021-06-01T15:15:07.417Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-17541"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2020-17541"
+```
+
+# Libjpeg-turbo all version have a stack-based buffer overflow in the "transform" component
+
+Libjpeg-turbo all version have a stack-based buffer overflow in the "transform" component. A remote attacker can send a malformed jpeg file to the service and cause arbitrary code execution or denial of service of the target service.
+
