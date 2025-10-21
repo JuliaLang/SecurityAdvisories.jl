@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-96",
-    "modified": "2025-10-19T18:40:48.457Z",
+    "modified": "2025-10-21T14:31:12.874Z",
     "published": "2025-10-19T18:40:48.457Z",
     "upstream": [
         "CVE-2025-5318"
@@ -41,6 +41,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:18286"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2025-5318"
         },
         {
@@ -57,8 +61,8 @@
         "sources": [
             {
                 "id": "CVE-2025-5318",
-                "imported": "2025-10-18T14:10:40.078Z",
-                "modified": "2025-10-17T03:15:35.317Z",
+                "imported": "2025-10-21T03:24:54.925Z",
+                "modified": "2025-10-20T08:15:33.070Z",
                 "published": "2025-06-24T14:15:30.523Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5318",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5318"
