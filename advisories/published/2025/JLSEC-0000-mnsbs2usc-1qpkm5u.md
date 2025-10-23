@@ -6,6 +6,10 @@ aliases = ["EUVD-2025-14831", "CVE-2025-27810"]
 severity = ["CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"]
 references = ["https://github.com/Mbed-TLS/mbedtls/releases", "https://mbed-tls.readthedocs.io/en/latest/security-advisories/mbedtls-security-advisory-2025-03-2/"]
 
+[[affected]]
+pkg = "MbedTLS_jll"
+ranges = ["< 2.28.10+0"]
+
 [[jlsec_sources]]
 id = "EUVD-2025-14831"
 imported = 2025-10-23T16:25:34.016Z
