@@ -1,0 +1,128 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-190",
+    "modified": "2025-10-27T18:23:36.019Z",
+    "published": "2025-10-27T18:23:36.019Z",
+    "upstream": [
+        "CVE-2021-37600"
+    ],
+    "summary": "An integer overflow in util-linux through 2.37.1 can potentially cause a buffer overflow if an attac...",
+    "details": "An integer overflow in util-linux through 2.37.1 can potentially cause a buffer overflow if an attacker were able to use system resources in a way that leads to a large number in the /proc/sysvipc/sem file. NOTE: this is unexploitable in GNU C Library environments, and possibly in all realistic environments.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.39.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.39.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libuuid_jll",
+                "purl": "pkg:julia/Libuuid_jll?uuid=38a345b3-de98-5d2b-a5d3-14cd9215e700"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.39.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/karelzak/util-linux/commit/1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/karelzak/util-linux/issues/1395"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210902-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/karelzak/util-linux/commit/1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/karelzak/util-linux/issues/1395"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210902-0002/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-37600",
+                "imported": "2025-10-27T15:41:00.898Z",
+                "modified": "2024-11-21T06:15:30.107Z",
+                "published": "2021-07-30T14:15:18.737Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-37600",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37600"
+            }
+        ]
+    }
+}

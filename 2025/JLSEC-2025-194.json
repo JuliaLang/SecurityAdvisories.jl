@@ -1,0 +1,208 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-194",
+    "modified": "2025-10-27T18:23:36.019Z",
+    "published": "2025-10-27T18:23:36.019Z",
+    "upstream": [
+        "CVE-2024-28085"
+    ],
+    "summary": "wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequence...",
+    "details": "wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequences to be sent to other users' terminals through argv. (Specifically, escape sequences received from stdin are blocked, but escape sequences received from argv are not blocked.) There may be plausible scenarios where this leads to account takeover.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.40.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.40.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libuuid_jll",
+                "purl": "pkg:julia/Libuuid_jll?uuid=38a345b3-de98-5d2b-a5d3-14cd9215e700"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.40.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/8"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/9"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/skyler-ferrante/CVE-2024-28085"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/security/advisories/GHSA-xv2h-c6ww-mrjq"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://people.rit.edu/sjf5462/6831711781/wall_2_27_2024.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240531-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/03/27/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/8"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/27/9"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/28/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/skyler-ferrante/CVE-2024-28085"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/security/advisories/GHSA-xv2h-c6ww-mrjq"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://people.rit.edu/sjf5462/6831711781/wall_2_27_2024.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240531-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/03/27/5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-28085",
+                "imported": "2025-10-27T15:41:00.913Z",
+                "modified": "2025-03-20T17:58:00.680Z",
+                "published": "2024-03-27T19:15:48.367Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-28085",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28085"
+            }
+        ]
+    }
+}
