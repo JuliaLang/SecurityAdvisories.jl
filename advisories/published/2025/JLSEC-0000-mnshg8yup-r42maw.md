@@ -1,0 +1,30 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mnshg8yup-r42maw"
+modified = 2025-10-27T15:41:00.913Z
+upstream = ["CVE-2024-28085"]
+references = ["http://www.openwall.com/lists/oss-security/2024/03/27/5", "http://www.openwall.com/lists/oss-security/2024/03/27/6", "http://www.openwall.com/lists/oss-security/2024/03/27/7", "http://www.openwall.com/lists/oss-security/2024/03/27/8", "http://www.openwall.com/lists/oss-security/2024/03/27/9", "http://www.openwall.com/lists/oss-security/2024/03/28/1", "http://www.openwall.com/lists/oss-security/2024/03/28/2", "http://www.openwall.com/lists/oss-security/2024/03/28/3", "https://github.com/skyler-ferrante/CVE-2024-28085", "https://github.com/util-linux/util-linux/security/advisories/GHSA-xv2h-c6ww-mrjq", "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html", "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/", "https://people.rit.edu/sjf5462/6831711781/wall_2_27_2024.txt", "https://security.netapp.com/advisory/ntap-20240531-0003/", "https://www.openwall.com/lists/oss-security/2024/03/27/5", "http://www.openwall.com/lists/oss-security/2024/03/27/5", "http://www.openwall.com/lists/oss-security/2024/03/27/6", "http://www.openwall.com/lists/oss-security/2024/03/27/7", "http://www.openwall.com/lists/oss-security/2024/03/27/8", "http://www.openwall.com/lists/oss-security/2024/03/27/9", "http://www.openwall.com/lists/oss-security/2024/03/28/1", "http://www.openwall.com/lists/oss-security/2024/03/28/2", "http://www.openwall.com/lists/oss-security/2024/03/28/3", "https://github.com/skyler-ferrante/CVE-2024-28085", "https://github.com/util-linux/util-linux/security/advisories/GHSA-xv2h-c6ww-mrjq", "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html", "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/", "https://people.rit.edu/sjf5462/6831711781/wall_2_27_2024.txt", "https://security.netapp.com/advisory/ntap-20240531-0003/", "https://www.openwall.com/lists/oss-security/2024/03/27/5"]
+
+[[affected]]
+pkg = "util_linux_jll"
+ranges = ["< 2.40.1+0"]
+[[affected]]
+pkg = "Libuuid_jll"
+ranges = ["< 2.40.0+0"]
+[[affected]]
+pkg = "Libmount_jll"
+ranges = ["< 2.40.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2024-28085"
+imported = 2025-10-27T15:41:00.913Z
+modified = 2025-03-20T17:58:00.680Z
+published = 2024-03-27T19:15:48.367Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-28085"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2024-28085"
+```
+
+# wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequence...
+
+wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequences to be sent to other users' terminals through argv. (Specifically, escape sequences received from stdin are blocked, but escape sequences received from argv are not blocked.) There may be plausible scenarios where this leads to account takeover.
+
