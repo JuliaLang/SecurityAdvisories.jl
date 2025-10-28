@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-83",
-    "modified": "2025-10-17T17:40:51.659Z",
+    "modified": "2025-10-28T19:36:40.815Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2024-25062"
@@ -53,7 +53,7 @@
         "sources": [
             {
                 "id": "CVE-2024-25062",
-                "imported": "2025-10-17T17:21:55.883Z",
+                "imported": "2025-10-28T18:09:09.638Z",
                 "modified": "2025-05-09T18:16:03.707Z",
                 "published": "2024-02-04T16:15:45.120Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-25062",

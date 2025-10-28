@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-79",
-    "modified": "2025-10-17T17:40:51.659Z",
+    "modified": "2025-10-28T19:36:40.815Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2023-28484"
@@ -83,7 +83,7 @@
         "sources": [
             {
                 "id": "CVE-2023-28484",
-                "imported": "2025-10-17T17:21:55.879Z",
+                "imported": "2025-10-28T18:09:09.631Z",
                 "modified": "2025-05-30T20:15:31.550Z",
                 "published": "2023-04-24T21:15:09.180Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-28484",

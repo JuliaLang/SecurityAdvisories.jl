@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-88",
-    "modified": "2025-10-17T17:40:51.659Z",
+    "modified": "2025-10-28T19:36:40.815Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2025-27113"
@@ -45,7 +45,7 @@
         "sources": [
             {
                 "id": "CVE-2025-27113",
-                "imported": "2025-10-17T17:21:55.889Z",
+                "imported": "2025-10-28T18:09:09.645Z",
                 "modified": "2025-03-07T01:15:12.823Z",
                 "published": "2025-02-18T23:15:10.960Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-27113",

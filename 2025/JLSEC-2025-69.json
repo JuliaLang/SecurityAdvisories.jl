@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-69",
-    "modified": "2025-10-17T17:40:51.659Z",
+    "modified": "2025-10-28T19:36:40.815Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2020-24977"
@@ -213,7 +213,7 @@
         "sources": [
             {
                 "id": "CVE-2020-24977",
-                "imported": "2025-10-17T17:21:54.218Z",
+                "imported": "2025-10-28T18:09:07.772Z",
                 "modified": "2024-11-21T05:16:15.740Z",
                 "published": "2020-09-04T00:15:10.693Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-24977",

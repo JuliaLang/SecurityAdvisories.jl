@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.3",
     "id": "JLSEC-2025-85",
-    "modified": "2025-10-17T17:40:51.659Z",
+    "modified": "2025-10-28T19:36:40.815Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2022-49043"
@@ -45,7 +45,7 @@
         "sources": [
             {
                 "id": "CVE-2022-49043",
-                "imported": "2025-10-17T17:21:55.885Z",
+                "imported": "2025-10-28T18:09:09.640Z",
                 "modified": "2025-10-07T16:24:00.340Z",
                 "published": "2025-01-26T06:15:21Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-49043",
