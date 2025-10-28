@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.3"
+id = "JLSEC-0000-mnsi5enis-1b5jub9"
+modified = 2025-10-28T03:25:16.564Z
+upstream = ["CVE-2025-6021"]
+references = ["https://access.redhat.com/errata/RHSA-2025:10630", "https://access.redhat.com/errata/RHSA-2025:10698", "https://access.redhat.com/errata/RHSA-2025:10699", "https://access.redhat.com/errata/RHSA-2025:11580", "https://access.redhat.com/errata/RHSA-2025:12098", "https://access.redhat.com/errata/RHSA-2025:12099", "https://access.redhat.com/errata/RHSA-2025:12199", "https://access.redhat.com/errata/RHSA-2025:12237", "https://access.redhat.com/errata/RHSA-2025:12239", "https://access.redhat.com/errata/RHSA-2025:12240", "https://access.redhat.com/errata/RHSA-2025:12241", "https://access.redhat.com/errata/RHSA-2025:13267", "https://access.redhat.com/errata/RHSA-2025:13289", "https://access.redhat.com/errata/RHSA-2025:13325", "https://access.redhat.com/errata/RHSA-2025:13335", "https://access.redhat.com/errata/RHSA-2025:13336", "https://access.redhat.com/errata/RHSA-2025:14059", "https://access.redhat.com/errata/RHSA-2025:14396", "https://access.redhat.com/errata/RHSA-2025:15308", "https://access.redhat.com/errata/RHSA-2025:15672", "https://access.redhat.com/errata/RHSA-2025:19020", "https://access.redhat.com/security/cve/CVE-2025-6021", "https://bugzilla.redhat.com/show_bug.cgi?id=2372406", "https://gitlab.gnome.org/GNOME/libxml2/-/issues/926"]
+
+[[affected]]
+pkg = "XML2_jll"
+ranges = ["< 2.14.4+0"]
+
+[[jlsec_sources]]
+id = "CVE-2025-6021"
+imported = 2025-10-28T03:25:16.564Z
+modified = 2025-10-27T18:15:44.393Z
+published = 2025-06-12T13:15:25.590Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-6021"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2025-6021"
+```
+
+# A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size calcula...
+
+A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size calculations can lead to a stack-based buffer overflow. This issue can result in memory corruption or a denial of service when processing crafted input.
+
