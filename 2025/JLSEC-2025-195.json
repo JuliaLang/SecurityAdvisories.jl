@@ -1,0 +1,172 @@
+{
+    "schema_version": "1.7.3",
+    "id": "JLSEC-2025-195",
+    "modified": "2025-10-28T13:50:46.694Z",
+    "published": "2025-10-28T13:50:46.694Z",
+    "upstream": [
+        "CVE-2021-30860"
+    ],
+    "summary": "An integer overflow was addressed with improved input validation",
+    "details": "An integer overflow was addressed with improved input validation. This issue is fixed in Security Update 2021-005 Catalina, iOS 14.8 and iPadOS 14.8, macOS Big Sur 11.6, watchOS 7.6.2. Processing a maliciously crafted PDF may lead to arbitrary code execution. Apple is aware of a report that this issue may have been actively exploited.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "23.12.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/25"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/26"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/27"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/38"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/39"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/40"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/50"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212804"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212805"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212806"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212807"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT212824"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/25"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/26"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/27"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/38"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/39"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/40"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2021/Sep/50"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212804"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212805"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212806"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/en-us/HT212807"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT212824"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2021-30860"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-30860",
+                "imported": "2025-10-28T03:25:00.969Z",
+                "modified": "2025-10-27T17:38:22.367Z",
+                "published": "2021-08-24T19:15:14.370Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-30860",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-30860"
+            }
+        ]
+    }
+}
