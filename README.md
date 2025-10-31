@@ -35,7 +35,7 @@ With a few important exceptions, these fields correspond _exactly_ (including th
 
 ````md
 ```toml
-schema_version = "1.7.3"
+schema_version = "1.7.4"
 id = "JLSEC-2025-1"
 modified = 2025-09-23T02:23:16.095Z
 published = 2025-09-23T02:23:16.095Z
