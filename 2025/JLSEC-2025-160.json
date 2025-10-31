@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.3",
+    "schema_version": "1.7.4",
     "id": "JLSEC-2025-160",
-    "modified": "2025-10-19T22:31:43.957Z",
+    "modified": "2025-10-31T18:41:21.318Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2023-29499"

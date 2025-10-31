@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.3",
+    "schema_version": "1.7.4",
     "id": "JLSEC-2025-7",
-    "modified": "2025-10-09T17:08:38.385Z",
+    "modified": "2025-10-31T18:41:21.318Z",
     "published": "2025-10-09T17:08:38.385Z",
     "aliases": [
         "CVE-2025-61984"

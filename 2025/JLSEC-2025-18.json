@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.3",
+    "schema_version": "1.7.4",
     "id": "JLSEC-2025-18",
-    "modified": "2025-10-10T14:27:45.619Z",
+    "modified": "2025-10-31T18:41:21.318Z",
     "published": "2025-10-10T14:27:45.619Z",
     "upstream": [
         "CVE-2020-12049"

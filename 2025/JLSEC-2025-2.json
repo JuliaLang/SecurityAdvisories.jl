@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.3",
+    "schema_version": "1.7.4",
     "id": "JLSEC-2025-2",
-    "modified": "2025-10-08T17:41:37.190Z",
+    "modified": "2025-10-31T18:41:21.318Z",
     "published": "2025-10-08T17:41:37.190Z",
     "aliases": [
         "GHSA-589r-g8hf-xx59",
