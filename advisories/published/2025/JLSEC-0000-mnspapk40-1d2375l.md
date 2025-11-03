@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnspapk40-1d2375l"
+modified = 2025-11-02T03:28:06.672Z
+upstream = ["CVE-2025-45582"]
+references = ["https://github.com/i900008/vulndb/blob/main/Gnu_tar_vuln.md", "https://lists.gnu.org/archive/html/bug-tar/2025-08/msg00012.html", "https://www.gnu.org/software/tar/", "https://www.gnu.org/software/tar/manual/html_node/Integrity.html", "https://www.gnu.org/software/tar/manual/html_node/Security-rules-of-thumb.html", "http://www.openwall.com/lists/oss-security/2025/11/01/6"]
+
+[[affected]]
+pkg = "Tar_jll"
+ranges = ["< 1.35.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2025-45582"
+imported = 2025-11-02T03:28:06.653Z
+modified = 2025-11-02T01:15:32.307Z
+published = 2025-07-11T17:15:37.183Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-45582"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2025-45582"
+```
+
+# GNU Tar through 1.35 allows file overwrite via directory traversal in crafted TAR archives, with a c...
+
+GNU Tar through 1.35 allows file overwrite via directory traversal in crafted TAR archives, with a certain two-step process. First, the victim must extract an archive that contains a ../ symlink to a critical directory. Second, the victim must extract an archive that contains a critical file, specified via a relative pathname that begins with the symlink name and ends with that critical file's name. Here, the extraction follows the symlink and overwrites the critical file. This bypasses the protection mechanism of "Member name contains '..'" that would occur for a single TAR archive that attempted to specify the critical file via a ../ approach. For example, the first archive can contain "x -> ../../../../../home/victim/.ssh" and the second archive can contain x/authorized_keys. This can affect server applications that automatically extract any number of user-supplied TAR archives, and were relying on the blocking of traversal. This can also affect software installation processes in which "tar xf" is run more than once (e.g., when installing a package can automatically install two dependencies that are set up as untrusted tarballs instead of official packages). NOTE: the official GNU Tar manual has an otherwise-empty directory for each "tar xf" in its Security Rules of Thumb; however, third-party advice leads users to run "tar xf" more than once into the same directory.
+
