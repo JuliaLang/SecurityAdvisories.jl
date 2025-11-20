@@ -7,7 +7,7 @@ references = ["https://github.com/Mbed-TLS/mbedtls-docs/blob/main/security-advis
 
 [[affected]]
 pkg = "MbedTLS_jll"
-ranges = ["*"]
+ranges = ["< 2.28.1010+0"]
 
 [[jlsec_sources]]
 id = "CVE-2025-48965"
