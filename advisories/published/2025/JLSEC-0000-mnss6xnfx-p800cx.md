@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnss6xnfx-p800cx"
+modified = 2025-11-04T04:05:44.301Z
+upstream = ["CVE-2024-12087"]
+references = ["https://access.redhat.com/errata/RHSA-2025:2600", "https://access.redhat.com/errata/RHSA-2025:7050", "https://access.redhat.com/errata/RHSA-2025:8385", "https://access.redhat.com/security/cve/CVE-2024-12087", "https://bugzilla.redhat.com/show_bug.cgi?id=2330672", "https://kb.cert.org/vuls/id/952657", "https://lists.debian.org/debian-lts-announce/2025/01/msg00008.html", "https://security.netapp.com/advisory/ntap-20250131-0002/", "https://www.kb.cert.org/vuls/id/952657", "https://github.com/google/security-research/security/advisories/GHSA-p5pg-x43v-mvqj"]
+
+[[affected]]
+pkg = "rsync_jll"
+ranges = ["< 3.4.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2024-12087"
+imported = 2025-11-04T04:05:44.301Z
+modified = 2025-11-03T22:16:39.313Z
+published = 2025-01-14T18:15:25.467Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-12087"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2024-12087"
+```
+
+# A path traversal vulnerability exists in rsync
+
+A path traversal vulnerability exists in rsync. It stems from behavior enabled by the `--inc-recursive` option, a default-enabled option for many client options and can be enabled by the server even if not explicitly enabled by the client. When using the `--inc-recursive` option, a lack of proper symlink verification coupled with deduplication checks occurring on a per-file-list basis could allow a server to write files outside of the client's intended destination directory. A malicious server could write malicious files to arbitrary locations named after valid directories/paths on the client.
+
