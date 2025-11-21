@@ -7,7 +7,7 @@ references = ["https://github.com/ARMmbed/mbedtls/releases/tag/v3.1.0", "https:/
 
 [[affected]]
 pkg = "MbedTLS_jll"
-ranges = ["*"]
+ranges = ["< 2.28.0+0"]
 
 [[jlsec_sources]]
 id = "CVE-2021-45451"
