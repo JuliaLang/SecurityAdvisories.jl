@@ -1,0 +1,53 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-232",
+    "modified": "2025-11-21T15:59:04.054Z",
+    "published": "2025-11-21T15:59:04.054Z",
+    "upstream": [
+        "CVE-2025-54764"
+    ],
+    "summary": "Side channel in RSA key generation and operations (SSBleed, M-Step)",
+    "details": "## Vulnerability\n\nMbed TLS's modular inversion routine and GCD routine are vulnerable to local\ntiming attacks in a number of settings discussed below.\n\nThese functions are used in RSA, making the following operations vulnerable in\nall configurations:\n\n  - RSA key generation with any API (`mbedtls_rsa_gen_key()` and all\n    `psa_generate_key*()` functions).\n  - Use of `mbedtls_rsa_complete()` to import RSA private keys that are incomplete\n    or not in the standard format. (The only exception is when\n    `MBEDTLS_RSA_NO_CRT` is enabled and all of `N`, `E`, `D`, `P` and `Q` have\n    been set before calling `mbedtls_rsa_complete()`.) (Note: internal uses of\n    `mbedtls_rsa_complete()` in the library are always safe.)\n\nAdditionally, if `MBEDTLS_RSA_NO_CRT` is enabled, the following operations are\nalso vulnerable:\n\n  - Import of RSA key pairs with `psa_import_key()`.\n  - Export of RSA key pairs with any key export API (PSA, PK).\n\nAdditionally, if `MBEDTLS_RSA_NO_CRT` and `MBEDTLS_USE_PSA_CRYPTO` are both\nenabled, the following operations are also vulnerable:\n\n  - Signature generation with PK (`mbedtls_pk_sign()`, `mbedtls_pk_sign_ext()`).\n  - Decryption with PK (`mbedtls_pk_decrypt()`).\n\nElliptic curve cryptography (ECDSA, ECDH, EC-JPAKE) is not affected as the\nvulnerable functions are used in a safe way (with blinding).\n\nFinite-field Diffie-Hellman (FFDH) is not affected as it does not use the\nvulnerable functions.\n\nDirect use of `mbedtls_mpi_inv_mod()` by applications on secret data is most\nlikely vulnerable unless you use proper blinding.\n\nDirect use of `mbedtls_mpi_gcd()` by applications on secret data is most likely\nvulnerable, unless the compiler used has `__builtin_ctz` (GCC 10 and above has\nit, earlier versions don't), and it is not implemented using a loop (most\narchitectures have instructions that are more efficient than using a loop).\n\n## Impact\n\nWhen one of the vulnerable RSA functions mentioned above is used, the\nvulnerability allows the attacker to fully recover the RSA private key.\n\nWhen `mbedtls_mpi_mod_inv()` is directly called by an application (or\n`mbedtls_mpi_gcd()` in a build where it is affected, see above), the\nvulnerability allows the attacker to recover both inputs.\n\n## Attack settings\n\nThe side channels in GCD and modular inversion can be exploited by a local\nattacker in a number of circumstances. Two teams independently developed tools\nallowing to trace a victim process, recover the inputs to\n`mbedtls_mpi_mod_inv()` and break RSA key generation:\n\n 1. SSBleed: this uses the Memory Dependence Predictor (MDP) on some\n    Arm-v9 CPUs. The attacker only needs to be able to run code on the same core\n    as the victim but does not need elevated privileges. The proof of concept\n    fully recovers RSA private keys from `mbedtls_rsa_gen_key()` and the same\n    principle applies to other unblinded uses of `mbedtls_mpi_inv_mod()`.\n 2. M-Step: in a setting where TrustZone-M is used, the M-Step framework allows\n    the non-secure world to abuse timer interrupts to effectively single-step the\n    secure world and trace its execution flow.\n    The proofs of concepts fully recover RSA private keys from\n    `mbedtls_rsa_gen_key()` and `mbedtls_rsa_complete()`. Several other\n    exploitation paths in RSA are identified. In particular, `mbedtls_mpi_gcd()`\n    is found to be vulnerable when Mbed TLS is compiled with a compiler that does\n    not have `__builtin_ctz`.\n\nThe same functions are most probably also vulnerable in other circumstances\nusing similar attack techniques: SGX-Step, SEV-Step, microarchitectural\nattacks similar to SSBleed...\n\n### Credits\n\n**SSBleed:** Chang Liu from Tsinghua University and Trevor E. Carlson from National University of Singapore\n\n**M-Step:** Cristiano Rodrigues (University of Minho), Marton Bognar (DistriNet, KU Leuven), Sandro Pinto (University of Minho), Jo Van Bulck (DistriNet, KU Leuven)\n\n## Affected versions\n\nAll versions of Mbed TLS up to 3.6.4 are affected.\n\n## Work-around\n\nApplications that do not generate RSA keys and do not import private RSA keys\nwith `mbedtls_rsa_import()`+`mbedtls_rsa_complete()`, but use other RSA\nfunctions that are only vulnerable with `MBEDTLS_RSA_NO_CRT`, can recompile\nwithout `MBEDTLS_RSA_NO_CRT`.\n\nApplications that do not use RSA private keys and do not directly call\n`mbedtls_mpi_inv_mod()` or `mbedtls_mpi_gcd()` are not affected.\n\n## Resolution\n\nAffected users should upgrade to Mbed TLS 3.6.5 or TF-PSA-Crypto 1.0.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/mbedtls-security-advisory-2025-10-ssbleed-mstep/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/tech-updates/security-advisories/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-54764",
+                "imported": "2025-11-20T23:04:03.392Z",
+                "modified": "2025-10-31T15:09:59.620Z",
+                "published": "2025-10-20T22:15:37.060Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-54764",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54764"
+            }
+        ]
+    }
+}

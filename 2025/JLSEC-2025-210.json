@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-210",
+    "modified": "2025-11-21T15:59:04.054Z",
+    "published": "2025-11-21T15:59:04.054Z",
+    "upstream": [
+        "CVE-2020-36475"
+    ],
+    "summary": "An issue was discovered in Mbed TLS before 2.25.0 (and before 2.16.9 LTS and before 2.7.18 LTS)",
+    "details": "An issue was discovered in Mbed TLS before 2.25.0 (and before 2.16.9 LTS and before 2.7.18 LTS). The calculations performed by mbedtls_mpi_exp_mod are not limited; thus, supplying overly large parameters could lead to denial of service when generating Diffie-Hellman key pairs.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.25.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-756638.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.25.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.7.18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/11/msg00021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-756638.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.25.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.7.18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/11/msg00021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-36475",
+                "imported": "2025-11-20T23:04:00.323Z",
+                "modified": "2024-11-21T05:29:37.603Z",
+                "published": "2021-08-23T02:15:06.930Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-36475",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36475"
+            }
+        ]
+    }
+}

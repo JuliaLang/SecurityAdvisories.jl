@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-226",
+    "modified": "2025-11-21T15:59:04.054Z",
+    "published": "2025-11-21T15:59:04.054Z",
+    "upstream": [
+        "CVE-2024-45157"
+    ],
+    "summary": "An issue was discovered in Mbed TLS before 2.28.9 and 3.x before 3.6.1, in which the user-selected a...",
+    "details": "An issue was discovered in Mbed TLS before 2.28.9 and 3.x before 3.6.1, in which the user-selected algorithm is not used. Unlike previously documented, enabling MBEDTLS_PSA_HMAC_DRBG_MD_TYPE does not cause the PSA subsystem to use HMAC_DRBG: it uses HMAC_DRBG only when MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG and MBEDTLS_CTR_DRBG_C are disabled.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.26.0+0"
+                        },
+                        {
+                            "fixed": "2.28.10+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Mbed-TLS/mbedtls/releases/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/mbedtls-security-advisory-2024-08-1/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-45157",
+                "imported": "2025-11-20T23:04:02.697Z",
+                "modified": "2025-03-14T17:15:47.320Z",
+                "published": "2024-09-05T19:15:12.960Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-45157",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45157"
+            }
+        ]
+    }
+}

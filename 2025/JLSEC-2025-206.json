@@ -1,0 +1,80 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-206",
+    "modified": "2025-11-21T15:59:04.054Z",
+    "published": "2025-11-21T15:59:04.054Z",
+    "upstream": [
+        "CVE-2020-36423"
+    ],
+    "summary": "An issue was discovered in Arm Mbed TLS before 2.23.0",
+    "details": "An issue was discovered in Arm Mbed TLS before 2.23.0. A remote attacker can recover plaintext because a certain Lucky 13 countermeasure doesn't properly consider the case of a hardware accelerator.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.16.8+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.gentoo.org/730752"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.23.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.gentoo.org/730752"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.23.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-36423",
+                "imported": "2025-11-20T23:04:00.273Z",
+                "modified": "2024-11-21T05:29:28.403Z",
+                "published": "2021-07-19T17:15:11.223Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-36423",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36423"
+            }
+        ]
+    }
+}

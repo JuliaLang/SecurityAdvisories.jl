@@ -1,0 +1,72 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-212",
+    "modified": "2025-11-21T15:59:04.054Z",
+    "published": "2025-11-21T15:59:04.054Z",
+    "upstream": [
+        "CVE-2020-36477"
+    ],
+    "summary": "An issue was discovered in Mbed TLS before 2.24.0",
+    "details": "An issue was discovered in Mbed TLS before 2.24.0. The verification of X.509 certificates when matching the expected common name (the cn argument of mbedtls_x509_crt_verify) with the actual certificate name is mishandled: when the subjecAltName extension is present, the expected name is compared to any name in that extension regardless of its type. This means that an attacker could impersonate a 4-byte or 16-byte domain by getting a certificate for the corresponding IPv4 or IPv6 address (this would require the attacker to control that IP address, though).",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.24.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/issues/3498"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.24.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202301-08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/issues/3498"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.24.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202301-08"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-36477",
+                "imported": "2025-11-20T23:04:00.327Z",
+                "modified": "2024-11-21T05:29:38.067Z",
+                "published": "2021-08-23T02:15:07.043Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-36477",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36477"
+            }
+        ]
+    }
+}
