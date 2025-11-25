@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-244",
+    "modified": "2025-11-25T21:58:26.892Z",
+    "published": "2025-11-25T22:03:17.636Z",
+    "upstream": [
+        "CVE-2024-48615"
+    ],
+    "summary": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar i...",
+    "details": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar in function header_pax_extension at rchive_read_support_format_tar.c:1844:8.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.7.9+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/88Sanghy88/crash-test"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/releases/download/v3.7.6/libarchive-3.7.6.tar.gz"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/88Sanghy88/crash-test"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-48615",
+                "imported": "2025-11-25T21:58:26.892Z",
+                "modified": "2025-04-14T14:36:30.827Z",
+                "published": "2025-03-28T15:15:45.023Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-48615",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-48615"
+            }
+        ]
+    }
+}

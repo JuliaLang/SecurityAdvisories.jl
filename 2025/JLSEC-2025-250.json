@@ -1,0 +1,67 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-250",
+    "modified": "2025-11-25T21:58:26.918Z",
+    "published": "2025-11-25T22:03:17.636Z",
+    "aliases": [
+        "CVE-2024-57970"
+    ],
+    "summary": "libarchive through 3.7.7 has a heap-based buffer over-read in header_gnu_longlink in archive_read_su...",
+    "details": "libarchive through 3.7.7 has a heap-based buffer over-read in header_gnu_longlink in archive_read_support_format_tar.c via a TAR archive because it mishandles truncation in the middle of a GNU long linkname.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.7.9+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/issues/2415"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/pull/2422"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-57970",
+                "imported": "2025-11-25T21:58:26.900Z",
+                "modified": "2025-02-18T17:15:19.130Z",
+                "published": "2025-02-16T04:15:21.843Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-57970",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-57970"
+            },
+            {
+                "id": "EUVD-2024-53870",
+                "imported": "2025-11-25T21:58:28.314Z",
+                "modified": "2025-02-18T17:05:13Z",
+                "published": "2025-02-16T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-53870",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-53870",
+                "fields": [
+                    "affected"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-242",
+    "modified": "2025-11-25T21:58:26.891Z",
+    "published": "2025-11-25T22:03:17.636Z",
+    "upstream": [
+        "CVE-2025-1632"
+    ],
+    "summary": "A vulnerability was found in libarchive up to 3.7.7",
+    "details": "A vulnerability was found in libarchive up to 3.7.7. It has been classified as problematic. This affects the function list of the file bsdunzip.c. The manipulation leads to null pointer dereference. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.7.9+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Ekkosun/pocs/blob/main/bsdunzip-poc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.296619"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.296619"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.496460"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Ekkosun/pocs/blob/main/bsdunzip-poc"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-1632",
+                "imported": "2025-11-25T21:58:26.891Z",
+                "modified": "2025-03-25T15:41:41.683Z",
+                "published": "2025-02-24T14:15:11.590Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-1632",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-1632"
+            }
+        ]
+    }
+}

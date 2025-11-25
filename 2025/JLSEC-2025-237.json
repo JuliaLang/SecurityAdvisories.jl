@@ -1,0 +1,100 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-237",
+    "modified": "2025-11-25T21:58:26.863Z",
+    "published": "2025-11-25T22:03:17.636Z",
+    "upstream": [
+        "CVE-2022-36227"
+    ],
+    "summary": "In libarchive before 3.6.2, the software does not check for an error after calling calloc function t...",
+    "details": "In libarchive before 3.6.2, the software does not check for an error after calling calloc function that can return with a NULL pointer if the function fails, which leads to a resultant NULL pointer dereference. NOTE: the discoverer cites this CWE-476 remark but third parties dispute the code-execution impact: \"In rare circumstances, when NULL is equivalent to the 0x0 memory address and privileged code can access it, then writing or reading memory is possible, which may lead to code execution.\"",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.7.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.gentoo.org/882521"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/blob/v3.0.0a/libarchive/archive_write.c#L215"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/issues/1754"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00034.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/V67OO2UUQAUJS3IK4JZPF6F3LUCBU6IS/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.gentoo.org/882521"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/blob/v3.0.0a/libarchive/archive_write.c#L215"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/issues/1754"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00034.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/11/msg00007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/V67OO2UUQAUJS3IK4JZPF6F3LUCBU6IS/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-14"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-36227",
+                "imported": "2025-11-25T21:58:26.863Z",
+                "modified": "2025-11-03T22:15:59.710Z",
+                "published": "2022-11-22T02:15:11.003Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-36227",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-36227"
+            }
+        ]
+    }
+}

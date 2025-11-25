@@ -1,0 +1,64 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-246",
+    "modified": "2025-11-25T21:58:26.894Z",
+    "published": "2025-11-25T22:03:17.636Z",
+    "upstream": [
+        "CVE-2025-5915"
+    ],
+    "summary": "A vulnerability has been identified in the libarchive library",
+    "details": "A vulnerability has been identified in the libarchive library. This flaw can lead to a heap buffer over-read due to the size of a filter block potentially exceeding the Lempel-Ziv-Storer-Schieber (LZSS) window. This means the library may attempt to read beyond the allocated memory buffer, which can result in unpredictable program behavior, crashes (denial of service), or the disclosure of sensitive information from adjacent memory regions.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2025-5915"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2370865"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/pull/2599"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/releases/tag/v3.8.0"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-5915",
+                "imported": "2025-11-25T21:58:26.894Z",
+                "modified": "2025-08-25T02:28:51.487Z",
+                "published": "2025-06-09T20:15:26.317Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5915",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5915"
+            }
+        ]
+    }
+}
