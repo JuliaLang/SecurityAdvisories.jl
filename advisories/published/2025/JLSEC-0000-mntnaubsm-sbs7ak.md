@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mntnaubsm-sbs7ak"
+modified = 2025-11-25T22:35:59.158Z
+upstream = ["CVE-2016-3714"]
+references = ["http://git.imagemagick.org/repos/ImageMagick/blob/a01518e08c840577cabd7d3ff291a9ba735f7276/ChangeLog", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00024.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00025.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00028.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00032.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00041.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00051.html", "http://packetstormsecurity.com/files/152364/ImageTragick-ImageMagick-Proof-Of-Concepts.html", "http://rhn.redhat.com/errata/RHSA-2016-0726.html", "http://www.debian.org/security/2016/dsa-3580", "http://www.debian.org/security/2016/dsa-3746", "http://www.openwall.com/lists/oss-security/2016/05/03/13", "http://www.openwall.com/lists/oss-security/2016/05/03/18", "http://www.oracle.com/technetwork/topics/security/bulletinjul2016-3090568.html", "http://www.oracle.com/technetwork/topics/security/linuxbulletinapr2016-2952096.html", "http://www.rapid7.com/db/modules/exploit/unix/fileformat/imagemagick_delegate", "http://www.securityfocus.com/archive/1/538378/100/0/threaded", "http://www.securityfocus.com/bid/89848", "http://www.securitytracker.com/id/1035742", "http://www.slackware.com/security/viewer.php?l=slackware-security&y=2016&m=slackware-security.440568", "http://www.ubuntu.com/usn/USN-2990-1", "https://access.redhat.com/security/vulnerabilities/2296071", "https://bugzilla.redhat.com/show_bug.cgi?id=1332492", "https://imagetragick.com/", "https://security.gentoo.org/glsa/201611-21", "https://www.exploit-db.com/exploits/39767/", "https://www.exploit-db.com/exploits/39791/", "https://www.imagemagick.org/discourse-server/viewtopic.php?f=4&t=29588", "https://www.imagemagick.org/script/changelog.php", "https://www.kb.cert.org/vuls/id/250519", "http://git.imagemagick.org/repos/ImageMagick/blob/a01518e08c840577cabd7d3ff291a9ba735f7276/ChangeLog", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00024.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00025.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00028.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00032.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00041.html", "http://lists.opensuse.org/opensuse-security-announce/2016-05/msg00051.html", "http://packetstormsecurity.com/files/152364/ImageTragick-ImageMagick-Proof-Of-Concepts.html", "http://rhn.redhat.com/errata/RHSA-2016-0726.html", "http://www.debian.org/security/2016/dsa-3580", "http://www.debian.org/security/2016/dsa-3746", "http://www.openwall.com/lists/oss-security/2016/05/03/13", "http://www.openwall.com/lists/oss-security/2016/05/03/18", "http://www.oracle.com/technetwork/topics/security/bulletinjul2016-3090568.html", "http://www.oracle.com/technetwork/topics/security/linuxbulletinapr2016-2952096.html", "http://www.rapid7.com/db/modules/exploit/unix/fileformat/imagemagick_delegate", "http://www.securityfocus.com/archive/1/538378/100/0/threaded", "http://www.securityfocus.com/bid/89848", "http://www.securitytracker.com/id/1035742", "http://www.slackware.com/security/viewer.php?l=slackware-security&y=2016&m=slackware-security.440568", "http://www.ubuntu.com/usn/USN-2990-1", "https://access.redhat.com/security/vulnerabilities/2296071", "https://bugzilla.redhat.com/show_bug.cgi?id=1332492", "https://imagetragick.com/", "https://security.gentoo.org/glsa/201611-21", "https://www.exploit-db.com/exploits/39767/", "https://www.exploit-db.com/exploits/39791/", "https://www.imagemagick.org/discourse-server/viewtopic.php?f=4&t=29588", "https://www.imagemagick.org/script/changelog.php", "https://www.kb.cert.org/vuls/id/250519", "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2016-3714"]
+
+[[affected]]
+pkg = "ImageMagick_jll"
+ranges = ["< 6.9.11+0"]
+
+[[jlsec_sources]]
+id = "CVE-2016-3714"
+imported = 2025-11-25T22:35:59.158Z
+modified = 2025-10-22T00:15:51.667Z
+published = 2016-05-05T18:59:03.273Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2016-3714"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2016-3714"
+```
+
+# The (1) EPHEMERAL, (2) HTTPS, (3) MVG, (4) MSL, (5) TEXT, (6) SHOW, (7) WIN, and (8) PLT coders in I...
+
+The (1) EPHEMERAL, (2) HTTPS, (3) MVG, (4) MSL, (5) TEXT, (6) SHOW, (7) WIN, and (8) PLT coders in ImageMagick before 6.9.3-10 and 7.x before 7.0.1-1 allow remote attackers to execute arbitrary code via shell metacharacters in a crafted image, aka "ImageTragick."
+
