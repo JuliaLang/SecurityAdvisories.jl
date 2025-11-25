@@ -1,0 +1,104 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-290",
+    "modified": "2025-11-25T22:18:43.603Z",
+    "published": "2025-11-25T22:18:43.603Z",
+    "upstream": [
+        "CVE-2023-0795"
+    ],
+    "summary": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcrop in tools/tiffcrop.c:3488, allowing attackers to ...",
+    "details": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcrop in tools/tiffcrop.c:3488, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit afaabc3e.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.5.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2023/CVE-2023-0795.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00026.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230316-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5361"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2023/CVE-2023-0795.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/afaabc3e50d4e5d80a94143f7e3c997e7e410f68"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00026.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230316-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5361"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-0795",
+                "imported": "2025-11-25T21:56:30.647Z",
+                "modified": "2025-03-21T19:15:41.283Z",
+                "published": "2023-02-13T23:15:11.727Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-0795",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0795"
+            }
+        ]
+    }
+}

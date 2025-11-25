@@ -1,0 +1,112 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-288",
+    "modified": "2025-11-25T22:18:43.603Z",
+    "published": "2025-11-25T22:18:43.603Z",
+    "upstream": [
+        "CVE-2022-3970"
+    ],
+    "summary": "A vulnerability was found in LibTIFF",
+    "details": "A vulnerability was found in LibTIFF. It has been classified as critical. This affects the function TIFFReadRGBATileExt of the file libtiff/tif_getimage.c. The manipulation leads to integer overflow. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used. The name of the patch is 227500897dfb07fb7d27f7aa570050e62617e3be. It is recommended to apply a patch to fix this issue. The identifier VDB-213549 was assigned to this vulnerability.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.5.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://oss-fuzz.com/download?testcase_id=5738253143900160"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221215-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213841"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213843"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.213549"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://oss-fuzz.com/download?testcase_id=5738253143900160"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221215-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213841"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213843"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.213549"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-3970",
+                "imported": "2025-11-25T21:56:30.645Z",
+                "modified": "2024-11-21T07:20:38.640Z",
+                "published": "2022-11-13T08:15:16.047Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-3970",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3970"
+            }
+        ]
+    }
+}

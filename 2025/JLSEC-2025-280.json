@@ -1,0 +1,112 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-280",
+    "modified": "2025-11-25T22:18:43.603Z",
+    "published": "2025-11-25T22:18:43.603Z",
+    "upstream": [
+        "CVE-2022-1354"
+    ],
+    "summary": "A heap buffer overflow flaw was found in Libtiffs' tiffinfo.c in TIFFReadRawDataStriped() function",
+    "details": "A heap buffer overflow flaw was found in Libtiffs' tiffinfo.c in TIFFReadRawDataStriped() function. This flaw allows an attacker to pass a crafted TIFF file to the tiffinfo tool, triggering a heap buffer overflow issue and causing a crash that leads to a denial of service.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-1354"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2074404"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/319"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-10"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221014-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5333"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-1354"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2074404"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/319"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-10"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221014-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5333"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-1354",
+                "imported": "2025-11-25T21:56:30.627Z",
+                "modified": "2024-11-21T06:40:33.447Z",
+                "published": "2022-08-31T16:15:09.520Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-1354",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1354"
+            }
+        ]
+    }
+}

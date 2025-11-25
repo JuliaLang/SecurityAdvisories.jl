@@ -1,0 +1,136 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-253",
+    "modified": "2025-11-25T22:18:43.603Z",
+    "published": "2025-11-25T22:18:43.603Z",
+    "upstream": [
+        "CVE-2019-14973"
+    ],
+    "summary": "_TIFFCheckMalloc and _TIFFCheckRealloc in tif_aux.c in LibTIFF through 4.0.10 mishandle Integer Over...",
+    "details": "_TIFFCheckMalloc and _TIFFCheckRealloc in tif_aux.c in LibTIFF through 4.0.10 mishandle Integer Overflow checks because they rely on compiler behavior that is undefined by the applicable C standards. This can, for example, lead to an application crash.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-09/msg00102.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-11/msg00023.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://packetstormsecurity.com/files/155095/Slackware-Security-Advisory-libtiff-Updates.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/merge_requests/90"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2019/08/msg00031.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/63BVT6N5KQPHWOWM4B3I7Z3ODBXUVNPS/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ADNPG7JJTRRK22GUVTAFH3GJ6WGKUZJB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/bugtraq/2019/Nov/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/bugtraq/2020/Jan/32"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4608"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4670"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-09/msg00102.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-11/msg00023.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://packetstormsecurity.com/files/155095/Slackware-Security-Advisory-libtiff-Updates.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/merge_requests/90"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2019/08/msg00031.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/63BVT6N5KQPHWOWM4B3I7Z3ODBXUVNPS/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ADNPG7JJTRRK22GUVTAFH3GJ6WGKUZJB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/bugtraq/2019/Nov/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/bugtraq/2020/Jan/32"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4608"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4670"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-14973",
+                "imported": "2025-11-25T21:56:30.594Z",
+                "modified": "2024-11-21T04:27:48.033Z",
+                "published": "2019-08-14T06:15:10.303Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-14973",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14973"
+            }
+        ]
+    }
+}

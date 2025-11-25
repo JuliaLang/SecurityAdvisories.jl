@@ -1,0 +1,112 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2025-298",
+    "modified": "2025-11-25T22:18:43.603Z",
+    "published": "2025-11-25T22:18:43.603Z",
+    "upstream": [
+        "CVE-2023-0804"
+    ],
+    "summary": "LibTIFF 4.4.0 has an out-of-bounds write in tiffcrop in tools/tiffcrop.c:3609, allowing attackers to...",
+    "details": "LibTIFF 4.4.0 has an out-of-bounds write in tiffcrop in tools/tiffcrop.c:3609, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit 33aee127.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.5.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2023/CVE-2023-0804.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/33aee1275d9d1384791d2206776eb8152d397f00"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/497"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00026.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FBF3UUFSB6NB3NFTQSKOOIZGXJP3T34Z/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230324-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5361"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2023/CVE-2023-0804.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/33aee1275d9d1384791d2206776eb8152d397f00"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/497"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00026.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FBF3UUFSB6NB3NFTQSKOOIZGXJP3T34Z/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230324-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5361"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-0804",
+                "imported": "2025-11-25T21:56:30.653Z",
+                "modified": "2025-03-21T15:15:39.833Z",
+                "published": "2023-02-13T23:15:12.667Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-0804",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0804"
+            }
+        ]
+    }
+}
