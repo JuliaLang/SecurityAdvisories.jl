@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mntnax2ri-1yuecwy"
+modified = 2025-11-25T22:38:07.422Z
+upstream = ["CVE-2024-12088"]
+references = ["https://access.redhat.com/errata/RHSA-2025:2600", "https://access.redhat.com/errata/RHSA-2025:7050", "https://access.redhat.com/errata/RHSA-2025:8385", "https://access.redhat.com/security/cve/CVE-2024-12088", "https://bugzilla.redhat.com/show_bug.cgi?id=2330676", "https://kb.cert.org/vuls/id/952657", "https://lists.debian.org/debian-lts-announce/2025/01/msg00008.html", "https://security.netapp.com/advisory/ntap-20250131-0002/", "https://www.kb.cert.org/vuls/id/952657", "https://github.com/google/security-research/security/advisories/GHSA-p5pg-x43v-mvqj"]
+
+[[affected]]
+pkg = "rsync_jll"
+ranges = ["< 3.4.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2024-12088"
+imported = 2025-11-25T22:38:07.422Z
+modified = 2025-11-03T22:16:39.430Z
+published = 2025-01-14T18:15:25.643Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-12088"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2024-12088"
+```
+
+# A flaw was found in rsync
+
+A flaw was found in rsync. When using the `--safe-links` option, the rsync client fails to properly verify if a symbolic link destination sent from the server contains another symbolic link within it. This results in a path traversal vulnerability, which may lead to arbitrary file write outside the desired directory.
+
