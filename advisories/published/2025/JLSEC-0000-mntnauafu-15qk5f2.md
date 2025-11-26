@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mntnauafu-15qk5f2"
+modified = 2025-11-25T22:35:57.402Z
+upstream = ["CVE-2006-5456"]
+references = ["ftp://patches.sgi.com/support/free/security/advisories/20070201-01-P.asc", "http://packages.debian.org/changelogs/pool/main/g/graphicsmagick/graphicsmagick_1.1.7-9/changelog#versionversion1.1.7-9", "http://secunia.com/advisories/22569", "http://secunia.com/advisories/22572", "http://secunia.com/advisories/22601", "http://secunia.com/advisories/22604", "http://secunia.com/advisories/22819", "http://secunia.com/advisories/22834", "http://secunia.com/advisories/22998", "http://secunia.com/advisories/23090", "http://secunia.com/advisories/23121", "http://secunia.com/advisories/24186", "http://secunia.com/advisories/24196", "http://secunia.com/advisories/24284", "http://secunia.com/advisories/24458", "http://security.gentoo.org/glsa/glsa-200611-07.xml", "http://security.gentoo.org/glsa/glsa-200611-19.xml", "http://slackware.com/security/viewer.php?l=slackware-security&y=2007&m=slackware-security.352092", "http://www.debian.org/security/2006/dsa-1213", "http://www.mandriva.com/security/advisories?name=MDKSA-2006:193", "http://www.mandriva.com/security/advisories?name=MDKSA-2007:041", "http://www.novell.com/linux/security/advisories/2006_66_imagemagick.html", "http://www.novell.com/linux/security/advisories/2007_3_sr.html", "http://www.osvdb.org/29990", "http://www.redhat.com/support/errata/RHSA-2007-0015.html", "http://www.securityfocus.com/archive/1/452718/100/100/threaded", "http://www.securityfocus.com/archive/1/459507/100/0/threaded", "http://www.securityfocus.com/bid/20707", "http://www.ubuntu.com/usn/usn-372-1", "http://www.ubuntu.com/usn/usn-422-1", "http://www.vupen.com/english/advisories/2006/4170", "http://www.vupen.com/english/advisories/2006/4171", "https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=210921", "https://exchange.xforce.ibmcloud.com/vulnerabilities/29816", "https://issues.rpath.com/browse/RPL-1034", "https://issues.rpath.com/browse/RPL-811", "https://oval.cisecurity.org/repository/search/definition/oval%3Aorg.mitre.oval%3Adef%3A9765", "ftp://patches.sgi.com/support/free/security/advisories/20070201-01-P.asc", "http://packages.debian.org/changelogs/pool/main/g/graphicsmagick/graphicsmagick_1.1.7-9/changelog#versionversion1.1.7-9", "http://secunia.com/advisories/22569", "http://secunia.com/advisories/22572", "http://secunia.com/advisories/22601", "http://secunia.com/advisories/22604", "http://secunia.com/advisories/22819", "http://secunia.com/advisories/22834", "http://secunia.com/advisories/22998", "http://secunia.com/advisories/23090", "http://secunia.com/advisories/23121", "http://secunia.com/advisories/24186", "http://secunia.com/advisories/24196", "http://secunia.com/advisories/24284", "http://secunia.com/advisories/24458", "http://security.gentoo.org/glsa/glsa-200611-07.xml", "http://security.gentoo.org/glsa/glsa-200611-19.xml", "http://slackware.com/security/viewer.php?l=slackware-security&y=2007&m=slackware-security.352092", "http://www.debian.org/security/2006/dsa-1213", "http://www.mandriva.com/security/advisories?name=MDKSA-2006:193", "http://www.mandriva.com/security/advisories?name=MDKSA-2007:041", "http://www.novell.com/linux/security/advisories/2006_66_imagemagick.html", "http://www.novell.com/linux/security/advisories/2007_3_sr.html", "http://www.osvdb.org/29990", "http://www.redhat.com/support/errata/RHSA-2007-0015.html", "http://www.securityfocus.com/archive/1/452718/100/100/threaded", "http://www.securityfocus.com/archive/1/459507/100/0/threaded", "http://www.securityfocus.com/bid/20707", "http://www.ubuntu.com/usn/usn-372-1", "http://www.ubuntu.com/usn/usn-422-1", "http://www.vupen.com/english/advisories/2006/4170", "http://www.vupen.com/english/advisories/2006/4171", "https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=210921", "https://exchange.xforce.ibmcloud.com/vulnerabilities/29816", "https://issues.rpath.com/browse/RPL-1034", "https://issues.rpath.com/browse/RPL-811", "https://oval.cisecurity.org/repository/search/definition/oval%3Aorg.mitre.oval%3Adef%3A9765"]
+
+[[affected]]
+pkg = "ImageMagick_jll"
+ranges = ["< 6.9.11+0"]
+
+[[jlsec_sources]]
+id = "CVE-2006-5456"
+imported = 2025-11-25T22:35:57.402Z
+modified = 2025-04-09T00:30:58.490Z
+published = 2006-10-23T17:07:00.000Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2006-5456"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2006-5456"
+```
+
+# Multiple buffer overflows in GraphicsMagick before 1.1.7 and ImageMagick 6.0.7 allow user-assisted a...
+
+Multiple buffer overflows in GraphicsMagick before 1.1.7 and ImageMagick 6.0.7 allow user-assisted attackers to cause a denial of service and possibly execute arbitrary code via (1) a DCM image that is not properly handled by the ReadDCMImage function in coders/dcm.c, or (2) a PALM image that is not properly handled by the ReadPALMImage function in coders/palm.c.
+
