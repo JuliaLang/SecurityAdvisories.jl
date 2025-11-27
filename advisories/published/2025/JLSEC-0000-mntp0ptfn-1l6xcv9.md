@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mntp0ptfn-1l6xcv9"
+modified = 2025-11-27T03:28:04.931Z
+upstream = ["CVE-2025-64720"]
+references = ["https://github.com/pnggroup/libpng/commit/08da33b4c88cfcd36e5a706558a8d7e0e4773643", "https://github.com/pnggroup/libpng/issues/686", "https://github.com/pnggroup/libpng/pull/751", "https://github.com/pnggroup/libpng/security/advisories/GHSA-hfc7-ph9c-wcww", "https://github.com/pnggroup/libpng/security/advisories/GHSA-hfc7-ph9c-wcww"]
+
+[[affected]]
+pkg = "libpng_jll"
+ranges = ["< 1.6.51+0"]
+
+[[jlsec_sources]]
+id = "CVE-2025-64720"
+imported = 2025-11-27T03:28:04.931Z
+modified = 2025-11-26T18:35:18.253Z
+published = 2025-11-25T00:15:47.460Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-64720"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2025-64720"
+```
+
+# LIBPNG is a reference library for use in applications that read, create, and manipulate PNG (Portabl...
+
+LIBPNG is a reference library for use in applications that read, create, and manipulate PNG (Portable Network Graphics) raster image files. From version 1.6.0 to before 1.6.51, an out-of-bounds read vulnerability exists in png_image_read_composite when processing palette images with PNG_FLAG_OPTIMIZE_ALPHA enabled. The palette compositing code in png_init_read_transformations incorrectly applies background compositing during premultiplication, violating the invariant component ≤ alpha × 257 required by the simplified PNG API. This issue has been patched in version 1.6.51.
+
