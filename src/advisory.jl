@@ -145,7 +145,7 @@ There is just one place where we differ:
 """
 @kwdef mutable struct Advisory
     ## OSV fields
-    schema_version::String = "1.7.3"
+    schema_version::String = "1.7.4"
     # The identifier and dates are re-written by GitHub Actions upon publication and modification
     id::String = string(PREFIX, "-0000-", string(Dates.datetime2epochms(Dates.now()), base=36), "-", string(rand(UInt32), base=36))
     modified::DateTime = Dates.now(Dates.UTC)
