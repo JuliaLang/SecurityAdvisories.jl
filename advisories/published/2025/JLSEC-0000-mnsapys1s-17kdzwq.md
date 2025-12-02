@@ -7,7 +7,7 @@ references = ["https://github.com/NixOS/patchelf/pull/419", "https://github.com/
 
 [[affected]]
 pkg = "Patchelf_jll"
-ranges = [">= 2019.10.23+0"]
+ranges = ["< 0.17.2+0", "= 2019.10.23+0"]
 
 [[jlsec_sources]]
 id = "CVE-2022-44940"
