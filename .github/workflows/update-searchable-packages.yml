@@ -5,6 +5,7 @@ on:
     # Run at 2 AM UTC every day
     - cron: '0 2 * * *'
   workflow_dispatch: {}
+  pull_request: # temporary, for testing
 
 jobs:
   generate-search-history:
