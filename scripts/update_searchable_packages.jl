@@ -27,7 +27,7 @@ function any_version_has_artifacts(pkg_info)
         mktempdir() do tmp
             repo_url = pkg_info.info.repo
             subdir = pkg_info.info.subdir
-            run(Pipeline(`git clone --bare $repo_url $tmp`, stdout=Base.devnull, stderr=Base.devnull))
+            run(pipeline(`git clone --bare $repo_url $tmp`, stdout=Base.devnull, stderr=Base.devnull))
             for (_, verinfo) in pkg_info.info.version_info
                 cmd = `git -C $tmp ls-tree -r --name-only $(verinfo.git_tree_sha1)`
                 if !isnothing(subdir)
