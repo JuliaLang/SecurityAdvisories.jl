@@ -35,14 +35,14 @@ function any_version_has_artifacts(pkg_info)
             if !isnothing(subdir)
                 cmd = `$cmd $subdir`
             end
-            if success(pipeline(cmd, `grep -qE '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
+            if success(pipeline(cmd, `grep -qP '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
                 @info "found Artifacts"
                 return true
             else
                 @info "failed to find Artifacts in version $(verinfo.version)"
                 run(cmd)
                 @info "with grep"
-                run(pipeline(cmd, `grep -E '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
+                run(pipeline(cmd, `grep -P '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
             end
         end
     catch ex1
