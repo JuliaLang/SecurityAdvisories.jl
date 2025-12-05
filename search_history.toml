@@ -1,0 +1,1499 @@
+[ADCME]
+artifacts = false
+
+[AWSCRT_jll]
+artifacts = false
+
+[AbstractMCMC]
+artifacts = false
+
+[AbstractNumbers]
+artifacts = false
+
+[AbstractPlotting]
+artifacts = false
+
+[AbstractTrees]
+artifacts = false
+
+[AdaptableFunctions]
+artifacts = false
+
+[AdaptiveRejectionSampling]
+artifacts = false
+
+[AeroAcoustics]
+artifacts = false
+
+[AlgebraicSolvers]
+artifacts = false
+
+[AlphaMolWrapper_jll]
+artifacts = false
+
+[ApproximationAnalysis]
+artifacts = false
+
+[ArgumentModes]
+artifacts = false
+
+[ArrayAllocators]
+artifacts = false
+
+[AssigningSecondaryStructure]
+artifacts = false
+
+[AstroModels]
+artifacts = false
+
+[Astrometry]
+artifacts = false
+
+[Atomsk_jll]
+artifacts = false
+
+[AutoGP]
+artifacts = false
+
+[AvailablePotentialEnergyFramework]
+artifacts = false
+
+[Avro_jll]
+artifacts = false
+
+[AwsIO]
+artifacts = false
+
+[Backtester]
+artifacts = false
+
+[BandedMatrices]
+artifacts = false
+
+[BeamletOptics]
+artifacts = false
+
+[BeliefUpdaters]
+artifacts = false
+
+[BerkeleyDB_jll]
+artifacts = false
+
+[BigRiverQTLPlots]
+artifacts = false
+
+[BinaryBuilderProducts]
+artifacts = false
+
+[Binaryen_jll]
+artifacts = false
+
+[BioLab]
+artifacts = false
+
+[BirkhoffDecomposition]
+artifacts = false
+
+[BitemporalPostgresDDL]
+artifacts = false
+
+[BlockEnums]
+artifacts = false
+
+[BoxCox]
+artifacts = false
+
+[BracketAlgebras]
+artifacts = false
+
+[BraketSimulator]
+artifacts = false
+
+[BrazilFinancialData]
+artifacts = false
+
+[BridgeSDEInference]
+artifacts = false
+
+[Bytez]
+artifacts = false
+
+[CJKFrequencies]
+artifacts = false
+
+[CQLdriver]
+artifacts = false
+
+[CTBenchmarks]
+artifacts = false
+
+[CUDA_jll]
+artifacts = false
+
+[CUDAnative]
+artifacts = false
+
+[CUTENSOR_CUDA102_jll]
+artifacts = false
+
+[CachedCalls]
+artifacts = false
+
+[Calculus]
+artifacts = false
+
+[CasADi]
+artifacts = false
+
+[ChainModels]
+artifacts = false
+
+[ChainRulesCore]
+artifacts = false
+
+[ChunkCodecLibAec]
+artifacts = false
+
+[CircoCore]
+artifacts = false
+
+[CitableCollection]
+artifacts = false
+
+[ClimateTools]
+artifacts = false
+
+[CliqueTrees]
+artifacts = false
+
+[CloudEvents]
+artifacts = false
+
+[CocktailDB]
+artifacts = false
+
+[CodeInfoTools]
+artifacts = false
+
+[CodeTransformation]
+artifacts = false
+
+[CollisionDetection]
+artifacts = false
+
+[ColorSchemeTools]
+artifacts = false
+
+[Coluna]
+artifacts = false
+
+[Combinat]
+artifacts = false
+
+[CommonHighlight]
+artifacts = false
+
+[CompactBases]
+artifacts = false
+
+[ComparatorNetworks]
+artifacts = false
+
+[Compat]
+artifacts = false
+
+[ComputePipeline]
+artifacts = false
+
+[ConleyDynamics]
+artifacts = false
+
+[ConnectionPools]
+artifacts = false
+
+[ConservationLawsParticles]
+artifacts = false
+
+[ConstraintModels]
+artifacts = false
+
+[ContrastiveDivergenceRBM]
+artifacts = false
+
+[DE9IM]
+artifacts = false
+
+[DSGE]
+artifacts = false
+
+[Dalton_jll]
+artifacts = false
+
+[DashBase]
+artifacts = false
+
+[DataAugmentation]
+artifacts = true
+
+[DebuggingUtilities]
+artifacts = false
+
+[DecisionTree]
+artifacts = false
+
+[DeconvOptim]
+artifacts = false
+
+[DependenciesParser]
+artifacts = false
+
+[DeterminantalPointProcesses]
+artifacts = false
+
+[DiffEqBayes]
+artifacts = false
+
+[DiffPointRasterisation]
+artifacts = false
+
+[DifferentialRiccatiEquations]
+artifacts = false
+
+[DifferentiationInterfaceTest]
+artifacts = false
+
+[DiffusionMap]
+artifacts = false
+
+[Difmap]
+artifacts = true
+
+[DiscreteChoiceCalculations]
+artifacts = false
+
+[DiskDataProviders]
+artifacts = false
+
+[DocSeeker]
+artifacts = false
+
+[DomainColoring]
+artifacts = false
+
+[DominanceAnalysis]
+artifacts = false
+
+[DownstreamTester]
+artifacts = false
+
+[Doxygen_jll]
+artifacts = false
+
+[Dyn3d]
+artifacts = false
+
+[DynamicNLPModels]
+artifacts = false
+
+[DynamicPolynomials]
+artifacts = false
+
+[DynamicSumTypes]
+artifacts = false
+
+[DynarePreprocessor_jll]
+artifacts = false
+
+[EPGsim]
+artifacts = false
+
+[ESAInterpolationFiles]
+artifacts = false
+
+[EarthSciData]
+artifacts = false
+
+[EasyML]
+artifacts = false
+
+[ElementaryFluxModes]
+artifacts = false
+
+[EllipticFunctions]
+artifacts = false
+
+[EmbeddingsTools]
+artifacts = false
+
+[EmpiricalModeDecomposition]
+artifacts = false
+
+[Encodings]
+artifacts = false
+
+[EnergyModelsFlex]
+artifacts = false
+
+[EnergySamplers]
+artifacts = false
+
+[EnvironmentalTransport]
+artifacts = false
+
+[EponymTuples]
+artifacts = false
+
+[EquationsOfState]
+artifacts = false
+
+[EquationsOfStateOfSolids]
+artifacts = false
+
+[EtherSPH]
+artifacts = false
+
+[Exiv2_jll]
+artifacts = false
+
+[Express]
+artifacts = false
+
+[ExtendedDates]
+artifacts = false
+
+[ExtendedKronigPennyMatrix]
+artifacts = false
+
+[FEMBasis]
+artifacts = false
+
+[FMICore]
+artifacts = false
+
+[FMIFlux]
+artifacts = false
+
+[FMIZoo]
+artifacts = false
+
+[FSimZoo]
+artifacts = false
+
+[FactorRotations]
+artifacts = false
+
+[Faiss_jll]
+artifacts = false
+
+[FastCDR_jll]
+artifacts = false
+
+[FastHalton]
+artifacts = false
+
+[FastJet_Julia_Wrapper_jll]
+artifacts = false
+
+[FastMultipole]
+artifacts = false
+
+[FastTabular]
+artifacts = false
+
+[FastaIO]
+artifacts = false
+
+[FeastKit]
+artifacts = false
+
+[FinEtoolsDeforLinear]
+artifacts = false
+
+[FinEtoolsFlexBeams]
+artifacts = false
+
+[FinancialMonteCarlo]
+artifacts = false
+
+[FinancialToolbox]
+artifacts = false
+
+[Finch]
+artifacts = false
+
+[FiniteHorizonValueIteration]
+artifacts = false
+
+[FixedEffectModels]
+artifacts = false
+
+[FlowLock]
+artifacts = false
+
+[Fluxperimental]
+artifacts = false
+
+[FoldsCUDA]
+artifacts = false
+
+[FoldsThreads]
+artifacts = false
+
+[ForSyDeIO]
+artifacts = false
+
+[FreeType]
+artifacts = false
+
+[FunctionFusion]
+artifacts = false
+
+[GAP_pkg_nq_jll]
+artifacts = false
+
+[GAP_pkg_simpcomp_jll]
+artifacts = false
+
+[GCPDecompositions]
+artifacts = false
+
+[GPUCompiler]
+artifacts = false
+
+[GPUifyLoops]
+artifacts = false
+
+[GRQt6_jll]
+artifacts = false
+
+[GSOpt]
+artifacts = false
+
+[Game2048Core]
+artifacts = false
+
+[GaussBP]
+artifacts = false
+
+[GaussQuadrature]
+artifacts = false
+
+[GeoInterfaceRecipes]
+artifacts = false
+
+[Geocoder]
+artifacts = false
+
+[GilaElectromagnetics]
+artifacts = false
+
+[GitHubActions]
+artifacts = false
+
+[GlobalApproximationValueIteration]
+artifacts = false
+
+[GlobalSensitivity]
+artifacts = false
+
+[Gloo_jll]
+artifacts = false
+
+[GmshImport]
+artifacts = false
+
+[GnuplotScripting]
+artifacts = false
+
+[GoldfarbIdnaniSolver]
+artifacts = false
+
+[Gotree_jll]
+artifacts = false
+
+[GradientBoosting]
+artifacts = false
+
+[Graphite2_jll]
+artifacts = false
+
+[Graphviz_jll]
+artifacts = false
+
+[HITRAN]
+artifacts = false
+
+[HPCMod]
+artifacts = false
+
+[HardTestProblems]
+artifacts = false
+
+[HclinicBifurcationKit]
+artifacts = false
+
+[HealthBase]
+artifacts = false
+
+[HeartRateVariability]
+artifacts = false
+
+[HeatTransferFluids]
+artifacts = false
+
+[Heptagon_jll]
+artifacts = false
+
+[HermiteInterpolation]
+artifacts = false
+
+[HuggingFaceApi]
+artifacts = false
+
+[HydrophoneCalibrations]
+artifacts = false
+
+[Hypatia]
+artifacts = false
+
+[HyperTuning]
+artifacts = false
+
+[ICOADSDict]
+artifacts = false
+
+[IMASdd]
+artifacts = false
+
+[ISOKANN]
+artifacts = false
+
+[ITerSOLvers]
+artifacts = false
+
+[IdealGasThermo]
+artifacts = false
+
+[ImageAxes]
+artifacts = false
+
+[ImageTracking]
+artifacts = false
+
+[IndexedStructVectors]
+artifacts = false
+
+[IntelITT]
+artifacts = false
+
+[InterpretMe]
+artifacts = false
+
+[InvariantSets]
+artifacts = false
+
+[InventoryRoutingProblems]
+artifacts = false
+
+[IrrationalConstants]
+artifacts = false
+
+[ItemResponseFunctions]
+artifacts = false
+
+[JDF]
+artifacts = false
+
+[JQuants]
+artifacts = false
+
+[JSBSim_jll]
+artifacts = false
+
+[JSONRPC]
+artifacts = false
+
+[Jabalizer]
+artifacts = false
+
+[Jags]
+artifacts = false
+
+[JasPer_jll]
+artifacts = false
+
+[JenaAtomicCalculator]
+artifacts = false
+
+[JetPackWaveFD]
+artifacts = false
+
+[Jfire]
+artifacts = false
+
+[Jive]
+artifacts = false
+
+[JuliaScript]
+artifacts = false
+
+[Jute]
+artifacts = false
+
+[KaHyPar_jll]
+artifacts = false
+
+[KernelMethods]
+artifacts = false
+
+[KissABC]
+artifacts = false
+
+[KnetNLPModels]
+artifacts = false
+
+[KrylovPreconditioners]
+artifacts = false
+
+[LFRBenchmarkGraphs]
+artifacts = false
+
+[LaTeXFigures]
+artifacts = false
+
+[LandauDistribution]
+artifacts = false
+
+[LaurentPolynomials]
+artifacts = false
+
+[LazyArrays]
+artifacts = false
+
+[LazyFym]
+artifacts = false
+
+[LeafOptics]
+artifacts = false
+
+[LearningSchedules]
+artifacts = false
+
+[LennardJones]
+artifacts = false
+
+[LibAwsEventStream]
+artifacts = false
+
+[LibAwsMqtt]
+artifacts = false
+
+[LibGD_jll]
+artifacts = false
+
+[LibIIO]
+artifacts = false
+
+[LibNanoVG]
+artifacts = false
+
+[LibSpatialIndex_jll]
+artifacts = false
+
+[LibSymspg]
+artifacts = false
+
+[LinearBand]
+artifacts = false
+
+[LinearElasticityBase]
+artifacts = false
+
+[LinearSegmentation]
+artifacts = false
+
+[LoweredCodeUtils]
+artifacts = false
+
+[Lycian]
+artifacts = false
+
+[MCMCChains]
+artifacts = false
+
+[MDBM]
+artifacts = false
+
+[MDSh5]
+artifacts = false
+
+[MIPLearn]
+artifacts = false
+
+[MLFlowClient]
+artifacts = false
+
+[MLJParticleSwarmOptimization]
+artifacts = false
+
+[MPIClusterManagers]
+artifacts = false
+
+[MPItrampoline_jll]
+artifacts = false
+
+[MUMPS_seq_jll]
+artifacts = false
+
+[MadNLPGraph]
+artifacts = false
+
+[MakieGallery]
+artifacts = false
+
+[Mango]
+artifacts = false
+
+[ManifoldGroupTesting]
+artifacts = false
+
+[ManifoldLearning]
+artifacts = false
+
+[MapTiles]
+artifacts = false
+
+[MatrixSign]
+artifacts = false
+
+[Matroids]
+artifacts = false
+
+[MeshArrays]
+artifacts = false
+
+[MimiGIVE]
+artifacts = false
+
+[MinFEMFlow]
+artifacts = false
+
+[MirrorUpdater]
+artifacts = false
+
+[MixedComplementarityProblems]
+artifacts = false
+
+[MixedModelsMakie]
+artifacts = false
+
+[MixtureDensityNetworks]
+artifacts = false
+
+[Mjolnir]
+artifacts = false
+
+[ModelConstructors]
+artifacts = false
+
+[MomentMatching]
+artifacts = false
+
+[Mongoc]
+artifacts = false
+
+[Monomials]
+artifacts = false
+
+[Mooncake]
+artifacts = false
+
+[Moonshine]
+artifacts = false
+
+[MotifPvalue]
+artifacts = false
+
+[MriResearchTools]
+artifacts = false
+
+[MultiAgentPOMDPs]
+artifacts = false
+
+[MultiObjectiveAlgorithms]
+artifacts = false
+
+[MultilayerGraphs]
+artifacts = false
+
+[Munkres]
+artifacts = false
+
+[NTFk]
+artifacts = false
+
+[NVPL_jll]
+artifacts = false
+
+[NamedDims]
+artifacts = false
+
+[NativeNaNMath]
+artifacts = false
+
+[NetCDFF_jll]
+artifacts = false
+
+[NeuralFoil]
+artifacts = false
+
+[NiLangCore]
+artifacts = false
+
+[NimbusSDK]
+artifacts = false
+
+[NodeJS]
+artifacts = false
+
+[Nonconvex]
+artifacts = false
+
+[NonconvexMMA]
+artifacts = false
+
+[NonconvexPercival]
+artifacts = false
+
+[NonconvexUtils]
+artifacts = false
+
+[NotMacro]
+artifacts = false
+
+[NullBroadcasts]
+artifacts = false
+
+[OATHToolkit_jll]
+artifacts = false
+
+[ODEInterface_jll]
+artifacts = false
+
+[ORTools]
+artifacts = false
+
+[ObjectDetector]
+artifacts = false
+
+[ObjectOriented]
+artifacts = false
+
+[OohataHuzinaga]
+artifacts = false
+
+[OpenQuantumBase]
+artifacts = false
+
+[OrbisChessEngine]
+artifacts = false
+
+[OwnTime]
+artifacts = false
+
+[PALEOboxes]
+artifacts = false
+
+[PATHlib_jll]
+artifacts = false
+
+[PDDL]
+artifacts = false
+
+[PDELib]
+artifacts = false
+
+[POMDPModelTools]
+artifacts = false
+
+[PRIMA_jll]
+artifacts = false
+
+[Pandoc]
+artifacts = false
+
+[ParallelTestRunner]
+artifacts = false
+
+[ParamPunPam]
+artifacts = false
+
+[ParametricLP]
+artifacts = false
+
+[PearsonCorrelationMatch]
+artifacts = false
+
+[PenultimateDays]
+artifacts = false
+
+[PersonParameters]
+artifacts = false
+
+[PhilipsWorkspace]
+artifacts = false
+
+[Photodynamics]
+artifacts = false
+
+[PhyloNetworks]
+artifacts = false
+
+[PiecewiseAffineApprox]
+artifacts = false
+
+[Pipe]
+artifacts = false
+
+[PkgBake]
+artifacts = false
+
+[PkgBenchmark]
+artifacts = false
+
+[PlantUML]
+artifacts = false
+
+[PlasmoBenders]
+artifacts = false
+
+[PlotlyDocumenter]
+artifacts = false
+
+[PlutoDevMacros]
+artifacts = false
+
+[PlutoExtras]
+artifacts = false
+
+[PlutoSplitter]
+artifacts = false
+
+[PointBasedValueIteration]
+artifacts = false
+
+[PolarizedBRF]
+artifacts = false
+
+[PosixChannels]
+artifacts = false
+
+[PottsGumbelRBMLayers]
+artifacts = false
+
+[PowerImpedanceACDC]
+artifacts = false
+
+[PressureSensitiveMats]
+artifacts = false
+
+[ProbabilityBoundsAnalysis]
+artifacts = false
+
+[Procrastinate]
+artifacts = false
+
+[PyFormattedStrings]
+artifacts = false
+
+[QDLDL]
+artifacts = false
+
+[QEDbase]
+artifacts = false
+
+[QXGraphDecompositions]
+artifacts = false
+
+[Qiskit]
+artifacts = false
+
+[QuadraticKnapsack]
+artifacts = false
+
+[QuadratureCuba]
+artifacts = false
+
+[QuantumCollocation]
+artifacts = false
+
+[QuasiMonteCarlo]
+artifacts = false
+
+[RAxML_jll]
+artifacts = false
+
+[RDDP]
+artifacts = false
+
+[RDatasets]
+artifacts = false
+
+[REPLTreeViews]
+artifacts = false
+
+[REopt]
+artifacts = false
+
+[RLIBM_32_jll]
+artifacts = false
+
+[ROCArrays]
+artifacts = false
+
+[ROCKernels]
+artifacts = false
+
+[RPRMakie]
+artifacts = false
+
+[RandomBooleanMatrices]
+artifacts = false
+
+[RawArray]
+artifacts = false
+
+[RayTracer]
+artifacts = false
+
+[ReadOnlyArrays]
+artifacts = false
+
+[ReadOnlyDicts]
+artifacts = false
+
+[RealDot]
+artifacts = false
+
+[Recombinase]
+artifacts = false
+
+[RemoteSensingToolbox]
+artifacts = false
+
+[RetroCap]
+artifacts = false
+
+[ReusePatterns]
+artifacts = false
+
+[RingStarProblems]
+artifacts = false
+
+[Ripemd]
+artifacts = false
+
+[RobustMeans]
+artifacts = false
+
+[RootTaskREPL]
+artifacts = false
+
+[RootsAndPoles]
+artifacts = false
+
+[RosSockets]
+artifacts = false
+
+[Run]
+artifacts = false
+
+[RustFFT]
+artifacts = false
+
+[SALTBase]
+artifacts = false
+
+[SASLib]
+artifacts = false
+
+[SCCNonlinearSolve]
+artifacts = false
+
+[SLEEFInline]
+artifacts = false
+
+[SMM]
+artifacts = false
+
+[SaddleSearch]
+artifacts = false
+
+[SalesForceBulkApi]
+artifacts = false
+
+[Sandbox]
+artifacts = false
+
+[SciMLBenchmarks]
+artifacts = false
+
+[SeqGen_jll]
+artifacts = false
+
+[ShowCases]
+artifacts = false
+
+[SignType]
+artifacts = false
+
+[SignalTablesInterface_WGLMakie]
+artifacts = false
+
+[SimpleDifferentialOperators]
+artifacts = false
+
+[SimpleDirectMediaLayer]
+artifacts = false
+
+[SimpleGraphAlgorithms]
+artifacts = false
+
+[SimpleGraphConverter]
+artifacts = false
+
+[SimpleIMGUI]
+artifacts = false
+
+[SimpleWorkflows]
+artifacts = false
+
+[Smoothing]
+artifacts = false
+
+[Snowflurry]
+artifacts = false
+
+[Sobol]
+artifacts = false
+
+[SoftPosit_jll]
+artifacts = false
+
+[SolidModeling]
+artifacts = false
+
+[SolverBenchmark]
+artifacts = false
+
+[SolverTest]
+artifacts = false
+
+[Sophon]
+artifacts = false
+
+[SortMark]
+artifacts = false
+
+[SpaceLiDAR]
+artifacts = false
+
+[SparseTimeSeries]
+artifacts = false
+
+[SpeciesInteractionNetworks]
+artifacts = false
+
+[SpeedyTransforms]
+artifacts = false
+
+[StableMap]
+artifacts = false
+
+[StanDataFrames]
+artifacts = false
+
+[StanOptimize]
+artifacts = false
+
+[StatisticalRethinking]
+artifacts = false
+
+[Statistics]
+artifacts = false
+
+[StochOptInterface]
+artifacts = false
+
+[StochasticIntegrators]
+artifacts = false
+
+[StringEncodings]
+artifacts = false
+
+[StructuredPrinting]
+artifacts = false
+
+[Stuffing]
+artifacts = false
+
+[SuccessiveConvexProgrammings]
+artifacts = false
+
+[SummaryTables]
+artifacts = false
+
+[SwapSort]
+artifacts = false
+
+[SymDict]
+artifacts = false
+
+[SymbolicSMT]
+artifacts = false
+
+[SyntheticDatasets]
+artifacts = false
+
+[TERMIOS]
+artifacts = false
+
+[Taichi]
+artifacts = false
+
+[TarIterators]
+artifacts = false
+
+[Taskflow_jll]
+artifacts = false
+
+[Tau]
+artifacts = false
+
+[TechnicalIndicatorCharts]
+artifacts = false
+
+[TeensyLoaderCLI]
+artifacts = false
+
+[TemplateMatching]
+artifacts = false
+
+[TenPuzzle]
+artifacts = false
+
+[TensegrityEquilibria]
+artifacts = false
+
+[TensorInference]
+artifacts = true
+
+[TerminalCalendar]
+artifacts = false
+
+[TestItemDetection]
+artifacts = false
+
+[ThArrays]
+artifacts = false
+
+[ThinFilmsTools]
+artifacts = false
+
+[TiffImages]
+artifacts = false
+
+[TimeDataFrames]
+artifacts = false
+
+[TimeseriesSurrogates]
+artifacts = false
+
+[TinnitusReconstructor]
+artifacts = false
+
+[TouchstoneParser]
+artifacts = false
+
+[TransitionsInTimeseries]
+artifacts = false
+
+[TravelingSalesmanHeuristics]
+artifacts = false
+
+[TriMatrices]
+artifacts = false
+
+[Tricks]
+artifacts = false
+
+[Twistronics]
+artifacts = false
+
+[Twitch]
+artifacts = false
+
+[TypeClasses]
+artifacts = false
+
+[UProbes]
+artifacts = false
+
+[UnfoldStats]
+artifacts = false
+
+[UnicodeGraphics]
+artifacts = false
+
+[UnionFind]
+artifacts = false
+
+[UnitDiskMapping]
+artifacts = false
+
+[UnitfulUS]
+artifacts = false
+
+[Unityper]
+artifacts = false
+
+[UnsteadyFlowSolvers]
+artifacts = false
+
+[VPTrees]
+artifacts = false
+
+[VQC]
+artifacts = false
+
+[VTKDataTypes]
+artifacts = false
+
+[ValueHistories]
+artifacts = false
+
+[Vcov]
+artifacts = false
+
+[VirtualPlantLab]
+artifacts = false
+
+[VisClaw]
+artifacts = false
+
+[WhereIsMyDocstring]
+artifacts = false
+
+[WhereTheWaterFlows]
+artifacts = false
+
+[Wikidata]
+artifacts = false
+
+[WorldOceanAtlasTools]
+artifacts = false
+
+[WrappedMultiGraphs]
+artifacts = false
+
+[XTermColors]
+artifacts = false
+
+[XZ_jll]
+artifacts = false
+
+[Xorg_libXdamage_jll]
+artifacts = false
+
+[Xorg_libxcb_jll]
+artifacts = false
+
+[Xorg_xcb_util_keysyms_jll]
+artifacts = false
+
+[Xorg_xineramaproto_jll]
+artifacts = false
+
+[YaoQX]
+artifacts = false
+
+[cilkrts_jll]
+artifacts = false
+
+[code_server_jll]
+artifacts = false
+
+[cuDNN]
+artifacts = false
+
+[duf_jll]
+artifacts = false
+
+[hidapi_jll]
+artifacts = false
+
+[hiredis_jll]
+artifacts = false
+
+[jlpkg]
+artifacts = false
+
+[legate_jl_wrapper_jll]
+artifacts = false
+
+[libLLVM_assert_jll]
+artifacts = false
+
+[libcsv_jll]
+artifacts = false
+
+[libsparseir_jll]
+artifacts = false
+
+[libusb_compat_jll]
+artifacts = false
+
+[libversion_jll]
+artifacts = false
+
+[mlpack]
+artifacts = false
+
+[nanoarrow_jll]
+artifacts = false
+
+[nghttp2_jll]
+artifacts = false
+
+[osslsigncode_jll]
+artifacts = false
+
+[oxigraph_server_jll]
+artifacts = false
+
+[prrte_jll]
+artifacts = false
+
+[quickfixc_jll]
+artifacts = false
+
+[rr_jll]
+artifacts = false
+
+[sdsl_lite_jll]
+artifacts = false
+
+[tree_sitter_go_jll]
+artifacts = false
+
+[tree_sitter_ocaml_jll]
+artifacts = false
+
+[x264_jll]
+artifacts = false
+
+[xsimd_jll]
+artifacts = false
+
+[zrl_jll]
+artifacts = false
