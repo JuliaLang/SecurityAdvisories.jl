@@ -340,6 +340,9 @@ artifacts = false
 [EnvironmentalTransport]
 artifacts = false
 
+[Enzyme_jll]
+artifacts = true
+
 [EponymTuples]
 artifacts = false
 
@@ -432,6 +435,9 @@ artifacts = false
 
 [Fluxperimental]
 artifacts = false
+
+[Fmt_jll]
+artifacts = true
 
 [FoldsCUDA]
 artifacts = false
@@ -541,6 +547,9 @@ artifacts = false
 [HeatTransferFluids]
 artifacts = false
 
+[HelloWorldOCaml_jll]
+artifacts = true
+
 [Heptagon_jll]
 artifacts = false
 
@@ -646,6 +655,9 @@ artifacts = false
 [KernelMethods]
 artifacts = false
 
+[Kira_jll]
+artifacts = true
+
 [KissABC]
 artifacts = false
 
@@ -702,6 +714,9 @@ artifacts = false
 
 [LibSymspg]
 artifacts = false
+
+[LibUnwind_jll]
+artifacts = true
 
 [LinearBand]
 artifacts = false
@@ -829,6 +844,9 @@ artifacts = false
 [Munkres]
 artifacts = false
 
+[N2QN1_jll]
+artifacts = true
+
 [NTFk]
 artifacts = false
 
@@ -906,6 +924,9 @@ artifacts = false
 
 [PATHlib_jll]
 artifacts = false
+
+[PCRE2_jll]
+artifacts = true
 
 [PDDL]
 artifacts = false
@@ -1417,6 +1438,9 @@ artifacts = false
 [YaoQX]
 artifacts = false
 
+[alsa_jll]
+artifacts = true
+
 [cilkrts_jll]
 artifacts = false
 
@@ -1477,6 +1501,9 @@ artifacts = false
 [quickfixc_jll]
 artifacts = false
 
+[rocPRIM_jll]
+artifacts = true
+
 [rr_jll]
 artifacts = false
 
@@ -1491,6 +1518,9 @@ artifacts = false
 
 [x264_jll]
 artifacts = false
+
+[x265_jll]
+artifacts = true
 
 [xsimd_jll]
 artifacts = false
