@@ -8,13 +8,14 @@ function main()
     isfile(output_file) || touch(output_file)
     toml = TOML.parsefile(output_file)
     registry = Pkg.Registry.reachable_registries()[1]
-    for (_, pkg_info) in Iterators.take(filter(x->endswith(x[2].name, "_jll"), registry.pkgs), 10)
+    for (_, pkg_info) in registry.pkgs
         pkg_dict = get!(toml, pkg_info.name, Dict{String,Any}())
         if !haskey(pkg_dict, "artifacts")
             # It's expensive to check for artifacts. Ideally this would also re-check
             # all the false values (to see if any newer versions have artifacts), but
             # for now we only populate missing values. Being smarter requires more state
             pkg_dict["artifacts"] = any_version_has_artifacts(pkg_info)
+            println(pkg_info.name, ": ", pkg_dict["artifacts"])
         end
     end
     open(output_file, "w") do io
@@ -29,20 +30,13 @@ function any_version_has_artifacts(pkg_info)
         repo_url = pkg_info.info.repo
         subdir = pkg_info.info.subdir
         run(pipeline(`git clone --bare $repo_url $tmp`, stdout=Base.devnull, stderr=Base.devnull))
-        @info "cloned $repo_url"
         for (_, verinfo) in pkg_info.info.version_info
             cmd = `git -C $tmp ls-tree -r --name-only $(verinfo.git_tree_sha1)`
             if !isnothing(subdir)
                 cmd = `$cmd $subdir`
             end
             if success(pipeline(cmd, `grep -qP '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
-                @info "found Artifacts"
                 return true
-            else
-                @info "failed to find Artifacts in version $(verinfo.version)"
-                run(cmd)
-                @info "with grep"
-                run(pipeline(cmd, `grep -P '(?:^|/)(?:Julia)?Artifacts\.toml$'`))
             end
         end
     catch ex1
