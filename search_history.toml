@@ -1,0 +1,29 @@
+[AbstractMCMC]
+artifacts = false
+
+[DiffPointRasterisation]
+artifacts = false
+
+[Dyn3d]
+artifacts = false
+
+[DynamicNLPModels]
+artifacts = false
+
+[EnergyModelsFlex]
+artifacts = false
+
+[KrylovPreconditioners]
+artifacts = false
+
+[NiLangCore]
+artifacts = false
+
+[StableMap]
+artifacts = false
+
+[SummaryTables]
+artifacts = false
+
+[WhereIsMyDocstring]
+artifacts = false
