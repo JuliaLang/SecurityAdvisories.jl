@@ -8,7 +8,7 @@ function main()
     isfile(output_file) || touch(output_file)
     toml = TOML.parsefile(output_file)
     registry = Pkg.Registry.reachable_registries()[1]
-    for (_, pkg_info) in Iterators.take(registry.pkgs, 10)
+    for (_, pkg_info) in registry.pkgs
         pkg_dict = get!(toml, pkg_info.name, Dict{String,Any}())
         if !haskey(pkg_dict, "artifacts")
             # It's expensive to check for artifacts. Ideally this would also re-check
