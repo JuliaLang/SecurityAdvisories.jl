@@ -8,11 +8,12 @@ function main()
     isfile(output_file) || touch(output_file)
     toml = TOML.parsefile(output_file)
     registry = Pkg.Registry.reachable_registries()[1]
-    for (_, pkg_info) in registry.pkgs
+    for (_, pkg_info) in Iterators.take(registry.pkgs, 10)
         pkg_dict = get!(toml, pkg_info.name, Dict{String,Any}())
-        if !get(pkg_dict, "artifacts", false)
-            # This is overzealous. It'd be much better to only check new versions since the last run,
-            # that that requires yet more state, or perhaps (better) getting direct pushes from changes to General.
+        if !haskey(pkg_dict, "artifacts")
+            # It's expensive to check for artifacts. Ideally this would also re-check
+            # all the false values (to see if any newer versions have artifacts), but
+            # for now we only populate missing values. Being smarter requires more state
             pkg_dict["artifacts"] = any_version_has_artifacts(pkg_info)
         end
     end

@@ -34,14 +34,14 @@ jobs:
     - name: Check for changes
       id: git-check
       run: |
-        git diff --quiet search_history.toml && echo "changes=false" >> $GITHUB_OUTPUT || echo "changes=true" >> $GITHUB_OUTPUT
+        git add search_history.toml
+        git diff --cached --quiet && echo "changes=false" >> $GITHUB_OUTPUT || echo "changes=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
       if: ${{ steps.git-check.outputs.changes == 'true' }}
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add search_history.toml
-        git commit -m "Update searchable packages"
-        git pull --rebase origin main
+        git commit -m "[automated] update searchable package list"
+        git pull --rebase origin
         git push
