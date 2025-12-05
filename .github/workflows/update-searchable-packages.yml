@@ -1,0 +1,50 @@
+name: Add packages to search history
+
+on:
+  schedule:
+    # Run at 2 AM UTC every day
+    - cron: '0 2 * * *'
+  workflow_dispatch: {}
+  pull_request: # temporary, for testing
+
+jobs:
+  generate-search-history:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ github.head_ref || github.ref_name }}
+        fetch-depth: 0
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@v1
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Run update_searchable_packages script
+      id: gen
+      run: |
+        julia --project=. scripts/update_searchable_packages.jl
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        git add search_history.toml
+        git diff --cached --quiet && echo "changes=false" >> $GITHUB_OUTPUT || echo "changes=true" >> $GITHUB_OUTPUT
+
+    - name: Commit and push changes
+      if: ${{ steps.git-check.outputs.changes == 'true' }}
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+        git commit -m "[automated] update searchable package list"
+        git pull --rebase origin $current_branch
+        git push origin HEAD:"$current_branch"

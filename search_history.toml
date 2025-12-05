@@ -1,0 +1,29 @@
+[Enzyme_jll]
+artifacts = true
+
+[Fmt_jll]
+artifacts = true
+
+[HelloWorldOCaml_jll]
+artifacts = true
+
+[Kira_jll]
+artifacts = true
+
+[LibUnwind_jll]
+artifacts = true
+
+[N2QN1_jll]
+artifacts = true
+
+[PCRE2_jll]
+artifacts = true
+
+[alsa_jll]
+artifacts = true
+
+[rocPRIM_jll]
+artifacts = true
+
+[x265_jll]
+artifacts = true
