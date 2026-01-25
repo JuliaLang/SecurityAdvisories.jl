@@ -1,0 +1,53 @@
+/* Custom CSS for Julia Security Advisories documentation */
+
+/* Withdrawn advisory styling - strikethrough in lists */
+article ul li s,
+article ol li s {
+    color: #6c757d;
+}
+
+/* Severity badge colors */
+.severity-critical {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.severity-high {
+    color: #fd7e14;
+    font-weight: bold;
+}
+
+.severity-medium {
+    color: #ffc107;
+}
+
+.severity-low {
+    color: #28a745;
+}
+
+/* Make package names stand out */
+article p strong:first-child {
+    color: #4a5568;
+}
+
+/* Improve table readability */
+article table {
+    margin: 1em 0;
+}
+
+article table th {
+    background-color: #f8f9fa;
+}
+
+/* Advisory ID styling in titles */
+article h1 {
+    border-bottom: 2px solid #4063d8;
+    padding-bottom: 0.3em;
+}
+
+/* External link indicator */
+article a[href^="http"]:not([href*="julialang.github.io"])::after {
+    content: " \2197";
+    font-size: 0.8em;
+    vertical-align: super;
+}
