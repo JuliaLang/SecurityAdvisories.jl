@@ -1,4 +1,5 @@
 using Documenter
+using DocumenterMermaid
 using SecurityAdvisories
 using Dates
 
@@ -387,6 +388,7 @@ makedocs(
             advisory_pages...
         ],
         "Packages" => "packages.md",
+        "Workflow" => "workflow.md",
         "About" => "about.md",
     ],
 )

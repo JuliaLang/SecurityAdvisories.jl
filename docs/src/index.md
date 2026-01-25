@@ -17,6 +17,7 @@ The Julia Security Advisory Database tracks security vulnerabilities in packages
 
 - [Browse Advisories](advisories.md) - View all security advisories organized by year
 - [Packages Index](packages.md) - Find advisories by affected package name
+- [Workflow](workflow.md) - Understand how advisories are discovered, reviewed, and published
 - [About](about.md) - Learn more about this database
 
 ## Repository

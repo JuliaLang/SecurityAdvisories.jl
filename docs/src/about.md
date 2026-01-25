@@ -22,6 +22,8 @@ Advisories are sourced from:
 - National Vulnerability Database (NVD) CVEs mentioning Julia packages
 - European Union Vulnerability Database (EUVD)
 
+For a detailed explanation of how advisories flow through the system, see the [Workflow](workflow.md) page.
+
 ## Export Formats
 
 All advisories are exported to JSON in valid OSV schema format on the [`generated/osv` branch](https://github.com/JuliaLang/SecurityAdvisories.jl/tree/generated/osv).
