@@ -1,0 +1,8 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocumenterMermaid = "a078cd44-4d9c-4618-b545-3ab9d77f9177"
+SecurityAdvisories = "c2087171-788c-45e6-884c-aa841a74e7f5"
+
+[compat]
+Documenter = "1"
+DocumenterMermaid = "0.2"
