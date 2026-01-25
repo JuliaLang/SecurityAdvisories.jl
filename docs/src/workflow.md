@@ -195,34 +195,43 @@ graph TD
     Start["Vulnerability<br/>Discovered"] --> Decision{"Package you<br/>maintain?"}
 
     Decision -->|"Yes"| PathA["Create Draft GHSA<br/>(private)"]
-    Decision -->|"No"| PathB["Contact Maintainer<br/>Privately"]
+    Decision -->|"No"| PathB["Report via GitHub<br/>Private Reporting"]
 
     PathA --> Develop["Develop<br/>Patch"]
-    PathB --> Wait{"Response<br/>in 14 days?"}
+    PathB --> Wait{"Enabled on<br/>repository?"}
 
-    Wait -->|"Yes"| Coordinate["Coordinate<br/>Disclosure"]
+    Wait -->|"Yes"| GHReport["Submit Private<br/>Vulnerability Report"]
     Wait -->|"No"| Escalate["Contact JLSEC<br/>Team"]
 
+    GHReport --> MaintainerGHSA["Maintainer Creates<br/>Draft GHSA"]
+    MaintainerGHSA --> Develop
+    Escalate --> JLSECCoord["JLSEC Contacts<br/>Maintainer"]
+    JLSECCoord --> MaintainerGHSA
+
     Develop --> Publish["Publish GHSA<br/>with Fix"]
-    Coordinate --> Publish
-    Escalate --> JLSECCoord["JLSEC<br/>Coordinates"]
-    JLSECCoord --> Publish
 
     Publish --> AutoImport["Automated<br/>Import"]
     AutoImport --> JLSEC["JLSEC<br/>Advisory"]
 
     classDef warning fill:#ffcdd2,stroke:#c62828
-    classDef private fill:#fff3e0,stroke:#f57c00
+    classDef ghsa fill:#c8e6c9,stroke:#2e7d32
     classDef coordinate fill:#e1f5fe,stroke:#0288d1
-    classDef publish fill:#c8e6c9,stroke:#2e7d32
+    classDef escalate fill:#fff3e0,stroke:#f57c00
 
     class Start,Decision,Wait warning
-    class PathA,PathB,Escalate private
-    class Develop,Coordinate,JLSECCoord coordinate
-    class Publish,AutoImport,JLSEC publish
+    class PathA,PathB,GHReport,MaintainerGHSA,Publish ghsa
+    class Develop,AutoImport,JLSEC coordinate
+    class Escalate,JLSECCoord escalate
 ```
 
 ### Reporting Process
+
+**GitHub Security Advisories (GHSA) is the preferred method** for all vulnerability reports. It provides:
+- Private, secure communication
+- Structured vulnerability information
+- Built-in coordination tools
+- Automatic CVE assignment capability
+- Direct integration with JLSEC automated import
 
 **If you maintain the affected package:**
 
@@ -234,18 +243,20 @@ graph TD
 
 **If you found a vulnerability in someone else's package:**
 
-1. **Contact the maintainer privately** via:
-   - Email (check package repo or JuliaHub for contact)
-   - GitHub's private vulnerability reporting (if enabled)
-   - The repository's `SECURITY.md` file (if present)
-2. Allow 14 days for initial response
-3. Coordinate a disclosure timeline (typically 90 days max)
-4. If no response, contact the JLSEC team for assistance
+1. **Use GitHub's Private Vulnerability Reporting** (preferred):
+   - Go to the repository's Security tab
+   - Click "Report a vulnerability"
+   - This creates a private report visible only to maintainers
+   - See [GitHub docs](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability)
 
-**Contacting the JLSEC Team:**
+2. **If private reporting is not enabled**, contact the JLSEC team:
+   - Email: security@julialang.org
+   - The JLSEC team will coordinate with the maintainer
 
-- Email: security@julialang.org
-- Slack: `#security-dev` channel (for coordination, not vulnerability details)
+!!! tip "For Package Maintainers"
+    Enable **Private Vulnerability Reporting** on your repository to receive
+    security reports directly through GitHub. Go to Settings → Security →
+    "Private vulnerability reporting" and enable it.
 
 !!! note "No Public PRs for New Vulnerabilities"
     The SecurityAdvisories.jl repository only accepts PRs for advisories that have
