@@ -1,0 +1,12 @@
+__site/
+.DS_Store
+node_modules/
+package-lock.json
+Manifest.toml
+
+# Auto-generated pages (created at build time by utils.jl)
+advisories/JLSEC-*/
+packages/*/
+
+# Pagefind output
+pagefind/
