@@ -1,14 +1,72 @@
-    </main>
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <p>&copy; Julia Security Team &middot; <a href="https://github.com/JuliaLang/SecurityAdvisories.jl">Source</a> &middot; <a href="/feed.xml">RSS</a></p>
-        </div>
-        <div class="footer-right">
-          <p>Built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a></p>
-        </div>
-      </div>
-    </footer>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>&copy; Julia Security Team</p>
+    <p>
+      <a href="https://github.com/JuliaLang/SecurityAdvisories.jl" target="_blank" rel="noopener">Source</a>
+      &nbsp;&middot;&nbsp;
+      <a href="/feed.xml">RSS</a>
+    </p>
   </div>
+</footer>
+</div><!-- /.site-wrapper -->
+
+<script>
+(function(){
+  // Theme toggle
+  var toggle = document.getElementById('theme-toggle');
+  if(toggle) toggle.addEventListener('click', function(){
+    var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+  });
+  // Mobile nav toggle
+  var navBtn = document.getElementById('nav-toggle');
+  if(navBtn) navBtn.addEventListener('click', function(){
+    document.getElementById('site-nav').classList.toggle('open');
+  });
+  // Search modal
+  var overlay = document.getElementById('search-overlay');
+  var loaded = false;
+  var pagefindAvailable = typeof PagefindUI !== 'undefined';
+  function openSearch(){
+    overlay.classList.add('open');
+    document.body.classList.add('search-open');
+    if(!loaded){
+      loaded = true;
+      if(typeof PagefindUI !== 'undefined'){
+        new PagefindUI({
+          element: '#pagefind-container',
+          showImages: false,
+          showSubResults: true,
+          showEmptyFilters: false
+        });
+      } else {
+        var note = document.getElementById('search-dev-note');
+        if(note) note.style.display = 'block';
+      }
+    }
+    setTimeout(function(){
+      var inp = overlay.querySelector('.pagefind-ui__search-input');
+      if(inp) inp.focus();
+    }, 100);
+  }
+  function closeSearch(){
+    overlay.classList.remove('open');
+    document.body.classList.remove('search-open');
+  }
+  document.getElementById('search-open-btn').addEventListener('click', openSearch);
+  document.getElementById('search-backdrop').addEventListener('click', closeSearch);
+  document.getElementById('search-close-btn').addEventListener('click', closeSearch);
+  document.addEventListener('keydown', function(e){
+    if(e.key === '/' && !overlay.classList.contains('open') && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
+      e.preventDefault(); openSearch();
+    }
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+  });
+})();
+</script>
+<script src="/pagefind/pagefind-ui.js" type="text/javascript"></script>
 </body>
 </html>
