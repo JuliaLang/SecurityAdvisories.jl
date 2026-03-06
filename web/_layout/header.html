@@ -1,31 +1,36 @@
-<nav class="site-nav" id="site-nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="/">Julia Security</a>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-    </button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/advisories/">Advisories</a></li>
-      <li><a href="/packages/">Packages</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="https://github.com/JuliaLang/SecurityAdvisories.jl" class="nav-gh" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      </a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="nav-search-btn" id="search-open-btn" type="button" aria-label="Search">
+<div class="accent-bar"></div>
+<nav class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="/">
+      <svg class="topbar-brand-mark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Julia Security</span>
+    </a>
+    <div class="topbar-nav" id="topbar-nav">
+      <button class="nav-close-btn" id="nav-close-btn" aria-label="Close menu">&times;</button>
+      <a href="/advisories/">Advisories</a>
+      <a href="/packages/">Packages</a>
+      <a href="/about/">About</a>
+      <a href="https://github.com/JuliaLang/SecurityAdvisories.jl" target="_blank" rel="noopener">
+        GitHub
+        <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+    </div>
+    <div class="topbar-actions">
+      <button class="topbar-btn" id="search-open-btn" type="button" aria-label="Search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
         <kbd class="search-kbd">/</kbd>
       </button>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">
+      <button class="topbar-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
         <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="topbar-menu-btn" id="nav-toggle" type="button" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<!-- Search Modal -->
 <div class="search-overlay" id="search-overlay">
   <div class="search-backdrop" id="search-backdrop"></div>
   <div class="search-panel">

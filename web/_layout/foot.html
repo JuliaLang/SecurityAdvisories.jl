@@ -7,6 +7,8 @@
       <a href="https://github.com/JuliaLang/SecurityAdvisories.jl" target="_blank" rel="noopener">Source</a>
       &nbsp;&middot;&nbsp;
       <a href="/feed.xml">RSS</a>
+      &nbsp;&middot;&nbsp;
+      Built with <a href="https://github.com/JuliaDocs/Franklin.jl">Franklin</a>
     </p>
   </div>
 </footer>
@@ -23,9 +25,28 @@
   });
   // Mobile nav toggle
   var navBtn = document.getElementById('nav-toggle');
-  if(navBtn) navBtn.addEventListener('click', function(){
-    document.getElementById('site-nav').classList.toggle('open');
-  });
+  var navPanel = document.getElementById('topbar-nav');
+  var navClose = document.getElementById('nav-close-btn');
+  if(navBtn && navPanel) {
+    navBtn.addEventListener('click', function(){
+      navPanel.classList.toggle('open');
+      document.body.style.overflow = navPanel.classList.contains('open') ? 'hidden' : '';
+    });
+  }
+  if(navClose && navPanel) {
+    navClose.addEventListener('click', function(){
+      navPanel.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+  if(navPanel) {
+    navPanel.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        navPanel.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
   // Search modal
   var overlay = document.getElementById('search-overlay');
   var loaded = false;

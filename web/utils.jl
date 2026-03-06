@@ -172,15 +172,9 @@ function hfun_stats()
     for a in advs, v in a.affected
         SecurityAdvisories.is_vulnerable(v) && push!(pkgs, v.pkg)
     end
-    io = IOBuffer()
-    write(io, """<div class="stats-row">""")
-    write(io, """<div class="stat-card"><div class="stat-value">$(length(advs))</div><div class="stat-label">Advisories</div></div>""")
-    write(io, """<div class="stat-card"><div class="stat-value">$(length(pkgs))</div><div class="stat-label">Packages</div></div>""")
     cutoff = DateTime(Dates.now() - Dates.Day(30))
     recent = count(a -> something(_source_date(a), a.published, DateTime(2000)) > cutoff, advs)
-    write(io, """<div class="stat-card"><div class="stat-value">$recent</div><div class="stat-label">Last 30 days</div></div>""")
-    write(io, """</div>""")
-    return String(take!(io))
+    return """<p class="pulse-line">Tracking <strong>$(length(advs))</strong> advisories across <strong>$(length(pkgs))</strong> packages &mdash; <strong>$recent</strong> new in the last 30 days.</p>"""
 end
 
 function hfun_recent_advisories()
@@ -339,36 +333,36 @@ function hfun_advisory_detail()
     write(io, """</div>""")
     write(io, """</div>""")
 
-    write(io, """<div class="meta-grid">""")
+    write(io, """<dl class="meta-list">""")
 
     src_date = _source_date(adv)
     if src_date !== nothing
-        write(io, """<div class="meta-card"><div class="meta-label">Published (Source)</div><div class="meta-value">$(_format_date(src_date))</div></div>""")
+        write(io, """<div class="meta-row"><dt>Published (Source)</dt><dd>$(_format_date(src_date))</dd></div>""")
     end
-    write(io, """<div class="meta-card"><div class="meta-label">Added to JLSEC</div><div class="meta-value">$(_format_date(adv.published))</div></div>""")
-    write(io, """<div class="meta-card"><div class="meta-label">Modified</div><div class="meta-value">$(_format_date(adv.modified))</div></div>""")
+    write(io, """<div class="meta-row"><dt>Added to JLSEC</dt><dd>$(_format_date(adv.published))</dd></div>""")
+    write(io, """<div class="meta-row"><dt>Modified</dt><dd>$(_format_date(adv.modified))</dd></div>""")
 
     if !isempty(adv.severity)
         sev = first(adv.severity)
-        write(io, """<div class="meta-card"><div class="meta-label">Severity</div><div class="meta-value"><code>$(sev.score)</code></div></div>""")
+        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(sev.score)</code></dd></div>""")
     end
 
     if !isempty(adv.affected)
-        write(io, """<div class="meta-card"><div class="meta-label">Affected Packages</div><div class="meta-value">""")
+        write(io, """<div class="meta-row"><dt>Affected Packages</dt><dd>""")
         for v in adv.affected
             SecurityAdvisories.is_vulnerable(v) || continue
             ranges_str = join([string(r) for r in v.ranges], ", ")
             write(io, """<a class="pkg-tag" href="/packages/$(_escape(v.pkg))/">$(_escape(v.pkg))</a> <span style="font-size:0.78rem;color:var(--c-text-muted)">$(_escape(ranges_str))</span><br>""")
         end
-        write(io, """</div></div>""")
+        write(io, """</dd></div>""")
     end
 
     aliases_str = _aliases_html(adv)
     if !isempty(strip(aliases_str))
-        write(io, """<div class="meta-card"><div class="meta-label">Aliases / Upstream</div><div class="meta-value">$aliases_str</div></div>""")
+        write(io, """<div class="meta-row"><dt>Aliases / Upstream</dt><dd>$aliases_str</dd></div>""")
     end
 
-    write(io, """</div>""")
+    write(io, """</dl>""")
 
     if adv.details !== nothing
         write(io, """<div class="detail-body">""")
