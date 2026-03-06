@@ -12,6 +12,13 @@
     </p>
   </div>
 </footer>
+
+<button id="back-to-top" class="back-to-top" aria-label="Back to Top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
 </div><!-- /.site-wrapper -->
 
 <script>
@@ -23,33 +30,21 @@
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
     });
-    // Mobile nav - slide-in panel with backdrop
+    // Mobile nav - dropdown menu
     var navBtn = document.getElementById('nav-toggle');
     var navPanel = document.getElementById('topbar-nav');
-    var navClose = document.getElementById('nav-close-btn');
-
-    // Create backdrop element for mobile nav
-    var navBackdrop = document.createElement('div');
-    navBackdrop.className = 'nav-backdrop';
-    navBackdrop.id = 'nav-backdrop';
-    document.body.appendChild(navBackdrop);
-
-    function openNav() {
-      navPanel.classList.add('open');
-      navBackdrop.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeNav() {
-      navPanel.classList.remove('open');
-      navBackdrop.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    if (navBtn) navBtn.addEventListener('click', openNav);
-    if (navClose) navClose.addEventListener('click', closeNav);
-    navBackdrop.addEventListener('click', closeNav);
+    if (navBtn) navBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      navPanel.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (navPanel && navPanel.classList.contains('open') && !navPanel.contains(e.target)) {
+        navPanel.classList.remove('open');
+      }
+    });
     if (navPanel) {
-      navPanel.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', closeNav);
+      navPanel.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() { navPanel.classList.remove('open'); });
       });
     }
     // Search modal
@@ -91,6 +86,33 @@
       }
       if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
     });
+
+    // Back to top – show when scrolling up or near bottom, auto-fade after 2s
+    var btt = document.getElementById('back-to-top');
+    if (btt) {
+      var lastScrollY = window.scrollY;
+      var bttTimer;
+      function updateBtt() {
+        var cur = window.scrollY;
+        var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var nearBottom = docH > 0 && cur / docH > 0.85;
+        var scrollingUp = cur < lastScrollY;
+        lastScrollY = cur;
+        clearTimeout(bttTimer);
+        if (cur > 200 && (scrollingUp || nearBottom)) {
+          btt.classList.add('visible');
+          btt.classList.remove('idle');
+          bttTimer = setTimeout(function() { btt.classList.add('idle'); }, 2000);
+        } else if (!scrollingUp) {
+          btt.classList.remove('visible');
+        }
+      }
+      window.addEventListener('scroll', updateBtt, {passive: true});
+      btt.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        btt.classList.remove('visible');
+      });
+    }
   })();
 </script>
 <script src="/pagefind/pagefind-ui.js" type="text/javascript"></script>

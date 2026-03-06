@@ -73,14 +73,14 @@ _effective_datetime(adv::SecurityAdvisories.Advisory) =
 function _format_datetime(dt::DateTime)
     human = Dates.format(dt, "u d, yyyy")
     iso   = Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
-    """<time datetime="$iso" title="$iso">$human</time>"""
+    """<time datetime="$iso" data-tip="$iso">$human</time>"""
 end
 _format_datetime(::Nothing) = "—"
 
 function _format_datetime_plain(dt::DateTime)
     human = Dates.format(dt, "u d, yyyy")
     iso   = Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
-    """<time datetime="$iso" title="$iso">$human</time>"""
+    """<time datetime="$iso" data-tip="$iso">$human</time>"""
 end
 _format_datetime_plain(::Nothing) = "—"
 
@@ -304,6 +304,18 @@ function hfun_package_index()
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
 
+    letters_available = Set([uppercase(string(first(pkg))) for (pkg, _) in sorted])
+    write(io, """<nav class="alpha-toc" id="alpha-toc">""")
+    for ch in 'A':'Z'
+        l = string(ch)
+        if l in letters_available
+            write(io, """<a href="#letter-$l">$l</a>""")
+        else
+            write(io, """<span class="alpha-toc-disabled">$l</span>""")
+        end
+    end
+    write(io, "</nav>")
+
     write(io, """<div id="pkg-list">""")
     current_letter = ""
     for (pkg, count) in sorted
@@ -312,7 +324,7 @@ function hfun_package_index()
             current_letter != "" && write(io, "</div>")
             current_letter = letter
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
-            write(io, """<div class="pkg-alpha-heading">$letter</div>""")
+            write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
         write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))">""")
         write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
@@ -493,5 +505,57 @@ function hfun_generate_advisory_pages()
     total_pkgs = pkg_generated + pkg_skipped
     elapsed = round(time() - t0; digits=2)
     _log("Pages: $total_advs advisories ($adv_generated new), $total_pkgs packages ($pkg_generated new) [$(elapsed)s]"; level=:done)
+
+    _write_atom_feed(advs)
     ""
+end
+
+function _xml_safe(s::AbstractString)
+    s = replace(s, r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]" => "")
+    replace(replace(replace(replace(replace(s,
+        "&" => "&amp;"), "<" => "&lt;"), ">" => "&gt;"),
+        "\"" => "&quot;"), "'" => "&apos;")
+end
+
+function _write_atom_feed(advs)
+    site_dir = joinpath(@__DIR__, "__site")
+    isdir(site_dir) || mkpath(site_dir)
+    feed_path = joinpath(site_dir, "feed.xml")
+
+    site_url  = rstrip(Franklin.globvar(:website_url)::String, '/')
+    site_title = Franklin.globvar(:website_title)::String
+    site_descr = Franklin.globvar(:website_description)::String
+    updated = Dates.format(now(Dates.UTC), "yyyy-mm-ddTHH:MM:SS") * "Z"
+
+    open(feed_path, "w") do io
+        write(io, """<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>$(_xml_safe(site_title))</title>
+  <subtitle>$(_xml_safe(site_descr))</subtitle>
+  <link href="$site_url/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="$site_url" rel="alternate" type="text/html"/>
+  <id>$site_url/</id>
+  <updated>$updated</updated>
+  <author><name>Julia Security Team</name></author>
+""")
+        for adv in advs
+            summary = _xml_safe(something(adv.summary, adv.id))
+            pub_dt  = _effective_datetime(adv)
+            iso_pub = Dates.format(pub_dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
+            iso_mod = adv.modified !== nothing ?
+                Dates.format(adv.modified, "yyyy-mm-ddTHH:MM:SS") * "Z" : iso_pub
+            adv_url = "$site_url/advisories/$(adv.id)/"
+            write(io, """  <entry>
+    <title>$(adv.id): $summary</title>
+    <link href="$adv_url" rel="alternate" type="text/html"/>
+    <id>$adv_url</id>
+    <published>$iso_pub</published>
+    <updated>$iso_mod</updated>
+    <summary>Security advisory $(adv.id): $summary</summary>
+  </entry>
+""")
+        end
+        write(io, "</feed>")
+    end
+    _log("Wrote Atom feed with $(length(advs)) entries"; level=:done)
 end
