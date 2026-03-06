@@ -2,7 +2,9 @@ name: Deploy Website
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - JuliaSec-Website
     paths:
       - 'web/**'
       - 'advisories/**'
