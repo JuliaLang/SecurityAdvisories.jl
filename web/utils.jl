@@ -12,115 +12,136 @@ function _log(msg; level=:info)
     println("  $prefix [$ts] $msg")
 end
 
-let _cache = Ref{Union{Nothing, Vector{SecurityAdvisories.Advisory}}}(nothing)
-    global function load_all_advisories(; force=false)
-        if !force && _cache[] !== nothing
-            return _cache[]
-        end
+# Advisory loading & caching
+
+let _cache = Ref{Union{Nothing,Vector{SecurityAdvisories.Advisory}}}(nothing)
+    global function load_all_advisories(; force::Bool=false)
+        !force && _cache[] !== nothing && return _cache[]
         t0 = time()
         advisories = SecurityAdvisories.Advisory[]
         isdir(ADVISORIES_DIR) || return advisories
-        parsed = 0
-        failed = 0
+        parsed = failed = 0
         for (root, _, files) in walkdir(ADVISORIES_DIR)
             for file in files
                 endswith(file, ".md") || continue
                 try
-                    adv = SecurityAdvisories.parsefile(joinpath(root, file))
-                    push!(advisories, adv)
+                    push!(advisories, SecurityAdvisories.parsefile(joinpath(root, file)))
                     parsed += 1
                 catch e
                     failed += 1
-                    @warn "Failed to parse $file" exception=e
+                    @warn "Failed to parse $file" exception = e
                 end
             end
         end
-        sort!(advisories, by=a -> something(_source_date(a), a.published, DateTime(2000)), rev=true)
-        elapsed = round(time() - t0, digits=2)
+        sort!(advisories; by=_effective_datetime, rev=true)
+        elapsed = round(time() - t0; digits=2)
         _log("Loaded $parsed advisories in $(elapsed)s$(failed > 0 ? " ($failed failed)" : "")")
         _cache[] = advisories
-        return advisories
     end
 
-    global function invalidate_advisory_cache!()
-        _cache[] = nothing
-    end
+    global invalidate_advisory_cache!() = (_cache[] = nothing)
 end
 
+#  Dates
+#
+# Advisory databases (NVD, GHSA, OSV) canonically use the **published**
+# date — the date the vulnerability was first publicly disclosed.  When a
+# JLSEC entry was imported from an upstream source the original
+# publication timestamp lives in `jlsec_sources[].published`; otherwise
+# `advisory.published` records when it was added to this database.
+#
+# We always sort and display by the *effective* publication datetime
+# (source date when available, JLSEC publication date otherwise) so that
+# upstream-imported advisories appear in chronological order relative to
+# when they were actually disclosed, not when they were ingested.
+#
+# In the UI every date is rendered as a `<time>` element with
+#  - visible text  → human-friendly "Nov 28, 2025"
+#  - title tooltip → full ISO-8601 UTC "2025-11-28T19:09:30Z"
+# Hovering any date reveals the precise timestamp.
+
+function _source_published(adv::SecurityAdvisories.Advisory)
+    for src in adv.jlsec_sources
+        src.published !== nothing && return src.published
+    end
+    nothing
+end
+
+_effective_datetime(adv::SecurityAdvisories.Advisory) =
+    something(_source_published(adv), adv.published, DateTime(2000))
+
+function _format_datetime(dt::DateTime)
+    human = Dates.format(dt, "u d, yyyy")
+    iso   = Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
+    """<time datetime="$iso" title="$iso">$human</time>"""
+end
+_format_datetime(::Nothing) = "—"
+
+function _format_datetime_plain(dt::DateTime)
+    human = Dates.format(dt, "u d, yyyy")
+    iso   = Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
+    """<time datetime="$iso" title="$iso">$human</time>"""
+end
+_format_datetime_plain(::Nothing) = "—"
+
+_display_date(adv) = _format_datetime(something(_source_published(adv), adv.published, nothing))
+
+_display_date_inline(adv) =
+    _format_datetime_plain(something(_source_published(adv), adv.published, nothing))
+
+# HTML helpers
+
 function _escape(s::AbstractString)
-    s = replace(s, "&" => "&amp;")
-    s = replace(s, "<" => "&lt;")
-    s = replace(s, ">" => "&gt;")
-    s = replace(s, "\"" => "&quot;")
-    return s
+    replace(replace(replace(replace(s,
+        "&" => "&amp;"),
+        "<" => "&lt;"),
+        ">" => "&gt;"),
+        "\"" => "&quot;")
 end
 
 function _truncate(s::AbstractString, n::Int=120)
     length(s) <= n && return s
-    return s[1:prevind(s, n)] * "…"
+    s[1:prevind(s, n)] * "…"
 end
 
-function _source_date(adv)
-    isempty(adv.jlsec_sources) && return nothing
-    for src in adv.jlsec_sources
-        src.published !== nothing && return src.published
-    end
-    return nothing
-end
+_advisory_url(adv) = "/advisories/$(adv.id)/"
 
-function _format_date(dt::DateTime)
-    short = Dates.format(dt, "u d, yyyy")
-    iso = Dates.format(dt, "yyyy-mm-ddTHH:MM:SS") * "Z"
-    return """<time datetime="$iso" title="$iso">$short</time>"""
-end
-_format_date(::Nothing) = "—"
-_format_date_plain(dt::DateTime) = Dates.format(dt, "u d, yyyy")
-_format_date_plain(::Nothing) = "—"
-
-function _display_date(adv)
-    src_date = _source_date(adv)
-    src_date !== nothing && return _format_date(src_date)
-    return _format_date(adv.published)
-end
-_display_date_plain(adv) = _format_date_plain(something(_source_date(adv), adv.published, nothing))
-
-function _advisory_url(adv)
-    "/advisories/$(adv.id)/"
-end
-
-function _advisory_file_path(adv)
+_advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
-end
 
-const _CVSS3_AV = Dict('N'=>0.85, 'A'=>0.62, 'L'=>0.55, 'P'=>0.20)
-const _CVSS3_AC = Dict('L'=>0.77, 'H'=>0.44)
-const _CVSS3_PR_U = Dict('N'=>0.85, 'L'=>0.62, 'H'=>0.27)
-const _CVSS3_PR_C = Dict('N'=>0.85, 'L'=>0.68, 'H'=>0.50)
-const _CVSS3_UI = Dict('N'=>0.85, 'R'=>0.62)
-const _CVSS3_CIA = Dict('N'=>0.0, 'L'=>0.22, 'H'=>0.56)
+# CVSS v3 base score calculation
+# The SecurityAdvisories.jl package stores CVSS vectors as strings but
+# does not compute numeric scores.  We implement the CVSS v3.x
+# specification here for rendering severity badges in the web UI.
 
-function _cvss3_base_score(vector::AbstractString)
-    metrics = Dict{String,Char}()
+const _AV  = Dict('N' => 0.85, 'A' => 0.62, 'L' => 0.55, 'P' => 0.20)
+const _AC  = Dict('L' => 0.77, 'H' => 0.44)
+const _PRU = Dict('N' => 0.85, 'L' => 0.62, 'H' => 0.27)
+const _PRC = Dict('N' => 0.85, 'L' => 0.68, 'H' => 0.50)
+const _UI  = Dict('N' => 0.85, 'R' => 0.62)
+const _CIA = Dict('N' => 0.0,  'L' => 0.22, 'H' => 0.56)
+
+function _cvss3_base_score(vector::AbstractString)::Union{Nothing,Float64}
+    m = Dict{String,Char}()
     for part in split(vector, '/')
         kv = split(part, ':')
-        length(kv) == 2 && (metrics[kv[1]] = first(kv[2]))
+        length(kv) == 2 && (m[kv[1]] = first(kv[2]))
     end
-    av = get(_CVSS3_AV, get(metrics, "AV", ' '), nothing)
-    ac = get(_CVSS3_AC, get(metrics, "AC", ' '), nothing)
-    scope_changed = get(metrics, "S", 'U') == 'C'
-    pr_map = scope_changed ? _CVSS3_PR_C : _CVSS3_PR_U
-    pr = get(pr_map, get(metrics, "PR", ' '), nothing)
-    ui = get(_CVSS3_UI, get(metrics, "UI", ' '), nothing)
-    c = get(_CVSS3_CIA, get(metrics, "C", ' '), nothing)
-    i = get(_CVSS3_CIA, get(metrics, "I", ' '), nothing)
-    a = get(_CVSS3_CIA, get(metrics, "A", ' '), nothing)
+    av = get(_AV, get(m, "AV", ' '), nothing)
+    ac = get(_AC, get(m, "AC", ' '), nothing)
+    sc = get(m, "S", 'U') == 'C'
+    pr = get(sc ? _PRC : _PRU, get(m, "PR", ' '), nothing)
+    ui = get(_UI, get(m, "UI", ' '), nothing)
+    c  = get(_CIA, get(m, "C", ' '), nothing)
+    i  = get(_CIA, get(m, "I", ' '), nothing)
+    a  = get(_CIA, get(m, "A", ' '), nothing)
     any(isnothing, (av, ac, pr, ui, c, i, a)) && return nothing
     iss = 1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a)
-    impact = scope_changed ? 7.52 * (iss - 0.029) - 3.25 * (iss - 0.02)^15 : 6.42 * iss
+    impact = sc ? 7.52(iss - 0.029) - 3.25(iss - 0.02)^15 : 6.42iss
     impact <= 0 && return 0.0
-    exploitability = 8.22 * av * ac * pr * ui
-    base = scope_changed ? min(1.08 * (impact + exploitability), 10.0) : min(impact + exploitability, 10.0)
-    return ceil(base * 10) / 10
+    exploit = 8.22 * av * ac * pr * ui
+    base = sc ? min(1.08(impact + exploit), 10.0) : min(impact + exploit, 10.0)
+    ceil(base * 10) / 10
 end
 
 function _severity_label(score::Float64)
@@ -128,7 +149,7 @@ function _severity_label(score::Float64)
     score >= 7.0 && return ("High", "high")
     score >= 4.0 && return ("Medium", "medium")
     score >= 0.1 && return ("Low", "low")
-    return ("None", "info")
+    ("None", "info")
 end
 
 function _severity_badge(adv)
@@ -138,43 +159,72 @@ function _severity_badge(adv)
         score = _cvss3_base_score(sev.score)
         if score !== nothing
             label, cls = _severity_label(score)
-            return """<span class="severity-badge severity-$cls" title="$(sev.score)">$label $(round(score, digits=1))</span>"""
+            return """<span class="severity-badge severity-$cls" title="$(_escape(sev.score))">$label $(round(score; digits=1))</span>"""
         end
     end
-    return """<span class="severity-badge severity-info" title="$(sev.score)">$(sev.type)</span>"""
+    """<span class="severity-badge severity-info" title="$(_escape(sev.score))">$(sev.type)</span>"""
 end
+
+function _severity_class(adv)
+    isempty(adv.severity) && return ""
+    sev = first(adv.severity)
+    score = _cvss3_base_score(sev.score)
+    score === nothing ? "" : last(_severity_label(score))
+end
+
+# Alias / cross-reference rendering
 
 function _aliases_html(adv)
     io = IOBuffer()
     seen = Set{String}()
-    for a in Iterators.flatten((adv.aliases, adv.upstream))
-        a in seen && continue
-        push!(seen, a)
-        url = if startswith(a, "CVE-")
-            "https://nvd.nist.gov/vuln/detail/$a"
-        elseif startswith(a, "GHSA-")
-            "https://github.com/advisories/$a"
+    for alias in Iterators.flatten((adv.aliases, adv.upstream))
+        alias in seen && continue
+        push!(seen, alias)
+        url = if startswith(alias, "CVE-")
+            "https://nvd.nist.gov/vuln/detail/$alias"
+        elseif startswith(alias, "GHSA-")
+            "https://github.com/advisories/$alias"
         else
             nothing
         end
         if url !== nothing
-            write(io, """<a href="$(_escape(url))">$(_escape(a))</a> """)
+            write(io, """<a href="$(_escape(url))">$(_escape(alias))</a> """)
         else
-            write(io, """$(_escape(a)) """)
+            write(io, "$(_escape(alias)) ")
         end
     end
-    return String(take!(io))
+    String(take!(io))
 end
+
+# Shared advisory-row renderer
+# Used by recent_advisories, all_advisories, and package_advisories to
+# keep list-item markup consistent.
+
+function _write_advisory_row(io::IOBuffer, adv;
+        extra_attrs::String="", summary_len::Int=90)
+    summary = something(adv.summary, "No summary available")
+    badge = _severity_badge(adv)
+    write(io, """<a href="$(_advisory_url(adv))" class="advisory-item"$extra_attrs>""")
+    write(io, """<span class="advisory-id">$(adv.id)</span>""")
+    write(io, """<span class="advisory-badge">$badge</span>""")
+    write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, summary_len)))</span>""")
+    write(io, """<span class="advisory-meta">$(_display_date_inline(adv))</span>""")
+    write(io, "</a>")
+end
+
+# Franklin hfun_ page functions
 
 function hfun_stats()
     advs = load_all_advisories()
     pkgs = Set{String}()
-    for a in advs, v in a.affected
-        SecurityAdvisories.is_vulnerable(v) && push!(pkgs, v.pkg)
+    for a in advs
+        for pkg in SecurityAdvisories.vulnerable_packages(a)
+            push!(pkgs, pkg)
+        end
     end
     cutoff = DateTime(Dates.now() - Dates.Day(30))
-    recent = count(a -> something(_source_date(a), a.published, DateTime(2000)) > cutoff, advs)
-    return """<p class="pulse-line">Tracking <strong>$(length(advs))</strong> advisories across <strong>$(length(pkgs))</strong> packages &mdash; <strong>$recent</strong> new in the last 30 days.</p>"""
+    recent = count(a -> _effective_datetime(a) > cutoff, advs)
+    """<p class="pulse-line">Tracking <strong>$(length(advs))</strong> advisories across <strong>$(length(pkgs))</strong> packages &mdash; <strong>$recent</strong> new in the last 30 days.</p>"""
 end
 
 function hfun_recent_advisories()
@@ -182,18 +232,11 @@ function hfun_recent_advisories()
     n = min(10, length(advs))
     io = IOBuffer()
     write(io, """<div class="advisory-list">""")
-    for adv in advs[1:n]
-        summary = something(adv.summary, "No summary available")
-        badge = _severity_badge(adv)
-        write(io, """<a href="$(_advisory_url(adv))" class="advisory-item">""")
-        write(io, """<span class="advisory-id">$(adv.id)</span>""")
-        write(io, """<span class="advisory-badge">$badge</span>""")
-        write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, 90)))</span>""")
-        write(io, """<span class="advisory-meta">$(_display_date_plain(adv))</span>""")
-        write(io, """</a>""")
+    for adv in @view advs[1:n]
+        _write_advisory_row(io, adv)
     end
-    write(io, """</div>""")
-    return String(take!(io))
+    write(io, "</div>")
+    String(take!(io))
 end
 
 function hfun_all_advisories()
@@ -202,31 +245,24 @@ function hfun_all_advisories()
 
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()">""")
-    write(io, """<select id="adv-filter-severity" onchange="filterAdvisories()"><option value="">All severities</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>""")
+    write(io, """<select id="adv-filter-severity" onchange="filterAdvisories()">""")
+    write(io, """<option value="">All severities</option>""")
+    for sev in ("critical", "high", "medium", "low")
+        write(io, """<option value="$sev">$(uppercasefirst(sev))</option>""")
+    end
+    write(io, "</select>")
     write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
-    write(io, """</div>""")
+    write(io, "</div>")
 
     write(io, """<div class="advisory-list" id="advisory-list">""")
     for adv in advs
+        sev_cls = _severity_class(adv)
+        pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
         summary = something(adv.summary, "No summary available")
-        badge = _severity_badge(adv)
-        sev_class = ""
-        if !isempty(adv.severity)
-            s = first(adv.severity)
-            score = _cvss3_base_score(s.score)
-            if score !== nothing
-                _, sev_class = _severity_label(score)
-            end
-        end
-        pkgs_str = join([v.pkg for v in adv.affected if SecurityAdvisories.is_vulnerable(v)], " ")
-        write(io, """<a href="$(_advisory_url(adv))" class="advisory-item" data-severity="$sev_class" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))">""")
-        write(io, """<span class="advisory-id">$(adv.id)</span>""")
-        write(io, """<span class="advisory-badge">$badge</span>""")
-        write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, 90)))</span>""")
-        write(io, """<span class="advisory-meta">$(_display_date_plain(adv))</span>""")
-        write(io, """</a>""")
+        attrs = """ data-severity="$sev_cls" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        _write_advisory_row(io, adv; extra_attrs=attrs)
     end
-    write(io, """</div>""")
+    write(io, "</div>")
 
     write(io, """
 <script>
@@ -249,28 +285,31 @@ function filterAdvisories(){
 }
 filterAdvisories();
 </script>""")
-    return String(take!(io))
+    String(take!(io))
 end
 
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
-    for a in advs, v in a.affected
-        SecurityAdvisories.is_vulnerable(v) || continue
-        pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
+    for a in advs
+        for pkg in SecurityAdvisories.vulnerable_packages(a)
+            pkg_counts[pkg] = get(pkg_counts, pkg, 0) + 1
+        end
     end
-    sorted = sort(collect(pkg_counts), by=x -> lowercase(x[1]))
+    sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
 
     io = IOBuffer()
-    write(io, """<div class="filter-bar"><input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()"><span class="filter-count" id="pkg-filter-count"></span></div>""")
+    write(io, """<div class="filter-bar">""")
+    write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
+    write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
+    write(io, "</div>")
+
     write(io, """<div id="pkg-list">""")
     current_letter = ""
     for (pkg, count) in sorted
         letter = uppercase(string(first(pkg)))
         if letter != current_letter
-            if current_letter != ""
-                write(io, """</div>""")
-            end
+            current_letter != "" && write(io, "</div>")
             current_letter = letter
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading">$letter</div>""")
@@ -278,12 +317,10 @@ function hfun_package_index()
         write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))">""")
         write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
-        write(io, """</a>""")
+        write(io, "</a>")
     end
-    if current_letter != ""
-        write(io, """</div>""")
-    end
-    write(io, """</div>""")
+    current_letter != "" && write(io, "</div>")
+    write(io, "</div>")
 
     write(io, """
 <script>
@@ -297,16 +334,17 @@ function filterPackages(){
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
-    var visible = sec.querySelectorAll('.pkg-list-item[style=""],.pkg-list-item:not([style])');
     var any = false;
-    sec.querySelectorAll('.pkg-list-item').forEach(function(el){ if(el.style.display!=='none') any=true; });
+    sec.querySelectorAll('.pkg-list-item').forEach(function(el){
+      if(el.style.display !== 'none') any = true;
+    });
     sec.style.display = any ? '' : 'none';
   });
   document.getElementById('pkg-filter-count').textContent = shown + ' of ' + items.length;
 }
 filterPackages();
 </script>""")
-    return String(take!(io))
+    String(take!(io))
 end
 
 function hfun_advisory_detail()
@@ -330,31 +368,32 @@ function hfun_advisory_detail()
     write(io, """<a href="$REPO_BASE/edit/main/$fpath">Edit</a>""")
     write(io, """<a href="$REPO_BASE/commits/main/$fpath">History</a>""")
     write(io, """<a href="https://api.osv.dev/v1/vulns/$(adv.id)" target="_blank" rel="noopener">JSON (OSV)</a>""")
-    write(io, """</div>""")
-    write(io, """</div>""")
+    write(io, "</div></div>")
 
+    # Metadata – rendered as a definition list, no cards.
     write(io, """<dl class="meta-list">""")
 
-    src_date = _source_date(adv)
-    if src_date !== nothing
-        write(io, """<div class="meta-row"><dt>Published (Source)</dt><dd>$(_format_date(src_date))</dd></div>""")
+    src_pub = _source_published(adv)
+    if src_pub !== nothing
+        write(io, """<div class="meta-row"><dt>Published</dt><dd>$(_format_datetime(src_pub))</dd></div>""")
     end
-    write(io, """<div class="meta-row"><dt>Added to JLSEC</dt><dd>$(_format_date(adv.published))</dd></div>""")
-    write(io, """<div class="meta-row"><dt>Modified</dt><dd>$(_format_date(adv.modified))</dd></div>""")
+    write(io, """<div class="meta-row"><dt>Added to JLSEC</dt><dd>$(_format_datetime(adv.published))</dd></div>""")
+    write(io, """<div class="meta-row"><dt>Modified</dt><dd>$(_format_datetime(adv.modified))</dd></div>""")
 
     if !isempty(adv.severity)
         sev = first(adv.severity)
-        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(sev.score)</code></dd></div>""")
+        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(_escape(sev.score))</code></dd></div>""")
     end
 
-    if !isempty(adv.affected)
+    vuln_entries = filter(SecurityAdvisories.is_vulnerable, adv.affected)
+    if !isempty(vuln_entries)
         write(io, """<div class="meta-row"><dt>Affected Packages</dt><dd>""")
-        for v in adv.affected
-            SecurityAdvisories.is_vulnerable(v) || continue
-            ranges_str = join([string(r) for r in v.ranges], ", ")
-            write(io, """<a class="pkg-tag" href="/packages/$(_escape(v.pkg))/">$(_escape(v.pkg))</a> <span style="font-size:0.78rem;color:var(--c-text-muted)">$(_escape(ranges_str))</span><br>""")
+        for v in vuln_entries
+            ranges_str = join(string.(v.ranges), ", ")
+            write(io, """<a class="pkg-tag" href="/packages/$(_escape(v.pkg))/">$(_escape(v.pkg))</a> """)
+            write(io, """<span style="font-size:0.78rem;color:var(--c-text-muted)">$(_escape(ranges_str))</span><br>""")
         end
-        write(io, """</dd></div>""")
+        write(io, "</dd></div>")
     end
 
     aliases_str = _aliases_html(adv)
@@ -362,47 +401,40 @@ function hfun_advisory_detail()
         write(io, """<div class="meta-row"><dt>Aliases / Upstream</dt><dd>$aliases_str</dd></div>""")
     end
 
-    write(io, """</dl>""")
+    write(io, "</dl>")
 
     if adv.details !== nothing
         write(io, """<div class="detail-body">""")
-        write(io, Franklin.fd2html(adv.details, internal=true))
-        write(io, """</div>""")
+        write(io, Franklin.fd2html(adv.details; internal=true))
+        write(io, "</div>")
     end
 
     if !isempty(adv.references)
-        write(io, """<h3>References</h3><ul>""")
+        write(io, "<h3>References</h3><ul>")
         for ref in adv.references
-            write(io, """<li><a href="$(_escape(ref.url))">$(_escape(_truncate(ref.url, 100)))</a></li>""")
+            write(io, """<li><a href="$(_escape(ref.url))">$(_escape(ref.url))</a></li>""")
         end
-        write(io, """</ul>""")
+        write(io, "</ul>")
     end
 
-    return String(take!(io))
+    String(take!(io))
 end
 
 function hfun_package_advisories()
     pkg = locvar(:package_name)
     pkg === nothing && return "<p>Package not specified.</p>"
     advs = load_all_advisories()
-    filtered = filter(a -> any(v -> v.pkg == pkg && SecurityAdvisories.is_vulnerable(v), a.affected), advs)
+    filtered = filter(advs) do a
+        any(v -> v.pkg == pkg && SecurityAdvisories.is_vulnerable(v), a.affected)
+    end
     io = IOBuffer()
     write(io, """<div class="advisory-list">""")
     for adv in filtered
-        summary = something(adv.summary, "No summary available")
-        badge = _severity_badge(adv)
-        write(io, """<a href="$(_advisory_url(adv))" class="advisory-item">""")
-        write(io, """<span class="advisory-id">$(adv.id)</span>""")
-        write(io, """<span class="advisory-badge">$badge</span>""")
-        write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, 90)))</span>""")
-        write(io, """<span class="advisory-meta">$(_display_date_plain(adv))</span>""")
-        write(io, """</a>""")
+        _write_advisory_row(io, adv)
     end
-    write(io, """</div>""")
-    if isempty(filtered)
-        write(io, "<p>No advisories found for $(_escape(pkg)).</p>")
-    end
-    return String(take!(io))
+    write(io, "</div>")
+    isempty(filtered) && write(io, "<p>No advisories found for $(_escape(pkg)).</p>")
+    String(take!(io))
 end
 
 function hfun_generate_advisory_pages()
@@ -411,11 +443,10 @@ function hfun_generate_advisory_pages()
 
     if IS_DEV
         _log("DEV MODE: limiting to $DEV_LIMIT advisories (set FRANKLIN_DEV_LIMIT to change)"; level=:warn)
-        advs = advs[1:min(DEV_LIMIT, length(advs))]
+        advs = @view advs[1:min(DEV_LIMIT, length(advs))]
     end
 
-    adv_generated = 0
-    adv_skipped = 0
+    adv_generated = adv_skipped = 0
     for adv in advs
         dirpath = joinpath(@__DIR__, "advisories", adv.id)
         mkpath(dirpath)
@@ -428,20 +459,20 @@ function hfun_generate_advisory_pages()
         open(filepath, "w") do f
             write(f, """@def title = "$(_escape(summary))"\n""")
             write(f, """@def advisory_id = "$(adv.id)"\n\n""")
-            write(f, """{{advisory_detail}}\n""")
+            write(f, "{{advisory_detail}}\n")
         end
         adv_generated += 1
     end
 
-    advs_pkgs = Dict{String,Vector{String}}()
-    for adv in advs, v in adv.affected
-        SecurityAdvisories.is_vulnerable(v) || continue
-        push!(get!(advs_pkgs, v.pkg, String[]), adv.id)
+    pkg_set = Dict{String,Vector{String}}()
+    for adv in advs
+        for pkg in SecurityAdvisories.vulnerable_packages(adv)
+            push!(get!(pkg_set, pkg, String[]), adv.id)
+        end
     end
 
-    pkg_generated = 0
-    pkg_skipped = 0
-    for (pkg, _) in advs_pkgs
+    pkg_generated = pkg_skipped = 0
+    for (pkg, _) in pkg_set
         dirpath = joinpath(@__DIR__, "packages", pkg)
         mkpath(dirpath)
         filepath = joinpath(dirpath, "index.md")
@@ -450,17 +481,17 @@ function hfun_generate_advisory_pages()
             continue
         end
         open(filepath, "w") do f
-            write(f, """@def title = "$(pkg) Advisories"\n""")
-            write(f, """@def package_name = "$(pkg)"\n\n""")
-            write(f, """# $(pkg)\n\n""")
-            write(f, """{{package_advisories}}\n""")
+            write(f, """@def title = "$pkg Advisories"\n""")
+            write(f, """@def package_name = "$pkg"\n\n""")
+            write(f, "# $pkg\n\n")
+            write(f, "{{package_advisories}}\n")
         end
         pkg_generated += 1
     end
 
-    elapsed = round(time() - t0, digits=2)
     total_advs = adv_generated + adv_skipped
     total_pkgs = pkg_generated + pkg_skipped
+    elapsed = round(time() - t0; digits=2)
     _log("Pages: $total_advs advisories ($adv_generated new), $total_pkgs packages ($pkg_generated new) [$(elapsed)s]"; level=:done)
-    return ""
+    ""
 end
