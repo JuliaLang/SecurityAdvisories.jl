@@ -36,7 +36,7 @@ jobs:
       - name: Pre-generate advisory pages
         run: |
           cd web
-          julia --project=. pre_generate.jl
+          julia --project=. pre_generate.jl --clean
 
       - name: Build site
         run: |

@@ -40,12 +40,27 @@ function main()
         println("  · DEV: limiting to $limit advisories")
     end
 
-    adv_new = 0
+    clean = "--clean" in ARGS
+    if clean
+        for d in (joinpath(@__DIR__, "advisories"), joinpath(@__DIR__, "packages"))
+            for entry in readdir(d; join=true)
+                basename(entry) == "index.md" && continue
+                isdir(entry) && rm(entry; recursive=true)
+            end
+        end
+        println("  · Cleaned generated pages")
+    end
+
+    adv_written = 0
+    adv_skipped = 0
     for adv in advisories
         dirpath = joinpath(@__DIR__, "advisories", adv.id)
         mkpath(dirpath)
         filepath = joinpath(dirpath, "index.md")
-        isfile(filepath) && continue
+        if isfile(filepath) && !clean
+            adv_skipped += 1
+            continue
+        end
         summary = _sanitize(something(adv.summary, adv.id))
         pub_dt = _effective_datetime(adv)
         rss_y, rss_m, rss_d = Dates.year(pub_dt), Dates.month(pub_dt), Dates.day(pub_dt)
@@ -57,7 +72,7 @@ function main()
             write(f, """@def rss_description = "Security advisory $(adv.id): $summary"\n\n""")
             write(f, "{{advisory_detail}}\n")
         end
-        adv_new += 1
+        adv_written += 1
     end
 
     pkg_counts = Dict{String, Vector{String}}()
@@ -67,23 +82,34 @@ function main()
         end
     end
 
-    pkg_new = 0
+    pkg_written = 0
+    pkg_skipped = 0
     for (pkg, _) in pkg_counts
         dirpath = joinpath(@__DIR__, "packages", pkg)
         mkpath(dirpath)
         filepath = joinpath(dirpath, "index.md")
-        isfile(filepath) && continue
+        if isfile(filepath) && !clean
+            pkg_skipped += 1
+            continue
+        end
         open(filepath, "w") do f
             write(f, """@def title = "$pkg Advisories"\n""")
             write(f, """@def package_name = "$pkg"\n\n""")
             write(f, "# $pkg\n\n")
             write(f, "{{package_advisories}}\n")
         end
-        pkg_new += 1
+        pkg_written += 1
     end
 
     elapsed = round(time() - t0; digits=2)
-    println("  ✓ Pre-generated $adv_new advisory pages, $pkg_new package pages in $(elapsed)s")
+    total_adv = adv_written + adv_skipped
+    total_pkg = pkg_written + pkg_skipped
+    parts = String[]
+    adv_written > 0 && push!(parts, "wrote $adv_written advisory pages")
+    adv_skipped > 0 && push!(parts, "$adv_skipped already existed")
+    pkg_written > 0 && push!(parts, "wrote $pkg_written package pages")
+    pkg_skipped > 0 && push!(parts, "$pkg_skipped already existed")
+    println("  ✓ $(total_adv) advisory + $(total_pkg) package pages ($(join(parts, ", "))) in $(elapsed)s")
 end
 
 main()
