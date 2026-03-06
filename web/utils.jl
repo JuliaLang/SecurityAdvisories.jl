@@ -380,7 +380,6 @@ function hfun_advisory_detail()
     write(io, """<a href="https://api.osv.dev/v1/vulns/$(adv.id)" target="_blank" rel="noopener">JSON (OSV)</a>""")
     write(io, "</div></div>")
 
-    # Metadata – rendered as a definition list, no cards.
     write(io, """<dl class="meta-list">""")
 
     src_pub = _source_published(adv)

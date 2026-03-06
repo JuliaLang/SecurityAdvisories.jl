@@ -550,7 +550,6 @@ time[data-tip]:hover::after {
 .advisory-detail-header {
   margin-bottom: 1.5rem;
   padding-bottom: 1.1rem;
-  border-bottom: 1px solid var(--c-border);
 }
 
 .advisory-detail-header h1 {
@@ -907,4 +906,3 @@ a.pkg-tag:hover { background: var(--c-accent); color: #fff; text-decoration: non
     height: 2.2rem;
   }
 }
-
