@@ -3,7 +3,8 @@ using Dates
 
 const ADVISORIES_DIR = joinpath(@__DIR__, "..", "advisories", "published")
 
-function _escape(s::AbstractString)
+function _sanitize(s::AbstractString)
+    s = replace(s, "\\" => "\\\\")
     replace(replace(replace(replace(s,
         "&" => "&amp;"), "<" => "&lt;"), ">" => "&gt;"), "\"" => "&quot;")
 end
@@ -33,16 +34,27 @@ function main()
     sort!(advisories; by=_effective_datetime, rev=true)
     println("  · Loaded $(length(advisories)) advisories")
 
+    limit = parse(Int, get(ENV, "FRANKLIN_DEV_LIMIT", "0"))
+    if limit > 0
+        advisories = advisories[1:min(limit, length(advisories))]
+        println("  · DEV: limiting to $limit advisories")
+    end
+
     adv_new = 0
     for adv in advisories
         dirpath = joinpath(@__DIR__, "advisories", adv.id)
         mkpath(dirpath)
         filepath = joinpath(dirpath, "index.md")
         isfile(filepath) && continue
-        summary = something(adv.summary, adv.id)
+        summary = _sanitize(something(adv.summary, adv.id))
+        pub_dt = _effective_datetime(adv)
+        rss_y, rss_m, rss_d = Dates.year(pub_dt), Dates.month(pub_dt), Dates.day(pub_dt)
         open(filepath, "w") do f
-            write(f, """@def title = "$(_escape(summary))"\n""")
-            write(f, """@def advisory_id = "$(adv.id)"\n\n""")
+            write(f, """@def title = "$summary"\n""")
+            write(f, """@def advisory_id = "$(adv.id)"\n""")
+            write(f, """@def rss_title = "$(adv.id): $summary"\n""")
+            write(f, """@def rss_pubdate = Date($rss_y, $rss_m, $rss_d)\n""")
+            write(f, """@def rss_description = "Security advisory $(adv.id): $summary"\n\n""")
             write(f, "{{advisory_detail}}\n")
         end
         adv_new += 1

@@ -1,7 +1,5 @@
 @def title = "Julia Security Advisories"
 
-{{generate_advisory_pages}}
-
 ~~~
 <div class="hero">
   <h1 class="hero-title">Julia Security<br>Advisories</h1>
