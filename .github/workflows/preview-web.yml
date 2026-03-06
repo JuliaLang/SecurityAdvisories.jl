@@ -30,6 +30,11 @@ jobs:
           cd web
           julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate()'
 
+      - name: Pre-generate advisory pages
+        run: |
+          cd web
+          julia --project=. pre_generate.jl --clean
+
       - name: Build site
         run: |
           cd web
