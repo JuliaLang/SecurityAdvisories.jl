@@ -1,53 +1,73 @@
 <div class="accent-bar"></div>
 <nav class="topbar" id="topbar">
-  <div class="topbar-inner">
-    <a class="topbar-brand" href="/">Julia Security</a>
-    <div class="topbar-nav" id="topbar-nav">
-      <div class="topbar-nav-header">
-        <span class="topbar-nav-title">Menu</span>
-        <button class="nav-close-btn" id="nav-close-btn" aria-label="Close menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <a href="/advisories/">Advisories</a>
-      <a href="/packages/">Packages</a>
-      <a href="/about/">About</a>
-      <a href="https://github.com/JuliaLang/SecurityAdvisories.jl" target="_blank" rel="noopener">
-        GitHub
-        <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
+    <div class="topbar-inner">
+        <a class="topbar-brand" href="/">Julia Security</a>
+        <div class="topbar-nav" id="topbar-nav">
+            <div class="topbar-nav-header">
+                <span class="topbar-nav-title">Menu</span>
+                <button class="nav-close-btn" id="nav-close-btn" aria-label="Close menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <path d="M18 6 6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <a href="/advisories/">Advisories</a>
+            <a href="/packages/">Packages</a>
+            <a href="/about/">About</a>
+            <a href="https://github.com/JuliaLang/SecurityAdvisories.jl" target="_blank" rel="noopener">
+                GitHub
+                <svg class="ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+            </a>
+        </div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" id="search-open-btn" type="button" aria-label="Search">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <kbd class="search-kbd">/</kbd>
+            </button>
+            <button class="topbar-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
+                <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+            </button>
+            <button class="topbar-menu-btn" id="nav-toggle" type="button" aria-label="Menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
     </div>
-    <div class="topbar-actions">
-      <button class="topbar-btn" id="search-open-btn" type="button" aria-label="Search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-        <kbd class="search-kbd">/</kbd>
-      </button>
-      <button class="topbar-btn" id="theme-toggle" type="button" aria-label="Toggle theme">
-        <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      </button>
-      <button class="topbar-menu-btn" id="nav-toggle" type="button" aria-label="Menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
-    </div>
-  </div>
 </nav>
 
 <div class="search-overlay" id="search-overlay">
-  <div class="search-backdrop" id="search-backdrop"></div>
-  <div class="search-panel">
-    <div class="search-panel-header">
-      <span>Search</span>
-      <button class="search-close-btn" id="search-close-btn">Esc</button>
+    <div class="search-backdrop" id="search-backdrop"></div>
+    <div class="search-panel">
+        <div class="search-panel-header">
+            <span>Search</span>
+            <button class="search-close-btn" id="search-close-btn">Esc</button>
+        </div>
+        <div class="search-panel-body">
+            <div id="pagefind-container"></div>
+            <div id="search-dev-note" class="search-dev-note" style="display:none;">
+                Search is not available in local development.<br>
+                Run <code>npx pagefind --site __site</code> after building to enable it.
+            </div>
+        </div>
     </div>
-    <div class="search-panel-body">
-      <div id="pagefind-container"></div>
-      <div id="search-dev-note" class="search-dev-note" style="display:none;">
-        Search is not available in local development.<br>
-        Run <code>npx pagefind --site __site</code> after building to enable it.
-      </div>
-    </div>
-  </div>
 </div>
 
 <main class="content-main" data-pagefind-body>

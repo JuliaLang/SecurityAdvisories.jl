@@ -28,19 +28,4 @@ cd web
 julia --project -e 'using Franklin; optimize()'
 ```
 
-## Structure
-
-| Path | Purpose |
-|------|---------|
-| `_layout/` | HTML templates (head, header, footer) |
-| `_css/` | Stylesheets |
-| `_assets/` | Static assets (favicon, images) |
-| `utils.jl` | Advisory loading + HTML-generating `hfun_*` functions |
-| `config.md` | Franklin global configuration |
-| `index.md` | Homepage |
-| `advisories/` | Advisory listing and auto-generated per-advisory pages |
-| `packages/` | Package listing and auto-generated per-package pages |
-| `search/` | Search page (Pagefind) |
-| `about/` | About page |
-
 Auto-generated `advisories/JLSEC-*/` and `packages/*/` directories are created at build time by `hfun_generate_advisory_pages` in `utils.jl` and are git-ignored.

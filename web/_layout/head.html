@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,14 @@
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
   <link rel="alternate" type="application/rss+xml" title="Julia Security Advisories" href="/feed.xml">
   <script>
-    (function(){
+    (function () {
       var t = localStorage.getItem('theme');
       if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', t);
     })();
   </script>
 </head>
+
 <body>
-<div class="site-wrapper">
-{{insert header.html}}
+  <div class="site-wrapper">
+    {{insert header.html}}

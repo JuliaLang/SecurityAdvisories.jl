@@ -15,84 +15,85 @@
 </div><!-- /.site-wrapper -->
 
 <script>
-(function(){
-  // Theme toggle
-  var toggle = document.getElementById('theme-toggle');
-  if(toggle) toggle.addEventListener('click', function(){
-    var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('theme', t);
-  });
-  // Mobile nav - slide-in panel with backdrop
-  var navBtn = document.getElementById('nav-toggle');
-  var navPanel = document.getElementById('topbar-nav');
-  var navClose = document.getElementById('nav-close-btn');
-
-  // Create backdrop element for mobile nav
-  var navBackdrop = document.createElement('div');
-  navBackdrop.className = 'nav-backdrop';
-  navBackdrop.id = 'nav-backdrop';
-  document.body.appendChild(navBackdrop);
-
-  function openNav() {
-    navPanel.classList.add('open');
-    navBackdrop.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeNav() {
-    navPanel.classList.remove('open');
-    navBackdrop.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  if (navBtn) navBtn.addEventListener('click', openNav);
-  if (navClose) navClose.addEventListener('click', closeNav);
-  navBackdrop.addEventListener('click', closeNav);
-  if (navPanel) {
-    navPanel.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', closeNav);
+  (function () {
+    // Theme toggle
+    var toggle = document.getElementById('theme-toggle');
+    if (toggle) toggle.addEventListener('click', function () {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
     });
-  }
-  // Search modal
-  var overlay = document.getElementById('search-overlay');
-  var loaded = false;
-  var pagefindAvailable = typeof PagefindUI !== 'undefined';
-  function openSearch(){
-    overlay.classList.add('open');
-    document.body.classList.add('search-open');
-    if(!loaded){
-      loaded = true;
-      if(typeof PagefindUI !== 'undefined'){
-        new PagefindUI({
-          element: '#pagefind-container',
-          showImages: false,
-          showSubResults: true,
-          showEmptyFilters: false
-        });
-      } else {
-        var note = document.getElementById('search-dev-note');
-        if(note) note.style.display = 'block';
+    // Mobile nav - slide-in panel with backdrop
+    var navBtn = document.getElementById('nav-toggle');
+    var navPanel = document.getElementById('topbar-nav');
+    var navClose = document.getElementById('nav-close-btn');
+
+    // Create backdrop element for mobile nav
+    var navBackdrop = document.createElement('div');
+    navBackdrop.className = 'nav-backdrop';
+    navBackdrop.id = 'nav-backdrop';
+    document.body.appendChild(navBackdrop);
+
+    function openNav() {
+      navPanel.classList.add('open');
+      navBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeNav() {
+      navPanel.classList.remove('open');
+      navBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    if (navBtn) navBtn.addEventListener('click', openNav);
+    if (navClose) navClose.addEventListener('click', closeNav);
+    navBackdrop.addEventListener('click', closeNav);
+    if (navPanel) {
+      navPanel.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeNav);
+      });
+    }
+    // Search modal
+    var overlay = document.getElementById('search-overlay');
+    var loaded = false;
+    var pagefindAvailable = typeof PagefindUI !== 'undefined';
+    function openSearch() {
+      overlay.classList.add('open');
+      document.body.classList.add('search-open');
+      if (!loaded) {
+        loaded = true;
+        if (typeof PagefindUI !== 'undefined') {
+          new PagefindUI({
+            element: '#pagefind-container',
+            showImages: false,
+            showSubResults: true,
+            showEmptyFilters: false
+          });
+        } else {
+          var note = document.getElementById('search-dev-note');
+          if (note) note.style.display = 'block';
+        }
       }
+      setTimeout(function () {
+        var inp = overlay.querySelector('.pagefind-ui__search-input');
+        if (inp) inp.focus();
+      }, 100);
     }
-    setTimeout(function(){
-      var inp = overlay.querySelector('.pagefind-ui__search-input');
-      if(inp) inp.focus();
-    }, 100);
-  }
-  function closeSearch(){
-    overlay.classList.remove('open');
-    document.body.classList.remove('search-open');
-  }
-  document.getElementById('search-open-btn').addEventListener('click', openSearch);
-  document.getElementById('search-backdrop').addEventListener('click', closeSearch);
-  document.getElementById('search-close-btn').addEventListener('click', closeSearch);
-  document.addEventListener('keydown', function(e){
-    if(e.key === '/' && !overlay.classList.contains('open') && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
-      e.preventDefault(); openSearch();
+    function closeSearch() {
+      overlay.classList.remove('open');
+      document.body.classList.remove('search-open');
     }
-    if(e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
-  });
-})();
+    document.getElementById('search-open-btn').addEventListener('click', openSearch);
+    document.getElementById('search-backdrop').addEventListener('click', closeSearch);
+    document.getElementById('search-close-btn').addEventListener('click', closeSearch);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === '/' && !overlay.classList.contains('open') && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+        e.preventDefault(); openSearch();
+      }
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeSearch();
+    });
+  })();
 </script>
 <script src="/pagefind/pagefind-ui.js" type="text/javascript"></script>
 </body>
+
 </html>
