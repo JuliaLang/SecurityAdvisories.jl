@@ -40,7 +40,7 @@ jobs:
           FRANKLIN_PREPATH: SecurityAdvisories.jl/pr-previews/${{ github.event.pull_request.number }}
         run: |
           cd web
-          julia --project=. -e 'using Franklin; optimize(prerender=true, minify=true)'
+          julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
 
       - name: Build search index
         run: npx pagefind --site web/__site
