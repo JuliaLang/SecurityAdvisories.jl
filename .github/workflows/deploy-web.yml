@@ -1,0 +1,56 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - main
+      - JuliaSec-Website
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: |
+          cd web
+          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate(); Pkg.add("NodeJS"); using NodeJS; run(`$(npm_cmd()) install highlight.js`);'
+
+      - name: Pre-generate advisory pages
+        run: |
+          cd web
+          julia --project=. pre_generate.jl --clean
+
+      - name: Build site
+        env:
+          FRANKLIN_PREPATH: SecurityAdvisories.jl
+        run: |
+          cd web
+          julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
+
+      - name: Build search index
+        run: npx pagefind --site web/__site
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: web/__site
+          publish_branch: gh-pages

@@ -1,0 +1,89 @@
+name: PR Preview
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-and-preview:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: |
+          cd web
+          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate(); Pkg.add("NodeJS"); using NodeJS; run(`$(npm_cmd()) install highlight.js`);'
+
+      - name: Pre-generate advisory pages
+        run: |
+          cd web
+          julia --project=. pre_generate.jl --clean
+
+      - name: Build site
+        env:
+          FRANKLIN_PREPATH: SecurityAdvisories.jl/pr-previews/${{ github.event.pull_request.number }}
+        run: |
+          cd web
+          julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
+
+      - name: Build search index
+        run: npx pagefind --site web/__site
+
+      - name: Deploy preview
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: web/__site
+          target-folder: pr-previews/${{ github.event.pull_request.number }}
+          clean: false
+          commit-message: Deploy preview for PR ${{ github.event.pull_request.number }}
+
+      - name: Comment preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            <!-- preview-url-comment -->
+            Preview: https://julialang.github.io/SecurityAdvisories.jl/pr-previews/${{ github.event.pull_request.number }}/
+          comment_tag: preview-url-comment
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove preview directory
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PREVIEW_DIR="pr-previews/${PR_NUMBER}"
+          if [ -d "${PREVIEW_DIR}" ]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git pull origin gh-pages
+            rm -rf "${PREVIEW_DIR}"
+            git add .
+            git diff --staged --quiet || git commit -m "Remove preview for PR #${PR_NUMBER}"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        var dark = t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        document.documentElement.style.backgroundColor = dark ? '#1a1b2e' : '#f8f9fb';
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f9fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1b2e" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root { color-scheme: light dark; }
+    html[data-theme="light"] { background-color: #f8f9fb; color: #1b1f27; }
+    html[data-theme="dark"] { background-color: #1a1b2e; color: #d0d4e0; }
+    body { background-color: transparent !important; color: inherit !important; margin: 0; }
+  </style>
+  <title>{{isnotpage /}}{{fill title}} &middot; {{end}}Julia Security Advisories</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" media="print" onload="this.media='all'">
+  <script src="/pagefind/pagefind-ui.js" defer></script>
+  <link rel="alternate" type="application/rss+xml" title="Julia Security Advisories" href="/feed.xml">
+</head>
+
+<body>
+  <div class="site-wrapper">
+    {{insert header.html}}
