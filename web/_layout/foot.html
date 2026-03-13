@@ -14,8 +14,9 @@
 </footer>
 
 <button id="back-to-top" class="back-to-top" aria-label="Back to Top">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 19V5M5 12l7-7 7 7"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+    stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7" />
   </svg>
 </button>
 
@@ -23,22 +24,12 @@
 
 <script>
   (function () {
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        document.documentElement.classList.remove('no-transition');
-      });
-    });
-
     window.addEventListener('pageshow', function (e) {
       if (e.persisted) {
-        var cl = document.documentElement.classList;
         var t = localStorage.getItem('theme') ||
-                (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        cl.add('no-transition');
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', t);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () { cl.remove('no-transition'); });
-        });
+
       }
     });
 
@@ -50,18 +41,18 @@
     });
     var navBtn = document.getElementById('nav-toggle');
     var navPanel = document.getElementById('topbar-nav');
-    if (navBtn) navBtn.addEventListener('click', function(e) {
+    if (navBtn) navBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       navPanel.classList.toggle('open');
     });
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (navPanel && navPanel.classList.contains('open') && !navPanel.contains(e.target)) {
         navPanel.classList.remove('open');
       }
     });
     if (navPanel) {
-      navPanel.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function() { navPanel.classList.remove('open'); });
+      navPanel.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { navPanel.classList.remove('open'); });
       });
     }
     var overlay = document.getElementById('search-overlay');
@@ -115,8 +106,8 @@
         }
       }
 
-      window.addEventListener('scroll', updateBtt, {passive: true});
-      btt.addEventListener('click', function() {
+      window.addEventListener('scroll', updateBtt, { passive: true });
+      btt.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }

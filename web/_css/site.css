@@ -84,7 +84,6 @@ body {
   color: var(--c-text);
   line-height: 1.7;
   min-height: 100vh;
-  transition: background 0.2s, color 0.2s;
 }
 
 .site-wrapper {
@@ -120,7 +119,6 @@ img {
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: background 0.2s, border-color 0.2s;
 }
 
 .topbar-inner {
@@ -829,9 +827,7 @@ a.pkg-tag:hover {
   border-color: var(--c-accent);
 }
 
-.no-transition * {
-  transition: none !important;
-}
+
 
 .withdrawn-notice {
   margin: 1rem 0 1.5rem;

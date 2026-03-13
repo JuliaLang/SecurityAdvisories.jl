@@ -7,17 +7,27 @@
   <meta name="color-scheme" content="light dark">
   <script>
     (function () {
-      var cl = document.documentElement.classList;
       var t = localStorage.getItem('theme');
       if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', t);
-      cl.add('no-transition');
     })();
   </script>
   <style>
-    :root { color-scheme: light dark; }
-    html, body { background-color: #f8f9fb; color: #1b1f27; }
-    html[data-theme="dark"], html[data-theme="dark"] body { background-color: #1a1b2e; color: #d0d4e0; }
+    :root {
+      color-scheme: light dark;
+    }
+
+    html,
+    body {
+      background-color: #f8f9fb;
+      color: #1b1f27;
+    }
+
+    html[data-theme="dark"],
+    html[data-theme="dark"] body {
+      background-color: #1a1b2e;
+      color: #d0d4e0;
+    }
   </style>
   <title>{{isnotpage /}}{{fill title}} &middot; {{end}}Julia Security Advisories</title>
   <link rel="icon" type="image/png" href="/assets/favicon.png">
