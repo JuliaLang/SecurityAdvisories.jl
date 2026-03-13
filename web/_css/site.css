@@ -141,6 +141,12 @@ img {
   transition: opacity 0.15s;
 }
 
+.topbar-brand img {
+  vertical-align: middle;
+  margin-right: 7px;
+  border-radius: 3px;
+}
+
 .topbar-brand:hover {
   color: var(--c-text);
   text-decoration: none;
@@ -376,6 +382,7 @@ body.search-open {
   text-align: center;
   padding: 2rem 1rem;
   line-height: 1.6;
+  display: none;
 }
 
 .search-dev-note code {
