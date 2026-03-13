@@ -639,6 +639,18 @@ time[data-tip]:hover::after {
 }
 a.pkg-tag:hover { background: var(--c-accent); color: #fff; text-decoration: none; border-color: var(--c-accent); }
 
+.withdrawn-notice {
+  margin: 1rem 0 1.5rem;
+  padding: 0.75em 1em;
+  border-left: 4px solid var(--c-critical);
+  background: var(--c-critical-bg);
+  color: var(--c-critical);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 .detail-body { line-height: 1.75; }
 .detail-body h2 { margin-top: 1.8rem; }
 .detail-body h3 { margin-top: 1.2rem; }

@@ -377,8 +377,15 @@ function hfun_advisory_detail()
     write(io, """<a href="$REPO_BASE/blob/main/$fpath">Source</a>""")
     write(io, """<a href="$REPO_BASE/edit/main/$fpath">Edit</a>""")
     write(io, """<a href="$REPO_BASE/commits/main/$fpath">History</a>""")
+    write(io, """<a href="https://osv.dev/vulnerability/$(adv.id)" target="_blank" rel="noopener">OSV</a>""")
     write(io, """<a href="https://api.osv.dev/v1/vulns/$(adv.id)" target="_blank" rel="noopener">JSON (OSV)</a>""")
     write(io, "</div></div>")
+
+    if adv.withdrawn !== nothing
+        iso = Dates.format(adv.withdrawn, "yyyy-mm-ddTHH:MM:SS") * "Z"
+        human = Dates.format(adv.withdrawn, "u d, yyyy")
+        write(io, """<div class="withdrawn-notice">⚠ This advisory was withdrawn on <time datetime="$iso" data-tip="$iso">$human</time>. It may have been issued in error or superseded.</div>""")
+    end
 
     write(io, """<dl class="meta-list">""")
 
@@ -388,6 +395,10 @@ function hfun_advisory_detail()
     end
     write(io, """<div class="meta-row"><dt>Added to JLSEC</dt><dd>$(_format_datetime(adv.published))</dd></div>""")
     write(io, """<div class="meta-row"><dt>Modified</dt><dd>$(_format_datetime(adv.modified))</dd></div>""")
+
+    if adv.withdrawn !== nothing
+        write(io, """<div class="meta-row"><dt>Withdrawn</dt><dd>$(_format_datetime(adv.withdrawn))</dd></div>""")
+    end
 
     if !isempty(adv.severity)
         sev = first(adv.severity)
