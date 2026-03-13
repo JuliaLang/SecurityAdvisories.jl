@@ -2,32 +2,25 @@
 <html lang="en">
 
 <head>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('jlsec-theme');
+        if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
-  <script>
-    (function () {
-      var t = localStorage.getItem('theme');
-      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
   <style>
-    :root {
-      color-scheme: light dark;
-    }
-
-    html,
-    body {
-      background-color: #f8f9fb;
-      color: #1b1f27;
-    }
-
-    html[data-theme="dark"],
-    html[data-theme="dark"] body {
-      background-color: #1a1b2e;
-      color: #d0d4e0;
-    }
+    :root { color-scheme: light dark; }
+    html[data-theme="light"], html[data-theme="light"] body { background-color: #f8f9fb; color: #1b1f27; }
+    html[data-theme="dark"], html[data-theme="dark"] body { background-color: #1a1b2e; color: #d0d4e0; }
   </style>
   <title>{{isnotpage /}}{{fill title}} &middot; {{end}}Julia Security Advisories</title>
   <link rel="icon" type="image/png" href="/assets/favicon.png">

@@ -26,10 +26,11 @@
   (function () {
     window.addEventListener('pageshow', function (e) {
       if (e.persisted) {
-        var t = localStorage.getItem('theme') ||
-          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', t);
-
+        try {
+          var t = localStorage.getItem('jlsec-theme') ||
+            (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
       }
     });
 
@@ -37,7 +38,7 @@
     if (toggle) toggle.addEventListener('click', function () {
       var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', t);
-      localStorage.setItem('theme', t);
+      try { localStorage.setItem('jlsec-theme', t); } catch(e) {}
     });
     var navBtn = document.getElementById('nav-toggle');
     var navPanel = document.getElementById('topbar-nav');
