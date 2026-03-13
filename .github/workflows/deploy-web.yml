@@ -26,12 +26,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: |
           cd web
-          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate()'
+          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate(); using NodeJS; run(`$(npm_cmd()) install highlight.js`);'
 
       - name: Pre-generate advisory pages
         run: |
@@ -43,7 +43,7 @@ jobs:
           FRANKLIN_PREPATH: SecurityAdvisories.jl
         run: |
           cd web
-          julia --project=. -e 'using Franklin; optimize()'
+          julia --project=. -e 'using Franklin; optimize(prerender=true, minify=true)'
 
       - name: Build search index
         run: npx pagefind --site web/__site
