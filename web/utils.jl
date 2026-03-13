@@ -202,9 +202,10 @@ function _write_advisory_row(io::IOBuffer, adv;
         extra_attrs::String="", summary_len::Int=90)
     summary = something(adv.summary, "No summary available")
     badge = _severity_badge(adv)
+    withdrawn_badge = adv.withdrawn !== nothing ? """<span class="withdrawn-badge">Withdrawn</span>""" : ""
     write(io, """<a href="$(_advisory_url(adv))" class="advisory-item"$extra_attrs>""")
     write(io, """<span class="advisory-id">$(adv.id)</span>""")
-    write(io, """<span class="advisory-badge">$badge</span>""")
+    write(io, """<span class="advisory-badge">$badge$withdrawn_badge</span>""")
     write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, summary_len)))</span>""")
     write(io, """<span class="advisory-meta">$(_display_date_inline(adv))</span>""")
     write(io, "</a>")
@@ -243,12 +244,12 @@ function hfun_all_advisories()
 
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()">""")
-    write(io, """<select id="adv-filter-severity" onchange="filterAdvisories()">""")
-    write(io, """<option value="">All severities</option>""")
+    write(io, """<div class="sev-btns" id="adv-sev-btns">""")
+    write(io, """<button class="sev-btn active" data-sev="">All</button>""")
     for sev in ("critical", "high", "medium", "low")
-        write(io, """<option value="$sev">$(uppercasefirst(sev))</option>""")
+        write(io, """<button class="sev-btn sev-btn-$sev" data-sev="$sev">$(uppercasefirst(sev))</button>""")
     end
-    write(io, "</select>")
+    write(io, "</div>")
     write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
     write(io, "</div>")
 
@@ -264,9 +265,20 @@ function hfun_all_advisories()
 
     write(io, """
 <script>
+(function(){
+  var btns = document.querySelectorAll('#adv-sev-btns .sev-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      filterAdvisories();
+    });
+  });
+})();
 function filterAdvisories(){
   var text = document.getElementById('adv-filter-text').value.toLowerCase();
-  var sev = document.getElementById('adv-filter-severity').value;
+  var activeBtn = document.querySelector('#adv-sev-btns .sev-btn.active');
+  var sev = activeBtn ? activeBtn.getAttribute('data-sev') : '';
   var items = document.querySelectorAll('#advisory-list .advisory-item');
   var shown = 0;
   items.forEach(function(el){

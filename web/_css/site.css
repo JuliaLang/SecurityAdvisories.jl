@@ -982,15 +982,51 @@ a.pkg-tag:hover {
   color: var(--c-text-muted);
 }
 
-.filter-bar select {
-  padding: 0.55rem 0.65rem;
-  background: var(--c-surface);
-  border: 1px solid var(--c-border);
-  border-radius: 8px;
-  color: var(--c-text);
-  font-size: 0.9rem;
-  font-family: inherit;
+.sev-btns {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.sev-btn {
+  padding: 0.28em 0.75em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  border-radius: 20px;
+  border: 1.5px solid var(--c-border);
+  background: transparent;
+  color: var(--c-text-muted);
   cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.sev-btn:hover        { background: var(--c-surface-hover); color: var(--c-text); border-color: var(--c-text-muted); }
+.sev-btn.active       { background: var(--c-surface); color: var(--c-text); border-color: var(--c-text); }
+
+.sev-btn-critical:hover, .sev-btn-critical.active { background: var(--c-critical-bg); color: var(--c-critical); border-color: var(--c-critical); }
+.sev-btn-high:hover,     .sev-btn-high.active     { background: var(--c-high-bg);     color: var(--c-high);     border-color: var(--c-high); }
+.sev-btn-medium:hover,   .sev-btn-medium.active   { background: var(--c-medium-bg);   color: var(--c-medium);   border-color: var(--c-medium); }
+.sev-btn-low:hover,      .sev-btn-low.active      { background: var(--c-low-bg);      color: var(--c-low);      border-color: var(--c-low); }
+
+.withdrawn-badge {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  border: 1px solid var(--c-border);
+  vertical-align: middle;
+  margin-left: 0.2em;
 }
 
 .filter-count {
