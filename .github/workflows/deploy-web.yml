@@ -39,9 +39,11 @@ jobs:
           julia --project=. pre_generate.jl --clean
 
       - name: Build site
+        env:
+          FRANKLIN_PREPATH: SecurityAdvisories.jl
         run: |
           cd web
-          julia --project=. -e 'using Franklin; optimize(prepath="SecurityAdvisories.jl", minify=true)'
+          julia --project=. -e 'using Franklin; optimize()'
 
       - name: Build search index
         run: npx pagefind --site web/__site
