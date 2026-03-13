@@ -86,27 +86,19 @@
 
     var btt = document.getElementById('back-to-top');
     if (btt) {
-      var lastScrollY = window.scrollY;
-      var bttTimer;
+      var showThreshold = 220;
+
       function updateBtt() {
-        var cur = window.scrollY;
-        var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        var nearBottom = docH > 0 && cur / docH > 0.85;
-        var scrollingUp = cur < lastScrollY;
-        lastScrollY = cur;
-        clearTimeout(bttTimer);
-        if (cur > 200 && (scrollingUp || nearBottom)) {
+        if (window.scrollY > showThreshold) {
           btt.classList.add('visible');
-          btt.classList.remove('idle');
-          bttTimer = setTimeout(function() { btt.classList.add('idle'); }, 2000);
-        } else if (!scrollingUp) {
+        } else {
           btt.classList.remove('visible');
         }
       }
+
       window.addEventListener('scroll', updateBtt, {passive: true});
       btt.addEventListener('click', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        btt.classList.remove('visible');
       });
     }
   })();

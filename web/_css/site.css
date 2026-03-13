@@ -772,39 +772,61 @@ a.pkg-tag:hover { background: var(--c-accent); color: #fff; text-decoration: non
   margin-left: auto;
 }
 
-.action-row {
-  display: flex;
-  flex-direction: column;
+.home-paths {
   margin-top: 2.5rem;
+  padding-top: 2rem;
   border-top: 2px solid var(--c-border);
 }
+  
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
 
-.action-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0.25rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--c-text);
-  border-bottom: 1px solid var(--c-border-subtle);
+.path-card {
+  display: block;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  background: var(--c-surface);
+  box-shadow: var(--shadow-sm);
   text-decoration: none !important;
-  transition: color 0.15s, padding-left 0.2s;
-}
-.action-link:hover {
-  color: var(--c-accent);
-  padding-left: 0.5rem;
+  color: inherit;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s, background 0.15s;
 }
 
-.action-link-arrow {
+.path-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--c-accent);
+  background: var(--c-surface-hover);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.path-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--c-text-muted);
-  transition: color 0.15s, transform 0.2s;
-  font-size: 1.1rem;
 }
 
-.action-link:hover .action-link-arrow {
-  color: var(--c-accent);
-  transform: translateX(4px);
+.path-title {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.path-copy {
+  display: block;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--c-text-secondary);
 }
 
 .about-content { max-width: 680px; }
@@ -888,10 +910,6 @@ a.pkg-tag:hover { background: var(--c-accent); color: #fff; text-decoration: non
   visibility: visible;
   transform: translateY(0);
 }
-.back-to-top.idle {
-  opacity: 0;
-  visibility: hidden;
-}
 .back-to-top:hover {
   background: var(--c-accent);
   color: #fff;
@@ -904,5 +922,10 @@ a.pkg-tag:hover { background: var(--c-accent); color: #fff; text-decoration: non
     right: 1rem;
     width: 2.2rem;
     height: 2.2rem;
+  }
+}
+@media (max-width: 900px) {
+  .path-grid {
+    grid-template-columns: 1fr;
   }
 }

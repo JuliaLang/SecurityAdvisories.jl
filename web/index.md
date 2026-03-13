@@ -9,23 +9,28 @@
 
 {{stats}}
 
-~~~<div class="section-header"><h2>Latest</h2><a href="/advisories/">View all →</a></div>~~~
+~~~<div class="section-header"><h2>Latest</h2><a href="/advisories/">View all &rarr;</a></div>~~~
 
 {{recent_advisories}}
 
 ~~~
-<div class="action-row">
-  <a href="/advisories/" class="action-link">
-    <span>Browse all advisories</span>
-    <span class="action-link-arrow">→</span>
-  </a>
-  <a href="/packages/" class="action-link">
-    <span>Explore affected packages</span>
-    <span class="action-link-arrow">→</span>
-  </a>
-  <a href="https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md" class="action-link">
-    <span>Report a vulnerability</span>
-    <span class="action-link-arrow">→</span>
-  </a>
+<div class="home-paths">
+  <div class="path-grid">
+    <a class="path-card" href="/advisories/">
+      <span class="path-label">Read</span>
+      <span class="path-title">Browse advisories</span>
+      <span class="path-copy">See published advisories, recent disclosures, and the affected version ranges.</span>
+    </a>
+    <a class="path-card" href="/packages/">
+      <span class="path-label">Explore</span>
+      <span class="path-title">Check affected packages</span>
+      <span class="path-copy">Find packages in the Julia ecosystem that already have published security advisories.</span>
+    </a>
+    <a class="path-card" href="https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md">
+      <span class="path-label">Contribute</span>
+      <span class="path-title">Report/Update an advisory</span>
+      <span class="path-copy">Read the reporting guidance, contribution process, and advisory update workflow.</span>
+    </a>
+  </div>
 </div>
 ~~~
