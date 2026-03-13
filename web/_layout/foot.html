@@ -19,10 +19,29 @@
   </svg>
 </button>
 
-</div><!-- /.site-wrapper -->
+</div>
 
 <script>
   (function () {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        document.documentElement.classList.remove('no-transition');
+      });
+    });
+
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        var cl = document.documentElement.classList;
+        var t = localStorage.getItem('theme') ||
+                (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        cl.add('no-transition');
+        document.documentElement.setAttribute('data-theme', t);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { cl.remove('no-transition'); });
+        });
+      }
+    });
+
     var toggle = document.getElementById('theme-toggle');
     if (toggle) toggle.addEventListener('click', function () {
       var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';

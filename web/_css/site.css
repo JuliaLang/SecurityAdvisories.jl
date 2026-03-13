@@ -829,6 +829,10 @@ a.pkg-tag:hover {
   border-color: var(--c-accent);
 }
 
+.no-transition * {
+  transition: none !important;
+}
+
 .withdrawn-notice {
   margin: 1rem 0 1.5rem;
   padding: 0.7em 1em;
