@@ -4,10 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body { background-color: #f8f9fb; color: #1b1f27; }
-    html[data-theme="dark"], html[data-theme="dark"] body { background-color: #1a1b2e; color: #d0d4e0; }
-  </style>
+  <meta name="color-scheme" content="light dark">
   <script>
     (function () {
       var cl = document.documentElement.classList;
@@ -17,6 +14,11 @@
       cl.add('no-transition');
     })();
   </script>
+  <style>
+    :root { color-scheme: light dark; }
+    html, body { background-color: #f8f9fb; color: #1b1f27; }
+    html[data-theme="dark"], html[data-theme="dark"] body { background-color: #1a1b2e; color: #d0d4e0; }
+  </style>
   <title>{{isnotpage /}}{{fill title}} &middot; {{end}}Julia Security Advisories</title>
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <link rel="stylesheet" href="/css/site.css">
