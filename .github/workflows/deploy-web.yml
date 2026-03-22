@@ -45,6 +45,12 @@ jobs:
           cd web
           julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
 
+      - name: Process HTML links
+        uses: shravanngoswamii/html-link-action@v1
+        with:
+          site-dir: web/__site
+          nofollow: true
+
       - name: Build search index
         run: npx pagefind --site web/__site
 
