@@ -42,16 +42,17 @@ end
 
 #  Dates
 #
-# Advisory databases (NVD, GHSA, OSV) canonically use the **published**
-# date — the date the vulnerability was first publicly disclosed.  When a
-# JLSEC entry was imported from an upstream source the original
-# publication timestamp lives in `jlsec_sources[].published`; otherwise
-# `advisory.published` records when it was added to this database.
+# `advisory.published` is the date the JLSEC team created and issued the
+# entry — consistent with how RustSec and the Haskell advisory database
+# treat "published".  For advisories imported from an upstream source
+# (CVE, GHSA, OSV…) the original upstream disclosure timestamp lives in
+# `jlsec_sources[].published` and is used only for sorting, not displayed
+# in the UI.
 #
-# We always sort and display by the *effective* publication datetime
-# (source date when available, JLSEC publication date otherwise) so that
-# upstream-imported advisories appear in chronological order relative to
-# when they were actually disclosed, not when they were ingested.
+# We sort by the *effective* publication datetime (upstream source date
+# when available, JLSEC published date otherwise) so that
+# historically-imported advisories appear in chronological order relative
+# to when the vulnerability was originally disclosed.
 #
 # In the UI every date is rendered as a `<time>` element with
 #  - visible text  → human-friendly "Nov 28, 2025"
@@ -401,11 +402,7 @@ function hfun_advisory_detail()
 
     write(io, """<dl class="meta-list">""")
 
-    src_pub = _source_published(adv)
-    if src_pub !== nothing
-        write(io, """<div class="meta-row"><dt>Published</dt><dd>$(_format_datetime(src_pub))</dd></div>""")
-    end
-    write(io, """<div class="meta-row"><dt>Added to JLSEC</dt><dd>$(_format_datetime(adv.published))</dd></div>""")
+    write(io, """<div class="meta-row"><dt>JLSEC Published</dt><dd>$(_format_datetime(adv.published))</dd></div>""")
     write(io, """<div class="meta-row"><dt>Modified</dt><dd>$(_format_datetime(adv.modified))</dd></div>""")
 
     if adv.withdrawn !== nothing
