@@ -3,6 +3,9 @@ name: PR Preview
 on:
   pull_request_target:
     types: [opened, synchronize, closed]
+    # but only when we there are changes in the web directory
+    paths:
+      - 'web/**'
 
 permissions:
   contents: write
