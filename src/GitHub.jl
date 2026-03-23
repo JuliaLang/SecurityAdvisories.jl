@@ -130,9 +130,13 @@ function fetch_advisories(hours::Int = DEFAULT_HOURS)
     return all_advisories
 end
 
-function fetch_file(owner, repo, path)
+function fetch_file(owner, repo, path; ref=nothing)
     headers = build_headers(content_type = "application/vnd.github.raw+json")
-    response = HTTP.get(string(GITHUB_API_BASE, "/repos/", owner, "/", repo, "/contents/", path), headers)
+    url = string(GITHUB_API_BASE, "/repos/", owner, "/", repo, "/contents/", path)
+    if ref !== nothing
+        url *= "?ref=$ref"
+    end
+    response = HTTP.get(url, headers)
     if response.status != 200
         error("Failed to fetch $owner/$repo/$path: HTTP $(response.status)")
     end
