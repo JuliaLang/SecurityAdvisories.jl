@@ -1,25 +1,33 @@
 name = "SecurityAdvisories"
 uuid = "c2087171-788c-45e6-884c-aa841a74e7f5"
-authors = ["Matt Bauman <mbauman@juliahub.com>"]
 version = "1.0.0"
+authors = ["Matt Bauman <mbauman@juliahub.com>"]
 
 [deps]
 CodecZlib = "944b1d66-785c-5afd-91f1-9de20f533193"
 CommonMark = "a80b9123-70ca-4bc0-993e-6e3bcb318db6"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+GeneralMetadata = "4a600115-d4d8-4abf-a446-0aa1ef6151e0"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Repology = "daaac842-7662-4d75-9bda-b596e444bdc5"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 Tar = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
 TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
+
+[sources]
+GeneralMetadata = {rev = "main", url = "https://github.com/JuliaRegistries/GeneralMetadata.jl"}
+Repology = {rev = "main", url = "https://github.com/mbauman/Repology.jl"}
 
 [compat]
 CodecZlib = "0.7.8"
 CommonMark = "0.9.1"
 DataStructures = "0.19.0"
+GeneralMetadata = "1.0.0"
 Pkg = "1.11.0"
+Repology = "1.0.0"
 Tar = "1.10.0"
 TimeZones = "1.22.0"
 julia = "1.11"

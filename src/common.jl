@@ -6,6 +6,7 @@ using CodecZlib: GzipDecompressorStream
 using DataStructures: OrderedDict, DefaultDict
 using Dates: Dates
 using TimeZones: TimeZones
+using GeneralMetadata: GeneralMetadata
 
 const PREFIX="JLSEC"
 
@@ -233,31 +234,30 @@ end
 
 # The two primary datastructures for connecting packages with upstream projects
 const PACKAGE_COMPONENTS = Ref{Dict{String,Any}}()
-package_components() = isassigned(PACKAGE_COMPONENTS) ? PACKAGE_COMPONENTS[] :
-    (PACKAGE_COMPONENTS[] = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","package_components.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef")))
-
-const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
-function upstream_projects()
-    isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
-    info = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","repology_info.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef"))
-    extra = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","additional_info.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef"))
-    projects = unique(Iterators.flatten(keys.(Iterators.flatten(values.(values(package_components()))))))
-    relevant_info = filter(in(projects)∘first, info)
-    # Assume the extras are all relevant
-    for (proj, projinfo) in extra
-        if !haskey(relevant_info, proj)
-            relevant_info[proj] = projinfo
-        else
-            for (k, v) in projinfo
-                if !haskey(relevant_info[proj], k)
-                    relevant_info[proj][k] = v
-                else
-                    append!(relevant_info[proj][k], v)
+function package_components()
+    isassigned(PACKAGE_COMPONENTS) && return PACKAGE_COMPONENTS[]
+    pc = DefaultDict{String,Any}(()->Dict{String,Any}())
+    for (pkg, versions) in GeneralMetadata.metadata()
+        for (ver, verinfo) in versions
+            for artifact in get(verinfo, "artifact_metadata", [])
+                for source in get(artifact, "sources", [])
+                    haskey(source, "upstream") && push!(get!(pc[pkg], String(ver), Dict{String, Any}[]), source["upstream"])
                 end
             end
         end
     end
-    return UPSTREAM_PROJECTS[] = relevant_info
+    PACKAGE_COMPONENTS[] = pc
+end
+
+const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
+function upstream_projects()
+    isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
+    info = TOML.parse(GitHub.fetch_file("mbauman","Repology.jl","data/cpes.toml";))
+    projects = Set(chopprefix(x["project"], "repology.org/project/") for x in
+        Iterators.flatten(Iterators.flatten(Iterators.map(values, values(package_components()))))
+        if startswith(x["project"], "repology.org/project/"))
+    relevant_info = filter(in(projects)∘first, info)
+    return UPSTREAM_PROJECTS[] = Dict{String,Any}(string("repology.org/project/", k)=>v for (k,v) in relevant_info)
 end
 
 # A computed dictionary that maps a (vendor, product) tuple to known upstream project names
@@ -265,8 +265,8 @@ const UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT = Ref{Dict{Tuple{String,String}, Vecto
 function upstream_projects_by_vendor_product(vendor, product)
     if !isassigned(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT)
         d = Dict{Tuple{String,String}, Vector{String}}()
-        for (project, deets) in upstream_projects()
-            for cpe in get(deets, "cpes", [])
+        for (project, cpes) in upstream_projects()
+            for cpe in cpes
                 v, p = split(cpe, ":", limit=2)
                 union!(get!(Vector{String}, d, (lowercase(v),lowercase(p))), (project,))
             end
@@ -278,11 +278,29 @@ end
 upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)
 
 function packages_with_project(proj)
-    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v,proj), values(versioninfo))]
+    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->v["project"]==proj, Iterators.flatten(values(versioninfo)))]
 end
 
 function package_project_version_map(pkg, proj)
-    return Dict(v => components[proj] for (v, components) in package_components()[pkg])
+    d = Dict{String,Any}()
+    # TODO: This uses the old sometimes-string-sometimes-array-sometimes-* structure of the upstream `version`
+    for (v, components) in package_components()[pkg]
+        upstream_versions = String[]
+        for component in components
+             if component["project"] == proj
+                push!(upstream_versions, get(component, "version", "*"))
+             end
+        end
+        unique!(upstream_versions)
+        if length(upstream_versions) == 1
+            d[v] = upstream_versions[1]
+        elseif "*" in upstream_versions
+            d[v] = "*"
+        else
+            d[v] = upstream_versions
+        end
+    end
+    return d
 end
 
 """
