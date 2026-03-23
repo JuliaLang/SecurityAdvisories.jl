@@ -6,9 +6,9 @@ Security advisories are the _notification_ mechanism for downstream consumers, a
 
 ## Creating a new JLSEC advisory
 
-To create a new advisory, open a pull request with the file `advisories/published/JLSEC-0000-0.md`; the ID will automatically be generated upon publication. To reserve an identifer for coordinated and responsible disclosure, place that (empty) file in `advisories/reserved` instead. Advisories are markdown files with a toml frontmatter section defining fields according to the OSV schema; see [the format documentation]() for more details.
+To create a new advisory, open a pull request with the file `advisories/published/JLSEC-0000-0.md`; the ID will automatically be generated upon publication. To reserve an identifer for coordinated and responsible disclosure, place that (empty) file in `advisories/reserved` instead. Advisories are markdown files with a toml frontmatter section defining fields according to the OSV schema; see [the format documentation](/about) for more details.
 
-The pull request GitHub actions will do a dry-run of the publication and export to ensure the ID and all timestamps will be appropriately populated upon merge. You can preview how these actions update your TOML (and exported OSV) files within the GitHub actino outputs.
+The pull request GitHub actions will do a dry-run of the publication and export to ensure the ID and all timestamps will be appropriately populated upon merge. You can preview how these actions update your TOML (and exported OSV) files within the GitHub action outputs.
 
 In many cases, you don't need to create an advisory from scratch. Package maintainers that use GitHub hosting can directly issue security advisories on the repository's "Security" tab. Once issued, these GitHub security advisories (GHSAs) can be directly imported here (as _aliases_). Open an issue here to request its import.
 
