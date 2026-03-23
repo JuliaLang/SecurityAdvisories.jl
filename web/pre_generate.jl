@@ -101,6 +101,22 @@ function main()
         pkg_written += 1
     end
 
+    abouts_written = 0
+    about_docs = [("CONTRIBUTING.md", "Contributing")]
+    for (path, title) in about_docs
+        content = read(joinpath(@__DIR__, "..", path), String)
+        open(joinpath(@__DIR__, "about", lowercase(title) * ".md"), "w") do f
+            write(f, """
+                @def title = "$title"
+
+            ~~~<div class="about-content">~~~
+            """)
+            write(f, content)
+            write(f, "\n\n~~~</div>~~~")
+        end
+        abouts_written += 1
+    end
+
     elapsed = round(time() - t0; digits=2)
     total_adv = adv_written + adv_skipped
     total_pkg = pkg_written + pkg_skipped
@@ -109,6 +125,7 @@ function main()
     adv_skipped > 0 && push!(parts, "$adv_skipped already existed")
     pkg_written > 0 && push!(parts, "wrote $pkg_written package pages")
     pkg_skipped > 0 && push!(parts, "$pkg_skipped already existed")
+    abouts_written > 0 && push!(parts, "wrote $abouts_written about pages")
     println("  ✓ $(total_adv) advisory + $(total_pkg) package pages ($(join(parts, ", "))) in $(elapsed)s")
 end
 
