@@ -263,7 +263,7 @@ end
 # A computed dictionary that maps a (vendor, product) tuple to known upstream project names
 const UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT = Ref{Dict{Tuple{String,String}, Vector{String}}}()
 function upstream_projects_by_vendor_product(vendor, product)
-    # if !isassigned(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT)
+    if !isassigned(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT)
         d = Dict{Tuple{String,String}, Vector{String}}()
         for (project, cpes) in upstream_projects()
             for cpe in cpes
@@ -272,7 +272,7 @@ function upstream_projects_by_vendor_product(vendor, product)
             end
         end
         UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT[] = d
-    # end
+    end
     return get(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT[], (lowercase(vendor),lowercase(product)), String[])
 end
 upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)

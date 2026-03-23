@@ -164,7 +164,7 @@ function main()
                 maxv = argmax(VersionNumber, keys(pkg_components))
                 maxv_components = pkg_components[maxv]
                 print(io, " Its latest version (", maxv, ") has components: ")
-                TOML.print(io, maxv_components, inline_tables=IdSet{AbstractDict}([maxv_components]))
+                print(io, "{", join((string(c["project"], "@", c["version"]) for c in maxv_components), ", "), "}")
             end
             println(io)
             for (source, version_map) in entry.source_mapping
