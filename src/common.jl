@@ -234,13 +234,13 @@ end
 # The two primary datastructures for connecting packages with upstream projects
 const PACKAGE_COMPONENTS = Ref{Dict{String,Any}}()
 package_components() = isassigned(PACKAGE_COMPONENTS) ? PACKAGE_COMPONENTS[] :
-    (PACKAGE_COMPONENTS[] = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","package_components.toml")))
+    (PACKAGE_COMPONENTS[] = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","package_components.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef")))
 
 const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
 function upstream_projects()
     isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
-    info = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","repology_info.toml"))
-    extra = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","additional_info.toml"))
+    info = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","repology_info.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef"))
+    extra = TOML.parse(GitHub.fetch_file("mbauman","GeneralMetadata.jl","additional_info.toml"; ref="d3d52cfc388337645861cf98c00e04ba245c99ef"))
     projects = unique(Iterators.flatten(keys.(Iterators.flatten(values.(values(package_components()))))))
     relevant_info = filter(in(projects)∘first, info)
     # Assume the extras are all relevant
