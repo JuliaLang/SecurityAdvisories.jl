@@ -1,0 +1,24 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnycalub2-nvk53n"
+modified = 2026-03-24T05:02:26.990Z
+upstream = ["CVE-2025-28164"]
+references = ["https://gist.github.com/kittener/506516f8c22178005b4379c8b2a7de20", "https://github.com/pnggroup/libpng/issues/655"]
+
+[[affected]]
+pkg = "libpng_jll"
+ranges = [">= 1.6.43+0, < 1.6.47+0"]
+
+[[jlsec_sources]]
+id = "CVE-2025-28164"
+imported = 2026-03-24T05:02:26.990Z
+modified = 2026-03-04T19:42:07.987Z
+published = 2026-01-27T16:16:14.760Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-28164"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2025-28164"
+```
+
+# Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of s...
+
+Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of service via png_create_read_struct() function.
+
