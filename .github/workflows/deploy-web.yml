@@ -45,7 +45,7 @@ jobs:
           julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
 
       - name: Process HTML links
-        uses: shravanngoswamii/html-link-action@v1
+        uses: shravanngoswamii/html-link-action@2391fcb0ab8af48941bdfe1bf8eb987834f2c047 # v1.1.0
         with:
           site-dir: web/__site
           nofollow: true
@@ -53,9 +53,11 @@ jobs:
       - name: Build search index
         run: npx pagefind --site web/__site
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: web/__site
-          publish_branch: gh-pages
+          path: web/__site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
