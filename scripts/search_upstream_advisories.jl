@@ -12,9 +12,11 @@ function main()
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         push!(advisories, SecurityAdvisories.fetch_advisory(input))
     elseif !isempty(input)
-        # Search for advisories matching a particular package name
+        # Search for advisories matching a particular package name, both directly and through upstream matches.
+        # The direct package matches are more likely to be relevant, even if we're missing affected entries.
         append!(advisories, SecurityAdvisories.fetch_package_matches(input))
-        append!(advisories, SecurityAdvisories.fetch_package_upstreams(input))
+        # But upstream matches are only relevant if they actually apply to the package:
+        append!(advisories, filter(SecurityAdvisories.is_vulnerable, SecurityAdvisories.fetch_package_upstreams(input)))
     else
         # TODO: walk through all packages until we find something new
         error("not implemented")

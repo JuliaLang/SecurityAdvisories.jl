@@ -286,7 +286,7 @@ function upstream_projects_for_package(pkg)
 end
 
 function vendor_products_for_package(pkg)
-    return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in SecurityAdvisories.upstream_projects()[proj])
+    return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in get(SecurityAdvisories.upstream_projects(), proj, String[]))
 end
 
 function package_project_version_map(pkg, proj)
