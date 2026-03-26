@@ -1,6 +1,7 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
 using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components
+using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
 
@@ -53,81 +54,84 @@ function main()
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
 
+    aliases, upstreams = divide(x->!isempty(x.aliases), advisories)
 
-    function print_advisory_package_version_details(io, id, adv)
-        pkgs = SecurityAdvisories.vulnerable_packages(adv)
-        cpes = unique(Iterators.flatten(keys(entry.source_mapping) for entry in adv.affected if !isnothing(entry.source_mapping)))
-        ambiguous_cpes = filter(>(1)∘length∘SecurityAdvisories.upstream_projects_by_cpe, cpes)
-
-        affectedsrcidx = something(findlast(x->"affected" in x.fields, adv.jlsec_sources), 1)
-        html_url = get(adv.jlsec_sources, affectedsrcidx, (;html_url="")).html_url
-        println(io, "* [$id]($html_url) for packages: ", join("**" .* pkgs .* "**", ", ", ", and "))
-        for entry in adv.affected
-            if isempty(entry.ranges)
-                print(io, "    * **", entry.pkg, "** has no vulnerable versions")
-                if !isempty(keys(entry.source_mapping))
-                    print(io, "; some versions contain vulnerable ", join("`".*keys(entry.source_mapping).*"`", ", ", ", and "), ".")
-                end
-            else
-                print(io, "    * **", entry.pkg, "** computed `[", join(repr.(string.(entry.ranges)), ", "), "]`.")
+    if !isempty(aliases)
+        println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
+        for (id, adv) in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+            print(io, "* ")
+            for src in adv.jlsec_sources
+                print(io, "[", src.id, "](", src.html_url, ") ")
             end
-            if haskey(package_components(), entry.pkg)
-                pkg_components = package_components()[entry.pkg]
-                maxv = argmax(VersionNumber, keys(pkg_components))
-                maxv_components = pkg_components[maxv]
-                print(io, " Its latest version (", maxv, ") has components: ")
-                print(io, "{", join((string(c["project"], "@", c["version"]) for c in maxv_components), ", "), "}")
+            print(io, "for packages: \n")
+            for pkg in SecurityAdvisories.vulnerable_packages(adv)
+                versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
+                print(io, "    * **", pkg, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), "\n")
             end
             println(io)
-            for (source, version_map) in entry.source_mapping
-                for (v, r) in version_map
-                    if isnothing(tryparse(SecurityAdvisories.VersionRange, v))
-                        println(io, "        * `", source, "` at `", v, "` failed to parse")
-                    elseif r == [VersionRange{VersionNumber}("*")]
-                        println(io, "        * `", source, "` at `", v, "` includes all versions")
-                    elseif !all(SecurityAdvisories.has_upper_bound, r)
-                        println(io, "        * `", source, "` at `", v, "` mapped to `[", join(string.(r), ", "), "]`, includes the latest version`")
+        end
+        println(io)
+    end
+
+    if !isempty(upstreams)
+        meta = GeneralMetadata.metadata()
+        println(io, "## $(length(upstreams)) advisories affect Julia package(s) because they contain vulnerable upstream projects\n")
+        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+            print(io, "* ")
+            for src in adv.jlsec_sources
+                print(io, "[", src.id, "](", src.html_url, ") ")
+            end
+            print(io, "for upstream project(s): \n")
+            projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
+            for cpe in projects
+                possible_projects = SecurityAdvisories.upstream_projects_by_cpe(cpe)
+                versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
+                print(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to:\n")
+                affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe), adv.affected)
+                pkgs = unique(x.pkg for x in affecteds)
+                for pkg in pkgs
+                    print(io, "        * **", pkg, "** at versions: ")
+                    pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
+                    print(io, "`", join(pkg_versions, ", "), "` because\n")
+                    pkginfo = meta[pkg]
+                    available_versions = sort([VersionNumber(k) for k in keys(pkginfo)])
+                    interesting_versions = Set{VersionNumber}()
+                    for range in pkg_versions
+                        if SecurityAdvisories.has_lower_bound(range)
+                            idx = findfirst(>=(range.lb), available_versions)
+                            push!(interesting_versions, available_versions[idx])
+                            push!(interesting_versions, available_versions[range.lbinclusive ? idx + 1 : idx - 1])
+                        end
+                        if SecurityAdvisories.has_upper_bound(range)
+                            idx = findfirst(>=(range.ub), available_versions)
+                            push!(interesting_versions, available_versions[idx])
+                            push!(interesting_versions, available_versions[range.ubinclusive ? idx + 1 : idx - 1])
+                        else
+                            push!(interesting_versions, available_versions[end])
+                        end
+                    end
+                    for v in sort(collect(interesting_versions))
+                        proj_info = [info for info in (get(src, "upstream", Dict()) for src in
+                            Iterators.flatten(get(am, "sources", []) for am in get(pkginfo[string(v)], "artifact_metadata", []))) if get(info, "project", "")  in possible_projects]
+                        proj = proj_info[1]["project"] # use the Repology name
+                        proj_versions = get.(proj_info, "version", "*")
+                        vstr = v == available_versions[end] ? string(v, " (latest)") : string(v)
+                        if length(proj_versions) == 0
+                            println(io, "            * ", vstr, " does not contain ", proj, " at any version")
+                        elseif length(proj_versions) == 1 && proj_versions[1] == "*"
+                            println(io, "            * ", vstr, " contains ", proj, " at an **unknown version**")
+                        elseif length(proj_versions) == 1
+                            println(io, "            * ", vstr, " contains ", proj, " at version: `", proj_versions[1], "`")
+                        else
+                            println(io, "            * ", vstr, " contains ", proj, " at versions: `", proj_versions, "`")
+                        end
                     end
                 end
             end
-            ambiguous_sources = filter(in(ambiguous_cpes), keys(entry.source_mapping))
-            for ambig in ambiguous_sources
-                println(io, "        * ⚠ `", ambig, "` might mean a different project; it could be one of ", join("`" .* SecurityAdvisories.upstream_projects_by_cpe(ambig) .* "`", ", ", " or "))
-            end
+            println(io)
         end
+        println(io)
     end
-
-    # Now break the identified advisories into three sections.  First, advisories which failed to parse the upstream version:
-    failed_advisories, advisories = divide(v->any(isnothing, (tryparse(SecurityAdvisories.VersionRange, r) for entry in v.affected for (_,source_map) in entry.source_mapping for (r, _) in source_map)), advisories)
-    !isempty(failed_advisories) && println(io, "### $(length(failed_advisories)) advisories failed to parse the source version range\n\nThese advisories seem to apply to a Julia package but had trouble identifying exactly how and at which versions.")
-    for (id, adv) in sort(failed_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(failed_advisories) && println(io)
-
-    # Next advisories for which all versions apply
-    star_advisories, advisories = divide(x->any(entry->entry.ranges==[VersionRange{VersionNumber}("*")], x.affected), advisories)
-    !isempty(star_advisories) && println(io, "### $(length(star_advisories)) advisories apply to all registered versions of a package\n\nThese advisories had no obvious failures but computed a range without bounds.")
-    for (id, adv) in sort(star_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(star_advisories) && println(io)
-
-    # Next advisories for which there's an unbounded upper range
-    unbounded_advisories, advisories = divide(x->any(entry->any(!SecurityAdvisories.has_upper_bound, entry.ranges), x.affected), advisories)
-    !isempty(unbounded_advisories) && println(io, "### $(length(unbounded_advisories)) advisories apply to the latest version of a package and do not have a patch")
-    for (id, adv) in sort(unbounded_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(unbounded_advisories) && println(io)
-
-    # And finally all remaining advisories.
-    !isempty(advisories) && println(io, "### $(length(advisories)) advisories found concrete vulnerable ranges\n\n")
-    for (id, adv) in sort(advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(advisories) && println(io)
-
     println(io, "BODY_EOF")
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
