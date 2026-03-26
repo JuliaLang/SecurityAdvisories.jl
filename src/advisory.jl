@@ -215,15 +215,15 @@ vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vuln
 """
     update(original::Advisory, updates::Advisory)
 
-Given an `original` advisory and some `updates`, return a new advisory with the same ID
-and dates
+Given an `original` advisory and some `updates`, return a new advisory with the original ID
+and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
 """
 function update(original::Advisory, updates::Advisory)
     original ≈ updates && return original # No need to update if nothing relevant changed
     return Advisory(;
         # use whatever the default `schema_version` is
         id = original.id,
-        modified = original.modified, # This may or may not get overwritten later
+        modified = max(original.modified, updates.modified),
         published = original.published,
         withdrawn = something(original.withdrawn, updates.withdrawn, Some(nothing)),
         ## All other fields are directly taken from the updated advisory
