@@ -72,7 +72,7 @@ function main()
 
     if !isempty(aliases)
         println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
-        for (id, adv) in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
             for src in adv.jlsec_sources
                 print(io, "[", src.id, "](", src.html_url, ") ")
