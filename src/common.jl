@@ -282,7 +282,7 @@ function packages_with_project(proj)
 end
 
 function upstream_projects_for_package(pkg)
-    return unique(v["project"] for verinfo in values(package_components()[pkg]) for v in values(verinfo))
+    return unique(v["project"] for verinfo in values(get(package_components(), pkg, Dict())) for v in values(verinfo))
 end
 
 function vendor_products_for_package(pkg)
