@@ -136,6 +136,14 @@ Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
 Base.convert(::Type{AdvisorySource}, d::AbstractDict) = AdvisorySource(; Dict(Symbol(k)=>v for (k,v) in d)...)
 
+# Approximate equality ignores some metadata like exact dates and times
+function Base.:≈(a::AdvisorySource, b::AdvisorySource)
+    return a.id == b.id &&
+        isnothing(a.published) == isnothing(b.published) &&
+        a.url == b.url &&
+        a.html_url == b.html_url
+end
+
 """
     Advisory(; osv_kwargs...)
 
@@ -177,6 +185,25 @@ end
 function Base.hash(a::Advisory, h::UInt)
     return hash(to_toml_frontmatter(a), hash(a.summary, hash(a.details, hash(0x913cfa4716e3f874, h))))
 end
+
+# Approximate equality ignores some metadata like exact dates and times
+function Base.:≈(a::Advisory, b::Advisory)
+    return
+        a.id == b.id &&
+        isnothing(a.published) == isnothing(b.published) &&
+        isnothing(a.withdrawn) == isnothing(b.withdrawn) &&
+        a.aliases == b.aliases &&
+        a.upstream == b.upstream &&
+        a.related == b.related &&
+        a.summary == b.summary &&
+        a.details == b.details &&
+        a.severity == b.severity &&
+        a.affected == b.affected &&
+        a.references == b.references &&
+        a.credits == b.credits &&
+        a.jlsec_sources ≈ b.jlsec_sources
+end
+
 """
     is_vulnerable(x)
 
@@ -192,6 +219,7 @@ Given an `original` advisory and some `updates`, return a new advisory with the 
 and dates
 """
 function update(original::Advisory, updates::Advisory)
+    original ≈ updates && return original # No need to update if nothing relevant changed
     return Advisory(;
         # use whatever the default `schema_version` is
         id = original.id,
