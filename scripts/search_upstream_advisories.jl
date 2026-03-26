@@ -23,12 +23,11 @@ function main()
     end
     # Now create or update the found advisories:
     n_modified = 0
-    for (id, advisory) in advisories
+    for advisory in advisories
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
         end
-        @info "JLSEC for $id: $(advisory.id)"
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
         file = joinpath(dir, advisory.id * ".md")
         n_modified += isfile(file)
@@ -43,7 +42,7 @@ function main()
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
-    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(values(advisories))))
+    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(advisories)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
@@ -99,7 +98,7 @@ function main()
     end
 
     # Now break the identified advisories into three sections.  First, advisories which failed to parse the upstream version:
-    failed_advisories, advisories = divide(((_,v),)->any(isnothing, (tryparse(SecurityAdvisories.VersionRange, r) for entry in v.affected for (_,source_map) in entry.source_mapping for (r, _) in source_map)), advisories)
+    failed_advisories, advisories = divide(v->any(isnothing, (tryparse(SecurityAdvisories.VersionRange, r) for entry in v.affected for (_,source_map) in entry.source_mapping for (r, _) in source_map)), advisories)
     !isempty(failed_advisories) && println(io, "### $(length(failed_advisories)) advisories failed to parse the source version range\n\nThese advisories seem to apply to a Julia package but had trouble identifying exactly how and at which versions.")
     for (id, adv) in sort(failed_advisories)
         print_advisory_package_version_details(io, id, adv)
@@ -107,7 +106,7 @@ function main()
     !isempty(failed_advisories) && println(io)
 
     # Next advisories for which all versions apply
-    star_advisories, advisories = divide(((_,x),)->any(entry->entry.ranges==[VersionRange{VersionNumber}("*")], x.affected), advisories)
+    star_advisories, advisories = divide(x->any(entry->entry.ranges==[VersionRange{VersionNumber}("*")], x.affected), advisories)
     !isempty(star_advisories) && println(io, "### $(length(star_advisories)) advisories apply to all registered versions of a package\n\nThese advisories had no obvious failures but computed a range without bounds.")
     for (id, adv) in sort(star_advisories)
         print_advisory_package_version_details(io, id, adv)
@@ -115,7 +114,7 @@ function main()
     !isempty(star_advisories) && println(io)
 
     # Next advisories for which there's an unbounded upper range
-    unbounded_advisories, advisories = divide(((_,x),)->any(entry->any(!SecurityAdvisories.has_upper_bound, entry.ranges), x.affected), advisories)
+    unbounded_advisories, advisories = divide(x->any(entry->any(!SecurityAdvisories.has_upper_bound, entry.ranges), x.affected), advisories)
     !isempty(unbounded_advisories) && println(io, "### $(length(unbounded_advisories)) advisories apply to the latest version of a package and do not have a patch")
     for (id, adv) in sort(unbounded_advisories)
         print_advisory_package_version_details(io, id, adv)
