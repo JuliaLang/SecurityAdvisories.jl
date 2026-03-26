@@ -459,18 +459,17 @@ end
 
 # TODO: use the above Pkg machinery for this, too
 const ALL_PKGS = Pair{String,String}[]
-function all_pkgs(toml_urls = ["https://github.com/JuliaRegistries/General/raw/refs/heads/master/Registry.toml",
-     "https://github.com/JuliaLang/julia/raw/refs/heads/master/stdlib/Project.toml"])
+function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml"),
+     ("JuliaLang", "julia", "stdlib/Project.toml")])
     if isempty(ALL_PKGS)
-        for toml_url in toml_urls
-            # This should really use Pkg APIs, but they are non-trivial and were hanging on GitHub Actions?
-            registry = TOML.parsefile(download(toml_url))
+        for (owner, repo, path) in toml_urls
+            registry = TOML.parse(GitHub.fetch_file(owner, repo, path; ref=nothing))
             if haskey(registry, "packages")
                 append!(ALL_PKGS, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
             elseif haskey(registry, "deps")
                 append!(ALL_PKGS, registry["deps"])
             else
-                @warn "Unexpected Pkg toml found at $toml_url"
+                error("Unexpected Pkg toml found at github.com/$owner/$repo/$path")
             end
         end
         sort!(ALL_PKGS)
