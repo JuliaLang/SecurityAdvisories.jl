@@ -100,8 +100,9 @@ function main()
             for cpe in projects
                 possible_projects = SecurityAdvisories.upstream_projects_by_cpe(cpe)
                 versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
+                affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
+                isempty(affecteds) && continue
                 print(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to:\n")
-                affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe), adv.affected)
                 pkgs = unique(x.pkg for x in affecteds)
                 for pkg in pkgs
                     print(io, "        * **", pkg, "** at versions: ")
@@ -127,17 +128,18 @@ function main()
                     for v in sort(collect(interesting_versions))
                         proj_info = [info for info in (get(src, "upstream", Dict()) for src in
                             Iterators.flatten(get(am, "sources", []) for am in get(pkginfo[string(v)], "artifact_metadata", []))) if get(info, "project", "")  in possible_projects]
-                        proj = proj_info[1]["project"] # use the Repology name
                         proj_versions = get.(proj_info, "version", "*")
                         vstr = v == available_versions[end] ? string(v, " (latest)") : string(v)
                         if length(proj_versions) == 0
-                            println(io, "            * ", vstr, " does not contain ", proj, " at any version")
+                            println(io, "            * ", vstr, " does not contain the project")
                         elseif length(proj_versions) == 1 && proj_versions[1] == "*"
-                            println(io, "            * ", vstr, " contains ", proj, " at an **unknown version**")
+                            println(io, "            * ", vstr, " contains ", proj_info[1]["project"], " at an **unknown version**")
                         elseif length(proj_versions) == 1
-                            println(io, "            * ", vstr, " contains ", proj, " at version: `", proj_versions[1], "`")
+                            println(io, "            * ", vstr, " contains ", proj_info[1]["project"], " at version: `", proj_versions[1], "`")
                         else
-                            println(io, "            * ", vstr, " contains ", proj, " at versions: `", proj_versions, "`")
+                            proj_names = unique(getindex.(proj_info, "project"))
+                            proj_name = length(proj_names) == 1 ? proj_names[1] : string(proj_names) # TODO: this is rare, but could be better
+                            println(io, "            * ", vstr, " contains ", proj_name, " at versions: `", proj_versions, "`")
                         end
                     end
                 end
