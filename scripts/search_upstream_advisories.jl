@@ -80,7 +80,7 @@ function main()
             print(io, "for packages: \n")
             for pkg in SecurityAdvisories.vulnerable_packages(adv)
                 versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
-                print(io, "    * **", pkg, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), "\n")
+                print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
             end
             println(io)
         end
