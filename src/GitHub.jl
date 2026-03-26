@@ -215,6 +215,19 @@ function fetch_repo_advisories(owner, repo)
     return all_advisories
 end
 
+function fetch_package_advisories(pkg)
+    # First look up the pkg's GitHub repository from the registry
+    repos = SecurityAdvisories.registry_repositories()
+    uuid = only(SecurityAdvisories.uuids_from_name(pkg))
+    isnothing(uuid) && error("Package $pkg not found in registry")
+    repo = get(repos, uuid, nothing)
+    isnothing(repo) && error("No repository found for package $pkg with UUID $uuid")
+    m = match(r"^https://github.com/([^/]+)/([^/]+)$", repo)
+    isnothing(m) && return []
+    owner, repo_name = m.captures
+    return fetch_repo_advisories(owner, chopsuffix(repo_name, ".git"))
+end
+
 function vendor_product_versions(advisory)
     vpv = Tuple{String,String,String}[]
     for v in get(advisory, :vulnerabilities, [])

@@ -80,10 +80,14 @@ function build_nvd_headers()
     return headers
 end
 
+const last_fetched = Ref{Float64}(0.0)
+
 function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
     println("Fetching: $url")
 
+    sleep(max(0, 6 - (time() - last_fetched[]))) # Rate limit to 6 seconds between requests
     response = HTTP.get(url, headers)
+    last_fetched[] = time()
 
     if response.status != 200
         error("Failed to fetch NVD data: HTTP $(response.status)")
@@ -123,8 +127,6 @@ function fetch_all_pages(base_url, headers, params, key)
             query_string = join(["$(k)=$(HTTP.escapeuri(v))" for (k, v) in new_params], "&")
             next_url = "$base_url?$query_string"
 
-            # Sleep for rate limiting (6 seconds recommended by NVD)
-            sleep(6)
             data = fetch_nvd_page(next_url, headers)
 
             if haskey(data, key)
@@ -157,6 +159,19 @@ function fetch_cpe_matches(cpe)
     # Build initial URL with parameters
     params = Dict(
         "virtualMatchString" => string(cpe),
+        "resultsPerPage" => "2000",
+        "startIndex" => "0"
+    )
+
+    return fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+end
+
+function fetch_keyword_matches(keyword)
+    headers = build_nvd_headers()
+
+    # Build initial URL with parameters
+    params = Dict(
+        "keywordSearch" => keyword,
         "resultsPerPage" => "2000",
         "startIndex" => "0"
     )

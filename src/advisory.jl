@@ -212,6 +212,76 @@ function update(original::Advisory, updates::Advisory)
     )
 end
 
+"""
+    combine(a::Advisory, b::Advisory)
+
+Take two advisories and combine their information, preferring the first argument when it is unclear which is better
+"""
+function combine(a::Advisory, b::Advisory)
+    known_to_be_upstream = false
+    if isempty(intersect(a.aliases, b.aliases)) && isempty(intersect(a.upstream, b.upstream))
+        if !isempty(intersect(union(a.aliases, a.upstream), union(b.aliases, b.upstream)))
+            # When one advisory finds `upstream`, this is generally because it got better affected
+            # details, so we convert the others' aliases to upstream. # TODO: we could verify affected status of both
+            known_to_be_upstream = true
+        else
+            error("cannot combine advisories that are not aliases/upstreams of each other; got aliases $(a.aliases) and $(b.aliases) and upstreams $(a.upstream) and $(b.upstream)")
+        end
+    end
+    return Advisory(;
+        # use whatever the default `schema_version` is
+        id = startswith(a.id, "JLSEC-0000") ? b.id : a.id, # Prefer the non-placeholder ID if one exists
+        modified = max(a.modified, b.modified),
+        published = if !isnothing(a.published) && !isnothing(b.published)
+            min(a.published, b.published) # use the first-published date
+        else
+            something(a.published, b.published, Some(nothing))
+        end,
+        withdrawn = if !isnothing(a.withdrawn) && !isnothing(b.withdrawn)
+            min(a.withdrawn, b.withdrawn) # use the first-withdrawn date
+        else
+            something(a.withdrawn, b.withdrawn, Some(nothing))
+        end,
+        ## For most other fields, we take the union of the two advisories' values
+        aliases = known_to_be_upstream ? String[] : union(a.aliases, b.aliases),
+        upstream = known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream),
+        related = union(a.related, b.related),
+        summary = something(a.summary, b.summary, Some(nothing)),
+        # Generally the longer details are better, but we could try to find some Markdown?
+        details = length(a.details) >= length(b.details) ? a.details : b.details,
+        severity = union(a.severity, b.severity),
+        # Affected is the trickiest one when both exist; we want the "best" information here
+        affected = if !isnothing(a.affected) && !isnothing(b.affected)
+            pkgs = union((entry.pkg for entry in a.affected), (entry.pkg for entry in b.affected))
+            [begin
+                a_entry = findfirst(e -> e.pkg == pkg, a.affected)
+                b_entry = findfirst(e -> e.pkg == pkg, b.affected)
+                if a_entry === nothing
+                    b.affected[b_entry]
+                elseif b_entry === nothing
+                    a.affected[a_entry]
+                else
+                    a_ranges = a.affected[a_entry].ranges
+                    b_ranges = b.affected[b_entry].ranges
+                    if length(a_ranges) > length(b_ranges)
+                        # Having more ranges is generally more specific
+                        a.affected[a_entry]
+                    elseif all(has_upper_bound, a_ranges)
+                        a.affected[a_entry]
+                    else
+                        b.affected[b_entry]
+                    end
+                end
+            end for pkg in pkgs]
+        else
+            something(a.affected, b.affected, Some(nothing))
+        end,
+        references = union(a.references, b.references),
+        credits = union(a.credits, b.credits),
+        jlsec_sources = union(a.jlsec_sources, b.jlsec_sources),
+    )
+end
+
 function year(advisory::Advisory)
     yyyy = tryparse(Int, split(advisory.id, "-")[2])
     isnothing(yyyy) || yyyy == 0 ? Dates.year(Dates.now(Dates.UTC)) : yyyy

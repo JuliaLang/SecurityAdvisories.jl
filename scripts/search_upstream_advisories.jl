@@ -6,108 +6,19 @@ using Dates: Dates
 
 function main()
     input = get(ARGS, 1, "")
-    advisories = Dict{String,Any}()
+    advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input
-    info["haystack_total"] = String[]
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        advisories[input] = SecurityAdvisories.fetch_advisory(input)
-        push!(info["haystack_total"], "1 advisory ($input)")
-    elseif input == "--github"
-        # Search through all GitHub repos for any GHSAs they have published
-        for (uuid, url) in SecurityAdvisories.registry_repositories()
-            m = match(r"^https://github.com/([^/]+)/(.*)$", url)
-            isnothing(m) && continue
-            owner, repo = m.captures
-            # We have a rate limit of 5000/hour, and there are more than 5000 github repos
-            sleep((5000/3600))
-            try
-                for adv in GitHub.fetch_repo_advisories(owner, chopsuffix(repo, ".git"))
-                    advisories[adv.ghsa_id] = GitHub.advisory(adv)
-                end
-            catch ex
-                @warn "failed to fetch repo advisories for $owner/$repo" ex
-            end
-        end
-        push!(info["haystack_total"], "$(length(advisories)) advisories from GitHub packages")
+        push!(advisories, SecurityAdvisories.fetch_advisory(input))
+    elseif !isempty(input)
+        # Search for advisories matching a particular package name
+        append!(advisories, SecurityAdvisories.fetch_package_matches(input))
+        append!(advisories, SecurityAdvisories.fetch_package_upstreams(input))
     else
-        # A larger joint EUVD/NVD search, either by vendor:product or time. It's helpful to gather as
-        # many vulns as possible with these higher-level searches before going one-by-one due to API limits
-        if startswith(input, "--project")
-            _, proj= split(input, [' ','='])
-            vendorproducts = split.(SecurityAdvisories.upstream_projects()[proj]["cpes"], ":", limit=2)
-            nvds = []
-            euvds = []
-            for (vendor, product) in vendorproducts
-                nvdspart, euvdspart = SecurityAdvisories.fetch_product_matches(vendor, product)
-                append!(nvds, nvdspart)
-                append!(euvds, euvdspart)
-            end
-        elseif contains(input, ":")
-            _, vendor, product = rsplit(":"*input, ":", limit=3, keepempty=true)
-            nvds, euvds = SecurityAdvisories.fetch_product_matches(vendor, product)
-        else
-            info["haystack"] = "recent NVD/EUVD changes/publications"
-            nvds = NVD.fetch_nvd_vulnerabilities()
-            euvds = EUVD.fetch_vulnerabilities()
-        end
-
-        found_nvds = length(nvds)
-        found_euvds = length(euvds)
-        additional_nvds = 0
-        additional_euvds = 0
-        joint_ids = intersect(filter(startswith("CVE"), EUVD.vuln_id.(euvds)), (x->x.cve.id).(nvds))
-
-        missing_nvds = found_euvds - length(joint_ids)
-        for vuln in euvds
-            # EUVD is largely useful in having a sloppier search and some more-recently-populated
-            # product/version data. Always trust NVD first, only falling back to EUVD. This finds
-            # applicable advisories and adds them to the NVD pile. Ideally, this would always add
-            # all the missing NVDs here, but that's quite expensive at 6 seconds per fetch.
-            vuln_id = EUVD.vuln_id(vuln)
-            @info "EUVD $vuln_id"
-            startswith(vuln_id, "CVE") || continue
-            vuln_id in joint_ids && continue
-            # Only add the missing NVD advisory if there are only a few (6 minutes worth) or we know it's relevant
-            if missing_nvds <= 100 || SecurityAdvisories.is_vulnerable(EUVD.advisory(vuln))
-                sleep(6)
-                try
-                    push!(nvds, NVD.fetch_cve(vuln_id))
-                    additional_nvds += 1
-                catch ex
-                    @info "failed to fetch NVD $vuln_id" ex
-                end
-            end
-        end
-
-        for vuln in nvds
-            @info "NVD $(vuln.cve.id)"
-            adv = NVD.advisory(vuln)
-            if isempty(adv.affected) || !all(SecurityAdvisories.has_upper_bound, adv.affected)
-                # See if we can get a tighter answer with EUVD data
-                euvd = get(euvds[EUVD.vuln_id.(euvds) .== vuln.cve.id], 1) do
-                    additional_euvds += 1
-                    try EUVD.fetch_enisa(vuln.cve.id) catch _; nothing end
-                end
-                isnothing(euvd) && continue
-                @info "EUVD $(euvd.id)"
-                euvd_adv = EUVD.advisory(euvd)
-                if !isempty(euvd_adv.affected) && all(SecurityAdvisories.has_upper_bound, euvd_adv.affected)
-                    adv.affected = euvd_adv.affected
-                    affected_src = euvd_adv.jlsec_sources[1]
-                    push!(affected_src.fields, "affected")
-                    push!(adv.jlsec_sources, affected_src)
-                    # TODO: ensure that the EUVD id is also listed as an alias or upstream. Gotta know which one, though
-                end
-            end
-            if SecurityAdvisories.is_vulnerable(adv)
-                advisories[vuln.cve.id] = adv
-            end
-        end
-        push!(info["haystack_total"], "$found_nvds (+$additional_nvds) advisories from NVD")
-        push!(info["haystack_total"], "$found_euvds (+$additional_euvds) from EUVD")
+        # TODO: walk through all packages until we find something new
+        error("not implemented")
     end
-
     # Now create or update the found advisories:
     n_modified = 0
     for (id, advisory) in advisories
