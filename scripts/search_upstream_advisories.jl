@@ -4,23 +4,36 @@ using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, Versi
 using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
+using Random: shuffle
 
 function main()
     input = get(ARGS, 1, "")
     advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input
+    info["haystack_total"] = 0
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         push!(advisories, SecurityAdvisories.fetch_advisory(input))
+        info["haystack_total"] = 1
     elseif !isempty(input)
         # Search for advisories matching a particular package name, both directly and through upstream matches.
         # The direct package matches are more likely to be relevant, even if we're missing affected entries.
-        append!(advisories, SecurityAdvisories.fetch_package_matches(input))
+        aliases = SecurityAdvisories.fetch_package_matches(input)
         # But upstream matches are only relevant if they actually apply to the package:
-        append!(advisories, filter(SecurityAdvisories.is_vulnerable, SecurityAdvisories.fetch_package_upstreams(input)))
+        upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+        info["haystack_total"] = length(aliases) + length(upstreams)
+        append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+        append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
     else
-        # TODO: walk through all packages until we find something new
-        error("not implemented")
+        pkgs = shuffle(SecurityAdvisories.all_pkgs())
+        while isempty(advisories)
+            (input, _) = pop!(pkgs)
+            aliases = SecurityAdvisories.fetch_package_matches(input)
+            upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+            info["haystack_total"] += length(aliases) + length(upstreams)
+            append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+            append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+        end
     end
     # Now create or update the found advisories:
     n_modified = 0
@@ -46,6 +59,7 @@ function main()
     unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(advisories)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
+    println(io, "branch=", input)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "body<<BODY_EOF")
     println(io, "This action searched `", info["haystack"], "`, checking ", join(info["haystack_total"], ", ", " and "), " for advisories that pertain here. ",

@@ -40,12 +40,6 @@ jobs:
       id: git-check
       run: |
         [[ $(git ls-files --others --modified --exclude-standard) ]] && echo "changes=true" >> $GITHUB_OUTPUT || echo "no changes"
-        if [ -n "${{ inputs.haystack }}" ]; then
-          branch_name="search-$(echo "${{ inputs.haystack }}" | sed 's/[^a-zA-Z0-9-]/_/g' | sed 's/^-*//g')"
-        else
-          branch_name="search-$(date -u +"%Y%m%dT%H%M%SZ")"
-        fi
-        echo "branch=$branch_name" >> $GITHUB_OUTPUT
 
     - name: Create Pull Request
       if: steps.git-check.outputs.changes == 'true'
@@ -56,4 +50,4 @@ jobs:
         push-to-fork: jlsec-bot/SecurityAdvisories.jl
         title: ${{ steps.identify.outputs.title }}
         body: ${{ steps.identify.outputs.body }}
-        branch: ${{ steps.git-check.outputs.branch }}
+        branch: ${{ steps.identify.outputs.branch }}
