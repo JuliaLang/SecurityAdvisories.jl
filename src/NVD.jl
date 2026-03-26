@@ -83,8 +83,6 @@ end
 const last_fetched = Ref{Float64}(0.0)
 
 function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
-    println("Fetching: $url")
-
     sleep(max(0, 6 - (time() - last_fetched[]))) # Rate limit to 6 seconds between requests
     response = HTTP.get(url, headers)
     last_fetched[] = time()
@@ -107,14 +105,12 @@ function fetch_all_pages(base_url, headers, params, key)
     all_data = []
     if haskey(data, key)
         append!(all_data, getproperty(data, key))
-        println("Fetched $(length(getproperty(data, key))) results from first page")
-
         # Check if there are more results
         total_results = data.totalResults
         results_per_page = data.resultsPerPage
         start_index = data.startIndex
 
-        println("Total results available: $total_results")
+        @info "NVD: gathering $query_string (total results available: $total_results)"
 
         # Fetch remaining pages if needed
         while start_index + results_per_page < total_results
@@ -131,12 +127,10 @@ function fetch_all_pages(base_url, headers, params, key)
 
             if haskey(data, key)
                 append!(all_data, getproperty(data, key))
-                println("Fetched $(length(getproperty(data, key))) results from page at index $start_index")
             end
         end
     end
 
-    println("Total results fetched: $(length(all_data))")
     return all_data
 end
 

@@ -68,7 +68,6 @@ function fetch_all_pages(base_url, headers, params)
     key = :items
     if haskey(data, key)
         append!(all_data, getproperty(data, key))
-        println("Fetched $(length(getproperty(data, key))) results from first page")
 
         # Check if there are more results
         total_results = data.total
@@ -76,7 +75,7 @@ function fetch_all_pages(base_url, headers, params)
         size = parse(Int, params["size"])
         page = parse(Int, params["page"])
 
-        println("Total results available: $total_results")
+        @info "EUVD: gathering $query_string (total results available: $total_results)"
 
         # Fetch remaining pages if needed
         while page*size + results_per_page < min(total_results,5000)
@@ -93,12 +92,10 @@ function fetch_all_pages(base_url, headers, params)
 
             if haskey(data, key)
                 append!(all_data, getproperty(data, key))
-                println("Fetched $(length(getproperty(data, key))) results from page $(page+1)")
             end
         end
     end
 
-    println("Total results fetched: $(length(all_data))")
     return all_data
 end
 

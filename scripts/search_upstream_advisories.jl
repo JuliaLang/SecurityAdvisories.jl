@@ -28,9 +28,10 @@ function main()
         pkgs = shuffle(SecurityAdvisories.all_pkgs())
         while isempty(advisories)
             (input, _) = pop!(pkgs)
+            @info "searching for $input"
             aliases = SecurityAdvisories.fetch_package_matches(input)
             upstreams = SecurityAdvisories.fetch_package_upstreams(input)
-            info["haystack_total"] += length(aliases) + length(upstreams)
+            info["haystack_total"] += max(1, length(aliases) + length(upstreams))
             append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
             append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
         end
