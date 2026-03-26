@@ -136,14 +136,6 @@ Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
 Base.convert(::Type{AdvisorySource}, d::AbstractDict) = AdvisorySource(; Dict(Symbol(k)=>v for (k,v) in d)...)
 
-# Approximate equality ignores some metadata like exact dates and times
-function Base.:≈(a::AdvisorySource, b::AdvisorySource)
-    return a.id == b.id &&
-        isnothing(a.published) == isnothing(b.published) &&
-        a.url == b.url &&
-        a.html_url == b.html_url
-end
-
 """
     Advisory(; osv_kwargs...)
 
@@ -186,22 +178,22 @@ function Base.hash(a::Advisory, h::UInt)
     return hash(to_toml_frontmatter(a), hash(a.summary, hash(a.details, hash(0x913cfa4716e3f874, h))))
 end
 
-# Approximate equality ignores some metadata like exact dates and times
+# Approximate equality ignores some metadata like exact dates and times and orderings
 function Base.:≈(a::Advisory, b::Advisory)
-    return
-        a.id == b.id &&
+    return a.id == b.id &&
         isnothing(a.published) == isnothing(b.published) &&
         isnothing(a.withdrawn) == isnothing(b.withdrawn) &&
-        a.aliases == b.aliases &&
-        a.upstream == b.upstream &&
-        a.related == b.related &&
+        Set(a.aliases) == Set(b.aliases) &&
+        Set(a.upstream) == Set(b.upstream) &&
+        Set(a.related) == Set(b.related) &&
         a.summary == b.summary &&
         a.details == b.details &&
-        a.severity == b.severity &&
-        a.affected == b.affected &&
-        a.references == b.references &&
-        a.credits == b.credits &&
-        a.jlsec_sources ≈ b.jlsec_sources
+        Set(a.severity) == Set(b.severity) &&
+        Set(a.affected) == Set(b.affected) &&
+        Set(a.references) == Set(b.references) &&
+        Set(a.credits) == Set(b.credits) &&
+        Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
+        Set((src.id, src.published, src.url) for src in b.jlsec_sources)
 end
 
 """
