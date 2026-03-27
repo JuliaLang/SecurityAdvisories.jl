@@ -169,7 +169,7 @@ function main()
             println(io, "<details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">has metadata</a>:</summary>\n\n")
 
             println(io, "| ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
-            println(io, "|-|-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
+            println(io, "|-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
             for (v, ups) in pkg_version_upstream[pkg]
                 println(io, "| $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
             end
