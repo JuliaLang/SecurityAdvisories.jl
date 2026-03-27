@@ -118,15 +118,12 @@ There are four categories of advisory that we need to handle:
 
 In addition to the periodic check, NVD, EUVD, and GitHub all support fetching all advisories for a specific CPE or repository, respectively. They also support fetching a single CVE or repository at a time.
 
-### The automations
+### Automated searching and drafting of advisories
 
-So the GitHub actions here:
-
-* Run some basic unit tests of the Julia `src` functionality
-* Automatically update ids, timestamps, export to OSV, and validate that OSV. This is run upon merges to main, and also dry-run on pull requests.
-* Search upstream advisory databases for potentially relevant advisories, opening pull requests to import them. Finding relevant advisories to JLL packages is done based upon its components (store in the `package_components.toml` file)
-* Automatically update the `package_components.toml` file by looking through the JLL's sources (in `jll_metadata.toml`) and finding download URLs and repositories that match an upstream project (manually populated in `upstream_project_info.toml`)
-* Automatically evaluates Yggdrasil's build scripts to update the `jll_metadata.toml` file.
+GitHub Actions enable the automatic search and import of advisories from other databases (GHSA, NVD and EUVD)
+and will open pull requests suggesting the inclusion of these new advisories. These can be triggered manually for a
+particular package (for now, ask a maintainer to do so). Once a day, SecurityAdvisories.jl will search as many
+packages as it can until it finds a package with new advisories.
 
 ## References
 
