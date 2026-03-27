@@ -42,6 +42,14 @@ function main()
             info["haystack_total"] += length(aliases) + length(upstreams)
             append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
             append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+            # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
+            # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
+            # Explicitly asking for a package would add these.
+            filter!(advisories) do advisory
+                existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
+                isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
+                                        all(SecurityAdvisories.has_upper_bound, advisory.affected))
+            end
         end
     end
     # Now create or update the found advisories:
