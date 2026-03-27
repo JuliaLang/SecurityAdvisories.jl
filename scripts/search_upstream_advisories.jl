@@ -5,6 +5,11 @@ using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
 using Random: shuffle
+using DataStructures: DefaultDict, OrderedDict
+
+link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
+link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, "/)")
+meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 function main()
     input = get(ARGS, 1, "")
@@ -25,13 +30,16 @@ function main()
         append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
         append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
     else
-        pkgs = shuffle(SecurityAdvisories.all_pkgs())
+        whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
+        pkg_search_count = 0
         while isempty(advisories)
-            (input, _) = pop!(pkgs)
+            (input, _) = pop!(whole_pkg_list)
             @info "searching for $input"
             aliases = SecurityAdvisories.fetch_package_matches(input)
             upstreams = SecurityAdvisories.fetch_package_upstreams(input)
-            info["haystack_total"] += max(1, length(aliases) + length(upstreams))
+            pkg_search_count += 1
+            info["haystack"] = "$pkg_search_count random packages"
+            info["haystack_total"] += length(aliases) + length(upstreams)
             append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
             append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
         end
@@ -90,7 +98,62 @@ function main()
 
     if !isempty(upstreams)
         meta = GeneralMetadata.metadata()
-        println(io, "## $(length(upstreams)) advisories affect Julia package(s) because they contain vulnerable upstream projects\n")
+        println(io, "## $(length(upstreams)) advisories affect artifacts provided by Julia package(s)\n")
+        print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
+        print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
+        println(io, "(and version numbers themselves) are highly dependent on the accuracy of this metadata.")
+        println(io)
+        # Build an ad-hoc data structure to easily look up versions of packages and their projects:
+        # TODO: this should live somewhere better...
+        vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
+        vulnerable_cpes = unique(Iterators.flatten(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected) for adv in upstreams))
+        vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
+        pkg_version_upstream = Dict{String, Any}()
+        for pkg in vulnerable_pkgs
+            pkgmeta = meta[pkg]
+            pkg_version_upstream[pkg] = OrderedDict{String, Any}()
+            for (v, vmeta) in sort(OrderedDict(pkgmeta), by=VersionNumber)
+                if !haskey(vmeta, "artifact_urls")
+                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
+                elseif isempty(vmeta["artifact_urls"])
+                    pkg_version_upstream[pkg][v] = DefaultDict(nothing)
+                elseif !haskey(vmeta, "artifact_metadata") || isempty(vmeta["artifact_metadata"])
+                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
+                else
+                    unknowns = if Set(vmeta["artifact_urls"]) == Set(Iterators.flatten(get.(vmeta["artifact_metadata"], "artifact_urls", [[]]))) &&
+                        all(x->haskey(x, "sources"), vmeta["artifact_metadata"]) && all(x->haskey(x, "upstream"), Iterators.flatten(get.(vmeta["artifact_metadata"], "sources", [[]])))
+                        nothing
+                    else
+                        missing
+                    end
+                    upstream_proj_info = filter(!isempty, [get(src, "upstream", Dict()) for src in
+                        Iterators.flatten(get(am, "sources", []) for am in get(vmeta, "artifact_metadata", []))])
+                    d = DefaultDict(unknowns)
+                    for proj_name in unique(v["project"] for v in upstream_proj_info)
+                        d[proj_name] = [get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name]
+                    end
+                    pkg_version_upstream[pkg][v] = d
+                end
+            end
+        end
+
+        # TODO: it'd be nice to flag some key issues at the top-level here, such as:
+        # * (worst) The latest version has incomplete or missing metadata
+        # * (bad) There's a tracked source with an unknown version, worse if it's the earliest version that tracks that source
+        # * (less bad) Some versions have incomplete or missing metadata
+        # * (better) Incomplete/missing metadata is limited to old versions
+        for pkg in vulnerable_pkgs
+            println(io, "<details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">has metadata</a>:</summary>\n\n")
+
+            println(io, "| ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
+            println(io, "|-|-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
+            for (v, ups) in pkg_version_upstream[pkg]
+                println(io, "| $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
+            end
+            println(io)
+            println(io, "</details>\n")
+        end
+
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
             for src in adv.jlsec_sources
@@ -103,12 +166,13 @@ function main()
                 versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
                 affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
                 isempty(affecteds) && continue
-                print(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to:\n")
+                print(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
                 pkgs = unique(x.pkg for x in affecteds)
                 for pkg in pkgs
-                    print(io, "        * **", pkg, "** at versions: ")
+                    length(pkgs) > 1 && print(io, "\n        * ")
+                    print(io, "**", pkg, "** at versions: ")
                     pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                    print(io, "`", join(pkg_versions, ", "), "` because\n")
+                    println(io, "`", join(pkg_versions, ", "), "`")
                     pkginfo = meta[pkg]
                     available_versions = sort([VersionNumber(k) for k in keys(pkginfo)])
                     interesting_versions = Set{VersionNumber}()
@@ -127,20 +191,17 @@ function main()
                         end
                     end
                     for v in sort(collect(interesting_versions))
-                        proj_info = [info for info in (get(src, "upstream", Dict()) for src in
-                            Iterators.flatten(get(am, "sources", []) for am in get(pkginfo[string(v)], "artifact_metadata", []))) if get(info, "project", "")  in possible_projects]
-                        proj_versions = get.(proj_info, "version", "*")
-                        vstr = v == available_versions[end] ? string(v, " (latest)") : string(v)
-                        if length(proj_versions) == 0
-                            println(io, "            * ", vstr, " does not contain the project")
-                        elseif length(proj_versions) == 1 && proj_versions[1] == "*"
-                            println(io, "            * ", vstr, " contains ", proj_info[1]["project"], " at an **unknown version**")
-                        elseif length(proj_versions) == 1
-                            println(io, "            * ", vstr, " contains ", proj_info[1]["project"], " at version: `", proj_versions[1], "`")
-                        else
-                            proj_names = unique(getindex.(proj_info, "project"))
-                            proj_name = length(proj_names) == 1 ? proj_names[1] : string(proj_names) # TODO: this is rare, but could be better
-                            println(io, "            * ", vstr, " contains ", proj_name, " at versions: `", proj_versions, "`")
+                        for up in possible_projects
+                            uplink = link_proj(up)
+                            upv = pkg_version_upstream[pkg][string(v)][up]
+                            print(io, "            * ", v, " ")
+                            if ismissing(upv)
+                                println(io, "has missing/unknown metadata for ", uplink)
+                            elseif isnothing(upv)
+                                println(io, "does not include ", uplink)
+                            else
+                                println(io, "has metadata for ", uplink, " at version ", join(upv, ", ", " and "))
+                            end
                         end
                     end
                 end
