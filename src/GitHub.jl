@@ -91,13 +91,10 @@ function fetch_all_pages(base_url::String, headers::Vector{Pair{String, String}}
     current_url = base_url
     page = 1
 
+    @info "GHSA: gathering all results from $base_url"
     while current_url !== nothing
-        println("Fetching page $page...")
-
         advisories, next_url = fetch_single_page(current_url, headers)
         append!(all_advisories, advisories)
-
-        println("Fetched $(length(advisories)) advisories from page $page")
 
         current_url = next_url
         page += 1
@@ -122,10 +119,7 @@ function fetch_advisories(hours::Int = DEFAULT_HOURS)
     query_string = join(["$(k)=$(HTTP.escapeuri(v))" for (k, v) in params], "&")
     full_url = "$base_url?$query_string"
 
-    println("Fetching advisories published since: $published_since_str")
-
     all_advisories = fetch_all_pages(full_url, headers)
-    println("Fetched $(length(all_advisories)) total advisories across all pages")
 
     return all_advisories
 end
@@ -190,7 +184,6 @@ function fetch_database_ghsa(ghsa)
     full_url = "$base_url?$query_string"
 
     all_advisories = fetch_all_pages(full_url, headers)
-    println("Fetched $(length(all_advisories)) total advisories across all pages")
 
     return only(all_advisories)
 end
@@ -207,12 +200,23 @@ function fetch_repo_advisories(owner, repo)
     query_string = join(["$(k)=$(HTTP.escapeuri(v))" for (k, v) in params], "&")
     full_url = "$base_url?$query_string"
 
-    println("Fetching advisories from: $repo")
 
     all_advisories = fetch_all_pages(full_url, headers)
-    println("Fetched $(length(all_advisories)) total advisories across all pages")
 
     return all_advisories
+end
+
+function fetch_package_advisories(pkg)
+    # First look up the pkg's GitHub repository from the registry
+    repos = SecurityAdvisories.registry_repositories()
+    uuid = only(SecurityAdvisories.uuids_from_name(pkg))
+    isnothing(uuid) && error("Package $pkg not found in registry")
+    repo = get(repos, uuid, nothing)
+    isnothing(repo) && error("No repository found for package $pkg with UUID $uuid")
+    m = match(r"^https://github.com/([^/]+)/([^/]+)$", repo)
+    isnothing(m) && return []
+    owner, repo_name = m.captures
+    return fetch_repo_advisories(owner, chopsuffix(repo_name, ".git"))
 end
 
 function vendor_product_versions(advisory)

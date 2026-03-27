@@ -42,8 +42,12 @@ function build_headers()
     return headers
 end
 
+const last_fetched = Ref{Float64}(0.0)
+
 function fetch_page(url::String, headers::Vector{Pair{String, String}})
+    sleep(max(0, 5 - (time() - last_fetched[]))) # Rate limit to 5 seconds between requests
     response = HTTP.get(url, headers)
+    last_fetched[] = time()
 
     if response.status != 200
         error("Failed to fetch EUVD data: HTTP $(response.status)")
@@ -64,7 +68,6 @@ function fetch_all_pages(base_url, headers, params)
     key = :items
     if haskey(data, key)
         append!(all_data, getproperty(data, key))
-        println("Fetched $(length(getproperty(data, key))) results from first page")
 
         # Check if there are more results
         total_results = data.total
@@ -72,7 +75,7 @@ function fetch_all_pages(base_url, headers, params)
         size = parse(Int, params["size"])
         page = parse(Int, params["page"])
 
-        println("Total results available: $total_results")
+        @info "EUVD: gathering $query_string (total results available: $total_results)"
 
         # Fetch remaining pages if needed
         while page*size + results_per_page < min(total_results,5000)
@@ -85,17 +88,14 @@ function fetch_all_pages(base_url, headers, params)
             query_string = join(["$(k)=$(HTTP.escapeuri(v))" for (k, v) in new_params], "&")
             next_url = "$base_url?$query_string"
 
-            sleep(5)
             data = fetch_page(next_url, headers)
 
             if haskey(data, key)
                 append!(all_data, getproperty(data, key))
-                println("Fetched $(length(getproperty(data, key))) results from page $(page+1)")
             end
         end
     end
 
-    println("Total results fetched: $(length(all_data))")
     return all_data
 end
 
@@ -115,6 +115,16 @@ function fetch_product_matches(vendor, product)
     params = Dict(
         "product" => product,
         "vendor" => vendor,
+    )
+
+    return fetch_all_pages(string(API_BASE, "/search"), headers, params)
+end
+
+function fetch_keyword_matches(keyword)
+    headers = build_headers()
+
+    params = Dict(
+        "text" => keyword,
     )
 
     return fetch_all_pages(string(API_BASE, "/search"), headers, params)

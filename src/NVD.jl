@@ -80,10 +80,12 @@ function build_nvd_headers()
     return headers
 end
 
-function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
-    println("Fetching: $url")
+const last_fetched = Ref{Float64}(0.0)
 
+function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
+    sleep(max(0, 6 - (time() - last_fetched[]))) # Rate limit to 6 seconds between requests
     response = HTTP.get(url, headers)
+    last_fetched[] = time()
 
     if response.status != 200
         error("Failed to fetch NVD data: HTTP $(response.status)")
@@ -103,14 +105,12 @@ function fetch_all_pages(base_url, headers, params, key)
     all_data = []
     if haskey(data, key)
         append!(all_data, getproperty(data, key))
-        println("Fetched $(length(getproperty(data, key))) results from first page")
-
         # Check if there are more results
         total_results = data.totalResults
         results_per_page = data.resultsPerPage
         start_index = data.startIndex
 
-        println("Total results available: $total_results")
+        @info "NVD: gathering $query_string (total results available: $total_results)"
 
         # Fetch remaining pages if needed
         while start_index + results_per_page < total_results
@@ -123,18 +123,14 @@ function fetch_all_pages(base_url, headers, params, key)
             query_string = join(["$(k)=$(HTTP.escapeuri(v))" for (k, v) in new_params], "&")
             next_url = "$base_url?$query_string"
 
-            # Sleep for rate limiting (6 seconds recommended by NVD)
-            sleep(6)
             data = fetch_nvd_page(next_url, headers)
 
             if haskey(data, key)
                 append!(all_data, getproperty(data, key))
-                println("Fetched $(length(getproperty(data, key))) results from page at index $start_index")
             end
         end
     end
 
-    println("Total results fetched: $(length(all_data))")
     return all_data
 end
 
@@ -157,6 +153,19 @@ function fetch_cpe_matches(cpe)
     # Build initial URL with parameters
     params = Dict(
         "virtualMatchString" => string(cpe),
+        "resultsPerPage" => "2000",
+        "startIndex" => "0"
+    )
+
+    return fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+end
+
+function fetch_keyword_matches(keyword)
+    headers = build_nvd_headers()
+
+    # Build initial URL with parameters
+    params = Dict(
+        "keywordSearch" => keyword,
         "resultsPerPage" => "2000",
         "startIndex" => "0"
     )

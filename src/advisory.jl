@@ -177,6 +177,25 @@ end
 function Base.hash(a::Advisory, h::UInt)
     return hash(to_toml_frontmatter(a), hash(a.summary, hash(a.details, hash(0x913cfa4716e3f874, h))))
 end
+
+# Approximate equality ignores some metadata like exact dates and times and orderings
+function Base.:≈(a::Advisory, b::Advisory)
+    return a.id == b.id &&
+        isnothing(a.published) == isnothing(b.published) &&
+        isnothing(a.withdrawn) == isnothing(b.withdrawn) &&
+        Set(a.aliases) == Set(b.aliases) &&
+        Set(a.upstream) == Set(b.upstream) &&
+        Set(a.related) == Set(b.related) &&
+        a.summary == b.summary &&
+        a.details == b.details &&
+        Set(a.severity) == Set(b.severity) &&
+        Set(a.affected) == Set(b.affected) &&
+        Set(a.references) == Set(b.references) &&
+        Set(a.credits) == Set(b.credits) &&
+        Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
+        Set((src.id, src.published, src.url) for src in b.jlsec_sources)
+end
+
 """
     is_vulnerable(x)
 
@@ -188,14 +207,15 @@ vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vuln
 """
     update(original::Advisory, updates::Advisory)
 
-Given an `original` advisory and some `updates`, return a new advisory with the same ID
-and dates
+Given an `original` advisory and some `updates`, return a new advisory with the original ID
+and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
 """
 function update(original::Advisory, updates::Advisory)
+    original ≈ updates && return original # No need to update if nothing relevant changed
     return Advisory(;
         # use whatever the default `schema_version` is
         id = original.id,
-        modified = original.modified, # This may or may not get overwritten later
+        modified = max(original.modified, updates.modified),
         published = original.published,
         withdrawn = something(original.withdrawn, updates.withdrawn, Some(nothing)),
         ## All other fields are directly taken from the updated advisory
@@ -209,6 +229,76 @@ function update(original::Advisory, updates::Advisory)
         references = updates.references,
         credits = updates.credits,
         jlsec_sources = updates.jlsec_sources,
+    )
+end
+
+"""
+    combine(a::Advisory, b::Advisory)
+
+Take two advisories and combine their information, preferring the first argument when it is unclear which is better
+"""
+function combine(a::Advisory, b::Advisory)
+    known_to_be_upstream = false
+    if isempty(intersect(a.aliases, b.aliases)) && isempty(intersect(a.upstream, b.upstream))
+        if !isempty(intersect(union(a.aliases, a.upstream), union(b.aliases, b.upstream)))
+            # When one advisory finds `upstream`, this is generally because it got better affected
+            # details, so we convert the others' aliases to upstream. # TODO: we could verify affected status of both
+            known_to_be_upstream = true
+        else
+            error("cannot combine advisories that are not aliases/upstreams of each other; got aliases $(a.aliases) and $(b.aliases) and upstreams $(a.upstream) and $(b.upstream)")
+        end
+    end
+    return Advisory(;
+        # use whatever the default `schema_version` is
+        id = startswith(a.id, "JLSEC-0000") ? b.id : a.id, # Prefer the non-placeholder ID if one exists
+        modified = max(a.modified, b.modified),
+        published = if !isnothing(a.published) && !isnothing(b.published)
+            min(a.published, b.published) # use the first-published date
+        else
+            something(a.published, b.published, Some(nothing))
+        end,
+        withdrawn = if !isnothing(a.withdrawn) && !isnothing(b.withdrawn)
+            min(a.withdrawn, b.withdrawn) # use the first-withdrawn date
+        else
+            something(a.withdrawn, b.withdrawn, Some(nothing))
+        end,
+        ## For most other fields, we take the union of the two advisories' values
+        aliases = known_to_be_upstream ? String[] : union(a.aliases, b.aliases),
+        upstream = known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream),
+        related = union(a.related, b.related),
+        summary = something(a.summary, b.summary, Some(nothing)),
+        # Generally the longer details are better, but we could try to find some Markdown?
+        details = length(a.details) >= length(b.details) ? a.details : b.details,
+        severity = union(a.severity, b.severity),
+        # Affected is the trickiest one when both exist; we want the "best" information here
+        affected = if !isnothing(a.affected) && !isnothing(b.affected)
+            pkgs = union((entry.pkg for entry in a.affected), (entry.pkg for entry in b.affected))
+            [begin
+                a_entry = findfirst(e -> e.pkg == pkg, a.affected)
+                b_entry = findfirst(e -> e.pkg == pkg, b.affected)
+                if a_entry === nothing
+                    b.affected[b_entry]
+                elseif b_entry === nothing
+                    a.affected[a_entry]
+                else
+                    a_ranges = a.affected[a_entry].ranges
+                    b_ranges = b.affected[b_entry].ranges
+                    if length(a_ranges) > length(b_ranges)
+                        # Having more ranges is generally more specific
+                        a.affected[a_entry]
+                    elseif all(has_upper_bound, a_ranges)
+                        a.affected[a_entry]
+                    else
+                        b.affected[b_entry]
+                    end
+                end
+            end for pkg in pkgs]
+        else
+            something(a.affected, b.affected, Some(nothing))
+        end,
+        references = union(a.references, b.references),
+        credits = union(a.credits, b.credits),
+        jlsec_sources = union(a.jlsec_sources, b.jlsec_sources),
     )
 end
 

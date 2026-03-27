@@ -281,6 +281,14 @@ function packages_with_project(proj)
     return [pkgname for (pkgname,versioninfo) in package_components() if any(v->v["project"]==proj, Iterators.flatten(values(versioninfo)))]
 end
 
+function upstream_projects_for_package(pkg)
+    return unique(v["project"] for verinfo in values(get(package_components(), pkg, Dict())) for v in values(verinfo))
+end
+
+function vendor_products_for_package(pkg)
+    return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in get(SecurityAdvisories.upstream_projects(), proj, String[]))
+end
+
 function package_project_version_map(pkg, proj)
     d = Dict{String,Any}()
     # TODO: This uses the old sometimes-string-sometimes-array-sometimes-* structure of the upstream `version`
@@ -451,18 +459,17 @@ end
 
 # TODO: use the above Pkg machinery for this, too
 const ALL_PKGS = Pair{String,String}[]
-function all_pkgs(toml_urls = ["https://github.com/JuliaRegistries/General/raw/refs/heads/master/Registry.toml",
-     "https://github.com/JuliaLang/julia/raw/refs/heads/master/stdlib/Project.toml"])
+function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml"),
+     ("JuliaLang", "julia", "stdlib/Project.toml")])
     if isempty(ALL_PKGS)
-        for toml_url in toml_urls
-            # This should really use Pkg APIs, but they are non-trivial and were hanging on GitHub Actions?
-            registry = TOML.parsefile(download(toml_url))
+        for (owner, repo, path) in toml_urls
+            registry = TOML.parse(GitHub.fetch_file(owner, repo, path; ref=nothing))
             if haskey(registry, "packages")
                 append!(ALL_PKGS, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
             elseif haskey(registry, "deps")
                 append!(ALL_PKGS, registry["deps"])
             else
-                @warn "Unexpected Pkg toml found at $toml_url"
+                error("Unexpected Pkg toml found at github.com/$owner/$repo/$path")
             end
         end
         sort!(ALL_PKGS)
@@ -553,4 +560,85 @@ function fetch_product_matches(vendor, product)
     euvds = EUVD.fetch_product_matches(vendor, product)
     @info "got $(length(euvds)) advisories from EUVD"
     return nvds, euvds
+end
+
+function fetch_package_matches(pkg)
+    return fetch_combinations(;
+        ghsas = GitHub.advisory.(GitHub.fetch_package_advisories(pkg)),
+        nvds = NVD.advisory.(NVD.fetch_keyword_matches(pkg * ".jl")),
+        euvds = EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")))
+end
+
+function fetch_package_upstreams(pkg)
+    vps = vendor_products_for_package(pkg)
+    nvds = unique(x->x.cve.id, Iterators.flatten(NVD.fetch_cpe_matches("cpe:2.3:a:$vendor:$product") for (vendor, product) in vps))
+    euvds = unique(x->x.id, Iterators.flatten(EUVD.fetch_product_matches(vendor, product) for (vendor, product) in vps))
+
+    return fetch_combinations(; nvds=NVD.advisory.(nvds), euvds=EUVD.advisory.(euvds))
+end
+
+function fetch_combinations(; ghsas=GitHub.Advisory[], nvds=NVD.Advisory[], euvds=EUVD.Advisory[])
+    advisories = Advisory[]
+
+    # Start with GHSA as those are the most specific and hardest to fetch by id
+    for ghsa in ghsas
+        advisory = ghsa
+        for id in union(ghsa.aliases, ghsa.upstream)
+            if startswith(id, "CVE-")
+                # Find the corresponding NVD (or fetch it if we don't have it already)
+                idxs = findall(x->in(id, union(x.aliases, x.upstream)), nvds)
+                if isempty(idxs)
+                    advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
+                else
+                    for idx in idxs
+                        advisory = combine(advisory, nvds[idx])
+                    end
+                    splice!(nvds, idxs) # And remove these from the NVD list
+                end
+            elseif startswith(id, "EUVD-")
+                idxs = findall(x->in(id, union(x.aliases, x.upstream)), euvds)
+                if isempty(idxs)
+                    advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
+                else
+                    for idx in idxs
+                        advisory = combine(advisory, euvds[idx])
+                    end
+                    splice!(euvds, idxs) # And remove these from the EUVD list
+                end
+            end
+        end
+        push!(advisories, advisory)
+    end
+
+    # Now go through remaining NVD advisories
+    for nvd in nvds
+        advisory = nvd
+        for id in union(nvd.aliases, nvd.upstream)
+            if startswith(id, "EUVD-")
+                idxs = findall(x->in(id, union(x.aliases, x.upstream)), euvds)
+                if isempty(idxs)
+                    advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
+                else
+                    for idx in idxs
+                        advisory = combine(advisory, euvds[idx])
+                    end
+                    splice!(euvds, idxs) # And remove these from the EUVD list
+                end
+            end
+        end
+        push!(advisories, advisory)
+    end
+
+    # Finally, go through any remaining EUVD advisories
+    for euvd in euvds
+        advisory = euvd
+        for id in union(euvd.aliases, euvd.upstream)
+            if startswith(id, "CVE-") # An alias we didn't splice! out
+                advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
+            end
+        end
+        push!(advisories, advisory)
+    end
+
+    return advisories
 end

@@ -1,121 +1,73 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
-using SecurityAdvisories: SecurityAdvisories, NVD, EUVD, GitHub, VersionRange, package_components
+using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components
+using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
+using Random: shuffle
+using DataStructures: DefaultDict, OrderedDict
+
+link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
+link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, "/)")
+meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 function main()
     input = get(ARGS, 1, "")
-    advisories = Dict{String,Any}()
+    advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input
-    info["haystack_total"] = String[]
+    info["haystack_total"] = 0
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        advisories[input] = SecurityAdvisories.fetch_advisory(input)
-        push!(info["haystack_total"], "1 advisory ($input)")
-    elseif input == "--github"
-        # Search through all GitHub repos for any GHSAs they have published
-        for (uuid, url) in SecurityAdvisories.registry_repositories()
-            m = match(r"^https://github.com/([^/]+)/(.*)$", url)
-            isnothing(m) && continue
-            owner, repo = m.captures
-            # We have a rate limit of 5000/hour, and there are more than 5000 github repos
-            sleep((5000/3600))
-            try
-                for adv in GitHub.fetch_repo_advisories(owner, chopsuffix(repo, ".git"))
-                    advisories[adv.ghsa_id] = GitHub.advisory(adv)
-                end
-            catch ex
-                @warn "failed to fetch repo advisories for $owner/$repo" ex
-            end
+        push!(advisories, SecurityAdvisories.fetch_advisory(input))
+        info["haystack_total"] = 1
+    elseif !isempty(input)
+        # Search for advisories matching a particular package name, both directly and through upstream matches.
+        # The direct package matches are more likely to be relevant, even if we're missing affected entries.
+        aliases = SecurityAdvisories.fetch_package_matches(input)
+        # But upstream matches are only relevant if they actually apply to the package:
+        upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+        info["haystack_total"] = length(aliases) + length(upstreams)
+        append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+        append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+        # And also remove advisories that don't affect the searched package
+        filter!(advisories) do advisory
+            input in SecurityAdvisories.vulnerable_packages(advisory)
         end
-        push!(info["haystack_total"], "$(length(advisories)) advisories from GitHub packages")
     else
-        # A larger joint EUVD/NVD search, either by vendor:product or time. It's helpful to gather as
-        # many vulns as possible with these higher-level searches before going one-by-one due to API limits
-        if startswith(input, "--project")
-            _, proj= split(input, [' ','='])
-            vendorproducts = split.(SecurityAdvisories.upstream_projects()[proj]["cpes"], ":", limit=2)
-            nvds = []
-            euvds = []
-            for (vendor, product) in vendorproducts
-                nvdspart, euvdspart = SecurityAdvisories.fetch_product_matches(vendor, product)
-                append!(nvds, nvdspart)
-                append!(euvds, euvdspart)
+        whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
+        pkg_search_count = 0
+        while isempty(advisories)
+            (input, _) = pop!(whole_pkg_list)
+            @info "searching for $input"
+            aliases = SecurityAdvisories.fetch_package_matches(input)
+            upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+            pkg_search_count += 1
+            info["haystack"] = "$pkg_search_count random packages"
+            info["haystack_total"] += length(aliases) + length(upstreams)
+            append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+            append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+            # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
+            # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
+            # Explicitly asking for a package would add these.
+            filter!(advisories) do advisory
+                existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
+                isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
+                                        all(SecurityAdvisories.has_upper_bound, advisory.affected))
             end
-        elseif contains(input, ":")
-            _, vendor, product = rsplit(":"*input, ":", limit=3, keepempty=true)
-            nvds, euvds = SecurityAdvisories.fetch_product_matches(vendor, product)
-        else
-            info["haystack"] = "recent NVD/EUVD changes/publications"
-            nvds = NVD.fetch_nvd_vulnerabilities()
-            euvds = EUVD.fetch_vulnerabilities()
-        end
-
-        found_nvds = length(nvds)
-        found_euvds = length(euvds)
-        additional_nvds = 0
-        additional_euvds = 0
-        joint_ids = intersect(filter(startswith("CVE"), EUVD.vuln_id.(euvds)), (x->x.cve.id).(nvds))
-
-        missing_nvds = found_euvds - length(joint_ids)
-        for vuln in euvds
-            # EUVD is largely useful in having a sloppier search and some more-recently-populated
-            # product/version data. Always trust NVD first, only falling back to EUVD. This finds
-            # applicable advisories and adds them to the NVD pile. Ideally, this would always add
-            # all the missing NVDs here, but that's quite expensive at 6 seconds per fetch.
-            vuln_id = EUVD.vuln_id(vuln)
-            @info "EUVD $vuln_id"
-            startswith(vuln_id, "CVE") || continue
-            vuln_id in joint_ids && continue
-            # Only add the missing NVD advisory if there are only a few (6 minutes worth) or we know it's relevant
-            if missing_nvds <= 100 || SecurityAdvisories.is_vulnerable(EUVD.advisory(vuln))
-                sleep(6)
-                try
-                    push!(nvds, NVD.fetch_cve(vuln_id))
-                    additional_nvds += 1
-                catch ex
-                    @info "failed to fetch NVD $vuln_id" ex
-                end
+            # And also remove advisories that don't affect the searched package
+            filter!(advisories) do advisory
+                input in SecurityAdvisories.vulnerable_packages(advisory)
             end
         end
-
-        for vuln in nvds
-            @info "NVD $(vuln.cve.id)"
-            adv = NVD.advisory(vuln)
-            if isempty(adv.affected) || !all(SecurityAdvisories.has_upper_bound, adv.affected)
-                # See if we can get a tighter answer with EUVD data
-                euvd = get(euvds[EUVD.vuln_id.(euvds) .== vuln.cve.id], 1) do
-                    additional_euvds += 1
-                    try EUVD.fetch_enisa(vuln.cve.id) catch _; nothing end
-                end
-                isnothing(euvd) && continue
-                @info "EUVD $(euvd.id)"
-                euvd_adv = EUVD.advisory(euvd)
-                if !isempty(euvd_adv.affected) && all(SecurityAdvisories.has_upper_bound, euvd_adv.affected)
-                    adv.affected = euvd_adv.affected
-                    affected_src = euvd_adv.jlsec_sources[1]
-                    push!(affected_src.fields, "affected")
-                    push!(adv.jlsec_sources, affected_src)
-                    # TODO: ensure that the EUVD id is also listed as an alias or upstream. Gotta know which one, though
-                end
-            end
-            if SecurityAdvisories.is_vulnerable(adv)
-                advisories[vuln.cve.id] = adv
-            end
-        end
-        push!(info["haystack_total"], "$found_nvds (+$additional_nvds) advisories from NVD")
-        push!(info["haystack_total"], "$found_euvds (+$additional_euvds) from EUVD")
     end
 
     # Now create or update the found advisories:
     n_modified = 0
-    for (id, advisory) in advisories
+    for advisory in advisories
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
         end
-        @info "JLSEC for $id: $(advisory.id)"
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
         file = joinpath(dir, advisory.id * ".md")
         n_modified += isfile(file)
@@ -130,9 +82,10 @@ function main()
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
-    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(values(advisories))))
+    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(advisories)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
+    println(io, "branch=", input)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "body<<BODY_EOF")
     println(io, "This action searched `", info["haystack"], "`, checking ", join(info["haystack_total"], ", ", " and "), " for advisories that pertain here. ",
@@ -141,81 +94,144 @@ function main()
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
 
+    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in advisories)
+    if unbounded > 0
+        println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
+        println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
+    end
 
-    function print_advisory_package_version_details(io, id, adv)
-        pkgs = SecurityAdvisories.vulnerable_packages(adv)
-        cpes = unique(Iterators.flatten(keys(entry.source_mapping) for entry in adv.affected if !isnothing(entry.source_mapping)))
-        ambiguous_cpes = filter(>(1)∘length∘SecurityAdvisories.upstream_projects_by_cpe, cpes)
+    aliases, upstreams = divide(x->!isempty(x.aliases), advisories)
 
-        affectedsrcidx = something(findlast(x->"affected" in x.fields, adv.jlsec_sources), 1)
-        html_url = get(adv.jlsec_sources, affectedsrcidx, (;html_url="")).html_url
-        println(io, "* [$id]($html_url) for packages: ", join("**" .* pkgs .* "**", ", ", ", and "))
-        for entry in adv.affected
-            if isempty(entry.ranges)
-                print(io, "    * **", entry.pkg, "** has no vulnerable versions")
-                if !isempty(keys(entry.source_mapping))
-                    print(io, "; some versions contain vulnerable ", join("`".*keys(entry.source_mapping).*"`", ", ", ", and "), ".")
-                end
-            else
-                print(io, "    * **", entry.pkg, "** computed `[", join(repr.(string.(entry.ranges)), ", "), "]`.")
+    if !isempty(aliases)
+        println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
+        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+            print(io, "* ")
+            for src in adv.jlsec_sources
+                print(io, "[", src.id, "](", src.html_url, ") ")
             end
-            if haskey(package_components(), entry.pkg)
-                pkg_components = package_components()[entry.pkg]
-                maxv = argmax(VersionNumber, keys(pkg_components))
-                maxv_components = pkg_components[maxv]
-                print(io, " Its latest version (", maxv, ") has components: ")
-                print(io, "{", join((string(c["project"], "@", c["version"]) for c in maxv_components), ", "), "}")
+            print(io, "for packages: \n")
+            for pkg in SecurityAdvisories.vulnerable_packages(adv)
+                versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
+                print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
             end
             println(io)
-            for (source, version_map) in entry.source_mapping
-                for (v, r) in version_map
-                    if isnothing(tryparse(SecurityAdvisories.VersionRange, v))
-                        println(io, "        * `", source, "` at `", v, "` failed to parse")
-                    elseif r == [VersionRange{VersionNumber}("*")]
-                        println(io, "        * `", source, "` at `", v, "` includes all versions")
-                    elseif !all(SecurityAdvisories.has_upper_bound, r)
-                        println(io, "        * `", source, "` at `", v, "` mapped to `[", join(string.(r), ", "), "]`, includes the latest version`")
+        end
+        println(io)
+    end
+
+    if !isempty(upstreams)
+        meta = GeneralMetadata.metadata()
+        println(io, "## $(length(upstreams)) advisories affect artifacts provided by Julia package(s)\n")
+        print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
+        print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
+        println(io, "(and version numbers themselves) are highly dependent on the accuracy of this metadata.")
+        println(io)
+        # Build an ad-hoc data structure to easily look up versions of packages and their projects:
+        # TODO: this should live somewhere better...
+        vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
+        vulnerable_cpes = unique(Iterators.flatten(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected) for adv in upstreams))
+        vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
+        pkg_version_upstream = Dict{String, Any}()
+        for pkg in vulnerable_pkgs
+            pkgmeta = meta[pkg]
+            pkg_version_upstream[pkg] = OrderedDict{String, Any}()
+            for (v, vmeta) in sort(OrderedDict(pkgmeta), by=VersionNumber)
+                if !haskey(vmeta, "artifact_urls")
+                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
+                elseif isempty(vmeta["artifact_urls"])
+                    pkg_version_upstream[pkg][v] = DefaultDict(nothing)
+                elseif !haskey(vmeta, "artifact_metadata") || isempty(vmeta["artifact_metadata"])
+                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
+                else
+                    unknowns = if Set(vmeta["artifact_urls"]) == Set(Iterators.flatten(get.(vmeta["artifact_metadata"], "artifact_urls", [[]]))) &&
+                        all(x->haskey(x, "sources"), vmeta["artifact_metadata"]) && all(x->haskey(x, "upstream"), Iterators.flatten(get.(vmeta["artifact_metadata"], "sources", [[]])))
+                        nothing
+                    else
+                        missing
+                    end
+                    upstream_proj_info = filter(!isempty, [get(src, "upstream", Dict()) for src in
+                        Iterators.flatten(get(am, "sources", []) for am in get(vmeta, "artifact_metadata", []))])
+                    d = DefaultDict(unknowns)
+                    for proj_name in unique(v["project"] for v in upstream_proj_info)
+                        d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
+                    end
+                    pkg_version_upstream[pkg][v] = d
+                end
+            end
+        end
+
+        # TODO: it'd be nice to flag some key issues at the top-level here, such as:
+        # * (worst) The latest version has incomplete or missing metadata
+        # * (bad) There's a tracked source with an unknown version, worse if it's the earliest version that tracks that source
+        # * (less bad) Some versions have incomplete or missing metadata
+        # * (better) Incomplete/missing metadata is limited to old versions
+        for pkg in vulnerable_pkgs
+            println(io, "<details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">has metadata</a>:</summary>\n\n")
+
+            println(io, "| ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
+            println(io, "|-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
+            for (v, ups) in pkg_version_upstream[pkg]
+                println(io, "| $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
+            end
+            println(io)
+            println(io, "</details>\n")
+        end
+
+        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+            print(io, "* ")
+            for src in adv.jlsec_sources
+                print(io, "[", src.id, "](", src.html_url, ") ")
+            end
+            print(io, "for upstream project(s): \n")
+            projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
+            for cpe in projects
+                possible_projects = SecurityAdvisories.upstream_projects_by_cpe(cpe)
+                versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
+                affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
+                isempty(affecteds) && continue
+                println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
+                pkgs = unique(x.pkg for x in affecteds)
+                for pkg in pkgs
+                    print(io, "        * **", pkg, "** at versions: ")
+                    pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
+                    println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
+                    pkginfo = meta[pkg]
+                    available_versions = sort([VersionNumber(k) for k in keys(pkginfo)])
+                    interesting_versions = Set{VersionNumber}()
+                    for range in pkg_versions
+                        if SecurityAdvisories.has_lower_bound(range)
+                            idx = findfirst(>=(range.lb), available_versions)
+                            push!(interesting_versions, available_versions[idx])
+                            push!(interesting_versions, available_versions[range.lbinclusive ? idx + 1 : idx - 1])
+                        end
+                        if SecurityAdvisories.has_upper_bound(range)
+                            idx = findfirst(>=(range.ub), available_versions)
+                            push!(interesting_versions, available_versions[idx])
+                            push!(interesting_versions, available_versions[range.ubinclusive ? idx + 1 : idx - 1])
+                        else
+                            push!(interesting_versions, available_versions[end])
+                        end
+                    end
+                    for v in sort(collect(interesting_versions))
+                        for up in possible_projects
+                            uplink = link_proj(up)
+                            upv = pkg_version_upstream[pkg][string(v)][up]
+                            print(io, "            * ", v, " ")
+                            if ismissing(upv)
+                                println(io, "has missing/unknown metadata for ", uplink)
+                            elseif isnothing(upv)
+                                println(io, "does not include ", uplink)
+                            else
+                                println(io, "has metadata for ", uplink, " at version ", join(string.("`", upv, "`"), ", " , ", and "))
+                            end
+                        end
                     end
                 end
             end
-            ambiguous_sources = filter(in(ambiguous_cpes), keys(entry.source_mapping))
-            for ambig in ambiguous_sources
-                println(io, "        * ⚠ `", ambig, "` might mean a different project; it could be one of ", join("`" .* SecurityAdvisories.upstream_projects_by_cpe(ambig) .* "`", ", ", " or "))
-            end
+            println(io)
         end
+        println(io)
     end
-
-    # Now break the identified advisories into three sections.  First, advisories which failed to parse the upstream version:
-    failed_advisories, advisories = divide(((_,v),)->any(isnothing, (tryparse(SecurityAdvisories.VersionRange, r) for entry in v.affected for (_,source_map) in entry.source_mapping for (r, _) in source_map)), advisories)
-    !isempty(failed_advisories) && println(io, "### $(length(failed_advisories)) advisories failed to parse the source version range\n\nThese advisories seem to apply to a Julia package but had trouble identifying exactly how and at which versions.")
-    for (id, adv) in sort(failed_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(failed_advisories) && println(io)
-
-    # Next advisories for which all versions apply
-    star_advisories, advisories = divide(((_,x),)->any(entry->entry.ranges==[VersionRange{VersionNumber}("*")], x.affected), advisories)
-    !isempty(star_advisories) && println(io, "### $(length(star_advisories)) advisories apply to all registered versions of a package\n\nThese advisories had no obvious failures but computed a range without bounds.")
-    for (id, adv) in sort(star_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(star_advisories) && println(io)
-
-    # Next advisories for which there's an unbounded upper range
-    unbounded_advisories, advisories = divide(((_,x),)->any(entry->any(!SecurityAdvisories.has_upper_bound, entry.ranges), x.affected), advisories)
-    !isempty(unbounded_advisories) && println(io, "### $(length(unbounded_advisories)) advisories apply to the latest version of a package and do not have a patch")
-    for (id, adv) in sort(unbounded_advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(unbounded_advisories) && println(io)
-
-    # And finally all remaining advisories.
-    !isempty(advisories) && println(io, "### $(length(advisories)) advisories found concrete vulnerable ranges\n\n")
-    for (id, adv) in sort(advisories)
-        print_advisory_package_version_details(io, id, adv)
-    end
-    !isempty(advisories) && println(io)
-
     println(io, "BODY_EOF")
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
