@@ -194,7 +194,7 @@ function main()
                 for pkg in pkgs
                     print(io, "        * **", pkg, "** at versions: ")
                     pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                    println(io, join("`" .* pkg_versions .* "`", ", ", ", and "))
+                    println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
                     pkginfo = meta[pkg]
                     available_versions = sort([VersionNumber(k) for k in keys(pkginfo)])
                     interesting_versions = Set{VersionNumber}()
@@ -222,7 +222,7 @@ function main()
                             elseif isnothing(upv)
                                 println(io, "does not include ", uplink)
                             else
-                                println(io, "has metadata for ", uplink, " at version ", join("`" .* upv .* "`", ", " , ", and "))
+                                println(io, "has metadata for ", uplink, " at version ", join(string.("`", upv, "`"), ", " , ", and "))
                             end
                         end
                     end
