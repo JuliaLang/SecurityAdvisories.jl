@@ -29,6 +29,10 @@ function main()
         info["haystack_total"] = length(aliases) + length(upstreams)
         append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
         append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+        # And also remove advisories that don't affect the searched package
+        filter!(advisories) do advisory
+            input in SecurityAdvisories.vulnerable_packages(advisory)
+        end
     else
         whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
         pkg_search_count = 0
@@ -50,8 +54,13 @@ function main()
                 isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
                                         all(SecurityAdvisories.has_upper_bound, advisory.affected))
             end
+            # And also remove advisories that don't affect the searched package
+            filter!(advisories) do advisory
+                input in SecurityAdvisories.vulnerable_packages(advisory)
+            end
         end
     end
+
     # Now create or update the found advisories:
     n_modified = 0
     for advisory in advisories
@@ -84,6 +93,12 @@ function main()
     println(io)
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
+
+    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in advisories)
+    if unbounded > 0
+        println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
+        println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
+    end
 
     aliases, upstreams = divide(x->!isempty(x.aliases), advisories)
 
@@ -138,7 +153,7 @@ function main()
                         Iterators.flatten(get(am, "sources", []) for am in get(vmeta, "artifact_metadata", []))])
                     d = DefaultDict(unknowns)
                     for proj_name in unique(v["project"] for v in upstream_proj_info)
-                        d[proj_name] = [get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name]
+                        d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
                     end
                     pkg_version_upstream[pkg][v] = d
                 end
@@ -174,13 +189,12 @@ function main()
                 versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
                 affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
                 isempty(affecteds) && continue
-                print(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
+                println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
                 pkgs = unique(x.pkg for x in affecteds)
                 for pkg in pkgs
-                    length(pkgs) > 1 && print(io, "\n        * ")
-                    print(io, "**", pkg, "** at versions: ")
+                    print(io, "        * **", pkg, "** at versions: ")
                     pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                    println(io, "`", join(pkg_versions, ", "), "`")
+                    println(io, join("`" .* pkg_versions .* "`", ", ", ", and "))
                     pkginfo = meta[pkg]
                     available_versions = sort([VersionNumber(k) for k in keys(pkginfo)])
                     interesting_versions = Set{VersionNumber}()
@@ -208,7 +222,7 @@ function main()
                             elseif isnothing(upv)
                                 println(io, "does not include ", uplink)
                             else
-                                println(io, "has metadata for ", uplink, " at version ", join(upv, ", ", " and "))
+                                println(io, "has metadata for ", uplink, " at version ", join("`" .* upv .* "`", ", " , ", and "))
                             end
                         end
                     end
