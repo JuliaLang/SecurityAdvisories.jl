@@ -38,25 +38,30 @@ function main()
         pkg_search_count = 0
         while isempty(advisories)
             (input, _) = pop!(whole_pkg_list)
-            @info "searching for $input"
-            aliases = SecurityAdvisories.fetch_package_matches(input)
-            upstreams = SecurityAdvisories.fetch_package_upstreams(input)
             pkg_search_count += 1
-            info["haystack"] = "$pkg_search_count random packages"
-            info["haystack_total"] += length(aliases) + length(upstreams)
-            append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
-            append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
-            # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
-            # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
-            # Explicitly asking for a package would add these.
-            filter!(advisories) do advisory
-                existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-                isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
-                                        all(SecurityAdvisories.has_upper_bound, advisory.affected))
-            end
-            # And also remove advisories that don't affect the searched package
-            filter!(advisories) do advisory
-                input in SecurityAdvisories.vulnerable_packages(advisory)
+            @info "searching for $input"
+            try
+                aliases = SecurityAdvisories.fetch_package_matches(input)
+                upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+                info["haystack"] = "$pkg_search_count random packages"
+                info["haystack_total"] += length(aliases) + length(upstreams)
+                append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+                append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+                # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
+                # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
+                # Explicitly asking for a package would add these.
+                filter!(advisories) do advisory
+                    existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
+                    isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
+                                            all(SecurityAdvisories.has_upper_bound, advisory.affected))
+                end
+                # And also remove advisories that don't affect the searched package
+                filter!(advisories) do advisory
+                    input in SecurityAdvisories.vulnerable_packages(advisory)
+                end
+            catch ex
+                @error "Error searching for $input" ex
+                empty!(advisories)
             end
         end
     end
