@@ -6,7 +6,7 @@ using Dates: Dates, DateTime, @dateformat_str
 using TOML: TOML
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary
+using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary, PREFIX
 
 # https://euvd.enisa.europa.eu/apidoc
 const API_BASE = "https://euvdservices.enisa.europa.eu/api"
