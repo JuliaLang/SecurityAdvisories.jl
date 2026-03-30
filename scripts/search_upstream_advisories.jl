@@ -11,14 +11,6 @@ using SHA: sha256
 link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
 link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, "/)")
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
-function link_jlsec(advisory)
-    id = advisory.id
-    year_text = split(id, "-")[2]
-    year = year_text == "0000" ? Dates.year(Dates.now()) : parse(Int, year_text)
-    path = string("advisories/published/", year, "/", id, ".md")
-    # GitHub uses the SHA256 of the canonical path as the link anchor
-    return string("[", id, "](changes#diff-", join(map(x->string(x, base=16, pad=2), sha256(path))), ")")
-end
 
 function main()
     input = get(ARGS, 1, "")
@@ -130,7 +122,7 @@ function main()
         println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
-            print(io, link_jlsec(adv), " (from:")
+            print(io, adv.id, " (from:")
             for src in adv.jlsec_sources
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
@@ -204,7 +196,7 @@ function main()
 
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
-            print(io, link_jlsec(adv), " (from:")
+            print(io, adv.id, " (from:")
             for src in adv.jlsec_sources
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
