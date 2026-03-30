@@ -323,7 +323,7 @@ function combine(a::Advisory, b::Advisory)
 end
 
 function combine_aliases!(advisories)
-    sort!(advisories, by=preferred_id_sort)
+    sort!(advisories, by=preferred_id_sort∘vuln_id)
     deleted = BitSet()
     for i in eachindex(advisories)
         i in deleted && continue
