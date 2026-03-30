@@ -111,10 +111,11 @@ function main()
         println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
+            print(io, vuln_id(adv), " (from:")
             for src in adv.jlsec_sources
-                print(io, "[", src.id, "](", src.html_url, ") ")
+                print(io, " [", src.id, "](", src.html_url, ")")
             end
-            print(io, "for packages: \n")
+            print(io, ") for packages: \n")
             for pkg in SecurityAdvisories.vulnerable_packages(adv)
                 versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
                 print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")

@@ -166,6 +166,7 @@ function advisory(vuln)
     return Advisory(;
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
         upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
+        id = string(PREFIX, "-0000-", vuln_id(vuln)),
         # related -- nothing structured
         summary = if exists(vuln, :description) extract_summary(vuln.description) end,
         details = get(vuln, :description, nothing),

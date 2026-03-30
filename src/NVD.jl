@@ -294,6 +294,7 @@ function advisory(vuln)
     end
 
     return Advisory(;
+        id = string(PREFIX, "-0000-", vuln.cve.id),
         withdrawn = (lowercase(get(vuln.cve, :vulnStatus, "")) == "rejected") ? Dates.now(Dates.UTC) : nothing,
         upstream_type => String[vuln.cve.id],
         # related -- nothing structured

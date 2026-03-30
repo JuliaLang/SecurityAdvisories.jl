@@ -274,6 +274,7 @@ function advisory(vuln)
     end
 
     return Advisory(;
+        id = string(PREFIX, "-0000-", vuln.ghsa_id),
         withdrawn = exists(vuln, :withdrawn_at) ? Dates.now(Dates.UTC) : nothing,
         upstream_type => aliases,
         # related -- nothing structured
