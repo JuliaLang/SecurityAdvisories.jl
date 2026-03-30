@@ -76,7 +76,10 @@ function main()
     end
 
     # We may have gathered advisories that are aliases of eachother:
+    @info "got $(length(advisories)) initially, combining aliases"
+    srcs = [src.id for a in advisories for src in a.jlsec_sources]
     SecurityAdvisories.combine_aliases!(advisories)
+    @info "combined aliases, now have $(length(advisories)) advisories" srcs [src.id for a in advisories for src in a.jlsec_sources]
 
     # Now create or update the found advisories:
     n_modified = 0

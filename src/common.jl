@@ -583,27 +583,27 @@ function fetch_combinations(; ghsas=GitHub.Advisory[], nvds=NVD.Advisory[], euvd
     # Start with GHSA as those are the most specific and hardest to fetch by id
     for ghsa in ghsas
         advisory = ghsa
-        for id in union(ghsa.aliases, ghsa.upstream)
+        for id in union(Set(ghsa.aliases), Set(ghsa.upstream))
             if startswith(id, "CVE-")
                 # Find the corresponding NVD (or fetch it if we don't have it already)
-                idxs = findall(x->in(id, union(x.aliases, x.upstream)), nvds)
+                idxs = findall(x->id == x.jlsec_sources[].id, nvds)
                 if isempty(idxs)
                     advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
                 else
                     for idx in idxs
                         advisory = combine(advisory, nvds[idx])
                     end
-                    splice!(nvds, idxs) # And remove these from the NVD list
+                    deleteat!(nvds, sort(idxs)) # And remove these from the NVD list
                 end
             elseif startswith(id, "EUVD-")
-                idxs = findall(x->in(id, union(x.aliases, x.upstream)), euvds)
+                idxs = findall(x->id == x.jlsec_sources[].id, euvds)
                 if isempty(idxs)
                     advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
                 else
                     for idx in idxs
                         advisory = combine(advisory, euvds[idx])
                     end
-                    splice!(euvds, idxs) # And remove these from the EUVD list
+                    deleteat!(euvds, sort(idxs)) # And remove these from the EUVD list
                 end
             end
         end
@@ -613,16 +613,16 @@ function fetch_combinations(; ghsas=GitHub.Advisory[], nvds=NVD.Advisory[], euvd
     # Now go through remaining NVD advisories
     for nvd in nvds
         advisory = nvd
-        for id in union(nvd.aliases, nvd.upstream)
+        for id in union(Set(nvd.aliases), Set(nvd.upstream))
             if startswith(id, "EUVD-")
-                idxs = findall(x->in(id, union(x.aliases, x.upstream)), euvds)
+                idxs = findall(x->id == x.jlsec_sources[].id, euvds)
                 if isempty(idxs)
                     advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
                 else
                     for idx in idxs
                         advisory = combine(advisory, euvds[idx])
                     end
-                    splice!(euvds, idxs) # And remove these from the EUVD list
+                    deleteat!(euvds, sort(idxs)) # And remove these from the EUVD list
                 end
             end
         end
@@ -632,8 +632,8 @@ function fetch_combinations(; ghsas=GitHub.Advisory[], nvds=NVD.Advisory[], euvd
     # Finally, go through any remaining EUVD advisories
     for euvd in euvds
         advisory = euvd
-        for id in union(euvd.aliases, euvd.upstream)
-            if startswith(id, "CVE-") # An alias we didn't splice! out
+        for id in union(Set(euvd.aliases), Set(euvd.upstream))
+            if startswith(id, "CVE-") # An alias we didn't delete out
                 advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
             end
         end
