@@ -66,6 +66,9 @@ function main()
         end
     end
 
+    # We may have gathered advisories that are aliases of eachother:
+    SecurityAdvisories.combine_aliases!(advisories)
+
     # Now create or update the found advisories:
     n_modified = 0
     for advisory in advisories

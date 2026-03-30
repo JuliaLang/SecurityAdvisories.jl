@@ -322,6 +322,26 @@ function combine(a::Advisory, b::Advisory)
     )
 end
 
+function combine_aliases!(advisories)
+    sort!(advisories, by=preferred_id_sort)
+    deleted = BitSet()
+    for i in eachindex(advisories)
+        i in deleted && continue
+
+        for j in (i+1):length(advisories)
+            j in deleted && continue
+
+            if !isempty(intersect(advisories[i].aliases, advisories[j].aliases)) ||
+               !isempty(intersect(advisories[i].upstream, advisories[j].upstream))
+                advisories[i] = combine(advisories[i], advisories[j])
+                push!(deleted, j)
+            end
+        end
+    end
+    deleteat!(advisories, deleted)
+    return advisories
+end
+
 function year(advisory::Advisory)
     yyyy = tryparse(Int, split(advisory.id, "-")[2])
     isnothing(yyyy) || yyyy == 0 ? Dates.year(Dates.now(Dates.UTC)) : yyyy
