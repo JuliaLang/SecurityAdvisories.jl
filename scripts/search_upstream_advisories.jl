@@ -75,11 +75,15 @@ function main()
         end
     end
 
-    # We may have gathered advisories that are aliases of eachother:
-    @info "got $(length(advisories)) initially, combining aliases"
-    srcs = [src.id for a in advisories for src in a.jlsec_sources]
+    # We may have gathered advisories that are aliases of eachother (but hopefully not!)
+    n_pre = length(advisories)
+    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
     SecurityAdvisories.combine_aliases!(advisories)
-    @info "combined aliases, now have $(length(advisories)) advisories" srcs [src.id for a in advisories for src in a.jlsec_sources]
+    if length(advisories) < n_pre
+        @info "combined $(n_pre - length(advisories)) advisories through alias information!"
+        @show pre_srcs
+        @show [[src.id for src in a.jlsec_sources] for a in advisories]
+    end
 
     # Now create or update the found advisories:
     n_modified = 0

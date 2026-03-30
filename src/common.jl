@@ -563,10 +563,10 @@ function fetch_product_matches(vendor, product)
 end
 
 function fetch_package_matches(pkg)
-    return fetch_combinations(;
-        ghsas = GitHub.advisory.(GitHub.fetch_package_advisories(pkg)),
-        nvds = NVD.advisory.(NVD.fetch_keyword_matches(pkg * ".jl")),
-        euvds = EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")))
+    return fetch_combinations(vcat(
+        GitHub.advisory.(GitHub.fetch_package_advisories(pkg)),
+        NVD.advisory.(NVD.fetch_keyword_matches(pkg * ".jl")),
+        unique(x->x.id, Iterators.flatten((EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")), EUVD.advisory.(EUVD.fetch_product_matches("", pkg*".jl")))))))
 end
 
 function fetch_package_upstreams(pkg)
@@ -574,68 +574,68 @@ function fetch_package_upstreams(pkg)
     nvds = unique(x->x.cve.id, Iterators.flatten(NVD.fetch_cpe_matches("cpe:2.3:a:$vendor:$product") for (vendor, product) in vps))
     euvds = unique(x->x.id, Iterators.flatten(EUVD.fetch_product_matches(vendor, product) for (vendor, product) in vps))
 
-    return fetch_combinations(; nvds=NVD.advisory.(nvds), euvds=EUVD.advisory.(euvds))
+    return fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds)))
 end
 
-function fetch_combinations(; ghsas=GitHub.Advisory[], nvds=NVD.Advisory[], euvds=EUVD.Advisory[])
+"""
+    fetch_combinations(batch)
+
+Given a batch of advisories that have been grabbed from various sources, fetch any missing aliases and combine them
+
+Note that these _must_ be advisories imported from databases and they _must_ not have been combined yet
+
+This is valuable because some databases are better at searching (e.g., EUVD), whereas others typically have better data (e.g., GHSA & NVD)
+"""
+function fetch_combinations(batch)
+    # These advisories haven't been combined yet, so they only have one source
+    sources = Dict{String, Advisory}(a.jlsec_sources[].id => a for a in batch)
+
+    # This is a little tricky because alias information is not bidirectional and
+    # only GHSAs and EUVDs will have any alias information at all
+    alias_sets = Set{String}[]
+    upstream_sets = Set{String}[]
+    for (id, adv) in sources
+        idx = findfirst(x->any(in(x), adv.aliases), alias_sets)
+        if !isnothing(idx)
+            union!(alias_sets[idx], adv.aliases)
+        elseif !isempty(adv.aliases)
+            push!(alias_sets, Set(adv.aliases))
+        end
+
+        idx = findfirst(x->any(in(x), adv.upstream), upstream_sets)
+        if !isnothing(idx)
+            union!(upstream_sets[idx], adv.upstream)
+        elseif !isempty(adv.upstream)
+            push!(upstream_sets, Set(adv.upstream))
+        end
+    end
+
+    # Now either gather the missing aliases or remove them from the set of known aliases
+    for alias_set in Iterators.flatten((alias_sets, upstream_sets))
+        pops = Set{String}()
+        for id in alias_set
+            if !haskey(sources, id)
+                try
+                    # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
+                    # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
+                    # as an alias but we won't attempt importing it
+                    sources[id] = fetch_advisory(id)
+                catch
+                    push!(pops, id)
+                end
+            end
+        end
+        !isempty(pops) && setdiff!(alias_set, pops)
+    end
+
     advisories = Advisory[]
-
-    # Start with GHSA as those are the most specific and hardest to fetch by id
-    for ghsa in ghsas
-        advisory = ghsa
-        for id in union(Set(ghsa.aliases), Set(ghsa.upstream))
-            if startswith(id, "CVE-")
-                # Find the corresponding NVD (or fetch it if we don't have it already)
-                idxs = findall(x->id == x.jlsec_sources[].id, nvds)
-                if isempty(idxs)
-                    advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
-                else
-                    for idx in idxs
-                        advisory = combine(advisory, nvds[idx])
-                    end
-                    deleteat!(nvds, sort(idxs)) # And remove these from the NVD list
-                end
-            elseif startswith(id, "EUVD-")
-                idxs = findall(x->id == x.jlsec_sources[].id, euvds)
-                if isempty(idxs)
-                    advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
-                else
-                    for idx in idxs
-                        advisory = combine(advisory, euvds[idx])
-                    end
-                    deleteat!(euvds, sort(idxs)) # And remove these from the EUVD list
-                end
-            end
-        end
-        push!(advisories, advisory)
-    end
-
-    # Now go through remaining NVD advisories
-    for nvd in nvds
-        advisory = nvd
-        for id in union(Set(nvd.aliases), Set(nvd.upstream))
-            if startswith(id, "EUVD-")
-                idxs = findall(x->id == x.jlsec_sources[].id, euvds)
-                if isempty(idxs)
-                    advisory = combine(advisory, EUVD.advisory(EUVD.fetch_enisa(id)))
-                else
-                    for idx in idxs
-                        advisory = combine(advisory, euvds[idx])
-                    end
-                    deleteat!(euvds, sort(idxs)) # And remove these from the EUVD list
-                end
-            end
-        end
-        push!(advisories, advisory)
-    end
-
-    # Finally, go through any remaining EUVD advisories
-    for euvd in euvds
-        advisory = euvd
-        for id in union(Set(euvd.aliases), Set(euvd.upstream))
-            if startswith(id, "CVE-") # An alias we didn't delete out
-                advisory = combine(advisory, NVD.advisory(NVD.fetch_cve(id)))
-            end
+    for alias_set in Iterators.flatten((alias_sets, upstream_sets))
+        ids = sort(collect(alias_set), by=preferred_id_sort)
+        start_id = popfirst!(ids)
+        advisory = sources[start_id]
+        for id in ids
+            @info "combining $id into $start_id"
+            advisory = combine(advisory, sources[id])
         end
         push!(advisories, advisory)
     end
