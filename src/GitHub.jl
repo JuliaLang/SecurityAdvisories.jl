@@ -5,7 +5,7 @@ using JSON3
 using Dates
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, VersionRange, VersionString, Credit, Reference, Severity, Advisory, AdvisorySource
+using ..SecurityAdvisories: SecurityAdvisories, exists, VersionRange, VersionString, Credit, Reference, Severity, Advisory, AdvisorySource, PREFIX
 
 const GITHUB_API_BASE = "https://api.github.com"
 const DEFAULT_HOURS = 25
@@ -274,6 +274,7 @@ function advisory(vuln)
     end
 
     return Advisory(;
+        id = string(PREFIX, "-0000-", vuln.ghsa_id),
         withdrawn = exists(vuln, :withdrawn_at) ? Dates.now(Dates.UTC) : nothing,
         upstream_type => aliases,
         # related -- nothing structured

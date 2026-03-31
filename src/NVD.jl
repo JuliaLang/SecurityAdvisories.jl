@@ -6,7 +6,7 @@ using Dates
 using TOML: TOML
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, Severity, Advisory, Reference, Credit, AdvisorySource, extract_summary
+using ..SecurityAdvisories: SecurityAdvisories, exists, Severity, Advisory, Reference, Credit, AdvisorySource, extract_summary, PREFIX
 
 const NVD_API_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 const NVD_CPE_API_BASE = "https://services.nvd.nist.gov/rest/json/cpes/2.0"
@@ -294,6 +294,7 @@ function advisory(vuln)
     end
 
     return Advisory(;
+        id = string(PREFIX, "-0000-", vuln.cve.id),
         withdrawn = (lowercase(get(vuln.cve, :vulnStatus, "")) == "rejected") ? Dates.now(Dates.UTC) : nothing,
         upstream_type => String[vuln.cve.id],
         # related -- nothing structured

@@ -1,11 +1,12 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
-using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components
+using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX
 using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
 using Random: shuffle
 using DataStructures: DefaultDict, OrderedDict
+using SHA: sha256
 
 link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
 link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, "/)")
@@ -38,27 +39,42 @@ function main()
         pkg_search_count = 0
         while isempty(advisories)
             (input, _) = pop!(whole_pkg_list)
-            @info "searching for $input"
-            aliases = SecurityAdvisories.fetch_package_matches(input)
-            upstreams = SecurityAdvisories.fetch_package_upstreams(input)
             pkg_search_count += 1
-            info["haystack"] = "$pkg_search_count random packages"
-            info["haystack_total"] += length(aliases) + length(upstreams)
-            append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
-            append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
-            # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
-            # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
-            # Explicitly asking for a package would add these.
-            filter!(advisories) do advisory
-                existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-                isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
-                                        all(SecurityAdvisories.has_upper_bound, advisory.affected))
-            end
-            # And also remove advisories that don't affect the searched package
-            filter!(advisories) do advisory
-                input in SecurityAdvisories.vulnerable_packages(advisory)
+            @info "searching for $input"
+            try
+                aliases = SecurityAdvisories.fetch_package_matches(input)
+                upstreams = SecurityAdvisories.fetch_package_upstreams(input)
+                info["haystack"] = "$pkg_search_count random packages"
+                info["haystack_total"] += length(aliases) + length(upstreams)
+                append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
+                append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
+                # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
+                # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
+                # Explicitly asking for a package would add these.
+                filter!(advisories) do advisory
+                    existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
+                    isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
+                                            all(SecurityAdvisories.has_upper_bound, advisory.affected))
+                end
+                # And also remove advisories that don't affect the searched package
+                filter!(advisories) do advisory
+                    input in SecurityAdvisories.vulnerable_packages(advisory)
+                end
+            catch ex
+                @error "Error searching for $input" ex
+                empty!(advisories)
             end
         end
+    end
+
+    # We may have gathered advisories that are aliases of eachother (but hopefully not!)
+    n_pre = length(advisories)
+    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
+    SecurityAdvisories.combine_aliases!(advisories)
+    if length(advisories) < n_pre
+        @info "combined $(n_pre - length(advisories)) advisories through alias information!"
+        @show pre_srcs
+        @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
 
     # Now create or update the found advisories:
@@ -107,10 +123,11 @@ function main()
         println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
+            print(io, "`", adv.id, "` (from:")
             for src in adv.jlsec_sources
-                print(io, "[", src.id, "](", src.html_url, ") ")
+                print(io, " [", src.id, "](", src.html_url, ")")
             end
-            print(io, "for packages: \n")
+            print(io, ") for packages: \n")
             for pkg in SecurityAdvisories.vulnerable_packages(adv)
                 versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
                 print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
@@ -215,10 +232,11 @@ function main()
         println(io, "\n### Advisory summaries\n")
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
+            print(io, "`", adv.id, "` (from:")
             for src in adv.jlsec_sources
-                print(io, "[", src.id, "](", src.html_url, ") ")
+                print(io, " [", src.id, "](", src.html_url, ")")
             end
-            print(io, "for upstream project(s): \n")
+            print(io, ") for upstream project(s): \n")
             projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
             for cpe in projects
                 versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
