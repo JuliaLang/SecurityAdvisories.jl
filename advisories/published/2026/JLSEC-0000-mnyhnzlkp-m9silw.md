@@ -7,7 +7,7 @@ references = ["https://github.com/lloyd/yajl/issues/250", "https://lists.debian.
 
 [[affected]]
 pkg = "YAJL_jll"
-ranges = ["*"]
+ranges = ["< 2.1.2+0"]
 
 [[jlsec_sources]]
 id = "CVE-2023-33460"
