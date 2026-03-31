@@ -167,7 +167,6 @@ function advisory(vuln)
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
         upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
         # related -- nothing structured
-        summary = if exists(vuln, :description) extract_summary(vuln.description) end,
         details = get(vuln, :description, nothing),
         severity = if exists(vuln, :baseScoreVector) && exists(vuln, :baseScoreVersion)
                 Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector))]
