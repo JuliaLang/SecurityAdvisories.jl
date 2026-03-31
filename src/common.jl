@@ -590,11 +590,29 @@ function fetch_combinations(batch)
     # These advisories haven't been combined yet, so they only have one source
     sources = Dict{String, Advisory}(a.jlsec_sources[].id => a for a in batch)
 
+    # First gather all IDs referenced by the advisories in the batch and add missing ones
+    known_ids = Set{String}(Iterators.flatten((Iterators.flatten(a.aliases for a in batch), Iterators.flatten(a.upstream for a in batch))))
+    while !isempty(known_ids)
+        id = pop!(known_ids)
+        if !haskey(sources, id)
+            try
+                # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
+                # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
+                # as an alias but we won't attempt importing it
+                sources[id] = fetch_advisory(id)
+                # Add these new advisory's aliases to potentially check, too
+                union!(known_ids, Set(something(sources[id].aliases, [])), Set(something(sources[id].upstream, [])))
+            catch _
+            end
+        end
+    end
+
     # This is a little tricky because alias information is not bidirectional and
     # only GHSAs and EUVDs will have any alias information at all
     alias_sets = Set{String}[]
     upstream_sets = Set{String}[]
     for (id, adv) in sources
+        id in keys(sources) || continue
         idx = findfirst(x->any(in(x), adv.aliases), alias_sets)
         if !isnothing(idx)
             union!(alias_sets[idx], adv.aliases)
@@ -608,24 +626,6 @@ function fetch_combinations(batch)
         elseif !isempty(adv.upstream)
             push!(upstream_sets, Set(adv.upstream))
         end
-    end
-
-    # Now either gather the missing aliases or remove them from the set of known aliases
-    for alias_set in Iterators.flatten((alias_sets, upstream_sets))
-        pops = Set{String}()
-        for id in alias_set
-            if !haskey(sources, id)
-                try
-                    # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
-                    # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
-                    # as an alias but we won't attempt importing it
-                    sources[id] = fetch_advisory(id)
-                catch
-                    push!(pops, id)
-                end
-            end
-        end
-        !isempty(pops) && setdiff!(alias_set, pops)
     end
 
     advisories = Advisory[]
