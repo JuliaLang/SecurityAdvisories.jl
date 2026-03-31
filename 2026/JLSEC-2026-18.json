@@ -1,0 +1,55 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-18",
+    "modified": "2026-03-31T16:50:26.988Z",
+    "published": "2026-03-31T16:50:26.988Z",
+    "upstream": [
+        "CVE-2019-20633"
+    ],
+    "details": "GNU patch through 2.7.6 contains a free(p_line[p_end]) Double Free vulnerability in the function another_hunk in pch.c that can cause a denial of service via a crafted patch file. NOTE: this issue exists because of an incomplete fix for CVE-2018-6952.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "patch_jll",
+                "purl": "pkg:julia/patch_jll?uuid=c7bec4a6-5215-51fd-b0a3-64ceaaad3a34"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?56683"
+        },
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?56683"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-20633",
+                "imported": "2026-03-31T16:10:31.573Z",
+                "modified": "2024-11-21T04:38:55.590Z",
+                "published": "2020-03-25T17:15:14.013Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-20633",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-20633"
+            }
+        ]
+    }
+}

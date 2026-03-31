@@ -1,0 +1,79 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-15",
+    "modified": "2026-03-31T16:50:26.988Z",
+    "published": "2026-03-31T16:50:26.988Z",
+    "upstream": [
+        "CVE-2018-6952"
+    ],
+    "details": "A double free exists in the another_hunk function in pch.c in GNU patch through 2.7.6.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "patch_jll",
+                "purl": "pkg:julia/patch_jll?uuid=c7bec4a6-5215-51fd-b0a3-64ceaaad3a34"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/103047"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:2033"
+        },
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?53133"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/201904-17"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/103047"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:2033"
+        },
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?53133"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/201904-17"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-6952",
+                "imported": "2026-03-31T16:10:31.528Z",
+                "modified": "2024-11-21T04:11:28.420Z",
+                "published": "2018-02-13T19:29:00.573Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-6952",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-6952"
+            }
+        ]
+    }
+}

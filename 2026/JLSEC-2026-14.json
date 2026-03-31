@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-14",
+    "modified": "2026-03-31T16:50:26.988Z",
+    "published": "2026-03-31T16:50:26.988Z",
+    "upstream": [
+        "CVE-2018-6951"
+    ],
+    "details": "An issue was discovered in GNU patch through 2.7.6. There is a segmentation fault, associated with a NULL pointer dereference, leading to a denial of service in the intuit_diff_type function in pch.c, aka a \"mangled rename\" issue.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "patch_jll",
+                "purl": "pkg:julia/patch_jll?uuid=c7bec4a6-5215-51fd-b0a3-64ceaaad3a34"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/103044"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=f290f48a621867084884bfff87f8093c15195e6a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?53132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/201904-17"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3624-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/103044"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=f290f48a621867084884bfff87f8093c15195e6a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://savannah.gnu.org/bugs/index.php?53132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/201904-17"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3624-1/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-6951",
+                "imported": "2026-03-31T16:10:31.519Z",
+                "modified": "2024-11-21T04:11:28.273Z",
+                "published": "2018-02-13T19:29:00.510Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-6951",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-6951"
+            }
+        ]
+    }
+}
