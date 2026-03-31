@@ -197,6 +197,26 @@ function Base.:≈(a::Advisory, b::Advisory)
 end
 
 """
+    vuln_id(advisory)
+
+Return the vulnerability ID; if it's not yet been published, use a `preferred_id` from its aliases or upstreams (in that order)
+"""
+function vuln_id(a::Advisory)
+    return !startswith(a.id, string(PREFIX, "-0000")) ? a.id :
+           !isempty(a.aliases)  ? preferred_id(a.aliases)    :
+           !isempty(a.upstream) ? preferred_id(a.upstream)   : a.id
+end
+
+"""
+    function preferred_id(collection_of_ids)
+
+Given a collection of vulnerability IDs, return the "best" one
+"""
+preferred_id(vec) = first(sort(vec, by = preferred_id_sort))
+# We prefer non-placeholder JLSECs, then CVEs, then GHSAs, then the rest in lexicographic order (lol a Y3k bug)
+preferred_id_sort(id) = (!startswith(id, "JLSEC-2"), !startswith(id, "CVE"), !startswith(id, "GHSA"), id)
+
+"""
     is_vulnerable(x)
 
 Return `true` if the `Advisory` or `PackageVulnerability` has a non-empty set of versions
@@ -300,6 +320,26 @@ function combine(a::Advisory, b::Advisory)
         credits = union(a.credits, b.credits),
         jlsec_sources = union(a.jlsec_sources, b.jlsec_sources),
     )
+end
+
+function combine_aliases!(advisories)
+    sort!(advisories, by=preferred_id_sort∘vuln_id)
+    deleted = BitSet()
+    for i in eachindex(advisories)
+        i in deleted && continue
+
+        for j in (i+1):length(advisories)
+            j in deleted && continue
+
+            if !isempty(intersect(advisories[i].aliases, advisories[j].aliases)) ||
+               !isempty(intersect(advisories[i].upstream, advisories[j].upstream))
+                advisories[i] = combine(advisories[i], advisories[j])
+                push!(deleted, j)
+            end
+        end
+    end
+    deleteat!(advisories, deleted)
+    return advisories
 end
 
 function year(advisory::Advisory)
