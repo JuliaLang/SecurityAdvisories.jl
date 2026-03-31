@@ -122,7 +122,7 @@ function main()
         println(io, "## $(length(aliases)) advisories directly affect Julia package(s)\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
-            print(io, adv.id, " (from:")
+            print(io, "`", adv.id, "` (from:")
             for src in adv.jlsec_sources
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
@@ -196,7 +196,7 @@ function main()
 
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
             print(io, "* ")
-            print(io, adv.id, " (from:")
+            print(io, "`", adv.id, "` (from:")
             for src in adv.jlsec_sources
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
