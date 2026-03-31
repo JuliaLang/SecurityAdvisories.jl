@@ -601,16 +601,18 @@ function fetch_combinations(batch)
                 # as an alias but we won't attempt importing it
                 sources[id] = fetch_advisory(id)
                 # Add these new advisory's aliases to potentially check, too
-                union!(known_ids, Set(something(sources[id].aliases, [])), Set(something(sources[id].upstream, [])))
-            catch _
+                union!(known_ids, Set(sources[id].aliases), Set(sources[id].upstream))
+            catch ex
+                @info "got $(typeof(ex)) when trying to fetch $id; skipping it" ex
             end
         end
     end
 
     # This is a little tricky because alias information is not bidirectional and
-    # only GHSAs and EUVDs will have any alias information at all
+    # only GHSAs and EUVDs will have any alias information at all. It's also tricky
+    # because knowing whether a given advisory is an alias or upstream is not known
+    # until they've matched against a Julia package.
     alias_sets = Set{String}[]
-    upstream_sets = Set{String}[]
     for (id, adv) in sources
         id in keys(sources) || continue
         idx = findfirst(x->any(in(x), adv.aliases), alias_sets)
@@ -620,16 +622,16 @@ function fetch_combinations(batch)
             push!(alias_sets, Set(adv.aliases))
         end
 
-        idx = findfirst(x->any(in(x), adv.upstream), upstream_sets)
+        idx = findfirst(x->any(in(x), adv.upstream), alias_sets)
         if !isnothing(idx)
-            union!(upstream_sets[idx], adv.upstream)
+            union!(alias_sets[idx], adv.upstream)
         elseif !isempty(adv.upstream)
-            push!(upstream_sets, Set(adv.upstream))
+            push!(alias_sets, Set(adv.upstream))
         end
     end
 
     advisories = Advisory[]
-    for alias_set in Iterators.flatten((alias_sets, upstream_sets))
+    for alias_set in alias_sets
         ids = sort(collect(alias_set), by=preferred_id_sort)
         start_id = popfirst!(ids)
         advisory = sources[start_id]
