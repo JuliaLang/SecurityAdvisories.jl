@@ -168,7 +168,6 @@ function advisory(vuln)
         upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
         id = string(PREFIX, "-0000-", vuln_id(vuln)),
         # related -- nothing structured
-        summary = if exists(vuln, :description) extract_summary(vuln.description) end,
         details = get(vuln, :description, nothing),
         severity = if exists(vuln, :baseScoreVector) && exists(vuln, :baseScoreVersion)
                 Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector))]
