@@ -1,0 +1,30 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnymvf1hc-1d8v7e8"
+modified = 2026-03-31T14:45:19.241Z
+upstream = ["EUVD-2024-30286", "CVE-2024-32477"]
+severity = ["CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"]
+references = ["https://github.com/denoland/deno/security/advisories/GHSA-95cj-3hr2-7j5j"]
+
+[[affected]]
+pkg = "Deno_jll"
+ranges = ["< 2.0.0+0"]
+
+[[jlsec_sources]]
+id = "EUVD-2024-30286"
+imported = 2026-03-31T14:42:45.362Z
+modified = 2024-08-02T02:13:39.000Z
+published = 2024-04-18T19:58:25.000Z
+url = "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-30286"
+html_url = "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-30286"
+[[jlsec_sources]]
+id = "CVE-2024-32477"
+imported = 2026-03-31T14:45:19.241Z
+modified = 2025-09-04T15:16:44.020Z
+published = 2024-04-18T20:15:17.927Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-32477"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2024-32477"
+```
+
+Deno is a JavaScript, TypeScript, and WebAssembly runtime with secure defaults. By using ANSI escape sequences and a race between `libc::tcflush(0, libc::TCIFLUSH)` and reading standard input, it's possible to manipulate the permission prompt and force it to allow an unsafe action regardless of the user input. Some ANSI escape sequences act as a info request to the master terminal emulator and the terminal emulator sends back the reply in the PTY channel. standard streams also use this channel to send and get data. For example the `\033[6n` sequence requests the current cursor position. These sequences allow us to append data to the standard input of Deno. This vulnerability allows an attacker to bypass Deno permission policy.  This vulnerability is fixed in 1.42.2.
+

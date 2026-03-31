@@ -1,0 +1,30 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnymvf1cx-1wz2jkl"
+modified = 2026-03-31T14:45:00.511Z
+upstream = ["EUVD-2023-0507", "CVE-2023-22499", "GHSA-mc52-jpm2-cqh6"]
+severity = ["CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"]
+references = ["https://github.com/denoland/deno/security/advisories/GHSA-mc52-jpm2-cqh6", "https://nvd.nist.gov/vuln/detail/CVE-2023-22499", "https://github.com/denoland/deno/pull/17392", "https://github.com/denoland/deno", "https://www.suse.com/security/cve/CVE-2023-22499.html"]
+
+[[affected]]
+pkg = "Deno_jll"
+ranges = ["< 1.33.4+0"]
+
+[[jlsec_sources]]
+id = "EUVD-2023-0507"
+imported = 2026-03-31T14:42:45.361Z
+modified = 2024-08-02T10:13:48.000Z
+published = 2023-01-17T20:23:20.000Z
+url = "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-0507"
+html_url = "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-0507"
+[[jlsec_sources]]
+id = "CVE-2023-22499"
+imported = 2026-03-31T14:45:00.511Z
+modified = 2024-11-21T07:44:55.847Z
+published = 2023-01-17T21:15:15.883Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-22499"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2023-22499"
+```
+
+Deno is a runtime for JavaScript and TypeScript that uses V8 and is built in Rust. Multi-threaded programs were able to spoof interactive permission prompt by rewriting the prompt to suggest that program is waiting on user confirmation to unrelated action. A malicious program could clear the terminal screen after permission prompt was shown and write a generic message. This situation impacts users who use Web Worker API and relied on interactive permission prompt. The reproduction is very timing sensitive and can’t be reliably reproduced on every try. This problem can not be exploited on systems that do not attach an interactive prompt (for example headless servers). The problem has been fixed in Deno v1.29.3; it is recommended all users update to this version. Users are advised to upgrade. Users unable to upgrade may run with --no-prompt flag to disable interactive permission prompts.
+
