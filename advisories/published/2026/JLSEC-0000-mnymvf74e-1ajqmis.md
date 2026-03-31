@@ -1,0 +1,22 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnymvf74e-1ajqmis"
+modified = 2026-03-31T14:42:50.702Z
+upstream = ["CVE-2019-13636"]
+references = ["http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html", "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=dce4683cbbe107a95f1f0d45fabc304acfb5d71a", "https://github.com/irsl/gnu-patch-vulnerabilities", "https://lists.debian.org/debian-lts-announce/2019/07/msg00016.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SVWWGISFWACROJJPVJJL4UBLVZ7LPOLT/", "https://seclists.org/bugtraq/2019/Aug/29", "https://seclists.org/bugtraq/2019/Jul/54", "https://security.gentoo.org/glsa/201908-22", "https://security.netapp.com/advisory/ntap-20190828-0001/", "https://usn.ubuntu.com/4071-1/", "https://usn.ubuntu.com/4071-2/", "https://www.debian.org/security/2019/dsa-4489", "http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html", "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=dce4683cbbe107a95f1f0d45fabc304acfb5d71a", "https://github.com/irsl/gnu-patch-vulnerabilities", "https://lists.debian.org/debian-lts-announce/2019/07/msg00016.html", "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SVWWGISFWACROJJPVJJL4UBLVZ7LPOLT/", "https://seclists.org/bugtraq/2019/Aug/29", "https://seclists.org/bugtraq/2019/Jul/54", "https://security.gentoo.org/glsa/201908-22", "https://security.netapp.com/advisory/ntap-20190828-0001/", "https://usn.ubuntu.com/4071-1/", "https://usn.ubuntu.com/4071-2/", "https://www.debian.org/security/2019/dsa-4489"]
+
+[[affected]]
+pkg = "patch_jll"
+ranges = ["< 2.8.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2019-13636"
+imported = 2026-03-31T14:42:50.702Z
+modified = 2024-11-21T04:25:24.703Z
+published = 2019-07-17T21:15:11.797Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-13636"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2019-13636"
+```
+
+In GNU patch through 2.7.6, the following of symlinks is mishandled in certain cases other than input files. This affects inp.c and util.c.
+

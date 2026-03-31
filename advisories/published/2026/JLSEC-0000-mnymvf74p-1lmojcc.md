@@ -1,0 +1,22 @@
+```toml
+schema_version = "1.7.4"
+id = "JLSEC-0000-mnymvf74p-1lmojcc"
+modified = 2026-03-31T14:42:50.713Z
+upstream = ["CVE-2018-20969"]
+references = ["http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html", "https://access.redhat.com/errata/RHSA-2019:2798", "https://access.redhat.com/errata/RHSA-2019:2964", "https://access.redhat.com/errata/RHSA-2019:3757", "https://access.redhat.com/errata/RHSA-2019:3758", "https://access.redhat.com/errata/RHSA-2019:4061", "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0", "https://github.com/irsl/gnu-patch-vulnerabilities", "https://seclists.org/bugtraq/2019/Aug/29", "http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html", "https://access.redhat.com/errata/RHSA-2019:2798", "https://access.redhat.com/errata/RHSA-2019:2964", "https://access.redhat.com/errata/RHSA-2019:3757", "https://access.redhat.com/errata/RHSA-2019:3758", "https://access.redhat.com/errata/RHSA-2019:4061", "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0", "https://github.com/irsl/gnu-patch-vulnerabilities", "https://seclists.org/bugtraq/2019/Aug/29"]
+
+[[affected]]
+pkg = "patch_jll"
+ranges = ["< 2.8.0+0"]
+
+[[jlsec_sources]]
+id = "CVE-2018-20969"
+imported = 2026-03-31T14:42:50.713Z
+modified = 2024-11-21T04:02:35.423Z
+published = 2019-08-16T04:15:09.860Z
+url = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-20969"
+html_url = "https://nvd.nist.gov/vuln/detail/CVE-2018-20969"
+```
+
+do_ed_script in pch.c in GNU patch through 2.7.6 does not block strings beginning with a ! character. NOTE: this is the same commit as for CVE-2019-13638, but the ! syntax is specific to ed, and is unrelated to a shell metacharacter.
+
