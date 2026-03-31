@@ -128,3 +128,8 @@ jobs:
         COMMIT: ${{ steps.prepare_osv.outputs.COMMIT }}
       run: |
         git push origin $COMMIT:generated/osv
+
+  deploy-website:
+    needs: update-and-export
+    if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
+    uses: ./.github/workflows/deploy-web.yml
