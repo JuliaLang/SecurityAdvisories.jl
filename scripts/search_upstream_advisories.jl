@@ -165,7 +165,7 @@ function main()
         println(io, "\n### Package and upstream project information\n")
         for pkg in vulnerable_pkgs
             pkg_projects = unique(Iterators.flatten(keys(v) for v in values(pkg_version_upstream[pkg])))
-            println(io, "* ", link_pkg(pkg), "'s [artifact metadata](, ", meta_url(pkg), ") has upstream projects ", join(link_proj.(pkg_projects), ", ", " and "))
+            println(io, "* ", link_pkg(pkg), "'s [artifact metadata](", meta_url(pkg), ") has upstream", length(pkg_projects) > 1 ? "s: " : ": ", join(link_proj.(pkg_projects), ", ", " and "))
             println(io, "    <details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">metadata for each version</a>:</summary>\n\n")
 
             println(io, "    | ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
