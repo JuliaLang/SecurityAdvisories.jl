@@ -1,0 +1,80 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-21",
+    "modified": "2026-04-01T18:37:49.977Z",
+    "published": "2026-04-01T18:37:49.977Z",
+    "upstream": [
+        "CVE-2020-22219"
+    ],
+    "summary": "Buffer Overflow vulnerability in function `bitwriter_grow_` in flac",
+    "details": "Buffer Overflow vulnerability in function bitwriter_grow_ in flac before 1.4.0 allows remote attackers to run arbitrary code via crafted input to the encoder.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.4.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FLAC_jll",
+                "purl": "pkg:julia/FLAC_jll?uuid=1d38b3a6-207b-531b-80e8-c83f48dafa73"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/xiph/flac/issues/215"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00028.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ZD2AJTU4PCJQP7HPTS2L2ELJWBASCRGD/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5500"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/xiph/flac/issues/215"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00028.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ZD2AJTU4PCJQP7HPTS2L2ELJWBASCRGD/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5500"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-22219",
+                "imported": "2026-03-31T15:15:28.243Z",
+                "modified": "2024-11-21T05:13:11.940Z",
+                "published": "2023-08-22T19:16:19.190Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-22219",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-22219"
+            }
+        ]
+    }
+}
