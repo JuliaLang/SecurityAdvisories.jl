@@ -1,0 +1,51 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-53",
+    "modified": "2026-04-03T13:27:15.647Z",
+    "published": "2026-04-03T13:27:15.647Z",
+    "upstream": [
+        "CVE-2026-2003"
+    ],
+    "details": "Improper validation of type \"oidvector\" in PostgreSQL allows a database user to disclose a few bytes of server memory.  We have not ruled out viability of attacks that arrange for presence of confidential information in disclosed bytes, but they seem unlikely.  Versions before PostgreSQL 18.2, 17.8, 16.12, 15.16, and 14.21 are affected.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "14.1.0+0"
+                        },
+                        {
+                            "fixed": "16.13.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibPQ_jll",
+                "purl": "pkg:julia/LibPQ_jll?uuid=08be9ffa-1c94-5ee5-a977-46a84ec9b350"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://www.postgresql.org/support/security/CVE-2026-2003/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-2003",
+                "imported": "2026-04-03T13:13:10.745Z",
+                "modified": "2026-02-20T19:53:43.333Z",
+                "published": "2026-02-12T14:16:02.067Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-2003",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2003"
+            }
+        ]
+    }
+}

@@ -1,0 +1,75 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-46",
+    "modified": "2026-04-03T13:27:15.647Z",
+    "published": "2026-04-03T13:27:15.647Z",
+    "upstream": [
+        "CVE-2024-0985"
+    ],
+    "details": "Late privilege drop in REFRESH MATERIALIZED VIEW CONCURRENTLY in PostgreSQL allows an object creator to execute arbitrary SQL functions as the command issuer. The command intends to run SQL functions as the owner of the materialized view, enabling safe refresh of untrusted materialized views. The victim is a superuser or member of one of the attacker's roles. The attack requires luring the victim into running REFRESH MATERIALIZED VIEW CONCURRENTLY on the attacker's materialized view. Versions before PostgreSQL 16.2, 15.6, 14.11, 13.14, and 12.18 are affected.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "16.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibPQ_jll",
+                "purl": "pkg:julia/LibPQ_jll?uuid=08be9ffa-1c94-5ee5-a977-46a84ec9b350"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://saites.dev/projects/personal/postgres-cve-2024-0985/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.postgresql.org/support/security/CVE-2024-0985/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://saites.dev/projects/personal/postgres-cve-2024-0985/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20241220-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.postgresql.org/support/security/CVE-2024-0985/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-0985",
+                "imported": "2026-04-03T13:13:10.466Z",
+                "modified": "2024-12-20T13:15:19.070Z",
+                "published": "2024-02-08T13:15:08.927Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-0985",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0985"
+            }
+        ]
+    }
+}
