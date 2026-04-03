@@ -34,6 +34,8 @@ function main()
         filter!(advisories) do advisory
             input in SecurityAdvisories.vulnerable_packages(advisory)
         end
+        # And lastly, remove advisories that are known to be disputed
+        filter!(!SecurityAdvisories.is_disputed, advisories)
     else
         whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
         pkg_search_count = 0
@@ -60,6 +62,8 @@ function main()
                 filter!(advisories) do advisory
                     input in SecurityAdvisories.vulnerable_packages(advisory)
                 end
+                # And lastly, remove advisories that are known to be disputed
+                filter!(!SecurityAdvisories.is_disputed, advisories)
             catch ex
                 @error "Error searching for $input" ex
                 empty!(advisories)
