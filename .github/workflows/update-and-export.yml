@@ -14,6 +14,9 @@ jobs:
   update-and-export:
     runs-on: ubuntu-latest
 
+    outputs:
+      ref: ${{ steps.set_ref.outputs.ref }}
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -61,6 +64,11 @@ jobs:
       run: |
         git commit -m '${{ steps.assign.outputs.title }}'
         git push origin main
+
+    - name: Set ref output
+      id: set_ref
+      run: |
+        echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Export OSV
       id: export
@@ -133,3 +141,5 @@ jobs:
     needs: update-and-export
     if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
     uses: ./.github/workflows/deploy-web.yml
+    with:
+      ref: ${{ needs.update-and-export.outputs.ref }}

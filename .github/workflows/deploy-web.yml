@@ -1,8 +1,13 @@
 name: Deploy Website
 
 on:
-  workflow_call:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: "Git ref (SHA/branch/tag) to deploy; defaults to the triggering ref if omitted"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -14,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
 
       - uses: julia-actions/setup-julia@v2
         with:
