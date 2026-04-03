@@ -147,7 +147,7 @@ function fetch_cve(cveId)
     return only(fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities))
 end
 
-function fetch_cpe_matches(cpe)
+function fetch_cpe_matches(cpe; skip_deferred=true)
     headers = build_nvd_headers()
 
     # Build initial URL with parameters
@@ -157,7 +157,12 @@ function fetch_cpe_matches(cpe)
         "startIndex" => "0"
     )
 
-    return fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    everything = fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    if skip_deferred
+        return filter(!is_deferred, everything)
+    else
+        return everything
+    end
 end
 
 function fetch_keyword_matches(keyword; skip_deferred=true)
@@ -178,8 +183,10 @@ function fetch_keyword_matches(keyword; skip_deferred=true)
     end
 end
 
+is_deferred(vuln) = lowercase(get(vuln.cve, :vulnStatus, "")) == "deferred"
 
-function fetch_cpes(cpe; skip_deferred=true)
+
+function fetch_cpes(cpe)
     headers = build_nvd_headers()
 
     # Build initial URL with parameters
@@ -190,15 +197,8 @@ function fetch_cpes(cpe; skip_deferred=true)
         "startIndex" => "0"
     )
 
-    everything = fetch_all_pages(NVD_CPE_API_BASE, headers, params, :products)
-    if skip_deferred
-        return filter(!is_deferred, everything)
-    else
-        return everything
-    end
+    return fetch_all_pages(NVD_CPE_API_BASE, headers, params, :products)
 end
-
-is_deferred(vuln) = lowercase(get(vuln.cve, :vulnStatus, "")) == "deferred"
 
 function fetch_nvd_vulnerabilities(hours::Int = DEFAULT_HOURS)
     # Calculate time range
