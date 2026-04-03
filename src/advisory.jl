@@ -131,6 +131,7 @@ end
     url::String
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
+    database_specific::Dict{String, Any} = Dict{String, Any}()
 end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
@@ -223,6 +224,16 @@ Return `true` if the `Advisory` or `PackageVulnerability` has a non-empty set of
 """
 is_vulnerable(a::Advisory) = any(is_vulnerable, a.affected)
 vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vulnerable(entry)]
+
+"""
+    is_disputed(advisory)
+
+Return `true` if the advisory has been tagged as disputed (currently the only source giving this information is NVD)
+"""
+function is_disputed(a::Advisory)
+    any(==("disputed")∘lowercase, Iterators.flatten(get(tags, "tags", []) for src in a.jlsec_sources for tags in get(src.database_specific, "tags", [])))
+end
+
 
 """
     update(original::Advisory, updates::Advisory)

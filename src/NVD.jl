@@ -147,7 +147,7 @@ function fetch_cve(cveId)
     return only(fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities))
 end
 
-function fetch_cpe_matches(cpe)
+function fetch_cpe_matches(cpe; skip_deferred=true)
     headers = build_nvd_headers()
 
     # Build initial URL with parameters
@@ -157,10 +157,15 @@ function fetch_cpe_matches(cpe)
         "startIndex" => "0"
     )
 
-    return fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    everything = fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    if skip_deferred
+        return filter(!is_deferred, everything)
+    else
+        return everything
+    end
 end
 
-function fetch_keyword_matches(keyword)
+function fetch_keyword_matches(keyword; skip_deferred=true)
     headers = build_nvd_headers()
 
     # Build initial URL with parameters
@@ -170,8 +175,16 @@ function fetch_keyword_matches(keyword)
         "startIndex" => "0"
     )
 
-    return fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    everything = fetch_all_pages(NVD_API_BASE, headers, params, :vulnerabilities)
+    if skip_deferred
+        return filter(!is_deferred, everything)
+    else
+        return everything
+    end
 end
+
+is_deferred(vuln) = lowercase(get(vuln.cve, :vulnStatus, "")) == "deferred"
+
 
 function fetch_cpes(cpe)
     headers = build_nvd_headers()
@@ -309,7 +322,8 @@ function advisory(vuln)
             published = Dates.DateTime(vuln.cve.published),
             imported = Dates.now(Dates.UTC),
             url = string(NVD_API_BASE, "?cveId=", vuln.cve.id),
-            html_url = string("https://nvd.nist.gov/vuln/detail/", vuln.cve.id)
+            html_url = string("https://nvd.nist.gov/vuln/detail/", vuln.cve.id),
+            database_specific = exists(vuln.cve, :cveTags) ? Dict("tags" => map(t->Dict(string(k)=>v for (k,v) in t), vuln.cve.cveTags)) : Dict()
             )]
         )
 end
