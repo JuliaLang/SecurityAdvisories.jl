@@ -9,7 +9,7 @@ using DataStructures: DefaultDict, OrderedDict
 using SHA: sha256
 
 link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
-link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, "/)")
+link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, ")")
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 function main()
