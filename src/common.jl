@@ -566,7 +566,9 @@ function fetch_package_matches(pkg)
     return fetch_combinations(vcat(
         GitHub.advisory.(GitHub.fetch_package_advisories(pkg)),
         NVD.advisory.(NVD.fetch_keyword_matches(pkg * ".jl")),
-        unique(x->x.id, Iterators.flatten((EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")), EUVD.advisory.(EUVD.fetch_product_matches("", pkg*".jl")))))))
+        # EUVD is disabled because its API rate limits are too severe to reliably ping for every package (when we know there are almost no hits)
+        # unique(x->x.id, Iterators.flatten((EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")), EUVD.advisory.(EUVD.fetch_product_matches("", pkg*".jl"))))),
+    ))
 end
 
 function fetch_package_upstreams(pkg)
