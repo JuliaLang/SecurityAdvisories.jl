@@ -1,0 +1,63 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-59",
+    "modified": "2026-04-07T13:24:02.285Z",
+    "published": "2026-04-07T13:24:02.285Z",
+    "upstream": [
+        "CVE-2022-41409"
+    ],
+    "details": "Integer overflow vulnerability in pcre2test before 10.41 allows attackers to cause a denial of service or other unspecified impacts via negative input.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.41.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "PCRE2_jll",
+                "purl": "pkg:julia/PCRE2_jll?uuid=efcefdf7-47ab-520b-bdef-62a2eaa19f15"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/PCRE2Project/pcre2/commit/94e1c001761373b7d9450768aa15d04c25547a35"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/PCRE2Project/pcre2/issues/141"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/PCRE2Project/pcre2/commit/94e1c001761373b7d9450768aa15d04c25547a35"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/PCRE2Project/pcre2/issues/141"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-41409",
+                "imported": "2026-04-07T04:05:25.367Z",
+                "modified": "2024-11-21T07:23:10.577Z",
+                "published": "2023-07-18T14:15:12.197Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-41409",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41409"
+            }
+        ]
+    }
+}
