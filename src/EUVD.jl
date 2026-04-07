@@ -46,7 +46,7 @@ const last_fetched = Ref{Float64}(0.0)
 
 function fetch_page(url::String, headers::Vector{Pair{String, String}})
     sleep(max(0, 10 - (time() - last_fetched[]))) # Rate limit to 10 seconds between requests
-    response = HTTP.get(url, headers)
+    response = HTTP.get(url, headers, status_exception=false)
     last_fetched[] = time()
     if response.status == 504
         @warn "EUVD API returned 504 Gateway Timeout for $url; retrying after a short delay..."
