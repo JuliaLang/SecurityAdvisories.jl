@@ -1,0 +1,91 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-67",
+    "modified": "2026-04-09T21:32:46.691Z",
+    "published": "2026-04-09T21:32:46.691Z",
+    "upstream": [
+        "CVE-2023-28531"
+    ],
+    "details": "ssh-add in OpenSSH before 9.3 adds smartcard keys to ssh-agent without the intended per-hop destination constraints. The earliest affected version is 8.9.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.9.0+0"
+                        },
+                        {
+                            "fixed": "9.3.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/AN2UDTXEUSKFIOIYMV6JNI5VSBMYZOFT/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202307-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230413-0008/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5586"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/03/15/8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/AN2UDTXEUSKFIOIYMV6JNI5VSBMYZOFT/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/AN2UDTXEUSKFIOIYMV6JNI5VSBMYZOFT/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202307-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230413-0008/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5586"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/03/15/8"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-28531",
+                "imported": "2026-04-09T14:56:18.856Z",
+                "modified": "2025-11-04T19:15:41.430Z",
+                "published": "2023-03-17T04:15:14.553Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-28531",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28531"
+            }
+        ]
+    }
+}

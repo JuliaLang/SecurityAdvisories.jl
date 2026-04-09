@@ -1,0 +1,111 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-63",
+    "modified": "2026-04-09T21:32:46.691Z",
+    "published": "2026-04-09T21:32:46.691Z",
+    "upstream": [
+        "CVE-2020-14145"
+    ],
+    "details": "The client side in OpenSSH 5.7 through 8.4 has an Observable Discrepancy leading to an information leak in the algorithm negotiation. This allows man-in-the-middle attackers to target initial connection attempts (where no host key for the server has been cached by the client). NOTE: some reports state that 8.5 and 8.6 are also affected.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2020/12/02/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://anongit.mindrot.org/openssh.git/commit/?id=b3855ff053f5078ec3d3c653cdaedefaa5fc362d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://docs.ssh-mitm.at/CVE-2020-14145.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssh/openssh-portable/compare/V_8_3_P1...V_8_4_P1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ssh-mitm/ssh-mitm/blob/master/ssh_proxy_server/plugins/session/cve202014145.py"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-35"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20200709-0004/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.fzi.de/en/news/news/detail-en/artikel/fsa-2020-2-ausnutzung-eines-informationslecks-fuer-gezielte-mitm-angriffe-auf-ssh-clients/"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2020/12/02/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://anongit.mindrot.org/openssh.git/commit/?id=b3855ff053f5078ec3d3c653cdaedefaa5fc362d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://docs.ssh-mitm.at/CVE-2020-14145.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssh/openssh-portable/compare/V_8_3_P1...V_8_4_P1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ssh-mitm/ssh-mitm/blob/master/ssh_proxy_server/plugins/session/cve202014145.py"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-35"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20200709-0004/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.fzi.de/en/news/news/detail-en/artikel/fsa-2020-2-ausnutzung-eines-informationslecks-fuer-gezielte-mitm-angriffe-auf-ssh-clients/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-14145",
+                "imported": "2026-04-09T14:56:18.788Z",
+                "modified": "2025-12-18T15:15:48.410Z",
+                "published": "2020-06-29T18:15:11.940Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14145",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14145"
+            }
+        ]
+    }
+}

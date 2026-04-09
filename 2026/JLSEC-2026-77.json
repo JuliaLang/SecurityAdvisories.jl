@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-77",
+    "modified": "2026-04-09T21:32:46.691Z",
+    "published": "2026-04-09T21:32:46.691Z",
+    "upstream": [
+        "CVE-2026-35388",
+        "EUVD-2026-18404"
+    ],
+    "details": "OpenSSH before 10.3 omits connection multiplexing confirmation for proxy-mode multiplexing sessions.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.3.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://marc.info/?l=openssh-unix-dev&m=177513443901484&w=2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssh.org/releasenotes.html#10.3p1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/04/02/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35388"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-35388",
+                "imported": "2026-04-09T14:56:39.274Z",
+                "modified": "2026-04-03T16:10:23.730Z",
+                "published": "2026-04-02T17:16:27.947Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-35388",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35388"
+            },
+            {
+                "id": "EUVD-2026-18404",
+                "imported": "2026-04-09T14:56:20.702Z",
+                "modified": "2026-04-02T18:31:38Z",
+                "published": "2026-04-02T18:31:38Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-18404",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-18404"
+            }
+        ]
+    }
+}
