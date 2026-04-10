@@ -67,7 +67,7 @@ function main()
             advisory.modified = now
             updated = true
         end
-        if isnothing(advisory.published) || abs(advisory.published - published) > Dates.Minute(5)
+        if isnothing(advisory.published) || abs(advisory.published - published) > Dates.Day(1)
             @info "$file: Computed published ($published) is far away from existing $(advisory.published)"
             advisory.published = now
             advisory.modified = now
