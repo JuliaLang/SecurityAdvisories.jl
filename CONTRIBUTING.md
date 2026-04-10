@@ -16,7 +16,7 @@ Other Julia packages may need to issue advisories because they are directly redi
 
 ## Updating an already-published advisory
 
-Anyone can update advisories! Good updates can include further population of the structured fields, grammatical and spelling improvements, and technical reviews. Upon every change, the modified dates will be appropriately bumped upon merge to master.  Check out [osv.dev's properties of a high-quality OSV record](https://google.github.io/osv.dev/data_quality.html) for some more inspiration and guidance.
+Anyone can update advisories! Good updates can include further population of the structured fields, grammatical and spelling improvements, and technical reviews. Upon every change, the modified dates will be appropriately bumped upon merge to master.  See [osv.dev's properties of a high-quality OSV record](https://google.github.io/osv.dev/data_quality.html) for some more inspiration and guidance.
 
 Advisories should never be deleted. If an advisory was found to be issued in error, open a pull request that sets the `withdrawn` date to the current time.
 
