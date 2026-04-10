@@ -37,7 +37,7 @@ function main()
         updated = false
 
         # First assign ids and determine the modified and published timestamps
-        if startswith(advisory.id, string(SecurityAdvisories.PREFIX, "-0000-"))
+        if startswith(advisory.id, string(SecurityAdvisories.PREFIX, "-0000"))
             last_id += 1
             advisory.id = string(SecurityAdvisories.PREFIX, "-", year, "-", last_id)
             updated = true
@@ -45,13 +45,14 @@ function main()
             @info "moving $file to $(advisory.id).md"
             success(`git mv $path $newpath`) || run(`mv $path $newpath`)
             path = newpath
-            modified = published = now
-        else
-            git_modified = readchomp(`git log -1 --first-parent --format="%cd" --date=iso-strict -- $path`)
-            modified = isempty(git_modified) ? now : DateTime(ZonedDateTime(git_modified), Dates.UTC)
-            git_published = readchomp(`git log -1 --first-parent --format="%cd" --date=iso-strict --diff-filter=A -- $path`)
-            published = isempty(git_published) ? modified : DateTime(ZonedDateTime(git_published), Dates.UTC)
+            advisory.published = now
+            advisory.modified = now
         end
+
+        git_modified_str = readchomp(`git log -1 --first-parent --format="%cd" --date=iso-strict -- $path`)
+        git_modified = isempty(git_modified_str) ? now : DateTime(ZonedDateTime(git_modified_str), Dates.UTC)
+        git_published_str = readchomp(`git log -1 --first-parent --format="%cd" --date=iso-strict --diff-filter=A -- $path`)
+        git_published = isempty(git_published_str) ? now : DateTime(ZonedDateTime(git_published_str), Dates.UTC)
 
         # Now update the timestamps (if we need to)
         if something(advisory.withdrawn, typemin(DateTime)) > advisory.modified
@@ -62,16 +63,13 @@ function main()
             advisory.modified = now
             updated = true
         end
-        if abs(advisory.modified - modified) > Dates.Minute(5)
-            @info "$file: Computed modified ($modified) is far away from existing $(advisory.modified)"
+        if abs(advisory.modified - git_modified) > Dates.Minute(5)
+            @info "$file: Computed modified ($git_modified) is far away from existing $(advisory.modified)"
             advisory.modified = now
             updated = true
         end
-        if isnothing(advisory.published) || abs(advisory.published - published) > Dates.Day(1)
-            @info "$file: Computed published ($published) is far away from existing $(advisory.published)"
-            advisory.published = now
-            advisory.modified = now
-            updated = true
+        if isnothing(advisory.published) || abs(advisory.published - git_published) > Dates.Day(1)
+            error("$file: Computed published ($git_published) is far away from existing $(advisory.published)")
         end
 
         # Ensure this advisory isn't already represented in the database in any manner
