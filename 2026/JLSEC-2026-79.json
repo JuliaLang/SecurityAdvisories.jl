@@ -1,0 +1,59 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-79",
+    "modified": "2026-04-11T14:47:51.147Z",
+    "published": "2026-04-11T14:47:51.147Z",
+    "upstream": [
+        "CVE-2026-34085"
+    ],
+    "details": "fontconfig before 2.17.1 has an off-by-one error in allocation during sfnt capability handling, leading to a one-byte out-of-bounds write, and potentially a crash or code execution. This is in FcFontCapabilities in fcfreetype.c.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.17.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Fontconfig_jll",
+                "purl": "pkg:julia/Fontconfig_jll?uuid=a3f928ae-7b40-5064-980b-68af3947d34b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/fontconfig/fontconfig/-/commit/b9bec06d73340f1b5727302d13ac3df307b7febc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/fontconfig/fontconfig/-/merge_requests/446"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/fontconfig/fontconfig/-/work_items/481"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34085",
+                "imported": "2026-04-11T04:05:18.497Z",
+                "modified": "2026-03-27T21:39:33.240Z",
+                "published": "2026-03-25T17:17:09.210Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34085",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34085"
+            }
+        ]
+    }
+}
