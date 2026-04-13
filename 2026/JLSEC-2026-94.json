@@ -1,0 +1,71 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-94",
+    "modified": "2026-04-13T14:33:47.115Z",
+    "published": "2026-04-13T14:33:47.115Z",
+    "upstream": [
+        "CVE-2024-37371"
+    ],
+    "details": "In MIT Kerberos 5 (aka krb5) before 1.21.3, an attacker can cause invalid memory reads during GSS message token handling by sending message tokens with invalid length fields.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.21.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Kerberos_krb5_jll",
+                "purl": "pkg:julia/Kerberos_krb5_jll?uuid=b39eb1a6-c29a-53d7-8c32-632cd16f18da"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/krb5/krb5/commit/55fbf435edbe2e92dd8101669b1ce7144bc96fef"
+        },
+        {
+            "type": "WEB",
+            "url": "https://web.mit.edu/kerberos/www/advisories/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/krb5/krb5/commit/55fbf435edbe2e92dd8101669b1ce7144bc96fef"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20241108-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250124-0010/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://web.mit.edu/kerberos/www/advisories/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-37371",
+                "imported": "2026-04-13T14:12:33.277Z",
+                "modified": "2025-11-03T21:16:13.997Z",
+                "published": "2024-06-28T23:15:11.603Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-37371",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37371"
+            }
+        ]
+    }
+}
