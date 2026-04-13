@@ -1,0 +1,159 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-81",
+    "modified": "2026-04-13T13:20:05.063Z",
+    "published": "2026-04-13T13:20:05.063Z",
+    "upstream": [
+        "CVE-2022-38784"
+    ],
+    "details": "Poppler prior to and including 22.08.0 contains an integer overflow in the JBIG2 decoder (JBIG2Stream::readTextRegionSeg() in JBIGStream.cc). Processing a specially crafted PDF file or JBIG2 image could lead to a crash or the execution of arbitrary code. This is similar to the vulnerability described by CVE-2022-38171 in Xpdf.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "23.12.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/jeffssh/CVE-2021-30860"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zmanion/Vulnerabilities/blob/main/CVE-2022-38171.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/merge_requests/1261/diffs?commit_id=27354e9d9696ee2bc063910a6c9a6b27c5184a52"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BGY72LBJMFAKQWC2XH4MRPIGPQLXTFL6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/E5Z2677EQUWVHJLGSH5DQX53EK6MY2M2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/J546EJUKUOPWA3JSLP7DYNBAU3YGNCCW/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NLKN3HJKZSGEEKOF57DM7Q3IB74HP5VW/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TQAO6O2XHPQHNW2MWOCJJ4C3YWS2VV4K/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://poppler.freedesktop.org/releases.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2022-38171"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5224"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/jeffssh/CVE-2021-30860"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zmanion/Vulnerabilities/blob/main/CVE-2022-38171.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/merge_requests/1261/diffs?commit_id=27354e9d9696ee2bc063910a6c9a6b27c5184a52"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BGY72LBJMFAKQWC2XH4MRPIGPQLXTFL6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/E5Z2677EQUWVHJLGSH5DQX53EK6MY2M2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/J546EJUKUOPWA3JSLP7DYNBAU3YGNCCW/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NLKN3HJKZSGEEKOF57DM7Q3IB74HP5VW/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TQAO6O2XHPQHNW2MWOCJJ4C3YWS2VV4K/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://poppler.freedesktop.org/releases.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2022-38171"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5224"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-38784",
+                "imported": "2026-04-13T04:14:33.180Z",
+                "modified": "2024-11-21T07:17:04.843Z",
+                "published": "2022-08-30T03:15:07.307Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-38784",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38784"
+            }
+        ]
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-80",
+    "modified": "2026-04-13T13:20:05.063Z",
+    "published": "2026-04-13T13:20:05.063Z",
+    "upstream": [
+        "CVE-2022-38171"
+    ],
+    "details": "Xpdf prior to version 4.04 contains an integer overflow in the JBIG2 decoder (JBIG2Stream::readTextRegionSeg() in JBIG2Stream.cc). Processing a specially crafted PDF file or JBIG2 image could lead to a crash or the execution of arbitrary code. This is similar to the vulnerability described by CVE-2021-30860 (Apple CoreGraphics).",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "23.12.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.xpdfreader.com/security-fixes.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://dl.xpdfreader.com/xpdf-4.04.tar.gz"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/jeffssh/CVE-2021-30860"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zmanion/Vulnerabilities/blob/main/CVE-2022-38171.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://googleprojectzero.blogspot.com/2021/12/a-deep-dive-into-nso-zero-click.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2021-30860"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/09/02/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.xpdfreader.com/security-fixes.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://dl.xpdfreader.com/xpdf-4.04.tar.gz"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/jeffssh/CVE-2021-30860"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zmanion/Vulnerabilities/blob/main/CVE-2022-38171.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://googleprojectzero.blogspot.com/2021/12/a-deep-dive-into-nso-zero-click.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2021-30860"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-38171",
+                "imported": "2026-04-13T04:14:33.172Z",
+                "modified": "2024-11-21T07:15:56.110Z",
+                "published": "2022-08-22T19:15:11.060Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-38171",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38171"
+            }
+        ]
+    }
+}

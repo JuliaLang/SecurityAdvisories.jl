@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-89",
+    "modified": "2026-04-13T13:20:05.063Z",
+    "published": "2026-04-13T13:20:05.063Z",
+    "upstream": [
+        "CVE-2025-52885",
+        "EUVD-2025-33795"
+    ],
+    "details": "Poppler ia a library for rendering PDF files, and examining or modifying their structure. A use-after-free (write) vulnerability has been detected in versions Poppler prior to 25.10.0 within the StructTreeRoot class. The issue arises from the use of raw pointers to elements of a `std::vector`, which can lead to dangling pointers when the vector is resized. The vulnerability stems from the way that refToParentMap stores references to `std::vector` elements using raw pointers. These pointers may become invalid when the vector is resized. This vulnerability is a common security problem involving the use of raw pointers to `std::vectors`. Internally, `std::vector `stores its elements in a dynamically allocated array. When the array reaches its capacity and a new element is added, the vector reallocates a larger block of memory and moves all the existing elements to the new location. At this point if any pointers to elements are stored before a resize occurs, they become dangling pointers once the reallocation happens. Version 25.10.0 contains a patch for the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "25.10.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/merge_requests/1884"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/merge_requests/1884#note_3114334"
+        },
+        {
+            "type": "WEB",
+            "url": "https://securitylab.github.com/advisories/GHSL-2025-042_poppler/"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/10/13/2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-52885",
+                "imported": "2026-04-13T04:14:53.359Z",
+                "modified": "2025-11-04T22:16:20.757Z",
+                "published": "2025-10-10T23:15:36.397Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-52885",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-52885"
+            },
+            {
+                "id": "EUVD-2025-33795",
+                "imported": "2026-04-13T04:14:34.616Z",
+                "modified": "2025-11-04T21:11:41Z",
+                "published": "2025-10-10T22:11:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-33795",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-33795"
+            }
+        ]
+    }
+}

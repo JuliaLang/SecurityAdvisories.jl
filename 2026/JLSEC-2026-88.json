@@ -1,0 +1,59 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-88",
+    "modified": "2026-04-13T13:20:05.063Z",
+    "published": "2026-04-13T13:20:05.063Z",
+    "upstream": [
+        "CVE-2025-50420"
+    ],
+    "details": "An issue in the pdfseparate utility of freedesktop poppler v25.04.0 allows attackers to cause an infinite recursion via supplying a crafted PDF file. This can lead to a Denial of Service (DoS).",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "25.10.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://freedesktop.com"
+        },
+        {
+            "type": "WEB",
+            "url": "http://poppler.com"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Landw-hub/CVE-2025-50420"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-50420",
+                "imported": "2026-04-13T04:14:33.315Z",
+                "modified": "2025-10-09T17:43:54.350Z",
+                "published": "2025-08-04T17:15:30.700Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-50420",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-50420"
+            }
+        ]
+    }
+}

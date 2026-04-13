@@ -1,0 +1,92 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-85",
+    "modified": "2026-04-13T13:20:05.063Z",
+    "published": "2026-04-13T13:20:05.063Z",
+    "upstream": [
+        "GHSA-69gq-2xc5-f33j",
+        "CVE-2025-32364",
+        "EUVD-2025-9922"
+    ],
+    "summary": "A floating-point exception in the PSStack::roll function of Poppler before 25.04.0 can cause an...",
+    "details": "A floating-point exception in the PSStack::roll function of Poppler before 25.04.0 can cause an application to crash when handling malformed inputs associated with INT_MIN.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "25.10.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Poppler_jll",
+                "purl": "pkg:julia/Poppler_jll?uuid=9c32591e-4766-534b-9725-b71a8799265b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/commit/d87bc726c7cc98f8c26b60ece5f20236e9de1bc3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/issues/1574"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/04/msg00037.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32364"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-69gq-2xc5-f33j"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-32364",
+                "imported": "2026-04-13T04:14:33.293Z",
+                "modified": "2025-11-03T20:18:26.863Z",
+                "published": "2025-04-05T22:15:18.337Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-32364",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32364"
+            },
+            {
+                "id": "GHSA-69gq-2xc5-f33j",
+                "imported": "2026-04-13T04:15:00.397Z",
+                "modified": "2025-11-03T21:34:34Z",
+                "published": "2025-04-07T15:31:11Z",
+                "url": "https://api.github.com/advisories/GHSA-69gq-2xc5-f33j",
+                "html_url": "https://github.com/advisories/GHSA-69gq-2xc5-f33j"
+            },
+            {
+                "id": "EUVD-2025-9922",
+                "imported": "2026-04-13T04:14:34.573Z",
+                "modified": "2025-11-03T19:53:22Z",
+                "published": "2025-04-05T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-9922",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-9922"
+            }
+        ]
+    }
+}
