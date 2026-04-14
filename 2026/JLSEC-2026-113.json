@@ -1,0 +1,113 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-113",
+    "modified": "2026-04-14T13:10:46.494Z",
+    "published": "2026-04-14T13:10:46.494Z",
+    "upstream": [
+        "EUVD-2025-33179",
+        "GHSA-m2gf-x3f6-8hq3",
+        "CVE-2025-61787"
+    ],
+    "summary": "Deno is Vulnerable to Command Injection on Windows During Batch File Execution",
+    "details": "### Summary\n\nDeno versions up to 2.5.1 are vulnerable to Command Line Injection attacks on Windows when batch files are executed.\n\n### Details\n\nIn Windows, `CreateProcess()` always implicitly spawns `cmd.exe` if a batch file (.bat, .cmd, etc.) is being executed even if the application does not specify it via the command line. This makes Deno vulnerable to a command injection attack on Windows as demonstrated by the two proves-of-concept below.\n\n### PoC\n\nUsing `node:child_process` (with the `env` and `run` permissions):\n\n```JS\nconst { spawn } = require('node:child_process');\nconst child = spawn('./test.bat', ['&calc.exe']);\n```\n\nUsing `Deno.Command.spawn()` (with the `run` permission):\n\n```JS\nconst command = new Deno.Command('./test.bat', {\n  args: ['&calc.exe'],\n});\nconst child = command.spawn();\n```\n\n### Impact\n\nBoth of these scripts result in opening calc.exe on Windows, thus allowing a Command Line Injection attack when user-provided arguments are passed if the script being executed by the child process is a batch script.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.6.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/commit/8a0990ccd37bafd8768176ca64b906ba2da2d822"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/pull/30818"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/releases/tag/v2.2.15"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/releases/tag/v2.5.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-m2gf-x3f6-8hq3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61787"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/releases/tag/v2.5.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m2gf-x3f6-8hq3"
+        }
+    ],
+    "credits": [
+        {
+            "name": "R4356th",
+            "contact": [
+                "https://github.com/R4356th"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-61787",
+                "imported": "2026-04-14T12:58:55.185Z",
+                "modified": "2025-10-16T18:14:53.107Z",
+                "published": "2025-10-08T02:15:41.897Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-61787",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61787"
+            },
+            {
+                "id": "GHSA-m2gf-x3f6-8hq3",
+                "imported": "2026-04-14T12:59:00.312Z",
+                "modified": "2025-10-08T18:16:25Z",
+                "published": "2025-10-08T18:16:24Z",
+                "url": "https://api.github.com/advisories/GHSA-m2gf-x3f6-8hq3",
+                "html_url": "https://github.com/advisories/GHSA-m2gf-x3f6-8hq3"
+            },
+            {
+                "id": "EUVD-2025-33179",
+                "imported": "2026-04-14T12:58:57.176Z",
+                "modified": "2025-10-08T18:51:09Z",
+                "published": "2025-10-08T00:59:17Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-33179",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-33179"
+            }
+        ]
+    }
+}

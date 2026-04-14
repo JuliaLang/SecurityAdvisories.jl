@@ -1,0 +1,113 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-110",
+    "modified": "2026-04-14T13:10:46.494Z",
+    "published": "2026-04-14T13:10:46.494Z",
+    "upstream": [
+        "EUVD-2025-16913",
+        "CVE-2025-48934",
+        "GHSA-7w8p-chxq-2789"
+    ],
+    "summary": "Deno.env.toObject() ignores the variables listed in --deny-env and returns all environment variables",
+    "details": "### Summary\n\nThe [Deno.env.toObject](https://docs.deno.com/api/deno/%7E/Deno.Env.toObject) method ignores any variables listed in the `--deny-env` option of the `deno run` command. When looking at the [documentation](https://docs.deno.com/runtime/fundamentals/security/#environment-variables) of the `--deny-env` option this might lead to a false impression that variables listed in the option are impossible to read.\n\n### PoC\n\n```\nexport AWS_SECRET_ACCESS_KEY=my-secret-aws-key\n\n# Works as expected. The program stops with a \"NotCapable\" error message\necho 'console.log(Deno.env.get(\"AWS_SECRET_ACCESS_KEY\"));' | deno run \\\n  --allow-env \\\n  --deny-env=AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY -\n\n# All enviroment variables are printed and the --deny-env list is completely disregarded\necho 'console.log(Deno.env.toObject());' | deno run \\\n  --allow-env \\\n  --deny-env=AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY -\n```\n\nThe first example using `get` exits with the following error:\n\n```\nerror: Uncaught (in promise) NotCapable: Requires env access to \"AWS_SECRET_ACCESS_KEY\", run again with the --allow-env flag\nconsole.log(Deno.env.get(\"AWS_SECRET_ACCESS_KEY\"));\n                     ^\n    at Object.getEnv [as get] (ext:deno_os/30_os.js:124:10)\n    at file:///$deno$stdin.mts:1:22\n```\n\nThe second example  using `toObject` prints all environment variables:\n\n```\n[Object: null prototype] {\n  ...\n  AWS_SECRET_ACCESS_KEY: \"my-secret-aws-key\",\n  ...\n}\n```\n\n### Impact\n\nSoftware relying on the combination of both flags to allow access to most environment variables except a few sensitive ones will be vulnerable to malicious code trying to steal secrets using the Deno.env.toObject() method.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.6.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://docs.deno.com/api/deno/~/Deno.Env.toObject"
+        },
+        {
+            "type": "WEB",
+            "url": "https://docs.deno.com/runtime/fundamentals/security/#environment-variables"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/commit/2959e083912420988066a001c2b2d6732a1b562f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/commit/946ccda1aa19a00c478a5e6826b75053b050d753"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/pull/29079"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-7w8p-chxq-2789"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48934"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7w8p-chxq-2789"
+        }
+    ],
+    "credits": [
+        {
+            "name": "frankvd",
+            "contact": [
+                "https://github.com/frankvd"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-48934",
+                "imported": "2026-04-14T12:58:55.144Z",
+                "modified": "2025-07-02T13:43:10.557Z",
+                "published": "2025-06-04T20:15:24.163Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-48934",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48934"
+            },
+            {
+                "id": "GHSA-7w8p-chxq-2789",
+                "imported": "2026-04-14T12:59:08.322Z",
+                "modified": "2025-07-02T18:31:08Z",
+                "published": "2025-06-04T21:18:18Z",
+                "url": "https://api.github.com/advisories/GHSA-7w8p-chxq-2789",
+                "html_url": "https://github.com/advisories/GHSA-7w8p-chxq-2789"
+            },
+            {
+                "id": "EUVD-2025-16913",
+                "imported": "2026-04-14T12:58:57.176Z",
+                "modified": "2025-06-04T19:32:14Z",
+                "published": "2025-06-04T19:21:17Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-16913",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-16913"
+            }
+        ]
+    }
+}

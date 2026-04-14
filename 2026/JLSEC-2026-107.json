@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-107",
+    "modified": "2026-04-14T13:10:46.494Z",
+    "published": "2026-04-14T13:10:46.494Z",
+    "upstream": [
+        "EUVD-2024-1344",
+        "CVE-2024-34346",
+        "GHSA-23rx-c3g5-hv9w"
+    ],
+    "summary": "Deno permission escalation vulnerability via open of privileged files with missing `--deny` flag",
+    "details": "The Deno sandbox may be unexpectedly weakened by allowing file read/write access to privileged files in various locations on Unix and Windows platforms. For example, reading `/proc/self/environ` may provide access equivalent to `--allow-env`, and writing `/proc/self/mem` may provide access equivalent to `--allow-all`.\n\nUsers who grant read and write access to the entire filesystem may not realize that these access to these files may have additional, unintended consequences. The documentation did not reflect that this practice should be undertaken to increase the strength of the security sandbox.\n\n### Impact\n\nUsers who run code with `--allow-read` or `--allow-write` may unexpectedly end up granting additional permissions via file-system operations.\n\n### Patches\n\nDeno 1.43 and above require explicit `--allow-all` access to read or write `/etc`, `/dev` on unix platform (as well as `/proc` and `/sys` on linux platforms), and any path starting with `\\\\` on Windows.\n\n### Workarounds\n\nThe security sandbox in previous versions of Deno allows for denial of access to these files, but it requires an explicit addition of deny flags: `--deny-read=/dev --deny-read=/sys --deny-read=/proc --deny-read=/etc --deny-write=/dev --deny-write=/sys --deny-write=/proc --deny-write=/etc`. Note that symlinks in allowed locations may defeat this protection in earlier versions of Deno.\n\n### Reporters\n\nThis vulnerability was reported by a number of analysts. Thanks to [oliver@secfault-security.com](mailto:oliver@secfault-security.com), [finn@secfault-security.com](mailto:finn@secfault-security.com), @leesh3288, and @cristianstaicu for their reports and analysis.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:A/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-23rx-c3g5-hv9w"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34346"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-23rx-c3g5-hv9w"
+        }
+    ],
+    "credits": [
+        {
+            "name": "mmastrac",
+            "contact": [
+                "https://github.com/mmastrac"
+            ],
+            "type": "REMEDIATION_DEVELOPER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-34346",
+                "imported": "2026-04-14T12:58:55.058Z",
+                "modified": "2025-09-04T19:23:06.737Z",
+                "published": "2024-05-07T21:15:09.270Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-34346",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34346"
+            },
+            {
+                "id": "GHSA-23rx-c3g5-hv9w",
+                "imported": "2026-04-14T12:59:06.801Z",
+                "modified": "2024-05-08T14:33:16Z",
+                "published": "2024-05-08T14:33:16Z",
+                "url": "https://api.github.com/advisories/GHSA-23rx-c3g5-hv9w",
+                "html_url": "https://github.com/advisories/GHSA-23rx-c3g5-hv9w"
+            },
+            {
+                "id": "EUVD-2024-1344",
+                "imported": "2026-04-14T12:58:57.176Z",
+                "modified": "2024-08-02T02:51:11Z",
+                "published": "2024-05-07T21:02:16Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-1344",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-1344"
+            }
+        ]
+    }
+}

