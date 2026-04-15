@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-118",
+    "modified": "2026-04-15T20:29:47.271Z",
+    "published": "2026-04-15T20:29:47.271Z",
+    "upstream": [
+        "CVE-2021-31879"
+    ],
+    "details": "GNU Wget through 1.21.1 does not omit the Authorization header upon a redirect to a different origin, a related issue to CVE-2018-1000007.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.21.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wget_jll",
+                "purl": "pkg:julia/wget_jll?uuid=25883557-5102-5516-a11b-f84f27e871d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210618-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210618-0002/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-31879",
+                "imported": "2026-04-15T19:04:55.220Z",
+                "modified": "2024-11-21T06:06:25.020Z",
+                "published": "2021-04-29T05:15:08.707Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-31879",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-31879",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
