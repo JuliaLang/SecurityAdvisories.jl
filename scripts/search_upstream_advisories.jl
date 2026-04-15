@@ -80,6 +80,7 @@ function main()
 
     # Now create or update the found advisories:
     n_modified = 0
+    results = Advisory[]
     for advisory in advisories
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
@@ -94,6 +95,7 @@ function main()
         open(file, "w") do io
             SecurityAdvisories.print(io, advisory)
         end
+        push!(results, advisory)
     end
     n_total = length(advisories)
     n_created = n_total - n_modified
@@ -102,7 +104,7 @@ function main()
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
-    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(advisories)))
+    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "branch=", input)
@@ -114,13 +116,13 @@ function main()
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
 
-    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in advisories)
+    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in results)
     if unbounded > 0
         println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
     end
 
-    aliases, upstreams = divide(x->!isempty(x.aliases), advisories)
+    aliases, upstreams = divide(x->!isempty(x.aliases), results)
 
     if !isempty(aliases)
         pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(aliases)))
