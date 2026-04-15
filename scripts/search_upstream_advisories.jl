@@ -21,21 +21,17 @@ function main()
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         push!(advisories, SecurityAdvisories.fetch_advisory(input))
         info["haystack_total"] = 1
+        # No filtering is done, no aggregating with aliases is done
     elseif !isempty(input)
         # Search for advisories matching a particular package name, both directly and through upstream matches.
-        # The direct package matches are more likely to be relevant, even if we're missing affected entries.
         aliases = SecurityAdvisories.fetch_package_matches(input)
-        # But upstream matches are only relevant if they actually apply to the package:
         upstreams = SecurityAdvisories.fetch_package_upstreams(input)
         info["haystack_total"] = length(aliases) + length(upstreams)
-        append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
-        append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
-        # And also remove advisories that don't affect the searched package
+        append!(advisories, aliases)
+        append!(advisories, upstreams)
         filter!(advisories) do advisory
             input in SecurityAdvisories.vulnerable_packages(advisory)
         end
-        # And lastly, remove advisories that are known to be disputed
-        filter!(!SecurityAdvisories.is_disputed, advisories)
     else
         whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
         pkg_search_count = 0
@@ -48,22 +44,23 @@ function main()
                 upstreams = SecurityAdvisories.fetch_package_upstreams(input)
                 info["haystack"] = "$pkg_search_count random packages"
                 info["haystack_total"] += length(aliases) + length(upstreams)
-                append!(advisories, aliases) # We don't filter aliases (for now, at least) because they're expected to always be relevant
-                append!(advisories, filter(SecurityAdvisories.is_vulnerable, upstreams))
-                # Only suggest updates to existing advisories if the existing JLSEC has an unbounded vulnerability
-                # and the new one suggests a bounded one. This reduces churn in, e.g., added references, etc.
-                # Explicitly asking for a package would add these.
+                append!(advisories, aliases)
+                append!(advisories, upstreams)
+                # We're more aggressive in filtering found advisories when doing the ecosystem walk;
+                # We'll only suggest advisories that are valid and vulnerable — and if there's already JLSECs for the same issue, we'll only suggest updates
+                # if the new advisory changes something significant (like adding an upper bound where there was none, or changing the vulnerable status)
                 filter!(advisories) do advisory
                     existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-                    isnothing(existing) || (any(!SecurityAdvisories.has_upper_bound, existing.affected) &&
-                                            all(SecurityAdvisories.has_upper_bound, advisory.affected))
+                    (!isnothing(existing) && (
+                        (any(!SecurityAdvisories.has_upper_bound, existing.affected) && all(SecurityAdvisories.has_upper_bound, advisory.affected)) ||
+                        (SecurityAdvisories.is_valid(existing) && !SecurityAdvisories.is_valid(advisory)) ||
+                        (SecurityAdvisories.is_vulnerable(advisory) && !SecurityAdvisories.is_vulnerable(advisory))
+                    )) || (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
                 end
                 # And also remove advisories that don't affect the searched package
                 filter!(advisories) do advisory
                     input in SecurityAdvisories.vulnerable_packages(advisory)
                 end
-                # And lastly, remove advisories that are known to be disputed
-                filter!(!SecurityAdvisories.is_disputed, advisories)
             catch ex
                 @error "Error searching for $input" ex
                 empty!(advisories)
@@ -83,10 +80,14 @@ function main()
 
     # Now create or update the found advisories:
     n_modified = 0
+    results = Advisory[]
     for advisory in advisories
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
+        elseif !SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory)
+            @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
+            continue
         end
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
         file = joinpath(dir, advisory.id * ".md")
@@ -94,6 +95,7 @@ function main()
         open(file, "w") do io
             SecurityAdvisories.print(io, advisory)
         end
+        push!(results, advisory)
     end
     n_total = length(advisories)
     n_created = n_total - n_modified
@@ -102,7 +104,7 @@ function main()
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
-    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(advisories)))
+    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "branch=", input)
@@ -114,13 +116,13 @@ function main()
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
 
-    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in advisories)
+    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in results)
     if unbounded > 0
         println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
     end
 
-    aliases, upstreams = divide(x->!isempty(x.aliases), advisories)
+    aliases, upstreams = divide(x->!isempty(x.aliases), results)
 
     if !isempty(aliases)
         pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(aliases)))

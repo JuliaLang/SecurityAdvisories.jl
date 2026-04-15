@@ -234,6 +234,23 @@ function is_disputed(a::Advisory)
     any(==("disputed")∘lowercase, Iterators.flatten(get(tags, "tags", []) for src in a.jlsec_sources for tags in get(src.database_specific, "tags", [])))
 end
 
+"""
+    is_rejected(advisory)
+
+Return `true` if the advisory has a status of "rejected" (currently the only source giving this information is NVD)
+"""
+function is_rejected(a::Advisory)
+    any(==("rejected")∘lowercase, (get(src.database_specific, "status", "") for src in a.jlsec_sources))
+end
+
+"""
+    is_valid(advisory)
+
+Return `true` if the advisory is published by its upstream sources and not disputed/rejected/withdrawn
+"""
+function is_valid(a::Advisory)
+    return all(!isnothing(src.published) for src in a.jlsec_sources) && !is_disputed(a) && !is_rejected(a) && isnothing(a.withdrawn)
+end
 
 """
     update(original::Advisory, updates::Advisory)
@@ -242,13 +259,19 @@ Given an `original` advisory and some `updates`, return a new advisory with the 
 and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
 """
 function update(original::Advisory, updates::Advisory)
+    newly_withdrawn = nothing
+    if (!is_valid(updates) && is_valid(original)) || (!is_vulnerable(updates) && is_vulnerable(original))
+        # Sometimes the new updates are rejected but haven't set a withdrawn date (typically from NVD)
+        # Or if the updates have _no_ vulnerable ranges at all, that should also be considered as a withdraw
+        newly_withdrawn = Dates.now(Dates.UTC)
+    end
     original ≈ updates && return original # No need to update if nothing relevant changed
     return Advisory(;
         # use whatever the default `schema_version` is
         id = original.id,
         modified = max(original.modified, updates.modified),
         published = original.published,
-        withdrawn = something(original.withdrawn, updates.withdrawn, Some(nothing)),
+        withdrawn = something(original.withdrawn, updates.withdrawn, newly_withdrawn, Some(nothing)),
         ## All other fields are directly taken from the updated advisory
         aliases = updates.aliases,
         upstream = updates.upstream,

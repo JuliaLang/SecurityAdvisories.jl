@@ -305,6 +305,13 @@ function advisory(vuln)
             break # We'll just find the first such metric; there may be more
         end
     end
+    db = Dict{String, Any}()
+    if exists(vuln.cve, :vulnStatus)
+        db["status"] = vuln.cve.vulnStatus
+    end
+    if exists(vuln.cve, :cveTags)
+        db["tags"] = map(t->Dict(string(k)=>v for (k,v) in t), vuln.cve.cveTags)
+    end
 
     return Advisory(;
         id = string(PREFIX, "-0000-", vuln.cve.id),
@@ -323,7 +330,7 @@ function advisory(vuln)
             imported = Dates.now(Dates.UTC),
             url = string(NVD_API_BASE, "?cveId=", vuln.cve.id),
             html_url = string("https://nvd.nist.gov/vuln/detail/", vuln.cve.id),
-            database_specific = exists(vuln.cve, :cveTags) ? Dict("tags" => map(t->Dict(string(k)=>v for (k,v) in t), vuln.cve.cveTags)) : Dict()
+            database_specific = db,
             )]
         )
 end
