@@ -55,7 +55,7 @@ function main()
                         (any(!SecurityAdvisories.has_upper_bound, existing.affected) && all(SecurityAdvisories.has_upper_bound, advisory.affected)) ||
                         (SecurityAdvisories.is_valid(existing) && !SecurityAdvisories.is_valid(advisory)) ||
                         (SecurityAdvisories.is_vulnerable(advisory) && !SecurityAdvisories.is_vulnerable(advisory))
-                    )) || (is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
+                    )) || (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
                 end
                 # And also remove advisories that don't affect the searched package
                 filter!(advisories) do advisory
