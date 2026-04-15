@@ -240,16 +240,16 @@ end
 Return `true` if the advisory has a status of "rejected" (currently the only source giving this information is NVD)
 """
 function is_rejected(a::Advisory)
-    any(==("rejected")∘lowercase, (get(src, "status", "") for src in a.jlsec_sources))
+    any(==("rejected")∘lowercase, (get(src.database_specific, "status", "") for src in a.jlsec_sources))
 end
 
 """
     is_valid(advisory)
 
-Return `true` if the advisory is published and not disputed/rejected/withdrawn
+Return `true` if the advisory is published by its upstream sources and not disputed/rejected/withdrawn
 """
 function is_valid(a::Advisory)
-    return !isnothing(a.published) && !is_disputed(a) && !is_rejected(a) && isnothing(a.withdrawn)
+    return all(!isnothing(src.published) for src in a.jlsec_sources) && !is_disputed(a) && !is_rejected(a) && isnothing(a.withdrawn)
 end
 
 """
