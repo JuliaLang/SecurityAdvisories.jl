@@ -1,0 +1,89 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-121",
+    "modified": "2026-04-15T20:39:05.266Z",
+    "published": "2026-04-15T20:39:05.266Z",
+    "upstream": [
+        "GHSA-ffqj-7pgc-cmj5",
+        "CVE-2021-24032",
+        "EUVD-2021-10952"
+    ],
+    "summary": "Beginning in v1.4.1 and prior to v1.4.9, due to an incomplete fix for CVE-2021-24031, the...",
+    "details": "Beginning in v1.4.1 and prior to v1.4.9, due to an incomplete fix for CVE-2021-24031, the Zstandard command-line utility created output files with default permissions and restricted those permissions immediately afterwards. Output files could therefore momentarily be readable or writable to unintended parties.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Zstd_jll",
+                "purl": "pkg:julia/Zstd_jll?uuid=3161d3a3-bdf6-5164-811a-617609db77b4"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=982519"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/facebook/zstd/issues/2491"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.facebook.com/security/advisories/cve-2021-24032"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-24032"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-ffqj-7pgc-cmj5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-24032",
+                "imported": "2026-04-15T19:32:29.484Z",
+                "modified": "2024-11-21T05:52:14.943Z",
+                "published": "2021-03-04T21:15:12.963Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-24032",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-24032",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-ffqj-7pgc-cmj5",
+                "imported": "2026-04-15T19:32:32.694Z",
+                "modified": "2023-01-29T05:05:56Z",
+                "published": "2022-05-24T17:43:40Z",
+                "url": "https://api.github.com/advisories/GHSA-ffqj-7pgc-cmj5",
+                "html_url": "https://github.com/advisories/GHSA-ffqj-7pgc-cmj5"
+            },
+            {
+                "id": "EUVD-2021-10952",
+                "imported": "2026-04-15T19:32:31.149Z",
+                "modified": "2024-08-03T19:21:17Z",
+                "published": "2021-03-04T20:15:21Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2021-10952",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2021-10952"
+            }
+        ]
+    }
+}
