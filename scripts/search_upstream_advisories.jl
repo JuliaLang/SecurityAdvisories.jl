@@ -41,7 +41,7 @@ function main()
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories)
-            (input, _) = pop!(whole_pkg_list)
+            input = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $input"
             try
