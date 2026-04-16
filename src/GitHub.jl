@@ -219,6 +219,12 @@ function fetch_package_advisories(pkg)
     return fetch_repo_advisories(owner, chopsuffix(repo_name, ".git"))
 end
 
+function fetch_branches(owner, repo)
+    url = "$GITHUB_API_BASE/repos/$owner/$repo/branches?per_page=100"
+    vec = fetch_all_pages(url, build_headers())
+    return [b["name"] for b in vec]
+end
+
 function vendor_product_versions(advisory)
     vpv = Tuple{String,String,String}[]
     for v in get(advisory, :vulnerabilities, [])
