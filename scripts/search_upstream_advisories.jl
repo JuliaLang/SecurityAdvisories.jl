@@ -4,7 +4,6 @@ using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, Versi
 using GeneralMetadata
 using TOML: TOML
 using Dates: Dates
-using Random: shuffle
 using DataStructures: DefaultDict, OrderedDict
 using SHA: sha256
 
@@ -33,10 +32,16 @@ function main()
             input in SecurityAdvisories.vulnerable_packages(advisory)
         end
     else
-        whole_pkg_list = shuffle(SecurityAdvisories.all_pkgs())
+        # We take a (not totally) random walk through the ecosystem, prioritizing
+        # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
+        pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
+            by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
+        whole_pkg_list = first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
+        # We remove any pending PRs that jlsec-bot has already opened
+        filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories)
-            (input, _) = pop!(whole_pkg_list)
+            input = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $input"
             try
