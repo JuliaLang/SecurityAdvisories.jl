@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-134",
+    "modified": "2026-04-17T15:19:54.657Z",
+    "published": "2026-04-17T15:19:54.657Z",
+    "upstream": [
+        "CVE-2024-31047"
+    ],
+    "details": "An issue in Academy Software Foundation openexr v.3.2.3 and before allows a local attacker to cause a denial of service (DoS) via the convert function of exrmultipart.cpp.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.2.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenEXR_jll",
+                "purl": "pkg:julia/OpenEXR_jll?uuid=18a262bb-aa17-5467-a713-aee519bc75cb"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/issues/1680"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/issues/1680"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-31047",
+                "imported": "2026-04-17T13:59:24.301Z",
+                "modified": "2025-08-13T15:01:25.110Z",
+                "published": "2024-04-08T23:15:08.023Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-31047",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31047",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

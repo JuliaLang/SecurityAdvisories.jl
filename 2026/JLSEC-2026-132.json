@@ -1,0 +1,154 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-132",
+    "modified": "2026-04-17T15:19:54.657Z",
+    "published": "2026-04-17T15:19:54.657Z",
+    "upstream": [
+        "CVE-2021-45942"
+    ],
+    "details": "OpenEXR 3.1.x before 3.1.4 has a heap-based buffer overflow in Imf_3_1::LineCompositeTask::execute (called from IlmThread_3_1::NullThreadPoolProvider::addTask and IlmThread_3_1::ThreadPool::addGlobalTask). NOTE: db217f2 may be inapplicable.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.1.1+0"
+                        },
+                        {
+                            "fixed": "3.2.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenEXR_jll",
+                "purl": "pkg:julia/OpenEXR_jll?uuid=18a262bb-aa17-5467-a713-aee519bc75cb"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41416"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/blob/v3.1.4/CHANGES.md#version-314-january-26-2022"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/11cad77da87c4fa2aab7d58dd5339e254db7937e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/db217f29dfb24f6b4b5100c24ac5e7490e1c57d0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/pull/1209"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.1.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/google/oss-fuzz-vulns/blob/main/vulns/openexr/OSV-2021-1627.yaml"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6TEZDE2S2DB4BF4LZSSV4W3DNW7DSRHJ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/HJ5PW4WNXBKCRFGDZGAQOSVH2BKZKL4X/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/XJUK7WIQV5EKWTCZBRXFN6INHG6MLS5O/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=41416"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/blob/v3.1.4/CHANGES.md#version-314-january-26-2022"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/11cad77da87c4fa2aab7d58dd5339e254db7937e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/db217f29dfb24f6b4b5100c24ac5e7490e1c57d0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/pull/1209"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.1.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/google/oss-fuzz-vulns/blob/main/vulns/openexr/OSV-2021-1627.yaml"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6TEZDE2S2DB4BF4LZSSV4W3DNW7DSRHJ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/HJ5PW4WNXBKCRFGDZGAQOSVH2BKZKL4X/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/XJUK7WIQV5EKWTCZBRXFN6INHG6MLS5O/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-45942",
+                "imported": "2026-04-17T13:59:24.216Z",
+                "modified": "2024-11-21T06:33:19.397Z",
+                "published": "2022-01-01T01:15:09.043Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45942",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45942",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

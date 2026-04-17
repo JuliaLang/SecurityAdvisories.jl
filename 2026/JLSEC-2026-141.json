@@ -1,0 +1,54 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-141",
+    "modified": "2026-04-17T15:19:54.657Z",
+    "published": "2026-04-17T15:19:54.657Z",
+    "upstream": [
+        "CVE-2026-27622"
+    ],
+    "details": "OpenEXR provides the specification and reference implementation of the EXR file format, an image storage format for the motion picture industry. In CompositeDeepScanLine::readPixels, per-pixel totals are accumulated in vector<unsigned int> total_sizes for attacker-controlled large counts across many parts, total_sizes[ptr] wraps modulo 2^32.  overall_sample_count is then derived from wrapped totals and used in samples[channel].resize(overall_sample_count). Decode pointer setup/consumption proceeds with true sample counts, and write operations in core unpack (generic_unpack_deep_pointers) overrun the undersized composite sample buffer. This vulnerability is fixed in v3.2.6, v3.3.8, and v3.4.6.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.4.8+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenEXR_jll",
+                "purl": "pkg:julia/OpenEXR_jll?uuid=18a262bb-aa17-5467-a713-aee519bc75cb"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-cr4v-6jm6-4963"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27622",
+                "imported": "2026-04-17T13:59:24.512Z",
+                "modified": "2026-03-05T21:07:05.753Z",
+                "published": "2026-03-03T23:15:55.737Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27622",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27622",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

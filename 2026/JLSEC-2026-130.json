@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-130",
+    "modified": "2026-04-17T15:19:54.657Z",
+    "published": "2026-04-17T15:19:54.657Z",
+    "upstream": [
+        "CVE-2021-3933"
+    ],
+    "details": "An integer overflow could occur when OpenEXR processes a crafted file on systems where size_t < 64 bits. This could cause an invalid bytesPerLine and maxBytesPerLine value, which could lead to problems with application stability or lead to other attack paths.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.2.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenEXR_jll",
+                "purl": "pkg:julia/OpenEXR_jll?uuid=18a262bb-aa17-5467-a713-aee519bc75cb"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2019783"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/I2JSMJ7HLWFPYYV7IAQZD5ZUUUN7RWBN/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2019783"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/I2JSMJ7HLWFPYYV7IAQZD5ZUUUN7RWBN/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3933",
+                "imported": "2026-04-17T13:59:24.259Z",
+                "modified": "2024-11-21T06:22:48.513Z",
+                "published": "2022-03-25T19:15:09.247Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3933",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3933",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

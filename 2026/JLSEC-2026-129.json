@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-129",
+    "modified": "2026-04-17T15:19:54.657Z",
+    "published": "2026-04-17T15:19:54.657Z",
+    "upstream": [
+        "CVE-2021-3605"
+    ],
+    "details": "There's a flaw in OpenEXR's rleUncompress functionality in versions prior to 3.0.5. An attacker who is able to submit a crafted file to an application linked with OpenEXR could cause an out-of-bounds read. The greatest risk from this flaw is to application availability.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.1.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenEXR_jll",
+                "purl": "pkg:julia/OpenEXR_jll?uuid=18a262bb-aa17-5467-a713-aee519bc75cb"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1970991"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1970991"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202210-31"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5299"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3605",
+                "imported": "2026-04-17T13:59:24.207Z",
+                "modified": "2024-11-21T06:21:57.633Z",
+                "published": "2021-08-25T19:15:14.757Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3605",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3605",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
