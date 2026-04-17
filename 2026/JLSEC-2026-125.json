@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-125",
+    "modified": "2026-04-17T13:07:52.234Z",
+    "published": "2026-04-17T13:07:52.234Z",
+    "upstream": [
+        "GHSA-f6x7-5x3c-j3rg",
+        "CVE-2025-48174",
+        "EUVD-2025-15404"
+    ],
+    "summary": "In libavif before 1.3.0, makeRoom in stream.c has an integer overflow and resultant buffer...",
+    "details": "In libavif before 1.3.0, makeRoom in stream.c has an integer overflow and resultant buffer overflow in stream->offset+size.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.3.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libavif_jll",
+                "purl": "pkg:julia/libavif_jll?uuid=d7a461ab-9c30-58dd-b115-285ac81dc4e5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/AOMediaCodec/libavif/commit/50a743062938a3828581d725facc9c2b92a1d109"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AOMediaCodec/libavif/commit/c9f1bea437f21cb78f9919c332922a3b0ba65e11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AOMediaCodec/libavif/commit/e5fdefe7d1776e6c4cf1703c163a8c0535599029"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/AOMediaCodec/libavif/pull/2768"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/05/msg00031.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48174"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f6x7-5x3c-j3rg"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-48174",
+                "imported": "2026-04-17T08:45:49.614Z",
+                "modified": "2025-11-03T20:19:05.993Z",
+                "published": "2025-05-16T05:15:37.213Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-48174",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48174",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-f6x7-5x3c-j3rg",
+                "imported": "2026-04-17T08:45:50.076Z",
+                "modified": "2025-11-03T21:34:58Z",
+                "published": "2025-05-16T06:30:24Z",
+                "url": "https://api.github.com/advisories/GHSA-f6x7-5x3c-j3rg",
+                "html_url": "https://github.com/advisories/GHSA-f6x7-5x3c-j3rg"
+            },
+            {
+                "id": "EUVD-2025-15404",
+                "imported": "2026-04-17T08:45:49.736Z",
+                "modified": "2025-11-03T20:04:42Z",
+                "published": "2025-05-16T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-15404",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-15404"
+            }
+        ]
+    }
+}
