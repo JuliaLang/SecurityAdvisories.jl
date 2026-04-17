@@ -259,31 +259,14 @@ Given an `original` advisory and some `updates`, return a new advisory with the 
 and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
 """
 function update(original::Advisory, updates::Advisory)
-    newly_withdrawn = nothing
+    original ≈ updates && return original # No need to update if nothing relevant changed
+    result = combine(original, updates)
     if (!is_valid(updates) && is_valid(original)) || (!is_vulnerable(updates) && is_vulnerable(original))
         # Sometimes the new updates are rejected but haven't set a withdrawn date (typically from NVD)
         # Or if the updates have _no_ vulnerable ranges at all, that should also be considered as a withdraw
-        newly_withdrawn = Dates.now(Dates.UTC)
+        result.withdrawn = Dates.now(Dates.UTC)
     end
-    original ≈ updates && return original # No need to update if nothing relevant changed
-    return Advisory(;
-        # use whatever the default `schema_version` is
-        id = original.id,
-        modified = max(original.modified, updates.modified),
-        published = original.published,
-        withdrawn = something(original.withdrawn, updates.withdrawn, newly_withdrawn, Some(nothing)),
-        ## All other fields are directly taken from the updated advisory
-        aliases = updates.aliases,
-        upstream = updates.upstream,
-        related = updates.related,
-        summary = updates.summary,
-        details = updates.details,
-        severity = updates.severity,
-        affected = updates.affected,
-        references = updates.references,
-        credits = updates.credits,
-        jlsec_sources = updates.jlsec_sources,
-    )
+    return result
 end
 
 """
@@ -317,9 +300,9 @@ function combine(a::Advisory, b::Advisory)
             something(a.withdrawn, b.withdrawn, Some(nothing))
         end,
         ## For most other fields, we take the union of the two advisories' values
-        aliases = known_to_be_upstream ? String[] : union(a.aliases, b.aliases),
-        upstream = known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream),
-        related = union(a.related, b.related),
+        aliases = known_to_be_upstream ? String[] : sort(union(a.aliases, b.aliases), by=preferred_id_sort),
+        upstream = sort(known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream), by=preferred_id_sort),
+        related = sort(union(a.related, b.related), by=preferred_id_sort),
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
         details = length(a.details) >= length(b.details) ? a.details : b.details,
@@ -440,7 +423,11 @@ function to_toml_frontmatter(v::PackageVulnerability)
 end
 
 function Base.print(io::IO, vuln::Advisory)
-    frontmatter = sprint(TOML.print, to_toml_frontmatter(vuln))
+    frontdata = to_toml_frontmatter(vuln)
+    frontmatter = sprint(frontdata) do io, x
+        TOML.print(io, x;
+            inline_tables=IdSet{Dict{String,Any}}(src["database_specific"] for src in x["jlsec_sources"] if SecurityAdvisories.exists(src, "database_specific")))
+    end
     # I don't think it's possible for TOML.print to output ``` on a line, but just in case:
     nticks = maximum(x->length(x.captures[1])+1, eachmatch(r"^\s*(`+)\s*$", frontmatter), init=3)
     buf = IOBuffer()
