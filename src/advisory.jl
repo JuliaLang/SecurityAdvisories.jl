@@ -440,7 +440,11 @@ function to_toml_frontmatter(v::PackageVulnerability)
 end
 
 function Base.print(io::IO, vuln::Advisory)
-    frontmatter = sprint(TOML.print, to_toml_frontmatter(vuln))
+    frontdata = to_toml_frontmatter(vuln)
+    frontmatter = sprint(frontdata) do io, x
+        TOML.print(io, x;
+            inline_tables=IdSet{Dict{String,Any}}(src["database_specific"] for src in x["jlsec_sources"] if SecurityAdvisories.exists(src, "database_specific")))
+    end
     # I don't think it's possible for TOML.print to output ``` on a line, but just in case:
     nticks = maximum(x->length(x.captures[1])+1, eachmatch(r"^\s*(`+)\s*$", frontmatter), init=3)
     buf = IOBuffer()
