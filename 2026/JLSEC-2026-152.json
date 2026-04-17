@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-152",
+    "modified": "2026-04-17T15:47:23.992Z",
+    "published": "2026-04-17T15:47:23.992Z",
+    "upstream": [
+        "EUVD-2026-21734",
+        "CVE-2026-40386",
+        "GHSA-p6wp-hhx9-7jj5"
+    ],
+    "summary": "In libexif through 0.6.25, an integer underflow in size checking for Fuji and Olympus MakerNote...",
+    "details": "In libexif through 0.6.25, an integer underflow in size checking for Fuji and Olympus MakerNote decoding could be used by attackers to crash or leak information out of libexif-using programs.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.6.26+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libexif_jll",
+                "purl": "pkg:julia/libexif_jll?uuid=cdeeb48b-bcdf-5b3f-98c4-7a29487f695f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexif/libexif/commit/dc6eac6e9655d14d0779d99e82d0f5f442d2f34b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40386"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-p6wp-hhx9-7jj5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-40386",
+                "imported": "2026-04-17T15:20:42.859Z",
+                "modified": "2026-04-14T20:43:44.283Z",
+                "published": "2026-04-12T19:16:20.640Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-40386",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40386",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-p6wp-hhx9-7jj5",
+                "imported": "2026-04-17T15:20:46.597Z",
+                "modified": "2026-04-12T21:30:19Z",
+                "published": "2026-04-12T21:30:18Z",
+                "url": "https://api.github.com/advisories/GHSA-p6wp-hhx9-7jj5",
+                "html_url": "https://github.com/advisories/GHSA-p6wp-hhx9-7jj5"
+            },
+            {
+                "id": "EUVD-2026-21734",
+                "imported": "2026-04-17T15:20:44.604Z",
+                "modified": "2026-04-14T16:33:07Z",
+                "published": "2026-04-12T18:19:08Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21734",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21734"
+            }
+        ]
+    }
+}
