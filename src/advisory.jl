@@ -256,16 +256,16 @@ end
     update(original::Advisory, updates::Advisory)
 
 Given an `original` advisory and some `updates`, return a new advisory with the original ID
-and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
+and new data from `updates`, but only if it results in material differences from the original
 """
 function update(original::Advisory, updates::Advisory)
-    original ≈ updates && return original # No need to update if nothing relevant changed
     result = combine(original, updates)
     if (!is_valid(updates) && is_valid(original)) || (!is_vulnerable(updates) && is_vulnerable(original))
         # Sometimes the new updates are rejected but haven't set a withdrawn date (typically from NVD)
         # Or if the updates have _no_ vulnerable ranges at all, that should also be considered as a withdraw
         result.withdrawn = Dates.now(Dates.UTC)
     end
+    original ≈ result && return original # No need to update if nothing relevant changed
     return result
 end
 
