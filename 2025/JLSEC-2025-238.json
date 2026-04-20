@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-238",
-    "modified": "2025-11-25T21:58:26.864Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2023-30571"
@@ -37,11 +37,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://groups.google.com/g/libarchive-announce"
+            "url": "https://github.com/libarchive/libarchive/issues/1876"
         },
         {
             "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/issues/1876"
+            "url": "https://groups.google.com/g/libarchive-announce"
         },
         {
             "type": "WEB",

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-241",
-    "modified": "2025-11-25T21:58:26.890Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2024-48958"
@@ -33,18 +33,6 @@
     "references": [
         {
             "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/compare/v3.7.4...v3.7.5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/pull/2148"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/terrynini/CVE-Reports/tree/main/CVE-2024-48958"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2025/Apr/11"
         },
         {
@@ -62,6 +50,18 @@
         {
             "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2025/Apr/8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/compare/v3.7.4...v3.7.5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/pull/2148"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/terrynini/CVE-Reports/tree/main/CVE-2024-48958"
         }
     ],
     "database_specific": {

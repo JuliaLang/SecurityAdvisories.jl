@@ -1,13 +1,21 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-243",
-    "modified": "2025-11-25T21:58:26.892Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
-        "CVE-2025-25724"
+        "CVE-2025-25724",
+        "GHSA-722w-734r-qg74",
+        "EUVD-2025-5869"
     ],
     "summary": "list_item_verbose in tar/util.c in libarchive through 3.7.7 does not check an strftime return value,...",
     "details": "list_item_verbose in tar/util.c in libarchive through 3.7.7 does not check an strftime return value, which can lead to a denial of service or unspecified other impact via a crafted TAR archive that is read with a verbose value of 2. For example, the 100-byte buffer may not be sufficient for a custom locale.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -41,7 +49,15 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-722w-734r-qg74"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/libarchive/libarchive/blob/b439d586f53911c84be5e380445a8a259e19114c/tar/util.c#L751-L752"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-25724"
         }
     ],
     "database_specific": {
@@ -49,11 +65,30 @@
         "sources": [
             {
                 "id": "CVE-2025-25724",
-                "imported": "2025-11-25T21:58:26.892Z",
+                "imported": "2026-04-20T16:47:55.986Z",
                 "modified": "2025-07-17T15:56:36.083Z",
                 "published": "2025-03-02T02:15:36.603Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-25724",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-25724"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-25724",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-722w-734r-qg74",
+                "imported": "2026-04-20T16:47:59.472Z",
+                "modified": "2025-03-02T03:30:37Z",
+                "published": "2025-03-02T03:30:31Z",
+                "url": "https://api.github.com/advisories/GHSA-722w-734r-qg74",
+                "html_url": "https://github.com/advisories/GHSA-722w-734r-qg74"
+            },
+            {
+                "id": "EUVD-2025-5869",
+                "imported": "2026-04-20T16:47:57.773Z",
+                "modified": "2025-03-04T19:00:41Z",
+                "published": "2025-03-02T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-5869",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-5869"
             }
         ]
     }

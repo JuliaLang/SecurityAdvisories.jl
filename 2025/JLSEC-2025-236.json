@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-236",
-    "modified": "2025-11-25T21:58:26.862Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2021-31566"
@@ -37,22 +37,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2024237"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/commit/b41daecb5ccb4c8e3b2c53fd6147109fc12c3043"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/issues/1566"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/11/msg00030.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2021-31566"
         },
         {
@@ -61,11 +45,27 @@
         },
         {
             "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2024237"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/commit/b41daecb5ccb4c8e3b2c53fd6147109fc12c3043"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/libarchive/libarchive/commit/b41daecb5ccb4c8e3b2c53fd6147109fc12c3043"
         },
         {
             "type": "WEB",
             "url": "https://github.com/libarchive/libarchive/issues/1566"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/issues/1566"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/11/msg00030.html"
         },
         {
             "type": "WEB",

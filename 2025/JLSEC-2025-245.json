@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-245",
-    "modified": "2025-11-25T21:58:26.893Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2025-5914"
@@ -133,6 +133,18 @@
         },
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0326"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0934"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1541"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2025-5914"
         },
         {
@@ -146,10 +158,6 @@
         {
             "type": "WEB",
             "url": "https://github.com/libarchive/libarchive/releases/tag/v3.8.0"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libarchive/libarchive/pull/2598"
         }
     ],
     "database_specific": {
@@ -157,11 +165,14 @@
         "sources": [
             {
                 "id": "CVE-2025-5914",
-                "imported": "2025-11-25T21:58:26.893Z",
-                "modified": "2025-11-22T03:15:48.620Z",
+                "imported": "2026-04-20T16:47:55.997Z",
+                "modified": "2026-02-05T20:15:52.523Z",
                 "published": "2025-06-09T20:15:26.123Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5914",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5914"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5914",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

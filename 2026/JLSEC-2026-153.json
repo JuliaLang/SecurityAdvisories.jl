@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-153",
+    "modified": "2026-04-20T16:58:42.289Z",
+    "published": "2026-04-20T16:58:42.289Z",
+    "upstream": [
+        "CVE-2025-60753"
+    ],
+    "details": "An issue was discovered in libarchive bsdtar before version 3.8.1 in function apply_substitution in file tar/subst.c when processing crafted -s substitution rules. This can cause unbounded memory allocation and lead to denial of service (Out-of-Memory crash).",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.8.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibArchive_jll",
+                "purl": "pkg:julia/LibArchive_jll?uuid=1e303b3e-d4db-56ce-88c4-91e52606a1a8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Papya-j/CVE/tree/main/CVE-2025-60753"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libarchive/libarchive/issues/2725"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-60753",
+                "imported": "2026-04-20T16:47:56.026Z",
+                "modified": "2026-02-04T21:19:45.610Z",
+                "published": "2025-11-05T16:15:40.430Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-60753",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60753",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

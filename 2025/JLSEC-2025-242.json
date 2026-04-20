@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-242",
-    "modified": "2025-11-25T21:58:26.891Z",
+    "modified": "2026-04-20T16:58:42.289Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2025-1632"
@@ -37,6 +37,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/Ekkosun/pocs/blob/main/bsdunzip-poc"
+        },
+        {
+            "type": "WEB",
             "url": "https://vuldb.com/?ctiid.296619"
         },
         {
@@ -46,10 +50,6 @@
         {
             "type": "WEB",
             "url": "https://vuldb.com/?submit.496460"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/Ekkosun/pocs/blob/main/bsdunzip-poc"
         }
     ],
     "database_specific": {
