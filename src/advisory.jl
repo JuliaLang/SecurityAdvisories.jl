@@ -190,7 +190,7 @@ function Base.:≈(a::Advisory, b::Advisory)
         a.summary == b.summary &&
         a.details == b.details &&
         Set(a.severity) == Set(b.severity) &&
-        Set(a.affected) == Set(b.affected) &&
+        Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
         Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
