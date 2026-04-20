@@ -38,6 +38,7 @@ function main()
             by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
         whole_pkg_list = first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
         # We remove any pending PRs that jlsec-bot has already opened
+        # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories)
@@ -52,15 +53,19 @@ function main()
                 append!(advisories, aliases)
                 append!(advisories, upstreams)
                 # We're more aggressive in filtering found advisories when doing the ecosystem walk;
-                # We'll only suggest advisories that are valid and vulnerable — and if there's already JLSECs for the same issue, we'll only suggest updates
-                # if the new advisory changes something significant (like adding an upper bound where there was none, or changing the vulnerable status)
+                # This will only suggest advisories that are valid and vulnerable — and if there's already JLSECs for the same issue,
+                # will only suggest updates if the new advisory changes something highly impactful
                 filter!(advisories) do advisory
                     existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
                     (!isnothing(existing) && (
-                        (any(!SecurityAdvisories.has_upper_bound, existing.affected) && all(SecurityAdvisories.has_upper_bound, advisory.affected)) ||
-                        (SecurityAdvisories.is_valid(existing) && !SecurityAdvisories.is_valid(advisory)) ||
-                        (SecurityAdvisories.is_vulnerable(advisory) && !SecurityAdvisories.is_vulnerable(advisory))
-                    )) || (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
+                        # An existing advisory; only suggest it if it:
+                        !isempty(setdiff(SecurityAdvisories.vulnerable_packages(advisory), SecurityAdvisories.vulnerable_packages(existing))) || # contains new packages
+                        count(SecurityAdvisories.has_upper_bound, advisory.affected) > count(SecurityAdvisories.has_upper_bound, existing.affected) || # sets additional upper bounds
+                        (!SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_valid(existing)) # is no longer valid
+                    )) || (isnothing(existing) && (
+                        # A new advisory; suggest it if it's both valid and vulnerable
+                        (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
+                    ))
                 end
                 # And also remove advisories that don't affect the searched package
                 filter!(advisories) do advisory
