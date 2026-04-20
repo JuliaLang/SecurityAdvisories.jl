@@ -1,0 +1,73 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-158",
+    "modified": "2026-04-20T19:31:50.289Z",
+    "published": "2026-04-20T19:31:50.289Z",
+    "upstream": [
+        "CVE-2026-33164",
+        "EUVD-2026-13810"
+    ],
+    "details": "libde265 is an open source implementation of the h.265 video codec. Prior to version 1.0.17, a malformed H.265 PPS NAL unit causes a segmentation fault in pic_parameter_set::set_derived_values(). This issue has been patched in version 1.0.17.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.0.18000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libde265_jll",
+                "purl": "pkg:julia/libde265_jll?uuid=0a7f2b4d-d03c-5694-960e-196e69ee64e2"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libde265/releases/tag/v1.0.17"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libde265/security/advisories/GHSA-wqrf-6rf5-v78r"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-33164",
+                "imported": "2026-04-20T18:42:57.965Z",
+                "modified": "2026-03-23T20:05:09.420Z",
+                "published": "2026-03-20T21:17:16.233Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-33164",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-33164",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-13810",
+                "imported": "2026-04-20T18:42:59.356Z",
+                "modified": "2026-03-23T16:50:53Z",
+                "published": "2026-03-20T20:33:04Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13810",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13810"
+            }
+        ]
+    }
+}
