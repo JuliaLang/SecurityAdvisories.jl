@@ -55,15 +55,16 @@ function main()
                 # We're more aggressive in filtering found advisories when doing the ecosystem walk;
                 # This will only suggest advisories that are valid and vulnerable — and if there's already JLSECs for the same issue,
                 # will only suggest updates if the new advisory changes something highly impactful
+                vuln_with_upper_bound(x) = SecurityAdvisories.has_upper_bound(x) && SecurityAdvisories.is_vulnerable(x)
                 filter!(advisories) do advisory
                     existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
                     (!isnothing(existing) && (
-                        # An existing advisory; only suggest it if it:
+                        # An update to an existing advisory; only suggest it if the new one:
                         !isempty(setdiff(SecurityAdvisories.vulnerable_packages(advisory), SecurityAdvisories.vulnerable_packages(existing))) || # contains new packages
-                        count(SecurityAdvisories.has_upper_bound, advisory.affected) > count(SecurityAdvisories.has_upper_bound, existing.affected) || # sets additional upper bounds
-                        (!SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_valid(existing)) # is no longer valid
+                        count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
+                        (!SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_valid(existing)) # or is no longer valid
                     )) || (isnothing(existing) && (
-                        # A new advisory; suggest it if it's both valid and vulnerable
+                        # A new advisory; suggest it if it's both valid and contains some vulnerable range
                         (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
                     ))
                 end
