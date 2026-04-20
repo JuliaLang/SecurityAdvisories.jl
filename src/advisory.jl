@@ -439,7 +439,7 @@ sort_collection(xs::Vector{Severity}) = sort(xs, by=x->(x.type, x.score))
 sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
 sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
-sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=x->preferred_id_sort∘(x->x.id))
+sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
