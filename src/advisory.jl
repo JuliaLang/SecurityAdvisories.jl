@@ -286,7 +286,7 @@ function combine(a::Advisory, b::Advisory)
         end
     end
 
-    sources = a.jlsec_sources
+    sources = copy(a.jlsec_sources)
     for bsrc in b.jlsec_sources
         idx = findfirst(asrc -> asrc.id == bsrc.id, sources)
         if idx === nothing
