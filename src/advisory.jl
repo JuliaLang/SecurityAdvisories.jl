@@ -285,6 +285,18 @@ function combine(a::Advisory, b::Advisory)
             error("cannot combine advisories that are not aliases/upstreams of each other; got aliases $(a.aliases) and $(b.aliases) and upstreams $(a.upstream) and $(b.upstream)")
         end
     end
+
+    sources = a.jlsec_sources
+    for bsrc in b.jlsec_sources
+        idx = findfirst(asrc -> asrc.id == bsrc.id, sources)
+        if idx === nothing
+            push!(sources, bsrc)
+        elseif bsrc.imported > sources[idx].imported
+            sources[idx] = bsrc
+        end
+    end
+    sort!(sources, by=preferred_id_sort∘(x->x.id))
+
     return Advisory(;
         # use whatever the default `schema_version` is
         id = startswith(a.id, "JLSEC-0000") ? b.id : a.id, # Prefer the non-placeholder ID if one exists
@@ -335,7 +347,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        jlsec_sources = union(a.jlsec_sources, b.jlsec_sources),
+        jlsec_sources = sources,
     )
 end
 
