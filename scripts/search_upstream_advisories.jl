@@ -247,18 +247,27 @@ function main()
             for src in adv.jlsec_sources
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
-            print(io, ") for upstream project(s): \n")
-            projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
-            for cpe in projects
-                versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
-                affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
-                isempty(affecteds) && continue
-                println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
-                pkgs = unique(x.pkg for x in affecteds)
-                for pkg in pkgs
-                    print(io, "        * **", pkg, "** at versions: ")
-                    pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                    println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
+            print(io, ")")
+            if any(SecurityAdvisories.is_populated(a.source_mapping) for a in adv.affected)
+                print(io, " for upstream project(s): \n")
+                projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
+                for cpe in projects
+                    versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
+                    affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
+                    isempty(affecteds) && continue
+                    println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
+                    pkgs = unique(x.pkg for x in affecteds)
+                    for pkg in pkgs
+                        print(io, "        * **", pkg, "** at versions: ")
+                        pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
+                        println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
+                    end
+                end
+            else
+                print(io, " for package(s): \n")
+                for pkg in SecurityAdvisories.vulnerable_packages(adv)
+                    versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
+                    print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
                 end
             end
             println(io)

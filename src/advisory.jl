@@ -190,7 +190,7 @@ function Base.:≈(a::Advisory, b::Advisory)
         a.summary == b.summary &&
         a.details == b.details &&
         Set(a.severity) == Set(b.severity) &&
-        Set(a.affected) == Set(b.affected) &&
+        Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
         Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
@@ -256,16 +256,16 @@ end
     update(original::Advisory, updates::Advisory)
 
 Given an `original` advisory and some `updates`, return a new advisory with the original ID
-and new data from `updates`, but ignoring some metadata-like fields like import and modification dates
+and new data from `updates`, but only if it results in material differences from the original
 """
 function update(original::Advisory, updates::Advisory)
-    original ≈ updates && return original # No need to update if nothing relevant changed
     result = combine(original, updates)
     if (!is_valid(updates) && is_valid(original)) || (!is_vulnerable(updates) && is_vulnerable(original))
         # Sometimes the new updates are rejected but haven't set a withdrawn date (typically from NVD)
         # Or if the updates have _no_ vulnerable ranges at all, that should also be considered as a withdraw
         result.withdrawn = Dates.now(Dates.UTC)
     end
+    original ≈ result && return original # No need to update if nothing relevant changed
     return result
 end
 
@@ -285,6 +285,17 @@ function combine(a::Advisory, b::Advisory)
             error("cannot combine advisories that are not aliases/upstreams of each other; got aliases $(a.aliases) and $(b.aliases) and upstreams $(a.upstream) and $(b.upstream)")
         end
     end
+
+    sources = copy(a.jlsec_sources)
+    for bsrc in b.jlsec_sources
+        idx = findfirst(asrc -> asrc.id == bsrc.id, sources)
+        if idx === nothing
+            push!(sources, bsrc)
+        elseif bsrc.imported > sources[idx].imported
+            sources[idx] = bsrc
+        end
+    end
+
     return Advisory(;
         # use whatever the default `schema_version` is
         id = startswith(a.id, "JLSEC-0000") ? b.id : a.id, # Prefer the non-placeholder ID if one exists
@@ -300,9 +311,9 @@ function combine(a::Advisory, b::Advisory)
             something(a.withdrawn, b.withdrawn, Some(nothing))
         end,
         ## For most other fields, we take the union of the two advisories' values
-        aliases = known_to_be_upstream ? String[] : sort(union(a.aliases, b.aliases), by=preferred_id_sort),
-        upstream = sort(known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream), by=preferred_id_sort),
-        related = sort(union(a.related, b.related), by=preferred_id_sort),
+        aliases = known_to_be_upstream ? String[] : union(a.aliases, b.aliases),
+        upstream = known_to_be_upstream ? union(a.aliases, b.aliases, a.upstream, b.upstream) : union(a.upstream, b.upstream),
+        related = union(a.related, b.related),
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
         details = length(a.details) >= length(b.details) ? a.details : b.details,
@@ -335,7 +346,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        jlsec_sources = union(a.jlsec_sources, b.jlsec_sources),
+        jlsec_sources = sources,
     )
 end
 
@@ -377,7 +388,7 @@ Recursively convert an Advisory and all its fields (except `summary` and `detail
 to_toml_frontmatter(v::Union{VersionNumber, VersionString, VersionRange}) = string(v)
 to_toml_frontmatter(x::Union{AbstractString, Integer, AbstractFloat, Bool, Dates.DateTime, Dates.Time, Dates.Date}) = x
 to_toml_frontmatter(d::AbstractDict) = OrderedDict(k=>to_toml_frontmatter_collection(v, values(d)) for (k,v) in d)
-to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in A]
+to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in sort_collection(A)]
 to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 to_toml_frontmatter_collection(x, _) = to_toml_frontmatter(x)
 function to_toml_frontmatter(a::Advisory)
@@ -421,6 +432,14 @@ function to_toml_frontmatter(v::PackageVulnerability)
     return OrderedDict("pkg" => to_toml_frontmatter(v.pkg),
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
+
+sort_collection(xs) = xs
+sort_collection(xs::Vector{String}) = sort(xs, by=preferred_id_sort)
+sort_collection(xs::Vector{Severity}) = sort(xs, by=x->(x.type, x.score))
+sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
+sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
+sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
+sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
