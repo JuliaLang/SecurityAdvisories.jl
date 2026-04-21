@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-174",
+    "modified": "2026-04-21T00:04:14.628Z",
+    "published": "2026-04-21T00:04:14.628Z",
+    "upstream": [
+        "CVE-2022-29155"
+    ],
+    "details": "In OpenLDAP 2.x before 2.5.12 and 2.6.x before 2.6.2, a SQL injection vulnerability exists in the experimental back-sql backend to slapd, via a SQL statement within an LDAP query. This can occur during an LDAP search operation when the search filter is processed, due to a lack of proper escaping.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.5.14+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenLDAPClient_jll",
+                "purl": "pkg:julia/OpenLDAPClient_jll?uuid=234f2d50-f964-585e-b1c8-17cd4567e563"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.openldap.org/show_bug.cgi?id=9815"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.openldap.org/show_bug.cgi?id=9815"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/05/msg00032.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/05/msg00032.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220609-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220609-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5140"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5140"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-29155",
+                "imported": "2026-04-20T22:59:56.382Z",
+                "modified": "2024-11-21T06:58:36.057Z",
+                "published": "2022-05-04T20:15:07.690Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-29155",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29155",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
