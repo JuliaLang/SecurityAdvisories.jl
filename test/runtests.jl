@@ -66,18 +66,19 @@ using SecurityAdvisories: convert_versions, VersionRange
     @test only(convert_versions(["1.2.2" => "*", "1.2.3" => "*", "1.2.4" => "*"], VersionRange("= 3.4.5"))) == VersionRange{VersionNumber}("*")
     @test only(convert_versions(["1.2.2" => "*", "1.2.3" => "*", "1.2.4" => "*"], VersionRange("< 3.4.5"))) == VersionRange{VersionNumber}("*")
 
-    # Note that there's an intentional asymmetry here — we assume that "old" *s are capped by newer good data
-    # but "new" *s are completely unknown.
-    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("< 1.2.3")) == [VersionRange{VersionNumber}("< 1.2.3"),  VersionRange{VersionNumber}(">= 1.2.4")]
+    # Note that there's an intentional asymmetry here — we ignore the oldest unknowns (unless everything is vulnerable),
+    # bound intervening ones, and unbound newest ones
+    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("< 1.2.3")) == []
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("= 1.2.4")) == [VersionRange{VersionNumber}(">= 1.2.4")]
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("= 1.2.3")) == [VersionRange{VersionNumber}("*")]
-    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("= 1.2.2")) == [VersionRange{VersionNumber}("< 1.2.3"),  VersionRange{VersionNumber}(">= 1.2.4")]
+    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("= 1.2.2")) == []
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange("> 1.2.3")) == [VersionRange{VersionNumber}(">= 1.2.4")]
+    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => "*"], VersionRange(">= 1.2.3")) == [VersionRange{VersionNumber}("*")]
 
-    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("< 1.2.3")) == [VersionRange{VersionNumber}("< 1.2.3")]
+    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("< 1.2.3")) == []
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("= 1.2.4")) == []
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("= 1.2.3")) == [VersionRange{VersionNumber}("< 1.2.4")]
-    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("= 1.2.2")) == [VersionRange{VersionNumber}("< 1.2.3")]
+    @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("= 1.2.2")) == []
     @test convert_versions(["1.2.2" => "*", "1.2.3" => "1.2.3", "1.2.4" => []], VersionRange("> 1.2.3")) == []
 
     @test convert_versions(["1.2.2" => "1.2.2", "1.2.3" => "*", "1.2.4" => "1.2.4"], VersionRange("< 1.2.3")) == [VersionRange{VersionNumber}("< 1.2.4")]
