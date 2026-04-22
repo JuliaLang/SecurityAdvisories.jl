@@ -236,26 +236,43 @@ end
 const PACKAGE_COMPONENTS = Ref{Dict{String,Any}}()
 function package_components()
     isassigned(PACKAGE_COMPONENTS) && return PACKAGE_COMPONENTS[]
-    pc = DefaultDict{String,Any}(()->Dict{String,Any}())
-    for (pkg, versions) in GeneralMetadata.metadata()
-        for (ver, verinfo) in versions
-            for artifact in get(verinfo, "artifact_metadata", [])
-                for source in get(artifact, "sources", [])
-                    haskey(source, "upstream") && push!(get!(pc[pkg], String(ver), Dict{String, Any}[]), source["upstream"])
+    pkg_version_upstream = Dict{String, Any}()
+    for (pkg, pkgmeta) in GeneralMetadata.metadata()
+        pkg_version_upstream[pkg] = OrderedDict{String, Any}()
+        for (v, vmeta) in sort(OrderedDict(pkgmeta), by=VersionNumber)
+            if !haskey(vmeta, "artifact_urls")
+                pkg_version_upstream[pkg][v] = DefaultDict(missing)
+            elseif isempty(vmeta["artifact_urls"])
+                pkg_version_upstream[pkg][v] = DefaultDict(nothing)
+            elseif !haskey(vmeta, "artifact_metadata") || isempty(vmeta["artifact_metadata"])
+                pkg_version_upstream[pkg][v] = DefaultDict(missing)
+            else
+                unknowns = if Set(vmeta["artifact_urls"]) == Set(Iterators.flatten(get.(vmeta["artifact_metadata"], "artifact_urls", [[]]))) &&
+                    all(x->haskey(x, "sources"), vmeta["artifact_metadata"]) && all(x->haskey(x, "upstream"), Iterators.flatten(get.(vmeta["artifact_metadata"], "sources", [[]])))
+                    nothing
+                else
+                    missing
                 end
+                upstream_proj_info = filter(!isempty, [get(src, "upstream", Dict()) for src in
+                    Iterators.flatten(get(am, "sources", []) for am in get(vmeta, "artifact_metadata", []))])
+                d = DefaultDict(unknowns)
+                for proj_name in unique(v["project"] for v in upstream_proj_info)
+                    d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
+                end
+                pkg_version_upstream[pkg][v] = d
             end
         end
     end
-    PACKAGE_COMPONENTS[] = pc
+    return PACKAGE_COMPONENTS[] = pkg_version_upstream
 end
 
 const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
 function upstream_projects()
     isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
     info = TOML.parse(GitHub.fetch_file("mbauman","Repology.jl","data/cpes.toml";))
-    projects = Set(chopprefix(x["project"], "repology.org/project/") for x in
-        Iterators.flatten(Iterators.flatten(Iterators.map(values, values(package_components()))))
-        if startswith(x["project"], "repology.org/project/"))
+    projects = Set(chopprefix(x, "repology.org/project/") for x in
+        Iterators.flatmap(keys, Iterators.flatmap(values, values(package_components())))
+        if startswith(x, "repology.org/project/"))
     relevant_info = filter(in(projects)∘first, info)
     return UPSTREAM_PROJECTS[] = Dict{String,Any}(string("repology.org/project/", k)=>v for (k,v) in relevant_info)
 end
@@ -278,11 +295,11 @@ end
 upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)
 
 function packages_with_project(proj)
-    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->v["project"]==proj, Iterators.flatten(values(versioninfo)))]
+    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]
 end
 
 function upstream_projects_for_package(pkg)
-    return unique(v["project"] for verinfo in values(get(package_components(), pkg, Dict())) for v in values(verinfo))
+    return Set(Iterators.flatten(keys(verinfo) for (_, verinfo) in get(package_components(), pkg, Dict())))
 end
 
 function vendor_products_for_package(pkg)
@@ -290,23 +307,9 @@ function vendor_products_for_package(pkg)
 end
 
 function package_project_version_map(pkg, proj)
-    d = Dict{String,Any}()
-    # TODO: This uses the old sometimes-string-sometimes-array-sometimes-* structure of the upstream `version`
+    d = OrderedDict{String,Any}()
     for (v, components) in package_components()[pkg]
-        upstream_versions = String[]
-        for component in components
-             if component["project"] == proj
-                push!(upstream_versions, get(component, "version", "*"))
-             end
-        end
-        unique!(upstream_versions)
-        if length(upstream_versions) == 1
-            d[v] = upstream_versions[1]
-        elseif "*" in upstream_versions
-            d[v] = "*"
-        else
-            d[v] = upstream_versions
-        end
+        d[v] = components[proj]
     end
     return d
 end
@@ -319,52 +322,74 @@ using the pkg_project_map.
 
 In practice, this uses the GeneralMetadata.jl's `package_components.toml` table and a vulnerable range from an upstream advisory.
 
-Unknown component versions — those identified by "*" — intentionally have an asymmetric behavior, depending upon the known
+Unknown component versions — those identified by "*" or missing — intentionally have an asymmetric behavior, depending upon the known
 versions around it.
   - If the "*" is not followed by any newer versions with known values, it matches all versions (including those less than a previous version, if any)
   - Otherwise, the "*" is bounded by the known versions around it
 """
 function convert_versions(pkg_project_map, vulnerable_range)
-    versionmap = sort([VersionNumber(k) => v for (k,v) in pkg_project_map], by=first)
+    # Standardize to VersionNumber => Union{Nothing,Missing,Vector{VersionString}} pairs:
+    versionmap = sort([VersionNumber(k) =>
+            isnothing(v) || (v isa AbstractVector && isempty(v)) ? nothing :
+            ismissing(v) || v == "*" ? missing :
+            v isa AbstractString ? [VersionString(v)] :
+            v isa AbstractVector ? VersionString.(v) :
+            error("unsupported values of type $(typeof(v)) in pkg_project_map")
+        for (k,v) in pkg_project_map], by=first)
 
     versions = VersionRange{VersionNumber}[]
     # Now walk through the Julia package's versions and push all applicable (potentially disjoint) ranges of versions
     #
     # There are two hard things we need to support in the pkg_project_map:
-    #   * Unknown versions are marked by "*" — we assume they're any versions between the known bounds
+    #   * Unknown versions are marked by "*" or missing — we assume they're any versions between the known bounds
     #   * There may be more than one upstream version on varying platforms. It may be String or String[]
-    first_vulnerable = typemin(VersionNumber)
+    #   * There may be versions for which we know we don't include the vulnerable component at all; those are nothing
+
+    # As a first step, we remove all old versions with incomplete/missing information from
+    # consideration. This prevents us from marking 30-year-old advisories as vulnerable
+    first_known = findfirst(!ismissing∘last, versionmap)
+    deleteat!(versionmap, 1:something(first_known,lastindex(versionmap)+1)-1)
+    isempty(versionmap) && return [VersionRange{VersionNumber}("*")]
+
+    range_start = isnothing(versionmap[1][2]) || !any(in(vulnerable_range), versionmap[1][2]) ? nothing : typemin(VersionNumber)
     last_vulnerable = nothing
-    last_known_ver = typemin(VersionString)
+    last_known_ver = isnothing(versionmap[1][2]) ? typemin(VersionString) : minimum(versionmap[1][2])
     last_unknown = nothing
     skipped_unknowns = false
     for (pkgver, ver) in versionmap
-        # Gather up sequential *s to cover their bounds
-        if ver == "*"
-            first_vulnerable = something(first_vulnerable, pkgver)
+        # Gather up sequential missing segments to cover their bounds
+        if ismissing(ver)
+            range_start = something(range_start, pkgver)
             last_unknown = pkgver
             skipped_unknowns = true
             continue
         end
+        # Some package versions may contain multiple (or no) upstream versions; it's helpful to have a single endpoint value:
+        ver_lb = isnothing(ver) ? last_known_ver : minimum(ver)
+        ver_ub = isnothing(ver) ? typemax(VersionString) : maximum(ver)
 
-        if skipped_unknowns && overlaps(vulnerable_range, VersionRange(last_known_ver, ver isa AbstractString ? VersionString(ver) : isempty(ver) ? VersionString("∞") : maximum(VersionString.(ver)), true, false))
+        # Now if we skipped unknowns we check if the range between its known endpoints overlaps with the vulnerable range
+        if skipped_unknowns && overlaps(vulnerable_range, VersionRange(last_known_ver, ver_ub, true, false))
             last_vulnerable = last_unknown
         end
 
-        if any(in.(VersionString.(ver), (vulnerable_range,)))
-            first_vulnerable = something(first_vulnerable, pkgver)
+        if !isnothing(ver) && any(in(vulnerable_range), ver)
+            # This version is vulnerable, so we start/continue a range segment
+            range_start = something(range_start, pkgver)
             last_vulnerable = pkgver
         else
-            if last_vulnerable !== nothing
-                push!(versions, VersionRange(first_vulnerable, pkgver, true, false))
+            # Not vulnerable; close the vulnerable range here (if one exists)
+            if range_start !== nothing && last_vulnerable !== nothing
+                push!(versions, VersionRange(range_start, pkgver, true, false))
             end
-            first_vulnerable = last_vulnerable = nothing
+            range_start = last_vulnerable = nothing
         end
-        last_known_ver = ver isa AbstractString ? VersionString(ver) : isempty(ver) ? VersionString("") : minimum(VersionString.(ver))
+        last_known_ver = ver_lb
         skipped_unknowns = false
     end
-    if first_vulnerable !== nothing || (skipped_unknowns && overlaps(vulnerable_range, VersionRange(last_known_ver, typemax(VersionString), true, true)))
-        push!(versions, VersionRange(first_vulnerable, v"∞", true, true))
+    if (range_start !== nothing && last_vulnerable !== nothing) ||
+        (skipped_unknowns && overlaps(vulnerable_range, VersionRange(last_known_ver, typemax(VersionString), false, true)))
+        push!(versions, VersionRange(range_start, v"∞", true, true))
     end
     versions
 end

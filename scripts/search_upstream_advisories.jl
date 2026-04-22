@@ -158,37 +158,7 @@ function main()
         vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
         vulnerable_cpes = unique(Iterators.flatten(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected) for adv in upstreams))
         vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
-        meta = GeneralMetadata.metadata()
-        # Build an ad-hoc data structure to easily look up versions of packages and their projects:
-        # TODO: this should live somewhere better...
-        pkg_version_upstream = Dict{String, Any}()
-        for pkg in vulnerable_pkgs
-            pkgmeta = meta[pkg]
-            pkg_version_upstream[pkg] = OrderedDict{String, Any}()
-            for (v, vmeta) in sort(OrderedDict(pkgmeta), by=VersionNumber)
-                if !haskey(vmeta, "artifact_urls")
-                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
-                elseif isempty(vmeta["artifact_urls"])
-                    pkg_version_upstream[pkg][v] = DefaultDict(nothing)
-                elseif !haskey(vmeta, "artifact_metadata") || isempty(vmeta["artifact_metadata"])
-                    pkg_version_upstream[pkg][v] = DefaultDict(missing)
-                else
-                    unknowns = if Set(vmeta["artifact_urls"]) == Set(Iterators.flatten(get.(vmeta["artifact_metadata"], "artifact_urls", [[]]))) &&
-                        all(x->haskey(x, "sources"), vmeta["artifact_metadata"]) && all(x->haskey(x, "upstream"), Iterators.flatten(get.(vmeta["artifact_metadata"], "sources", [[]])))
-                        nothing
-                    else
-                        missing
-                    end
-                    upstream_proj_info = filter(!isempty, [get(src, "upstream", Dict()) for src in
-                        Iterators.flatten(get(am, "sources", []) for am in get(vmeta, "artifact_metadata", []))])
-                    d = DefaultDict(unknowns)
-                    for proj_name in unique(v["project"] for v in upstream_proj_info)
-                        d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
-                    end
-                    pkg_version_upstream[pkg][v] = d
-                end
-            end
-        end
+        pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in vulnerable_pkgs)
         println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
         print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
         print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
