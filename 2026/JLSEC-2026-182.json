@@ -1,0 +1,54 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-182",
+    "modified": "2026-04-23T15:10:48.547Z",
+    "published": "2026-04-23T15:10:48.547Z",
+    "upstream": [
+        "CVE-2026-4359"
+    ],
+    "details": "A compromised third party cloud server or man-in-the-middle attacker could send a malformed HTTP response and cause a crash in applications using the MongoDB C driver.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.30.8+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MongoC_jll",
+                "purl": "pkg:julia/MongoC_jll?uuid=90100e71-7732-535a-9be7-2e9affd1cfc1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://jira.mongodb.org/browse/CDRIVER-6251"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-4359",
+                "imported": "2026-04-23T13:49:30.744Z",
+                "modified": "2026-04-02T12:34:29.107Z",
+                "published": "2026-03-17T20:16:15.233Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-4359",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4359",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
