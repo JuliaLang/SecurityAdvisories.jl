@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-185",
+    "modified": "2026-04-24T13:16:18.171Z",
+    "published": "2026-04-24T13:16:18.171Z",
+    "upstream": [
+        "CVE-2023-39804"
+    ],
+    "details": "In GNU tar before 1.35, mishandled extension attributes in a PAX archive can lead to an application crash in xheader.c.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.35.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Tar_jll",
+                "purl": "pkg:julia/Tar_jll?uuid=9b64493d-8859-5bf3-93d7-7c32dd38186f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058079"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058079"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/tar.git/commit/?id=a339f05cd269013fa133d2f148d73f6f7d4247e4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/tar.git/commit/?id=a339f05cd269013fa133d2f148d73f6f7d4247e4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c?h=release_1_34#n1723"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/tar.git/tree/src/xheader.c?h=release_1_34#n1723"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00008.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-39804",
+                "imported": "2026-04-24T11:00:58.789Z",
+                "modified": "2025-11-04T19:15:55.430Z",
+                "published": "2024-03-27T04:15:08.897Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-39804",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39804",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
