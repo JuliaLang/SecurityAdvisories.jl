@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-198",
+    "modified": "2026-04-27T13:45:07.015Z",
+    "published": "2026-04-27T13:45:07.015Z",
+    "upstream": [
+        "CVE-2018-1000886"
+    ],
+    "details": "nasm version 2.14.01rc5, 2.15 contains a Buffer Overflow vulnerability in asm/stdscan.c:130 that can result in Stack-overflow caused by triggering endless macro generation, crash the program. This attack appear to be exploitable via a crafted nasm input file.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.16.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "NASM_jll",
+                "purl": "pkg:julia/NASM_jll?uuid=08ca2550-6d73-57c0-8625-9b24120f3eae"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.nasm.us/show_bug.cgi?id=3392514"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.nasm.us/show_bug.cgi?id=3392514"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-1000886",
+                "imported": "2026-04-27T13:24:06.928Z",
+                "modified": "2024-11-21T03:40:35.343Z",
+                "published": "2018-12-20T21:29:00.447Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-1000886",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000886",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
