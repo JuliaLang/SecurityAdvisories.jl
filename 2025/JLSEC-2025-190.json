@@ -1,8 +1,9 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-190",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-04-27T17:15:17.489Z",
     "published": "2025-10-27T18:23:36.019Z",
+    "withdrawn": "2026-04-27T17:15:17.489Z",
     "upstream": [
         "CVE-2021-37600"
     ],
@@ -25,8 +26,8 @@
             ],
             "package": {
                 "ecosystem": "Julia",
-                "name": "util_linux_jll",
-                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
             }
         },
         {
@@ -65,32 +66,12 @@
             ],
             "package": {
                 "ecosystem": "Julia",
-                "name": "Libmount_jll",
-                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
             }
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/karelzak/util-linux/commit/1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/karelzak/util-linux/issues/1395"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00005.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-08"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20210902-0002/"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/karelzak/util-linux/commit/1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c"
@@ -117,11 +98,22 @@
         "sources": [
             {
                 "id": "CVE-2021-37600",
-                "imported": "2025-10-27T15:41:00.898Z",
+                "imported": "2026-04-27T17:02:11.574Z",
                 "modified": "2024-11-21T06:15:30.107Z",
                 "published": "2021-07-30T14:15:18.737Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-37600",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37600"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37600",
+                "database_specific": {
+                    "status": "Modified",
+                    "tags": [
+                        {
+                            "sourceIdentifier": "cve@mitre.org",
+                            "tags": [
+                                "disputed"
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }

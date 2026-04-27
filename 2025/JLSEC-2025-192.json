@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-192",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-04-27T17:15:17.489Z",
     "published": "2025-10-27T18:23:36.019Z",
     "upstream": [
         "CVE-2021-3995"
@@ -25,8 +25,8 @@
             ],
             "package": {
                 "ecosystem": "Julia",
-                "name": "util_linux_jll",
-                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
             }
         },
         {
@@ -65,8 +65,8 @@
             ],
             "package": {
                 "ecosystem": "Julia",
-                "name": "Libmount_jll",
-                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
             }
         }
     ],
@@ -77,38 +77,6 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2022/Dec/4"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2022/11/30/2"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2024631https://access.redhat.com/security/cve/CVE-2021-3995"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/util-linux/util-linux/commit/57202f5713afa2af20ffbb6ab5331481d0396f8d"
-        },
-        {
-            "type": "WEB",
-            "url": "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.37/v2.37.3-ReleaseNotes"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-08"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20221209-0002/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2022/01/24/2"
-        },
-        {
-            "type": "WEB",
             "url": "http://packetstormsecurity.com/files/170176/snap-confine-must_mkdir_and_open_with_perms-Race-Condition.html"
         },
         {
@@ -117,7 +85,19 @@
         },
         {
             "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Dec/4"
+        },
+        {
+            "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2022/11/30/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/11/30/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2024631https://access.redhat.com/security/cve/CVE-2021-3995"
         },
         {
             "type": "WEB",
@@ -129,6 +109,14 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/commit/57202f5713afa2af20ffbb6ab5331481d0396f8d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.37/v2.37.3-ReleaseNotes"
+        },
+        {
+            "type": "WEB",
             "url": "https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.37/v2.37.3-ReleaseNotes"
         },
         {
@@ -137,7 +125,19 @@
         },
         {
             "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-08"
+        },
+        {
+            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20221209-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221209-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2022/01/24/2"
         },
         {
             "type": "WEB",

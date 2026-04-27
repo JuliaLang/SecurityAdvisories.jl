@@ -1,0 +1,117 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-212",
+    "modified": "2026-04-27T17:15:17.489Z",
+    "published": "2026-04-27T17:15:17.489Z",
+    "upstream": [
+        "CVE-2026-27456",
+        "EUVD-2026-18864"
+    ],
+    "details": "util-linux is a random collection of Linux utilities. Prior to version 2.41.4, a TOCTOU (Time-of-Check-Time-of-Use) vulnerability has been identified in the SUID binary /usr/bin/mount from util-linux. The mount binary, when setting up loop devices, validates the source file path with user privileges via fork() + setuid() + realpath(), but subsequently re-canonicalizes and opens it with root privileges (euid=0) without verifying that the path has not been replaced between both operations. Neither O_NOFOLLOW, nor inode comparison, nor post-open fstat() are employed. This allows a local unprivileged user to replace the source file with a symlink pointing to any root-owned file or device during the race window, causing the SUID binary to open and mount it as root. Exploitation requires an /etc/fstab entry with user,loop options whose path points to a directory where the attacker has write permission, and that /usr/bin/mount has the SUID bit set (the default configuration on virtually all Linux distributions). The impact is unauthorized read access to root-protected files and block devices, including backup images, disk volumes, and any file containing a valid filesystem. This issue has been patched in version 2.41.4.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.42.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.42.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libuuid_jll",
+                "purl": "pkg:julia/Libuuid_jll?uuid=38a345b3-de98-5d2b-a5d3-14cd9215e700"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.42.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/commit/5e390467b26a3cf3fecc04e1a0d482dff3162fc4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/releases/tag/v2.41.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/security/advisories/GHSA-qq4x-vfq4-9h9g"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27456",
+                "imported": "2026-04-27T17:02:12.176Z",
+                "modified": "2026-04-22T16:08:55.100Z",
+                "published": "2026-04-03T22:16:25.400Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27456",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27456",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-18864",
+                "imported": "2026-04-27T17:02:14.171Z",
+                "modified": "2026-04-06T15:42:35Z",
+                "published": "2026-04-03T21:23:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-18864",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-18864"
+            }
+        ]
+    }
+}
