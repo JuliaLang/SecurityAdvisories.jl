@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-190",
+    "modified": "2026-04-27T13:14:20.203Z",
+    "published": "2026-04-27T13:14:20.203Z",
+    "upstream": [
+        "CVE-2025-3548"
+    ],
+    "details": "A vulnerability, which was classified as critical, has been found in Open Asset Import Library Assimp up to 5.4.3. This issue affects the function aiString::Set in the library include/assimp/types.h of the component File Handler. The manipulation leads to heap-based buffer overflow. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.0.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "assimp_jll",
+                "purl": "pkg:julia/assimp_jll?uuid=54ae6823-98c6-5a7c-8365-5a43b909f91f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/issues/6068"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/pull/6073"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/user-attachments/files/19580584/aiString_Set-hbo.zip"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.304589"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.304589"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.546413"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-3548",
+                "imported": "2026-04-25T08:30:10.669Z",
+                "modified": "2025-09-29T21:31:15.130Z",
+                "published": "2025-04-14T03:15:16.640Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-3548",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-3548",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

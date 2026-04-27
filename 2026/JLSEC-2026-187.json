@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-187",
+    "modified": "2026-04-27T13:14:20.203Z",
+    "published": "2026-04-27T13:14:20.203Z",
+    "upstream": [
+        "CVE-2024-40724"
+    ],
+    "details": "Heap-based buffer overflow vulnerability in Assimp versions prior to 5.4.2 allows a local attacker to execute arbitrary code by inputting a specially crafted file into the product.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.0.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "assimp_jll",
+                "purl": "pkg:julia/assimp_jll?uuid=54ae6823-98c6-5a7c-8365-5a43b909f91f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/pull/5651/commits/614911bb3b1bfc3a1799ae2b3cca306270f3fb97"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/pull/5651/commits/614911bb3b1bfc3a1799ae2b3cca306270f3fb97"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/releases/tag/v5.4.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/releases/tag/v5.4.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://jvn.jp/en/jp/JVN87710540/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://jvn.jp/en/jp/JVN87710540/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-40724",
+                "imported": "2026-04-25T08:30:08.311Z",
+                "modified": "2025-03-25T14:15:25.580Z",
+                "published": "2024-07-19T08:15:02.070Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-40724",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40724",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

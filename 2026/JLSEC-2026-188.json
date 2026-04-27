@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-188",
+    "modified": "2026-04-27T13:14:20.203Z",
+    "published": "2026-04-27T13:14:20.203Z",
+    "upstream": [
+        "CVE-2024-45679"
+    ],
+    "details": "Heap-based buffer overflow vulnerability in Assimp versions prior to 5.4.3 allows a local attacker to execute arbitrary code by importing a specially crafted file into the product.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.0.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "assimp_jll",
+                "purl": "pkg:julia/assimp_jll?uuid=54ae6823-98c6-5a7c-8365-5a43b909f91f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/releases/tag/v5.4.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://jvn.jp/en/jp/JVN42386607/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-45679",
+                "imported": "2026-04-25T08:30:08.397Z",
+                "modified": "2025-06-13T19:03:45.413Z",
+                "published": "2024-09-18T04:15:42.080Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-45679",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45679",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

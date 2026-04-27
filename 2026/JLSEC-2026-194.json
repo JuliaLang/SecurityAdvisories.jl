@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-194",
+    "modified": "2026-04-27T13:14:20.203Z",
+    "published": "2026-04-27T13:14:20.203Z",
+    "upstream": [
+        "CVE-2025-5203"
+    ],
+    "details": "A vulnerability was found in Open Asset Import Library Assimp 5.4.3. It has been rated as problematic. Affected by this issue is the function SkipSpaces in the library assimp/include/assimp/ParsingUtils.h. The manipulation leads to out-of-bounds read. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used. The project decided to collect all Fuzzer bugs in a main-issue to address them in the future.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.0.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "assimp_jll",
+                "purl": "pkg:julia/assimp_jll?uuid=54ae6823-98c6-5a7c-8365-5a43b909f91f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/issues/6128"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/issues/6175"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/assimp/assimp/issues/6175"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/user-attachments/files/20209469/reproducer.zip"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.310292"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.310292"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.578012"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-5203",
+                "imported": "2026-04-25T08:30:11.592Z",
+                "modified": "2025-06-05T14:16:06.320Z",
+                "published": "2025-05-26T20:15:19.987Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5203",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5203",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
