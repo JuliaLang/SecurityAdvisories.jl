@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-213",
+    "modified": "2026-04-27T17:38:11.232Z",
+    "published": "2026-04-27T17:38:11.232Z",
+    "upstream": [
+        "CVE-2026-5958",
+        "GHSA-9r7w-j29g-xqx8",
+        "EUVD-2026-23834"
+    ],
+    "summary": "When sed is invoked with both -i (in-place edit) and --follow-symlinks, the function...",
+    "details": "When sed is invoked with both -i (in-place edit) and --follow-symlinks, the function open_next_file() performs two separate, non-atomic filesystem operations on the same path:\n\n 1. resolves symlink to its target and stores the resolved path for determining when output is written,\n 2. opens the original symlink path (not the resolved one) to read the file.\n    Between these two calls there is a race window. If an attacker atomically replaces the symlink with a different target during that window, sed will: read content from the new (attacker-chosen) symlink target and write the processed result to the path recorded in step 1. This can lead to arbitrary file overwrite with attacker-controlled content in the context of the sed process.\n\nThis issue was fixed in version 4.10.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.10.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "sed_jll",
+                "purl": "pkg:julia/sed_jll?uuid=8ce03227-cf0a-51af-b0b4-2693c0743e9f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert.pl/en/posts/2026/04/CVE-2026-5958"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-9r7w-j29g-xqx8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5958"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org/software/sed"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org/software/sed/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5958",
+                "imported": "2026-04-27T17:21:40.555Z",
+                "modified": "2026-04-20T19:05:30.750Z",
+                "published": "2026-04-20T12:16:08.433Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5958",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5958",
+                "database_specific": {
+                    "status": "Awaiting Analysis"
+                }
+            },
+            {
+                "id": "GHSA-9r7w-j29g-xqx8",
+                "imported": "2026-04-27T17:21:42.037Z",
+                "modified": "2026-04-20T12:32:07Z",
+                "published": "2026-04-20T12:32:01Z",
+                "url": "https://api.github.com/advisories/GHSA-9r7w-j29g-xqx8",
+                "html_url": "https://github.com/advisories/GHSA-9r7w-j29g-xqx8"
+            },
+            {
+                "id": "EUVD-2026-23834",
+                "imported": "2026-04-27T17:21:39.016Z",
+                "modified": "2026-04-20T13:25:59Z",
+                "published": "2026-04-20T11:59:32Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-23834",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-23834"
+            }
+        ]
+    }
+}
