@@ -1,0 +1,111 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-281",
+    "modified": "2026-04-27T20:35:04.206Z",
+    "published": "2026-04-27T20:35:04.206Z",
+    "upstream": [
+        "CVE-2026-41179",
+        "GHSA-jfwf-28xr-xw6q",
+        "EUVD-2026-25144"
+    ],
+    "summary": "RClone: Unauthenticated operations/fsinfo allows attacker-controlled backend instantiation and local command execution",
+    "details": "### Summary\n\nThe RC endpoint `operations/fsinfo` is exposed without `AuthRequired: true` and accepts attacker-controlled `fs` input. Because `rc.GetFs(...)` supports inline backend definitions, an unauthenticated attacker can instantiate an attacker-controlled backend on demand. For the WebDAV backend, `bearer_token_command` is executed during backend initialization, making single-request unauthenticated local command execution possible on reachable RC deployments without global HTTP authentication.\n\n### Preconditions\n\nPreconditions for this vulnerability are:\n\n  - The rclone remote control API **must** be enabled, either by the `--rc` flag or by running the `rclone rcd` server\n  - The remote control API **must** be reachable by the attacker - by default rclone only serves the rc to localhost unless the `--rc-addr` flag is in use\n  - The rc must have been deployed **without** global RC HTTP authentication - so not using `--rc-user`/`--rc-pass`/`--rc-htpasswd`/etc\n\n### Details\n\nThe root cause consists of the following pieces:\n\n 1. `operations/fsinfo` is not protected with `AuthRequired: true`\n 2. `operations/fsinfo` calls `rc.GetFs(...)` on attacker-controlled input\n 3. `rc.GetFs(...)` supports inline backend creation through object-valued `fs`\n 4. WebDAV backend initialization executes `bearer_token_command`\n\nRelevant code paths:\n\n  - [`fs/operations/rc.go`](https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/fs/operations/rc.go)\n    \n      + `operations/fsinfo` is registered without `AuthRequired: true`\n      + `rcFsInfo()` calls `rc.GetFs(ctx, in)`\n\n  - [`fs/rc/cache.go`](https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/fs/rc/cache.go)\n    \n      + `GetFs()` / `GetFsNamed()` can parse an object-valued `fs`\n      + `getConfigMap()` converts attacker-controlled JSON into a backend config string\n  - [`backend/webdav/webdav.go`](https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/backend/webdav/webdav.go)\n    \n      + `bearer_token_command` is a supported backend option\n      + `NewFs(...)` calls `fetchAndSetBearerToken()` when `bearer_token_command` is set\n      + `fetchBearerToken()` invokes `exec.Command(...)`\n\nThis creates a practical single-request unauthenticated command-execution primitive on reachable RC servers without global HTTP authentication.\n\nThis was alidated on:\n\n  - current `master` as of 2026-04-14: `bf55d5e6d37fd86164a87782191f9e1ffcaafa82`\n  - latest public release tested locally: `v1.73.4`\n\nThis was also validated on a public amd64 Ubuntu host controlled by the tester, using direct host execution (not containerized PoC execution).\n\n### PoC\n\n#### Minimal single-request form PoC\n\nStart a vulnerable RC server:\n\n```bash\nrclone rcd --rc-addr 127.0.0.1:5572\n```\n\nNo `--rc-user`, no `--rc-pass`, no `--rc-htpasswd`.\n\nThen send a single request:\n\n```bash\ncurl -sS -X POST http://127.0.0.1:5572/operations/fsinfo \\\n  --data-urlencode \"fs=:webdav,url='http://127.0.0.1/',vendor=other,bearer_token_command='/usr/bin/touch /tmp/rclone_fsinfo_rce_poc_marker':\"\n```\n\nExpected result:\n\n  - HTTP 200 JSON response from `operations/fsinfo`\n  - `/tmp/rclone_fsinfo_rce_poc_marker` is created on the host\n\n### Impact\n\nThis is effectively a single-request unauthenticated command-execution vulnerability on reachable RC deployments without global HTTP authentication.\n\nIn practice, command execution in the rclone process context can lead to higher-impact outcomes such as local file read, file write, or shell access, depending on the deployed environment.\n\n#### Testing performed\n\nThis was successfully reproduced:\n\n  - on a local test environment\n  - on a public amd64 Ubuntu host controlled by the tester\n\nOn the public host it was confirmed:\n\n  - the unauthenticated `operations/fsinfo` exploit worked\n  - command execution occurred on the host\n  - the issue was reproducible through direct host execution",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.73.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Rclone_jll",
+                "purl": "pkg:julia/Rclone_jll?uuid=d3707c4a-c138-5086-90bb-c65de4e50315"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jfwf-28xr-xw6q"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/backend/webdav/webdav.go"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/fs/operations/rc.go"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/rclone/rclone/blob/bf55d5e6d37fd86164a87782191f9e1ffcaafa82/fs/rc/cache.go"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/rclone/rclone/security/advisories/GHSA-jfwf-28xr-xw6q"
+        }
+    ],
+    "credits": [
+        {
+            "name": "0wnerDied",
+            "contact": [
+                "https://github.com/0wnerDied"
+            ],
+            "type": "FINDER"
+        },
+        {
+            "name": "ncw",
+            "contact": [
+                "https://github.com/ncw"
+            ],
+            "type": "REMEDIATION_DEVELOPER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-41179",
+                "imported": "2026-04-27T16:36:07.686Z",
+                "modified": "2026-04-27T14:16:48.460Z",
+                "published": "2026-04-23T00:16:45.947Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41179",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41179",
+                "database_specific": {
+                    "status": "Undergoing Analysis"
+                }
+            },
+            {
+                "id": "GHSA-jfwf-28xr-xw6q",
+                "imported": "2026-04-27T16:36:14.263Z",
+                "modified": "2026-04-23T10:52:57Z",
+                "published": "2026-04-22T14:45:10Z",
+                "url": "https://api.github.com/advisories/GHSA-jfwf-28xr-xw6q",
+                "html_url": "https://github.com/advisories/GHSA-jfwf-28xr-xw6q"
+            },
+            {
+                "id": "EUVD-2026-25144",
+                "imported": "2026-04-27T16:36:01.354Z",
+                "modified": "2026-04-25T03:55:41Z",
+                "published": "2026-04-23T00:03:36Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25144",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-25144"
+            }
+        ]
+    }
+}
