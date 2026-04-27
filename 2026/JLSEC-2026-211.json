@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-211",
+    "modified": "2026-04-27T14:14:18.864Z",
+    "published": "2026-04-27T14:14:18.864Z",
+    "upstream": [
+        "CVE-2020-13249"
+    ],
+    "details": "libmariadb/mariadb_lib.c in MariaDB Connector/C before 3.1.8 does not properly validate the content of an OK packet received from a server. NOTE: although mariadb_lib.c was originally based on code shipped for MySQL, this issue does not affect any MySQL components supported by Oracle.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.1.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MariaDB_Connector_C_jll",
+                "purl": "pkg:julia/MariaDB_Connector_C_jll?uuid=aabc7e14-95f1-5e66-9f32-aea603782360"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00064.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00064.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00054.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00054.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mariadb-corporation/mariadb-connector-c/commit/2759b87d72926b7c9b5426437a7c8dd15ff57945"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mariadb-corporation/mariadb-connector-c/commit/2759b87d72926b7c9b5426437a7c8dd15ff57945"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mariadb-corporation/mariadb-connector-c/compare/v3.1.7...v3.1.8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mariadb-corporation/mariadb-connector-c/compare/v3.1.7...v3.1.8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UW2ED32VEUHXFN2J3YQE27JIBV4SC2PI/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UW2ED32VEUHXFN2J3YQE27JIBV4SC2PI/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/X4X2BMF3EILMTXGOZDTPYS3KT5VWLA2P/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/X4X2BMF3EILMTXGOZDTPYS3KT5VWLA2P/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-13249",
+                "imported": "2026-04-26T08:35:48.491Z",
+                "modified": "2024-11-21T05:00:52.620Z",
+                "published": "2020-05-20T19:15:09.163Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-13249",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13249",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
