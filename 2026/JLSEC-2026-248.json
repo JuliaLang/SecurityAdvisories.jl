@@ -1,0 +1,167 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-248",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2024-13176",
+        "GHSA-r9fv-h47r-823f",
+        "EUVD-2024-51400"
+    ],
+    "summary": "Issue summary: A timing side-channel which could potentially allow recovering the private key...",
+    "details": "Issue summary: A timing side-channel which could potentially allow recovering\nthe private key exists in the ECDSA signature computation.\n\nImpact summary: A timing side-channel in ECDSA signature computations\ncould allow recovering the private key by an attacker. However, measuring\nthe timing would require either local access to the signing application or\na very fast network connection with low latency.\n\nThere is a timing signal of around 300 nanoseconds when the top word of\nthe inverted ECDSA nonce value is zero. This can happen with significant\nprobability only for some of the supported elliptic curves. In particular\nthe NIST P-521 curve is affected. To be able to measure this leak, the attacker\nprocess must either be located in the same physical computer or must\nhave a very fast network connection with low latency. For that reason\nthe severity of this vulnerability is Low.\n\nThe FIPS modules in 3.4, 3.3, 3.2, 3.1 and 3.0 are affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:P/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.16+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/01/20/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-r9fv-h47r-823f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/07272b05b04836a762b4baa874958af51d513844"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/2af62e74fb59bc469506bc37eb2990ea408d9467"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/392dcb336405a0c94486aa6655057f59fd3a0902"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/4b1cb94a734a7d4ec363ac0a215a25c181e11f65"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/77c608f4c8857e63e98e66444e2e761c9627916f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.openssl.org/openssl/extended-releases/commit/0d5fd1ab987f7571e2c955d8d8b638fc0fb54ded"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.openssl.org/openssl/extended-releases/commit/a2639000db19878d5d89586ae7b725080592ae86"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/05/msg00028.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-13176"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20250120.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250124-0005"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250124-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250418-0010"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250418-0010/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250502-0006"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250502-0006/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-13176",
+                "imported": "2026-04-27T16:34:14.892Z",
+                "modified": "2026-04-15T00:35:42.020Z",
+                "published": "2025-01-20T14:15:26.247Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-13176",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-13176",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-r9fv-h47r-823f",
+                "imported": "2026-04-27T16:36:29.197Z",
+                "modified": "2025-11-03T21:32:14Z",
+                "published": "2025-01-20T15:31:22Z",
+                "url": "https://api.github.com/advisories/GHSA-r9fv-h47r-823f",
+                "html_url": "https://github.com/advisories/GHSA-r9fv-h47r-823f"
+            },
+            {
+                "id": "EUVD-2024-51400",
+                "imported": "2026-04-27T16:33:03.736Z",
+                "modified": "2026-03-18T16:49:36Z",
+                "published": "2025-01-20T13:29:57Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-51400",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-51400"
+            }
+        ]
+    }
+}

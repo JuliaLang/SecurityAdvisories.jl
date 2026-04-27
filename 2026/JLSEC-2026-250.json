@@ -1,0 +1,115 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-250",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2024-4603",
+        "GHSA-85xr-ghj6-6m46",
+        "EUVD-2024-44212"
+    ],
+    "summary": "Issue summary: Checking excessively long DSA keys or parameters may be very slow. Impact summary...",
+    "details": "Issue summary: Checking excessively long DSA keys or parameters may be very\nslow.\n\nImpact summary: Applications that use the functions EVP_PKEY_param_check()\nor EVP_PKEY_public_check() to check a DSA public key or DSA parameters may\nexperience long delays. Where the key or parameters that are being checked\nhave been obtained from an untrusted source this may lead to a Denial of\nService.\n\nThe functions EVP_PKEY_param_check() or EVP_PKEY_public_check() perform\nvarious checks on DSA parameters. Some of those computations take a long time\nif the modulus (`p` parameter) is too large.\n\nTrying to use a very large modulus is slow and OpenSSL will not allow using\npublic keys with a modulus which is over 10,000 bits in length for signature\nverification. However the key and parameter check functions do not limit\nthe modulus size when performing the checks.\n\nAn application that calls EVP_PKEY_param_check() or EVP_PKEY_public_check()\nand supplies a key or parameters obtained from an untrusted source could be\nvulnerable to a Denial of Service attack.\n\nThese functions are not called by OpenSSL itself on untrusted DSA keys so\nonly applications that directly call these functions may be vulnerable.\n\nAlso vulnerable are the OpenSSL pkey and pkeyparam command line applications\nwhen using the `-check` option.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\n\nThe OpenSSL 3.0 and 3.1 FIPS providers are affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.0.14+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/05/16/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-85xr-ghj6-6m46"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/3559e868e58005d15c6013a0c1fd832e51c73397"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/53ea06486d296b890d565fb971b2764fcd826e7e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/9c39b3858091c152f52513c066ff2c5a47969f0d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/da343d0605c826ef197aceedc67e8e04f065f740"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4603"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240621-0001"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240621-0001/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20240516.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-4603",
+                "imported": "2026-04-27T16:35:42.685Z",
+                "modified": "2026-04-15T00:35:42.020Z",
+                "published": "2024-05-16T16:15:10.643Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-4603",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4603",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-85xr-ghj6-6m46",
+                "imported": "2026-04-27T16:35:51.973Z",
+                "modified": "2024-10-14T15:31:49Z",
+                "published": "2024-05-16T18:30:32Z",
+                "url": "https://api.github.com/advisories/GHSA-85xr-ghj6-6m46",
+                "html_url": "https://github.com/advisories/GHSA-85xr-ghj6-6m46"
+            },
+            {
+                "id": "EUVD-2024-44212",
+                "imported": "2026-04-27T16:33:19.458Z",
+                "modified": "2024-10-14T14:56:01Z",
+                "published": "2024-05-16T15:21:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-44212",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-44212"
+            }
+        ]
+    }
+}

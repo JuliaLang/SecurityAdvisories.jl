@@ -1,0 +1,143 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-249",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2024-2511",
+        "GHSA-299c-jvhc-gxj8",
+        "EUVD-2024-27460"
+    ],
+    "summary": "Issue summary: Some non-default TLS server configurations can cause unbounded memory growth when...",
+    "details": "Issue summary: Some non-default TLS server configurations can cause unbounded\nmemory growth when processing TLSv1.3 sessions\n\nImpact summary: An attacker may exploit certain server configurations to trigger\nunbounded memory growth that would lead to a Denial of Service\n\nThis problem can occur in TLSv1.3 if the non-default SSL_OP_NO_TICKET option is\nbeing used (but not if early_data support is also configured and the default\nanti-replay protection is in use). In this case, under certain conditions, the\nsession cache can get into an incorrect state and it will fail to flush properly\nas it fills. The session cache will continue to grow in an unbounded manner. A\nmalicious client could deliberately create the scenario for this failure to\nforce a Denial of Service. It may also happen by accident in normal operation.\n\nThis issue only affects TLS servers supporting TLSv1.3. It does not affect TLS\nclients.\n\nThe FIPS modules in 3.2, 3.1 and 3.0 are not affected by this issue. OpenSSL\n1.0.2 is also not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.15+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/04/08/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-299c-jvhc-gxj8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7e4d731b1c07201ad9374c1cd9ac5263bdf35bce"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/b52867a9f618bb955bed2a3ce3db4d4f97ed8e5d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/e9d7083e241670332e0443da0f0d4ffb52829f08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.openssl.org/openssl/extended-releases/commit/5f8d25770ae6437db119dfc951e207271a326640"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/10/msg00033.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/11/msg00000.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2511"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240503-0013"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240503-0013/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20240408.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-2511",
+                "imported": "2026-04-27T16:33:32.176Z",
+                "modified": "2026-04-15T00:35:42.020Z",
+                "published": "2024-04-08T14:15:07.660Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-2511",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2511",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-299c-jvhc-gxj8",
+                "imported": "2026-04-27T16:36:31.024Z",
+                "modified": "2025-11-04T00:31:52Z",
+                "published": "2024-04-08T15:30:33Z",
+                "url": "https://api.github.com/advisories/GHSA-299c-jvhc-gxj8",
+                "html_url": "https://github.com/advisories/GHSA-299c-jvhc-gxj8"
+            },
+            {
+                "id": "EUVD-2024-27460",
+                "imported": "2026-04-27T16:33:14.658Z",
+                "modified": "2025-11-03T21:54:02Z",
+                "published": "2024-04-08T13:51:12Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-27460",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-27460"
+            }
+        ]
+    }
+}

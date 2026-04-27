@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-259",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-4575",
+        "GHSA-v8qh-5c5w-48pp",
+        "EUVD-2025-16128"
+    ],
+    "summary": "Issue summary: Use of -addreject option with the openssl x509 application adds a trusted use...",
+    "details": "Issue summary: Use of -addreject option with the openssl x509 application adds\na trusted use instead of a rejected use for a certificate.\n\nImpact summary: If a user intends to make a trusted certificate rejected for\na particular use it will be instead marked as trusted for that use.\n\nA copy & paste error during minor refactoring of the code introduced this\nissue in the OpenSSL 3.5 version. If, for example, a trusted CA certificate\nshould be trusted only for the purpose of authenticating TLS servers but not\nfor CMS signature verification and the CMS signature verification is intended\nto be marked as rejected with the -addreject option, the resulting CA\ncertificate will be trusted for CMS signature verification purpose instead.\n\nOnly users which use the trusted certificate format who use the openssl x509\ncommand line application to add rejected uses are affected by this issue.\nThe issues affecting only the command line application are considered to\nbe Low severity.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue.\n\nOpenSSL 3.4, 3.3, 3.2, 3.1, 3.0, 1.1.1 and 1.0.2 are also not affected by this\nissue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/05/22/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v8qh-5c5w-48pp"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/e96d22446e633d117e6c9904cb15b4693e956eaa"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-4575"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20250522.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-4575",
+                "imported": "2026-04-27T16:32:47.240Z",
+                "modified": "2025-10-23T14:51:30.377Z",
+                "published": "2025-05-22T14:16:07.630Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-4575",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-4575",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-v8qh-5c5w-48pp",
+                "imported": "2026-04-27T16:35:39.679Z",
+                "modified": "2025-05-22T18:32:18Z",
+                "published": "2025-05-22T15:34:50Z",
+                "url": "https://api.github.com/advisories/GHSA-v8qh-5c5w-48pp",
+                "html_url": "https://github.com/advisories/GHSA-v8qh-5c5w-48pp"
+            },
+            {
+                "id": "EUVD-2025-16128",
+                "imported": "2026-04-27T16:33:15.818Z",
+                "modified": "2025-05-22T16:03:42Z",
+                "published": "2025-05-22T13:36:49Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-16128",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-16128"
+            }
+        ]
+    }
+}

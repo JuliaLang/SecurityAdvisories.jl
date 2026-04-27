@@ -1,0 +1,147 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-274",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2026-28389",
+        "GHSA-7x88-9hgc-69gf",
+        "EUVD-2026-19965"
+    ],
+    "summary": "Issue summary: During processing of a crafted CMS EnvelopedData message with...",
+    "details": "Issue summary: During processing of a crafted CMS EnvelopedData message\nwith KeyAgreeRecipientInfo a NULL pointer dereference can happen.\n\nImpact summary: Applications that process attacker-controlled CMS data may\ncrash before authentication or cryptographic operations occur resulting in\nDenial of Service.\n\nWhen a CMS EnvelopedData message that uses KeyAgreeRecipientInfo is\nprocessed, the optional parameters field of KeyEncryptionAlgorithmIdentifier\nis examined without checking for its presence. This results in a NULL\npointer dereference if the field is missing.\n\nApplications and services that call CMS_decrypt() on untrusted input\n(e.g., S/MIME processing or CMS-based protocols) are vulnerable.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3 and 3.0 are not affected by this\nissue, as the affected code is outside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.6+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7x88-9hgc-69gf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/16cea4188e0ea567deb4f93f85902247e67384f5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/785cbf7ea3b5a6f5adf0c1ccb92b79d89c35c616"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7b5274e812400cacb6f3be4c2df5340923fa807f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/c6725634e089eb2b634b10ede33944be7248172a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/f80f83bc5fd036bc47d773e8b15a001e2b4ce686"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28389"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260407.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-28389",
+                "imported": "2026-04-27T16:32:54.781Z",
+                "modified": "2026-04-23T15:40:00.107Z",
+                "published": "2026-04-07T22:16:21.030Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-28389",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28389",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-7x88-9hgc-69gf",
+                "imported": "2026-04-27T16:34:48.657Z",
+                "modified": "2026-04-10T21:32:17Z",
+                "published": "2026-04-08T00:30:25Z",
+                "url": "https://api.github.com/advisories/GHSA-7x88-9hgc-69gf",
+                "html_url": "https://github.com/advisories/GHSA-7x88-9hgc-69gf"
+            },
+            {
+                "id": "EUVD-2026-19965",
+                "imported": "2026-04-27T16:32:59.776Z",
+                "modified": "2026-04-15T07:28:13Z",
+                "published": "2026-04-07T22:00:53Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19965",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19965"
+            }
+        ]
+    }
+}

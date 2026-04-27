@@ -1,0 +1,128 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-231",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2022-4304",
+        "GHSA-p52g-cm5j-mjv4",
+        "EUVD-2023-0751"
+    ],
+    "summary": "openssl-src subject to Timing Oracle in RSA Decryption",
+    "details": "A timing based side channel exists in the OpenSSL RSA Decryption implementation\nwhich could be sufficient to recover a plaintext across a network in a\nBleichenbacher style attack. To achieve a successful decryption an attacker\nwould have to be able to send a very large number of trial messages for\ndecryption. The vulnerability affects all RSA padding modes: PKCS#1 v1.5,\nRSA-OEAP and RSASVE.\n\nFor example, in a TLS connection, RSA is commonly used by a client to send an\nencrypted pre-master secret to the server. An attacker that had observed a\ngenuine connection between a client and a server could use this flaw to send\ntrial messages to the server and record the time taken to process them. After a\nsufficiently large number of messages the attacker could recover the pre-master\nsecret used for the original connection and thus be able to decrypt the\napplication data sent over that connection.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.20+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-p52g-cm5j-mjv4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4304"
+        },
+        {
+            "type": "WEB",
+            "url": "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2023-0003"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2023-0007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202402-08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20230207.txt"
+        }
+    ],
+    "credits": [
+        {
+            "name": "another-rex",
+            "contact": [
+                "https://github.com/another-rex"
+            ],
+            "type": "ANALYST"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-4304",
+                "imported": "2026-04-27T16:32:35.717Z",
+                "modified": "2025-11-04T20:16:14.897Z",
+                "published": "2023-02-08T20:15:23.887Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-4304",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4304",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-p52g-cm5j-mjv4",
+                "imported": "2026-04-27T16:33:31.082Z",
+                "modified": "2025-11-04T22:08:29Z",
+                "published": "2023-02-08T22:31:42Z",
+                "url": "https://api.github.com/advisories/GHSA-p52g-cm5j-mjv4",
+                "html_url": "https://github.com/advisories/GHSA-p52g-cm5j-mjv4"
+            },
+            {
+                "id": "EUVD-2023-0751",
+                "imported": "2026-04-27T16:33:12.570Z",
+                "modified": "2025-11-04T19:14:12Z",
+                "published": "2023-02-08T19:04:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-0751",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-0751"
+            }
+        ]
+    }
+}

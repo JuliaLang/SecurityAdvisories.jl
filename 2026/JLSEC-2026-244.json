@@ -1,0 +1,147 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-244",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2023-5678",
+        "GHSA-2cj7-mg3x-9mhq",
+        "EUVD-2023-57969"
+    ],
+    "summary": "Issue summary: Generating excessively long X9.42 DH keys or checking excessively long X9.42 DH...",
+    "details": "Issue summary: Generating excessively long X9.42 DH keys or checking\nexcessively long X9.42 DH keys or parameters may be very slow.\n\nImpact summary: Applications that use the functions DH_generate_key() to\ngenerate an X9.42 DH key may experience long delays.  Likewise, applications\nthat use DH_check_pub_key(), DH_check_pub_key_ex() or EVP_PKEY_public_check()\nto check an X9.42 DH key or X9.42 DH parameters may experience long delays.\nWhere the key or parameters that are being checked have been obtained from\nan untrusted source this may lead to a Denial of Service.\n\nWhile DH_check() performs all the necessary checks (as of CVE-2023-3817),\nDH_check_pub_key() doesn't make any of these checks, and is therefore\nvulnerable for excessively large P and Q parameters.\n\nLikewise, while DH_generate_key() performs a check for an excessively large\nP, it doesn't check for an excessively large Q.\n\nAn application that calls DH_generate_key() or DH_check_pub_key() and\nsupplies a key or parameters obtained from an untrusted source could be\nvulnerable to a Denial of Service attack.\n\nDH_generate_key() and DH_check_pub_key() are also called by a number of\nother OpenSSL functions.  An application calling any of those other\nfunctions may similarly be affected.  The other functions affected by this\nare DH_check_pub_key_ex(), EVP_PKEY_public_check(), and EVP_PKEY_generate().\n\nAlso vulnerable are the OpenSSL pkey command line application when using the\n\"-pubcheck\" option, as well as the OpenSSL genpkey command line application.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\n\nThe OpenSSL 3.0 and 3.1 FIPS providers are not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.13+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/11/06/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/03/11/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=34efaef6c103d636ab507a0cc34dca4d3aecc055"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=710fee740904b6290fef0dd5536fbcedbc38ff0c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=db925ae2e65d0d925adef429afc37f75bd1c2017"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=ddeb4b6c6d527e54ce9a99cba785c0f7776e54b6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-2cj7-mg3x-9mhq"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/10/msg00033.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/11/msg00000.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5678"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20231130-0010"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20231130-0010/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20231106.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-5678",
+                "imported": "2026-04-27T16:32:46.079Z",
+                "modified": "2025-12-02T20:15:49.157Z",
+                "published": "2023-11-06T16:15:42.670Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5678",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5678",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-2cj7-mg3x-9mhq",
+                "imported": "2026-04-27T16:36:29.420Z",
+                "modified": "2025-11-04T00:30:42Z",
+                "published": "2023-11-06T18:30:19Z",
+                "url": "https://api.github.com/advisories/GHSA-2cj7-mg3x-9mhq",
+                "html_url": "https://github.com/advisories/GHSA-2cj7-mg3x-9mhq"
+            },
+            {
+                "id": "EUVD-2023-57969",
+                "imported": "2026-04-27T16:33:09.896Z",
+                "modified": "2025-12-02T19:42:55Z",
+                "published": "2023-11-06T15:47:30Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-57969",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-57969"
+            }
+        ]
+    }
+}

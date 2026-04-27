@@ -1,0 +1,147 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-277",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2026-31790",
+        "GHSA-vgxx-5xj5-q97x",
+        "EUVD-2026-19969"
+    ],
+    "summary": "Issue summary: Applications using RSASVE key encapsulation to establish a secret encryption key...",
+    "details": "Issue summary: Applications using RSASVE key encapsulation to establish\na secret encryption key can send contents of an uninitialized memory buffer to\na malicious peer.\n\nImpact summary: The uninitialized buffer might contain sensitive data from the\nprevious execution of the application process which leads to sensitive data\nleakage to an attacker.\n\nRSA_public_encrypt() returns the number of bytes written on success and -1\non error. The affected code tests only whether the return value is non-zero.\nAs a result, if RSA encryption fails, encapsulation can still return success to\nthe caller, set the output lengths, and leave the caller to use the contents of\nthe ciphertext buffer as if a valid KEM ciphertext had been produced.\n\nIf applications use EVP_PKEY_encapsulate() with RSA/RSASVE on an\nattacker-supplied invalid RSA public key without first validating that key,\nthen this may cause stale or uninitialized contents of the caller-provided\nciphertext buffer to be disclosed to the attacker in place of the KEM\nciphertext.\n\nAs a workaround calling EVP_PKEY_public_check() or\nEVP_PKEY_public_check_quick() before EVP_PKEY_encapsulate() will mitigate\nthe issue.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3, 3.1 and 3.0 are affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.6+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-vgxx-5xj5-q97x"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/001e01db3e996e13ffc72386fe79d03a6683b5ac"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/abd8b2eec7e3f3fda60ecfb68498b246b52af482"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/b922e24e5b23ffb9cb9e14cadff23d91e9f7e406"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/d5f8e71cd0a54e961d0c3b174348f8308486f790"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/eed200f58cd8645ed77e46b7e9f764e284df379e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31790"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260407.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-31790",
+                "imported": "2026-04-27T16:32:56.291Z",
+                "modified": "2026-04-23T15:39:44.033Z",
+                "published": "2026-04-07T22:16:21.770Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-31790",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31790",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-vgxx-5xj5-q97x",
+                "imported": "2026-04-27T16:33:53.447Z",
+                "modified": "2026-04-08T15:32:46Z",
+                "published": "2026-04-08T00:30:26Z",
+                "url": "https://api.github.com/advisories/GHSA-vgxx-5xj5-q97x",
+                "html_url": "https://github.com/advisories/GHSA-vgxx-5xj5-q97x"
+            },
+            {
+                "id": "EUVD-2026-19969",
+                "imported": "2026-04-27T16:33:02.359Z",
+                "modified": "2026-04-08T14:32:37Z",
+                "published": "2026-04-07T22:00:56Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19969",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19969"
+            }
+        ]
+    }
+}

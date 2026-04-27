@@ -1,0 +1,145 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-256",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-15467",
+        "GHSA-wvhq-3h88-rf6g",
+        "EUVD-2025-206379"
+    ],
+    "summary": "Issue summary: Parsing CMS AuthEnvelopedData message with maliciously crafted AEAD parameters can...",
+    "details": "Issue summary: Parsing CMS AuthEnvelopedData or EnvelopedData message with\nmaliciously crafted AEAD parameters can trigger a stack buffer overflow.\n\nImpact summary: A stack buffer overflow may lead to a crash, causing Denial\nof Service, or potentially remote code execution.\n\nWhen parsing CMS (Auth)EnvelopedData structures that use AEAD ciphers such as\nAES-GCM, the IV (Initialization Vector) encoded in the ASN.1 parameters is\ncopied into a fixed-size stack buffer without verifying that its length fits\nthe destination. An attacker can supply a crafted CMS message with an\noversized IV, causing a stack-based out-of-bounds write before any\nauthentication or tag verification occurs.\n\nApplications and services that parse untrusted CMS or PKCS#7 content using\nAEAD ciphers (e.g., S/MIME (Auth)EnvelopedData with AES-GCM) are vulnerable.\nBecause the overflow occurs prior to authentication, no valid key material\nis required to trigger it. While exploitability to remote code execution\ndepends on platform and toolchain mitigations, the stack-based write\nprimitive represents a severe risk.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.\n\nOpenSSL 3.6, 3.5, 3.4, 3.3 and 3.0 are vulnerable to this issue.\n\nOpenSSL 1.1.1 and 1.0.2 are not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/27/10"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/02/25/6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-wvhq-3h88-rf6g"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/guiimoraes/CVE-2025-15467"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/2c8f0e5fa9b6ee5508a0349e4572ddb74db5a703"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/5f26d4202f5b89664c5c3f3c62086276026ba9a9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/6ced0fe6b10faa560e410e3ee8d6c82f06c65ea3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/ce39170276daec87f55c39dad1f629b56344429e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/d0071a0799f20cc8101730145349ed4487c268dc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15467"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-15467",
+                "imported": "2026-04-27T16:32:47.958Z",
+                "modified": "2026-03-19T19:16:19.230Z",
+                "published": "2026-01-27T16:16:14.257Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-15467",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15467",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-wvhq-3h88-rf6g",
+                "imported": "2026-04-27T16:34:49.330Z",
+                "modified": "2026-03-19T21:31:21Z",
+                "published": "2026-01-27T18:32:15Z",
+                "url": "https://api.github.com/advisories/GHSA-wvhq-3h88-rf6g",
+                "html_url": "https://github.com/advisories/GHSA-wvhq-3h88-rf6g"
+            },
+            {
+                "id": "EUVD-2025-206379",
+                "imported": "2026-04-27T16:33:03.082Z",
+                "modified": "2026-03-20T03:55:41Z",
+                "published": "2026-01-27T16:01:19Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206379",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206379"
+            }
+        ]
+    }
+}

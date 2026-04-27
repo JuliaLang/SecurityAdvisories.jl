@@ -1,0 +1,218 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-223",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2021-3449",
+        "GHSA-83mx-573x-5rw9",
+        "EUVD-2021-1628"
+    ],
+    "summary": "openssl-src NULL pointer Dereference in signature_algorithms processing",
+    "details": "An OpenSSL TLS server may crash if sent a maliciously crafted renegotiation ClientHello message from a client. If a TLSv1.2 renegotiation ClientHello omits the signature_algorithms extension (where it was present in the initial ClientHello), but includes a signature_algorithms_cert extension then a NULL pointer dereference will result, leading to a crash and a denial of service attack. A server is only vulnerable if it has TLSv1.2 and renegotiation enabled (which is the default configuration). OpenSSL TLS clients are not impacted by this issue. All OpenSSL 1.1.1 versions are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1k. OpenSSL 1.0.2 is not impacted by this issue. Fixed in OpenSSL 1.1.1k (Affected 1.1.1-1.1.1j).",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.10+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2021/03/27/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2021/03/27/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2021/03/28/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2021/03/28/4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-772220.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git%3Ba=commitdiff%3Bh=fb9fa6b51defd48157eeb207f52181f735d96148"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=fb9fa6b51defd48157eeb207f52181f735d96148"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-83mx-573x-5rw9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://kb.pulsesecure.net/articles/Pulse_Security_Advisories/SA44845"
+        },
+        {
+            "type": "WEB",
+            "url": "https://kc.mcafee.com/corporate/index?page=content&id=SB10356"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/08/msg00029.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/CCBFLLVQVILIVGZMBJL3IXZGKWQISYNP/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CCBFLLVQVILIVGZMBJL3IXZGKWQISYNP/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3449"
+        },
+        {
+            "type": "WEB",
+            "url": "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2021-0013"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2021-0055"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2021-0055.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.FreeBSD.org/advisories/FreeBSD-SA-21:07.openssl.asc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202103-03"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210326-0006/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210513-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240621-0006/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-openssl-2021-GHY28dJd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4875"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20210325.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuApr2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuapr2022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpujul2022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.tenable.com/security/tns-2021-05"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.tenable.com/security/tns-2021-06"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.tenable.com/security/tns-2021-09"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.tenable.com/security/tns-2021-10"
+        }
+    ],
+    "credits": [
+        {
+            "name": "another-rex",
+            "contact": [
+                "https://github.com/another-rex"
+            ],
+            "type": "ANALYST"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3449",
+                "imported": "2026-04-27T16:32:29.459Z",
+                "modified": "2024-11-21T06:21:33.050Z",
+                "published": "2021-03-25T15:15:13.450Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3449",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3449",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-83mx-573x-5rw9",
+                "imported": "2026-04-27T16:35:59.226Z",
+                "modified": "2023-09-05T14:49:34Z",
+                "published": "2021-08-25T20:54:02Z",
+                "url": "https://api.github.com/advisories/GHSA-83mx-573x-5rw9",
+                "html_url": "https://github.com/advisories/GHSA-83mx-573x-5rw9"
+            },
+            {
+                "id": "EUVD-2021-1628",
+                "imported": "2026-04-27T16:33:20.020Z",
+                "modified": "2024-09-17T03:43:55Z",
+                "published": "2021-03-25T14:25:13Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2021-1628",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2021-1628"
+            }
+        ]
+    }
+}

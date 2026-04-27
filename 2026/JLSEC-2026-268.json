@@ -1,0 +1,117 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-268",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-9232",
+        "GHSA-76r2-c3cg-f5r9",
+        "EUVD-2025-31727"
+    ],
+    "summary": "Issue summary: An application using the OpenSSL HTTP client API functions may trigger an out-of...",
+    "details": "Issue summary: An application using the OpenSSL HTTP client API functions may\ntrigger an out-of-bounds read if the 'no_proxy' environment variable is set and\nthe host portion of the authority component of the HTTP URL is an IPv6 address.\n\nImpact summary: An out-of-bounds read can trigger a crash which leads to\nDenial of Service for an application.\n\nThe OpenSSL HTTP client API functions can be used directly by applications\nbut they are also used by the OCSP client functions and CMP (Certificate\nManagement Protocol) client implementation in OpenSSL. However the URLs used\nby these implementations are unlikely to be controlled by an attacker.\n\nIn this vulnerable code the out of bounds read can only trigger a crash.\nFurthermore the vulnerability requires an attacker-controlled URL to be\npassed from an application to the OpenSSL function and the user has to have\na 'no_proxy' environment variable set. For the aforementioned reasons the\nissue was assessed as Low severity.\n\nThe vulnerable code was introduced in the following patch releases:\n3.0.16, 3.1.8, 3.2.4, 3.3.3, 3.4.0 and 3.5.0.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the HTTP client implementation is outside the OpenSSL FIPS module\nboundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.16+0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/09/30/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-76r2-c3cg-f5r9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9232"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20250930.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-9232",
+                "imported": "2026-04-27T16:36:28.748Z",
+                "modified": "2026-04-15T00:35:42.020Z",
+                "published": "2025-09-30T14:15:41.313Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9232",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9232",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-76r2-c3cg-f5r9",
+                "imported": "2026-04-27T16:34:16.196Z",
+                "modified": "2025-11-05T00:31:29Z",
+                "published": "2025-09-30T15:30:30Z",
+                "url": "https://api.github.com/advisories/GHSA-76r2-c3cg-f5r9",
+                "html_url": "https://github.com/advisories/GHSA-76r2-c3cg-f5r9"
+            },
+            {
+                "id": "EUVD-2025-31727",
+                "imported": "2026-04-27T16:33:10.354Z",
+                "modified": "2025-11-04T21:15:19Z",
+                "published": "2025-09-30T13:17:19Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-31727",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-31727"
+            }
+        ]
+    }
+}

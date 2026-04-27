@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-258",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-15469",
+        "GHSA-v2vr-926q-29fr",
+        "EUVD-2025-206399"
+    ],
+    "summary": "Issue summary: The 'openssl dgst' command-line tool silently truncates input data to 16MB when...",
+    "details": "Issue summary: The 'openssl dgst' command-line tool silently truncates input\ndata to 16MB when using one-shot signing algorithms and reports success instead\nof an error.\n\nImpact summary: A user signing or verifying files larger than 16MB with\none-shot algorithms (such as Ed25519, Ed448, or ML-DSA) may believe the entire\nfile is authenticated while trailing data beyond 16MB remains unauthenticated.\n\nWhen the 'openssl dgst' command is used with algorithms that only support\none-shot signing (Ed25519, Ed448, ML-DSA-44, ML-DSA-65, ML-DSA-87), the input\nis buffered with a 16MB limit. If the input exceeds this limit, the tool\nsilently truncates to the first 16MB and continues without signaling an error,\ncontrary to what the documentation states. This creates an integrity gap where\ntrailing bytes can be modified without detection if both signing and\nverification are performed using the same affected codepath.\n\nThe issue affects only the command-line tool behavior. Verifiers that process\nthe full message using library APIs will reject the signature, so the risk\nprimarily affects workflows that both sign and verify with the affected\n'openssl dgst' command. Streaming digest algorithms for 'openssl dgst' and\nlibrary users are unaffected.\n\nThe FIPS modules in 3.5 and 3.6 are not affected by this issue, as the\ncommand-line tools are outside the OpenSSL FIPS module boundary.\n\nOpenSSL 3.5 and 3.6 are vulnerable to this issue.\n\nOpenSSL 3.4, 3.3, 3.0, 1.1.1 and 1.0.2 are not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v2vr-926q-29fr"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/310f305eb92ea8040d6b3cb75a5feeba8e6acf2f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a7936fa4bd23c906e1955a16a0a0ab39a4953a61"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15469"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-15469",
+                "imported": "2026-04-27T16:32:48.477Z",
+                "modified": "2026-02-02T18:37:39.313Z",
+                "published": "2026-01-27T16:16:14.523Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-15469",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15469",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-v2vr-926q-29fr",
+                "imported": "2026-04-27T16:34:09.420Z",
+                "modified": "2026-01-29T15:31:31Z",
+                "published": "2026-01-27T18:32:15Z",
+                "url": "https://api.github.com/advisories/GHSA-v2vr-926q-29fr",
+                "html_url": "https://github.com/advisories/GHSA-v2vr-926q-29fr"
+            },
+            {
+                "id": "EUVD-2025-206399",
+                "imported": "2026-04-27T16:33:07.330Z",
+                "modified": "2026-01-29T14:54:35Z",
+                "published": "2026-01-27T16:01:21Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206399",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206399"
+            }
+        ]
+    }
+}

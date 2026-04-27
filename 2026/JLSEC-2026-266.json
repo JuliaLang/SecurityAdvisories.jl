@@ -1,0 +1,131 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-266",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-9230",
+        "EUVD-2025-31729"
+    ],
+    "details": "Issue summary: An application trying to decrypt CMS messages encrypted using\npassword based encryption can trigger an out-of-bounds read and write.\n\nImpact summary: This out-of-bounds read may trigger a crash which leads to\nDenial of Service for an application. The out-of-bounds write can cause\na memory corruption which can have various consequences including\na Denial of Service or Execution of attacker-supplied code.\n\nAlthough the consequences of a successful exploit of this vulnerability\ncould be severe, the probability that the attacker would be able to\nperform it is low. Besides, password based (PWRI) encryption support in CMS\nmessages is very rarely used. For that reason the issue was assessed as\nModerate severity according to our Security Policy.\n\nThe FIPS modules in 3.5, 3.4, 3.3, 3.2, 3.1 and 3.0 are not affected by this\nissue, as the CMS implementation is outside the OpenSSL FIPS module\nboundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/09/30/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/10/msg00001.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20250930.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-9230",
+                "imported": "2026-04-27T16:34:08.704Z",
+                "modified": "2026-04-15T00:35:42.020Z",
+                "published": "2025-09-30T14:15:41.050Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9230",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "EUVD-2025-31729",
+                "imported": "2026-04-27T16:33:11.333Z",
+                "modified": "2025-11-04T21:15:17Z",
+                "published": "2025-09-30T13:17:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-31729",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-31729"
+            }
+        ]
+    }
+}

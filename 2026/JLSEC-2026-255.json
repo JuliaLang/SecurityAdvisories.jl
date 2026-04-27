@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-255",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-11187",
+        "GHSA-hpc7-gcqm-58fv",
+        "EUVD-2025-206402"
+    ],
+    "summary": "Issue summary: PBMAC1 parameters in PKCS#12 files are missing validation which can trigger a...",
+    "details": "Issue summary: PBMAC1 parameters in PKCS#12 files are missing validation\nwhich can trigger a stack-based buffer overflow, invalid pointer or NULL\npointer dereference during MAC verification.\n\nImpact summary: The stack buffer overflow or NULL pointer dereference may\ncause a crash leading to Denial of Service for an application that parses\nuntrusted PKCS#12 files. The buffer overflow may also potentially enable\ncode execution depending on platform mitigations.\n\nWhen verifying a PKCS#12 file that uses PBMAC1 for the MAC, the PBKDF2\nsalt and keylength parameters from the file are used without validation.\nIf the value of keylength exceeds the size of the fixed stack buffer used\nfor the derived key (64 bytes), the key derivation will overflow the buffer.\nThe overflow length is attacker-controlled. Also, if the salt parameter is\nnot an OCTET STRING type this can lead to invalid or NULL pointer\ndereference.\n\nExploiting this issue requires a user or application to process\na maliciously crafted PKCS#12 file. It is uncommon to accept untrusted\nPKCS#12 files in applications as they are usually used to store private\nkeys which are trusted by definition. For this reason the issue was assessed\nas Moderate severity.\n\nThe FIPS modules in 3.6, 3.5 and 3.4 are not affected by this issue, as\nPKCS#12 processing is outside the OpenSSL FIPS module boundary.\n\nOpenSSL 3.6, 3.5 and 3.4 are vulnerable to this issue.\n\nOpenSSL 3.3, 3.0, 1.1.1 and 1.0.2 are not affected by this issue as they do\nnot support PBMAC1 in PKCS#12.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hpc7-gcqm-58fv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/metadust/CVE-2025-11187"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/205e3a55e16e4bd08c12fdbd3416ab829c0f6206"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/8caf359d6e46fb413e8f5f0df765d2e8a51df4e8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/e1079bc17ed93ff16f6b86f33a2fe3336e78817e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11187"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-11187",
+                "imported": "2026-04-27T16:32:47.498Z",
+                "modified": "2026-03-20T14:16:13.890Z",
+                "published": "2026-01-27T16:16:14.093Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-11187",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11187",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-hpc7-gcqm-58fv",
+                "imported": "2026-04-27T16:34:49.115Z",
+                "modified": "2026-03-20T15:32:08Z",
+                "published": "2026-01-27T18:32:14Z",
+                "url": "https://api.github.com/advisories/GHSA-hpc7-gcqm-58fv",
+                "html_url": "https://github.com/advisories/GHSA-hpc7-gcqm-58fv"
+            },
+            {
+                "id": "EUVD-2025-206402",
+                "imported": "2026-04-27T16:33:02.646Z",
+                "modified": "2026-03-20T14:07:14Z",
+                "published": "2026-01-27T15:59:41Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206402",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206402"
+            }
+        ]
+    }
+}

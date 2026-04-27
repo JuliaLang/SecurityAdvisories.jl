@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-238",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2023-1255",
+        "GHSA-4wp2-xw7p-2gfx",
+        "EUVD-2023-23524"
+    ],
+    "summary": "Issue summary: The AES-XTS cipher decryption implementation for 64 bit ARM platform contains a...",
+    "details": "Issue summary: The AES-XTS cipher decryption implementation for 64 bit ARM\nplatform contains a bug that could cause it to read past the input buffer,\nleading to a crash.\n\nImpact summary: Applications that use the AES-XTS algorithm on the 64 bit ARM\nplatform can crash in rare circumstances. The AES-XTS algorithm is usually\nused for disk encryption.\n\nThe AES-XTS cipher decryption implementation for 64 bit ARM platform will read\npast the end of the ciphertext buffer if the ciphertext size is 4 mod 5 in 16\nbyte blocks, e.g. 144 bytes or 1024 bytes. If the memory after the ciphertext\nbuffer is unmapped, this will trigger a crash which results in a denial of\nservice.\n\nIf an attacker can control the size and location of the ciphertext buffer\nbeing decrypted by an application using AES-XTS on 64 bit ARM, the\napplication is affected. This is fairly unlikely making this issue\na Low severity one.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.0.9+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/04/20/13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=02ac9c9420275868472f33b01def01218742b8bb"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=bc2f61ad70971869b242fc1cb445b98bad50074a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4wp2-xw7p-2gfx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1255"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230908-0006/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20230419.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-1255",
+                "imported": "2026-04-27T16:32:38.026Z",
+                "modified": "2025-02-04T22:15:39.327Z",
+                "published": "2023-04-20T17:15:06.883Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-1255",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1255",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-4wp2-xw7p-2gfx",
+                "imported": "2026-04-27T16:34:16.427Z",
+                "modified": "2023-11-05T05:07:23Z",
+                "published": "2023-04-20T18:30:50Z",
+                "url": "https://api.github.com/advisories/GHSA-4wp2-xw7p-2gfx",
+                "html_url": "https://github.com/advisories/GHSA-4wp2-xw7p-2gfx"
+            },
+            {
+                "id": "EUVD-2023-23524",
+                "imported": "2026-04-27T16:33:18.794Z",
+                "modified": "2025-02-13T16:39:19Z",
+                "published": "2023-04-20T16:14:54Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-23524",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-23524"
+            }
+        ]
+    }
+}

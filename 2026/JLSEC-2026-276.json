@@ -1,0 +1,141 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-276",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2026-31789",
+        "GHSA-j79m-9jxq-788r",
+        "EUVD-2026-19968"
+    ],
+    "summary": "Issue summary: Converting an excessively large OCTET STRING value to a hexadecimal string leads...",
+    "details": "Issue summary: Converting an excessively large OCTET STRING value to\na hexadecimal string leads to a heap buffer overflow on 32 bit platforms.\n\nImpact summary: A heap buffer overflow may lead to a crash or possibly\nan attacker controlled code execution or other undefined behavior.\n\nIf an attacker can supply a crafted X.509 certificate with an excessively\nlarge OCTET STRING value in extensions such as the Subject Key Identifier\n(SKID) or Authority Key Identifier (AKID) which are being converted to hex,\nthe size of the buffer needed for the result is calculated as multiplication\nof the input length by 3. On 32 bit platforms, this multiplication may overflow\nresulting in the allocation of a smaller buffer and a heap buffer overflow.\n\nApplications and services that print or log contents of untrusted X.509\ncertificates are vulnerable to this issue. As the certificates would have\nto have sizes of over 1 Gigabyte, printing or logging such certificates\nis a fairly unlikely operation and only 32 bit platforms are affected,\nthis issue was assigned Low severity.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3 and 3.0 are not affected by this\nissue, as the affected code is outside the OpenSSL FIPS module boundary.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.6+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-j79m-9jxq-788r"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/364f095b80601db632b0def6a33316967f863bde"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7a9087efd769f362ad9c0e30c7baaa6bbfa65ecf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/945b935ac66cc7f1a41f1b849c7c25adb5351f49"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a24216018e1ede8ff01a4ff5afff7dfbd443e2f9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a91e537d16d74050dbde50bb0dfb1fe9930f0521"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31789"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260407.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-31789",
+                "imported": "2026-04-27T16:32:55.852Z",
+                "modified": "2026-04-23T15:39:34.377Z",
+                "published": "2026-04-07T22:16:21.617Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-31789",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31789",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-j79m-9jxq-788r",
+                "imported": "2026-04-27T16:35:18.255Z",
+                "modified": "2026-04-23T18:34:01Z",
+                "published": "2026-04-08T00:30:26Z",
+                "url": "https://api.github.com/advisories/GHSA-j79m-9jxq-788r",
+                "html_url": "https://github.com/advisories/GHSA-j79m-9jxq-788r"
+            },
+            {
+                "id": "EUVD-2026-19968",
+                "imported": "2026-04-27T16:33:00.678Z",
+                "modified": "2026-04-13T13:04:17Z",
+                "published": "2026-04-07T22:00:54Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19968",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19968"
+            }
+        ]
+    }
+}

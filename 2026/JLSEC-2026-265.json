@@ -1,0 +1,133 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-265",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-69421",
+        "GHSA-w9rv-xc8m-cmqp",
+        "EUVD-2025-206393"
+    ],
+    "summary": "Issue summary: Processing a malformed PKCS#12 file can trigger a NULL pointer dereference in the...",
+    "details": "Issue summary: Processing a malformed PKCS#12 file can trigger a NULL pointer\ndereference in the PKCS12_item_decrypt_d2i_ex() function.\n\nImpact summary: A NULL pointer dereference can trigger a crash which leads to\nDenial of Service for an application processing PKCS#12 files.\n\nThe PKCS12_item_decrypt_d2i_ex() function does not check whether the oct\nparameter is NULL before dereferencing it. When called from\nPKCS12_unpack_p7encdata() with a malformed PKCS#12 file, this parameter can\nbe NULL, causing a crash. The vulnerability is limited to Denial of Service\nand cannot be escalated to achieve code execution or memory disclosure.\n\nExploiting this issue requires an attacker to provide a malformed PKCS#12 file\nto an application that processes it. For that reason the issue was assessed as\nLow severity according to our Security Policy.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3 and 3.0 are not affected by this issue,\nas the PKCS#12 implementation is outside the OpenSSL FIPS module boundary.\n\nOpenSSL 3.6, 3.5, 3.4, 3.3, 3.0, 1.1.1 and 1.0.2 are vulnerable to this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-w9rv-xc8m-cmqp"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/3524a29271f8191b8fd8a5257eb05173982a097b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/36ecb4960872a4ce04bf6f1e1f4e78d75ec0c0c7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/4bbc8d41a72c842ce4077a8a3eccd1109aaf74bd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/643986985cd1c21221f941129d76fe0c2785aeb3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a2dbc539f0f9cc63832709fa5aa33ad9495eb19c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69421"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-69421",
+                "imported": "2026-04-27T16:32:51.740Z",
+                "modified": "2026-02-28T04:16:17.457Z",
+                "published": "2026-01-27T16:16:34.437Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-69421",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69421",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-w9rv-xc8m-cmqp",
+                "imported": "2026-04-27T16:35:26.364Z",
+                "modified": "2026-02-02T18:32:35Z",
+                "published": "2026-01-27T18:32:16Z",
+                "url": "https://api.github.com/advisories/GHSA-w9rv-xc8m-cmqp",
+                "html_url": "https://github.com/advisories/GHSA-w9rv-xc8m-cmqp"
+            },
+            {
+                "id": "EUVD-2025-206393",
+                "imported": "2026-04-27T16:33:04.555Z",
+                "modified": "2026-02-28T02:58:24Z",
+                "published": "2026-01-27T16:01:26Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206393",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206393"
+            }
+        ]
+    }
+}

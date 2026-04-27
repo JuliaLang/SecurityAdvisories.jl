@@ -1,0 +1,133 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-261",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2025-68160",
+        "GHSA-g78j-46j5-97cr",
+        "EUVD-2025-206397"
+    ],
+    "summary": "Issue summary: Writing large, newline-free data into a BIO chain using the line-buffering filter...",
+    "details": "Issue summary: Writing large, newline-free data into a BIO chain using the\nline-buffering filter where the next BIO performs short writes can trigger\na heap-based out-of-bounds write.\n\nImpact summary: This out-of-bounds write can cause memory corruption which\ntypically results in a crash, leading to Denial of Service for an application.\n\nThe line-buffering BIO filter (BIO_f_linebuffer) is not used by default in\nTLS/SSL data paths. In OpenSSL command-line applications, it is typically\nonly pushed onto stdout/stderr on VMS systems. Third-party applications that\nexplicitly use this filter with a BIO chain that can short-write and that\nwrite large, newline-free data influenced by an attacker would be affected.\nHowever, the circumstances where this could happen are unlikely to be under\nattacker control, and BIO_f_linebuffer is unlikely to be handling non-curated\ndata controlled by an attacker. For that reason the issue was assessed as\nLow severity.\n\nThe FIPS modules in 3.6, 3.5, 3.4, 3.3 and 3.0 are not affected by this issue,\nas the BIO implementation is outside the OpenSSL FIPS module boundary.\n\nOpenSSL 3.6, 3.5, 3.4, 3.3, 3.0, 1.1.1 and 1.0.2 are vulnerable to this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g78j-46j5-97cr"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/384011202af92605d926fafe4a0bcd6b65d162ad"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/475c466ef2fbd8fc1df6fae1c3eed9c813fc8ff6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/4c96fbba618e1940f038012506ee9e21d32ee12c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/6845c3b6460a98b1ec4e463baa2ea1a63a32d7c0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/68a7cd2e2816c3a02f4d45a2ce43fc04fac97096"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68160"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-68160",
+                "imported": "2026-04-27T16:32:49.463Z",
+                "modified": "2026-02-02T18:36:57.727Z",
+                "published": "2026-01-27T16:16:15.900Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-68160",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68160",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-g78j-46j5-97cr",
+                "imported": "2026-04-27T16:34:49.547Z",
+                "modified": "2026-01-29T18:32:44Z",
+                "published": "2026-01-27T18:32:15Z",
+                "url": "https://api.github.com/advisories/GHSA-g78j-46j5-97cr",
+                "html_url": "https://github.com/advisories/GHSA-g78j-46j5-97cr"
+            },
+            {
+                "id": "EUVD-2025-206397",
+                "imported": "2026-04-27T16:33:06.781Z",
+                "modified": "2026-01-29T15:06:04Z",
+                "published": "2026-01-27T16:01:23Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206397",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206397"
+            }
+        ]
+    }
+}

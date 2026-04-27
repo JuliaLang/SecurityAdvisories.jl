@@ -1,0 +1,136 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-232",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2022-4450",
+        "GHSA-v5w6-wcm8-jm4q",
+        "EUVD-2023-0796"
+    ],
+    "summary": "openssl-src contains Double free after calling `PEM_read_bio_ex`",
+    "details": "The function PEM_read_bio_ex() reads a PEM file from a BIO and parses and\ndecodes the \"name\" (e.g. \"CERTIFICATE\"), any header data and the payload data.\nIf the function succeeds then the \"name_out\", \"header\" and \"data\" arguments are\npopulated with pointers to buffers containing the relevant decoded data. The\ncaller is responsible for freeing those buffers. It is possible to construct a\nPEM file that results in 0 bytes of payload data. In this case PEM_read_bio_ex()\nwill return a failure code but will populate the header argument with a pointer\nto a buffer that has already been freed. If the caller also frees this buffer\nthen a double free will occur. This will most likely lead to a crash. This\ncould be exploited by an attacker who has the ability to supply malicious PEM\nfiles for parsing to achieve a denial of service attack.\n\nThe functions PEM_read_bio() and PEM_read() are simple wrappers around\nPEM_read_bio_ex() and therefore these functions are also directly affected.\n\nThese functions are also called indirectly by a number of other OpenSSL\nfunctions including PEM_X509_INFO_read_bio_ex() and\nSSL_CTX_use_serverinfo_file() which are also vulnerable. Some OpenSSL internal\nuses of these functions are not vulnerable because the caller does not free the\nheader argument if PEM_read_bio_ex() returns a failure code. These locations\ninclude the PEM_read_bio_TYPE() functions as well as the decoders introduced in\nOpenSSL 3.0.\n\nThe OpenSSL asn1parse command line application is also impacted by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.20+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.19.9+0"
+                        },
+                        {
+                            "fixed": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=63bcf189be73a9cc1264059bed6f57974be74a83"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=bbcf509bd046b34cca19c766bbddc31683d0858b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v5w6-wcm8-jm4q"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4450"
+        },
+        {
+            "type": "WEB",
+            "url": "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2023-0003"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2023-0010.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202402-08"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssl.org/news/secadv/20230207.txt"
+        }
+    ],
+    "credits": [
+        {
+            "name": "michaelkedar",
+            "contact": [
+                "https://github.com/michaelkedar"
+            ],
+            "type": "ANALYST"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-4450",
+                "imported": "2026-04-27T16:32:35.890Z",
+                "modified": "2025-11-04T20:16:15.060Z",
+                "published": "2023-02-08T20:15:23.973Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-4450",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4450",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-v5w6-wcm8-jm4q",
+                "imported": "2026-04-27T16:35:58.717Z",
+                "modified": "2025-11-04T22:08:19Z",
+                "published": "2023-02-08T22:22:58Z",
+                "url": "https://api.github.com/advisories/GHSA-v5w6-wcm8-jm4q",
+                "html_url": "https://github.com/advisories/GHSA-v5w6-wcm8-jm4q"
+            },
+            {
+                "id": "EUVD-2023-0796",
+                "imported": "2026-04-27T16:33:12.314Z",
+                "modified": "2025-11-04T19:14:13Z",
+                "published": "2023-02-08T19:04:04Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-0796",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-0796"
+            }
+        ]
+    }
+}

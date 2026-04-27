@@ -1,0 +1,133 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-269",
+    "modified": "2026-04-27T18:33:55.942Z",
+    "published": "2026-04-27T18:33:55.942Z",
+    "upstream": [
+        "CVE-2026-22795",
+        "GHSA-3vqq-45qg-2xf6",
+        "EUVD-2026-4815"
+    ],
+    "summary": "Issue summary: An invalid or NULL pointer dereference can happen in an application processing a...",
+    "details": "Issue summary: An invalid or NULL pointer dereference can happen in\nan application processing a malformed PKCS#12 file.\n\nImpact summary: An application processing a malformed PKCS#12 file can be\ncaused to dereference an invalid or NULL pointer on memory read, resulting\nin a Denial of Service.\n\nA type confusion vulnerability exists in PKCS#12 parsing code where\nan ASN1_TYPE union member is accessed without first validating the type,\ncausing an invalid pointer read.\n\nThe location is constrained to a 1-byte address space, meaning any\nattempted pointer manipulation can only target addresses between 0x00 and 0xFF.\nThis range corresponds to the zero page, which is unmapped on most modern\noperating systems and will reliably result in a crash, leading only to a\nDenial of Service. Exploiting this issue also requires a user or application\nto process a maliciously crafted PKCS#12 file. It is uncommon to accept\nuntrusted PKCS#12 files in applications as they are usually used to store\nprivate keys which are trusted by definition. For these reasons, the issue\nwas assessed as Low severity.\n\nThe FIPS modules in 3.5, 3.4, 3.3 and 3.0 are not affected by this issue,\nas the PKCS12 implementation is outside the OpenSSL FIPS module boundary.\n\nOpenSSL 3.6, 3.5, 3.4, 3.3, 3.0 and 1.1.1 are vulnerable to this issue.\n\nOpenSSL 1.0.2 is not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.0.20+0"
+                        },
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.19.9+0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-3vqq-45qg-2xf6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/2502e7b7d4c0cf4f972a881641fe09edc67aeec4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/572844beca95068394c916626a6d3a490f831a49"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7bbca05be55b129651d9df4bdb92becc45002c12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/eeee3cbd4d682095ed431052f00403004596373e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/ef2fb66ec571564d64d1c74a12e388a2a54d05d2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22795"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-22795",
+                "imported": "2026-04-27T16:32:52.264Z",
+                "modified": "2026-02-02T18:41:14.917Z",
+                "published": "2026-01-27T16:16:35.430Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-22795",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22795",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-3vqq-45qg-2xf6",
+                "imported": "2026-04-27T16:36:30.547Z",
+                "modified": "2026-01-29T21:30:29Z",
+                "published": "2026-01-27T18:32:16Z",
+                "url": "https://api.github.com/advisories/GHSA-3vqq-45qg-2xf6",
+                "html_url": "https://github.com/advisories/GHSA-3vqq-45qg-2xf6"
+            },
+            {
+                "id": "EUVD-2026-4815",
+                "imported": "2026-04-27T16:33:05.080Z",
+                "modified": "2026-01-29T18:13:37Z",
+                "published": "2026-01-27T16:01:27Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-4815",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-4815"
+            }
+        ]
+    }
+}
