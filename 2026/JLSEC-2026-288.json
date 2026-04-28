@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-288",
+    "modified": "2026-04-28T13:07:10.945Z",
+    "published": "2026-04-28T13:07:10.945Z",
+    "upstream": [
+        "CVE-2026-4738",
+        "GHSA-hp6p-5qh5-w9fj",
+        "EUVD-2026-14706"
+    ],
+    "summary": "Improper Restriction of Operations within the Bounds of a Memory Buffer vulnerability in OSGeo...",
+    "details": "Improper Restriction of Operations within the Bounds of a Memory Buffer vulnerability in OSGeo gdal (frmts/zlib/contrib/infback9 modules). This vulnerability is associated with program files inftree9.C‎.\n\nThis issue affects gdal: before 3.11.0.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:A/S:P/AU:Y/R:U/V:C/RE:L/U:Amber"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "303.1100.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GDAL_jll",
+                "purl": "pkg:julia/GDAL_jll?uuid=a7073274-a066-55f0-b90d-d619367d196c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal/pull/12244"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hp6p-5qh5-w9fj"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4738"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-4738",
+                "imported": "2026-04-28T00:44:15.329Z",
+                "modified": "2026-03-24T15:53:48.067Z",
+                "published": "2026-03-24T04:17:29Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-4738",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4738",
+                "database_specific": {
+                    "status": "Awaiting Analysis"
+                }
+            },
+            {
+                "id": "GHSA-hp6p-5qh5-w9fj",
+                "imported": "2026-04-28T00:44:15.054Z",
+                "modified": "2026-03-24T06:31:13Z",
+                "published": "2026-03-24T06:31:13Z",
+                "url": "https://api.github.com/advisories/GHSA-hp6p-5qh5-w9fj",
+                "html_url": "https://github.com/advisories/GHSA-hp6p-5qh5-w9fj"
+            },
+            {
+                "id": "EUVD-2026-14706",
+                "imported": "2026-04-28T00:44:13.697Z",
+                "modified": "2026-03-24T14:35:23Z",
+                "published": "2026-03-24T03:18:10Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-14706",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-14706"
+            }
+        ]
+    }
+}
