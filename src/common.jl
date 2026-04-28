@@ -331,7 +331,7 @@ function convert_versions(pkg_project_map, vulnerable_range)
     # Standardize to VersionNumber => Union{Nothing,Missing,Vector{VersionString}} pairs:
     versionmap = sort([VersionNumber(k) =>
             isnothing(v) || (v isa AbstractVector && isempty(v)) ? nothing :
-            ismissing(v) || v == "*" ? missing :
+            ismissing(v) || v == "*" || (v isa AbstractVector && "*" in v) ? missing :
             v isa AbstractString ? [VersionString(v)] :
             v isa AbstractVector ? VersionString.(v) :
             error("unsupported values of type $(typeof(v)) in pkg_project_map")
