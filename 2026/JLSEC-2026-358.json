@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-358",
+    "modified": "2026-04-29T19:13:38.526Z",
+    "published": "2026-04-29T19:13:38.526Z",
+    "upstream": [
+        "CVE-2025-31180"
+    ],
+    "details": "A flaw was found in gnuplot. The CANVAS_text() function may lead to a segmentation fault and cause a system crash.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.0.3000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Gnuplot_jll",
+                "purl": "pkg:julia/Gnuplot_jll?uuid=e5af9688-3aeb-5ed5-8c7e-253e55323d3e"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2025-31180"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2355339"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-31180",
+                "imported": "2026-04-29T16:42:12.189Z",
+                "modified": "2025-07-30T19:40:16.683Z",
+                "published": "2025-03-27T15:16:03.540Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-31180",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-31180",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
