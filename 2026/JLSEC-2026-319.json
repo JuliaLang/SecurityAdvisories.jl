@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-319",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2024-32624"
+    ],
+    "details": "HDF5 Library through 1.14.3 contains a heap-based buffer overflow in H5T__ref_mem_setnull in H5Tref.c (called from H5T__conv_ref in H5Tconv.c), resulting in the corruption of the instruction pointer.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://www.hdfgroup.org/2024/05/new-hdf5-cve-issues-fixed-in-1-14-4/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.hdfgroup.org/2024/05/new-hdf5-cve-issues-fixed-in-1-14-4/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-32624",
+                "imported": "2026-04-29T08:59:42.561Z",
+                "modified": "2025-04-18T14:35:14.760Z",
+                "published": "2024-05-14T15:36:48.213Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-32624",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32624",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

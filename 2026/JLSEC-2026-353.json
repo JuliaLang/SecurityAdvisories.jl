@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-353",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2026-29043",
+        "EUVD-2026-21406"
+    ],
+    "details": "HDF5 is software for managing data. In 1.14.1-2 and earlier, an attacker who can control an h5 file parsed by HDF5 can trigger a write-based heap buffer overflow condition in the H5T__ref_mem_setnull method. This can lead to a denial-of-service condition, and potentially further issues such as remote code execution depending on the practical exploitability of the heap overflow against modern operating systems.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.14.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/security/advisories/GHSA-qm2m-5g5w-2277"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-29043",
+                "imported": "2026-04-29T08:59:46.148Z",
+                "modified": "2026-04-16T19:40:13.963Z",
+                "published": "2026-04-10T16:16:30.693Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-29043",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-29043",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-21406",
+                "imported": "2026-04-29T08:59:47.523Z",
+                "modified": "2026-04-14T14:50:46Z",
+                "published": "2026-04-10T15:35:51Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21406",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21406"
+            }
+        ]
+    }
+}

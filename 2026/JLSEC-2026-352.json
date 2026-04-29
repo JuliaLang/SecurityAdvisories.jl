@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-352",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2026-26200",
+        "EUVD-2026-7979"
+    ],
+    "details": "HDF5 is software for managing data. Prior to version 1.14.4-2, an attacker who can control an `h5` file parsed by HDF5 can trigger a write-based heap buffer overflow condition. This can lead to a denial-of-service condition, and potentially further issues such as remote code execution depending on the practical exploitability of the heap overflow against modern operating systems. Real-world exploitability of this issue in terms of remote-code execution is currently unknown. Version 1.14.4-2 fixes the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/security/advisories/GHSA-5p2m-j456-9mr2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-26200",
+                "imported": "2026-04-29T08:59:45.955Z",
+                "modified": "2026-02-20T20:14:37.683Z",
+                "published": "2026-02-19T20:25:42.610Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-26200",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-26200",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-7979",
+                "imported": "2026-04-29T08:59:47.899Z",
+                "modified": "2026-02-19T21:23:04Z",
+                "published": "2026-02-19T19:19:10Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7979",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7979"
+            }
+        ]
+    }
+}

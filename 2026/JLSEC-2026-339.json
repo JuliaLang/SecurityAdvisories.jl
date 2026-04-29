@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-339",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2025-6269"
+    ],
+    "details": "A vulnerability classified as critical was found in HDF5 up to 1.14.6. Affected by this vulnerability is the function H5C__reconstruct_cache_entry of the file H5Cimage.c. The manipulation leads to heap-based buffer overflow. Attacking locally is a requirement. The exploit has been disclosed to the public and may be used.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/issues/5579"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/issues/5579"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/user-attachments/files/20626503/reproduce.tar.gz"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.313273"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.313273"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.592587"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-6269",
+                "imported": "2026-04-29T08:59:44.686Z",
+                "modified": "2026-04-29T01:00:01.613Z",
+                "published": "2025-06-19T16:15:22.797Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-6269",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6269",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

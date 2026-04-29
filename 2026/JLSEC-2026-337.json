@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-337",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2025-44904"
+    ],
+    "details": "hdf5 v1.14.6 was discovered to contain a heap buffer overflow via the H5VM_memcpyvv function.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.14.5+0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/madao123123/crash_report/blob/main/hdf5_poc/hdf5_poc1.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/madao123123/crash_report/blob/main/hdf5_poc/hdf5_poc1.md"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-44904",
+                "imported": "2026-04-29T08:59:44.451Z",
+                "modified": "2025-06-03T15:35:50.377Z",
+                "published": "2025-05-30T04:15:32.307Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-44904",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-44904",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

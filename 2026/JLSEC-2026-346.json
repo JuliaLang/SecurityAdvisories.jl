@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-346",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2025-6856"
+    ],
+    "details": "A vulnerability, which was classified as problematic, was found in HDF5 1.14.6. Affected is the function H5FL__reg_gc_list of the file src/H5FL.c. The manipulation leads to use after free. Attacking locally is a requirement. The exploit has been disclosed to the public and may be used.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.14.5+0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/issues/5574"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/user-attachments/files/20623417/hdf5_crash_6.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.314328"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.314328"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.602528"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-6856",
+                "imported": "2026-04-29T08:59:45.350Z",
+                "modified": "2026-04-29T01:00:01.613Z",
+                "published": "2025-06-29T10:15:21.443Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-6856",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6856",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-349",
+    "modified": "2026-04-29T13:21:01.555Z",
+    "published": "2026-04-29T13:21:01.555Z",
+    "upstream": [
+        "CVE-2025-7067"
+    ],
+    "details": "A vulnerability classified as problematic was found in HDF5 1.14.6. This vulnerability affects the function H5FS__sinfo_serialize_node_cb of the file src/H5FScache.c. The manipulation leads to heap-based buffer overflow. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.14.5+0"
+                        },
+                        {
+                            "fixed": "2.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HDF5_jll",
+                "purl": "pkg:julia/HDF5_jll?uuid=0234f1f7-429e-5d53-9886-15a909be8d59"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/issues/5577"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/HDFGroup/hdf5/issues/5577"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/user-attachments/files/20623499/hdf5_crash_9.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.314902"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.314902"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.602536"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-7067",
+                "imported": "2026-04-29T08:59:45.680Z",
+                "modified": "2026-04-29T01:00:01.613Z",
+                "published": "2025-07-04T18:15:23.610Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-7067",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7067",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
