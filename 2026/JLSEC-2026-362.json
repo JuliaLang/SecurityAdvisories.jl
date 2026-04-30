@@ -1,0 +1,106 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-362",
+    "modified": "2026-04-30T14:15:09.088Z",
+    "published": "2026-04-30T14:15:09.088Z",
+    "upstream": [
+        "CVE-2020-14409"
+    ],
+    "details": "SDL (Simple DirectMedia Layer) through 2.0.12 has an Integer Overflow (and resultant SDL_memcpy heap corruption) in SDL_BlitCopy in video/SDL_blit_copy.c via a crafted .BMP file.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.0.12+0"
+                        },
+                        {
+                            "fixed": "2.24.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "SDL2_jll",
+                "purl": "pkg:julia/SDL2_jll?uuid=ab825dc5-c88e-5901-9575-1e5e20358fcf"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.libsdl.org/show_bug.cgi?id=5200"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.libsdl.org/show_bug.cgi?id=5200"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hg.libsdl.org/SDL/rev/3f9b4e92c1d9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hg.libsdl.org/SDL/rev/3f9b4e92c1d9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/01/msg00024.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/01/msg00024.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/5FS32YCEJLQ2FYUWSWYI2ZMQWQEAWJNR/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/5FS32YCEJLQ2FYUWSWYI2ZMQWQEAWJNR/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-55"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-55"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.starwindsoftware.com/security/sw-20210325-0001/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.starwindsoftware.com/security/sw-20210325-0001/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-14409",
+                "imported": "2026-04-30T14:02:59.702Z",
+                "modified": "2024-11-21T05:03:12.327Z",
+                "published": "2021-01-19T20:15:12.207Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14409",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14409",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

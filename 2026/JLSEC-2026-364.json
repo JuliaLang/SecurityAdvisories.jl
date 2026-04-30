@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-364",
+    "modified": "2026-04-30T14:15:09.088Z",
+    "published": "2026-04-30T14:15:09.088Z",
+    "upstream": [
+        "CVE-2021-33657"
+    ],
+    "details": "There is a heap overflow problem in video/SDL_pixels.c in SDL (Simple DirectMedia Layer) 2.x to 2.0.18 versions. By crafting a malicious .BMP file, an attacker can cause the application using this library to crash, denial of service or Code execution.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.0.20+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "SDL2_jll",
+                "purl": "pkg:julia/SDL2_jll?uuid=ab825dc5-c88e-5901-9575-1e5e20358fcf"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libsdl-org/SDL/commit/8c91cf7dba5193f5ce12d06db1336515851c9ee9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libsdl-org/SDL/commit/8c91cf7dba5193f5ce12d06db1336515851c9ee9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-17"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-17"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202305-18"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-33657",
+                "imported": "2026-04-30T14:02:59.894Z",
+                "modified": "2024-11-21T06:09:17.713Z",
+                "published": "2022-04-01T23:15:10.363Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-33657",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-33657",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
