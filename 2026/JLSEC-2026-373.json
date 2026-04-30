@@ -1,0 +1,85 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-373",
+    "modified": "2026-04-30T19:30:31.295Z",
+    "published": "2026-04-30T19:30:31.295Z",
+    "upstream": [
+        "CVE-2026-6986",
+        "EUVD-2026-25662"
+    ],
+    "details": "A security vulnerability has been detected in Cesanta Mongoose up to 7.20. This issue affects the function mg_aes_gcm_decrypt of the file /src/tls_aes128.c of the component GCM Authentication Tag Handler. Such manipulation leads to improper verification of cryptographic signature. The attack may be performed from remote. A high complexity level is associated with this attack. The exploitability is assessed as difficult. The exploit has been disclosed publicly and may be used. Upgrading to version 7.21 is capable of addressing this issue. It is advisable to upgrade the affected component. VulDB has contacted the vendor early and they confirmed quickly, that this issue got fixed already.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoose_jll",
+                "purl": "pkg:julia/Mongoose_jll?uuid=0a8a3f5b-4c0e-5906-8e29-5b3fee15539c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/releases/tag/7.21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dwBruijn/CVEs/blob/main/Mongoose/AESGCM.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/796231"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/359529"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/359529/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6986",
+                "imported": "2026-04-30T18:54:48.251Z",
+                "modified": "2026-04-29T19:00:39.740Z",
+                "published": "2026-04-25T17:16:33.700Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6986",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6986",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-25662",
+                "imported": "2026-04-30T18:54:52.194Z",
+                "modified": "2026-04-27T13:36:06Z",
+                "published": "2026-04-25T16:30:13Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25662",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-25662"
+            }
+        ]
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-372",
+    "modified": "2026-04-30T19:30:31.295Z",
+    "published": "2026-04-30T19:30:31.295Z",
+    "upstream": [
+        "CVE-2026-6985",
+        "EUVD-2026-25661"
+    ],
+    "details": "A weakness has been identified in Cesanta Mongoose up to 7.20. This vulnerability affects the function handle_opt of the file /src/net_builtin.c of the component TCP Option Handler. This manipulation of the argument optlen causes infinite loop. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 7.21 is able to resolve this issue. Upgrading the affected component is advised. VulDB has contacted the vendor early and they confirmed quickly, that this issue got fixed already.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoose_jll",
+                "purl": "pkg:julia/Mongoose_jll?uuid=0a8a3f5b-4c0e-5906-8e29-5b3fee15539c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/releases/tag/7.21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dwBruijn/CVEs/blob/main/Mongoose/TCP_opt_dos.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/796230"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/359528"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/359528/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6985",
+                "imported": "2026-04-30T18:54:48.155Z",
+                "modified": "2026-04-29T19:05:12.250Z",
+                "published": "2026-04-25T17:16:33.520Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6985",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6985",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-25661",
+                "imported": "2026-04-30T18:54:54.459Z",
+                "modified": "2026-04-27T12:35:36Z",
+                "published": "2026-04-25T16:15:13Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25661",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-25661"
+            }
+        ]
+    }
+}

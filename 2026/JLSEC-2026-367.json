@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-367",
+    "modified": "2026-04-30T19:30:31.295Z",
+    "published": "2026-04-30T19:30:31.295Z",
+    "upstream": [
+        "CVE-2026-2967",
+        "GHSA-c6h3-vh8h-r8mj",
+        "EUVD-2026-7603"
+    ],
+    "summary": "A security vulnerability has been detected in Cesanta Mongoose up to 7.20. This affects the...",
+    "details": "A security vulnerability has been detected in Cesanta Mongoose up to 7.20. This affects the function getpeer of the file /src/net_builtin.c of the component TCP Sequence Number Handler. The manipulation leads to improper verification of source of a communication channel. The attack may be initiated remotely. The attack's complexity is rated as high. The exploitability is reported as difficult. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoose_jll",
+                "purl": "pkg:julia/Mongoose_jll?uuid=0a8a3f5b-4c0e-5906-8e29-5b3fee15539c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-c6h3-vh8h-r8mj"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dwBruijn/CVEs/blob/main/Mongoose/tcp_rst.md"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dwBruijn/CVEs/blob/main/Mongoose/tcp_rst.md#poc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2967"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.347334"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.347334"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.755450"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-2967",
+                "imported": "2026-04-30T18:54:47.672Z",
+                "modified": "2026-04-29T01:00:01.613Z",
+                "published": "2026-02-23T04:16:02.040Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-2967",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2967",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-c6h3-vh8h-r8mj",
+                "imported": "2026-04-30T18:55:42.338Z",
+                "modified": "2026-02-23T06:30:24Z",
+                "published": "2026-02-23T06:30:18Z",
+                "url": "https://api.github.com/advisories/GHSA-c6h3-vh8h-r8mj",
+                "html_url": "https://github.com/advisories/GHSA-c6h3-vh8h-r8mj"
+            },
+            {
+                "id": "EUVD-2026-7603",
+                "imported": "2026-04-30T18:55:07.580Z",
+                "modified": "2026-02-23T13:32:57Z",
+                "published": "2026-02-23T02:32:07Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7603",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7603"
+            }
+        ]
+    }
+}
