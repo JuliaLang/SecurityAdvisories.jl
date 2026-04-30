@@ -17,6 +17,7 @@ jobs:
   update-and-export:
     permissions:
       contents: write
+
     runs-on: ubuntu-latest
 
     outputs:
@@ -143,6 +144,10 @@ jobs:
         git push origin $COMMIT:generated/osv
 
   deploy-website:
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
     needs: update-and-export
     if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
     uses: ./.github/workflows/deploy-web.yml
