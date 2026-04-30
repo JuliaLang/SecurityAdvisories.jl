@@ -6,12 +6,17 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   update-and-export:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     outputs:
