@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-376",
+    "modified": "2026-05-01T13:54:10.329Z",
+    "published": "2026-05-01T13:54:10.329Z",
+    "upstream": [
+        "CVE-2023-6349"
+    ],
+    "details": "A heap overflow vulnerability exists in libvpx - Encoding a frame that has larger dimensions than the originally configured size with VP9 may result in a heap overflow in libvpx.\nWe recommend upgrading to version 1.13.1 or above",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.15.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibVPX_jll",
+                "purl": "pkg:julia/LibVPX_jll?uuid=dd192d2f-8180-539f-9fb4-cc70b1dcf69a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/webm/1642"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/webm/1642"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-6349",
+                "imported": "2026-05-01T13:33:19.891Z",
+                "modified": "2025-07-22T20:08:40.183Z",
+                "published": "2024-05-27T12:15:08.810Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-6349",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6349",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

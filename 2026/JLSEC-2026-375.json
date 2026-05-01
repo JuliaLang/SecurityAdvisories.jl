@@ -1,0 +1,470 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-375",
+    "modified": "2026-05-01T13:54:10.329Z",
+    "published": "2026-05-01T13:54:10.329Z",
+    "upstream": [
+        "CVE-2023-5217"
+    ],
+    "details": "Heap buffer overflow in vp8 encoding in libvpx in Google Chrome prior to 117.0.5938.132 and libvpx 1.13.1 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: High)",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.15.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibVPX_jll",
+                "purl": "pkg:julia/LibVPX_jll?uuid=dd192d2f-8180-539f-9fb4-cc70b1dcf69a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/12"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/12"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/16"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/16"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/28/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/28/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/28/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/28/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/12"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/12"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/14"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/14"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/9"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/29/9"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/4"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/4"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/01/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/02/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/02/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/03/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/03/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://arstechnica.com/security/2023/09/new-0-day-in-chrome-and-firefox-is-likely-to-plague-other-software/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://arstechnica.com/security/2023/09/new-0-day-in-chrome-and-firefox-is-likely-to-plague-other-software/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2241191"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2241191"
+        },
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2023/09/stable-channel-update-for-desktop_27.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2023/09/stable-channel-update-for-desktop_27.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1486441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1486441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/commit/3fbd1dca6a4d2dad332a2110d646e4ffef36d590"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/commit/3fbd1dca6a4d2dad332a2110d646e4ffef36d590"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/commit/af6dedd715f4307669366944cca6e0417b290282"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/commit/af6dedd715f4307669366944cca6e0417b290282"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/releases/tag/v1.13.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/releases/tag/v1.13.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/tags"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/webmproject/libvpx/tags"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00038.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00038.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00001.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00001.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4MFWDFJSSIFKWKNOCTQCFUNZWAXUCSS4/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4MFWDFJSSIFKWKNOCTQCFUNZWAXUCSS4/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/55YVCZNAVY3Y5E4DWPWMX2SPKZ2E5SOV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/55YVCZNAVY3Y5E4DWPWMX2SPKZ2E5SOV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/AY642Z6JZODQJE7Z62CFREVUHEGCXGPD/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/AY642Z6JZODQJE7Z62CFREVUHEGCXGPD/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/BCVSHVX2RFBU3RMCUFSATVQEJUFD4Q63/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/BCVSHVX2RFBU3RMCUFSATVQEJUFD4Q63/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CWEJYS5NC7KVFYU3OAMPKQDYN6JQGVK6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CWEJYS5NC7KVFYU3OAMPKQDYN6JQGVK6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TE7F54W5O5RS4ZMAAC7YK3CZWQXIDSKB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TE7F54W5O5RS4ZMAAC7YK3CZWQXIDSKB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/WTRUIS3564P7ZLM2S2IH4Y4KZ327LI4I/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/WTRUIS3564P7ZLM2S2IH4Y4KZ327LI4I/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://pastebin.com/TdkC4pDv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://pastebin.com/TdkC4pDv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security-tracker.debian.org/tracker/CVE-2023-5217"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security-tracker.debian.org/tracker/CVE-2023-5217"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-34"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-34"
+        },
+        {
+            "type": "WEB",
+            "url": "https://stackdiary.com/google-discloses-a-webm-vp8-bug-tracked-as-cve-2023-5217/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://stackdiary.com/google-discloses-a-webm-vp8-bug-tracked-as-cve-2023-5217/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213961"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213961"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213972"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213972"
+        },
+        {
+            "type": "WEB",
+            "url": "https://twitter.com/maddiestone/status/1707163313711497266"
+        },
+        {
+            "type": "WEB",
+            "url": "https://twitter.com/maddiestone/status/1707163313711497266"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2023-5217"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5508"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5508"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5509"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5509"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5510"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5510"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.mozilla.org/en-US/security/advisories/mfsa2023-44/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.mozilla.org/en-US/security/advisories/mfsa2023-44/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/09/28/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/09/28/5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-5217",
+                "imported": "2026-05-01T13:33:19.686Z",
+                "modified": "2025-10-24T14:07:24.923Z",
+                "published": "2023-09-28T16:15:10.980Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5217",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5217",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
