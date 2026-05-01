@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-382",
+    "modified": "2026-05-01T17:50:38.295Z",
+    "published": "2026-05-01T17:50:38.295Z",
+    "upstream": [
+        "CVE-2026-32777"
+    ],
+    "details": "libexpat before 2.7.5 allows an infinite loop while parsing DTD content.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.7.5+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Expat_jll",
+                "purl": "pkg:julia/Expat_jll?uuid=2e619515-83b5-522b-bb60-26c02a35a201"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/issues/1161"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/pull/1159"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/pull/1162"
+        },
+        {
+            "type": "WEB",
+            "url": "https://issues.oss-fuzz.com/issues/486993411"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-32777",
+                "imported": "2026-04-30T20:01:47.083Z",
+                "modified": "2026-03-17T15:52:34.357Z",
+                "published": "2026-03-16T14:19:44.780Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-32777",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32777",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

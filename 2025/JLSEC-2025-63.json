@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-63",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-05-01T17:50:38.295Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2024-45491"
@@ -41,6 +41,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/09/msg00036.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20241018-0003/"
         }
     ],
@@ -49,11 +53,14 @@
         "sources": [
             {
                 "id": "CVE-2024-45491",
-                "imported": "2025-10-10T21:54:56.862Z",
-                "modified": "2024-11-21T09:37:51.080Z",
+                "imported": "2026-04-30T20:01:46.295Z",
+                "modified": "2025-11-04T17:16:15.260Z",
                 "published": "2024-08-30T03:15:03.850Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-45491",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45491"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45491",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

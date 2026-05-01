@@ -1,13 +1,12 @@
 {
     "schema_version": "1.7.4",
-    "id": "JLSEC-2025-64",
+    "id": "JLSEC-2026-384",
     "modified": "2026-05-01T17:50:38.295Z",
-    "published": "2025-10-14T15:35:41.198Z",
+    "published": "2026-05-01T17:50:38.295Z",
     "upstream": [
-        "CVE-2024-45492"
+        "CVE-2026-41080"
     ],
-    "summary": "An issue was discovered in libexpat before 2.6.3",
-    "details": "An issue was discovered in libexpat before 2.6.3. nextScaffoldPart in xmlparse.c can have an integer overflow for m_groupSize on 32-bit platforms (where UINT_MAX equals SIZE_MAX).",
+    "details": "libexpat before 2.8.0 uses insufficient entropy, and thus hash flooding can occur via a crafted XML document.",
     "affected": [
         {
             "ranges": [
@@ -18,7 +17,7 @@
                             "introduced": "0"
                         },
                         {
-                            "fixed": "2.6.4+0"
+                            "fixed": "2.8.0+0"
                         }
                     ]
                 }
@@ -33,31 +32,35 @@
     "references": [
         {
             "type": "WEB",
-            "url": "https://github.com/libexpat/libexpat/issues/889"
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/26/1"
         },
         {
             "type": "WEB",
-            "url": "https://github.com/libexpat/libexpat/pull/892"
+            "url": "https://blog.hartwork.org/posts/expat-2-8-0-released/"
         },
         {
             "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/09/msg00036.html"
+            "url": "https://github.com/libexpat/libexpat/issues/47"
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20241018-0005/"
+            "url": "https://github.com/libexpat/libexpat/pull/1183"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/04/26/1"
         }
     ],
     "database_specific": {
         "license": "CC-BY-4.0",
         "sources": [
             {
-                "id": "CVE-2024-45492",
-                "imported": "2026-04-30T20:01:46.388Z",
-                "modified": "2025-11-04T17:16:15.430Z",
-                "published": "2024-08-30T03:15:03.930Z",
-                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-45492",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45492",
+                "id": "CVE-2026-41080",
+                "imported": "2026-04-30T20:01:47.272Z",
+                "modified": "2026-04-27T07:16:03.937Z",
+                "published": "2026-04-16T17:16:54.917Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41080",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41080",
                 "database_specific": {
                     "status": "Modified"
                 }
