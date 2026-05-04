@@ -1,0 +1,119 @@
+/* Custom CSS for Julia Security Advisories documentation */
+
+/* Withdrawn advisory styling - strikethrough in lists */
+article ul li s,
+article ol li s {
+    color: #6c757d;
+}
+
+/* Severity badge colors */
+.severity-critical {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.severity-high {
+    color: #fd7e14;
+    font-weight: bold;
+}
+
+.severity-medium {
+    color: #ffc107;
+}
+
+.severity-low {
+    color: #28a745;
+}
+
+/* Make package names stand out */
+article p strong:first-child {
+    color: #4a5568;
+}
+
+/* Improve table readability */
+article table {
+    margin: 1em 0;
+}
+
+article table th {
+    background-color: #f8f9fa;
+}
+
+/* Advisory ID styling in titles */
+article h1 {
+    border-bottom: 2px solid #4063d8;
+    padding-bottom: 0.3em;
+}
+
+/* External link indicator */
+article a[href^="http"]:not([href*="julialang.github.io"])::after {
+    content: " \2197";
+    font-size: 0.8em;
+    vertical-align: super;
+}
+
+/* =============================================================================
+   Mermaid Diagram Styling
+   ============================================================================= */
+
+/* Center diagrams and add spacing */
+.mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 2em 0;
+}
+
+/* Ensure diagrams are responsive */
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Add subtle border and background to diagrams */
+article .mermaid {
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 1.5em;
+    background-color: #fafbfc;
+}
+
+/* Diagram legend styling */
+.diagram-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 1em 0;
+    padding: 1em;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.diagram-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+}
+
+.legend-automated {
+    background-color: #e1f5fe;
+}
+
+.legend-manual {
+    background-color: #fff3e0;
+}
+
+.legend-external {
+    background-color: #f3e5f5;
+}
+
+.legend-private {
+    background-color: #ffcdd2;
+}
