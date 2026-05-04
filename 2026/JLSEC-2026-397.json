@@ -1,0 +1,134 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-397",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-35252"
+    ],
+    "details": "When curl is used to retrieve and parse cookies from a HTTP(S) server, itaccepts cookies using control codes that when later are sent back to a HTTPserver might make the server return 400 responses. Effectively allowing a\"sister site\" to deny service to all siblings.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.87.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/21"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1613943"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1613943"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00028.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00028.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220930-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220930-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213603"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213603"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213604"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213604"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-35252",
+                "imported": "2026-05-02T08:39:45.832Z",
+                "modified": "2025-05-05T17:18:16.463Z",
+                "published": "2022-09-23T14:15:12.323Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-35252",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-35252",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

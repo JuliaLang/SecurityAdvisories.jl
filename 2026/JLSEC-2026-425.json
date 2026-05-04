@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-425",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-11563",
+        "GHSA-6xq2-fm6w-mxfm",
+        "EUVD-2025-208109"
+    ],
+    "summary": "URLs containing percent-encoded slashes (`/` or `\\`) can trick wcurl into saving the output file...",
+    "details": "URLs containing percent-encoded slashes (`/` or `\\`) can trick wcurl into\nsaving the output file outside of the current directory without the user\nexplicitly asking for it.\n\nThis flaw only affects the wcurl command line tool.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.16.0+0"
+                        },
+                        {
+                            "fixed": "8.17.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.15.0+0"
+                        },
+                        {
+                            "fixed": "8.17.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/11/04/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-11563.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-11563.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-6xq2-fm6w-mxfm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-release/2025/11/msg00504.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11563"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-11563",
+                "imported": "2026-05-02T08:39:50.247Z",
+                "modified": "2026-02-26T20:06:37.450Z",
+                "published": "2026-02-25T08:16:18.337Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-11563",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11563",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-6xq2-fm6w-mxfm",
+                "imported": "2026-05-02T08:42:45.647Z",
+                "modified": "2026-02-26T21:32:34Z",
+                "published": "2026-02-25T09:30:26Z",
+                "url": "https://api.github.com/advisories/GHSA-6xq2-fm6w-mxfm",
+                "html_url": "https://github.com/advisories/GHSA-6xq2-fm6w-mxfm"
+            },
+            {
+                "id": "EUVD-2025-208109",
+                "imported": "2026-05-02T08:40:49.392Z",
+                "modified": "2026-02-25T18:53:58Z",
+                "published": "2026-02-25T07:20:47Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-208109",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-208109"
+            }
+        ]
+    }
+}

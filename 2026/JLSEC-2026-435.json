@@ -1,0 +1,123 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-435",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-9086",
+        "GHSA-v676-f8gm-92r9",
+        "EUVD-2025-29014"
+    ],
+    "summary": "1. A cookie is set using the `secure` keyword for `https://target` 2. curl is redirected to or...",
+    "details": "1. A cookie is set using the `secure` keyword for `https://target`\n 2. curl is redirected to or otherwise made to speak with `http://target` (same\n    hostname, but using clear text HTTP) using the same cookie set\n 3. The same cookie name is set - but with just a slash as path (`path=\\\"/\\\",`).\n    Since this site is not secure, the cookie *should* just be ignored.\n 4. A bug in the path comparison logic makes curl read outside a heap buffer\n    boundary\n\nThe bug either causes a crash or it potentially makes the comparison come to\nthe wrong conclusion and lets the clear-text site override the contents of the\nsecure cookie, contrary to expectations and depending on the memory contents\nimmediately following the single-byte allocation that holds the path.\n\nThe presumed and correct behavior would be to plainly ignore the second set of\nthe cookie since it was already set as secure on a secure host so overriding\nit on an insecure host should not be okay.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.16.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.16.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/09/10/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-9086.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-9086.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v676-f8gm-92r9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3294999"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/01/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9086"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-9086",
+                "imported": "2026-05-02T08:39:49.596Z",
+                "modified": "2026-01-20T14:58:01.347Z",
+                "published": "2025-09-12T06:15:44.100Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9086",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9086",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-v676-f8gm-92r9",
+                "imported": "2026-05-02T08:42:47.018Z",
+                "modified": "2026-01-20T15:31:21Z",
+                "published": "2025-09-12T06:30:26Z",
+                "url": "https://api.github.com/advisories/GHSA-v676-f8gm-92r9",
+                "html_url": "https://github.com/advisories/GHSA-v676-f8gm-92r9"
+            },
+            {
+                "id": "EUVD-2025-29014",
+                "imported": "2026-05-02T08:41:27.977Z",
+                "modified": "2026-01-08T09:51:46Z",
+                "published": "2025-09-12T05:10:03Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-29014",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-29014"
+            }
+        ]
+    }
+}

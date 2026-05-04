@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-436",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2026-1965",
+        "EUVD-2026-11135"
+    ],
+    "details": "libcurl can in some circumstances reuse the wrong connection when asked to do\nan Negotiate-authenticated HTTP or HTTPS request.\n\nlibcurl features a pool of recent connections so that subsequent requests can\nreuse an existing connection to avoid overhead.\n\nWhen reusing a connection a range of criterion must first be met. Due to a\nlogical error in the code, a request that was issued by an application could\nwrongfully reuse an existing connection to the same server that was\nauthenticated using different credentials. One underlying reason being that\nNegotiate sometimes authenticates *connections* and not *requests*, contrary\nto how HTTP is designed to work.\n\nAn application that allows Negotiate authentication to a server (that responds\nwanting Negotiate) with `user1:password1` and then does another operation to\nthe same server also using Negotiate but with `user2:password2` (while the\nprevious connection is still alive) - the second request wrongly reused the\nsame connection and since it then sees that the Negotiate negotiation is\nalready made, it just sends the request over that connection thinking it uses\nthe user2 credentials when it is in fact still using the connection\nauthenticated for user1...\n\nThe set of authentication methods to use is set with  `CURLOPT_HTTPAUTH`.\n\nApplications can disable libcurl's reuse of connections and thus mitigate this\nproblem, by using one of the following libcurl options to alter how\nconnections are or are not reused: `CURLOPT_FRESH_CONNECT`,\n`CURLOPT_MAXCONNECTS` and `CURLMOPT_MAX_HOST_CONNECTIONS` (if using the\ncurl_multi API).",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.19.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-1965.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-1965.json"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-1965",
+                "imported": "2026-05-02T08:39:50.348Z",
+                "modified": "2026-03-12T14:11:19.070Z",
+                "published": "2026-03-11T11:15:59.177Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-1965",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-1965",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-11135",
+                "imported": "2026-05-02T08:40:39.471Z",
+                "modified": "2026-03-11T14:32:38Z",
+                "published": "2026-03-11T10:08:52Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-11135",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-11135"
+            }
+        ]
+    }
+}

@@ -1,0 +1,111 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-426",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-13034",
+        "GHSA-9r76-qj98-jfhc",
+        "EUVD-2026-1572"
+    ],
+    "summary": "When using `CURLOPT_PINNEDPUBLICKEY` option with libcurl or `--pinnedpubkey` with the curl tool...",
+    "details": "When using `CURLOPT_PINNEDPUBLICKEY` option with libcurl or `--pinnedpubkey`\nwith the curl tool,curl should check the public key of the server certificate\nto verify the peer.\n\nThis check was skipped in a certain condition that would then make curl allow\nthe connection without performing the proper check, thus not noticing a\npossible impostor. To skip this check, the connection had to be done with QUIC\nwith ngtcp2 built to use GnuTLS and the user had to explicitly disable the\nstandard certificate verification.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.9.0+0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.8.0+0"
+                        },
+                        {
+                            "fixed": "8.18.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-13034.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-13034.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-9r76-qj98-jfhc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13034"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-13034",
+                "imported": "2026-05-02T08:39:49.766Z",
+                "modified": "2026-01-20T14:54:02.730Z",
+                "published": "2026-01-08T10:15:45.407Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-13034",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13034",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-9r76-qj98-jfhc",
+                "imported": "2026-05-02T08:42:47.604Z",
+                "modified": "2026-01-08T15:32:29Z",
+                "published": "2026-01-08T12:30:29Z",
+                "url": "https://api.github.com/advisories/GHSA-9r76-qj98-jfhc",
+                "html_url": "https://github.com/advisories/GHSA-9r76-qj98-jfhc"
+            },
+            {
+                "id": "EUVD-2026-1572",
+                "imported": "2026-05-02T08:41:06.086Z",
+                "modified": "2026-01-08T14:58:20Z",
+                "published": "2026-01-08T10:00:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-1572",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-1572"
+            }
+        ]
+    }
+}

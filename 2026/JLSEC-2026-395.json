@@ -1,0 +1,142 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-395",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-32208"
+    ],
+    "details": "When curl < 7.84.0 does FTP transfers secured by krb5, it handles message verification failures wrongly. This flaw makes it possible for a Man-In-The-Middle attack to go unnoticed and even allows it to inject data to the client.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.84.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1590071"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1590071"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-32208",
+                "imported": "2026-05-02T08:39:45.744Z",
+                "modified": "2025-05-05T17:18:13.390Z",
+                "published": "2022-07-07T13:15:08.467Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-32208",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32208",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

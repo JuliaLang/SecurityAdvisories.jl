@@ -1,0 +1,143 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-413",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2024-11053",
+        "GHSA-h288-5fq8-5pfw",
+        "EUVD-2024-34411"
+    ],
+    "summary": "When asked to both use a `.netrc` file for credentials and to follow HTTP redirects, curl could...",
+    "details": "When asked to both use a `.netrc` file for credentials and to follow HTTP\nredirects, curl could leak the password used for the first host to the\nfollowed-to host under certain circumstances.\n\nThis flaw only manifests itself if the netrc file has an entry that matches\nthe redirect target hostname but the entry either omits just the password or\nomits both login and password.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.11.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.81.0+0"
+                        },
+                        {
+                            "fixed": "8.11.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/12/11/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2024-11053.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2024-11053.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-h288-5fq8-5pfw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/2829063"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-11053"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250124-0012"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250124-0012/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250131-0003"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250131-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250131-0004"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20250131-0004/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-11053",
+                "imported": "2026-05-02T08:39:48.725Z",
+                "modified": "2025-11-03T21:16:04.243Z",
+                "published": "2024-12-11T08:15:05.307Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-11053",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-11053",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-h288-5fq8-5pfw",
+                "imported": "2026-05-02T08:42:52.155Z",
+                "modified": "2025-11-03T21:32:46Z",
+                "published": "2024-12-11T09:32:03Z",
+                "url": "https://api.github.com/advisories/GHSA-h288-5fq8-5pfw",
+                "html_url": "https://github.com/advisories/GHSA-h288-5fq8-5pfw"
+            },
+            {
+                "id": "EUVD-2024-34411",
+                "imported": "2026-05-02T08:42:03.140Z",
+                "modified": "2025-11-03T20:36:27Z",
+                "published": "2024-12-11T07:34:29Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-34411",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-34411"
+            }
+        ]
+    }
+}

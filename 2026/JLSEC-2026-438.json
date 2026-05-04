@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-438",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2026-3784",
+        "GHSA-5q3w-6p3j-mw6p",
+        "EUVD-2026-11139"
+    ],
+    "summary": "curl would wrongly reuse an existing HTTP proxy connection doing CONNECT to a server, even if the...",
+    "details": "curl would wrongly reuse an existing HTTP proxy connection doing CONNECT to a\nserver, even if the new request uses different credentials for the HTTP proxy.\nThe proper behavior is to create or use a separate connection.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.18.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/03/11/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3784.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3784.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5q3w-6p3j-mw6p"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3584903"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3784"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-3784",
+                "imported": "2026-05-02T08:39:50.514Z",
+                "modified": "2026-03-12T14:09:50.470Z",
+                "published": "2026-03-11T11:16:00.437Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-3784",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3784",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5q3w-6p3j-mw6p",
+                "imported": "2026-05-02T08:42:42.158Z",
+                "modified": "2026-03-11T18:31:35Z",
+                "published": "2026-03-11T12:31:22Z",
+                "url": "https://api.github.com/advisories/GHSA-5q3w-6p3j-mw6p",
+                "html_url": "https://github.com/advisories/GHSA-5q3w-6p3j-mw6p"
+            },
+            {
+                "id": "EUVD-2026-11139",
+                "imported": "2026-05-02T08:40:23.765Z",
+                "modified": "2026-03-11T15:48:41Z",
+                "published": "2026-03-11T10:09:21Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-11139",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-11139"
+            }
+        ]
+    }
+}

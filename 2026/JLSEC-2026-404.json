@@ -1,0 +1,118 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-404",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2023-23916"
+    ],
+    "details": "An allocation of resources without limits or throttling vulnerability exists in curl <v7.88.0 based on the \"chained\" HTTP compression algorithms, meaning that a server response can be compressed multiple times and potentially with differentalgorithms. The number of acceptable \"links\" in this \"decompression chain\" wascapped, but the cap was implemented on a per-header basis allowing a maliciousserver to insert a virtually unlimited number of compression steps simply byusing many headers. The use of such a decompression chain could result in a \"malloc bomb\", making curl end up spending enormous amounts of allocated heap memory, or trying to and returning out of memory errors.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.88.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1826048"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1826048"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00035.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00035.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BQKE6TXYDHOTFHLTBZ5X73GTKI7II5KO/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BQKE6TXYDHOTFHLTBZ5X73GTKI7II5KO/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230309-0006/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230309-0006/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5365"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5365"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-23916",
+                "imported": "2026-05-02T08:39:46.650Z",
+                "modified": "2025-03-12T19:15:36.367Z",
+                "published": "2023-02-23T20:15:13.777Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-23916",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23916",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

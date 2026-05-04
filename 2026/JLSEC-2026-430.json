@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-430",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-15079",
+        "GHSA-7q9p-cx8r-rh2q",
+        "EUVD-2026-1575"
+    ],
+    "summary": "When doing SSH-based transfers using either SCP or SFTP, and setting the known_hosts file,...",
+    "details": "When doing SSH-based transfers using either SCP or SFTP, and setting the\nknown_hosts file, libcurl could still mistakenly accept connecting to hosts\n*not present* in the specified file if they were added as recognized in the\nlibssh *global* known_hosts file.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.18.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/07/6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-15079.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-15079.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7q9p-cx8r-rh2q"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3477116"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15079"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-15079",
+                "imported": "2026-05-02T08:39:50.111Z",
+                "modified": "2026-01-20T14:50:24.330Z",
+                "published": "2026-01-08T10:15:47.100Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-15079",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15079",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-7q9p-cx8r-rh2q",
+                "imported": "2026-05-02T08:42:48.591Z",
+                "modified": "2026-01-08T15:32:30Z",
+                "published": "2026-01-08T12:30:29Z",
+                "url": "https://api.github.com/advisories/GHSA-7q9p-cx8r-rh2q",
+                "html_url": "https://github.com/advisories/GHSA-7q9p-cx8r-rh2q"
+            },
+            {
+                "id": "EUVD-2026-1575",
+                "imported": "2026-05-02T08:41:12.294Z",
+                "modified": "2026-01-08T14:46:47Z",
+                "published": "2026-01-08T10:08:13Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-1575",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-1575"
+            }
+        ]
+    }
+}

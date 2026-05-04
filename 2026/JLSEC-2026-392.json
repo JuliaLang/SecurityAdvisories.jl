@@ -1,0 +1,142 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-392",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-32205"
+    ],
+    "details": "A malicious server can serve excessive amounts of `Set-Cookie:` headers in a HTTP response to curl and curl < 7.84.0 stores all of them. A sufficiently large amount of (big) cookies make subsequent HTTP requests to this, or other servers to which the cookies match, create requests that become larger than the threshold that curl uses internally to avoid sending crazy large requests (1048576 bytes) and instead returns an error.This denial state might remain for as long as the same cookies are kept, match and haven't expired. Due to cookie matching rules, a server on `foo.example.com` can set cookies that also would match for `bar.example.com`, making it it possible for a \"sister server\" to effectively cause a denial of service for a sibling site on the same second level domain using this method.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.71.1+0"
+                        },
+                        {
+                            "fixed": "7.84.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-333517.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-333517.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1569946"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1569946"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-32205",
+                "imported": "2026-05-02T08:39:45.491Z",
+                "modified": "2025-05-05T17:18:12.680Z",
+                "published": "2022-07-07T13:15:08.277Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-32205",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32205",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

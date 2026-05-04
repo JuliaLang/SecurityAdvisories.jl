@@ -1,0 +1,110 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-390",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-27781"
+    ],
+    "details": "libcurl provides the `CURLOPT_CERTINFO` option to allow applications torequest details to be returned about a server's certificate chain.Due to an erroneous function, a malicious server could make libcurl built withNSS get stuck in a never-ending busy-loop when trying to retrieve thatinformation.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.83.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1555441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1555441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220609-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220609-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-27781",
+                "imported": "2026-05-02T08:39:45.230Z",
+                "modified": "2026-04-16T15:16:47.947Z",
+                "published": "2022-06-02T14:15:44.467Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-27781",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-27781",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-439",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2026-3805",
+        "GHSA-2289-hhfc-p684",
+        "EUVD-2026-11141"
+    ],
+    "summary": "When doing a second SMB request to the same host again, curl would wrongly use a data pointer...",
+    "details": "When doing a second SMB request to the same host again, curl would wrongly use\na data pointer pointing into already freed memory.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.19.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/03/11/4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3805.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3805.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-2289-hhfc-p684"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3591944"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3805"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-3805",
+                "imported": "2026-05-02T08:39:50.598Z",
+                "modified": "2026-03-12T14:08:56.790Z",
+                "published": "2026-03-11T11:16:00.967Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-3805",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3805",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-2289-hhfc-p684",
+                "imported": "2026-05-02T08:42:50.761Z",
+                "modified": "2026-03-11T18:31:35Z",
+                "published": "2026-03-11T12:31:22Z",
+                "url": "https://api.github.com/advisories/GHSA-2289-hhfc-p684",
+                "html_url": "https://github.com/advisories/GHSA-2289-hhfc-p684"
+            },
+            {
+                "id": "EUVD-2026-11141",
+                "imported": "2026-05-02T08:40:24.352Z",
+                "modified": "2026-03-11T15:45:38Z",
+                "published": "2026-03-11T10:09:37Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-11141",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-11141"
+            }
+        ]
+    }
+}

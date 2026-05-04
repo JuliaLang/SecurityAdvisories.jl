@@ -1,0 +1,115 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-429",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-14819",
+        "GHSA-vqhr-m87q-9jqh",
+        "EUVD-2026-1566"
+    ],
+    "summary": "When doing TLS related transfers with reused easy or multi handles and altering the ...",
+    "details": "When doing TLS related transfers with reused easy or multi handles and\naltering the  `CURLSSLOPT_NO_PARTIALCHAIN` option, libcurl could accidentally\nreuse a CA store cached in memory for which the partial chain option was\nreversed. Contrary to the user's wishes and expectations. This could make\nlibcurl find and accept a trust chain that it otherwise would not.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.87.0+0"
+                        },
+                        {
+                            "fixed": "8.18.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/07/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-14819.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-14819.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-vqhr-m87q-9jqh"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14819"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-14819",
+                "imported": "2026-05-02T08:39:50.022Z",
+                "modified": "2026-01-20T14:51:26.263Z",
+                "published": "2026-01-08T10:15:46.730Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-14819",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14819",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-vqhr-m87q-9jqh",
+                "imported": "2026-05-02T08:42:42.532Z",
+                "modified": "2026-01-08T15:32:29Z",
+                "published": "2026-01-08T12:30:29Z",
+                "url": "https://api.github.com/advisories/GHSA-vqhr-m87q-9jqh",
+                "html_url": "https://github.com/advisories/GHSA-vqhr-m87q-9jqh"
+            },
+            {
+                "id": "EUVD-2026-1566",
+                "imported": "2026-05-02T08:41:04.784Z",
+                "modified": "2026-01-08T15:02:04Z",
+                "published": "2026-01-08T10:07:54Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-1566",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-1566"
+            }
+        ]
+    }
+}

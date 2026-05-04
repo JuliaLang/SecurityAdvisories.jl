@@ -1,0 +1,102 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-400",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-43551"
+    ],
+    "details": "A vulnerability exists in curl <7.87.0 HSTS check that could be bypassed to trick it to keep using HTTP. Using its HSTS support, curl can be instructed to use HTTPS instead of using an insecure clear-text HTTP step even when HTTP is provided in the URL. However, the HSTS mechanism could be bypassed if the host name in the given URL first uses IDN characters that get replaced to ASCII counterparts as part of the IDN conversion. Like using the character UTF-8 U+3002 (IDEOGRAPHIC FULL STOP) instead of the common ASCII full stop (U+002E) `.`. Then in a subsequent request, it does not detect the HSTS state and makes a clear text transfer. Because it would store the info IDN encoded but look for it IDN decoded.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.81.0+0"
+                        },
+                        {
+                            "fixed": "7.87.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1755083"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1755083"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TVWZW5CNSJ7UYAF2BGSYAWAEXDJYUBHA/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TVWZW5CNSJ7UYAF2BGSYAWAEXDJYUBHA/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230427-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230427-0007/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-43551",
+                "imported": "2026-05-02T08:39:46.300Z",
+                "modified": "2026-02-13T20:16:13.973Z",
+                "published": "2022-12-23T15:15:15.777Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-43551",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43551",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

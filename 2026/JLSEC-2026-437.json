@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-437",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2026-3783",
+        "GHSA-8whr-249c-vfjp",
+        "EUVD-2026-11138"
+    ],
+    "summary": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer performs a...",
+    "details": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer\nperforms a redirect to a second URL, curl could leak that token to the second\nhostname under some circumstances.\n\nIf the hostname that the first request is redirected to has information in the\nused .netrc file, with either of the `machine` or `default` keywords, curl\nwould pass on the bearer token set for the first host also to the second one.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.19.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/03/11/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3783.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-3783.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8whr-249c-vfjp"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3583983"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3783"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-3783",
+                "imported": "2026-05-02T08:39:50.431Z",
+                "modified": "2026-03-12T14:10:37.300Z",
+                "published": "2026-03-11T11:16:00.080Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-3783",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3783",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-8whr-249c-vfjp",
+                "imported": "2026-05-02T08:42:42.900Z",
+                "modified": "2026-03-11T15:32:59Z",
+                "published": "2026-03-11T12:31:22Z",
+                "url": "https://api.github.com/advisories/GHSA-8whr-249c-vfjp",
+                "html_url": "https://github.com/advisories/GHSA-8whr-249c-vfjp"
+            },
+            {
+                "id": "EUVD-2026-11138",
+                "imported": "2026-05-02T08:40:49.085Z",
+                "modified": "2026-03-11T14:26:10Z",
+                "published": "2026-03-11T10:09:08Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-11138",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-11138"
+            }
+        ]
+    }
+}

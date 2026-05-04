@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-428",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-14524",
+        "GHSA-g897-jvjx-78vg",
+        "EUVD-2026-1582"
+    ],
+    "summary": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer performs a cross...",
+    "details": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer\nperforms a cross-protocol redirect to a second URL that uses an IMAP, LDAP,\nPOP3 or SMTP scheme, curl might wrongly pass on the bearer token to the new\ntarget host.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.18.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/07/4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-14524.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-14524.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g897-jvjx-78vg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3459417"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14524"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-14524",
+                "imported": "2026-05-02T08:39:49.938Z",
+                "modified": "2026-01-20T14:53:11.017Z",
+                "published": "2026-01-08T10:15:46.607Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-14524",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14524",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-g897-jvjx-78vg",
+                "imported": "2026-05-02T08:42:44.443Z",
+                "modified": "2026-01-20T15:34:14Z",
+                "published": "2026-01-08T12:30:29Z",
+                "url": "https://api.github.com/advisories/GHSA-g897-jvjx-78vg",
+                "html_url": "https://github.com/advisories/GHSA-g897-jvjx-78vg"
+            },
+            {
+                "id": "EUVD-2026-1582",
+                "imported": "2026-05-02T08:40:06.674Z",
+                "modified": "2026-04-02T13:20:16Z",
+                "published": "2026-01-08T10:07:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-1582",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-1582"
+            }
+        ]
+    }
+}

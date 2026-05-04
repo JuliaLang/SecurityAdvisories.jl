@@ -1,0 +1,134 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-394",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2022-32207"
+    ],
+    "details": "When curl < 7.84.0 saves cookies, alt-svc and hsts data to local files, it makes the operation atomic by finalizing the operation with a rename from a temporary name to the final target file name.In that rename operation, it might accidentally *widen* the permissions for the target file, leaving the updated file accessible to more users than intended.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.70.0+0"
+                        },
+                        {
+                            "fixed": "7.84.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1573634"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1573634"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202212-01"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5197"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-32207",
+                "imported": "2026-05-02T08:39:45.659Z",
+                "modified": "2025-04-23T18:15:53.880Z",
+                "published": "2022-07-07T13:15:08.403Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-32207",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-32207",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

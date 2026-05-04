@@ -1,0 +1,119 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-433",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2025-5025",
+        "GHSA-x8ch-h5vv-q6cm",
+        "EUVD-2025-16332"
+    ],
+    "summary": "libcurl supports *pinning* of the server certificate public key for HTTPS transfers. Due to an...",
+    "details": "libcurl supports *pinning* of the server certificate public key for HTTPS transfers. Due to an omission, this check is not performed when connecting with QUIC for HTTP/3, when the TLS backend is wolfSSL. Documentation says the option works with wolfSSL, failing to specify that it does not for QUIC and HTTP/3. Since pinning makes the transfer succeed if the pin is fine, users could unwittingly connect to an impostor server without noticing.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "8.14.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "8.14.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/05/28/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-5025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2025-5025.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-x8ch-h5vv-q6cm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3153497"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5025"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-5025",
+                "imported": "2026-05-02T08:39:49.325Z",
+                "modified": "2025-07-30T19:41:37.987Z",
+                "published": "2025-05-28T07:15:24.910Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5025",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5025",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-x8ch-h5vv-q6cm",
+                "imported": "2026-05-02T08:42:49.199Z",
+                "modified": "2025-07-30T21:32:41Z",
+                "published": "2025-05-28T09:31:26Z",
+                "url": "https://api.github.com/advisories/GHSA-x8ch-h5vv-q6cm",
+                "html_url": "https://github.com/advisories/GHSA-x8ch-h5vv-q6cm"
+            },
+            {
+                "id": "EUVD-2025-16332",
+                "imported": "2026-05-02T08:42:19Z",
+                "modified": "2025-05-30T16:19:53Z",
+                "published": "2025-05-28T06:29:51Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-16332",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-16332"
+            }
+        ]
+    }
+}

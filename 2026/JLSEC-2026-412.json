@@ -1,0 +1,139 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-412",
+    "modified": "2026-05-04T13:12:06.605Z",
+    "published": "2026-05-04T13:12:06.605Z",
+    "upstream": [
+        "CVE-2024-0853",
+        "GHSA-697h-9h25-w4fm",
+        "EUVD-2024-16636"
+    ],
+    "summary": "curl inadvertently kept the SSL session ID for connections in its cache even when the verify...",
+    "details": "curl inadvertently kept the SSL session ID for connections in its cache even when the verify status (*OCSP stapling*) test failed. A subsequent transfer to\nthe same hostname could then succeed if the session ID cache was still fresh, which then skipped the verify status check.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "8.6.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "8.6.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2024-0853.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2024-0853.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-697h-9h25-w4fm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/2298922"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0853"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240307-0004"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240307-0004/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240426-0009"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240426-0009/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240503-0012"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240503-0012/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-0853",
+                "imported": "2026-05-02T08:39:48.070Z",
+                "modified": "2025-06-20T20:15:27.820Z",
+                "published": "2024-02-03T14:15:50.850Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-0853",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0853",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-697h-9h25-w4fm",
+                "imported": "2026-05-02T08:42:46.408Z",
+                "modified": "2026-03-19T05:08:28Z",
+                "published": "2024-02-03T15:30:28Z",
+                "url": "https://api.github.com/advisories/GHSA-697h-9h25-w4fm",
+                "html_url": "https://github.com/advisories/GHSA-697h-9h25-w4fm"
+            },
+            {
+                "id": "EUVD-2024-16636",
+                "imported": "2026-05-02T08:42:03.523Z",
+                "modified": "2025-06-20T20:04:09Z",
+                "published": "2024-02-03T13:35:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-16636",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-16636"
+            }
+        ]
+    }
+}
