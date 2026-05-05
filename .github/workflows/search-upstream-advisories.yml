@@ -20,8 +20,13 @@ permissions:
 
 jobs:
   identify-advisories:
+    name: >-
+      ${{
+        github.event_name == 'schedule' && 'Ecosystem search (scheduled)'
+        || (github.event_name == 'workflow_dispatch' && (inputs.haystack == '' || inputs.haystack == null) && 'Ecosystem search (manual)')
+        || format('Search {0}', inputs.haystack)
+      }}
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
