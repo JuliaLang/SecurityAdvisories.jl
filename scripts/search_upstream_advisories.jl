@@ -34,19 +34,20 @@ function main()
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories)
-            pkg = popfirst!(whole_pkg_list)
+            input = popfirst!(whole_pkg_list)
             pkg_search_count += 1
-            @info "searching for $pkg"
+            @info "searching for $input"
             try
-                append!(advisories, SecurityAdvisories.search_package(pkg, filter_results))
+                append!(advisories, SecurityAdvisories.search_package(input, filter_results))
             catch ex
-                @error "Error searching for $pkg" ex
+                @error "Error searching for $input" ex
                 empty!(advisories)
             end
         end
-        input = "$pkg_search_count recent/random packages"
+        info["haystack"] = "$pkg_search_count recent/random packages"
     end
 
+    @info "found $(length(advisories)) advisories in $input"
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)
     n_pre = length(advisories)
     pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
