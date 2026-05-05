@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-452",
+    "modified": "2026-05-05T15:51:30.603Z",
+    "published": "2026-05-05T15:51:30.603Z",
+    "upstream": [
+        "CVE-2022-29458"
+    ],
+    "details": "ncurses 6.3 before patch 20220416 has an out-of-bounds read and segmentation violation in convert_strings in tinfo/read_entry.c in the terminfo library.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ncurses_jll",
+                "purl": "pkg:julia/Ncurses_jll?uuid=68e3532b-a499-55ff-9963-d1c0c0748b3a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/10/msg00037.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/10/msg00037.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2022-04/msg00014.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2022-04/msg00014.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2022-04/msg00016.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2022-04/msg00016.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-29458",
+                "imported": "2026-05-05T15:04:40.765Z",
+                "modified": "2025-06-09T15:15:27.430Z",
+                "published": "2022-04-18T21:15:07.600Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-29458",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29458",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-442",
+    "modified": "2026-05-05T15:51:30.603Z",
+    "published": "2026-05-05T15:51:30.603Z",
+    "upstream": [
+        "CVE-2018-19211"
+    ],
+    "details": "In ncurses 6.1, there is a NULL pointer dereference at function _nc_parse_entry in parse_entry.c that will lead to a denial of service attack. The product proceeds to the dereference code path even after a \"dubious character `*' in name or alias field\" detection.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.2.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ncurses_jll",
+                "purl": "pkg:julia/Ncurses_jll?uuid=68e3532b-a499-55ff-9963-d1c0c0748b3a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1643754"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1643754"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-19211",
+                "imported": "2026-05-05T15:04:39.709Z",
+                "modified": "2024-11-21T03:57:34.107Z",
+                "published": "2018-11-12T19:29:00.347Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-19211",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-19211",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

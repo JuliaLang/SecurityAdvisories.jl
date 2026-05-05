@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-443",
+    "modified": "2026-05-05T15:51:30.603Z",
+    "published": "2026-05-05T15:51:30.603Z",
+    "upstream": [
+        "CVE-2019-17594"
+    ],
+    "details": "There is a heap-based buffer over-read in the _nc_find_entry function in tinfo/comp_hash.c in the terminfo library in ncurses before 6.1-20191012.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.2.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ncurses_jll",
+                "purl": "pkg:julia/Ncurses_jll?uuid=68e3532b-a499-55ff-9963-d1c0c0748b3a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00059.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00059.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00061.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00061.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00045.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00045.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202101-28"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202101-28"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-17594",
+                "imported": "2026-05-05T15:04:40.401Z",
+                "modified": "2024-11-21T04:32:36.180Z",
+                "published": "2019-10-14T21:15:11.347Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-17594",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17594",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
