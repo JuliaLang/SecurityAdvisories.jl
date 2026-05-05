@@ -21,6 +21,7 @@ function main()
         append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
         filter_results && @warn "results are not filted when searching for a specific advisory ID"
     elseif !isempty(input)
+        @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
     else
         # We take a (not totally) random walk through the ecosystem, prioritizing
@@ -33,16 +34,17 @@ function main()
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories)
-            input = popfirst!(whole_pkg_list)
+            pkg = popfirst!(whole_pkg_list)
             pkg_search_count += 1
-            @info "searching for $input"
+            @info "searching for $pkg"
             try
-                append!(advisories, SecurityAdvisories.search_package(input, filter_results))
+                append!(advisories, SecurityAdvisories.search_package(pkg, filter_results))
             catch ex
-                @error "Error searching for $input" ex
+                @error "Error searching for $pkg" ex
                 empty!(advisories)
             end
         end
+        input = "$pkg_search_count recent/random packages"
     end
 
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)

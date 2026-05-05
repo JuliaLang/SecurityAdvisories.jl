@@ -20,8 +20,13 @@ permissions:
 
 jobs:
   identify-advisories:
+    name: >-
+      ${{
+        github.event_name == 'schedule' && 'Ecosystem search (scheduled)'
+        || (github.event_name == 'workflow_dispatch' && (inputs.haystack == '' || inputs.haystack == null) && 'Ecosystem search (manual)')
+        || format('Search {0}', inputs.haystack)
+      }}
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -43,7 +48,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
-        julia --project=. scripts/search_upstream_advisories.jl $HAYSTACK $FILTER
+        julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER"
 
     - name: Check for changes
       id: git-check
