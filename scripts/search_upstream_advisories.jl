@@ -21,6 +21,7 @@ function main()
         append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
         filter_results && @warn "results are not filted when searching for a specific advisory ID"
     elseif !isempty(input)
+        @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
     else
         # We take a (not totally) random walk through the ecosystem, prioritizing
