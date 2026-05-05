@@ -38,12 +38,12 @@ jobs:
     - name: Run search script
       id: identify
       env:
-        HAYSTACK: "${{ inputs.haystack }}"
+        HAYSTACK: ${{ inputs.haystack }}
         FILTER: ${{ inputs.filter }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
-        julia --project=. scripts/search_upstream_advisories.jl $HAYSTACK $FILTER
+        julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER"
 
     - name: Check for changes
       id: git-check
