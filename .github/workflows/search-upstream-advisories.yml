@@ -7,9 +7,13 @@ on:
   workflow_dispatch:
     inputs:
       haystack:
-        description: 'Search through a specific haystack: either a specific advisory ID (CVE or EUVD or GHSA), or a vendor:product search'
-        required: false
+        description: 'Advisory ID or package name'
         type: string
+        default: ''
+      filter:
+        description: 'Filter results to only those that affect a Julia package or have significant updates'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -33,11 +37,13 @@ jobs:
 
     - name: Run search script
       id: identify
-      run: |
-        julia --project=. scripts/search_upstream_advisories.jl ${{ inputs.haystack }}
       env:
+        HAYSTACK: ${{ inputs.haystack }}
+        FILTER: ${{ inputs.filter }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        julia --project=. scripts/search_upstream_advisories.jl $HAYSTACK $FILTER
 
     - name: Check for changes
       id: git-check
