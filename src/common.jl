@@ -685,6 +685,7 @@ function search_package(pkg, filter_results)
         filter!(advisories) do advisory
             existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
             pkgs = vulnerable_packages(advisory)
+            vuln_with_upper_bound(x) = SecurityAdvisories.has_upper_bound(x) && SecurityAdvisories.is_vulnerable(x)
             return pkg in pkgs && # only consider advisories that actually affect the requested package
                 minimum(x.published for x in advisory.jlsec_sources) > Dates.Date(2018,8,8) && # only consider advisories since Julia 1.0
                 (!isnothing(existing) ? (
