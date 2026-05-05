@@ -13,24 +13,15 @@ meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/bl
 
 function main()
     input = get(ARGS, 1, "")
+    filter_results = lowercase(get(ARGS, 2, "true")) == "true"
     advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input
-    info["haystack_total"] = 0
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        push!(advisories, SecurityAdvisories.fetch_advisory(input))
-        info["haystack_total"] = 1
-        # No filtering is done, no aggregating with aliases is done
+        append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
+        filter_results && @warn "results are not filted when searching for a specific advisory ID"
     elseif !isempty(input)
-        # Search for advisories matching a particular package name, both directly and through upstream matches.
-        aliases = SecurityAdvisories.fetch_package_matches(input)
-        upstreams = SecurityAdvisories.fetch_package_upstreams(input)
-        info["haystack_total"] = length(aliases) + length(upstreams)
-        append!(advisories, aliases)
-        append!(advisories, upstreams)
-        filter!(advisories) do advisory
-            input in SecurityAdvisories.vulnerable_packages(advisory)
-        end
+        append!(advisories, search_package(input, filter_results))
     else
         # We take a (not totally) random walk through the ecosystem, prioritizing
         # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
@@ -46,32 +37,7 @@ function main()
             pkg_search_count += 1
             @info "searching for $input"
             try
-                aliases = SecurityAdvisories.fetch_package_matches(input)
-                upstreams = SecurityAdvisories.fetch_package_upstreams(input)
-                info["haystack"] = "$pkg_search_count random packages"
-                info["haystack_total"] += length(aliases) + length(upstreams)
-                append!(advisories, aliases)
-                append!(advisories, upstreams)
-                # We're more aggressive in filtering found advisories when doing the ecosystem walk;
-                # This will only suggest advisories that are valid and vulnerable — and if there's already JLSECs for the same issue,
-                # will only suggest updates if the new advisory changes something highly impactful
-                vuln_with_upper_bound(x) = SecurityAdvisories.has_upper_bound(x) && SecurityAdvisories.is_vulnerable(x)
-                filter!(advisories) do advisory
-                    existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-                    (!isnothing(existing) && (
-                        # An update to an existing advisory; only suggest it if the new one:
-                        !isempty(setdiff(SecurityAdvisories.vulnerable_packages(advisory), SecurityAdvisories.vulnerable_packages(existing))) || # contains new packages
-                        count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
-                        (!SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_valid(existing)) # or is no longer valid
-                    )) || (isnothing(existing) && (
-                        # A new advisory; suggest it if it's both valid and contains some vulnerable range
-                        (SecurityAdvisories.is_valid(advisory) && SecurityAdvisories.is_vulnerable(advisory))
-                    ))
-                end
-                # And also remove advisories that don't affect the searched package
-                filter!(advisories) do advisory
-                    input in SecurityAdvisories.vulnerable_packages(advisory)
-                end
+                append!(advisories, search_package(input, filter_results))
             catch ex
                 @error "Error searching for $input" ex
                 empty!(advisories)
@@ -84,7 +50,7 @@ function main()
     pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
     SecurityAdvisories.combine_aliases!(advisories)
     if length(advisories) < n_pre
-        @info "combined $(n_pre - length(advisories)) advisories through alias information!"
+        @warn "combined $(n_pre - length(advisories)) advisories through alias information!"
         @show pre_srcs
         @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
@@ -121,7 +87,7 @@ function main()
     println(io, "branch=", input)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "body<<BODY_EOF")
-    println(io, "This action searched `", info["haystack"], "`, checking ", join(info["haystack_total"], ", ", " and "), " for advisories that pertain here. ",
+    println(io, "This action searched `", info["haystack"], "` for advisories that pertain here. ",
         "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", join("**" .* unique_pkgs .* "**", ", ", ", and "), ".")
     println(io)
 
