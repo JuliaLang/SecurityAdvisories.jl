@@ -692,7 +692,7 @@ function search_package(pkg, filter_results)
                     # An update to an existing advisory; only suggest it if the new one:
                     !isempty(setdiff(pkgs, vulnerable_packages(existing))) || # contains new packages
                     count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
-                    (is_valid(advisory) && is_valid(existing)) # or is no longer valid
+                    (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
                 ) : (
                     # A new advisory; suggest it if it's both valid and contains some vulnerable range
                     (is_valid(advisory) && is_vulnerable(advisory))
