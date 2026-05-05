@@ -21,7 +21,7 @@ function main()
         append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
         filter_results && @warn "results are not filted when searching for a specific advisory ID"
     elseif !isempty(input)
-        append!(advisories, search_package(input, filter_results))
+        append!(advisories, SecurityAdvisories.search_package(input, filter_results))
     else
         # We take a (not totally) random walk through the ecosystem, prioritizing
         # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
@@ -37,7 +37,7 @@ function main()
             pkg_search_count += 1
             @info "searching for $input"
             try
-                append!(advisories, search_package(input, filter_results))
+                append!(advisories, SecurityAdvisories.search_package(input, filter_results))
             catch ex
                 @error "Error searching for $input" ex
                 empty!(advisories)
