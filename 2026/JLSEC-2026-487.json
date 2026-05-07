@@ -1,0 +1,170 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-487",
+    "modified": "2026-05-07T18:51:34.228Z",
+    "published": "2026-05-07T18:51:34.228Z",
+    "upstream": [
+        "CVE-2025-13601"
+    ],
+    "details": "A heap-based buffer overflow problem was found in glib through an incorrect calculation of buffer size in the g_escape_uri_string() function. If the string to escape contains a very large number of unacceptable characters (which would need escaping), the calculation of the length of the escaped string could overflow, leading to a potential write off the end of the newly allocated string.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.86.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0936"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0975"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0991"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1323"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1324"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1326"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1327"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1465"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1608"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1624"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1625"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1626"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1627"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1652"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1736"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2064"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2072"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2485"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2563"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2633"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2659"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2671"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2974"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3415"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:4419"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:7461"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2025-13601"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2416741"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/3827"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4914"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-13601",
+                "imported": "2026-05-07T17:46:41.531Z",
+                "modified": "2026-04-19T20:16:19.257Z",
+                "published": "2025-11-26T15:15:51.723Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-13601",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13601",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
