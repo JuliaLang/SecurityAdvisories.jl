@@ -1,0 +1,147 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-469",
+    "modified": "2026-05-07T17:12:07.051Z",
+    "published": "2026-05-07T17:12:07.051Z",
+    "upstream": [
+        "CVE-2020-14344",
+        "GHSA-g6cq-58wq-v493",
+        "EUVD-2020-6488"
+    ],
+    "summary": "An integer overflow leading to a heap-buffer overflow was found in The X Input Method (XIM)...",
+    "details": "An integer overflow leading to a heap-buffer overflow was found in The X Input Method (XIM) client was implemented in libX11 before version 1.6.10. As per upstream this is security relevant when setuid programs call XIM client functions while running with elevated privileges. No such programs are shipped with Red Hat Enterprise Linux.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.8.6+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Xorg_libX11_jll",
+                "purl": "pkg:julia/Xorg_libX11_jll?uuid=4f6342f7-b3d2-589e-9d20-edeb45f2b2bc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00014.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00024.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00031.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2020-14344"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g6cq-58wq-v493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/4VDDSAYV7XGNRCXE7HCU23645MG74OFF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/7AVXCQOSCAPKYYHFIJAZ6E2C7LJBTLXF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/XY4H2SIEF2362AMNX5ZKWAELGU7LKFJB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4VDDSAYV7XGNRCXE7HCU23645MG74OFF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/7AVXCQOSCAPKYYHFIJAZ6E2C7LJBTLXF/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/XY4H2SIEF2362AMNX5ZKWAELGU7LKFJB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.x.org/archives/xorg-announce/2020-July/003050.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14344"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202008-18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4487-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4487-2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2020/07/31/1"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-14344",
+                "imported": "2026-05-07T16:20:05.543Z",
+                "modified": "2024-11-21T05:03:03.373Z",
+                "published": "2020-08-05T14:15:12.420Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14344",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14344",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-g6cq-58wq-v493",
+                "imported": "2026-05-07T16:20:09.033Z",
+                "modified": "2023-01-31T05:08:25Z",
+                "published": "2022-05-24T17:24:58Z",
+                "url": "https://api.github.com/advisories/GHSA-g6cq-58wq-v493",
+                "html_url": "https://github.com/advisories/GHSA-g6cq-58wq-v493"
+            },
+            {
+                "id": "EUVD-2020-6488",
+                "imported": "2026-05-07T16:20:07.392Z",
+                "modified": "2024-08-04T12:39:36Z",
+                "published": "2020-08-05T13:08:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2020-6488",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2020-6488"
+            }
+        ]
+    }
+}
