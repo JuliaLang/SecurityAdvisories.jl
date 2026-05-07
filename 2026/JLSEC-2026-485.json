@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-485",
+    "modified": "2026-05-07T18:17:01.111Z",
+    "published": "2026-05-07T18:17:01.111Z",
+    "upstream": [
+        "CVE-2025-61144"
+    ],
+    "details": "libtiff up to v4.7.1 was discovered to contain a stack overflow via the readSeparateStripsIntoBuffer function.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.7.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libtiff_jll",
+                "purl": "pkg:julia/Libtiff_jll?uuid=89763e89-9b03-5906-acba-b20f662cd828"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/optionGo/5ad17e96a0a40f03578dd6c9f8645952"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/09f53a86cf26dfd961925227e59e180db617f26d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/commit/88cf9dbb48f6e172629795ecffae35d5052f68aa"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/740"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/merge_requests/757"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-61144",
+                "imported": "2026-05-07T17:39:43.382Z",
+                "modified": "2026-02-25T15:20:50.170Z",
+                "published": "2026-02-23T19:22:56.643Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-61144",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61144",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

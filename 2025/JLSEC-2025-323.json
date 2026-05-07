@@ -1,8 +1,9 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-323",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-05-07T18:17:01.111Z",
     "published": "2025-11-25T22:18:43.603Z",
+    "withdrawn": "2026-05-07T18:17:01.111Z",
     "upstream": [
         "CVE-2025-9165"
     ],
@@ -49,6 +50,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://gitlab.com/libtiff/libtiff/-/issues/728#note_2709263214"
+        },
+        {
+            "type": "WEB",
             "url": "https://gitlab.com/libtiff/libtiff/-/merge_requests/747"
         },
         {
@@ -66,10 +71,6 @@
         {
             "type": "WEB",
             "url": "https://vuldb.com/?submit.630507"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/issues/728#note_2709263214"
         }
     ],
     "database_specific": {
@@ -77,11 +78,22 @@
         "sources": [
             {
                 "id": "CVE-2025-9165",
-                "imported": "2025-11-25T21:56:30.678Z",
-                "modified": "2025-10-01T16:15:53.417Z",
+                "imported": "2026-05-07T17:39:43.202Z",
+                "modified": "2026-04-29T01:00:01.613Z",
                 "published": "2025-08-19T20:15:37.557Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9165",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9165"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9165",
+                "database_specific": {
+                    "status": "Modified",
+                    "tags": [
+                        {
+                            "sourceIdentifier": "cna@vuldb.com",
+                            "tags": [
+                                "disputed"
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }
