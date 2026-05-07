@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-462",
+    "modified": "2026-05-07T15:03:46.925Z",
+    "published": "2026-05-07T15:03:46.925Z",
+    "upstream": [
+        "CVE-2026-34743"
+    ],
+    "details": "XZ Utils provide a general-purpose data-compression library plus command-line tools. Prior to version 5.8.3, if lzma_index_decoder() was used to decode an Index that contained no Records, the resulting lzma_index was left in a state where where a subsequent lzma_index_append() would allocate too little memory, and a buffer overflow would occur. This issue has been patched in version 5.8.3.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.8.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XZ_jll",
+                "purl": "pkg:julia/XZ_jll?uuid=ffd25f8a-64ca-5728-b0f7-c24cf3aae800"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/03/31/13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/tukaani-project/xz/commit/c8c22869e780ff57c96b46939c3d79ff99395f87"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/tukaani-project/xz/releases/tag/v5.8.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/tukaani-project/xz/security/advisories/GHSA-x872-m794-cxhv"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34743",
+                "imported": "2026-05-07T14:30:18.361Z",
+                "modified": "2026-04-15T17:33:17.680Z",
+                "published": "2026-04-02T19:21:33.187Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34743",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34743",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
