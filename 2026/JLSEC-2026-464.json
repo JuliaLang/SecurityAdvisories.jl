@@ -1,0 +1,71 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-464",
+    "modified": "2026-05-07T16:17:33.752Z",
+    "published": "2026-05-07T16:17:33.752Z",
+    "upstream": [
+        "CVE-2026-25835",
+        "EUVD-2026-17999"
+    ],
+    "summary": "Mbed TLS might use cloned PSA random generator states",
+    "details": "Mbed TLS before 3.6.6 and TF-PSA-Crypto before 1.1.0 misuse seeds in a Pseudo-Random Number Generator (PRNG).",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/mbedtls-security-advisory-2026-03-rng-cloning/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25835",
+                "imported": "2026-05-07T15:16:36.842Z",
+                "modified": "2026-04-06T14:29:47Z",
+                "published": "2026-04-01T19:16:28.663Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25835",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25835",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-17999",
+                "imported": "2026-05-07T15:16:28.499Z",
+                "modified": "2026-04-01T20:07:53Z",
+                "published": "2026-04-01T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-17999",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-17999"
+            }
+        ]
+    }
+}

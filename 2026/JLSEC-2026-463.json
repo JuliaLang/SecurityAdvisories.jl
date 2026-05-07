@@ -1,0 +1,79 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-463",
+    "modified": "2026-05-07T16:17:33.752Z",
+    "published": "2026-05-07T16:17:33.752Z",
+    "upstream": [
+        "CVE-2025-66442",
+        "EUVD-2025-209171"
+    ],
+    "summary": "Mbed TLS timing side channel in RSA and CBC/ECB decryption",
+    "details": "In Mbed TLS through 4.0.0, there is a compiler-induced timing side channel (in RSA and CBC/ECB decryption) that only occurs with LLVM's select-optimize feature. TF-PSA-Crypto through 1.0.0 is also affected.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "MbedTLS_jll",
+                "purl": "pkg:julia/MbedTLS_jll?uuid=c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Mbed-TLS/TF-PSA-Crypto/releases"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Mbed-TLS/mbedtls/releases"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/mbedtls-security-advisory-2026-03-compiler-induced-constant-time-violations/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-66442",
+                "imported": "2026-05-07T15:19:19.810Z",
+                "modified": "2026-04-03T20:04:38.487Z",
+                "published": "2026-04-01T20:16:22.107Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-66442",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-66442",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2025-209171",
+                "imported": "2026-05-07T15:19:16.982Z",
+                "modified": "2026-04-01T20:00:06Z",
+                "published": "2026-04-01T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-209171",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-209171"
+            }
+        ]
+    }
+}
