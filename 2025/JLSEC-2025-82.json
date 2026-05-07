@@ -1,8 +1,9 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-82",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-05-07T16:59:28.152Z",
     "published": "2025-10-17T17:40:51.659Z",
+    "withdrawn": "2026-05-07T16:59:28.152Z",
     "upstream": [
         "CVE-2023-45322"
     ],
@@ -45,15 +46,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/10/06/5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/344"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/583"
+            "url": "https://lists.debian.org/debian-lts-announce/2025/02/msg00028.html"
         }
     ],
     "database_specific": {
@@ -61,11 +54,22 @@
         "sources": [
             {
                 "id": "CVE-2023-45322",
-                "imported": "2025-10-28T18:09:09.636Z",
-                "modified": "2024-11-21T08:26:44.780Z",
+                "imported": "2026-05-07T15:22:30.026Z",
+                "modified": "2025-11-03T21:16:01.673Z",
                 "published": "2023-10-06T22:15:11.660Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-45322",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45322"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45322",
+                "database_specific": {
+                    "status": "Modified",
+                    "tags": [
+                        {
+                            "sourceIdentifier": "cve@mitre.org",
+                            "tags": [
+                                "disputed"
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }
