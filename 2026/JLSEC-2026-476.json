@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-476",
+    "modified": "2026-05-07T17:22:10.706Z",
+    "published": "2026-05-07T17:22:10.706Z",
+    "upstream": [
+        "CVE-2021-30145"
+    ],
+    "details": "A format string vulnerability in mpv through 0.33.0 allows user-assisted remote attackers to achieve code execution via a crafted m3u playlist file.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.41.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "mpv_jll",
+                "purl": "pkg:julia/mpv_jll?uuid=3b7eb3ab-5558-5250-ad56-7cbe1b8a43e3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://devel0pment.de/?p=2217"
+        },
+        {
+            "type": "WEB",
+            "url": "https://devel0pment.de/?p=2217"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mpv-player/mpv/commit/d0c530919d8cd4d7a774e38ab064e0fabdae34e6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mpv-player/mpv/commit/d0c530919d8cd4d7a774e38ab064e0fabdae34e6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mpv-player/mpv/releases/tag/v0.33.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mpv-player/mpv/releases/tag/v0.33.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mpv.io"
+        },
+        {
+            "type": "WEB",
+            "url": "https://mpv.io"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-46"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202107-46"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-30145",
+                "imported": "2026-05-07T16:42:39.751Z",
+                "modified": "2024-11-21T06:03:23.427Z",
+                "published": "2021-05-18T14:15:07.377Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-30145",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-30145",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
