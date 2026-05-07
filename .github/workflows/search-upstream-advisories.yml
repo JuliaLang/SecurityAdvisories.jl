@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       haystack:
-        description: 'Advisory ID or package name'
+        description: 'Advisory ID, package name, or list of package names'
         type: string
         default: ''
       filter:
