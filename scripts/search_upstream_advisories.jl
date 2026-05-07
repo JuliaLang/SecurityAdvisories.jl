@@ -11,6 +11,8 @@ link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj
 link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, ")")
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
+isspace_or_comma(c) = isspace(c) || c == ','
+
 function main()
     input = get(ARGS, 1, "")
     filter_results = lowercase(get(ARGS, 2, "true")) == "true"
@@ -19,16 +21,19 @@ function main()
     info["haystack"] = input
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
-        filter_results && @warn "results are not filted when searching for a specific advisory ID"
-    elseif !isempty(input)
+    elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
     else
-        # We take a (not totally) random walk through the ecosystem, prioritizing
-        # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
-        pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
-            by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
-        whole_pkg_list = first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
+        whole_pkg_list = if any(isspace_or_comma, input)
+            split(input, isspace_or_comma, keepempty=false)
+        else
+            # We take a (not totally) random walk through the ecosystem, prioritizing
+            # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
+            pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
+                by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
+            first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
+        end
         # We remove any pending PRs that jlsec-bot has already opened
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
@@ -44,7 +49,7 @@ function main()
                 empty!(advisories)
             end
         end
-        info["haystack"] = "$pkg_search_count recent/random packages"
+        info["haystack"] = "$pkg_search_count packages"
     end
 
     @info "found $(length(advisories)) advisories in $input"
@@ -65,7 +70,7 @@ function main()
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
-        elseif !SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory)
+        elseif filter_results && (!SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory))
             @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
             continue
         end
