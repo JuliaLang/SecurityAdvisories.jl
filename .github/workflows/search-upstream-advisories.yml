@@ -43,8 +43,8 @@ jobs:
     - name: Run search script
       id: identify
       env:
-        HAYSTACK: ${{ inputs.haystack }}
-        FILTER: ${{ inputs.filter }}
+        HAYSTACK: ${{ inputs.haystack || '' }}
+        FILTER: ${{ inputs.filter == null || inputs.filter }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
