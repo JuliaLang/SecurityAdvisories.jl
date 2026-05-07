@@ -1,0 +1,138 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-456",
+    "modified": "2026-05-07T14:50:29.650Z",
+    "published": "2026-05-07T14:50:29.650Z",
+    "upstream": [
+        "CVE-2020-15999"
+    ],
+    "details": "Heap buffer overflow in Freetype in Google Chrome prior to 86.0.4240.111 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.10.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FreeType2_jll",
+                "purl": "pkg:julia/FreeType2_jll?uuid=d7e528f0-a631-5988-bf34-fe36492bcfd7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-11/msg00016.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-11/msg00016.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2020/Nov/33"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2020/Nov/33"
+        },
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2020/10/stable-channel-update-for-desktop_20.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2020/10/stable-channel-update-for-desktop_20.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1139963"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1139963"
+        },
+        {
+            "type": "WEB",
+            "url": "https://googleprojectzero.blogspot.com/p/rca-cve-2020-15999.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://googleprojectzero.blogspot.com/p/rca-cve-2020-15999.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/J3QVIGAAJ4D62YEJAJJWMCCBCOQ6TVL7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/J3QVIGAAJ4D62YEJAJJWMCCBCOQ6TVL7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202011-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202011-12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202012-04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202012-04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-19"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-19"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240812-0001/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2020-15999"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4824"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4824"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-15999",
+                "imported": "2026-05-07T14:22:19.379Z",
+                "modified": "2025-10-24T20:57:27.670Z",
+                "published": "2020-11-03T03:15:14.853Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-15999",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15999",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
