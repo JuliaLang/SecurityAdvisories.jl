@@ -20,7 +20,7 @@ function main()
     info = Dict{String,Any}()
     info["haystack"] = input
     if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        append!(advisories, fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
+        append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
