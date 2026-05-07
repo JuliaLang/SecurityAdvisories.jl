@@ -1,0 +1,131 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-480",
+    "modified": "2026-05-07T17:36:47.122Z",
+    "published": "2026-05-07T17:36:47.122Z",
+    "upstream": [
+        "CVE-2026-27171",
+        "GHSA-h858-mf2m-8jf4",
+        "EUVD-2026-8063"
+    ],
+    "summary": "zlib before 1.3.2 allows CPU consumption via crc32_combine64 and crc32_combine_gen64 because...",
+    "details": "zlib before 1.3.2 allows CPU consumption via crc32_combine64 and crc32_combine_gen64 because x2nmodp can do right shifts within a loop that has no termination condition.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.21.4+0"
+                        },
+                        {
+                            "fixed": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.2.12+3"
+                        },
+                        {
+                            "fixed": "1.3.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Zlib_jll",
+                "purl": "pkg:julia/Zlib_jll?uuid=83775a58-1f1d-513f-b197-d71354ab007a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://7asecurity.com/blog/2026/02/zlib-7asecurity-audit"
+        },
+        {
+            "type": "WEB",
+            "url": "https://7asecurity.com/blog/2026/02/zlib-7asecurity-audit/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://7asecurity.com/reports/pentest-report-zlib-RC1.1.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-h858-mf2m-8jf4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/madler/zlib/issues/904"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/madler/zlib/releases/tag/v1.3.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27171"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ostif.org/zlib-audit-complete"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ostif.org/zlib-audit-complete/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27171",
+                "imported": "2026-05-07T17:21:39.899Z",
+                "modified": "2026-03-25T21:27:04.603Z",
+                "published": "2026-02-18T04:16:01.263Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27171",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27171",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-h858-mf2m-8jf4",
+                "imported": "2026-05-07T17:21:43.116Z",
+                "modified": "2026-02-18T06:30:19Z",
+                "published": "2026-02-18T06:30:18Z",
+                "url": "https://api.github.com/advisories/GHSA-h858-mf2m-8jf4",
+                "html_url": "https://github.com/advisories/GHSA-h858-mf2m-8jf4"
+            },
+            {
+                "id": "EUVD-2026-8063",
+                "imported": "2026-05-07T17:21:41.315Z",
+                "modified": "2026-02-18T13:38:55Z",
+                "published": "2026-02-18T02:36:19Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-8063",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-8063"
+            }
+        ]
+    }
+}
