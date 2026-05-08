@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-491",
+    "modified": "2026-05-08T13:06:54.969Z",
+    "published": "2026-05-08T13:06:54.969Z",
+    "upstream": [
+        "CVE-2026-41254"
+    ],
+    "details": "Little CMS (lcms2) through 2.18 has an integer overflow in CubeSize in cmslut.c because the overflow check is performed after the multiplication.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.19.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LittleCMS_jll",
+                "purl": "pkg:julia/LittleCMS_jll?uuid=d3a379c0-f9a3-5b72-a4c0-6bf4d2e8af0f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://abhinavagarwal07.github.io/posts/lcms2-cubesize-overflow/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/commit/da6110b1d14abc394633a388209abd5ebedd7ab0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/commit/e0641b1828d0a1af5ecb1b11fe22f24fceefd4bc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/security/advisories/GHSA-4xp6-rcgg-m9qq"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/05/msg00014.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/04/17/16"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-41254",
+                "imported": "2026-05-08T08:40:09.674Z",
+                "modified": "2026-05-07T18:16:19.300Z",
+                "published": "2026-04-18T07:16:10.807Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41254",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41254",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

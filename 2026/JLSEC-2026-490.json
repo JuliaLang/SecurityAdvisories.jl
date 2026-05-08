@@ -1,0 +1,114 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-490",
+    "modified": "2026-05-08T13:06:54.969Z",
+    "published": "2026-05-08T13:06:54.969Z",
+    "upstream": [
+        "CVE-2018-16435"
+    ],
+    "details": "Little CMS (aka Little Color Management System) 2.9 has an integer overflow in the AllocateDataSet function in cmscgats.c, leading to a heap-based buffer overflow in the SetData function via a crafted file in the second argument to cmsIT8LoadFromFile.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.12.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LittleCMS_jll",
+                "purl": "pkg:julia/LittleCMS_jll?uuid=d3a379c0-f9a3-5b72-a4c0-6bf4d2e8af0f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2018:3004"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2018:3004"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/commit/768f70ca405cd3159d990e962d54456773bb8cf8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/commit/768f70ca405cd3159d990e962d54456773bb8cf8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/issues/171"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/mm2/Little-CMS/issues/171"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2018/09/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2018/09/msg00005.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202105-18"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3770-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3770-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3770-2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/3770-2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2018/dsa-4284"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2018/dsa-4284"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-16435",
+                "imported": "2026-05-08T08:40:12.764Z",
+                "modified": "2024-11-21T03:52:44.907Z",
+                "published": "2018-09-04T00:29:02.183Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-16435",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16435",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
