@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-492",
+    "modified": "2026-05-08T14:39:40.462Z",
+    "published": "2026-05-08T14:39:40.462Z",
+    "upstream": [
+        "CVE-2026-7598"
+    ],
+    "details": "A security vulnerability has been detected in libssh2 up to 1.11.1. The impacted element is the function userauth_password of the file src/userauth.c. Such manipulation of the argument username_len/password_len leads to integer overflow. The attack may be launched remotely. The name of the patch is 256d04b60d80bf1190e96b0ad1e91b2174d744b1. A patch should be applied to remediate this issue.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.11.101+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibSSH2_jll",
+                "purl": "pkg:julia/LibSSH2_jll?uuid=29816b5a-b9ab-546f-933c-edad1886dfa8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libssh2/libssh2/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libssh2/libssh2/commit/256d04b60d80bf1190e96b0ad1e91b2174d744b1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libssh2/libssh2/pull/1858"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/805564"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/805564"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/360555"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/360555/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-7598",
+                "imported": "2026-05-07T17:13:44.796Z",
+                "modified": "2026-05-07T01:47:08.857Z",
+                "published": "2026-05-01T22:16:16.947Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-7598",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7598",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
