@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-498",
+    "modified": "2026-05-14T11:59:52.457Z",
+    "published": "2026-05-14T11:59:52.457Z",
+    "upstream": [
+        "CVE-2026-34757"
+    ],
+    "details": "LIBPNG is a reference library for use in applications that read, create, and manipulate PNG (Portable Network Graphics) raster image files. From 1.0.9 to before 1.6.57, passing a pointer obtained from png_get_PLTE, png_get_tRNS, or png_get_hIST back into the corresponding setter on the same png_struct/png_info pair causes the setter to read from freed memory and copy its contents into the replacement buffer. The setter frees the internal buffer before copying from the caller-supplied pointer, which now dangles. The freed region may contain stale data (producing silently corrupted chunk metadata) or data from subsequent heap allocations (leaking unrelated heap contents into the chunk struct). This vulnerability is fixed in 1.6.57.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.6.57+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libpng_jll",
+                "purl": "pkg:julia/libpng_jll?uuid=b53b4c65-9356-5827-b1ea-8c7a1a84506f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/pnggroup/libpng/commit/398cbe3df03f4e11bb031e07f416dfdde3684e8a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/pnggroup/libpng/commit/55d20aaa322c9274491cda82c5cd4f99b48c6bcc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/pnggroup/libpng/issues/836"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/pnggroup/libpng/issues/837"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/pnggroup/libpng/security/advisories/GHSA-6fr7-g8h7-v645"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/05/msg00017.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34757",
+                "imported": "2026-05-14T09:09:57.239Z",
+                "modified": "2026-05-13T23:07:51.863Z",
+                "published": "2026-04-09T15:16:11.003Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34757",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34757",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
