@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-513",
+    "modified": "2026-05-20T04:02:19.667Z",
+    "published": "2026-05-20T04:02:19.667Z",
+    "upstream": [
+        "CVE-2020-15166",
+        "EUVD-2020-7240"
+    ],
+    "details": "In ZeroMQ before version 4.3.3, there is a denial-of-service vulnerability. Users with TCP transport public endpoints, even with CURVE/ZAP enabled, are impacted. If a raw TCP socket is opened and connected to an endpoint that is fully configured with CURVE/ZAP, legitimate clients will not be able to exchange any message. Handshakes complete successfully, and messages are delivered to the library, but the server application never receives them. This is patched in version 4.3.3.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "4.3.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ZeroMQ_jll",
+                "purl": "pkg:julia/ZeroMQ_jll?uuid=8f1865be-045e-5c20-9c9f-bfbfb0764568"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/zeromq/libzmq/pull/3913"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zeromq/libzmq/pull/3973"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/zeromq/libzmq/security/advisories/GHSA-25wp-cf8g-938m"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/11/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BZ5IMNQXDB52JFBXHFLK4AHVORFELNNG/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/YFW2ZELCCPS4VLU4OSJOH5YL6KFKTFYW/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202009-12"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-15166",
+                "imported": "2026-05-20T01:02:00.794Z",
+                "modified": "2024-11-21T05:04:59.230Z",
+                "published": "2020-09-11T16:15:12.177Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-15166",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15166",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "EUVD-2020-7240",
+                "imported": "2026-05-20T01:02:02.191Z",
+                "modified": "2024-08-04T13:08:22Z",
+                "published": "2020-09-11T15:35:14Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2020-7240",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2020-7240"
+            }
+        ]
+    }
+}
