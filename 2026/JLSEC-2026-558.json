@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-558",
+    "modified": "2026-05-26T19:45:06.761Z",
+    "published": "2026-05-26T19:45:06.761Z",
+    "upstream": [
+        "CVE-2021-44964"
+    ],
+    "details": "Use after free in garbage collector and finalizer of lgc.c in Lua interpreter 5.4.0~5.4.3 allows attackers to perform Sandbox Escape via a crafted script file.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.4.3+0"
+                        },
+                        {
+                            "fixed": "5.4.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Lua_jll",
+                "purl": "pkg:julia/Lua_jll?uuid=a4086b1d-a96a-5d6b-8e4f-2030e6f25ba6"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-11/msg00186.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-11/msg00186.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Lua-Project/lua-5.4.4-sandbox-escape-with-new-vulnerability"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Lua-Project/lua-5.4.4-sandbox-escape-with-new-vulnerability"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-44964",
+                "imported": "2026-05-26T02:05:11.425Z",
+                "modified": "2024-11-21T06:31:44.853Z",
+                "published": "2022-03-14T15:15:09.373Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44964",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44964",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

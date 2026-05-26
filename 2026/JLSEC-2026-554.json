@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-554",
+    "modified": "2026-05-26T19:45:06.761Z",
+    "published": "2026-05-26T19:45:06.761Z",
+    "upstream": [
+        "CVE-2020-15945"
+    ],
+    "details": "Lua 5.4.0 (fixed in 5.4.1) has a segmentation fault in changedline in ldebug.c (e.g., when called by luaG_traceexec) because it incorrectly expects that an oldpc value is always updated upon a return of the flow of control to a function.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.4.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Lua_jll",
+                "purl": "pkg:julia/Lua_jll?uuid=a4086b1d-a96a-5d6b-8e4f-2030e6f25ba6"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2020-07/msg00123.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lua-users.org/lists/lua-l/2020-07/msg00123.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/lua/lua/commit/a2195644d89812e5b157ce7bac35543e06db05e3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/lua/lua/commit/a2195644d89812e5b157ce7bac35543e06db05e3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.lua.org/bugs.html#5.4.0-8"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-15945",
+                "imported": "2026-05-26T02:05:09.624Z",
+                "modified": "2025-02-19T15:15:10.830Z",
+                "published": "2020-07-24T21:15:34.553Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-15945",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15945",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
