@@ -1,0 +1,146 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-524",
+    "modified": "2026-05-26T14:17:50.003Z",
+    "published": "2026-05-26T14:17:50.003Z",
+    "upstream": [
+        "CVE-2023-5981"
+    ],
+    "details": "A vulnerability was found that the response times to malformed ciphertexts in RSA-PSK ClientKeyExchange differ from response times of ciphertexts with correct PKCS#1 v1.5 padding.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.8.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GnuTLS_jll",
+                "purl": "pkg:julia/GnuTLS_jll?uuid=0951126a-58fd-58f1-b5b3-b08c7c4a876d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/01/19/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0155"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0155"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0319"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0319"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0399"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0399"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0451"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0451"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0533"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:0533"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:1383"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:1383"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:2094"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:2094"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2023-5981"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2023-5981"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2248445"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2248445"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gnutls.org/security-new.html#GNUTLS-SA-2023-10-23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gnutls.org/security-new.html#GNUTLS-SA-2023-10-23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/11/msg00016.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/7ZEIOLORQ7N6WRPFXZSYDL2MC4LP7VFV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/GNXKVR5YNUEBNHAHM5GSYKBZX4W2HMN2/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-5981",
+                "imported": "2026-05-22T18:34:35.299Z",
+                "modified": "2026-03-25T20:01:09.507Z",
+                "published": "2023-11-28T12:15:07.040Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5981",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5981",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

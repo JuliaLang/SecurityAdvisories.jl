@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-523",
+    "modified": "2026-05-26T14:17:50.003Z",
+    "published": "2026-05-26T14:17:50.003Z",
+    "upstream": [
+        "CVE-2022-2509"
+    ],
+    "details": "A vulnerability found in gnutls. This security flaw happens because of a double free error occurs during verification of pkcs7 signatures in gnutls_pkcs7_verify function.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.7.8+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GnuTLS_jll",
+                "purl": "pkg:julia/GnuTLS_jll?uuid=0951126a-58fd-58f1-b5b3-b08c7c4a876d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-2509"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2022-2509"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6FL27JS3VM74YEQU7PGB62USO3KSBYZX/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6FL27JS3VM74YEQU7PGB62USO3KSBYZX/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnupg.org/pipermail/gnutls-help/2022-July/004746.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.gnupg.org/pipermail/gnutls-help/2022-July/004746.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5203"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5203"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-2509",
+                "imported": "2026-05-22T18:34:35.005Z",
+                "modified": "2025-12-02T21:15:49.750Z",
+                "published": "2022-08-01T14:15:09.890Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-2509",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-2509",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
