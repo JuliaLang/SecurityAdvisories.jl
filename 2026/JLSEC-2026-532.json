@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-532",
+    "modified": "2026-05-26T19:04:01.666Z",
+    "published": "2026-05-26T19:04:01.666Z",
+    "upstream": [
+        "CVE-2021-3520"
+    ],
+    "details": "There's a flaw in lz4. An attacker who submits a crafted file to an application linked with lz4 may be able to trigger an integer overflow, leading to calling of memmove() on a negative size argument, causing an out-of-bounds write and/or a crash. The greatest impact of this flaw is to availability, with some potential impact to confidentiality and integrity as well.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.9.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Lz4_jll",
+                "purl": "pkg:julia/Lz4_jll?uuid=5ced341a-0733-55b8-9ab6-a4889d929147"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1954559"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1954559"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20211104-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20211104-0005/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuapr2022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuapr2022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3520",
+                "imported": "2026-05-24T16:38:40.362Z",
+                "modified": "2024-11-21T06:21:44.987Z",
+                "published": "2021-06-02T13:15:13.170Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3520",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3520",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
