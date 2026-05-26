@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-537",
+    "modified": "2026-05-26T19:31:24.313Z",
+    "published": "2026-05-26T19:31:24.313Z",
+    "upstream": [
+        "CVE-2020-27824"
+    ],
+    "details": "A flaw was found in OpenJPEG’s encoder in the opj_dwt_calc_explicit_stepsizes() function. This flaw allows an attacker who can supply crafted input to decomposition levels to cause a buffer overflow. The highest threat from this vulnerability is to system availability.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1905723"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1905723"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/02/msg00011.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/02/msg00011.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/OQR4EWRFFZQDMFPZKFZ6I3USLMW6TKTP/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/OQR4EWRFFZQDMFPZKFZ6I3USLMW6TKTP/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/WJUPGIZE6A4O52EBOF75MCXJOL6MUCRV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/WJUPGIZE6A4O52EBOF75MCXJOL6MUCRV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-27824",
+                "imported": "2026-05-25T01:08:37.687Z",
+                "modified": "2024-11-21T05:21:52.893Z",
+                "published": "2021-05-13T14:15:17.557Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-27824",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-27824",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,130 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-543",
+    "modified": "2026-05-26T19:31:24.313Z",
+    "published": "2026-05-26T19:31:24.313Z",
+    "upstream": [
+        "CVE-2020-6851"
+    ],
+    "details": "OpenJPEG through 2.3.1 has a heap-based buffer overflow in opj_t1_clbl_decode_processor in openjp2/t1.c because of lack of opj_j2k_update_image_dimensions validation.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0262"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0262"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0274"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0274"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0296"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2020:0296"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1228"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1228"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/01/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/01/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LACIIDDCKZJEPKTTFILSOSBQL7L3FC6V/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LACIIDDCKZJEPKTTFILSOSBQL7L3FC6V/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/XBRMI2D3XPVWKE3V52KRBW7BJVLS5LD3/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/XBRMI2D3XPVWKE3V52KRBW7BJVLS5LD3/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpujul2020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpujul2020.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-6851",
+                "imported": "2026-05-25T01:08:36.711Z",
+                "modified": "2024-11-21T05:36:17.597Z",
+                "published": "2020-01-13T06:15:10.957Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-6851",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-6851",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

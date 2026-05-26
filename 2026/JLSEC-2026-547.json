@@ -1,0 +1,102 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-547",
+    "modified": "2026-05-26T19:31:24.313Z",
+    "published": "2026-05-26T19:31:24.313Z",
+    "upstream": [
+        "CVE-2022-1122"
+    ],
+    "details": "A flaw was found in the opj2_decompress program in openjpeg2 2.4.0 in the way it handles an input directory with a large number of files. When it fails to allocate a buffer to store the filenames of the input directory, it calls free() on an uninitialized pointer, leading to a segmentation fault and a denial of service.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.4.0+0"
+                        },
+                        {
+                            "fixed": "2.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1368"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1368"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/04/msg00002.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MIWSQFQWXDU4MT3XTVAO6HC7TVL3NHS7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MIWSQFQWXDU4MT3XTVAO6HC7TVL3NHS7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RMKBAMK2CAM5TMC5TODKVCE5AAPTD5YV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RMKBAMK2CAM5TMC5TODKVCE5AAPTD5YV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ROSN5NRUFOH7HGLJ4ZSKPGAKLFXJALW4/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ROSN5NRUFOH7HGLJ4ZSKPGAKLFXJALW4/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-04"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-1122",
+                "imported": "2026-05-25T01:08:37.913Z",
+                "modified": "2025-11-03T20:15:52.347Z",
+                "published": "2022-03-29T18:15:07.977Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-1122",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1122",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

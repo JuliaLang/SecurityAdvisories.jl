@@ -1,0 +1,58 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-551",
+    "modified": "2026-05-26T19:31:24.313Z",
+    "published": "2026-05-26T19:31:24.313Z",
+    "upstream": [
+        "CVE-2025-50952"
+    ],
+    "details": "openjpeg v 2.5.0 was discovered to contain a NULL pointer dereference via the component /openjp2/dwt.c.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.5.0+0"
+                        },
+                        {
+                            "fixed": "2.5.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1505"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/12/msg00035.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-50952",
+                "imported": "2026-05-25T01:08:38.760Z",
+                "modified": "2025-12-29T17:15:44.997Z",
+                "published": "2025-08-07T15:15:32.773Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-50952",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-50952",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

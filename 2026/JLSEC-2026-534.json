@@ -1,0 +1,106 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-534",
+    "modified": "2026-05-26T19:31:24.313Z",
+    "published": "2026-05-26T19:31:24.313Z",
+    "upstream": [
+        "CVE-2020-15389"
+    ],
+    "details": "jp2/opj_decompress.c in OpenJPEG through 2.3.1 has a use-after-free that can be triggered if there is a mix of valid and invalid files in a directory operated on by the decompressor. Triggering a double-free may also be possible. This is related to calling opj_image_destroy twice.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://pastebin.com/4sDKQ7U8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://pastebin.com/4sDKQ7U8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202101-29"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202101-29"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpuoct2020.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-15389",
+                "imported": "2026-05-25T01:08:36.977Z",
+                "modified": "2024-11-21T05:05:28.070Z",
+                "published": "2020-06-29T21:15:14.150Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-15389",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-15389",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
