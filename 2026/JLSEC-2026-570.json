@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-570",
+    "modified": "2026-06-05T15:18:28.412Z",
+    "published": "2026-06-05T15:18:28.412Z",
+    "upstream": [
+        "CVE-2026-32738",
+        "EUVD-2026-30972"
+    ],
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. In versions 1.21.2 and below, a crafted 792-byte HEIF sequence file with samples_per_chunk=0 in the stsc box causes an unsigned integer underflow in the Chunk constructor (m_last_sample = 0 + 0 - 1 = UINT32_MAX), mapping all samples to an empty chunk and resulting in a denial of service. When any sample is accessed, the library reads from index 0 of an empty std::vector, causing a guaranteed SEGV (null-page read). The file parses successfully without producing an error; the crash occurs on the first frame access. This issue has been fixed in version 1.22.0.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.22.2000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libheif_jll",
+                "purl": "pkg:julia/libheif_jll?uuid=a13778fd-9a17-58b4-b5a0-4b4a242815a9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/security/advisories/GHSA-7f2h-cmpf-v9ww"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-32738",
+                "imported": "2026-06-05T14:52:24.502Z",
+                "modified": "2026-05-20T14:17:41.080Z",
+                "published": "2026-05-19T19:16:48.823Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-32738",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32738",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-30972",
+                "imported": "2026-06-05T14:52:25.868Z",
+                "modified": "2026-05-19T19:38:59Z",
+                "published": "2026-05-19T19:03:48Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-30972",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-30972"
+            }
+        ]
+    }
+}

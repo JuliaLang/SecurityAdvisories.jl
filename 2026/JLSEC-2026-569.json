@@ -1,0 +1,81 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-569",
+    "modified": "2026-06-05T15:18:28.412Z",
+    "published": "2026-06-05T15:18:28.412Z",
+    "upstream": [
+        "CVE-2025-53644",
+        "EUVD-2025-21795"
+    ],
+    "details": "OpenCV is an Open Source Computer Vision Library. Versions 4.10.0 and 4.11.0 have an uninitialized pointer variable on stack that may lead to arbitrary heap buffer write when reading crafted JPEG images. Version 4.12.0 fixes the vulnerability.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "4.10.0+0"
+                        },
+                        {
+                            "fixed": "4.13.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenCV_jll",
+                "purl": "pkg:julia/OpenCV_jll?uuid=33b9d88c-85f9-5d73-bd91-4e2b95a9aa0b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/opencv/opencv/commit/a39db41390de546d18962ee1278bd6dbb715f466"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/opencv/opencv/issues/27271"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/opencv/opencv/releases/tag/4.12.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://securitylab.github.com/advisories/GHSL-2025-057_OpenCV/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-53644",
+                "imported": "2026-06-05T14:48:49.752Z",
+                "modified": "2025-10-17T19:18:41.637Z",
+                "published": "2025-07-17T18:15:27.913Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-53644",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53644",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2025-21795",
+                "imported": "2026-06-05T14:48:51.075Z",
+                "modified": "2025-09-26T21:56:54Z",
+                "published": "2025-07-17T17:58:26Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-21795",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-21795"
+            }
+        ]
+    }
+}
