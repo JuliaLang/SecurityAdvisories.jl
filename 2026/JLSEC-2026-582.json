@@ -1,0 +1,91 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-582",
+    "modified": "2026-06-08T13:15:35.983Z",
+    "published": "2026-06-08T13:15:35.983Z",
+    "upstream": [
+        "CVE-2024-55549",
+        "GHSA-g8fv-r98j-937r",
+        "EUVD-2024-54264"
+    ],
+    "summary": "xsltGetInheritedNsList in libxslt before 1.1.43 has a use-after-free issue related to exclusion...",
+    "details": "xsltGetInheritedNsList in libxslt before 1.1.43 has a use-after-free issue related to exclusion of result prefixes.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.43+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XSLT_jll",
+                "purl": "pkg:julia/XSLT_jll?uuid=aed1982a-8fda-507f-9586-7b0439959a61"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g8fv-r98j-937r"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxslt/-/issues/127"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/03/msg00015.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-55549"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-55549",
+                "imported": "2026-06-07T01:46:46.720Z",
+                "modified": "2025-11-03T21:17:50.197Z",
+                "published": "2025-03-14T02:15:15.333Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-55549",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-55549",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-g8fv-r98j-937r",
+                "imported": "2026-06-07T01:46:46.964Z",
+                "modified": "2025-11-03T21:33:11Z",
+                "published": "2025-03-14T03:31:24Z",
+                "url": "https://api.github.com/advisories/GHSA-g8fv-r98j-937r",
+                "html_url": "https://github.com/advisories/GHSA-g8fv-r98j-937r"
+            },
+            {
+                "id": "EUVD-2024-54264",
+                "imported": "2026-06-07T01:46:46.807Z",
+                "modified": "2025-11-03T20:48:48Z",
+                "published": "2025-03-14T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-54264",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-54264"
+            }
+        ]
+    }
+}

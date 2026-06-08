@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-581",
+    "modified": "2026-06-08T13:15:35.983Z",
+    "published": "2026-06-08T13:15:35.983Z",
+    "upstream": [
+        "CVE-2021-30560"
+    ],
+    "details": "Use after free in Blink XSLT in Google Chrome prior to 91.0.4472.164 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.41+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XSLT_jll",
+                "purl": "pkg:julia/XSLT_jll?uuid=aed1982a-8fda-507f-9586-7b0439959a61"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2021/07/stable-channel-update-for-desktop.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://chromereleases.googleblog.com/2021/07/stable-channel-update-for-desktop.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1219209"
+        },
+        {
+            "type": "WEB",
+            "url": "https://crbug.com/1219209"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00010.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00010.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202310-23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5216"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2022/dsa-5216"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-30560",
+                "imported": "2026-06-07T01:46:46.639Z",
+                "modified": "2025-05-05T17:17:03.730Z",
+                "published": "2021-08-03T19:15:08.127Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-30560",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-30560",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
