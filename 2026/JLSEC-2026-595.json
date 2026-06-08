@@ -1,0 +1,63 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-595",
+    "modified": "2026-06-08T13:43:52.905Z",
+    "published": "2026-06-08T13:43:52.905Z",
+    "upstream": [
+        "CVE-2021-33465"
+    ],
+    "details": "An issue was discovered in yasm version 1.3.0. There is a NULL pointer dereference in expand_mmacro() in modules/preprocs/nasm/nasm-pp.c.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "YASM_jll",
+                "purl": "pkg:julia/YASM_jll?uuid=997772c2-56d0-5ccd-9329-3f55f14e5768"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/Clingto/bb632c0c463f4b2c97e4f65f751c5e6d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gist.github.com/Clingto/bb632c0c463f4b2c97e4f65f751c5e6d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/yasm/yasm/issues/173"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/yasm/yasm/issues/173"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-33465",
+                "imported": "2026-06-06T09:29:02.332Z",
+                "modified": "2024-11-21T06:08:53.200Z",
+                "published": "2022-07-26T13:15:09.773Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-33465",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-33465",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
