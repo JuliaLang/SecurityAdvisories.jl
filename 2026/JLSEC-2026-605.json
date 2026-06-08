@@ -1,0 +1,54 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-605",
+    "modified": "2026-06-08T13:54:13.679Z",
+    "published": "2026-06-08T13:54:13.679Z",
+    "upstream": [
+        "CVE-2026-6478"
+    ],
+    "details": "Covert timing channel in comparison of MD5-hashed password in PostgreSQL authentication allows an attacker to recover user credentials sufficient to authenticate.  This does not affect scram-sha-256 passwords, the default in all supported releases.  However, current databases may have MD5-hashed passwords originating in upgrades from PostgreSQL 13 or earlier.  Versions before PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "16.14.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibPQ_jll",
+                "purl": "pkg:julia/LibPQ_jll?uuid=08be9ffa-1c94-5ee5-a977-46a84ec9b350"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://www.postgresql.org/support/security/CVE-2026-6478/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6478",
+                "imported": "2026-06-08T13:34:09.866Z",
+                "modified": "2026-05-18T15:03:55.670Z",
+                "published": "2026-05-14T14:16:25.463Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6478",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6478",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
