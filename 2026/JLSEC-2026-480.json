@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-480",
-    "modified": "2026-05-07T17:36:47.122Z",
+    "modified": "2026-06-08T14:12:43.785Z",
     "published": "2026-05-07T17:36:47.122Z",
     "upstream": [
         "CVE-2026-27171",
@@ -56,6 +56,26 @@
                 "name": "Zlib_jll",
                 "purl": "pkg:julia/Zlib_jll?uuid=83775a58-1f1d-513f-b197-d71354ab007a"
             }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.0.39001+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "fmusim_jll",
+                "purl": "pkg:julia/fmusim_jll?uuid=76f9bd7a-1c05-5050-ae3f-1be9af76d548"
+            }
         }
     ],
     "references": [
@@ -101,7 +121,7 @@
         "sources": [
             {
                 "id": "CVE-2026-27171",
-                "imported": "2026-05-07T17:21:39.899Z",
+                "imported": "2026-06-08T13:56:00.710Z",
                 "modified": "2026-03-25T21:27:04.603Z",
                 "published": "2026-02-18T04:16:01.263Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27171",
@@ -112,7 +132,7 @@
             },
             {
                 "id": "GHSA-h858-mf2m-8jf4",
-                "imported": "2026-05-07T17:21:43.116Z",
+                "imported": "2026-06-08T13:56:03.761Z",
                 "modified": "2026-02-18T06:30:19Z",
                 "published": "2026-02-18T06:30:18Z",
                 "url": "https://api.github.com/advisories/GHSA-h858-mf2m-8jf4",
@@ -120,7 +140,7 @@
             },
             {
                 "id": "EUVD-2026-8063",
-                "imported": "2026-05-07T17:21:41.315Z",
+                "imported": "2026-06-08T13:56:02.020Z",
                 "modified": "2026-02-18T13:38:55Z",
                 "published": "2026-02-18T02:36:19Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-8063",
