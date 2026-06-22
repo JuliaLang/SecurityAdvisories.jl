@@ -38,7 +38,7 @@ function main()
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
-        while isempty(advisories)
+        while isempty(advisories) && !isempty(whole_pkg_list)
             input = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $input"
