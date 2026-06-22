@@ -45,6 +45,9 @@ function main()
             @info "moving $file to $(advisory.id).md"
             success(`git mv $path $newpath`) || run(`mv $path $newpath`)
             path = newpath
+        end
+        if isnothing(advisory.published)
+            updated = true
             advisory.published = now
             advisory.modified = now
         end
