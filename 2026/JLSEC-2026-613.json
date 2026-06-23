@@ -1,0 +1,55 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-613",
+    "modified": "2026-06-23T12:59:32.708Z",
+    "published": "2026-06-23T12:59:32.708Z",
+    "upstream": [
+        "ANT-2026-5F0FFVVR",
+        "ANT-2026-5HZS0066",
+        "ANT-2026-8SP7TV55",
+        "ANT-2026-GM4FVXDB",
+        "ANT-2026-HTKXQYJX",
+        "ANT-2026-K7VHJB7S",
+        "ANT-2026-MBWGTHMA",
+        "ANT-2026-PW5H10EB",
+        "ANT-2026-R3BBBRAW",
+        "ANT-2026-WB9V4R8Q"
+    ],
+    "summary": "Redirect credential leakage across scheme/port in HTTP.jl",
+    "details": "### Description\n\nRedirect handling decided whether to retain credential-bearing headers (`Authorization`, `Cookie`, `Proxy-Authorization`, etc.) by comparing only the hostname, ignoring scheme and port. As a result an `https`→`http` downgrade or a same-host/different-port redirect was treated as same-origin and replayed credentials over plaintext or to a different service. Additionally, per-call `cookies=` cookies were captured once and re-appended on every hop even after the `Cookie` header was stripped, and the TLS verification host was pinned to the original host across redirects.\n\n### Impact\n\nFollowing an attacker-influenced redirect could disclose a client's credentials or cookies to a different origin (different scheme or port) than the one they were intended for, including over plaintext.\n\n### Patches\n\nFixed in HTTP.jl v2.4.0. Sensitive-header retention now requires matching scheme and port (with default-port normalization) in addition to the existing host/subdomain check, cross-origin hops also clear the explicit `cookies=` vector so they are not re-attached, and the SNI/verification host is recomputed from the redirect target on every hop unless the caller explicitly pinned `server_name`.\n\nReported to the JuliaLang security team through Anthropic's Coordinated Vulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HTTP",
+                "purl": "pkg:julia/HTTP?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/commit/b5c0282c899b75fbca2475ee7efe17e659990420"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/pull/1316"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

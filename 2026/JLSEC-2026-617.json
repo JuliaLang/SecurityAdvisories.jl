@@ -1,0 +1,47 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-617",
+    "modified": "2026-06-23T12:59:32.708Z",
+    "published": "2026-06-23T12:59:32.708Z",
+    "upstream": [
+        "ANT-2026-59AETZK3",
+        "ANT-2026-APXT86GW"
+    ],
+    "summary": "Open redirect in the HTTP.jl static file server canonical redirects",
+    "details": "### Description\n\nThe static file server's canonical 301 redirects (index-file strip, directory trailing-slash add, and file trailing-slash strip) built the `Location` header verbatim from the un-normalized request target. Request-target validation only requires a leading `/`, has no CTL bytes, and the `..` check plus segment decoding drop empty segments, so a target like `//evil.example/index.html` or `/\\evil.example/` survived validation and produced a `Location` such as `//evil.example/` — a scheme-relative network-path reference (RFC 3986 §4.2) that browsers resolve to a foreign authority.\n\n### Impact\n\nA crafted request to the file server could produce a redirect to an attacker-controlled host (open redirect).\n\n### Patches\n\nFixed in HTTP.jl v2.4.0. A new `_sanitize_redirect_location` collapses any leading run of `/` or `\\` separators down to a single `/`, re-rooting the `Location` at the server's own origin so it can never carry an authority component (backslashes are treated as separators because browsers normalize `\\` to `/`). Every canonical-redirect branch routes its `Location` through the sanitizer; single-rooted local paths are unchanged.\n\nReported to the JuliaLang security team through Anthropic's Coordinated Vulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HTTP",
+                "purl": "pkg:julia/HTTP?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/commit/49453c0ec1c814f37bdcf1f3cd8ee4e3366c549c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/pull/1316"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

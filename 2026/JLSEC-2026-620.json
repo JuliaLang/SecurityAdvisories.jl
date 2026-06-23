@@ -1,0 +1,46 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-620",
+    "modified": "2026-06-23T12:59:32.708Z",
+    "published": "2026-06-23T12:59:32.708Z",
+    "upstream": [
+        "ANT-2026-YCN945B6"
+    ],
+    "summary": "WebSocket reader data race in auto-PONG/CLOSE-echo handling in HTTP.jl",
+    "details": "### Description\n\nThe WebSocket reader task processed incoming frames by calling `ws_on_incoming_data!` without holding `ws.sendlock`. That function is not a pure parser: its auto-PONG and CLOSE-echo paths `push!` onto the shared `ws.codec.outgoing_frames` vector, while application send/ping/pong/close paths mutate the same vector while holding `ws.sendlock`. Because the reader did not take the lock, a remote peer flooding `PING` frames against a multithreaded server (`julia -t N`, N>1) could drive concurrent `push!`/`empty!` of a Julia `Vector` from two OS threads — undefined behavior that can corrupt the array metadata or segfault the process.\n\n### Impact\n\nA remote peer could crash, or potentially corrupt memory in, a multithreaded WebSocket server through concurrent frame processing.\n\n### Patches\n\nFixed in HTTP.jl v2.4.0. A new `_process_incoming_data!` helper acquires `ws.sendlock` and runs `ws_on_incoming_data!` followed by `_flush_ws_output_locked!` under the lock, making each decode atomic with its flush; all production decode call sites route through it. The blocking read stays outside the lock so concurrent senders cannot deadlock the reader, and lock ordering is unchanged.\n\nReported to the JuliaLang security team through Anthropic's Coordinated Vulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HTTP",
+                "purl": "pkg:julia/HTTP?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/commit/f4f402780e11985f6438a6ef78d747c8c1052eb4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/pull/1316"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-614",
+    "modified": "2026-06-23T12:59:32.708Z",
+    "published": "2026-06-23T12:59:32.708Z",
+    "upstream": [
+        "ANT-2026-DXGTQBSK",
+        "ANT-2026-X2Q1J9M4"
+    ],
+    "summary": "WebSocket default Origin check ignores scheme and port in HTTP.jl",
+    "details": "### Description\n\nThe default WebSocket Origin validator (`_origin_allowed_default`) only enforced the host component of the same-origin tuple. It never checked the Origin's scheme, and when the request `Host` header carried no explicit port (the norm for default-port 80/443 servers, where browsers omit the port) it fell through to a hostname-only comparison that discarded the Origin's port. As a result a `wss://example.com` server accepted cross-scheme/cross-port origins such as `http://example.com` or `http://example.com:8080`.\n\n### Impact\n\nAn attacker controlling another scheme or port on the same hostname could open an authenticated WebSocket from a victim's browser using the victim's cookies (cross-site WebSocket hijacking).\n\n### Patches\n\nFixed in HTTP.jl v2.4.0. `_origin_allowed_default` now requires the Origin's scheme to match the server transport and compares effective ports, substituting the scheme default port (443 when secure, else 80) when the `Host` header omits one and handling bracketed IPv6 literals. The `server_secure` flag is plumbed through all upgrade call sites; the empty-Origin allowance, cross-host rejection, and malformed-Origin rejection are preserved.\n\nReported to the JuliaLang security team through Anthropic's Coordinated Vulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.4.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HTTP",
+                "purl": "pkg:julia/HTTP?uuid=cd3eb016-35fb-5094-929b-558a96fad6f3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/commit/1c707a21c28c6cc1b1662470b129531318e4aa33"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/HTTP.jl/pull/1316"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}
