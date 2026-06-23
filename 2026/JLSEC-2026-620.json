@@ -1,9 +1,9 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-620",
-    "modified": "2026-06-23T12:59:32.708Z",
+    "modified": "2026-06-23T17:17:20.236Z",
     "published": "2026-06-23T12:59:32.708Z",
-    "upstream": [
+    "aliases": [
         "ANT-2026-YCN945B6"
     ],
     "summary": "WebSocket reader data race in auto-PONG/CLOSE-echo handling in HTTP.jl",

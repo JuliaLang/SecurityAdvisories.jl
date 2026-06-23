@@ -1,9 +1,9 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-623",
-    "modified": "2026-06-23T12:59:32.708Z",
+    "modified": "2026-06-23T17:17:20.236Z",
     "published": "2026-06-23T12:59:32.708Z",
-    "upstream": [
+    "aliases": [
         "ANT-2026-565042FN",
         "ANT-2026-CWYA87HX"
     ],
