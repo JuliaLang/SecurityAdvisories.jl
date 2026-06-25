@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-627",
+    "modified": "2026-06-25T17:41:14.392Z",
+    "published": "2026-06-25T17:41:14.392Z",
+    "upstream": [
+        "CVE-2026-41035",
+        "GHSA-m34r-4v3r-pp9v",
+        "EUVD-2026-23215"
+    ],
+    "summary": "In rsync 3.0.1 through 3.4.1, receive_xattr relies on an untrusted length value during a qsort...",
+    "details": "In rsync 3.0.1 through 3.4.1, receive_xattr relies on an untrusted length value during a qsort call, leading to a receiver use-after-free. The victim must run rsync with -X (aka --xattrs). On Linux, many (but not all) common configurations are vulnerable. Non-Linux platforms are more widely vulnerable.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.4.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "rsync_jll",
+                "purl": "pkg:julia/rsync_jll?uuid=191d6b87-264a-55f5-a0e2-c8fbce9a1ce0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/16/9"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/22/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/issues/871"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/releases"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m34r-4v3r-pp9v"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41035"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/04/16/2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-41035",
+                "imported": "2026-06-25T17:27:23.285Z",
+                "modified": "2026-06-17T10:46:04.297Z",
+                "published": "2026-04-16T07:16:31.003Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41035",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41035",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-m34r-4v3r-pp9v",
+                "imported": "2026-06-25T17:27:27.059Z",
+                "modified": "2026-04-22T06:30:29Z",
+                "published": "2026-04-16T09:31:44Z",
+                "url": "https://api.github.com/advisories/GHSA-m34r-4v3r-pp9v",
+                "html_url": "https://github.com/advisories/GHSA-m34r-4v3r-pp9v"
+            },
+            {
+                "id": "EUVD-2026-23215",
+                "imported": "2026-06-25T17:27:24.736Z",
+                "modified": "2026-04-22T03:03:52Z",
+                "published": "2026-04-16T06:53:05Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-23215",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-23215"
+            }
+        ]
+    }
+}

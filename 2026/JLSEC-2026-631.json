@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-631",
+    "modified": "2026-06-25T17:41:14.392Z",
+    "published": "2026-06-25T17:41:14.392Z",
+    "upstream": [
+        "CVE-2026-43620",
+        "GHSA-jmf6-74r8-6c28",
+        "EUVD-2026-31012"
+    ],
+    "summary": "Rsync version 3.4.2 and prior contain a receiver-side out-of-bounds array read vulnerability in...",
+    "details": "Rsync version 3.4.2 and prior contain a receiver-side out-of-bounds array read vulnerability in recv_files() in receiver.c that allows a malicious rsync server to crash the rsync client process. Attackers can exploit the vulnerability by setting CF_INC_RECURSE in compatibility flags and sending a specially crafted file list where the first sorted entry is not the leading dot directory, followed by a transfer record with ndx=0 and an iflag word without ITEM_TRANSFER, causing the receiver to read 8 bytes before the allocated pointer array and dereference an invalid pointer at an unmapped address, resulting in a deterministic SIGSEGV crash of the rsync client.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.4.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "rsync_jll",
+                "purl": "pkg:julia/rsync_jll?uuid=191d6b87-264a-55f5-a0e2-c8fbce9a1ce0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.4.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-28pw-r563-rxvm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jmf6-74r8-6c28"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43620"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/rsync-out-of-bounds-array-read-via-recv-files"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-43620",
+                "imported": "2026-06-25T17:27:23.356Z",
+                "modified": "2026-06-17T10:49:55.420Z",
+                "published": "2026-05-20T02:16:36.727Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-43620",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43620",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-jmf6-74r8-6c28",
+                "imported": "2026-06-25T17:27:26.144Z",
+                "modified": "2026-05-20T03:31:41Z",
+                "published": "2026-05-20T03:31:33Z",
+                "url": "https://api.github.com/advisories/GHSA-jmf6-74r8-6c28",
+                "html_url": "https://github.com/advisories/GHSA-jmf6-74r8-6c28"
+            },
+            {
+                "id": "EUVD-2026-31012",
+                "imported": "2026-06-25T17:27:24.663Z",
+                "modified": "2026-05-26T14:36:32Z",
+                "published": "2026-05-20T00:47:57Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-31012",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-31012"
+            }
+        ]
+    }
+}
