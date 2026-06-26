@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-643",
+    "modified": "2026-06-26T20:24:16.337Z",
+    "published": "2026-06-26T20:24:16.337Z",
+    "upstream": [
+        "CVE-2025-22921"
+    ],
+    "details": "FFmpeg git-master,N-113007-g8d24a28d06 was discovered to contain a segmentation violation via the component /libavcodec/jpeg2000dec.c.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.1.0+0"
+                        },
+                        {
+                            "fixed": "8.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_nogpl_jll",
+                "purl": "pkg:julia/FFMPEG_nogpl_jll?uuid=a6892c6b-5768-548c-b024-ff8dabf482c5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.1.0+0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/02/msg00037.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://trac.ffmpeg.org/ticket/11393"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-22921",
+                "imported": "2026-06-26T19:19:07.498Z",
+                "modified": "2026-06-17T08:50:59.503Z",
+                "published": "2025-02-18T22:15:18.040Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-22921",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-22921",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-650",
+    "modified": "2026-06-26T20:24:16.337Z",
+    "published": "2026-06-26T20:24:16.337Z",
+    "upstream": [
+        "CVE-2026-30998"
+    ],
+    "details": "An improper resource deallocation and closure vulnerability in the tools/zmqsend.c component of FFmpeg v8.0.1 allows attackers to cause a Denial of Service (DoS) via supplying a crafted input file.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_nogpl_jll",
+                "purl": "pkg:julia/FFMPEG_nogpl_jll?uuid=a6892c6b-5768-548c-b024-ff8dabf482c5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://excellent-oatmeal-319.notion.site/CVE-2026-30998-Resource-Leak-3265a71f9cca4dc58df4632ce8b60a50"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ffmpeg.org/doxygen/7.0/zmqsend_8c_source.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/FFmpeg/FFmpeg/blob/master/tools/zmqsend.c"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-30998",
+                "imported": "2026-06-26T19:19:07.766Z",
+                "modified": "2026-06-17T10:33:17.510Z",
+                "published": "2026-04-13T15:17:32.697Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-30998",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-30998",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

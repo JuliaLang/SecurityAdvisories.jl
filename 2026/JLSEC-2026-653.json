@@ -1,0 +1,127 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-653",
+    "modified": "2026-06-26T20:24:16.337Z",
+    "published": "2026-06-26T20:24:16.337Z",
+    "upstream": [
+        "CVE-2026-8461",
+        "GHSA-qff7-4q6c-m8h6",
+        "EUVD-2026-37878"
+    ],
+    "summary": "An out-of-bounds write vulnerability in FFmpeg's libavcodec library, specifically in the MagicYUV...",
+    "details": "An out-of-bounds write vulnerability in FFmpeg's libavcodec library, specifically in the MagicYUV decoder, allows denial-of-service and, in some cases, can be exploited for remote code execution.\n\nThis vulnerability is associated with the file libavcodec/magicyuv.C.\n\nThis issue affects FFmpeg before version 8.1.2.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_nogpl_jll",
+                "purl": "pkg:julia/FFMPEG_nogpl_jll?uuid=a6892c6b-5768-548c-b024-ff8dabf482c5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23159"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-qff7-4q6c-m8h6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8461"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-8461",
+                "imported": "2026-06-26T19:19:53.265Z",
+                "modified": "2026-06-22T20:31:03.510Z",
+                "published": "2026-06-18T14:17:36.660Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8461",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8461",
+                "database_specific": {
+                    "status": "Awaiting Analysis"
+                }
+            },
+            {
+                "id": "GHSA-qff7-4q6c-m8h6",
+                "imported": "2026-06-26T19:19:47.885Z",
+                "modified": "2026-06-18T15:32:09Z",
+                "published": "2026-06-18T15:32:03Z",
+                "url": "https://api.github.com/advisories/GHSA-qff7-4q6c-m8h6",
+                "html_url": "https://github.com/advisories/GHSA-qff7-4q6c-m8h6"
+            },
+            {
+                "id": "EUVD-2026-37878",
+                "imported": "2026-06-26T19:19:09.186Z",
+                "modified": "2026-06-19T03:55:41Z",
+                "published": "2026-06-18T11:29:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-37878",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-37878"
+            }
+        ]
+    }
+}

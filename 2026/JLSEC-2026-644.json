@@ -1,0 +1,111 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-644",
+    "modified": "2026-06-26T20:24:16.337Z",
+    "published": "2026-06-26T20:24:16.337Z",
+    "upstream": [
+        "CVE-2025-59731",
+        "GHSA-p7r5-qh99-qchm",
+        "EUVD-2025-32181"
+    ],
+    "summary": "When decoding an OpenEXR file that uses DWAA or DWAB compression, the specified raw length of run...",
+    "details": "When decoding an OpenEXR file that uses DWAA or DWAB compression, the specified raw length of run-length-encoded data is not checked when using it to calculate the output data.\n\nWe read rle_raw_size from the input file at [0], we decompress and decode into the buffer td->rle_raw_data of size rle_raw_size at [1], and then at [2] we will access entries in this buffer up to (td->xsize - 1) * (td->ysize - 1) + rle_raw_size / 2, which may exceed rle_raw_size.\n\nWe recommend upgrading to version 8.0 or beyond.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:A/AC:H/AT:N/PR:L/UI:P/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.1.1+0"
+                        },
+                        {
+                            "fixed": "8.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "7.1.1+0"
+                        },
+                        {
+                            "fixed": "8.1.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://b.corp.google.com/issues/436510153"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-p7r5-qh99-qchm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://issuetracker.google.com/436510153"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59731"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-59731",
+                "imported": "2026-06-26T19:19:59.725Z",
+                "modified": "2026-06-17T09:46:36.573Z",
+                "published": "2025-10-06T08:15:34.770Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-59731",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59731",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-p7r5-qh99-qchm",
+                "imported": "2026-06-26T19:19:26.621Z",
+                "modified": "2025-10-19T15:31:16Z",
+                "published": "2025-10-06T09:30:20Z",
+                "url": "https://api.github.com/advisories/GHSA-p7r5-qh99-qchm",
+                "html_url": "https://github.com/advisories/GHSA-p7r5-qh99-qchm"
+            },
+            {
+                "id": "EUVD-2025-32181",
+                "imported": "2026-06-26T19:19:09.468Z",
+                "modified": "2026-02-26T17:48:18Z",
+                "published": "2025-10-06T08:09:23Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-32181",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-32181"
+            }
+        ]
+    }
+}
