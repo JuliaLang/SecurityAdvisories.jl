@@ -2,8 +2,8 @@ name: Search for upstream advisories
 
 on:
   schedule:
-    # Run every eight hours
-    - cron: '0 */8 * * *'
+    # Run once a day
+    - cron: '0 5 */1 * *'
   workflow_dispatch:
     inputs:
       haystack:
