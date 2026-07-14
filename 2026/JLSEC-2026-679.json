@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-679",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2023-6937",
+        "GHSA-ff3x-q8pg-rh37",
+        "EUVD-2023-59135"
+    ],
+    "summary": "wolfSSL prior to 5.6.6 did not check that messages in one (D)TLS record do not span key...",
+    "details": "wolfSSL prior to 5.6.6 did not check that messages in one (D)TLS record do not span key boundaries. As a result, it was possible to combine (D)TLS messages using different keys into one (D)TLS record. The most extreme edge case is that, in (D)TLS 1.3, it was possible that an unencrypted (D)TLS 1.3 record from the server containing first a ServerHello message and then the rest of the first server flight would be accepted by a wolfSSL client. In (D)TLS 1.3 the handshake is encrypted after the ServerHello but a wolfSSL client would accept an unencrypted flight from the server. This does not compromise key negotiation and authentication so it is assigned a low severity rating.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.7.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-ff3x-q8pg-rh37"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/7029"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6937"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-6937",
+                "imported": "2026-07-14T21:22:48.663Z",
+                "modified": "2026-06-17T06:51:43.287Z",
+                "published": "2024-02-15T18:15:44.890Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-6937",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6937",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-ff3x-q8pg-rh37",
+                "imported": "2026-07-14T21:22:55.245Z",
+                "modified": "2026-03-24T05:08:20Z",
+                "published": "2024-02-15T18:30:41Z",
+                "url": "https://api.github.com/advisories/GHSA-ff3x-q8pg-rh37",
+                "html_url": "https://github.com/advisories/GHSA-ff3x-q8pg-rh37"
+            },
+            {
+                "id": "EUVD-2023-59135",
+                "imported": "2026-07-14T21:22:52.726Z",
+                "modified": "2025-04-24T15:13:34Z",
+                "published": "2024-02-15T17:21:44Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-59135",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-59135"
+            }
+        ]
+    }
+}

@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-733",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-5507",
+        "GHSA-f5fh-xmxq-55p9",
+        "EUVD-2026-21216"
+    ],
+    "summary": "When restoring a session from cache, a pointer from the serialized session data is used in a free...",
+    "details": "When restoring a session from cache, a pointer from the serialized session data is used in a free operation without validation. An attacker who can poison the session cache could trigger an arbitrary free. Exploitation requires the ability to inject a crafted session into the cache and for the application to call specific session restore APIs.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f5fh-xmxq-55p9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10088"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5507"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5507",
+                "imported": "2026-07-14T21:22:49.294Z",
+                "modified": "2026-06-17T10:59:08.460Z",
+                "published": "2026-04-09T23:17:01.543Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5507",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5507",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-f5fh-xmxq-55p9",
+                "imported": "2026-07-14T21:23:02.226Z",
+                "modified": "2026-04-29T15:30:36Z",
+                "published": "2026-04-10T00:30:31Z",
+                "url": "https://api.github.com/advisories/GHSA-f5fh-xmxq-55p9",
+                "html_url": "https://github.com/advisories/GHSA-f5fh-xmxq-55p9"
+            },
+            {
+                "id": "EUVD-2026-21216",
+                "imported": "2026-07-14T21:22:51.568Z",
+                "modified": "2026-04-14T14:38:40Z",
+                "published": "2026-04-09T22:18:44Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21216",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21216"
+            }
+        ]
+    }
+}

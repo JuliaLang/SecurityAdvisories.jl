@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-731",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-5503",
+        "GHSA-65xm-pfx9-g5p3",
+        "EUVD-2026-21234"
+    ],
+    "summary": "In TLSX_EchChangeSNI, the ctx->extensions branch set extensions unconditionally even when...",
+    "details": "In TLSX_EchChangeSNI, the ctx->extensions branch set extensions unconditionally even when TLSX_Find returned NULL. This caused TLSX_UseSNI to attach the attacker-controlled publicName to the shared WOLFSSL_CTX when no inner SNI was configured. TLSX_EchRestoreSNI then failed to clean it up because its removal was gated on serverNameX != NULL. The inner ClientHello was sized before the pollution but written after it, causing TLSX_SNI_Write to memcpy 255 bytes past the allocation boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-65xm-pfx9-g5p3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10102"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5503"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5503",
+                "imported": "2026-07-14T21:22:49.273Z",
+                "modified": "2026-06-17T10:59:08.027Z",
+                "published": "2026-04-09T23:17:01.257Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5503",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5503",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-65xm-pfx9-g5p3",
+                "imported": "2026-07-14T21:22:55.426Z",
+                "modified": "2026-04-27T18:32:02Z",
+                "published": "2026-04-10T00:30:31Z",
+                "url": "https://api.github.com/advisories/GHSA-65xm-pfx9-g5p3",
+                "html_url": "https://github.com/advisories/GHSA-65xm-pfx9-g5p3"
+            },
+            {
+                "id": "EUVD-2026-21234",
+                "imported": "2026-07-14T21:22:51.623Z",
+                "modified": "2026-04-10T17:58:51Z",
+                "published": "2026-04-09T22:35:39Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21234",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21234"
+            }
+        ]
+    }
+}

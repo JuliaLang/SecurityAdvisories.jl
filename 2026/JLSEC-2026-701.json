@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-701",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-2645",
+        "EUVD-2026-13135"
+    ],
+    "details": "In wolfSSL 5.8.2 and earlier, a logic flaw existed in the TLS 1.2 server state machine implementation. The server could incorrectly accept the CertificateVerify message before the ClientKeyExchange message had been received. This issue affects wolfSSL before 5.8.4 (wolfSSL 5.8.2 and earlier is vulnerable, 5.8.4 is not vulnerable). In 5.8.4 wolfSSL would detect the issue later in the handshake. 5.9.0 was further hardened to catch the issue earlier in the handshake.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:P"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.8.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9694"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-2645",
+                "imported": "2026-07-14T21:22:48.998Z",
+                "modified": "2026-06-17T10:31:27.377Z",
+                "published": "2026-03-19T18:16:22.043Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-2645",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2645",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-13135",
+                "imported": "2026-07-14T21:22:51.995Z",
+                "modified": "2026-03-19T17:45:54Z",
+                "published": "2026-03-19T17:10:22Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13135",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13135"
+            }
+        ]
+    }
+}

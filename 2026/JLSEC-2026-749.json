@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-749",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-6331",
+        "GHSA-5hpf-pc4x-3jcf",
+        "EUVD-2026-39565"
+    ],
+    "summary": "HMAC zero-length tag forgery in EVP_DigestVerifyFinal, where a zero-length tag could be accepted...",
+    "details": "HMAC zero-length tag forgery in EVP_DigestVerifyFinal, where a zero-length tag could be accepted as valid during HMAC verification. In the OpenSSL-compatibility HMAC verify path the supplied signature length was only checked as not exceeding the MAC length, so a zero-length or otherwise truncated tag could pass verification. The fix requires the supplied tag length to exactly equal the MAC length and rejects a zero-length MAC, so a forged short or empty tag is no longer accepted.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5hpf-pc4x-3jcf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10192"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6331"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6331",
+                "imported": "2026-07-14T21:22:49.803Z",
+                "modified": "2026-06-27T19:48:56.343Z",
+                "published": "2026-06-25T22:17:03.010Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6331",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6331",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5hpf-pc4x-3jcf",
+                "imported": "2026-07-14T21:23:07.250Z",
+                "modified": "2026-06-27T21:30:29Z",
+                "published": "2026-06-26T00:32:06Z",
+                "url": "https://api.github.com/advisories/GHSA-5hpf-pc4x-3jcf",
+                "html_url": "https://github.com/advisories/GHSA-5hpf-pc4x-3jcf"
+            },
+            {
+                "id": "EUVD-2026-39565",
+                "imported": "2026-07-14T21:22:51.232Z",
+                "modified": "2026-06-26T13:53:06Z",
+                "published": "2026-06-25T20:56:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39565",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-39565"
+            }
+        ]
+    }
+}

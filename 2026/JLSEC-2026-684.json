@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-684",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2024-5814",
+        "GHSA-8cr7-x5g8-m3f3",
+        "EUVD-2024-46962"
+    ],
+    "summary": "A malicious TLS1.2 server can force a TLS1.3 client with downgrade capability to use a...",
+    "details": "A malicious TLS1.2 server can force a TLS1.3 client with downgrade capability to use a ciphersuite that it did not agree to and achieve a successful connection. This is because, aside from the extensions, the client was skipping fully parsing the server hello.  https://doi.org/10.46586/tches.v2024.i1.457-500",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/AU:Y/V:D/RE:M/U:Green"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.7.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8cr7-x5g8-m3f3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/blob/master/ChangeLog.md#add_later"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5814"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-5814",
+                "imported": "2026-07-14T21:22:48.760Z",
+                "modified": "2026-06-17T08:16:42.123Z",
+                "published": "2024-08-27T19:15:17.980Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-5814",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5814",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-8cr7-x5g8-m3f3",
+                "imported": "2026-07-14T21:22:54.671Z",
+                "modified": "2025-12-06T03:31:21Z",
+                "published": "2024-08-27T21:31:14Z",
+                "url": "https://api.github.com/advisories/GHSA-8cr7-x5g8-m3f3",
+                "html_url": "https://github.com/advisories/GHSA-8cr7-x5g8-m3f3"
+            },
+            {
+                "id": "EUVD-2024-46962",
+                "imported": "2026-07-14T21:22:52.807Z",
+                "modified": "2024-08-27T19:21:04Z",
+                "published": "2024-08-27T18:38:08Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-46962",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-46962"
+            }
+        ]
+    }
+}

@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-688",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2025-13912",
+        "GHSA-7582-g6xx-939j",
+        "EUVD-2025-202756"
+    ],
+    "summary": "Multiple constant-time implementations in wolfSSL before version 5.8.4 may be transformed into...",
+    "details": "Multiple constant-time implementations in wolfSSL before version 5.8.4 may be transformed into non-constant-time binary by LLVM optimizations, which can potentially result in observable timing discrepancies and lead to information disclosure through timing side-channel attacks.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.8.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7582-g6xx-939j"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9148"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13912"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-13912",
+                "imported": "2026-07-14T21:23:10.459Z",
+                "modified": "2026-06-17T08:34:58.110Z",
+                "published": "2025-12-11T18:16:19.067Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-13912",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13912",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-7582-g6xx-939j",
+                "imported": "2026-07-14T21:23:09.326Z",
+                "modified": "2025-12-11T18:30:53Z",
+                "published": "2025-12-11T18:30:45Z",
+                "url": "https://api.github.com/advisories/GHSA-7582-g6xx-939j",
+                "html_url": "https://github.com/advisories/GHSA-7582-g6xx-939j"
+            },
+            {
+                "id": "EUVD-2025-202756",
+                "imported": "2026-07-14T21:22:52.112Z",
+                "modified": "2025-12-11T19:35:56Z",
+                "published": "2025-12-11T17:09:59Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-202756",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-202756"
+            }
+        ]
+    }
+}

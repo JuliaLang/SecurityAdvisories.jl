@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-687",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2025-12889",
+        "GHSA-6wfx-6f8c-8wg4",
+        "EUVD-2025-198520"
+    ],
+    "summary": "With TLS 1.2 connections a client can use any digest, specifically a weaker digest that is...",
+    "details": "With TLS 1.2 connections a client can use any digest, specifically a weaker digest that is supported, rather than those in the CertificateRequest.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.8.4+0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-6wfx-6f8c-8wg4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9395"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12889"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-12889",
+                "imported": "2026-07-14T21:22:48.965Z",
+                "modified": "2026-06-17T08:33:09.203Z",
+                "published": "2025-11-22T00:15:54.257Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-12889",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12889",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-6wfx-6f8c-8wg4",
+                "imported": "2026-07-14T21:22:59.835Z",
+                "modified": "2025-12-04T18:30:40Z",
+                "published": "2025-11-22T00:31:21Z",
+                "url": "https://api.github.com/advisories/GHSA-6wfx-6f8c-8wg4",
+                "html_url": "https://github.com/advisories/GHSA-6wfx-6f8c-8wg4"
+            },
+            {
+                "id": "EUVD-2025-198520",
+                "imported": "2026-07-14T21:22:52.600Z",
+                "modified": "2025-12-08T15:39:52Z",
+                "published": "2025-11-21T23:06:59Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-198520",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-198520"
+            }
+        ]
+    }
+}

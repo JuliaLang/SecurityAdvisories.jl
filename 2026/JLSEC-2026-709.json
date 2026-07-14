@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-709",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-3579",
+        "EUVD-2026-13170"
+    ],
+    "details": "wolfSSL 5.8.4 on RISC-V RV32I architectures lacks a constant-time software implementation for 64-bit multiplication. The compiler-inserted __muldi3 subroutine executes in variable time based on operand values. This affects multiple SP math functions (sp_256_mul_9, sp_256_sqr_9, etc.), leading to a timing side-channel that may expose sensitive cryptographic data.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:L/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.8.4+0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9855"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-3579",
+                "imported": "2026-07-14T21:22:49.083Z",
+                "modified": "2026-06-17T10:43:48.957Z",
+                "published": "2026-03-19T20:16:14.300Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-3579",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3579",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-13170",
+                "imported": "2026-07-14T21:22:51.763Z",
+                "modified": "2026-03-24T01:36:54Z",
+                "published": "2026-03-19T19:37:23Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13170",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13170"
+            }
+        ]
+    }
+}

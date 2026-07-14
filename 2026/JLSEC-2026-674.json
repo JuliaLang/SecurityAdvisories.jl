@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-674",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2022-42905"
+    ],
+    "details": "In wolfSSL before 5.5.2, if callback functions are enabled (via the WOLFSSL_CALLBACKS flag), then a malicious TLS 1.3 client or network attacker can trigger a buffer over-read on the heap of 5 bytes. (WOLFSSL_CALLBACKS is only intended for debugging.)",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.7.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://packetstormsecurity.com/files/170610/wolfSSL-WOLFSSL_CALLBACKS-Heap-Buffer-Over-Read.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://packetstormsecurity.com/files/170610/wolfSSL-WOLFSSL_CALLBACKS-Heap-Buffer-Over-Read.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/11"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Jan/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/releases"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/releases"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/releases/tag/v5.5.2-stable"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/releases/tag/v5.5.2-stable"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-42905",
+                "imported": "2026-07-14T21:22:48.607Z",
+                "modified": "2026-06-17T05:05:34.270Z",
+                "published": "2022-11-07T00:15:09.643Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-42905",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-42905",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

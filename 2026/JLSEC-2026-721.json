@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-721",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-5393",
+        "GHSA-f4w6-5m9p-28hw",
+        "EUVD-2026-21231"
+    ],
+    "summary": "Dual-Algorithm CertificateVerify out-of-bounds read. When processing a dual-algorithm...",
+    "details": "Dual-Algorithm CertificateVerify out-of-bounds read. When processing a dual-algorithm CertificateVerify message, an out-of-bounds read can occur on crafted input. This can only occur when --enable-experimental and --enable-dual-alg-certs is used when building wolfSSL.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f4w6-5m9p-28hw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10079"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5393"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5393",
+                "imported": "2026-07-14T21:22:49.317Z",
+                "modified": "2026-06-17T10:58:57.140Z",
+                "published": "2026-04-10T00:16:35.750Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5393",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5393",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-f4w6-5m9p-28hw",
+                "imported": "2026-07-14T21:23:03.337Z",
+                "modified": "2026-04-29T15:31:38Z",
+                "published": "2026-04-10T00:30:31Z",
+                "url": "https://api.github.com/advisories/GHSA-f4w6-5m9p-28hw",
+                "html_url": "https://github.com/advisories/GHSA-f4w6-5m9p-28hw"
+            },
+            {
+                "id": "EUVD-2026-21231",
+                "imported": "2026-07-14T21:22:51.633Z",
+                "modified": "2026-04-10T15:02:58Z",
+                "published": "2026-04-09T23:02:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21231",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21231"
+            }
+        ]
+    }
+}

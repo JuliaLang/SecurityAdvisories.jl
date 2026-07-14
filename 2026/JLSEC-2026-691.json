@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-691",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-0819",
+        "GHSA-3cr6-hpf3-2hmg",
+        "EUVD-2026-13131"
+    ],
+    "summary": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality...",
+    "details": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality. In wc_PKCS7_BuildSignedAttributes(), when adding custom signed attributes, the code passes an incorrect capacity value (esd->signedAttribsCount) to EncodeAttributes() instead of the remaining available space in the fixed-size signedAttribs[7] array. When an application sets pkcs7->signedAttribsSz to a value greater than MAX_SIGNED_ATTRIBS_SZ (default 7) minus the number of default attributes already added, EncodeAttributes() writes beyond the array bounds, causing stack memory corruption. In WOLFSSL_SMALL_STACK builds, this becomes heap corruption. Exploitation requires an application that allows untrusted input to control the signedAttribs array size when calling wc_PKCS7_EncodeSignedData() or related signing functions.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.7.2+0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-3cr6-hpf3-2hmg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9630"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0819"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-0819",
+                "imported": "2026-07-14T21:22:48.976Z",
+                "modified": "2026-06-17T10:11:26.320Z",
+                "published": "2026-03-19T17:16:21.657Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-0819",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0819",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-3cr6-hpf3-2hmg",
+                "imported": "2026-07-14T21:23:02.404Z",
+                "modified": "2026-04-29T21:32:22Z",
+                "published": "2026-03-19T18:31:18Z",
+                "url": "https://api.github.com/advisories/GHSA-3cr6-hpf3-2hmg",
+                "html_url": "https://github.com/advisories/GHSA-3cr6-hpf3-2hmg"
+            },
+            {
+                "id": "EUVD-2026-13131",
+                "imported": "2026-07-14T21:22:52.050Z",
+                "modified": "2026-03-19T17:19:37Z",
+                "published": "2026-03-19T16:54:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13131",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13131"
+            }
+        ]
+    }
+}

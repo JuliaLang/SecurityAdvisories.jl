@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-743",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-6092",
+        "GHSA-576m-xh9m-c774",
+        "EUVD-2026-39573"
+    ],
+    "summary": "When HAVE_ENCRYPT_THEN_MAC is configured, the implementation could fall back to MAC-then-Encrypt...",
+    "details": "When HAVE_ENCRYPT_THEN_MAC is configured, the implementation could fall back to MAC-then-Encrypt rather than enforcing Encrypt-then-MAC.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:A/AC:H/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/U:Clear"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.7.2+0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-576m-xh9m-c774"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10167"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6092"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6092",
+                "imported": "2026-07-14T21:22:49.746Z",
+                "modified": "2026-06-27T19:55:26.953Z",
+                "published": "2026-06-25T22:17:02.507Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6092",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6092",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-576m-xh9m-c774",
+                "imported": "2026-07-14T21:23:05.410Z",
+                "modified": "2026-06-27T21:30:28Z",
+                "published": "2026-06-26T00:32:06Z",
+                "url": "https://api.github.com/advisories/GHSA-576m-xh9m-c774",
+                "html_url": "https://github.com/advisories/GHSA-576m-xh9m-c774"
+            },
+            {
+                "id": "EUVD-2026-39573",
+                "imported": "2026-07-14T21:22:51.406Z",
+                "modified": "2026-06-26T10:25:01Z",
+                "published": "2026-06-25T21:06:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39573",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-39573"
+            }
+        ]
+    }
+}

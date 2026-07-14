@@ -1,0 +1,95 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-751",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-6450",
+        "GHSA-qpch-gjf6-c9gf",
+        "EUVD-2026-39559"
+    ],
+    "summary": "A CRL critical extension bypass exists in ParseCRL_Extensions where critical extensions are not...",
+    "details": "A CRL critical extension bypass exists in ParseCRL_Extensions where critical extensions are not properly enforced, allowing a crafted CRL with an unhandled critical extension to be accepted. This only affects builds with CRL support enabled and where a crafted CRL had a trusted signature when parsed.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:A/AC:H/AT:P/PR:H/UI:P/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-qpch-gjf6-c9gf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10239"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6450"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6450",
+                "imported": "2026-07-14T21:22:49.658Z",
+                "modified": "2026-06-27T18:32:15.290Z",
+                "published": "2026-06-25T21:16:27.917Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6450",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6450",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-qpch-gjf6-c9gf",
+                "imported": "2026-07-14T21:22:57.701Z",
+                "modified": "2026-06-27T18:35:15Z",
+                "published": "2026-06-25T21:31:32Z",
+                "url": "https://api.github.com/advisories/GHSA-qpch-gjf6-c9gf",
+                "html_url": "https://github.com/advisories/GHSA-qpch-gjf6-c9gf"
+            },
+            {
+                "id": "EUVD-2026-39559",
+                "imported": "2026-07-14T21:22:51.333Z",
+                "modified": "2026-06-26T13:11:51Z",
+                "published": "2026-06-25T20:18:53Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39559",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-39559"
+            }
+        ]
+    }
+}

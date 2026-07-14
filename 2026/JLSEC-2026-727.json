@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-727",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-5477",
+        "GHSA-grqc-3vmg-p68x",
+        "EUVD-2026-21305"
+    ],
+    "summary": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to...",
+    "details": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to forge CMAC tags. The function wc_CmacUpdate used the guard `if (cmac->totalSz != 0)` to skip XOR-chaining on the first block (where digest is all-zeros and the XOR is a no-op). However, totalSz is word32 and wraps to zero after 2^28 block flushes (4 GiB), causing the guard to erroneously discard the live CBC-MAC chain state. Any two messages sharing a common suffix beyond the 4 GiB mark then produce identical CMAC tags, enabling a zero-work prefix-substitution forgery. The fix removes the guard, making the XOR unconditional; the no-op property on the first block is preserved because digest is zero-initialized by wc_InitCmac_ex.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-grqc-3vmg-p68x"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/10102"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5477"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5477",
+                "imported": "2026-07-14T21:22:49.435Z",
+                "modified": "2026-06-17T10:59:06.143Z",
+                "published": "2026-04-10T06:16:05.243Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5477",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5477",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-grqc-3vmg-p68x",
+                "imported": "2026-07-14T21:23:06.327Z",
+                "modified": "2026-04-27T18:33:06Z",
+                "published": "2026-04-10T06:31:38Z",
+                "url": "https://api.github.com/advisories/GHSA-grqc-3vmg-p68x",
+                "html_url": "https://github.com/advisories/GHSA-grqc-3vmg-p68x"
+            },
+            {
+                "id": "EUVD-2026-21305",
+                "imported": "2026-07-14T21:22:51.653Z",
+                "modified": "2026-04-10T14:04:00Z",
+                "published": "2026-04-10T05:06:22Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21305",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-21305"
+            }
+        ]
+    }
+}

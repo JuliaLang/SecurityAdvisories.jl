@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-692",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-1005",
+        "GHSA-2q9g-q8jj-fr53",
+        "EUVD-2026-13133"
+    ],
+    "summary": "Integer underflow in wolfSSL packet sniffer <= 5.8.4 allows an attacker to cause a buffer...",
+    "details": "Integer underflow in wolfSSL packet sniffer <= 5.8.4 allows an attacker to cause a buffer overflow in the AEAD decryption path by injecting a TLS record shorter than the explicit IV plus authentication tag into traffic inspected by ssl_DecodePacket. The underflow wraps a 16-bit length to a large value that is passed to AEAD decryption routines, causing heap buffer overflow and a crash. An unauthenticated attacker can trigger this remotely via malformed TLS Application Data records.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-2q9g-q8jj-fr53"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9571"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-1005"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-1005",
+                "imported": "2026-07-14T21:22:48.987Z",
+                "modified": "2026-06-17T10:14:51.830Z",
+                "published": "2026-03-19T17:16:21.873Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-1005",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-1005",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-2q9g-q8jj-fr53",
+                "imported": "2026-07-14T21:23:04.484Z",
+                "modified": "2026-04-29T21:31:19Z",
+                "published": "2026-03-19T18:31:18Z",
+                "url": "https://api.github.com/advisories/GHSA-2q9g-q8jj-fr53",
+                "html_url": "https://github.com/advisories/GHSA-2q9g-q8jj-fr53"
+            },
+            {
+                "id": "EUVD-2026-13133",
+                "imported": "2026-07-14T21:22:52.032Z",
+                "modified": "2026-03-19T17:20:03Z",
+                "published": "2026-03-19T17:00:10Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13133",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13133"
+            }
+        ]
+    }
+}

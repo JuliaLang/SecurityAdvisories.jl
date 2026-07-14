@@ -1,0 +1,69 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-710",
+    "modified": "2026-07-14T21:41:35.775Z",
+    "published": "2026-07-14T21:41:35.775Z",
+    "upstream": [
+        "CVE-2026-3580",
+        "EUVD-2026-13172"
+    ],
+    "details": "In wolfSSL 5.8.4, constant-time masking logic in sp_256_get_entry_256_9 is optimized into conditional branches (bnez) by GCC when targeting RISC-V RV32I with -O3. This transformation breaks the side-channel resistance of ECC scalar multiplication, potentially allowing a local attacker to recover secret keys via timing analysis.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:L/SI:N/SA:N"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.8.4+0"
+                        },
+                        {
+                            "fixed": "5.9.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wolfSSL_jll",
+                "purl": "pkg:julia/wolfSSL_jll?uuid=98c43586-9870-5ae5-ab22-acc77b9bbdb5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/wolfSSL/wolfssl/pull/9855"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-3580",
+                "imported": "2026-07-14T21:22:49.097Z",
+                "modified": "2026-06-17T10:43:49.067Z",
+                "published": "2026-03-19T20:16:14.450Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-3580",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-3580",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-13172",
+                "imported": "2026-07-14T21:22:51.957Z",
+                "modified": "2026-03-19T20:25:20Z",
+                "published": "2026-03-19T19:46:58Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-13172",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-13172"
+            }
+        ]
+    }
+}
