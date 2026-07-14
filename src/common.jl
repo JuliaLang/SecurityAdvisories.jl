@@ -659,7 +659,9 @@ function fetch_combinations(batch)
 
     advisories = Advisory[]
     for alias_set in alias_sets
-        ids = sort(collect(alias_set), by=preferred_id_sort)
+        # Now combine the advisories within each alias set into a single advisory in our preferred order
+        # Note that we may not have fetched an advisory for all the aliases
+        ids = sort(collect(intersect(alias_set, keys(sources))), by=preferred_id_sort)
         start_id = popfirst!(ids)
         advisory = sources[start_id]
         for id in ids
