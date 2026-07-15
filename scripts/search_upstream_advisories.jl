@@ -13,9 +13,7 @@ meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/bl
 
 isspace_or_comma(c) = isspace(c) || c == ','
 
-function main()
-    input = get(ARGS, 1, "")
-    filter_results = lowercase(get(ARGS, 2, "true")) == "true"
+function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
     advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input

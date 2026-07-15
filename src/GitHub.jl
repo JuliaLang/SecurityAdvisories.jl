@@ -268,6 +268,7 @@ function advisory(vuln)
     if exists(vuln, :cvss, :vector_string)
         push!(severities, Severity(vuln.cvss.vector_string))
     end
+    unique!(x->x.type, severities)
 
     # Credits are also messy
     credits = Credit[]
