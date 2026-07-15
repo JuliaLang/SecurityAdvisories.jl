@@ -1,0 +1,154 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-759",
+    "modified": "2026-07-15T15:02:37.321Z",
+    "published": "2026-07-15T15:02:37.321Z",
+    "upstream": [
+        "CVE-2023-38403"
+    ],
+    "details": "iperf3 before 3.14 allows peers to cause an integer overflow and heap corruption via a crafted length field.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "iperf_jll",
+                "purl": "pkg:julia/iperf_jll?uuid=c3111fcb-6a66-54cb-a6df-fd652d9c82a2"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/24"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/24"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/26"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2023/Oct/26"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/1040830"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/1040830"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cwe.mitre.org/data/definitions/130.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cwe.mitre.org/data/definitions/130.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2023-0001.txt.asc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2023-0001.txt.asc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/esnet/iperf/commit/0ef151550d96cc4460f98832df84b4a1e87c65e9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/esnet/iperf/commit/0ef151550d96cc4460f98832df84b4a1e87c65e9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/esnet/iperf/issues/1542"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/esnet/iperf/issues/1542"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00025.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BV6EBWWF4PEQKROEVXGYSTIT2MGBTLU7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BV6EBWWF4PEQKROEVXGYSTIT2MGBTLU7/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/M25Z5FHTO3XWMGP37JHJ7IIIHSGCLKEV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/M25Z5FHTO3XWMGP37JHJ7IIIHSGCLKEV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230818-0016/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230818-0016/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213984"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213984"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213985"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213985"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-38403",
+                "imported": "2026-07-15T14:04:22.028Z",
+                "modified": "2026-06-17T06:10:05.857Z",
+                "published": "2023-07-17T21:15:09.800Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-38403",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38403",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
