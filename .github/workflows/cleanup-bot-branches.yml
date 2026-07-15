@@ -1,0 +1,39 @@
+name: Cleanup bot branches
+
+# jlsec-bot pushes its PR branches to its fork, so the repository's
+# "automatically delete head branches" setting cannot remove them.
+# This nightly job deletes fork branches whose PRs have all been
+# merged or closed.
+on:
+  schedule:
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  delete-merged-branches:
+    name: Delete merged fork branches
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
+      FORK: jlsec-bot/SecurityAdvisories.jl
+      BASE: ${{ github.repository }}
+    steps:
+    - name: Delete fork branches with merged PRs
+      run: |
+        default_branch=$(gh api "repos/$FORK" --jq .default_branch)
+        gh api --paginate "repos/$FORK/branches" --jq '.[].name' | while read -r branch; do
+          if [ "$branch" = "$default_branch" ]; then
+            continue
+          fi
+          prs=$(gh api -X GET "repos/$BASE/pulls" -f head="jlsec-bot:$branch" -f state=all)
+          n_total=$(jq 'length' <<<"$prs")
+          n_open=$(jq '[.[] | select(.state == "open")] | length' <<<"$prs")
+          if [ "$n_open" -eq 0 ] && [ "$n_total" -gt 0 ]; then
+            echo "Deleting $branch (all $n_total PRs merged or closed)"
+            gh api -X DELETE "repos/$FORK/git/refs/heads/$branch"
+          else
+            echo "Keeping $branch (open PRs: $n_open, total PRs: $n_total)"
+          fi
+        done
