@@ -1,0 +1,131 @@
+{
+    "schema_version": "1.7.4",
+    "id": "JLSEC-2026-772",
+    "modified": "2026-07-15T21:25:44.755Z",
+    "published": "2026-07-15T21:25:44.755Z",
+    "upstream": [
+        "CVE-2026-8213",
+        "GHSA-8q76-c96g-j64j",
+        "EUVD-2026-28949"
+    ],
+    "summary": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this issue is the...",
+    "details": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this issue is the function GDSDfldsrch of the file frmts/hdf4/hdf-eos/GDapi.c of the component Grid File Handler. The manipulation leads to heap-based buffer overflow. An attack has to be approached locally. The exploit has been disclosed to the public and may be used. Upgrading to version 3.13.0RC1 can resolve this issue. The identifier of the patch is 3e04c0385630e4d42517046d9a4967dfccfeb7fd. It is suggested to upgrade the affected component.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:P/I:P/A:P"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "305.1300.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GDAL_jll",
+                "purl": "pkg:julia/GDAL_jll?uuid=a7073274-a066-55f0-b90d-d619367d196c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal/commit/3e04c0385630e4d42517046d9a4967dfccfeb7fd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal/issues/14399"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/OSGeo/gdal/releases/tag/v3.13.0RC1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8q76-c96g-j64j"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/biniamf/pocs/tree/main/gdal-gdsdfldsrch_oob-read"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8213"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/808128"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/362430"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/362430/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-8213",
+                "imported": "2026-07-15T18:22:32.804Z",
+                "modified": "2026-06-17T11:03:39.017Z",
+                "published": "2026-05-09T23:16:33.290Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8213",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8213",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-8q76-c96g-j64j",
+                "imported": "2026-07-15T18:22:33.947Z",
+                "modified": "2026-05-19T21:33:04Z",
+                "published": "2026-05-10T00:33:21Z",
+                "url": "https://api.github.com/advisories/GHSA-8q76-c96g-j64j",
+                "html_url": "https://github.com/advisories/GHSA-8q76-c96g-j64j"
+            },
+            {
+                "id": "EUVD-2026-28949",
+                "imported": "2026-07-15T18:22:32.901Z",
+                "modified": "2026-05-11T17:31:56Z",
+                "published": "2026-05-09T23:00:17Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-28949",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-28949"
+            }
+        ]
+    }
+}
