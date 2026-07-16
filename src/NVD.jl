@@ -296,13 +296,14 @@ function advisory(vuln)
     for (version, metrics) in pairs(get(vuln.cve, :metrics, Dict()))
         v = match(r"^cvssMetricV([234])", string(version))
         isnothing(v) && continue
-        for metric in metrics
+        for metric in sort(metrics, by=x->(x.source != "nvd@nist.gov", x.type != "Primary"))
             exists(metric, :cvssData, :vectorString) || continue
             push!(severities, Severity(
                 type = "CVSS_V"*v[1],
-                score = string(metric.cvssData.vectorString)
+                score = string(metric.cvssData.vectorString),
+                source = metric.source == "nvd@nist.gov" ? "NVD" : "CNA"
             ))
-            break # We'll just find the first such metric; there may be more
+            break # Only grab one of each type, preferring NVD's assessment over CNA
         end
     end
     db = Dict{String, Any}()

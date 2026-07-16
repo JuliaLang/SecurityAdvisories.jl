@@ -103,12 +103,14 @@ Represent a CVSS severity. If no type is given, CVSS_V2/3/4 are auto-detected.
 @kwdef struct Severity
     type::String
     score::String
+    source::Union{Nothing, String} = nothing
 end
-function Severity(score)
+function Severity(score; source = nothing)
     s = tryparse(Severity, score)
     isnothing(s) && throw(ArgumentError("cannot parse severity score $score"))
-    return s
+    return Severity(s.type, s.score, source)
 end
+Severity(type, score; source = nothing) = Severity(type, score, source)
 Base.convert(::Type{Severity}, s::AbstractString) = Severity(s)
 Base.convert(::Type{Severity}, d::AbstractDict) = Severity(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.tryparse(::Type{Severity}, score)
@@ -336,7 +338,8 @@ function combine(a::Advisory, b::Advisory)
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
         details = length(a.details) >= length(b.details) ? a.details : b.details,
-        severity = union(a.severity, b.severity),
+        # Only keep one severity of each type, preferring the first argument's if both exist
+        severity = unique!(s->s.type, vcat(a.severity, b.severity)),
         # Affected is the trickiest one when both exist; we want the "best" information here
         affected = if !isnothing(a.affected) && !isnothing(b.affected)
             pkgs = union((entry.pkg for entry in a.affected), (entry.pkg for entry in b.affected))
@@ -519,7 +522,12 @@ to_osv_dict(x::Dates.DateTime) = chopsuffix(string(x), "Z") * "Z" # All times sh
 to_osv_dict(x::Union{AbstractString, Integer, AbstractFloat, Bool}) = x
 to_osv_dict(d::AbstractDict) = OrderedDict(string(k)=>to_osv_dict(v) for (k,v) in d)
 to_osv_dict(A::AbstractArray) = [to_osv_dict(v) for v in A]
-function to_osv_dict(a::Union{Severity, Reference, Credit, AdvisorySource})
+function to_osv_dict(a::Severity)
+    # We still export with OSV-schema v1.7, which does not include the `source` field, so we omit it here
+    # We plan to include it if/when it supports the values we use in the JLSEC database (cf. https://github.com/ossf/osv-schema/issues/581)
+    return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)) && f != :source)
+end
+function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
 end
 function to_osv_dict(a::Advisory)
