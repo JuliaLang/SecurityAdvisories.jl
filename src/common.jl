@@ -562,6 +562,15 @@ function bump_all_modified_timestamps!(path=joinpath(@__DIR__, "..", "advisories
     return n
 end
 
+"""
+    fetch_updates_for_all_advisories!(; path, reset_fields)
+
+Given a path to a directory of published advisories, fetch updates for all advisories that have jlsec_sources and update them in place.
+
+This uses the originally published JLSEC as the starting point when the updates are `combine`d; to ensure a particular field is clobbered
+you can pass it in `reset_fields`. When `reset_fields` is provided, only those fields are considered when looking to see if an update is
+significant enough to warrant an update.
+"""
 function fetch_updates_for_all_advisories!(; path=joinpath(@__DIR__, "..", "advisories", "published"), reset_fields = Symbol[])
     n = 0
     for (root, _, files) in walkdir(path)
