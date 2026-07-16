@@ -1,0 +1,58 @@
+name: Fetch updates for all advisories
+
+on:
+  workflow_dispatch:
+    inputs:
+      reset_fields:
+        description: 'Comma- or space-separated advisory fields to reset to their newly-fetched values'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  fetch-updates:
+    name: >-
+      ${{
+        (inputs.reset_fields == '' || inputs.reset_fields == null) && 'Fetch updates'
+        || format('Fetch updates, resetting {0}', inputs.reset_fields)
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@v1
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Fetch updates
+      id: fetch
+      env:
+        RESET_FIELDS: ${{ inputs.reset_fields || '' }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        julia --project=. scripts/fetch_updates.jl "$RESET_FIELDS"
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        [[ $(git ls-files --others --modified --exclude-standard) ]] && echo "changes=true" >> $GITHUB_OUTPUT || echo "no changes"
+
+    - name: Create Pull Request
+      if: steps.git-check.outputs.changes == 'true'
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.JLSEC_BOT_TOKEN }}
+        committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
+        push-to-fork: jlsec-bot/SecurityAdvisories.jl
+        title: ${{ steps.fetch.outputs.title }}
+        body: ${{ steps.fetch.outputs.body }}
+        branch: ${{ steps.fetch.outputs.branch }}
