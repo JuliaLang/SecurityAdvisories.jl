@@ -260,13 +260,13 @@ function advisory(vuln)
     # GitHub stores severities all over the place
     severities = Severity[]
     if exists(vuln, :cvss_severities, :cvss_v3, :vector_string)
-        push!(severities, Severity("CVSS_V3", vuln.cvss_severities.cvss_v3.vector_string))
+        push!(severities, Severity("CVSS_V3", vuln.cvss_severities.cvss_v3.vector_string, "GHSA"))
     end
     if exists(vuln, :cvss_severities, :cvss_v4, :vector_string)
-        push!(severities, Severity("CVSS_V4", vuln.cvss_severities.cvss_v4.vector_string))
+        push!(severities, Severity("CVSS_V4", vuln.cvss_severities.cvss_v4.vector_string, "GHSA"))
     end
     if exists(vuln, :cvss, :vector_string)
-        push!(severities, Severity(vuln.cvss.vector_string))
+        push!(severities, Severity(vuln.cvss.vector_string; source = "GHSA"))
     end
     unique!(x->x.type, severities)
 

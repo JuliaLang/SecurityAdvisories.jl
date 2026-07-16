@@ -175,7 +175,7 @@ function advisory(vuln)
         # related -- nothing structured
         details = get(vuln, :description, nothing),
         severity = if exists(vuln, :baseScoreVector) && exists(vuln, :baseScoreVersion)
-                Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector))]
+                Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector), source = "EUVD")]
             else
                 Severity[]
             end,
