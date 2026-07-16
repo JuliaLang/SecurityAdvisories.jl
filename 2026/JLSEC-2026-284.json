@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-284",
-    "modified": "2026-04-28T13:07:10.945Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-28T13:07:10.945Z",
     "upstream": [
         "CVE-2022-46285"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/10/03/1"
-        },
-        {
-            "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2023/10/03/10"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/10/03/10"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2160092"
         },
         {
             "type": "WEB",
@@ -60,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/xorg/lib/libxpm/-/commit/a3a7c6dcc3b629d7650148"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/xorg/lib/libxpm/-/merge_requests/9"
-        },
-        {
-            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/xorg/lib/libxpm/-/merge_requests/9"
         },
         {
             "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.x.org/archives/xorg-announce/2023-January/003312.html"
         },
         {
             "type": "WEB",

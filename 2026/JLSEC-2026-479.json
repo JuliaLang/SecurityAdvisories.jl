@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-479",
-    "modified": "2026-05-07T17:36:47.122Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-07T17:36:47.122Z",
     "upstream": [
         "CVE-2023-45853"
@@ -73,19 +73,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/10/20/9"
-        },
-        {
-            "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2024/01/24/10"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2024/01/24/10"
-        },
-        {
-            "type": "WEB",
-            "url": "https://chromium.googlesource.com/chromium/src/+/d709fb23806858847131027da95ef4c548813356"
         },
         {
             "type": "WEB",
@@ -97,19 +85,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://chromium.googlesource.com/chromium/src/+/de29dd6c7151d3cd37cb4cf0036800ddfb1d8b61"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/madler/zlib/blob/ac8f12c97d1afd9bafa9c710f827d40a407d3266/contrib/README.contrib#L1-L4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/madler/zlib/blob/ac8f12c97d1afd9bafa9c710f827d40a407d3266/contrib/README.contrib#L1-L4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/madler/zlib/pull/843"
         },
         {
             "type": "WEB",
@@ -121,14 +97,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/11/msg00026.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://pypi.org/project/pyminizip/#history"
-        },
-        {
-            "type": "WEB",
             "url": "https://pypi.org/project/pyminizip/#history"
         },
         {
@@ -137,19 +105,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-18"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20231130-0009/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20231130-0009/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.winimage.com/zLibDll/minizip.html"
         },
         {
             "type": "WEB",

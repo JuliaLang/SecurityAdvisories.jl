@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-28",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2021-22924"
@@ -31,66 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf"
-        },
-        {
-            "type": "WEB",
-            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-484086.pdf"
-        },
-        {
-            "type": "WEB",
-            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-732250.pdf"
-        },
-        {
-            "type": "WEB",
-            "url": "https://hackerone.com/reports/1223565"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/r61db8e7dcb56dc000a5387a88f7a473bacec5ee01b9ff3f55308aacc%40%3Cdev.kafka.apache.org%3E"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/r61db8e7dcb56dc000a5387a88f7a473bacec5ee01b9ff3f55308aacc%40%3Cusers.kafka.apache.org%3E"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/rbf4ce74b0d1fa9810dec50ba3ace0caeea677af7c27a97111c06ccb7%40%3Cdev.kafka.apache.org%3E"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/rbf4ce74b0d1fa9810dec50ba3ace0caeea677af7c27a97111c06ccb7%40%3Cusers.kafka.apache.org%3E"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2021/08/msg00017.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FRUCW2UVNYUDZF72DQLFQR4PJEC6CF7V/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20210902-0003/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2022/dsa-5197"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpujan2022.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
-        },
         {
             "type": "WEB",
             "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf"

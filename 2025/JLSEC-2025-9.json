@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-9",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-09T17:12:21.975Z",
     "upstream": [
         "CVE-2025-53015"
@@ -34,10 +34,6 @@
         {
             "type": "WEB",
             "url": "https://drive.google.com/file/d/1iegkwlTjqnJTtM4XkiheYsjKsC6pxtId/view?usp=sharing"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-vmhh-8rxq-fp9g"
         },
         {
             "type": "WEB",

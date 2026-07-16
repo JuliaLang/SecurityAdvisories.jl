@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-201",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-10932"
@@ -31,30 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FCWN5HIF4CJ2LZTOMEBJ7Q4IMMV7ZU2V/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ZNOS2IIBH5WNJXZUV546PY7666DE7Y3L/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/releases/mbedtls-2.16.6-and-2.7.15-released"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories/mbedtls-security-advisory-2020-04"
-        },
         {
             "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"

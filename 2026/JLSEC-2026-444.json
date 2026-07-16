@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-444",
-    "modified": "2026-05-05T15:51:30.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2019-17595"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00059.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00061.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00061.html"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00013.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00045.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.gnu.org/archive/html/bug-ncurses/2019-10/msg00045.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202101-28"
         },
         {
             "type": "WEB",

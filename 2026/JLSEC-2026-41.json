@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-41",
-    "modified": "2026-04-03T13:27:15.647Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2023-2455"
@@ -30,18 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-2455"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230706-0006/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.postgresql.org/support/security/CVE-2023-2455/"
-        },
         {
             "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2023-2455"

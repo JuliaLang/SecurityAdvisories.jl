@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-318",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2025-8177"
@@ -54,14 +54,6 @@
         {
             "type": "WEB",
             "url": "https://vuldb.com/?id.317591"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?submit.621797"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/issues/715"
         },
         {
             "type": "WEB",

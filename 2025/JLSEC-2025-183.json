@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-183",
-    "modified": "2026-05-06T22:11:20.047Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-21T19:17:09.363Z",
     "upstream": [
         "CVE-2020-12279"
@@ -37,19 +37,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/git/git/security/advisories/GHSA-589j-mmg9-733v"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/libgit2/libgit2/commit/64c612cc3e25eff5fb02c59ef5a66ba7a14751e4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libgit2/libgit2/commit/64c612cc3e25eff5fb02c59ef5a66ba7a14751e4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libgit2/libgit2/releases/tag/v0.28.4"
         },
         {
             "type": "WEB",
@@ -61,19 +49,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/libgit2/libgit2/releases/tag/v0.99.0"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/03/msg00031.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/02/msg00034.html"
         },
         {
             "type": "WEB",

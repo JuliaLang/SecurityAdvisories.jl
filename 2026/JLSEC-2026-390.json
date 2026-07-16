@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-390",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-27781"
@@ -56,14 +56,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://hackerone.com/reports/1555441"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
         },
         {
@@ -72,19 +64,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202212-01"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20220609-0009/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20220609-0009/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2022/dsa-5197"
         },
         {
             "type": "WEB",

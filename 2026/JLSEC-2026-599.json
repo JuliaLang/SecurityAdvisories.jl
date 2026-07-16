@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-599",
-    "modified": "2026-06-08T13:43:52.905Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-06-08T13:43:52.905Z",
     "upstream": [
         "CVE-2023-51258"
@@ -27,10 +27,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/hanxuer/crashes/blob/main/yasm/04/readme.md"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/hanxuer/crashes/blob/main/yasm/04/readme.md"

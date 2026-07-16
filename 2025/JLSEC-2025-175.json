@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-175",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-21T17:24:37.757Z",
     "upstream": [
         "CVE-2023-25193"
@@ -9,26 +9,6 @@
     "summary": "hb-ot-layout-gsubgpos.hh in HarfBuzz through 6.0.0 allows attackers to trigger O(n^2) growth via con...",
     "details": "hb-ot-layout-gsubgpos.hh in HarfBuzz through 6.0.0 allows attackers to trigger O(n^2) growth via consecutive marks during the process of looking back for base glyphs when attaching marks.",
     "affected": [
-        {
-            "ranges": [
-                {
-                    "type": "SEMVER",
-                    "events": [
-                        {
-                            "introduced": "0"
-                        },
-                        {
-                            "fixed": "8.3.1+0"
-                        }
-                    ]
-                }
-            ],
-            "package": {
-                "ecosystem": "Julia",
-                "name": "HarfBuzz_jll",
-                "purl": "pkg:julia/HarfBuzz_jll?uuid=2e76f6c2-a576-52d4-95c1-20adfe4de566"
-            }
-        },
         {
             "ranges": [
                 {
@@ -48,33 +28,29 @@
                 "name": "HarfBuzz_ICU_jll",
                 "purl": "pkg:julia/HarfBuzz_ICU_jll?uuid=655565e8-fb53-5cb3-b0cd-aec1ca0647ea"
             }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.3.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HarfBuzz_jll",
+                "purl": "pkg:julia/HarfBuzz_jll?uuid=2e76f6c2-a576-52d4-95c1-20adfe4de566"
+            }
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://chromium.googlesource.com/chromium/src/+/e1f324aa681af54101c1f2d173d92adb80e37088/DEPS#361"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/harfbuzz/harfbuzz/blob/2822b589bc837fae6f66233e2cf2eef0f6ce8470/src/hb-ot-layout-gsubgpos.hh"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/harfbuzz/harfbuzz/commit/85be877925ddbf34f74a1229f3ca1716bb6170dc"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/KWCHWSICWVZSAXP2YAXM65JC2GR53547/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/YZ5M2GSAIHFPLHYJXUPQ2QDJCLWXUGO3/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230725-0006/"
-        },
         {
             "type": "WEB",
             "url": "https://chromium.googlesource.com/chromium/src/+/e1f324aa681af54101c1f2d173d92adb80e37088/DEPS#361"

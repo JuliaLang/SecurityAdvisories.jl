@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-30",
-    "modified": "2026-04-03T13:27:15.647Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2021-23222"
@@ -30,26 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2022675"
-        },
-        {
-            "type": "WEB",
-            "url": "https://git.postgresql.org/gitweb/?p=postgresql.git%3Ba=commitdiff%3Bh=d83cdfdca9d918bbbd6bb209139b94c954da7228"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/postgres/postgres/commit/160c0258802d10b0600d7671b1bbea55d8e17d45"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202211-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.postgresql.org/support/security/CVE-2021-23222/"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2022675"

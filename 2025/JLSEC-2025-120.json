@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-120",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2022-3964"
@@ -31,18 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/92f9b28ed84a77138105475beba16c146bdaf984"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202312-14"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?id.213543"
-        },
         {
             "type": "WEB",
             "url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/92f9b28ed84a77138105475beba16c146bdaf984"

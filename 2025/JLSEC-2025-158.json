@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-158",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2021-28153"
@@ -31,30 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2325"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/06/msg00006.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RXTD5HCP2K4AAUSWWZTBKQNHRCTAEOF/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ICUTQPHZNZWX2DZR46QFLQZRHVMHIILJ/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202107-13"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20210416-0003/"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2325"

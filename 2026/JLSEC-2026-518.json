@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-518",
-    "modified": "2026-05-26T14:17:50.003Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2020-13777"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00015.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://gnutls.org/security-new.html#GNUTLS-SA-2020-06-03"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gnutls.org/security-new.html#GNUTLS-SA-2020-06-03"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6C4DHUKV6M6SJ5CV6KVHZNHNF7HCUE5P/"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6RTXZOXC4MHTFE2HKY6IAZMF2WHD2WMV/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RRQBFK3UZ7SV76IYDTS4PS6ABS2DSJHK/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RRQBFK3UZ7SV76IYDTS4PS6ABS2DSJHK/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/VMB3UGI5H5RCFRU6OGRPMNUCNLJGEN7Y/"
         },
         {
             "type": "WEB",
@@ -84,27 +60,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202006-01"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20200619-0004/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20200619-0004/"
         },
         {
             "type": "WEB",
             "url": "https://usn.ubuntu.com/4384-1/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/4384-1/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2020/dsa-4697"
         },
         {
             "type": "WEB",

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-446",
-    "modified": "2026-05-05T15:51:30.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2020-19186"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Dec/10"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Dec/11"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Dec/11"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Dec/9"
         },
         {
             "type": "WEB",
@@ -60,14 +48,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/zjuchenyuan/fuzzpoc/blob/master/infotocap_poc2.md"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20231006-0005/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20231006-0005/"
         },
         {
@@ -76,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214036"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT214037"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214037"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214038"
         },
         {
             "type": "WEB",

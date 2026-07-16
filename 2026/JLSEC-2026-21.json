@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-21",
-    "modified": "2026-04-01T18:37:49.977Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-01T18:37:49.977Z",
     "upstream": [
         "CVE-2020-22219"
@@ -31,22 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/xiph/flac/issues/215"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/09/msg00028.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ZD2AJTU4PCJQP7HPTS2L2ELJWBASCRGD/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2023/dsa-5500"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/xiph/flac/issues/215"

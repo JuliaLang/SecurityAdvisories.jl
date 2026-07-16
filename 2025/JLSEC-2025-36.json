@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-36",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2024-6197"
@@ -51,26 +51,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2024/07/24/1"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2024/07/24/5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://curl.se/docs/CVE-2024-6197.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://curl.se/docs/CVE-2024-6197.json"
-        },
-        {
-            "type": "WEB",
-            "url": "https://hackerone.com/reports/2559516"
-        },
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2024/07/24/1"

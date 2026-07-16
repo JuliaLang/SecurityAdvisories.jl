@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-203",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-24119"
@@ -31,30 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/UzL-ITS/util-lookup/blob/main/cve-vulnerability-publication.md"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2021/11/msg00021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/DRRVY7DMTX3ECFNZKDYTSFEG5AI2HBC6/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/EYJW7HAW3TDV2YMDFYXP3HD6WRQRTLJW/"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/ARMmbed/mbedtls/releases"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-675",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2022-42961"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/wolfSSL/wolfssl/releases/tag/v5.5.0-stable"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/wolfSSL/wolfssl/releases/tag/v5.5.0-stable"

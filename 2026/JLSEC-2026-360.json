@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-360",
-    "modified": "2026-04-30T11:53:44.984Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-30T11:53:44.984Z",
     "upstream": [
         "CVE-2021-38115"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/libgd/libgd/issues/697"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/libgd/libgd/pull/711/commits/8b111b2b4a4842179be66db68d84dda91a246032"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libgd/libgd/pull/711/commits/8b111b2b4a4842179be66db68d84dda91a246032"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/04/msg00003.html"
         },
         {
             "type": "WEB",

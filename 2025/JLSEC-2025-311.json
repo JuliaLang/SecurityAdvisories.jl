@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-311",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-40090"
@@ -31,14 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/issues/455"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/merge_requests/386"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.com/libtiff/libtiff/-/issues/455"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-459",
-    "modified": "2026-05-07T14:50:29.650Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-07T14:50:29.650Z",
     "upstream": [
         "CVE-2022-27406"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://freetype.com"
-        },
-        {
-            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/freetype/freetype/-/issues/1140"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/freetype/freetype/-/issues/1140"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/EFPNRKDLCXHZVYYQLQMP44UHLU32GA6Z/"
         },
         {
             "type": "WEB",
@@ -60,14 +48,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FDU2FOEMCEF6WVR6ZBIH5MT5O7FAK6UP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/IWQ7IB2A75MEHM63WEUXBYEC7OR5SGDY/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/IWQ7IB2A75MEHM63WEUXBYEC7OR5SGDY/"
         },
         {
@@ -76,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NYVC2NPKKXKP3TWJWG4ONYWNO6ZPHLA5/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TCEMWCM46PKM4U5ENRASPKQD6JDOLKRU/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TCEMWCM46PKM4U5ENRASPKQD6JDOLKRU/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202402-06"
         },
         {
             "type": "WEB",

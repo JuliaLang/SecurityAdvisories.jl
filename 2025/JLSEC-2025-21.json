@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-21",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-10T14:27:45.619Z",
     "upstream": [
         "CVE-2022-42012"
@@ -31,30 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/dbus/dbus/-/issues/417"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/E4CO7N226I3X5FNBR2MACCH6TS764VJP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ND74SKN56BCYL3QLEAAB6E64UUBRA5UG/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SQCSLMCK2XGX23R2DKW2MSAICQAK6MT2/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202305-08"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2022/10/06/1"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.freedesktop.org/dbus/dbus/-/issues/417"

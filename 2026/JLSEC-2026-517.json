@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-517",
-    "modified": "2026-05-20T04:02:19.667Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-20T04:02:19.667Z",
     "upstream": [
         "CVE-2021-20237"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1921989"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1921989"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/zeromq/libzmq/security/advisories/GHSA-4p5v-h92w-6wxw"
         },
         {
             "type": "WEB",

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-539",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2020-27842"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1907513"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/WJUPGIZE6A4O52EBOF75MCXJOL6MUCRV/"
         },
         {
             "type": "WEB",
@@ -60,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202101-29"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2021/dsa-4882"
-        },
-        {
-            "type": "WEB",
             "url": "https://www.debian.org/security/2021/dsa-4882"
         },
         {
             "type": "WEB",
             "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpuApr2021.html"
         },
         {
             "type": "WEB",

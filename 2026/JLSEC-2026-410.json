@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-410",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2023-28322"
@@ -56,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jul/47"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Jul/48"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jul/48"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jul/52"
         },
         {
             "type": "WEB",
@@ -80,19 +68,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://hackerone.com/reports/1954658"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2023/12/msg00015.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/12/msg00015.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/F4I75RDGX5ULSSCBE5BF3P5I5SFO7ULQ/"
         },
         {
             "type": "WEB",
@@ -104,19 +80,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/Z2LIWHWKOVH24COGGBCVOWDXXIUPKOMK/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230609-0009/"
         },
         {
             "type": "WEB",
@@ -128,19 +92,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213843"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT213844"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213844"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213845"
         },
         {
             "type": "WEB",

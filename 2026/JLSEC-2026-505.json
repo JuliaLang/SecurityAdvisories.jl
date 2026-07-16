@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-505",
-    "modified": "2026-05-18T14:23:04.937Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-18T14:23:04.937Z",
     "upstream": [
         "CVE-2019-18797"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/sass/libsass/issues/3000"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/sass/libsass/issues/3000"

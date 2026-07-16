@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-62",
-    "modified": "2026-04-08T16:01:54.180Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-08T16:01:54.180Z",
     "upstream": [
         "CVE-2024-3094"
@@ -30,22 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2024-3094"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2272210"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2024/03/29/4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.redhat.com/en/blog/urgent-security-alert-fedora-41-and-rawhide-users"
-        },
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2024/03/29/10"

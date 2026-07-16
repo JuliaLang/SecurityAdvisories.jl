@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-92",
-    "modified": "2026-04-13T14:33:47.115Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-13T14:33:47.115Z",
     "upstream": [
         "CVE-2023-36054"
@@ -30,30 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/krb5/krb5/commit/ef08b09c9459551aabbe7924fb176f1583053cdd"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/krb5/krb5/compare/krb5-1.20.1-final...krb5-1.20.2-final"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/krb5/krb5/compare/krb5-1.21-final...krb5-1.21.1-final"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00031.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230908-0004/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://web.mit.edu/kerberos/www/advisories/"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/krb5/krb5/commit/ef08b09c9459551aabbe7924fb176f1583053cdd"

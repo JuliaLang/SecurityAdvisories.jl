@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-61",
-    "modified": "2026-04-08T16:01:54.180Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-08T16:01:54.180Z",
     "upstream": [
         "CVE-2022-1271"
@@ -50,42 +50,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2022-1271"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2073310"
-        },
-        {
-            "type": "WEB",
-            "url": "https://git.tukaani.org/?p=xz.git%3Ba=commit%3Bh=69d1b3fc29677af8ade8dc15dba83f0589cb63d6"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.gnu.org/r/bug-gzip/2022-04/msg00011.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security-tracker.debian.org/tracker/CVE-2022-1271"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202209-01"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20220930-0006/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tukaani.org/xz/xzgrep-ZDI-CAN-16587.patch"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2022/04/07/8"
-        },
         {
             "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2022-1271"

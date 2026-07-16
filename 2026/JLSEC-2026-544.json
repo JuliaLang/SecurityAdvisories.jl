@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-544",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2020-8112"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2020:0550"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2020:0569"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2020:0569"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2020:0570"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2020:0694"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/uclouvain/openjpeg/issues/1231"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/uclouvain/openjpeg/issues/1231"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2020/01/msg00035.html"
         },
         {
             "type": "WEB",
@@ -84,14 +60,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/EFM77GIFWHOECNIERYJQPI2ZJU57GZD5/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/EFM77GIFWHOECNIERYJQPI2ZJU57GZD5/"
         },
         {
@@ -100,19 +68,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TFEVEKETJV7GOXD5RDWL35ESEDHC663E/"
-        },
-        {
-            "type": "WEB",
             "url": "https://www.debian.org/security/2021/dsa-4882"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2021/dsa-4882"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpujul2020.html"
         },
         {
             "type": "WEB",

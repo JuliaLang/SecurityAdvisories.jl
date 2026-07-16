@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-399",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-42916"
@@ -56,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jan/19"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2022/12/21/1"
         },
         {
             "type": "WEB",
@@ -80,19 +68,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://curl.se/docs/CVE-2022-42916.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/37YEVVC6NAF6H7UHH6YAUY5QEVY6LIH2/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/37YEVVC6NAF6H7UHH6YAUY5QEVY6LIH2/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/HVU3IMZCKR4VE6KJ4GCWRL2ILLC6OV76/"
         },
         {
             "type": "WEB",
@@ -104,14 +80,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/Q27V5YYMXUVI6PRZQVECON32XPVWTKDK/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202212-01"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202212-01"
         },
         {
@@ -120,19 +88,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20221209-0010/"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT213604"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213604"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213605"
         },
         {
             "type": "WEB",

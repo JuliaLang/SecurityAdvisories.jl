@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-72",
-    "modified": "2026-04-09T21:32:46.691Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2025-26465"
@@ -32,6 +32,18 @@
     "references": [
         {
             "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/Feb/18"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/May/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/May/8"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2025:16823"
         },
         {
@@ -56,27 +68,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2344780"
-        },
-        {
-            "type": "WEB",
-            "url": "https://seclists.org/oss-sec/2025/q1/144"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2025/Feb/18"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2025/May/7"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2025/May/8"
-        },
-        {
-            "type": "WEB",
             "url": "https://blog.qualys.com/vulnerabilities-threat-research/2025/02/18/qualys-tru-discovers-two-vulnerabilities-in-openssh-cve-2025-26465-cve-2025-26466"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2344780"
         },
         {
             "type": "WEB",
@@ -93,6 +89,10 @@
         {
             "type": "WEB",
             "url": "https://lists.mindrot.org/pipermail/openssh-unix-announce/2025-February/000161.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/oss-sec/2025/q1/144"
         },
         {
             "type": "WEB",
@@ -129,10 +129,6 @@
         {
             "type": "WEB",
             "url": "https://www.vicarius.io/vsociety/posts/cve-2025-26465-mitigate-vulnerable-openssh"
-        },
-        {
-            "type": "WEB",
-            "url": "https://seclists.org/oss-sec/2025/q1/144"
         }
     ],
     "database_specific": {

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-220",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2022-46393"
@@ -31,26 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/Mbed-TLS/mbedtls/releases/tag/v2.28.2"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/Mbed-TLS/mbedtls/releases/tag/v3.3.0"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/4BR7ZCVKLPGCOEEALUHZMFHXQHR6S4QL/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6XMKJ5IMJEPXYAHHU56Z4P2FSYIEAESB/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://mbed-tls.readthedocs.io/en/latest/tech-updates/security-advisories/"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/Mbed-TLS/mbedtls/releases/tag/v2.28.2"

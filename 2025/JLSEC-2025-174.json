@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-174",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-21T17:24:37.757Z",
     "upstream": [
         "CVE-2018-18751"
@@ -31,38 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00061.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00065.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-09/msg00025.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2019:3643"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/doublefree"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/CCCCCrash/POCs/tree/master/Bin/Tools-gettext-0.19.8.1/heapcorruption"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/3815-1/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/3815-2/"
-        },
         {
             "type": "WEB",
             "url": "http://lists.opensuse.org/opensuse-security-announce/2020-08/msg00061.html"

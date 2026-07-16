@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-30",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2023-27536"
@@ -51,26 +51,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://hackerone.com/reports/1895135"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/04/msg00025.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/36NBD5YLJXXEDZLDGNFCERWRYJQ6LAQW/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230420-0010/"
-        },
         {
             "type": "WEB",
             "url": "https://hackerone.com/reports/1895135"

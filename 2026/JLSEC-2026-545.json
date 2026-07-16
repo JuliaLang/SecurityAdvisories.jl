@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-545",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2021-29338"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/uclouvain/openjpeg/issues/1338"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
         },
         {
@@ -56,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/EZ54FGM2IGAP4AWSJ22JKHOPHCR3FGYU/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/QB6AI7CWXWMEDZIQY4LQ6DMIEXMDOHUP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/QB6AI7CWXWMEDZIQY4LQ6DMIEXMDOHUP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202209-04"
         },
         {
             "type": "WEB",

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-581",
-    "modified": "2026-06-08T13:15:35.983Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-06-08T13:15:35.983Z",
     "upstream": [
         "CVE-2021-30560"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://chromereleases.googleblog.com/2021/07/stable-channel-update-for-desktop.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://crbug.com/1219209"
-        },
-        {
-            "type": "WEB",
             "url": "https://crbug.com/1219209"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/09/msg00010.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202310-23"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-23"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2022/dsa-5216"
         },
         {
             "type": "WEB",

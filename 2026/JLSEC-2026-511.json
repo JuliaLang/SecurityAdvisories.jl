@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-511",
-    "modified": "2026-05-19T01:34:38.069Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-19T01:34:38.069Z",
     "upstream": [
         "CVE-2019-20446"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-03/msg00024.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/librsvg/issues/515"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/librsvg/issues/515"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00016.html"
         },
         {
             "type": "WEB",
@@ -60,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6IOHSO6BUKC6I66J5PZOMAGFVJ66ZS57/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/X3B5RWJQD5LA45MYLLR55KZJOJ5NVZGP/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/X3B5RWJQD5LA45MYLLR55KZJOJ5NVZGP/"
         },
         {
             "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20221111-0004/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20221111-0004/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/4436-1/"
         },
         {
             "type": "WEB",

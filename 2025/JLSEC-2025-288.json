@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-288",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-3970"
@@ -31,38 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00018.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://oss-fuzz.com/download?testcase_id=5738253143900160"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20221215-0009/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213841"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213843"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?id.213549"
-        },
         {
             "type": "WEB",
             "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137"

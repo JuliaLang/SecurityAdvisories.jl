@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-46",
-    "modified": "2026-04-03T13:27:15.647Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2024-0985"
@@ -30,18 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00017.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://saites.dev/projects/personal/postgres-cve-2024-0985/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.postgresql.org/support/security/CVE-2024-0985/"
-        },
         {
             "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00017.html"

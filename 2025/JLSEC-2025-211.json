@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-211",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-36476"
@@ -31,26 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.8"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.24.0"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.7.17"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2021/11/msg00021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.8"

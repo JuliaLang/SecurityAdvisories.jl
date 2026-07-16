@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-218",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2022-35409"
@@ -31,18 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/Mbed-TLS/mbedtls/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://mbed-tls.readthedocs.io/en/latest/security-advisories/advisories/mbedtls-security-advisory-2022-07.html"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/Mbed-TLS/mbedtls/releases"

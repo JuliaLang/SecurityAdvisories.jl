@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-6",
-    "modified": "2026-03-24T16:21:52.681Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-03-24T16:21:52.681Z",
     "upstream": [
         "CVE-2025-66293"
@@ -33,6 +33,18 @@
     "references": [
         {
             "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/8"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/pnggroup/libpng/commit/788a624d7387a758ffd5c7ab010f1870dea753a1"
         },
         {
@@ -46,22 +58,6 @@
         {
             "type": "WEB",
             "url": "https://github.com/pnggroup/libpng/security/advisories/GHSA-9mpm-9pxh-mg4f"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/6"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/7"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2025/12/03/8"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/pnggroup/libpng/issues/764"
         }
     ],
     "database_specific": {

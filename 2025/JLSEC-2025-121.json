@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-121",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2022-3109"
@@ -51,26 +51,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2153551"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/FFmpeg/FFmpeg/commit/656cb0450aeb73b25d7d26980af342b37ac4c568"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00016.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/KOMB6WRUC55VWV25IKJTV22KARBUGWGQ/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2023/dsa-5394"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2153551"

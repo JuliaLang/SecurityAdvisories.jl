@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-271",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-1623"
@@ -31,38 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2022/CVE-2022-1623.json"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/commit/b4e79bfa0c7d2d08f6f1e7ec38143fc8cb11394a"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/-/issues/410"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/C7IWZTB4J2N4F5OR5QY4VHDSKWKZSWN3/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UXAFOP6QQRNZD3HPZ6BMCEZZOM4YIZMK/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202210-10"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20220616-0005/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2023/dsa-5333"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.com/gitlab-org/cves/-/blob/master/2022/CVE-2022-1623.json"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-547",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2022-1122"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/uclouvain/openjpeg/issues/1368"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/04/msg00006.html"
         },
         {
@@ -56,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/MIWSQFQWXDU4MT3XTVAO6HC7TVL3NHS7/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RMKBAMK2CAM5TMC5TODKVCE5AAPTD5YV/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RMKBAMK2CAM5TMC5TODKVCE5AAPTD5YV/"
         },
         {
             "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ROSN5NRUFOH7HGLJ4ZSKPGAKLFXJALW4/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ROSN5NRUFOH7HGLJ4ZSKPGAKLFXJALW4/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202209-04"
         },
         {
             "type": "WEB",

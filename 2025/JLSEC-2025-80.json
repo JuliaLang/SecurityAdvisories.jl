@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-80",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2023-29469"
@@ -37,22 +37,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/510"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.10.4"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/04/msg00031.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230601-0006/"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/510"

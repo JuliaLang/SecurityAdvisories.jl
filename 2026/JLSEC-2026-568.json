@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-568",
-    "modified": "2026-06-05T15:18:28.412Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-06-05T15:18:28.412Z",
     "upstream": [
         "CVE-2023-2618"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/opencv/opencv_contrib/pull/3484"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/opencv/opencv_contrib/pull/3484/commits/2b62ff6181163eea029ed1cab11363b4996e9cd6"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/opencv/opencv_contrib/pull/3484/commits/2b62ff6181163eea029ed1cab11363b4996e9cd6"
         },
         {
             "type": "WEB",
             "url": "https://vuldb.com/?ctiid.228548"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?ctiid.228548"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?id.228548"
         },
         {
             "type": "WEB",

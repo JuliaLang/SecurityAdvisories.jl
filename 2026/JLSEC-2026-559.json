@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-559",
-    "modified": "2026-05-26T19:45:06.761Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2021-45985"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2021-12/msg00019.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/lua/lua/commit/cf613cdc6fa367257fc61c256f63d917350858b5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/lua/lua/commit/cf613cdc6fa367257fc61c256f63d917350858b5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.lua.org/bugs.html#5.4.3-11"
         },
         {
             "type": "WEB",

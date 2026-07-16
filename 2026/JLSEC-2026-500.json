@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-500",
-    "modified": "2026-05-18T13:20:11.997Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-18T13:20:11.997Z",
     "upstream": [
         "CVE-2023-38745"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/jgm/pandoc/commit/eddedbfc14916aa06fc01ff04b38aeb30ae2e625"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/jgm/pandoc/compare/3.1.5...3.1.6"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/jgm/pandoc/compare/3.1.5...3.1.6"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00029.html"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/JGRJHU2FTSGTHHRTNDF7STEKLKKA25JN/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LYP3FKDS3KAYMQUZVVL73IUI4CWSKLKP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LYP3FKDS3KAYMQUZVVL73IUI4CWSKLKP/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/QI6RBP6ZKVC2OOCV6SU2FUHPMAXDDJFU/"
         },
         {
             "type": "WEB",

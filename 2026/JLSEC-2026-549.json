@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-549",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2023-39328"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2023-39328"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-39328"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2219236"
         },
         {
             "type": "WEB",

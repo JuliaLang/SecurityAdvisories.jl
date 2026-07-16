@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-99",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
         "CVE-2021-41641"
@@ -30,14 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/denoland/deno/issues/12152"
-        },
-        {
-            "type": "WEB",
-            "url": "https://hackers.report/report/614876917a7b150012836bb8"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/denoland/deno/issues/12152"

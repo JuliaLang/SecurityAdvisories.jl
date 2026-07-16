@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-400",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-43551"
@@ -56,27 +56,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://hackerone.com/reports/1755083"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TVWZW5CNSJ7UYAF2BGSYAWAEXDJYUBHA/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TVWZW5CNSJ7UYAF2BGSYAWAEXDJYUBHA/"
         },
         {
             "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230427-0007/"
         },
         {
             "type": "WEB",

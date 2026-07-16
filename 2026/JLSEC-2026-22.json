@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-22",
-    "modified": "2026-04-03T13:08:33.428Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:08:33.428Z",
     "upstream": [
         "CVE-2017-11692"
@@ -30,14 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/jbeder/yaml-cpp/issues/519"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202007-14"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/jbeder/yaml-cpp/issues/519"

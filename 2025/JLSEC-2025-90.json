@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-90",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2025-32415"
@@ -37,10 +37,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/890"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/890"

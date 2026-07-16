@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-94",
-    "modified": "2026-04-13T14:33:47.115Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-13T14:33:47.115Z",
     "upstream": [
         "CVE-2024-37371"
@@ -30,14 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/krb5/krb5/commit/55fbf435edbe2e92dd8101669b1ce7144bc96fef"
-        },
-        {
-            "type": "WEB",
-            "url": "https://web.mit.edu/kerberos/www/advisories/"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/krb5/krb5/commit/55fbf435edbe2e92dd8101669b1ce7144bc96fef"

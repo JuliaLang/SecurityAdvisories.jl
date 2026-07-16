@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-155",
-    "modified": "2026-04-20T18:02:38.348Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-20T18:02:38.348Z",
     "upstream": [
         "CVE-2020-26682"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2020/11/19/7"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libass/libass/issues/431"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/libass/libass/issues/431"
         },
         {
             "type": "WEB",
             "url": "https://github.com/libass/libass/pull/432"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libass/libass/pull/432"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202012-12"
         },
         {
             "type": "WEB",

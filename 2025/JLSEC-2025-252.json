@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-252",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2019-7663"
@@ -31,38 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "http://bugzilla.maptools.org/show_bug.cgi?id=2833"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-04/msg00041.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.com/libtiff/libtiff/commit/802d3cbf3043be5dce5317e140ccb1c17a6a2d39"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2019/02/msg00026.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202003-25"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/3906-1/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/3906-2/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2020/dsa-4670"
-        },
         {
             "type": "WEB",
             "url": "http://bugzilla.maptools.org/show_bug.cgi?id=2833"

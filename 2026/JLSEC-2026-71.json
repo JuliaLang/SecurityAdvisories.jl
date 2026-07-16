@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-71",
-    "modified": "2026-04-09T21:32:46.691Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2024-6387"
@@ -30,54 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4312"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4340"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4389"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4469"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4474"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4479"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:4484"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2024-6387"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2294604"
-        },
-        {
-            "type": "WEB",
-            "url": "https://santandersecurityresearch.github.io/blog/sshing_the_masses.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openssh.com/txt/release-9.8"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.qualys.com/2024/07/01/cve-2024-6387/regresshion.txt"
-        },
         {
             "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2024/Jul/18"

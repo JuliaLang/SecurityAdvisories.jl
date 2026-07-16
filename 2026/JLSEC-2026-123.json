@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-123",
-    "modified": "2026-04-17T13:07:52.234Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-17T13:07:52.234Z",
     "upstream": [
         "CVE-2021-33560"
@@ -30,54 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://dev.gnupg.org/T5305"
-        },
-        {
-            "type": "WEB",
-            "url": "https://dev.gnupg.org/T5328"
-        },
-        {
-            "type": "WEB",
-            "url": "https://dev.gnupg.org/T5466"
-        },
-        {
-            "type": "WEB",
-            "url": "https://dev.gnupg.org/rCe8b7f10be275bcedb5fc05ed4837a89bfd605c61"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BKKTOIGFW2SGN3DO2UHHVZ7MJSYN4AAB/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/R7OAPCUGPF3VLA7QAJUQSL255D4ITVTL/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202210-13"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpuapr2022.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpujan2022.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpujul2022.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpuoct2021.html"
-        },
         {
             "type": "WEB",
             "url": "https://dev.gnupg.org/T5305"

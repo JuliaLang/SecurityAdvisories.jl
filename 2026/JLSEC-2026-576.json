@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-576",
-    "modified": "2026-06-06T03:56:25.335Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-06-06T03:56:25.335Z",
     "upstream": [
         "CVE-2021-3580"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1967983"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2021/09/msg00008.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2021/09/msg00008.html"
         },
         {
             "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202401-24"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-24"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20211104-0006/"
         },
         {
             "type": "WEB",

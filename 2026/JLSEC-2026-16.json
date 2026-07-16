@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-16",
-    "modified": "2026-03-31T16:50:26.988Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-03-31T16:50:26.988Z",
     "upstream": [
         "CVE-2019-13636"
@@ -30,54 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://git.savannah.gnu.org/cgit/patch.git/commit/?id=dce4683cbbe107a95f1f0d45fabc304acfb5d71a"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/irsl/gnu-patch-vulnerabilities"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2019/07/msg00016.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/SVWWGISFWACROJJPVJJL4UBLVZ7LPOLT/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://seclists.org/bugtraq/2019/Aug/29"
-        },
-        {
-            "type": "WEB",
-            "url": "https://seclists.org/bugtraq/2019/Jul/54"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/201908-22"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20190828-0001/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/4071-1/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://usn.ubuntu.com/4071-2/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2019/dsa-4489"
-        },
         {
             "type": "WEB",
             "url": "http://packetstormsecurity.com/files/154124/GNU-patch-Command-Injection-Directory-Traversal.html"

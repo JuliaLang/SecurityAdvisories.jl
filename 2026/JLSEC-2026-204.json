@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-204",
-    "modified": "2026-04-27T13:45:07.015Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-27T13:45:07.015Z",
     "upstream": [
         "CVE-2022-46456"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.nasm.us/show_bug.cgi?id=3392814"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.nasm.us/show_bug.cgi?id=3392814"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-330",
-    "modified": "2025-12-01T22:31:38.231Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-12-01T22:31:38.231Z",
     "upstream": [
         "CVE-2025-64720"
@@ -42,10 +42,6 @@
         {
             "type": "WEB",
             "url": "https://github.com/pnggroup/libpng/pull/751"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/pnggroup/libpng/security/advisories/GHSA-hfc7-ph9c-wcww"
         },
         {
             "type": "WEB",

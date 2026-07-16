@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-278",
-    "modified": "2026-04-27T20:35:04.206Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-27T20:35:04.206Z",
     "upstream": [
         "CVE-2020-28924"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/rclone/rclone/issues/4783"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UJIFT24Q6EFXLQZ24AER2QGFFZLMIPCD/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UJIFT24Q6EFXLQZ24AER2QGFFZLMIPCD/"
         },
         {
             "type": "WEB",
             "url": "https://rclone.org/downloads/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://rclone.org/downloads/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202107-14"
         },
         {
             "type": "WEB",

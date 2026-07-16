@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-524",
-    "modified": "2026-05-26T14:17:50.003Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2023-5981"
@@ -40,19 +40,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:0155"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2024:0319"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:0319"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:0399"
         },
         {
             "type": "WEB",
@@ -64,19 +52,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:0451"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2024:0533"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:0533"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:1383"
         },
         {
             "type": "WEB",
@@ -88,27 +64,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:2094"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-5981"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2023-5981"
         },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2248445"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2248445"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gnutls.org/security-new.html#GNUTLS-SA-2023-10-23"
         },
         {
             "type": "WEB",

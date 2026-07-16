@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-406",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2023-27534"
@@ -56,14 +56,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://hackerone.com/reports/1892351"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00016.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2024/03/msg00016.html"
         },
         {
@@ -72,19 +64,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/36NBD5YLJXXEDZLDGNFCERWRYJQ6LAQW/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230420-0012/"
         },
         {
             "type": "WEB",

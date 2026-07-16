@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-759",
-    "modified": "2026-07-15T15:02:37.321Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-15T15:02:37.321Z",
     "upstream": [
         "CVE-2023-38403"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Oct/24"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Oct/26"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Oct/26"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugs.debian.org/1040830"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://cwe.mitre.org/data/definitions/130.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2023-0001.txt.asc"
-        },
-        {
-            "type": "WEB",
-            "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2023-0001.txt.asc"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/esnet/iperf/commit/0ef151550d96cc4460f98832df84b4a1e87c65e9"
         },
         {
             "type": "WEB",
@@ -84,19 +60,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/esnet/iperf/issues/1542"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00025.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00025.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BV6EBWWF4PEQKROEVXGYSTIT2MGBTLU7/"
         },
         {
             "type": "WEB",
@@ -108,27 +72,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/M25Z5FHTO3XWMGP37JHJ7IIIHSGCLKEV/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230818-0016/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20230818-0016/"
         },
         {
             "type": "WEB",
             "url": "https://support.apple.com/kb/HT213984"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213984"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213985"
         },
         {
             "type": "WEB",

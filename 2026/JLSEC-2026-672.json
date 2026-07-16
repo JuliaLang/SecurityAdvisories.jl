@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-672",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2022-38152"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://packetstormsecurity.com/files/170604/wolfSSL-Session-Resumption-Denial-Of-Service.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Jan/7"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jan/7"
-        },
-        {
-            "type": "WEB",
-            "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
         },
         {
             "type": "WEB",
@@ -60,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/tlspuffin/tlspuffin"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/wolfSSL/wolfssl/pull/5468"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/wolfSSL/wolfssl/pull/5468"
         },
         {
             "type": "WEB",
             "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
         },
         {
             "type": "WEB",

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-673",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2022-39173"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "http://packetstormsecurity.com/files/169600/wolfSSL-Buffer-Overflow.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2022/Oct/24"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2022/Oct/24"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://blog.trailofbits.com/2023/01/12/wolfssl-vulnerabilities-tlspuffin-fuzzing-ssh/"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
         },
         {
             "type": "WEB",

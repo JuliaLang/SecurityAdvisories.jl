@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-396",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-32221"
@@ -56,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jan/19"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2023/Jan/20"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/05/17/4"
         },
         {
             "type": "WEB",
@@ -80,19 +68,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://hackerone.com/reports/1704017"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00028.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00028.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202212-01"
         },
         {
             "type": "WEB",
@@ -104,14 +80,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230110-0006/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230208-0002/"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.netapp.com/advisory/ntap-20230208-0002/"
         },
         {
@@ -120,19 +88,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213604"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT213605"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213605"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2023/dsa-5330"
         },
         {
             "type": "WEB",

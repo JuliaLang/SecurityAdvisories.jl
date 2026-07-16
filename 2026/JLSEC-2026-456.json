@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-456",
-    "modified": "2026-05-07T14:50:29.650Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-07T14:50:29.650Z",
     "upstream": [
         "CVE-2020-15999"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2020-11/msg00016.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2020/Nov/33"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2020/Nov/33"
-        },
-        {
-            "type": "WEB",
-            "url": "https://chromereleases.googleblog.com/2020/10/stable-channel-update-for-desktop_20.html"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://crbug.com/1139963"
-        },
-        {
-            "type": "WEB",
             "url": "https://googleprojectzero.blogspot.com/p/rca-cve-2020-15999.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://googleprojectzero.blogspot.com/p/rca-cve-2020-15999.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/J3QVIGAAJ4D62YEJAJJWMCCBCOQ6TVL7/"
         },
         {
             "type": "WEB",
@@ -84,19 +60,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202011-12"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202012-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202012-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-19"
         },
         {
             "type": "WEB",
@@ -109,10 +73,6 @@
         {
             "type": "WEB",
             "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2020-15999"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2021/dsa-4824"
         },
         {
             "type": "WEB",

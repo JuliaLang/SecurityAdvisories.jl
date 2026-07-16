@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-145",
-    "modified": "2026-04-17T15:19:54.657Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-17T15:19:54.657Z",
     "upstream": [
         "CVE-2026-34543"
@@ -37,10 +37,6 @@
         {
             "type": "WEB",
             "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.4.8"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-vc68-257w-m432"
         },
         {
             "type": "WEB",

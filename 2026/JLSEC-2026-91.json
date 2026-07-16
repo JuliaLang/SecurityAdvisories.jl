@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-91",
-    "modified": "2026-04-13T14:33:47.115Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-13T14:33:47.115Z",
     "upstream": [
         "CVE-2022-42898"
@@ -30,50 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.samba.org/show_bug.cgi?id=15203"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/heimdal/heimdal/security/advisories/GHSA-64mq-fvfj-5x3c"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/krb5/krb5/commit/ea92d2f0fcceb54a70910fa32e9a0d7a5afc3583"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202309-06"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-06"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230216-0008/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230223-0001/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://web.mit.edu/kerberos/advisories/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://web.mit.edu/kerberos/krb5-1.19/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://web.mit.edu/kerberos/krb5-1.20/README-1.20.1.txt"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.samba.org/samba/security/CVE-2022-42898.html"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.samba.org/show_bug.cgi?id=15203"

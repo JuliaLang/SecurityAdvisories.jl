@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-2",
-    "modified": "2026-03-23T22:38:33.248Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-03-23T22:38:33.248Z",
     "upstream": [
         "CVE-2023-35945"
@@ -31,14 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/nghttp2/nghttp2/blob/e7f59406556c80904b81b593d38508591bb7523a/lib/nghttp2_session.c#L3346"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x22r"

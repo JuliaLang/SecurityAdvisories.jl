@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-560",
-    "modified": "2026-05-26T19:45:06.761Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2022-28805"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/lua/lua/commit/1f3c6f4534c6411313361697d98d1145a1f030fa"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RJNJ66IFDUKWJJZXHGOLRGIA3HWWC36R/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/RJNJ66IFDUKWJJZXHGOLRGIA3HWWC36R/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UHYZOEFDVLVAD6EEP4CDW6DNONIVVHPA/"
         },
         {
             "type": "WEB",
@@ -60,27 +48,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://lua-users.org/lists/lua-l/2022-02/msg00001.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lua-users.org/lists/lua-l/2022-02/msg00070.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lua-users.org/lists/lua-l/2022-02/msg00070.html"
         },
         {
             "type": "WEB",
             "url": "https://lua-users.org/lists/lua-l/2022-04/msg00009.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lua-users.org/lists/lua-l/2022-04/msg00009.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202305-23"
         },
         {
             "type": "WEB",

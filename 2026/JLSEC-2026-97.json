@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-97",
-    "modified": "2026-04-14T12:58:25.609Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-14T12:58:25.609Z",
     "upstream": [
         "CVE-2021-3782"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/wayland/wayland/-/issues/224"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.freedesktop.org/wayland/wayland/-/issues/224"

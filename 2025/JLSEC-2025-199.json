@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-199",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2019-18222"
@@ -31,26 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/A3GWQNONS7GRORXZJ7MOJFUEJ2ZJ4OUW/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/NGDACU65MYZXXVPQP2EBHUJGOR4RWLVY/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories/mbedtls-security-advisory-2019-12"
-        },
         {
             "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-162",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2023-32636"
@@ -31,18 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2841"
-        },
-        {
-            "type": "WEB",
-            "url": "https://https://discourse.gnome.org/t/multiple-fixes-for-gvariant-normalisation-issues-in-glib/12835"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20231110-0002/"
-        },
         {
             "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/2841"

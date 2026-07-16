@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-180",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-21T17:39:06.495Z",
     "upstream": [
         "CVE-2021-46822"
@@ -31,14 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/221567"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/libjpeg-turbo/libjpeg-turbo/commit/f35fd27ec641c42d6b115bfa595e483ec58188d2"
-        },
         {
             "type": "WEB",
             "url": "https://exchange.xforce.ibmcloud.com/vulnerabilities/221567"

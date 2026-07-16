@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-442",
-    "modified": "2026-05-05T15:51:30.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2018-19211"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1643754"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1643754"

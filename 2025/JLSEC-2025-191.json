@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-191",
-    "modified": "2026-04-27T17:15:17.489Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-27T18:23:36.019Z",
     "upstream": [
         "CVE-2022-0563"
@@ -77,19 +77,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lore.kernel.org/util-linux/20220214110609.msiwlm457ngoic6w%40ws.net.home/T/#u"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202401-08"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202401-08"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20220331-0002/"
         },
         {
             "type": "WEB",

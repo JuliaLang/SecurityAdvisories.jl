@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-210",
-    "modified": "2026-04-27T14:03:22.624Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-27T14:03:22.624Z",
     "upstream": [
         "CVE-2022-38266"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/DanBloomberg/leptonica/commit/f062b42c0ea8dddebdc6a152fd16152de215d614"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/tesseract-ocr/tesseract/issues/3498"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/tesseract-ocr/tesseract/issues/3498"
         },
         {
             "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00018.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00018.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202312-01"
         },
         {
             "type": "WEB",

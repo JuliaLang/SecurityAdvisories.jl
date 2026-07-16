@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-453",
-    "modified": "2026-05-05T15:51:30.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2023-29491"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "http://ncurses.scripts.mit.edu/?p=ncurses.git%3Ba=commit%3Bh=eb51b1ea1f75a0ec17c9c5937cb28df1e8eeec56"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/04/19/10"
-        },
-        {
-            "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2023/04/19/10"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/04/19/11"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2023/12/msg00004.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/12/msg00004.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LU4MYMKFEZQ5VSCVLRIZGDQOUW3T44GT/"
         },
         {
             "type": "WEB",
@@ -80,19 +60,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230517-0009/"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT213843"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213843"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213844"
         },
         {
             "type": "WEB",
@@ -104,19 +72,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213845"
-        },
-        {
-            "type": "WEB",
             "url": "https://www.openwall.com/lists/oss-security/2023/04/12/5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2023/04/12/5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2023/04/13/4"
         },
         {
             "type": "WEB",

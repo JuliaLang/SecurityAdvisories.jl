@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-314",
-    "modified": "2026-04-29T13:21:01.555Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-32619"
@@ -30,10 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://www.hdfgroup.org/2024/05/new-hdf5-cve-issues-fixed-in-1-14-4/"
-        },
         {
             "type": "WEB",
             "url": "https://www.hdfgroup.org/2024/05/new-hdf5-cve-issues-fixed-in-1-14-4/"

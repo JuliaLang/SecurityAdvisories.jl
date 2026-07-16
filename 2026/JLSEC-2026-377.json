@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-377",
-    "modified": "2026-05-01T13:54:10.329Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-01T13:54:10.329Z",
     "upstream": [
         "CVE-2024-5197"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "https://g-issues.chromium.org/issues/332382766"
-        },
-        {
-            "type": "WEB",
-            "url": "https://g-issues.chromium.org/issues/332382766"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2024/06/msg00005.html"
         },
         {
             "type": "WEB",

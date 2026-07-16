@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-523",
-    "modified": "2026-05-26T14:17:50.003Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2022-2509"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2022-2509"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00002.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00002.html"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/6FL27JS3VM74YEQU7PGB62USO3KSBYZX/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.gnupg.org/pipermail/gnutls-help/2022-July/004746.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.gnupg.org/pipermail/gnutls-help/2022-July/004746.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2022/dsa-5203"
         },
         {
             "type": "WEB",

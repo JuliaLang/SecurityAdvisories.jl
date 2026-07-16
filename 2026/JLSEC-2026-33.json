@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-33",
-    "modified": "2026-04-03T13:27:15.647Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2021-32029"
@@ -30,18 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1956883"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20211112-0003/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.postgresql.org/support/security/CVE-2021-32029/"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1956883"

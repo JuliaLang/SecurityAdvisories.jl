@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-321",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2025-8851"
@@ -46,10 +46,6 @@
         {
             "type": "WEB",
             "url": "https://vuldb.com/?id.319382"
-        },
-        {
-            "type": "WEB",
-            "url": "https://vuldb.com/?submit.624604"
         },
         {
             "type": "WEB",

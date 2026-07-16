@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-473",
-    "modified": "2026-05-07T17:12:07.051Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-07T17:12:07.051Z",
     "upstream": [
         "CVE-2023-43785"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:2145"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/errata/RHSA-2024:2973"
-        },
-        {
-            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2024:2973"
         },
         {
             "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2023-43785"
-        },
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-43785"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2242252"
         },
         {
             "type": "WEB",

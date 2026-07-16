@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-393",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-32206"
@@ -56,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
-        },
-        {
-            "type": "WEB",
             "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
-        },
-        {
-            "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/02/15/3"
         },
         {
             "type": "WEB",
@@ -80,19 +68,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-333517.pdf"
-        },
-        {
-            "type": "WEB",
             "url": "https://hackerone.com/reports/1570651"
-        },
-        {
-            "type": "WEB",
-            "url": "https://hackerone.com/reports/1570651"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/08/msg00017.html"
         },
         {
             "type": "WEB",
@@ -104,14 +80,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BEV6BR4MTI3CEWK2YU2HQZUW5FAS3FEY/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202212-01"
-        },
-        {
-            "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202212-01"
         },
         {
@@ -120,19 +88,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20220915-0003/"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT213488"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT213488"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2022/dsa-5197"
         },
         {
             "type": "WEB",

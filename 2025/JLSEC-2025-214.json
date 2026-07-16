@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-214",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-44732"
@@ -31,34 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugs.gentoo.org/829660"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.16.12"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v2.28.0"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/tag/v3.1.0"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories/mbedtls-security-advisory-2021-12"
-        },
         {
             "type": "WEB",
             "url": "https://bugs.gentoo.org/829660"

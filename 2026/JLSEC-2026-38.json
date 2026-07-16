@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-38",
-    "modified": "2026-04-03T13:27:15.647Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2022-2625"
@@ -30,18 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2113825"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202211-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.postgresql.org/about/news/postgresql-145-138-1212-1117-1022-and-15-beta-3-released-2496/"
-        },
         {
             "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2113825"

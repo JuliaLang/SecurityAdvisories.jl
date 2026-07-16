@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-472",
-    "modified": "2026-05-07T17:12:07.051Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-07T17:12:07.051Z",
     "upstream": [
         "CVE-2023-3138"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-3138"
-        },
-        {
-            "type": "WEB",
-            "url": "https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c"
-        },
-        {
-            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/304a654a0d57bf0f00d8998185f0360332cfa36c"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.x.org/archives/xorg-announce/2023-June/003406.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.x.org/archives/xorg-announce/2023-June/003407.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.x.org/archives/xorg-announce/2023-June/003407.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20231208-0008/"
         },
         {
             "type": "WEB",

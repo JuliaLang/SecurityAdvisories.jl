@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-761",
-    "modified": "2026-07-15T15:02:37.321Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-15T15:02:37.321Z",
     "upstream": [
         "CVE-2024-26306"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2024-0001.txt.asc"
-        },
-        {
-            "type": "WEB",
-            "url": "https://downloads.es.net/pub/iperf/esnet-secadv-2024-0001.txt.asc"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/esnet/iperf/releases/tag/3.17"
         },
         {
             "type": "WEB",

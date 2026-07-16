@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-124",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2020-36138"
@@ -31,18 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/FFmpeg/FFmpeg/commit/292e41ce650a7b5ca5de4ae87fff0d6a90d9fc97"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.ffmpeg.org/pipermail/ffmpeg-devel/2020-November/272001.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://trac.ffmpeg.org/ticket/8960"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/FFmpeg/FFmpeg/commit/292e41ce650a7b5ca5de4ae87fff0d6a90d9fc97"

@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-533",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2019-12973"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-09/msg00088.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://lists.opensuse.org/opensuse-security-announce/2019-09/msg00090.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-09/msg00090.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.securityfocus.com/bid/108900"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/uclouvain/openjpeg/commit/8ee335227bbcaf1614124046aa25e53d67b11ec3"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/uclouvain/openjpeg/pull/1185/commits/cbe7384016083eac16078b359acd7a842253d503"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/uclouvain/openjpeg/pull/1185/commits/cbe7384016083eac16078b359acd7a842253d503"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2020/07/msg00008.html"
         },
         {
             "type": "WEB",
@@ -84,19 +60,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202101-29"
-        },
-        {
-            "type": "WEB",
             "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com/security-alerts/cpujul2020.html"
         },
         {
             "type": "WEB",

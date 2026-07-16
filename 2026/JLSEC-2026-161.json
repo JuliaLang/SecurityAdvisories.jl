@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-161",
-    "modified": "2026-04-21T00:04:14.628Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-21T00:04:14.628Z",
     "upstream": [
         "CVE-2020-25709"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://seclists.org/fulldisclosure/2021/Feb/14"
-        },
-        {
-            "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1899675"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1899675"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/r58af02e294bd07f487e2c64ffc0a29b837db5600e33b6e698b9d696b%40%3Cissues.bookkeeper.apache.org%3E"
         },
         {
             "type": "WEB",
@@ -60,14 +48,6 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.apache.org/thread.html/rf4c02775860db415b4955778a131c2795223f61cb8c6a450893651e4%40%3Cissues.bookkeeper.apache.org%3E"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2020/12/msg00008.html"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2020/12/msg00008.html"
         },
         {
@@ -76,19 +56,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20210716-0003/"
-        },
-        {
-            "type": "WEB",
             "url": "https://support.apple.com/kb/HT212147"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT212147"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2020/dsa-4792"
         },
         {
             "type": "WEB",

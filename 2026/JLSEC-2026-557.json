@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-557",
-    "modified": "2026-05-26T19:45:06.761Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2021-44647"
@@ -36,14 +36,6 @@
         },
         {
             "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2021-11/msg00195.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2021-11/msg00204.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://lua-users.org/lists/lua-l/2021-11/msg00204.html"
         },
         {
@@ -52,19 +44,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/cve-2021-44647"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/P3EMGAQ5Y6GXJLY4K5DUOOEQT4MZ4J4F/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/P3EMGAQ5Y6GXJLY4K5DUOOEQT4MZ4J4F/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202305-23"
         },
         {
             "type": "WEB",

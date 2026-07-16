@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-668",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2021-44718"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/wolfSSL/wolfssl/releases"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.wolfssl.com/docs/security-vulnerabilities/"
         },
         {
             "type": "WEB",

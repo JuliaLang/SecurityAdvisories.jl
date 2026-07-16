@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-198",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2019-16910"
@@ -31,34 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/commit/298a43a77ec0ed2c19a8c924ddd8571ef3e65dfd"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/commit/33f66ba6fd234114aa37f0209dac031bb2870a9b"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2022/12/msg00036.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/CGSKQSGR5SOBRBXDSSPTCDSBB5K3GMPF/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/CSFFOROD6IVLADZHNJC2LPDV7FQRP7XB/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/PEHHH2DOBXB25CAU3Q6E66X723VAYTB5/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories/mbedtls-security-advisory-2019-10"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/ARMmbed/mbedtls/commit/298a43a77ec0ed2c19a8c924ddd8571ef3e65dfd"

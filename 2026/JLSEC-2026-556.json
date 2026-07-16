@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-556",
-    "modified": "2026-05-26T19:45:06.761Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2021-43519"
@@ -36,27 +36,11 @@
         },
         {
             "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2021-10/msg00123.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2021-11/msg00015.html"
-        },
-        {
-            "type": "WEB",
             "url": "http://lua-users.org/lists/lua-l/2021-11/msg00015.html"
         },
         {
             "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/C7XHFYHGSZKL53VCLSJSAJ6VMFGAIXKO/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/C7XHFYHGSZKL53VCLSJSAJ6VMFGAIXKO/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/P3EMGAQ5Y6GXJLY4K5DUOOEQT4MZ4J4F/"
         },
         {
             "type": "WEB",

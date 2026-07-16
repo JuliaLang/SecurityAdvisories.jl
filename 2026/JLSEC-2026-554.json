@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-554",
-    "modified": "2026-05-26T19:45:06.761Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2020-15945"
@@ -33,14 +33,6 @@
         {
             "type": "WEB",
             "url": "http://lua-users.org/lists/lua-l/2020-07/msg00123.html"
-        },
-        {
-            "type": "WEB",
-            "url": "http://lua-users.org/lists/lua-l/2020-07/msg00123.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/lua/lua/commit/a2195644d89812e5b157ce7bac35543e06db05e3"
         },
         {
             "type": "WEB",

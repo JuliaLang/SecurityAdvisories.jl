@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-221",
-    "modified": "2025-11-21T15:59:04.054Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-36647"
@@ -31,18 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/ARMmbed/mbedtls/releases/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://kouzili.com/Load-Step.pdf"
-        },
-        {
-            "type": "WEB",
-            "url": "https://tls.mbed.org/tech-updates/security-advisories/mbedtls-security-advisory-2021-07-1"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/ARMmbed/mbedtls/releases/"

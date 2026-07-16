@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-374",
-    "modified": "2026-05-01T13:54:10.329Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-05-01T13:54:10.329Z",
     "upstream": [
         "CVE-2023-44488"
@@ -36,19 +36,7 @@
         },
         {
             "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2023/09/30/4"
-        },
-        {
-            "type": "WEB",
             "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2241806"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2241806"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/webmproject/libvpx/commit/263682c9a29395055f3b3afe2d97be1828a6223f"
         },
         {
             "type": "WEB",
@@ -60,19 +48,7 @@
         },
         {
             "type": "WEB",
-            "url": "https://github.com/webmproject/libvpx/commit/df9fd9d5b7325060b2b921558a1eb20ca7880937"
-        },
-        {
-            "type": "WEB",
             "url": "https://github.com/webmproject/libvpx/compare/v1.13.0...v1.13.1"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/webmproject/libvpx/compare/v1.13.0...v1.13.1"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/webmproject/libvpx/releases/tag/v1.13.1"
         },
         {
             "type": "WEB",
@@ -84,27 +60,11 @@
         },
         {
             "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/10/msg00001.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TE7F54W5O5RS4ZMAAC7YK3CZWQXIDSKB/"
-        },
-        {
-            "type": "WEB",
             "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TE7F54W5O5RS4ZMAAC7YK3CZWQXIDSKB/"
         },
         {
             "type": "WEB",
             "url": "https://security.gentoo.org/glsa/202310-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202310-04"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.debian.org/security/2023/dsa-5518"
         },
         {
             "type": "WEB",

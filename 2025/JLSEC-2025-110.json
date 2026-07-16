@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-110",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2020-35964"
@@ -51,18 +51,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26622"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202105-24"
-        },
         {
             "type": "WEB",
             "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=26622"

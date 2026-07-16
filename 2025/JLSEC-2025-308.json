@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2025-308",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2023-3618"
@@ -31,34 +31,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://access.redhat.com/security/cve/CVE-2023-3618"
-        },
-        {
-            "type": "WEB",
-            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2215865"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.debian.org/debian-lts-announce/2023/07/msg00034.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20230824-0012/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214036"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214037"
-        },
-        {
-            "type": "WEB",
-            "url": "https://support.apple.com/kb/HT214038"
-        },
         {
             "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2023-3618"

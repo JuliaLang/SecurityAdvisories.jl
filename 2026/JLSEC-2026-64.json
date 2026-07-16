@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-64",
-    "modified": "2026-04-09T21:32:46.691Z",
+    "modified": "2026-07-16T17:22:35.940Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2021-28041"
@@ -30,42 +30,6 @@
         }
     ],
     "references": [
-        {
-            "type": "WEB",
-            "url": "https://github.com/openssh/openssh-portable/commit/e04fd6dde16de1cdc5a4d9946397ff60d96568db"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/KQWGII3LQR4AOTPPFXGMTYE7UDEWIUKI/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/TXST2CML2MWY3PNVUXX7FFJE3ATJMNVZ/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.gentoo.org/glsa/202105-35"
-        },
-        {
-            "type": "WEB",
-            "url": "https://security.netapp.com/advisory/ntap-20210416-0002/"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openssh.com/security.html"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openssh.com/txt/release-8.5"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.openwall.com/lists/oss-security/2021/03/03/1"
-        },
-        {
-            "type": "WEB",
-            "url": "https://www.oracle.com//security-alerts/cpujul2021.html"
-        },
         {
             "type": "WEB",
             "url": "https://github.com/openssh/openssh-portable/commit/e04fd6dde16de1cdc5a4d9946397ff60d96568db"
