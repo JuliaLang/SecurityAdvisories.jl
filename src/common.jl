@@ -562,9 +562,34 @@ function bump_all_modified_timestamps!(path=joinpath(@__DIR__, "..", "advisories
     return n
 end
 
+function fetch_updates_for_all_advisories!(; path=joinpath(@__DIR__, "..", "advisories", "published"), reset_fields = Symbol[])
+    n = 0
+    for (root, _, files) in walkdir(path)
+        for file in joinpath.(root, files)
+            is_jlsec_advisory_path(file) || continue
+            adv = SecurityAdvisories.parsefile(file)
+            isempty(adv.jlsec_sources) && continue
+            new_adv = fetch_updates(adv; reset_fields)
+            # If we reset fields, only update if _those_ fields are the ones that meaningfully changed
+            if !isempty(reset_fields)
+                Advisory(id=adv.id; (f=>getfield(adv, f) for f in reset_fields)...) ≈ Advisory(id=new_adv.id; (f=>getfield(new_adv, f) for f in reset_fields)...) && continue
+            else
+                new_adv ≈ adv && continue
+            end
+            open(file, "w") do io
+                SecurityAdvisories.print(io, new_adv)
+            end
+            n+=1
+        end
+    end
+    return n
+end
+
 
 function fetch_advisory(advisory_id)
-    if startswith(advisory_id, "CVE-")
+    if startswith(advisory_id, "JLSEC-")
+        return parsefile(joinpath(@__DIR__, "..", "advisories", "published", split(advisory_id, "-")[2], advisory_id * ".md"))
+    elseif startswith(advisory_id, "CVE-")
         vuln = NVD.fetch_cve(advisory_id)
         return NVD.advisory(vuln)
     elseif startswith(advisory_id, "EUVD-")
