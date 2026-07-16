@@ -136,6 +136,17 @@ end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
 Base.convert(::Type{AdvisorySource}, d::AbstractDict) = AdvisorySource(; Dict(Symbol(k)=>v for (k,v) in d)...)
+function srcid(src::AdvisorySource)
+    if startswith(src.id, "GHSA-")
+        # GHSAs are terrible and might be a global GHSA or a repo GHSA
+        # So we check if the API URL is a repo GHSA and if so, we use the repo GHSA ID instead of the global one
+        # TODO: perhaps we should just store our phony repo GHSA ID in the first place
+        m = match(r"^https://api\.github\.com/repos/([^/]+/[^/]+)/security-advisories/(GHSA-[^/]+)$", src.url)
+        return isnothing(m) ? src.id : string(m.captures[1], "/", m.captures[2])
+    else
+        return src.id
+    end
+end
 
 """
     Advisory(; osv_kwargs...)
@@ -215,7 +226,7 @@ Given a collection of vulnerability IDs, return the "best" one
 """
 preferred_id(vec) = first(sort(vec, by = preferred_id_sort))
 # We prefer non-placeholder JLSECs, then CVEs, then GHSAs, then the rest in lexicographic order (lol a Y3k bug)
-preferred_id_sort(id) = (!startswith(id, "JLSEC-2"), !startswith(id, "CVE"), !startswith(id, "GHSA"), id)
+preferred_id_sort(id) = (!startswith(id, "JLSEC-2"), !startswith(id, "CVE"), !contains(id, "GHSA"), id)
 
 """
     is_vulnerable(x)
@@ -267,6 +278,14 @@ function update(original::Advisory, updates::Advisory)
     end
     original ≈ result && return original # No need to update if nothing relevant changed
     return result
+end
+
+function fetch_updates(original::Advisory; reset_fields = Symbol[])
+    src_ids = sort(srcid.(original.jlsec_sources), by=preferred_id_sort)
+    isempty(src_ids) && throw(ArgumentError("cannot fetch updates for an advisory with no sources"))
+    updates = SecurityAdvisories.fetch_advisory.(src_ids)
+    advisory = Advisory(; (f => getfield(original, f) for f in fieldnames(Advisory) if f ∉ reset_fields)...)
+    return foldl(combine, updates; init=advisory)
 end
 
 """
