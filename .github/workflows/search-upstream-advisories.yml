@@ -29,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Julia
-      uses: julia-actions/setup-julia@ac0d62164df5a47de404f4e96ce86a1a28a28d56 # v1.9.6
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
 
     - name: Install Julia dependencies
       run: |
@@ -57,7 +57,7 @@ jobs:
 
     - name: Create Pull Request
       if: steps.git-check.outputs.changes == 'true'
-      uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
       with:
         token: ${{ secrets.JLSEC_BOT_TOKEN }}
         committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
