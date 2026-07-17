@@ -118,20 +118,32 @@ jobs:
     - name: Confirm OSV modified timestamps
       run: |
         for json_file in $(find ./osv -name "*.json" -type f); do
-          json_time=$(jq -r '.modified' "$json_file")
           git_path=${json_file#./osv/}
-          git_time=$(git log -1 --first-parent --format="%cd" --date=iso-strict ${{ steps.prepare_osv.outputs.COMMIT || 'origin/generated/osv' }} -- "$git_path")
-
+          json_time=$(jq -r '.modified' "$json_file")
           json_epoch=$(date -d "$json_time" +%s)
-          git_epoch=$(date -d "$git_time" +%s)
-          diff_minutes=$(( (json_epoch - git_epoch) / 60 ))
-          abs_diff=${diff_minutes#-}
 
-          if [[ $abs_diff -gt 5 ]]; then
-            echo "${json_file}: json: ${json_time} -> ${json_epoch}"
-            echo "${json_file}:  git: ${git_time} -> ${git_epoch}"
-            echo "${json_file}: diff: ${diff_minutes} minutes"
-            exit 1
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # Timestamps are finalized when changes land on main, so a dry run
+            # can only check that changed content comes with a newer stamp
+            old_json=$(git show "origin/generated/osv:$git_path" 2>/dev/null) || continue  # newly published
+            jq -S 'del(.modified)' <<<"$old_json" | cmp -s - <(jq -S 'del(.modified)' "$json_file") && continue
+            old_epoch=$(date -d "$(jq -r '.modified' <<<"$old_json")" +%s)
+            if [[ $json_epoch -le $old_epoch ]]; then
+              echo "${json_file}: content changed but modified did not advance (still ${json_time})"
+              exit 1
+            fi
+          else
+            git_time=$(git log -1 --first-parent --format="%cd" --date=iso-strict ${{ steps.prepare_osv.outputs.COMMIT || 'origin/generated/osv' }} -- "$git_path")
+            git_epoch=$(date -d "$git_time" +%s)
+            diff_minutes=$(( (json_epoch - git_epoch) / 60 ))
+            abs_diff=${diff_minutes#-}
+
+            if [[ $abs_diff -gt 5 ]]; then
+              echo "${json_file}: json: ${json_time} -> ${json_epoch}"
+              echo "${json_file}:  git: ${git_time} -> ${git_epoch}"
+              echo "${json_file}: diff: ${diff_minutes} minutes"
+              exit 1
+            fi
           fi
         done
 
