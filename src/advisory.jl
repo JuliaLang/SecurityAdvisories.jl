@@ -427,7 +427,7 @@ function to_toml_frontmatter_collection(s::Severity, xs)
     if all(x isa Severity && x == tryparse(Severity, x.score) for x in xs)
         return s.score
     else
-        return OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(Severity))
+        return OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(Severity) if is_populated(getfield(s, f)))
     end
 end
 to_toml_frontmatter(c::Credit) = to_toml_frontmatter_collection(c, [c])
