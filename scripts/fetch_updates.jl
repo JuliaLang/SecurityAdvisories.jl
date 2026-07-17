@@ -2,6 +2,8 @@
 # jlsec_sources) and update it in place if the upstream data meaningfully changed.
 using SecurityAdvisories: SecurityAdvisories, Advisory
 
+include(joinpath(@__DIR__, "diff_advisories.jl"))  # for print_advisory_diff
+
 isspace_or_comma(c) = isspace(c) || c == ','
 
 function main(input = get(ARGS, 1, ""))
@@ -11,10 +13,10 @@ function main(input = get(ARGS, 1, ""))
 
     n = SecurityAdvisories.fetch_updates_for_all_advisories!(; reset_fields)
     @info "updated $n advisories"
+    write_pr_outputs(n, reset_fields)
+end
 
-    path = joinpath(@__DIR__, "..", "advisories", "published")
-    modified = split(readchomp(`git ls-files --modified $path`), '\n', keepempty=false)
-
+function write_pr_outputs(n, reset_fields)
     # Nice logging information for the possible pull request
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     advisory_str = n == 1 ? "advisory" : "advisories"
@@ -24,13 +26,11 @@ function main(input = get(ARGS, 1, ""))
     print(io, "This action re-fetched the upstream sources for all published advisories and found ",
         n, " ", advisory_str, " with significant changes.")
     if !isempty(reset_fields)
-        print(io, " The field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
-            " were reset to their newly-fetched values, and only changes to those fields were considered significant.")
+        print(io, " The existing values in field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
+            " were discarded and reset to their newly-fetched values, and this only saved the updates if those fields changed.")
     end
     println(io, "\n")
-    for file in modified
-        println(io, "* `", splitext(basename(file))[1], "`")
-    end
+    print_advisory_diff(io, "HEAD")
     println(io, "BODY_EOF")
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
