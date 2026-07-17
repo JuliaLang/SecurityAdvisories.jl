@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-281",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-1355"
     ],
     "summary": "A stack buffer overflow flaw was found in Libtiffs' tiffcp.c in main() function",
     "details": "A stack buffer overflow flaw was found in Libtiffs' tiffcp.c in main() function. This flaw allows an attacker to pass a crafted TIFF file to the tiffcp tool, triggering a stack buffer overflow issue, possibly corrupting the memory, and causing a crash that leads to a denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2022-1355",
-                "imported": "2025-11-25T21:56:30.628Z",
-                "modified": "2024-11-21T06:40:33.603Z",
+                "imported": "2026-07-17T20:55:11.968Z",
+                "modified": "2026-06-17T04:22:16.733Z",
                 "published": "2022-08-31T16:15:09.577Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-1355",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1355"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1355",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

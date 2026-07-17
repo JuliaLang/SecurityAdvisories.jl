@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-455",
-    "modified": "2026-05-07T14:27:30.173Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-07T14:27:30.173Z",
     "upstream": [
         "CVE-2019-1010238",
@@ -10,6 +10,18 @@
     ],
     "summary": "Gnome Pango 1.42 and later is affected by: Buffer Overflow. The impact is: The heap based buffer...",
     "details": "Gnome Pango 1.42 and later is affected by: Buffer Overflow. The impact is: The heap based buffer overflow can be used to get code execution. The component is: function name: pango_log2vis_get_embedding_levels, assignment of nchars and the loop condition. The attack vector is: Bug can be used when application pass invalid utf-8 strings to functions like pango_itemize.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -127,8 +139,8 @@
         "sources": [
             {
                 "id": "CVE-2019-1010238",
-                "imported": "2026-05-07T14:09:13.761Z",
-                "modified": "2024-11-21T04:18:04.830Z",
+                "imported": "2026-07-17T21:55:47.011Z",
+                "modified": "2026-06-17T02:09:53.650Z",
                 "published": "2019-07-19T17:15:11.690Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-1010238",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1010238",
@@ -138,7 +150,7 @@
             },
             {
                 "id": "GHSA-wwvc-98fq-c42m",
-                "imported": "2026-05-07T14:09:17.640Z",
+                "imported": "2026-07-17T21:55:47.160Z",
                 "modified": "2024-04-04T01:18:58Z",
                 "published": "2022-05-24T16:50:42Z",
                 "url": "https://api.github.com/advisories/GHSA-wwvc-98fq-c42m",
@@ -146,7 +158,7 @@
             },
             {
                 "id": "EUVD-2019-1980",
-                "imported": "2026-05-07T14:09:16.121Z",
+                "imported": "2026-07-17T21:55:51.497Z",
                 "modified": "2024-08-05T03:07:18Z",
                 "published": "2019-07-19T16:42:41Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2019-1980",

@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-512",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-19T01:34:38.069Z",
     "upstream": [
         "CVE-2023-38633"
     ],
     "details": "A directory traversal problem in the URL decoder of librsvg before 2.56.3 could be used by local or remote attackers to disclose files (on the local filesystem outside of the expected area), as demonstrated by href=\".?../../../../../../../../../../etc/passwd\" in an xi:include element.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -84,8 +91,8 @@
         "sources": [
             {
                 "id": "CVE-2023-38633",
-                "imported": "2026-05-19T00:57:42.346Z",
-                "modified": "2024-11-21T08:13:58.380Z",
+                "imported": "2026-07-17T22:02:52.142Z",
+                "modified": "2026-06-17T06:10:52.427Z",
                 "published": "2023-07-22T17:15:09.810Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-38633",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38633",

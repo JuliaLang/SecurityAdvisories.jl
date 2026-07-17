@@ -1,19 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-114",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
-        "EUVD-2026-2936",
+        "CVE-2026-22863",
         "GHSA-5379-f5hf-w38v",
-        "CVE-2026-22863"
+        "EUVD-2026-2936"
     ],
     "summary": "Deno node:crypto doesn't finalize cipher",
     "details": "### Summary\n\nThe vulnerability allows an attacker to have infinite encryptions.\n\nThis can lead to naive attempts at brute forcing, as well as more refined attacks with the goal to learn the server secrets.\n\n### PoC\n\n```js\nimport crypto from \"node:crypto\";\n\nconst key = crypto.randomBytes(32);\nconst iv = crypto.randomBytes(16);\nconst cipher = crypto.createCipheriv(\"aes-256-cbc\", key, iv);\ncipher.final()\n\nconsole.log(cipher);\n```\n\n### Expected Output\n\n```js\nCipheriv {\n  _decoder: null,\n  _options: undefined,\n  Symbol(kHandle): CipherBase {}\n}\n```\n\n### Actual Output\n\n```js\nCipheriv {\n  _events: {\n    close: undefined,\n    error: undefined,\n    prefinish: [Function: prefinish],\n    finish: undefined,\n    drain: undefined,\n    data: undefined,\n    end: undefined,\n    readable: undefined\n  },\n  _readableState: ReadableState {\n    highWaterMark: 65536,\n    buffer: [],\n    bufferIndex: 0,\n    length: 0,\n    pipes: [],\n    awaitDrainWriters: null,\n    [Symbol(kState)]: 1048844\n  },\n  _writableState: WritableState {\n    highWaterMark: 65536,\n    length: 0,\n    corked: 0,\n    onwrite: [Function: bound onwrite],\n    writelen: 0,\n    bufferedIndex: 0,\n    pendingcb: 0,\n    [Symbol(kState)]: 17580812,\n    [Symbol(kBufferedValue)]: null\n  },\n  allowHalfOpen: true,\n  _final: [Function: final],\n  _maxListeners: undefined,\n  _transform: [Function: transform],\n  _eventsCount: 1,\n  [Symbol(kCapture)]: false,\n  [Symbol(kCallback)]: null\n}\n```\n\n### Mitigations\n\nAll users should upgrade to Deno v2.6.0 or newer.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -41,6 +47,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5379-f5hf-w38v"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/denoland/deno/releases/tag/v2.6.0"
         },
         {
@@ -50,10 +60,6 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22863"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-5379-f5hf-w38v"
         }
     ],
     "credits": [
@@ -65,16 +71,16 @@
             "type": "FINDER"
         },
         {
-            "name": "vdata1",
+            "name": "reallyTG",
             "contact": [
-                "https://github.com/vdata1"
+                "https://github.com/reallyTG"
             ],
             "type": "FINDER"
         },
         {
-            "name": "reallyTG",
+            "name": "vdata1",
             "contact": [
-                "https://github.com/reallyTG"
+                "https://github.com/vdata1"
             ],
             "type": "FINDER"
         }
@@ -84,15 +90,18 @@
         "sources": [
             {
                 "id": "CVE-2026-22863",
-                "imported": "2026-04-14T12:58:55.191Z",
-                "modified": "2026-01-21T14:35:52.730Z",
+                "imported": "2026-07-17T21:10:37.057Z",
+                "modified": "2026-06-17T10:20:31.587Z",
                 "published": "2026-01-15T23:15:51.767Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-22863",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22863"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22863",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-5379-f5hf-w38v",
-                "imported": "2026-04-14T12:58:59.776Z",
+                "imported": "2026-07-17T21:10:37.202Z",
                 "modified": "2026-01-16T15:49:36Z",
                 "published": "2026-01-16T15:49:35Z",
                 "url": "https://api.github.com/advisories/GHSA-5379-f5hf-w38v",
@@ -100,7 +109,7 @@
             },
             {
                 "id": "EUVD-2026-2936",
-                "imported": "2026-04-14T12:58:57.054Z",
+                "imported": "2026-07-17T21:10:47.044Z",
                 "modified": "2026-01-16T17:16:41Z",
                 "published": "2026-01-15T22:53:15Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-2936",

@@ -1,17 +1,29 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-372",
-    "modified": "2026-04-30T19:30:31.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-30T19:30:31.295Z",
     "upstream": [
         "CVE-2026-6985",
+        "GHSA-3ppf-435x-3p66",
         "EUVD-2026-25661"
     ],
     "details": "A weakness has been identified in Cesanta Mongoose up to 7.20. This vulnerability affects the function handle_opt of the file /src/net_builtin.c of the component TCP Option Handler. This manipulation of the argument optlen causes infinite loop. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 7.21 is able to resolve this issue. Upgrading the affected component is advised. VulDB has contacted the vendor early and they confirmed quickly, that this issue got fixed already.",
     "severity": [
         {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -63,8 +75,8 @@
         "sources": [
             {
                 "id": "CVE-2026-6985",
-                "imported": "2026-04-30T18:54:48.155Z",
-                "modified": "2026-04-29T19:05:12.250Z",
+                "imported": "2026-07-17T21:44:32.193Z",
+                "modified": "2026-06-17T11:01:35.567Z",
                 "published": "2026-04-25T17:16:33.520Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6985",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6985",
@@ -74,7 +86,7 @@
             },
             {
                 "id": "EUVD-2026-25661",
-                "imported": "2026-04-30T18:54:54.459Z",
+                "imported": "2026-07-17T21:44:42.256Z",
                 "modified": "2026-04-27T12:35:36Z",
                 "published": "2026-04-25T16:15:13Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25661",

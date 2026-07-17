@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-61",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-08T16:01:54.180Z",
     "upstream": [
         "CVE-2022-1271"
     ],
     "details": "An arbitrary file write vulnerability was found in GNU gzip's zgrep utility. When zgrep is applied on the attacker's chosen file name (for example, a crafted file name), this can overwrite an attacker's content to an arbitrary attacker-selected file. This flaw occurs due to insufficient validation when processing filenames with two or more newlines where selected content and the target file names are embedded in crafted multi-line file names. This flaw allows a remote, low privileged attacker to force zgrep to write arbitrary files on the system.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -92,11 +99,14 @@
         "sources": [
             {
                 "id": "CVE-2022-1271",
-                "imported": "2026-04-08T15:40:59.254Z",
-                "modified": "2025-06-09T15:15:26.690Z",
+                "imported": "2026-07-17T22:14:23.363Z",
+                "modified": "2026-06-17T04:22:07.653Z",
                 "published": "2022-08-31T16:15:09.347Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-1271",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1271"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1271",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

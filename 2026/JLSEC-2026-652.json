@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-652",
-    "modified": "2026-06-26T20:24:16.337Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2026-40962",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -97,7 +98,7 @@
         "sources": [
             {
                 "id": "CVE-2026-40962",
-                "imported": "2026-06-26T19:19:07.813Z",
+                "imported": "2026-07-17T22:20:01.436Z",
                 "modified": "2026-06-17T10:45:56.580Z",
                 "published": "2026-04-16T02:16:12.227Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-40962",
@@ -108,7 +109,7 @@
             },
             {
                 "id": "GHSA-48wr-p98v-9w5h",
-                "imported": "2026-06-26T19:19:41.138Z",
+                "imported": "2026-07-17T22:20:01.665Z",
                 "modified": "2026-04-16T03:31:12Z",
                 "published": "2026-04-16T03:31:06Z",
                 "url": "https://api.github.com/advisories/GHSA-48wr-p98v-9w5h",
@@ -116,7 +117,7 @@
             },
             {
                 "id": "EUVD-2026-23153",
-                "imported": "2026-06-26T19:19:09.237Z",
+                "imported": "2026-07-17T22:20:01.850Z",
                 "modified": "2026-04-16T12:31:48Z",
                 "published": "2026-04-16T01:33:37Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-23153",

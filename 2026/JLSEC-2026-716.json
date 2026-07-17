@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-716",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5194",
@@ -12,8 +12,14 @@
     "details": "Missing hash/digest size and OID checks allow digests smaller than allowed when verifying ECDSA certificates, or smaller than is appropriate for the relevant key type, to be accepted by signature verification functions. This could lead to reduced security of ECDSA certificate-based authentication if the public CA key used is also known. This affects ECDSA/ECC verification when EdDSA or ML-DSA is also enabled.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:H/SI:L/SA:L/U:Red"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:H/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Red",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -61,7 +67,7 @@
         "sources": [
             {
                 "id": "CVE-2026-5194",
-                "imported": "2026-07-14T21:22:49.191Z",
+                "imported": "2026-07-17T22:29:49.500Z",
                 "modified": "2026-06-17T10:58:35.180Z",
                 "published": "2026-04-09T20:16:28.420Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5194",
@@ -72,7 +78,7 @@
             },
             {
                 "id": "GHSA-f5h9-5q52-qrx7",
-                "imported": "2026-07-14T21:23:07.952Z",
+                "imported": "2026-07-17T22:29:49.655Z",
                 "modified": "2026-04-16T21:31:11Z",
                 "published": "2026-04-09T21:31:30Z",
                 "url": "https://api.github.com/advisories/GHSA-f5h9-5q52-qrx7",
@@ -80,7 +86,7 @@
             },
             {
                 "id": "EUVD-2026-21070",
-                "imported": "2026-07-14T21:22:51.532Z",
+                "imported": "2026-07-17T22:29:59.196Z",
                 "modified": "2026-05-23T22:06:54Z",
                 "published": "2026-04-09T19:30:24Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21070",

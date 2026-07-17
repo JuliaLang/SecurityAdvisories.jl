@@ -1,12 +1,29 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-194",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T13:14:20.203Z",
     "upstream": [
         "CVE-2025-5203"
     ],
     "details": "A vulnerability was found in Open Asset Import Library Assimp 5.4.3. It has been rated as problematic. Affected by this issue is the function SkipSpaces in the library assimp/include/assimp/ParsingUtils.h. The manipulation leads to out-of-bounds read. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used. The project decided to collect all Fuzzer bugs in a main-issue to address them in the future.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:N/I:N/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +77,8 @@
         "sources": [
             {
                 "id": "CVE-2025-5203",
-                "imported": "2026-04-25T08:30:11.592Z",
-                "modified": "2025-06-05T14:16:06.320Z",
+                "imported": "2026-07-17T21:19:56.346Z",
+                "modified": "2026-06-17T09:47:26.690Z",
                 "published": "2025-05-26T20:15:19.987Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5203",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5203",

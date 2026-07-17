@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-6",
-    "modified": "2026-04-22T15:09:41.586Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-08T17:41:37.190Z",
     "upstream": [
         "CVE-2021-4048"
     ],
     "summary": "An out-of-bounds read flaw was found in the CLARRV, DLARRV, SLARRV, and ZLARRV functions in lapack t...",
     "details": "An out-of-bounds read flaw was found in the CLARRV, DLARRV, SLARRV, and ZLARRV functions in lapack through version 3.10.0, as also used in OpenBLAS before version 0.3.18. Specially crafted inputs passed to these functions could cause an application using lapack to crash or possibly disclose portions of its memory.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -284,8 +296,8 @@
         "sources": [
             {
                 "id": "CVE-2021-4048",
-                "imported": "2026-04-22T14:47:19.029Z",
-                "modified": "2024-11-21T06:36:47.820Z",
+                "imported": "2026-07-17T21:03:45.070Z",
+                "modified": "2026-06-17T04:18:57.257Z",
                 "published": "2021-12-08T22:15:10.220Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-4048",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-4048",

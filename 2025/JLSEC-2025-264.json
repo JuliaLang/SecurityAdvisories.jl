@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-264",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-0907"
     ],
     "summary": "Unchecked Return Value to NULL Pointer Dereference in tiffcrop in libtiff 4.3.0 allows attackers to ...",
     "details": "Unchecked Return Value to NULL Pointer Dereference in tiffcrop in libtiff 4.3.0 allows attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit f2b656e2.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +81,14 @@
         "sources": [
             {
                 "id": "CVE-2022-0907",
-                "imported": "2025-11-25T21:56:30.613Z",
-                "modified": "2024-11-21T06:39:38.687Z",
+                "imported": "2026-07-17T20:53:14.921Z",
+                "modified": "2026-06-17T04:21:27.970Z",
                 "published": "2022-03-11T18:15:26.217Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-0907",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0907"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0907",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

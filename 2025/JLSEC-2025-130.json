@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-130",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2023-50008"
     ],
     "summary": "FFmpeg v.n6.1-3-g466799d4f5 allows memory consumption when using the colorcorrect filter, in the av_...",
     "details": "FFmpeg v.n6.1-3-g466799d4f5 allows memory consumption when using the colorcorrect filter, in the av_malloc function in libavutil/mem.c:105:9 component.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2023-50008",
-                "imported": "2025-10-18T14:07:17.217Z",
-                "modified": "2025-06-06T13:15:23.937Z",
+                "imported": "2026-07-17T20:36:13.532Z",
+                "modified": "2026-06-17T06:39:04.773Z",
                 "published": "2024-04-19T17:15:52.013Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-50008",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50008"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-50008",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

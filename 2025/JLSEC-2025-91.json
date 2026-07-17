@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-91",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2025-9714"
     ],
     "summary": "Uncontrolled recursion in XPath evaluation in libxml2 up to and including version 2.9.14 allows a lo...",
     "details": "Uncontrolled recursion in XPath evaluation in libxml2 up to and including version 2.9.14 allows a local attacker to cause a stack overflow via crafted expressions. XPath processing functions `xmlXPathRunEval`, `xmlXPathCtxtCompile`, and `xmlXPathEvalExpr` were resetting recursion depth to zero before making potentially recursive calls. When such functions were called recursively this could allow for uncontrolled recursion and lead to a stack overflow. These functions now preserve recursion depth across recursive calls, allowing recursion depth to be controlled.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -33,7 +40,15 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-577017.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/677a42645ef22b5a50741bad5facf9d8a8bc6d21"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/09/msg00035.html"
         }
     ],
     "database_specific": {
@@ -41,11 +56,14 @@
         "sources": [
             {
                 "id": "CVE-2025-9714",
-                "imported": "2025-10-28T18:09:09.651Z",
-                "modified": "2025-09-17T21:13:10.787Z",
+                "imported": "2026-07-17T21:07:24.567Z",
+                "modified": "2026-06-17T10:09:35.520Z",
                 "published": "2025-09-10T19:15:42.707Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9714",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9714"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9714",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-468",
-    "modified": "2026-05-07T16:59:28.152Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-07T16:59:28.152Z",
     "upstream": [
         "CVE-2024-40896"
     ],
     "details": "In libxml2 2.11 before 2.11.9, 2.12 before 2.12.9, and 2.13 before 2.13.3, the SAX parser can produce events for external entities even if custom SAX handlers try to override entity content (by setting \"checked\"). This makes classic XXE attacks possible.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -48,8 +55,8 @@
         "sources": [
             {
                 "id": "CVE-2024-40896",
-                "imported": "2026-05-07T15:22:30.697Z",
-                "modified": "2025-11-25T13:32:32.960Z",
+                "imported": "2026-07-17T21:57:26.874Z",
+                "modified": "2026-06-17T07:46:48.710Z",
                 "published": "2024-12-23T17:15:08.400Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-40896",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-40896",

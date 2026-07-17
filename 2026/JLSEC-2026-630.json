@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-630",
-    "modified": "2026-06-25T17:41:14.392Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-25T17:41:14.392Z",
     "upstream": [
         "CVE-2026-43619",
@@ -12,8 +12,14 @@
     "details": "Rsync version 3.4.2 and prior contain symlink race condition vulnerabilities in path-based system calls including chmod, lchown, utimes, rename, unlink, mkdir, symlink, mknod, link, rmdir, and lstat that allow local attackers to redirect operations to files outside the exported rsync module. Attackers with local filesystem access can exploit the timing window between path resolution and syscall execution by swapping symlinks to apply sender-supplied permissions, ownership, timestamps, or filenames to arbitrary files outside the intended module boundary on rsync daemons configured with 'use chroot = no'.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N",
+            "source": "CNA"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,8 +71,8 @@
         "sources": [
             {
                 "id": "CVE-2026-43619",
-                "imported": "2026-06-25T17:27:23.339Z",
-                "modified": "2026-06-17T10:49:55.293Z",
+                "imported": "2026-07-17T22:15:23.754Z",
+                "modified": "2026-07-14T21:16:53.117Z",
                 "published": "2026-05-20T02:16:36.577Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-43619",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43619",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-pwrq-5rj3-c43m",
-                "imported": "2026-06-25T17:27:27.359Z",
+                "imported": "2026-07-17T22:15:23.901Z",
                 "modified": "2026-05-20T03:31:41Z",
                 "published": "2026-05-20T03:31:33Z",
                 "url": "https://api.github.com/advisories/GHSA-pwrq-5rj3-c43m",
@@ -84,8 +90,8 @@
             },
             {
                 "id": "EUVD-2026-31010",
-                "imported": "2026-06-25T17:27:24.675Z",
-                "modified": "2026-05-20T13:09:14Z",
+                "imported": "2026-07-17T22:15:27.738Z",
+                "modified": "2026-07-14T20:01:06Z",
                 "published": "2026-05-20T00:49:14Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-31010",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-31010"

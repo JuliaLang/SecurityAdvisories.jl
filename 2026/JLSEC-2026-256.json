@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-256",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2025-15467",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -75,6 +76,126 @@
         },
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1472"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1473"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1496"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1503"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1519"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1594"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1733"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1736"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2072"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2077"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2485"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2563"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2633"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2659"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2671"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2844"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2974"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:2995"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3228"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3415"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3461"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3462"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:4419"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:4943"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:6481"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:7261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2025-15467"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2430376"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-434797.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-734552.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/advisories/GHSA-wvhq-3h88-rf6g"
         },
         {
@@ -108,6 +229,10 @@
         {
             "type": "WEB",
             "url": "https://openssl-library.org/news/secadv/20260127.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2025/cve-2025-15467.json"
         }
     ],
     "database_specific": {
@@ -115,8 +240,8 @@
         "sources": [
             {
                 "id": "CVE-2025-15467",
-                "imported": "2026-04-27T16:32:47.958Z",
-                "modified": "2026-03-19T19:16:19.230Z",
+                "imported": "2026-07-17T21:29:43.700Z",
+                "modified": "2026-07-15T02:17:20.357Z",
                 "published": "2026-01-27T16:16:14.257Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-15467",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15467",
@@ -126,16 +251,16 @@
             },
             {
                 "id": "GHSA-wvhq-3h88-rf6g",
-                "imported": "2026-04-27T16:34:49.330Z",
-                "modified": "2026-03-19T21:31:21Z",
+                "imported": "2026-07-17T21:29:43.848Z",
+                "modified": "2026-07-14T15:32:45Z",
                 "published": "2026-01-27T18:32:15Z",
                 "url": "https://api.github.com/advisories/GHSA-wvhq-3h88-rf6g",
                 "html_url": "https://github.com/advisories/GHSA-wvhq-3h88-rf6g"
             },
             {
                 "id": "EUVD-2025-206379",
-                "imported": "2026-04-27T16:33:03.082Z",
-                "modified": "2026-03-20T03:55:41Z",
+                "imported": "2026-07-17T21:29:54.086Z",
+                "modified": "2026-06-30T03:18:01Z",
                 "published": "2026-01-27T16:01:19Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-206379",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-206379"

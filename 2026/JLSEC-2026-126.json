@@ -1,11 +1,11 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-126",
-    "modified": "2026-04-17T13:07:52.234Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-17T13:07:52.234Z",
     "upstream": [
-        "GHSA-44mp-2g68-7wvv",
         "CVE-2025-48175",
+        "GHSA-44mp-2g68-7wvv",
         "EUVD-2025-15403"
     ],
     "summary": "In libavif before 1.3.0, avifImageRGBToYUV in reformat.c has integer overflows in multiplications...",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:L"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -53,15 +54,15 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-44mp-2g68-7wvv"
+        },
+        {
+            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2025/05/msg00031.html"
         },
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48175"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-44mp-2g68-7wvv"
         }
     ],
     "database_specific": {
@@ -69,8 +70,8 @@
         "sources": [
             {
                 "id": "CVE-2025-48175",
-                "imported": "2026-04-17T08:45:49.620Z",
-                "modified": "2025-11-03T20:19:06.153Z",
+                "imported": "2026-07-17T21:12:09.597Z",
+                "modified": "2026-06-17T09:29:16.843Z",
                 "published": "2025-05-16T05:15:37.470Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-48175",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48175",
@@ -80,7 +81,7 @@
             },
             {
                 "id": "GHSA-44mp-2g68-7wvv",
-                "imported": "2026-04-17T08:45:49.893Z",
+                "imported": "2026-07-17T21:12:09.751Z",
                 "modified": "2025-11-03T21:34:58Z",
                 "published": "2025-05-16T06:30:24Z",
                 "url": "https://api.github.com/advisories/GHSA-44mp-2g68-7wvv",
@@ -88,7 +89,7 @@
             },
             {
                 "id": "EUVD-2025-15403",
-                "imported": "2026-04-17T08:45:49.728Z",
+                "imported": "2026-07-17T21:12:14.244Z",
                 "modified": "2025-11-03T20:04:43Z",
                 "published": "2025-05-16T00:00:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-15403",

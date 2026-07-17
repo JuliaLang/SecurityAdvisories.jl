@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-448",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2020-19188"
     ],
     "details": "Buffer Overflow vulnerability in fmt_entry function in progs/dump_entry.c:1116 in ncurses 6.1 allows remote attackers to cause a denial of service via crafted command.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,8 +75,8 @@
         "sources": [
             {
                 "id": "CVE-2020-19188",
-                "imported": "2026-05-05T15:04:41.289Z",
-                "modified": "2024-11-21T05:09:00.790Z",
+                "imported": "2026-07-17T21:54:58.004Z",
+                "modified": "2026-06-17T02:59:39.320Z",
                 "published": "2023-08-22T19:16:00.380Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-19188",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-19188",

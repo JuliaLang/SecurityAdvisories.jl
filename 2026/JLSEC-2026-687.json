@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-687",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2025-12889",
@@ -12,8 +12,14 @@
     "details": "With TLS 1.2 connections a client can use any digest, specifically a weaker digest that is supported, rather than those in the CertificateRequest.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -57,7 +63,7 @@
         "sources": [
             {
                 "id": "CVE-2025-12889",
-                "imported": "2026-07-14T21:22:48.965Z",
+                "imported": "2026-07-17T22:25:12.083Z",
                 "modified": "2026-06-17T08:33:09.203Z",
                 "published": "2025-11-22T00:15:54.257Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-12889",
@@ -68,7 +74,7 @@
             },
             {
                 "id": "GHSA-6wfx-6f8c-8wg4",
-                "imported": "2026-07-14T21:22:59.835Z",
+                "imported": "2026-07-17T22:25:12.271Z",
                 "modified": "2025-12-04T18:30:40Z",
                 "published": "2025-11-22T00:31:21Z",
                 "url": "https://api.github.com/advisories/GHSA-6wfx-6f8c-8wg4",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "EUVD-2025-198520",
-                "imported": "2026-07-14T21:22:52.600Z",
+                "imported": "2026-07-17T22:25:22.076Z",
                 "modified": "2025-12-08T15:39:52Z",
                 "published": "2025-11-21T23:06:59Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-198520",

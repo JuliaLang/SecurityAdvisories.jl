@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-288",
-    "modified": "2026-04-28T13:07:10.945Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-28T13:07:10.945Z",
     "upstream": [
         "CVE-2026-4738",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:A/S:P/AU:Y/R:U/V:C/RE:L/U:Amber"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:A/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:P/AU:Y/R:U/V:C/RE:L/U:Amber",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -57,8 +58,8 @@
         "sources": [
             {
                 "id": "CVE-2026-4738",
-                "imported": "2026-04-28T00:44:15.329Z",
-                "modified": "2026-03-24T15:53:48.067Z",
+                "imported": "2026-07-17T21:34:43.068Z",
+                "modified": "2026-06-17T10:57:09.030Z",
                 "published": "2026-03-24T04:17:29Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-4738",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4738",
@@ -68,7 +69,7 @@
             },
             {
                 "id": "GHSA-hp6p-5qh5-w9fj",
-                "imported": "2026-04-28T00:44:15.054Z",
+                "imported": "2026-07-17T21:34:43.298Z",
                 "modified": "2026-03-24T06:31:13Z",
                 "published": "2026-03-24T06:31:13Z",
                 "url": "https://api.github.com/advisories/GHSA-hp6p-5qh5-w9fj",
@@ -76,7 +77,7 @@
             },
             {
                 "id": "EUVD-2026-14706",
-                "imported": "2026-04-28T00:44:13.697Z",
+                "imported": "2026-07-17T21:34:43.485Z",
                 "modified": "2026-03-24T14:35:23Z",
                 "published": "2026-03-24T03:18:10Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-14706",

@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-214",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-44732"
     ],
     "summary": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an m...",
     "details": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an mbedtls_ssl_set_session() failure.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +81,14 @@
         "sources": [
             {
                 "id": "CVE-2021-44732",
-                "imported": "2025-11-20T23:04:00.332Z",
-                "modified": "2025-11-03T20:15:51.403Z",
+                "imported": "2026-07-17T20:45:49.030Z",
+                "modified": "2026-06-17T04:12:46.600Z",
                 "published": "2021-12-20T08:15:06.620Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44732",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44732"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44732",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

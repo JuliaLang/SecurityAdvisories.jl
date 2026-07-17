@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-74",
-    "modified": "2026-04-09T21:32:46.691Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2026-35385",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,7 +42,143 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:12389"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13380"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13381"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13383"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:14937"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:16059"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:19069"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:19219"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:20040"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:21275"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:21298"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:21398"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:22329"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:22468"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:22564"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:22648"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:25044"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:25063"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:25096"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:25181"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26528"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26542"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:28887"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:28962"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:30078"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:30087"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:30088"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:30089"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:34098"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-35385"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2454469"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jgqr-738j-43cg"
+        },
+        {
+            "type": "WEB",
             "url": "https://marc.info/?l=openssh-unix-dev&m=177513443901484&w=2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35385"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-35385.json"
         },
         {
             "type": "WEB",
@@ -50,14 +187,6 @@
         {
             "type": "WEB",
             "url": "https://www.openwall.com/lists/oss-security/2026/04/02/3"
-        },
-        {
-            "type": "WEB",
-            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35385"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-jgqr-738j-43cg"
         }
     ],
     "database_specific": {
@@ -65,25 +194,28 @@
         "sources": [
             {
                 "id": "CVE-2026-35385",
-                "imported": "2026-04-09T14:56:45.337Z",
-                "modified": "2026-04-03T16:10:23.730Z",
+                "imported": "2026-07-17T22:34:03.669Z",
+                "modified": "2026-07-15T02:20:41.787Z",
                 "published": "2026-04-02T17:16:27.450Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-35385",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35385"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35385",
+                "database_specific": {
+                    "status": "Modified"
+                }
             },
             {
                 "id": "GHSA-jgqr-738j-43cg",
-                "imported": "2026-04-09T14:56:45.491Z",
-                "modified": "2026-04-02T18:31:45Z",
+                "imported": "2026-07-17T22:34:03.855Z",
+                "modified": "2026-07-10T12:32:31Z",
                 "published": "2026-04-02T18:31:38Z",
                 "url": "https://api.github.com/advisories/GHSA-jgqr-738j-43cg",
                 "html_url": "https://github.com/advisories/GHSA-jgqr-738j-43cg"
             },
             {
                 "id": "EUVD-2026-18398",
-                "imported": "2026-04-09T14:56:20.746Z",
-                "modified": "2026-04-02T18:31:38Z",
-                "published": "2026-04-02T18:31:38Z",
+                "imported": "2026-07-17T22:34:13.944Z",
+                "modified": "2026-07-10T12:05:55Z",
+                "published": "2026-04-02T16:30:59Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-18398",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-18398"
             }

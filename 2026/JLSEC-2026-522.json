@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-522",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2021-4209"
     ],
     "details": "A NULL pointer dereference flaw was found in GnuTLS. As Nettle's hash update functions internally call memcpy, providing zero-length input may cause undefined behavior. This flaw leads to a denial of service after authentication in rare circumstances.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +67,8 @@
         "sources": [
             {
                 "id": "CVE-2021-4209",
-                "imported": "2026-05-22T18:34:35.098Z",
-                "modified": "2024-11-21T06:37:09.190Z",
+                "imported": "2026-07-17T22:03:59.574Z",
+                "modified": "2026-06-17T04:19:13.347Z",
                 "published": "2022-08-24T16:15:09.927Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-4209",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-4209",

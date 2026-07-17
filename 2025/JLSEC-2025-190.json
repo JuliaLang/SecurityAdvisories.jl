@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-190",
-    "modified": "2026-04-27T17:15:17.489Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-27T18:23:36.019Z",
     "withdrawn": "2026-04-27T17:15:17.489Z",
     "upstream": [
@@ -9,6 +9,18 @@
     ],
     "summary": "An integer overflow in util-linux through 2.37.1 can potentially cause a buffer overflow if an attac...",
     "details": "An integer overflow in util-linux through 2.37.1 can potentially cause a buffer overflow if an attacker were able to use system resources in a way that leads to a large number in the /proc/sysvipc/sem file. NOTE: this is unexploitable in GNU C Library environments, and possibly in all realistic environments.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:H/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -98,8 +110,8 @@
         "sources": [
             {
                 "id": "CVE-2021-37600",
-                "imported": "2026-04-27T17:02:11.574Z",
-                "modified": "2024-11-21T06:15:30.107Z",
+                "imported": "2026-07-17T20:43:08.164Z",
+                "modified": "2026-06-17T04:00:48.907Z",
                 "published": "2021-07-30T14:15:18.737Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-37600",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-37600",

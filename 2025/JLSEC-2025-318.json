@@ -1,13 +1,30 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-318",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2025-8177"
     ],
     "summary": "A vulnerability was found in LibTIFF up to 4.7.0",
     "details": "A vulnerability was found in LibTIFF up to 4.7.0. It has been rated as critical. This issue affects the function setrow of the file tools/thumbnail.c. The manipulation leads to buffer overflow. An attack has to be approached locally. The patch is named e8c9d6c616b19438695fd829e58ae4fde5bfbc22. It is recommended to apply a patch to fix this issue. This vulnerability only affects products that are no longer supported by the maintainer.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,11 +82,22 @@
         "sources": [
             {
                 "id": "CVE-2025-8177",
-                "imported": "2025-11-25T21:56:30.674Z",
-                "modified": "2025-09-11T16:57:45.093Z",
+                "imported": "2026-07-17T20:59:18.671Z",
+                "modified": "2026-06-17T10:06:27.647Z",
                 "published": "2025-07-26T04:16:10.983Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-8177",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8177"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8177",
+                "database_specific": {
+                    "status": "Analyzed",
+                    "tags": [
+                        {
+                            "sourceIdentifier": "cna@vuldb.com",
+                            "tags": [
+                                "unsupported-when-assigned"
+                            ]
+                        }
+                    ]
+                }
             }
         ]
     }

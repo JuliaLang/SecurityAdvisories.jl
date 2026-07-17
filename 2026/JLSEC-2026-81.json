@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-81",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
         "CVE-2022-38784"
     ],
     "details": "Poppler prior to and including 22.08.0 contains an integer overflow in the JBIG2 decoder (JBIG2Stream::readTextRegionSeg() in JBIGStream.cc). Processing a specially crafted PDF file or JBIG2 image could lead to a crash or the execution of arbitrary code. This is similar to the vulnerability described by CVE-2022-38171 in Xpdf.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -92,11 +99,14 @@
         "sources": [
             {
                 "id": "CVE-2022-38784",
-                "imported": "2026-04-13T04:14:33.180Z",
-                "modified": "2024-11-21T07:17:04.843Z",
+                "imported": "2026-07-17T22:40:17.946Z",
+                "modified": "2026-06-17T04:57:10.003Z",
                 "published": "2022-08-30T03:15:07.307Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-38784",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38784"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38784",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

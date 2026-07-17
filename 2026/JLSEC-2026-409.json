@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-409",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2023-28321"
     ],
     "details": "An improper certificate validation vulnerability exists in curl <v8.1.0 in the way it supports matching of wildcard patterns when listed as \"Subject Alternative Name\" in TLS server certificates. curl can be built to use its own name matching function for TLS rather than one provided by a TLS library. This private wildcard matching function would match IDN (International Domain Name) hosts incorrectly and could as a result accept patterns that otherwise should mismatch. IDN hostnames are converted to puny code before used for certificate checks. Puny coded names always start with `xn--` and should not be allowed to pattern match, but the wildcard check in curl could still check for `x*`, which would match even though the IDN name most likely contained nothing even resembling an `x`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -104,8 +111,8 @@
         "sources": [
             {
                 "id": "CVE-2023-28321",
-                "imported": "2026-05-02T08:39:47.120Z",
-                "modified": "2025-01-15T16:15:26.203Z",
+                "imported": "2026-07-17T21:48:51.070Z",
+                "modified": "2026-06-17T05:47:25.577Z",
                 "published": "2023-05-26T21:15:16.020Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-28321",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28321",

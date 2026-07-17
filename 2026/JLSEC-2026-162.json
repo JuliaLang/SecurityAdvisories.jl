@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-162",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-21T00:04:14.628Z",
     "upstream": [
         "CVE-2020-25710"
     ],
     "details": "A flaw was found in OpenLDAP in versions before 2.4.56. This flaw allows an attacker who sends a malicious packet processed by OpenLDAP to force a failed assertion in csnNormalize23(). The highest threat from this vulnerability is to system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -64,8 +76,8 @@
         "sources": [
             {
                 "id": "CVE-2020-25710",
-                "imported": "2026-04-20T22:59:56.370Z",
-                "modified": "2024-11-21T05:18:32.650Z",
+                "imported": "2026-07-17T21:16:18.512Z",
+                "modified": "2026-06-17T03:07:10.300Z",
                 "published": "2021-05-28T11:15:07.593Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-25710",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25710",

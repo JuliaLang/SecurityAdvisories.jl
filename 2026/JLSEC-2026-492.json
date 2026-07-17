@@ -1,12 +1,29 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-492",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-08T14:39:40.462Z",
     "upstream": [
         "CVE-2026-7598"
     ],
     "details": "A security vulnerability has been detected in libssh2 up to 1.11.1. The impacted element is the function userauth_password of the file src/userauth.c. Such manipulation of the argument username_len/password_len leads to integer overflow. The attack may be launched remotely. The name of the patch is 256d04b60d80bf1190e96b0ad1e91b2174d744b1. A patch should be applied to remediate this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -32,6 +49,22 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:16736"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:7021"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-7598"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2464597"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/libssh2/libssh2/"
         },
         {
@@ -41,6 +74,10 @@
         {
             "type": "WEB",
             "url": "https://github.com/libssh2/libssh2/pull/1858"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-7598.json"
         },
         {
             "type": "WEB",
@@ -60,13 +97,13 @@
         "sources": [
             {
                 "id": "CVE-2026-7598",
-                "imported": "2026-05-07T17:13:44.796Z",
-                "modified": "2026-05-07T01:47:08.857Z",
+                "imported": "2026-07-17T22:00:14.744Z",
+                "modified": "2026-07-15T01:17:01.190Z",
                 "published": "2026-05-01T22:16:16.947Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-7598",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7598",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             }
         ]

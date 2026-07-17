@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-3",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-03-23T22:38:33.248Z",
     "upstream": [
         "CVE-2023-44487"
     ],
     "summary": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancell...",
     "details": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -130,6 +137,26 @@
         {
             "type": "WEB",
             "url": "https://bugzilla.suse.com/show_bug.cgi?id=1216123"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-341067.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-784301.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-832273.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-915275.html"
         },
         {
             "type": "WEB",
@@ -729,11 +756,14 @@
         "sources": [
             {
                 "id": "CVE-2023-44487",
-                "imported": "2026-03-23T22:20:24.453Z",
-                "modified": "2025-11-07T19:00:41.810Z",
+                "imported": "2026-07-17T21:36:05.453Z",
+                "modified": "2026-06-17T06:27:44.067Z",
                 "published": "2023-10-10T14:15:10.883Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-44487",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44487"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44487",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

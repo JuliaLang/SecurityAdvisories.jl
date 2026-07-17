@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-400",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-43551"
     ],
     "details": "A vulnerability exists in curl <7.87.0 HSTS check that could be bypassed to trick it to keep using HTTP. Using its HSTS support, curl can be instructed to use HTTPS instead of using an insecure clear-text HTTP step even when HTTP is provided in the URL. However, the HSTS mechanism could be bypassed if the host name in the given URL first uses IDN characters that get replaced to ASCII counterparts as part of the IDN conversion. Like using the character UTF-8 U+3002 (IDEOGRAPHIC FULL STOP) instead of the common ASCII full stop (U+002E) `.`. Then in a subsequent request, it does not detect the HSTS state and makes a clear text transfer. Because it would store the info IDN encoded but look for it IDN decoded.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -72,8 +79,8 @@
         "sources": [
             {
                 "id": "CVE-2022-43551",
-                "imported": "2026-05-02T08:39:46.300Z",
-                "modified": "2026-02-13T20:16:13.973Z",
+                "imported": "2026-07-17T21:47:56.143Z",
+                "modified": "2026-06-17T05:06:49.480Z",
                 "published": "2022-12-23T15:15:15.777Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-43551",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43551",

@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-667",
-    "modified": "2026-07-14T14:59:33.004Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T14:59:33.004Z",
     "upstream": [
         "CVE-2026-57053",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L"
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -61,7 +62,7 @@
         "sources": [
             {
                 "id": "CVE-2026-57053",
-                "imported": "2026-07-14T14:33:05.456Z",
+                "imported": "2026-07-17T22:22:24.418Z",
                 "modified": "2026-06-29T19:40:25.163Z",
                 "published": "2026-06-23T18:18:10.827Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-57053",
@@ -72,7 +73,7 @@
             },
             {
                 "id": "GHSA-xpv7-vm32-p7wv",
-                "imported": "2026-07-14T14:33:08.354Z",
+                "imported": "2026-07-17T22:22:24.609Z",
                 "modified": "2026-06-23T18:31:56Z",
                 "published": "2026-06-23T18:31:45Z",
                 "url": "https://api.github.com/advisories/GHSA-xpv7-vm32-p7wv",
@@ -80,7 +81,7 @@
             },
             {
                 "id": "EUVD-2026-38523",
-                "imported": "2026-07-14T14:33:06.803Z",
+                "imported": "2026-07-17T22:22:34.456Z",
                 "modified": "2026-06-23T17:40:14Z",
                 "published": "2026-06-23T16:40:22Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38523",

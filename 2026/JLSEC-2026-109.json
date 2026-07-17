@@ -1,19 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-109",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
-        "EUVD-2025-16912",
+        "CVE-2025-48888",
         "GHSA-xqxc-x6p3-w683",
-        "CVE-2025-48888"
+        "EUVD-2025-16912"
     ],
     "summary": "Deno run with --allow-read and --deny-read flags results in allowed",
     "details": "Deno is a JavaScript, TypeScript, and WebAssembly runtime. Starting in version 1.41.3 and prior to versions 2.1.13, 2.2.13, and 2.3.2, `deno run --allow-read --deny-read main.ts` results in allowed, even though 'deny' should be stronger. The result is the same with all global unary permissions given as `--allow-* --deny-*`. This only affects a nonsensical combination of flags, so there shouldn't be a real impact on the userbase. Users may upgrade to version 2.1.13, 2.2.13, or 2.3.2 to receive a patch.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -41,6 +47,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-xqxc-x6p3-w683"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/denoland/deno/commit/2f0fae9d9071dcaf0a689bc7097584b1b9ebc8db"
         },
         {
@@ -66,10 +76,6 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48888"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-xqxc-x6p3-w683"
         }
     ],
     "credits": [
@@ -86,15 +92,18 @@
         "sources": [
             {
                 "id": "CVE-2025-48888",
-                "imported": "2026-04-14T12:58:55.127Z",
-                "modified": "2025-07-02T14:05:20.353Z",
+                "imported": "2026-07-17T21:09:46.134Z",
+                "modified": "2026-06-17T09:30:26.283Z",
                 "published": "2025-06-04T20:15:23.977Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-48888",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48888"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48888",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-xqxc-x6p3-w683",
-                "imported": "2026-04-14T12:58:59.043Z",
+                "imported": "2026-07-17T21:09:46.300Z",
                 "modified": "2025-07-02T18:29:57Z",
                 "published": "2025-06-04T21:13:44Z",
                 "url": "https://api.github.com/advisories/GHSA-xqxc-x6p3-w683",
@@ -102,7 +111,7 @@
             },
             {
                 "id": "EUVD-2025-16912",
-                "imported": "2026-04-14T12:58:57.176Z",
+                "imported": "2026-07-17T21:09:56.172Z",
                 "modified": "2025-06-04T19:32:53Z",
                 "published": "2025-06-04T19:15:55Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-16912",

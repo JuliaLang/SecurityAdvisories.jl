@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-577",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-08T13:15:35.983Z",
     "upstream": [
         "CVE-2019-11068"
     ],
     "details": "libxslt through 1.1.33 allows bypass of a protection mechanism because callers of xsltCheckRead and xsltCheckWrite permit access even upon receiving a -1 error code. xsltCheckRead can return -1 for a crafted URL that is not actually invalid and is subsequently loaded.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -100,8 +112,8 @@
         "sources": [
             {
                 "id": "CVE-2019-11068",
-                "imported": "2026-06-07T01:46:46.531Z",
-                "modified": "2026-05-28T19:16:28.143Z",
+                "imported": "2026-07-17T22:10:40.525Z",
+                "modified": "2026-06-17T02:12:14.650Z",
                 "published": "2019-04-10T20:29:01.147Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-11068",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-11068",

@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-244",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2023-5678",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -69,6 +70,54 @@
         },
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-093430.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-128433.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-277137.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-331112.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-341067.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-398330.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-556635.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-613116.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-769027.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-794697.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-915275.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=34efaef6c103d636ab507a0cc34dca4d3aecc055"
         },
         {
@@ -117,8 +166,8 @@
         "sources": [
             {
                 "id": "CVE-2023-5678",
-                "imported": "2026-04-27T16:32:46.079Z",
-                "modified": "2025-12-02T20:15:49.157Z",
+                "imported": "2026-07-17T21:27:35.488Z",
+                "modified": "2026-06-17T06:49:03.663Z",
                 "published": "2023-11-06T16:15:42.670Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5678",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5678",
@@ -128,16 +177,16 @@
             },
             {
                 "id": "GHSA-2cj7-mg3x-9mhq",
-                "imported": "2026-04-27T16:36:29.420Z",
-                "modified": "2025-11-04T00:30:42Z",
+                "imported": "2026-07-17T21:27:35.657Z",
+                "modified": "2026-05-12T12:31:34Z",
                 "published": "2023-11-06T18:30:19Z",
                 "url": "https://api.github.com/advisories/GHSA-2cj7-mg3x-9mhq",
                 "html_url": "https://github.com/advisories/GHSA-2cj7-mg3x-9mhq"
             },
             {
                 "id": "EUVD-2023-57969",
-                "imported": "2026-04-27T16:33:09.896Z",
-                "modified": "2025-12-02T19:42:55Z",
+                "imported": "2026-07-17T21:27:46.249Z",
+                "modified": "2026-05-12T10:32:15Z",
                 "published": "2023-11-06T15:47:30Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-57969",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-57969"

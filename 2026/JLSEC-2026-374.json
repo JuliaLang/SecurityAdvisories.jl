@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-374",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-01T13:54:10.329Z",
     "upstream": [
         "CVE-2023-44488"
     ],
     "details": "VP9 in libvpx before 1.13.1 mishandles widths, leading to a crash related to encoding.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -76,8 +83,8 @@
         "sources": [
             {
                 "id": "CVE-2023-44488",
-                "imported": "2026-05-01T13:33:19.788Z",
-                "modified": "2024-11-21T08:25:59.403Z",
+                "imported": "2026-07-17T21:44:52.541Z",
+                "modified": "2026-06-17T06:27:44.793Z",
                 "published": "2023-09-30T20:15:10.200Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-44488",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44488",

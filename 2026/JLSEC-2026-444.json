@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-444",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2019-17595"
     ],
     "details": "There is a heap-based buffer over-read in the fmt_entry function in tinfo/comp_hash.c in the terminfo library in ncurses before 6.1-20191012.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -56,8 +68,8 @@
         "sources": [
             {
                 "id": "CVE-2019-17595",
-                "imported": "2026-05-05T15:04:40.492Z",
-                "modified": "2024-11-21T04:32:36.323Z",
+                "imported": "2026-07-17T21:54:33.592Z",
+                "modified": "2026-06-17T02:24:14.680Z",
                 "published": "2019-10-14T21:15:11.427Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-17595",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17595",

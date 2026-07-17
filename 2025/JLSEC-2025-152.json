@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-152",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-55069"
     ],
     "summary": "ffmpeg 7.1 is vulnerable to Null Pointer Dereference in function iamf_read_header in /libavformat/ia...",
     "details": "ffmpeg 7.1 is vulnerable to Null Pointer Dereference in function iamf_read_header in /libavformat/iamfdec.c.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,11 +72,14 @@
         "sources": [
             {
                 "id": "CVE-2024-55069",
-                "imported": "2025-10-18T14:07:17.245Z",
-                "modified": "2025-06-03T18:13:05.697Z",
+                "imported": "2026-07-17T20:38:41.719Z",
+                "modified": "2026-06-17T08:10:56.700Z",
                 "published": "2025-05-02T22:15:16.750Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-55069",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-55069"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-55069",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

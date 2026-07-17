@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-303",
-    "modified": "2026-04-29T13:21:01.555Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-32608"
     ],
     "details": "HDF5 library through 1.14.3 has memory corruption in H5A__close resulting in the corruption of the instruction pointer and causing denial of service or potential code execution.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -40,8 +47,8 @@
         "sources": [
             {
                 "id": "CVE-2024-32608",
-                "imported": "2026-04-29T08:59:43.185Z",
-                "modified": "2025-03-25T17:15:54.577Z",
+                "imported": "2026-07-17T21:36:36.011Z",
+                "modified": "2026-06-17T07:29:56.527Z",
                 "published": "2024-10-09T05:15:13.110Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-32608",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-32608",

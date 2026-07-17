@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-63",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2020-14145"
     ],
     "details": "The client side in OpenSSH 5.7 through 8.4 has an Observable Discrepancy leading to an information leak in the algorithm negotiation. This allows man-in-the-middle attackers to target initial connection attempts (where no host key for the server has been cached by the client). NOTE: some reports state that 8.5 and 8.6 are also affected.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,11 +80,14 @@
         "sources": [
             {
                 "id": "CVE-2020-14145",
-                "imported": "2026-04-09T14:56:18.788Z",
-                "modified": "2025-12-18T15:15:48.410Z",
+                "imported": "2026-07-17T22:15:17.745Z",
+                "modified": "2026-06-17T02:54:17.200Z",
                 "published": "2020-06-29T18:15:11.940Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14145",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14145"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14145",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

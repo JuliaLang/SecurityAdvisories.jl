@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-64",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2021-28041"
     ],
     "details": "ssh-agent in OpenSSH before 8.5 has a double free that may be relevant in a few less-common scenarios, such as unconstrained agent-socket access on a legacy operating system, or the forwarding of an agent to an attacker-controlled host.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:H/Au:S/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -72,11 +84,14 @@
         "sources": [
             {
                 "id": "CVE-2021-28041",
-                "imported": "2026-04-09T14:56:18.823Z",
-                "modified": "2024-11-21T05:59:01.940Z",
+                "imported": "2026-07-17T22:16:35.390Z",
+                "modified": "2026-06-17T03:45:46.073Z",
                 "published": "2021-03-05T21:15:13.200Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-28041",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-28041"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-28041",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

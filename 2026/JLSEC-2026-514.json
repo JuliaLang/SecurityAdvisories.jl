@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-514",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-20T04:02:19.667Z",
     "upstream": [
         "CVE-2021-20234"
     ],
     "details": "An uncontrolled resource consumption (memory leak) flaw was found in the ZeroMQ client in versions before 4.3.3 in src/pipe.cpp. This issue causes a client that connects to multiple malicious or compromised servers to crash. The highest threat from this vulnerability is to system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -44,8 +56,8 @@
         "sources": [
             {
                 "id": "CVE-2021-20234",
-                "imported": "2026-05-20T01:02:00.881Z",
-                "modified": "2024-11-21T05:46:11.107Z",
+                "imported": "2026-07-17T22:03:04.282Z",
+                "modified": "2026-06-17T03:33:31.277Z",
                 "published": "2021-04-01T14:15:13.123Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-20234",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-20234",

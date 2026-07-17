@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-524",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2023-5981"
     ],
     "details": "A vulnerability was found that the response times to malformed ciphertexts in RSA-PSK ClientKeyExchange differ from response times of ciphertexts with correct PKCS#1 v1.5 padding.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -92,8 +99,8 @@
         "sources": [
             {
                 "id": "CVE-2023-5981",
-                "imported": "2026-05-22T18:34:35.299Z",
-                "modified": "2026-03-25T20:01:09.507Z",
+                "imported": "2026-07-17T22:04:13.186Z",
+                "modified": "2026-06-17T06:49:47.443Z",
                 "published": "2023-11-28T12:15:07.040Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5981",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5981",

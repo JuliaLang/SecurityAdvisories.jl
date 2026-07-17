@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-171",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-21T00:04:14.628Z",
     "upstream": [
         "CVE-2020-36229"
     ],
     "details": "A flaw was discovered in ldap_X509dn2bv in OpenLDAP before 2.4.57 leading to a slapd crash in the X.509 DN parsing in ad_keystring, resulting in denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -92,8 +104,8 @@
         "sources": [
             {
                 "id": "CVE-2020-36229",
-                "imported": "2026-04-20T22:59:56.335Z",
-                "modified": "2024-11-21T05:29:06.060Z",
+                "imported": "2026-07-17T21:17:21.071Z",
+                "modified": "2026-06-17T03:15:09.883Z",
                 "published": "2021-01-26T18:15:57.287Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-36229",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36229",

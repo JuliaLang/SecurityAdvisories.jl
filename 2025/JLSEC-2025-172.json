@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-172",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-20T22:55:27.993Z",
     "upstream": [
         "CVE-2022-25310"
     ],
     "summary": "A segmentation fault (SEGV) flaw was found in the Fribidi package and affects the fribidi_remove_bid...",
     "details": "A segmentation fault (SEGV) flaw was found in the Fribidi package and affects the fribidi_remove_bidi_marks() function of the lib/fribidi.c file. This flaw allows an attacker to pass a specially crafted file to Fribidi, leading to a crash and causing a denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -53,11 +60,14 @@
         "sources": [
             {
                 "id": "CVE-2022-25310",
-                "imported": "2025-10-19T19:44:23.693Z",
-                "modified": "2024-11-21T06:51:58.347Z",
+                "imported": "2026-07-17T20:40:57.068Z",
+                "modified": "2026-06-17T04:33:22.123Z",
                 "published": "2022-09-06T18:15:11.557Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25310",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25310"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25310",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

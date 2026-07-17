@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-194",
-    "modified": "2026-04-27T17:15:17.489Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-27T18:23:36.019Z",
     "upstream": [
         "CVE-2024-28085"
     ],
     "summary": "wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequence...",
     "details": "wall in util-linux through 2.40, often installed with setgid tty permissions, allows escape sequences to be sent to other users' terminals through argv. (Specifically, escape sequences received from stdin are blocked, but escape sequences received from argv are not blocked.) There may be plausible scenarios where this leads to account takeover.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -109,6 +116,14 @@
         },
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-202008.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/skyler-ferrante/CVE-2024-28085"
         },
         {
@@ -141,8 +156,8 @@
         "sources": [
             {
                 "id": "CVE-2024-28085",
-                "imported": "2026-04-27T17:02:12.052Z",
-                "modified": "2025-11-04T19:17:04.917Z",
+                "imported": "2026-07-17T20:43:32.538Z",
+                "modified": "2026-06-17T07:20:56.090Z",
                 "published": "2024-03-27T19:15:48.367Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-28085",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28085",

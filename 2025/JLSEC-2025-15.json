@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-15",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2019-6461"
     ],
     "summary": "An issue was discovered in cairo 1.16.0",
     "details": "An issue was discovered in cairo 1.16.0. There is an assertion problem in the function _cairo_arc_in_direction in the file cairo-arc.c.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -49,11 +61,14 @@
         "sources": [
             {
                 "id": "CVE-2019-6461",
-                "imported": "2025-10-09T21:00:34.749Z",
-                "modified": "2024-11-21T04:46:29.910Z",
+                "imported": "2026-07-17T20:38:23.474Z",
+                "modified": "2026-06-17T02:39:05.313Z",
                 "published": "2019-01-16T18:29:00.510Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-6461",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-6461"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-6461",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

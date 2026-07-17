@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-58",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-06T14:29:38.996Z",
     "upstream": [
         "CVE-2020-10531"
     ],
     "details": "An issue was discovered in International Components for Unicode (ICU) for C/C++ through 66.1. An integer overflow, leading to a heap-based buffer overflow, exists in the UnicodeString::doAppend() function in common/unistr.cpp.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -108,11 +120,14 @@
         "sources": [
             {
                 "id": "CVE-2020-10531",
-                "imported": "2026-04-06T14:18:11.814Z",
-                "modified": "2024-11-21T04:55:31.623Z",
+                "imported": "2026-07-17T22:10:59.008Z",
+                "modified": "2026-06-17T02:47:57.573Z",
                 "published": "2020-03-12T19:15:13.227Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-10531",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10531"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10531",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

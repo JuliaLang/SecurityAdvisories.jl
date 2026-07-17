@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-469",
-    "modified": "2026-05-07T17:12:07.051Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-07T17:12:07.051Z",
     "upstream": [
         "CVE-2020-14344",
@@ -12,8 +12,14 @@
     "details": "An integer overflow leading to a heap-buffer overflow was found in The X Input Method (XIM) client was implemented in libX11 before version 1.6.10. As per upstream this is security relevant when setuid programs call XIM client functions while running with elevated privileges. No such programs are shipped with Red Hat Enterprise Linux.",
     "severity": [
         {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -117,8 +123,8 @@
         "sources": [
             {
                 "id": "CVE-2020-14344",
-                "imported": "2026-05-07T16:20:05.543Z",
-                "modified": "2024-11-21T05:03:03.373Z",
+                "imported": "2026-07-17T21:57:33.005Z",
+                "modified": "2026-06-17T02:54:34.570Z",
                 "published": "2020-08-05T14:15:12.420Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-14344",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-14344",
@@ -128,7 +134,7 @@
             },
             {
                 "id": "GHSA-g6cq-58wq-v493",
-                "imported": "2026-05-07T16:20:09.033Z",
+                "imported": "2026-07-17T21:57:33.164Z",
                 "modified": "2023-01-31T05:08:25Z",
                 "published": "2022-05-24T17:24:58Z",
                 "url": "https://api.github.com/advisories/GHSA-g6cq-58wq-v493",
@@ -136,7 +142,7 @@
             },
             {
                 "id": "EUVD-2020-6488",
-                "imported": "2026-05-07T16:20:07.392Z",
+                "imported": "2026-07-17T21:57:37.157Z",
                 "modified": "2024-08-04T12:39:36Z",
                 "published": "2020-08-05T13:08:33Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2020-6488",

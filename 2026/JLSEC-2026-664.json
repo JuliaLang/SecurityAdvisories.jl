@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-664",
-    "modified": "2026-07-15T16:27:37.400Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-13T17:46:15.921Z",
     "upstream": [
         "CVE-2022-43357",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -66,7 +67,7 @@
         "sources": [
             {
                 "id": "CVE-2022-43357",
-                "imported": "2026-07-15T16:00:42.181Z",
+                "imported": "2026-07-17T22:21:54.009Z",
                 "modified": "2026-06-17T05:06:21.560Z",
                 "published": "2023-08-22T19:16:29.527Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-43357",
@@ -77,7 +78,7 @@
             },
             {
                 "id": "GHSA-j7vr-2gc9-mmv7",
-                "imported": "2026-07-15T16:00:24.941Z",
+                "imported": "2026-07-17T22:21:54.172Z",
                 "modified": "2024-04-11T21:19:47Z",
                 "published": "2023-08-22T21:30:26Z",
                 "url": "https://api.github.com/advisories/GHSA-j7vr-2gc9-mmv7",
@@ -85,7 +86,7 @@
             },
             {
                 "id": "EUVD-2022-46396",
-                "imported": "2026-07-15T16:00:23.058Z",
+                "imported": "2026-07-17T22:22:03.913Z",
                 "modified": "2024-10-03T14:35:50Z",
                 "published": "2023-08-22T00:00:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2022-46396",

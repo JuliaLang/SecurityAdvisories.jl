@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-199",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T13:45:07.015Z",
     "upstream": [
         "CVE-2020-18974"
     ],
     "details": "Buffer Overflow in Netwide Assembler (NASM) v2.15.xx allows attackers to cause a denial of service via 'crc64i' in the component 'nasmlib/crc64'. This issue is different than CVE-2019-7147.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -40,8 +52,8 @@
         "sources": [
             {
                 "id": "CVE-2020-18974",
-                "imported": "2026-04-27T13:24:07.957Z",
-                "modified": "2024-11-21T05:08:52.917Z",
+                "imported": "2026-07-17T21:20:27.108Z",
+                "modified": "2026-06-17T02:59:31.757Z",
                 "published": "2021-08-25T16:15:08.567Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-18974",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-18974",

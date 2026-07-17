@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-269",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2026-22795",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -67,6 +68,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/advisories/GHSA-3vqq-45qg-2xf6"
         },
         {
@@ -103,27 +108,27 @@
         "sources": [
             {
                 "id": "CVE-2026-22795",
-                "imported": "2026-04-27T16:32:52.264Z",
-                "modified": "2026-02-02T18:41:14.917Z",
+                "imported": "2026-07-17T21:32:00.517Z",
+                "modified": "2026-06-17T10:20:26.520Z",
                 "published": "2026-01-27T16:16:35.430Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-22795",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22795",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             },
             {
                 "id": "GHSA-3vqq-45qg-2xf6",
-                "imported": "2026-04-27T16:36:30.547Z",
-                "modified": "2026-01-29T21:30:29Z",
+                "imported": "2026-07-17T21:32:00.681Z",
+                "modified": "2026-05-12T15:32:20Z",
                 "published": "2026-01-27T18:32:16Z",
                 "url": "https://api.github.com/advisories/GHSA-3vqq-45qg-2xf6",
                 "html_url": "https://github.com/advisories/GHSA-3vqq-45qg-2xf6"
             },
             {
                 "id": "EUVD-2026-4815",
-                "imported": "2026-04-27T16:33:05.080Z",
-                "modified": "2026-01-29T18:13:37Z",
+                "imported": "2026-07-17T21:32:10.881Z",
+                "modified": "2026-05-12T12:08:53Z",
                 "published": "2026-01-27T16:01:27Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-4815",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-4815"

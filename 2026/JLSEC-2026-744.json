@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-744",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6094",
@@ -12,8 +12,14 @@
     "details": "Heap buffer overread in wc_PKCS7_DecodeEnvelopedData when parsing crafted PKCS7 EnvelopedData. This could theoretically be triggered by attacker-supplied data delivered via S/MIME or CMS.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-6094",
-                "imported": "2026-07-14T21:22:49.518Z",
+                "imported": "2026-07-17T22:34:54.707Z",
                 "modified": "2026-06-26T16:51:02.670Z",
                 "published": "2026-06-25T18:16:41.567Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6094",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-h6gc-rmv2-74g6",
-                "imported": "2026-07-14T21:22:58.797Z",
+                "imported": "2026-07-17T22:34:54.879Z",
                 "modified": "2026-06-26T18:33:49Z",
                 "published": "2026-06-25T18:30:41Z",
                 "url": "https://api.github.com/advisories/GHSA-h6gc-rmv2-74g6",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39480",
-                "imported": "2026-07-14T21:22:51.447Z",
+                "imported": "2026-07-17T22:35:04.780Z",
                 "modified": "2026-06-25T17:59:41Z",
                 "published": "2026-06-25T16:35:48Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39480",

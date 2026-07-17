@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-525",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2024-0553"
     ],
     "details": "A vulnerability was found in GnuTLS. The response times to malformed ciphertexts in RSA-PSK ClientKeyExchange differ from the response times of ciphertexts with correct PKCS#1 v1.5 padding. This issue may allow a remote attacker to perform a timing side-channel attack in the RSA-PSK key exchange, potentially leading to the leakage of sensitive data. CVE-2024-0553 is designated as an incomplete resolution for CVE-2023-5981.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -100,8 +107,8 @@
         "sources": [
             {
                 "id": "CVE-2024-0553",
-                "imported": "2026-05-22T18:34:35.391Z",
-                "modified": "2026-03-24T12:16:10.683Z",
+                "imported": "2026-07-17T22:04:19.366Z",
+                "modified": "2026-06-17T06:53:45.660Z",
                 "published": "2024-01-16T12:15:45.557Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-0553",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0553",

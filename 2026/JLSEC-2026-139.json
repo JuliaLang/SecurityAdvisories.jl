@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-139",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-17T15:19:54.657Z",
     "upstream": [
         "CVE-2025-64183"
     ],
     "details": "OpenEXR provides the specification and reference implementation of the EXR file format, an image storage format for the motion picture industry. In versions 3.2.0 through 3.2.4, 3.3.0 through 3.3.5, and 3.4.0 through 3.4.2, there is a use-after-free in PyObject_StealAttrString of pyOpenEXR_old.cpp. The legacy adapter defines PyObject_StealAttrString that calls PyObject_GetAttrString to obtain a new reference, immediately decrefs it, and returns the pointer. Callers then pass this dangling pointer to APIs like PyLong_AsLong/PyFloat_AsDouble, resulting in a use-after-free. This is invoked in multiple places (e.g., reading PixelType.v, Box2i, V2f, etc.) Versions 3.2.5, 3.3.6, and 3.4.3 fix the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -44,8 +56,8 @@
         "sources": [
             {
                 "id": "CVE-2025-64183",
-                "imported": "2026-04-17T13:59:24.403Z",
-                "modified": "2025-12-08T16:00:58.283Z",
+                "imported": "2026-07-17T21:13:35.405Z",
+                "modified": "2026-06-17T09:53:58.397Z",
                 "published": "2025-11-10T22:15:37.323Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-64183",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64183",

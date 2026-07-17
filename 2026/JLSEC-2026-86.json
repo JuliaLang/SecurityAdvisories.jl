@@ -1,11 +1,11 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-86",
-    "modified": "2026-04-13T13:20:05.063Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
-        "GHSA-r4rq-7765-p57x",
         "CVE-2025-32365",
+        "GHSA-r4rq-7765-p57x",
         "EUVD-2025-9921"
     ],
     "summary": "Poppler before 25.04.0 allows crafted input files to trigger out-of-bounds reads in the...",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,6 +42,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-r4rq-7765-p57x"
+        },
+        {
+            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/poppler/poppler/-/issues/1577"
         },
         {
@@ -54,10 +59,6 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32365"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-r4rq-7765-p57x"
         }
     ],
     "database_specific": {
@@ -65,15 +66,18 @@
         "sources": [
             {
                 "id": "CVE-2025-32365",
-                "imported": "2026-04-13T04:14:33.298Z",
-                "modified": "2025-11-03T20:18:26.977Z",
+                "imported": "2026-07-17T22:40:48.525Z",
+                "modified": "2026-06-17T09:11:52.940Z",
                 "published": "2025-04-05T22:15:19.010Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-32365",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32365"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32365",
+                "database_specific": {
+                    "status": "Modified"
+                }
             },
             {
                 "id": "GHSA-r4rq-7765-p57x",
-                "imported": "2026-04-13T04:15:00.157Z",
+                "imported": "2026-07-17T22:40:48.678Z",
                 "modified": "2025-11-03T21:33:31Z",
                 "published": "2025-04-07T15:31:11Z",
                 "url": "https://api.github.com/advisories/GHSA-r4rq-7765-p57x",
@@ -81,7 +85,7 @@
             },
             {
                 "id": "EUVD-2025-9921",
-                "imported": "2026-04-13T04:14:34.538Z",
+                "imported": "2026-07-17T22:40:53.412Z",
                 "modified": "2025-11-03T19:53:23Z",
                 "published": "2025-04-05T00:00:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-9921",

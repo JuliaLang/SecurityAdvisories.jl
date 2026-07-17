@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-259",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-22844"
     ],
     "summary": "LibTIFF 4.3.0 has an out-of-bounds read in _TIFFmemcpy in tif_unix.c in certain situations involving...",
     "details": "LibTIFF 4.3.0 has an out-of-bounds read in _TIFFmemcpy in tif_unix.c in certain situations involving a custom tag and 0x0200 as the second word of the DE field.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -61,11 +73,14 @@
         "sources": [
             {
                 "id": "CVE-2022-22844",
-                "imported": "2025-11-25T21:56:30.601Z",
-                "modified": "2024-11-21T06:47:33.353Z",
+                "imported": "2026-07-17T20:52:33.484Z",
+                "modified": "2026-06-17T04:29:08.070Z",
                 "published": "2022-01-10T14:12:58.320Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-22844",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-22844"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-22844",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-100",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T18:40:48.457Z",
     "upstream": [
         "CVE-2025-5449"
     ],
     "summary": "A flaw was found in the SFTP server message decoding logic of libssh",
     "details": "A flaw was found in the SFTP server message decoding logic of libssh. The issue occurs due to an incorrect packet length check that allows an integer overflow when handling large payload sizes on 32-bit systems. This issue leads to failed memory allocation and causes the server process to crash, resulting in a denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2025-5449",
-                "imported": "2025-10-18T14:10:41.626Z",
-                "modified": "2025-08-14T00:39:43.210Z",
+                "imported": "2026-07-17T20:32:50.680Z",
+                "modified": "2026-06-30T11:16:24.963Z",
                 "published": "2025-07-25T18:15:26.967Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5449",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5449"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5449",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

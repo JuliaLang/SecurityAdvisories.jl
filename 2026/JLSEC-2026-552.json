@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-552",
-    "modified": "2026-05-26T19:31:24.313Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2025-54874",
@@ -10,8 +10,14 @@
     "details": "OpenJPEG is an open-source JPEG 2000 codec. In OpenJPEG from 2.5.1 through 2.5.3, a call to opj_jp2_read_header may lead to OOB heap memory write when the data stream p_stream is too short and p_image is not initialized.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P"
+            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -55,8 +61,8 @@
         "sources": [
             {
                 "id": "CVE-2025-54874",
-                "imported": "2026-05-25T01:08:38.684Z",
-                "modified": "2025-09-26T22:15:33.920Z",
+                "imported": "2026-07-17T22:07:25.838Z",
+                "modified": "2026-06-17T09:40:50.743Z",
                 "published": "2025-08-05T15:15:32Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-54874",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54874",
@@ -66,7 +72,7 @@
             },
             {
                 "id": "EUVD-2025-23631",
-                "imported": "2026-05-25T01:08:40.996Z",
+                "imported": "2026-07-17T22:07:26.365Z",
                 "modified": "2026-02-26T17:49:57Z",
                 "published": "2025-08-05T14:33:17Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-23631",

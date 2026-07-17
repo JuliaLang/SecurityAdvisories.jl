@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-308",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2023-3618"
     ],
     "summary": "A flaw was found in libtiff",
     "details": "A flaw was found in libtiff. A specially crafted tiff file can lead to a segmentation fault due to a buffer overflow in the Fax3Encode function in libtiff/tif_fax3.c, resulting in a denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2023-3618",
-                "imported": "2025-11-25T21:56:30.664Z",
-                "modified": "2025-11-03T21:15:59.683Z",
+                "imported": "2026-07-17T20:58:10.007Z",
+                "modified": "2026-06-17T06:14:28.720Z",
                 "published": "2023-07-12T15:15:09.060Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-3618",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3618"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-3618",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-747",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6329",
@@ -12,8 +12,14 @@
     "details": "PKCS#12 MAC verification uses an attacker-controlled comparison length, weakening the integrity check on the MAC and allowing a mismatched MAC to be accepted. The PKCS#12 verify path compared the locally computed HMAC against the MAC parsed from the PKCS#12 structure using a length taken directly from the attacker-supplied input, without first verifying that it equals the length of the digest actually produced by the configured algorithm. A truncated or zero-length stored MAC could therefore be accepted, defeating the integrity protection of the MAC.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-6329",
-                "imported": "2026-07-14T21:22:49.784Z",
+                "imported": "2026-07-17T22:35:25.336Z",
                 "modified": "2026-06-27T19:51:09.053Z",
                 "published": "2026-06-25T22:17:02.757Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6329",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-r98j-g9p3-fcgm",
-                "imported": "2026-07-14T21:23:09.515Z",
+                "imported": "2026-07-17T22:35:25.503Z",
                 "modified": "2026-06-27T21:31:35Z",
                 "published": "2026-06-26T00:32:06Z",
                 "url": "https://api.github.com/advisories/GHSA-r98j-g9p3-fcgm",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39571",
-                "imported": "2026-07-14T21:22:51.427Z",
+                "imported": "2026-07-17T22:35:35.279Z",
                 "modified": "2026-06-26T10:22:21Z",
                 "published": "2026-06-25T21:02:45Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39571",

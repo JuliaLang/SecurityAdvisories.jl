@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-176",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-22T20:20:10.334Z",
     "upstream": [
         "CVE-2019-20838"
     ],
     "details": "libpcre in PCRE before 8.43 allows a subject buffer over-read in JIT when UTF is disabled, and \\X or \\R has more than one fixed quantifier, a related issue to CVE-2019-20454.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -64,8 +76,8 @@
         "sources": [
             {
                 "id": "CVE-2019-20838",
-                "imported": "2026-04-22T18:38:35.548Z",
-                "modified": "2024-11-21T04:39:29.857Z",
+                "imported": "2026-07-17T21:17:52.422Z",
+                "modified": "2026-06-17T02:31:17.503Z",
                 "published": "2020-06-15T17:15:09.683Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-20838",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-20838",

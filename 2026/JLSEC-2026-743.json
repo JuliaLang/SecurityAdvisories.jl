@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-743",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6092",
@@ -12,8 +12,14 @@
     "details": "When HAVE_ENCRYPT_THEN_MAC is configured, the implementation could fall back to MAC-then-Encrypt rather than enforcing Encrypt-then-MAC.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:A/AC:H/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/U:Clear"
+            "score": "CVSS:4.0/AV:A/AC:H/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Clear",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-6092",
-                "imported": "2026-07-14T21:22:49.746Z",
+                "imported": "2026-07-17T22:34:44.874Z",
                 "modified": "2026-06-27T19:55:26.953Z",
                 "published": "2026-06-25T22:17:02.507Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6092",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-576m-xh9m-c774",
-                "imported": "2026-07-14T21:23:05.410Z",
+                "imported": "2026-07-17T22:34:45.049Z",
                 "modified": "2026-06-27T21:30:28Z",
                 "published": "2026-06-26T00:32:06Z",
                 "url": "https://api.github.com/advisories/GHSA-576m-xh9m-c774",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39573",
-                "imported": "2026-07-14T21:22:51.406Z",
+                "imported": "2026-07-17T22:34:54.617Z",
                 "modified": "2026-06-26T10:25:01Z",
                 "published": "2026-06-25T21:06:20Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39573",

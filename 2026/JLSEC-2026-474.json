@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-474",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-07T17:12:07.051Z",
     "upstream": [
         "CVE-2023-43786"
     ],
     "details": "A vulnerability was found in libX11 due to an infinite loop within the PutSubImage() function. This flaw allows a local user to consume all available system resources and cause a denial of service condition.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,8 +75,8 @@
         "sources": [
             {
                 "id": "CVE-2023-43786",
-                "imported": "2026-05-07T16:20:05.965Z",
-                "modified": "2025-11-04T20:17:07.390Z",
+                "imported": "2026-07-17T21:58:09.865Z",
+                "modified": "2026-06-17T06:26:26.240Z",
                 "published": "2023-10-10T13:15:22.023Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-43786",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43786",

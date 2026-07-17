@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-408",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2023-28320"
     ],
     "details": "A denial of service vulnerability exists in curl <v8.1.0 in the way libcurl provides several different backends for resolving host names, selected at build time. If it is built to use the synchronous resolver, it allows name resolves to time-out slow operations using `alarm()` and `siglongjmp()`. When doing this, libcurl used a global buffer that was not mutex protected and a multi-threaded application might therefore crash or otherwise misbehave.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -92,8 +99,8 @@
         "sources": [
             {
                 "id": "CVE-2023-28320",
-                "imported": "2026-05-02T08:39:47.037Z",
-                "modified": "2025-01-15T16:15:25.953Z",
+                "imported": "2026-07-17T21:48:44.880Z",
+                "modified": "2026-06-17T05:47:25.397Z",
                 "published": "2023-05-26T21:15:15.937Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-28320",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28320",

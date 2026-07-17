@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-263",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-0891"
     ],
     "summary": "A heap buffer overflow in ExtractImageSection function in tiffcrop.c in libtiff library Version 4.3....",
     "details": "A heap buffer overflow in ExtractImageSection function in tiffcrop.c in libtiff library Version 4.3.0 allows attacker to trigger unsafe or out of bounds memory access via crafted TIFF image file which could result into application crash, potential information disclosure or any other context-dependent impact",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -73,11 +85,14 @@
         "sources": [
             {
                 "id": "CVE-2022-0891",
-                "imported": "2025-11-25T21:56:30.613Z",
-                "modified": "2024-11-21T06:39:36.610Z",
+                "imported": "2026-07-17T20:53:08.855Z",
+                "modified": "2026-06-17T04:21:26.240Z",
                 "published": "2022-03-10T17:44:58.207Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-0891",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0891"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0891",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-173",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-21T00:04:14.628Z",
     "upstream": [
         "CVE-2021-27212"
     ],
     "details": "In OpenLDAP through 2.4.57 and 2.5.x through 2.5.1alpha, an assertion failure in slapd can occur in the issuerAndThisUpdateCheck function via a crafted packet, resulting in a denial of service (daemon exit) via a short timestamp. This is related to schema_init.c and checkTime.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,8 +80,8 @@
         "sources": [
             {
                 "id": "CVE-2021-27212",
-                "imported": "2026-04-20T22:59:56.358Z",
-                "modified": "2024-11-21T05:57:36.240Z",
+                "imported": "2026-07-17T21:17:34.044Z",
+                "modified": "2026-06-17T03:44:28.483Z",
                 "published": "2021-02-14T03:15:12.957Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-27212",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27212",

@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-110",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2020-35964"
     ],
     "summary": "track_header in libavformat/vividas.c in FFmpeg 4.3.1 has an out-of-bounds write because of incorrec...",
     "details": "track_header in libavformat/vividas.c in FFmpeg 4.3.1 has an out-of-bounds write because of incorrect extradata packing.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +81,14 @@
         "sources": [
             {
                 "id": "CVE-2020-35964",
-                "imported": "2025-10-18T14:07:17.065Z",
-                "modified": "2024-11-21T05:28:36.243Z",
+                "imported": "2026-07-17T20:33:57.693Z",
+                "modified": "2026-06-17T03:14:40.677Z",
                 "published": "2021-01-03T19:15:11.720Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-35964",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35964"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35964",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

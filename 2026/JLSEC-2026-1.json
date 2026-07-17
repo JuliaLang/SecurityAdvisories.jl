@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-1",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-03-23T22:38:33.248Z",
     "upstream": [
         "CVE-2020-11080"
     ],
     "summary": "In nghttp2 before version 1.41.0, the overly large HTTP/2 SETTINGS frame payload causes denial of se...",
     "details": "In nghttp2 before version 1.41.0, the overly large HTTP/2 SETTINGS frame payload causes denial of service. The proof of concept attack involves a malicious client constructing a SETTINGS frame with a length of 14,400 bytes (2400 individual settings entries) over and over again. The attack causes the CPU to spike at 100%. nghttp2 v1.41.0 fixes this vulnerability. There is a workaround to this vulnerability. Implement nghttp2_on_frame_recv_callback callback, and if received frame is SETTINGS frame and the number of settings entries are large (e.g., > 32), then drop the connection.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -93,11 +105,14 @@
         "sources": [
             {
                 "id": "CVE-2020-11080",
-                "imported": "2026-03-23T22:20:24.429Z",
-                "modified": "2024-11-21T04:56:44.657Z",
+                "imported": "2026-07-17T21:08:19.877Z",
+                "modified": "2026-06-17T02:49:00.520Z",
                 "published": "2020-06-03T23:15:11.073Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-11080",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-11080"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-11080",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

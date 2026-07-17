@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-500",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-18T13:20:11.997Z",
     "upstream": [
         "CVE-2023-38745"
     ],
     "details": "Pandoc before 3.1.6 allows arbitrary file write: this can be triggered by providing a crafted image element in the input when generating files via the --extract-media option or outputting to PDF format. This allows an attacker to create or overwrite arbitrary files, depending on the privileges of the process running Pandoc. It only affects systems that pass untrusted user input to Pandoc and allow Pandoc to be used to produce a PDF or with the --extract-media option. NOTE: this issue exists because of an incomplete fix for CVE-2023-35936 (failure to properly account for double encoded path names).",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,8 +75,8 @@
         "sources": [
             {
                 "id": "CVE-2023-38745",
-                "imported": "2026-05-17T16:46:51.095Z",
-                "modified": "2025-11-04T19:15:52.523Z",
+                "imported": "2026-07-17T22:01:28.806Z",
+                "modified": "2026-06-17T06:11:05.343Z",
                 "published": "2023-07-25T04:15:10.633Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-38745",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-38745",

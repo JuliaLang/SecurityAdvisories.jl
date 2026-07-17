@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-185",
-    "modified": "2026-05-06T22:11:20.047Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-21T19:17:09.363Z",
     "upstream": [
         "CVE-2024-24575",
@@ -12,7 +12,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -80,8 +81,8 @@
         "sources": [
             {
                 "id": "CVE-2024-24575",
-                "imported": "2026-05-06T16:38:43.918Z",
-                "modified": "2024-11-21T08:59:27.280Z",
+                "imported": "2026-07-17T20:42:22.835Z",
+                "modified": "2026-06-17T07:14:38.290Z",
                 "published": "2024-02-06T22:16:15.057Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-24575",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24575",
@@ -91,7 +92,7 @@
             },
             {
                 "id": "EUVD-2024-21980",
-                "imported": "2026-05-06T16:38:46.461Z",
+                "imported": "2026-07-17T20:42:28.977Z",
                 "modified": "2025-02-13T17:40:13Z",
                 "published": "2024-02-06T21:27:57Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-21980",

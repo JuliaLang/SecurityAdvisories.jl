@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-682",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2024-1544",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -61,7 +62,7 @@
         "sources": [
             {
                 "id": "CVE-2024-1544",
-                "imported": "2026-07-14T21:22:48.720Z",
+                "imported": "2026-07-17T22:24:21.232Z",
                 "modified": "2026-06-17T07:04:27.800Z",
                 "published": "2024-08-27T19:15:16.547Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-1544",
@@ -72,7 +73,7 @@
             },
             {
                 "id": "GHSA-grjj-54gm-q5vf",
-                "imported": "2026-07-14T21:22:56.985Z",
+                "imported": "2026-07-17T22:24:21.436Z",
                 "modified": "2026-01-28T00:31:38Z",
                 "published": "2024-08-27T21:31:13Z",
                 "url": "https://api.github.com/advisories/GHSA-grjj-54gm-q5vf",
@@ -80,7 +81,7 @@
             },
             {
                 "id": "EUVD-2024-17291",
-                "imported": "2026-07-14T21:22:52.068Z",
+                "imported": "2026-07-17T22:24:31.177Z",
                 "modified": "2026-01-27T21:58:42Z",
                 "published": "2024-08-27T18:44:52Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-17291",

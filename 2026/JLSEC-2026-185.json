@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-185",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-24T13:16:18.171Z",
     "upstream": [
         "CVE-2023-39804"
     ],
     "details": "In GNU tar before 1.35, mishandled extension attributes in a PAX archive can lead to an application crash in xheader.c.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -52,8 +59,8 @@
         "sources": [
             {
                 "id": "CVE-2023-39804",
-                "imported": "2026-04-24T11:00:58.789Z",
-                "modified": "2025-11-04T19:15:55.430Z",
+                "imported": "2026-07-17T21:18:54.689Z",
+                "modified": "2026-06-17T06:12:52.757Z",
                 "published": "2024-03-27T04:15:08.897Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-39804",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-39804",

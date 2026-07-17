@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-246",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2023-6237",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -42,6 +43,22 @@
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2024/03/11/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-331112.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-769027.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-915275.html"
         },
         {
             "type": "WEB",
@@ -81,8 +98,8 @@
         "sources": [
             {
                 "id": "CVE-2023-6237",
-                "imported": "2026-04-27T16:33:38.884Z",
-                "modified": "2026-04-15T00:35:42.020Z",
+                "imported": "2026-07-17T21:27:56.972Z",
+                "modified": "2026-06-17T06:50:21.877Z",
                 "published": "2024-04-25T07:15:45.270Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-6237",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6237",
@@ -92,16 +109,16 @@
             },
             {
                 "id": "GHSA-hvc4-mjv4-5mw6",
-                "imported": "2026-04-27T16:34:49.999Z",
-                "modified": "2024-11-01T18:32:30Z",
+                "imported": "2026-07-17T21:27:57.117Z",
+                "modified": "2026-05-12T12:31:42Z",
                 "published": "2024-04-25T09:32:09Z",
                 "url": "https://api.github.com/advisories/GHSA-hvc4-mjv4-5mw6",
                 "html_url": "https://github.com/advisories/GHSA-hvc4-mjv4-5mw6"
             },
             {
                 "id": "EUVD-2023-58483",
-                "imported": "2026-04-27T16:33:19.097Z",
-                "modified": "2024-11-01T14:28:51Z",
+                "imported": "2026-07-17T21:28:07.533Z",
+                "modified": "2026-05-12T10:41:05Z",
                 "published": "2024-04-25T06:27:26Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-58483",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2023-58483"

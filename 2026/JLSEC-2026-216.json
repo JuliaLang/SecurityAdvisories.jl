@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-216",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2019-1551",
@@ -10,6 +10,18 @@
     ],
     "summary": "There is an overflow bug in the x64_64 Montgomery squaring procedure used in exponentiation with...",
     "details": "There is an overflow bug in the x64_64 Montgomery squaring procedure used in exponentiation with 512-bit moduli. No EC algorithms are affected. Analysis suggests that attacks against 2-prime RSA1024, 3-prime RSA1536, and DSA1024 as a result of this defect would be very difficult to perform and are not believed likely. Attacks against DH512 are considered just feasible. However, for an attack the target would have to re-use the DH512 private key, which is not recommended anyway. Also applications directly using the low level API BN_mod_exp may be affected if they use BN_FLG_CONSTTIME. Fixed in OpenSSL 1.1.1e-dev (Affected 1.1.1-1.1.1d). Fixed in OpenSSL 1.0.2u-dev (Affected 1.0.2-1.0.2t).",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -207,8 +219,8 @@
         "sources": [
             {
                 "id": "CVE-2019-1551",
-                "imported": "2026-04-27T16:32:26.629Z",
-                "modified": "2024-11-21T04:36:48.500Z",
+                "imported": "2026-07-17T21:22:37.937Z",
+                "modified": "2026-06-17T02:28:43.940Z",
                 "published": "2019-12-06T18:15:12.840Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-1551",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1551",
@@ -218,7 +230,7 @@
             },
             {
                 "id": "GHSA-fcc6-m5v9-xcgq",
-                "imported": "2026-04-27T16:35:06.812Z",
+                "imported": "2026-07-17T21:22:38.078Z",
                 "modified": "2024-04-04T02:42:08Z",
                 "published": "2022-05-24T17:02:47Z",
                 "url": "https://api.github.com/advisories/GHSA-fcc6-m5v9-xcgq",
@@ -226,7 +238,7 @@
             },
             {
                 "id": "EUVD-2019-10108",
-                "imported": "2026-04-27T16:33:25.976Z",
+                "imported": "2026-07-17T21:22:48.314Z",
                 "modified": "2024-09-16T19:40:14Z",
                 "published": "2019-12-06T17:20:14Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2019-10108",

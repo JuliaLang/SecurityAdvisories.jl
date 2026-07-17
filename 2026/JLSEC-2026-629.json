@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-629",
-    "modified": "2026-06-25T17:41:14.392Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-25T17:41:14.392Z",
     "upstream": [
         "CVE-2026-43618",
@@ -12,8 +12,14 @@
     "details": "Rsync version 3.4.2 and prior contain an integer overflow vulnerability in the compressed-token decoder where a 32-bit signed counter is not checked for overflow, allowing a malicious sender to trigger an overflow that causes the receiver process to read and return data from outside the intended buffer bounds. Attackers can exploit this vulnerability to disclose process memory contents including environment variables, passwords, heap and stack data, and library memory pointers, significantly reducing ASLR effectiveness and facilitating further exploitation.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H",
+            "source": "CNA"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -41,6 +47,30 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26332"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26408"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26410"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:29197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-43618"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2469054"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.4.3"
         },
         {
@@ -57,6 +87,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-43618.json"
+        },
+        {
+            "type": "WEB",
             "url": "https://www.vulncheck.com/advisories/rsync-integer-overflow-information-disclosure"
         }
     ],
@@ -65,27 +99,27 @@
         "sources": [
             {
                 "id": "CVE-2026-43618",
-                "imported": "2026-06-25T17:27:23.321Z",
-                "modified": "2026-06-17T10:49:55.170Z",
+                "imported": "2026-07-17T22:15:07.363Z",
+                "modified": "2026-07-15T02:21:45.447Z",
                 "published": "2026-05-20T02:16:36.410Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-43618",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43618",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             },
             {
                 "id": "GHSA-88m5-cm5m-2596",
-                "imported": "2026-06-25T17:27:26.723Z",
-                "modified": "2026-05-20T03:31:40Z",
+                "imported": "2026-07-17T22:15:07.548Z",
+                "modified": "2026-06-30T03:36:45Z",
                 "published": "2026-05-20T03:31:33Z",
                 "url": "https://api.github.com/advisories/GHSA-88m5-cm5m-2596",
                 "html_url": "https://github.com/advisories/GHSA-88m5-cm5m-2596"
             },
             {
                 "id": "EUVD-2026-31011",
-                "imported": "2026-06-25T17:27:24.675Z",
-                "modified": "2026-05-20T13:04:03Z",
+                "imported": "2026-07-17T22:15:17.454Z",
+                "modified": "2026-07-15T00:55:42Z",
                 "published": "2026-05-20T00:50:21Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-31011",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-31011"

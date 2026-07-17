@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-266",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2025-9230",
@@ -11,7 +11,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -69,6 +70,34 @@
         },
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-032379.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-089022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-253495.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-485750.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-585531.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45"
         },
         {
@@ -109,8 +138,8 @@
         "sources": [
             {
                 "id": "CVE-2025-9230",
-                "imported": "2026-04-27T16:34:08.704Z",
-                "modified": "2026-04-15T00:35:42.020Z",
+                "imported": "2026-07-17T21:31:28.652Z",
+                "modified": "2026-07-14T13:18:07.327Z",
                 "published": "2025-09-30T14:15:41.050Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9230",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9230",
@@ -120,8 +149,8 @@
             },
             {
                 "id": "EUVD-2025-31729",
-                "imported": "2026-04-27T16:33:11.333Z",
-                "modified": "2025-11-04T21:15:17Z",
+                "imported": "2026-07-17T21:31:39.406Z",
+                "modified": "2026-06-02T12:59:47Z",
                 "published": "2025-09-30T13:17:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-31729",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-31729"

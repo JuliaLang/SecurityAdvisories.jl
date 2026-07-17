@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-227",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2022-0778",
@@ -10,6 +10,18 @@
     ],
     "summary": "openssl-src's infinite loop in `BN_mod_sqrt()` reachable when parsing certificates",
     "details": "The BN_mod_sqrt() function, which computes a modular square root, contains a bug that can cause it to loop forever for non-prime moduli. Internally this function is used when parsing certificates that contain elliptic curve public keys in compressed form or explicit elliptic curve parameters with a base point encoded in compressed form. It is possible to trigger the infinite loop by crafting a certificate that has invalid explicit curve parameters. Since certificate parsing happens prior to verification of the certificate signature, any process that parses an externally supplied certificate may thus be subject to a denial of service attack. The infinite loop can also be reached when parsing crafted private keys as they can contain explicit elliptic curve parameters. Thus vulnerable situations include: - TLS clients consuming server certificates - TLS servers consuming client certificates - Hosting providers taking certificates or private keys from customers - Certificate authorities parsing certification requests from subscribers - Anything else which parses ASN.1 elliptic curve parameters Also any other applications that use the BN_mod_sqrt() where the attacker can control the parameter values are vulnerable to this DoS issue. In the OpenSSL 1.0.2 version the public key is not parsed during initial parsing of the certificate which makes it slightly harder to trigger the infinite loop. However any operation which requires the public key from the certificate will trigger the infinite loop. In particular the attacker can use a self-signed certificate to trigger the loop during verification of the certificate signature. This issue affects OpenSSL versions 1.0.2, 1.1.1 and 3.0. It was addressed in the releases of 1.1.1n and 3.0.2 on the 15th March 2022. Fixed in OpenSSL 3.0.2 (Affected 3.0.0,3.0.1). Fixed in OpenSSL 1.1.1n (Affected 1.1.1-1.1.1m). Fixed in OpenSSL 1.0.2zd (Affected 1.0.2-1.0.2zc).",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -291,8 +303,8 @@
         "sources": [
             {
                 "id": "CVE-2022-0778",
-                "imported": "2026-04-27T16:32:33.449Z",
-                "modified": "2026-04-14T10:16:21.510Z",
+                "imported": "2026-07-17T21:24:34.478Z",
+                "modified": "2026-06-17T04:21:13.530Z",
                 "published": "2022-03-15T17:15:08.513Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-0778",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0778",
@@ -302,7 +314,7 @@
             },
             {
                 "id": "GHSA-x3mh-jvjw-3xwx",
-                "imported": "2026-04-27T16:35:40.125Z",
+                "imported": "2026-07-17T21:24:34.622Z",
                 "modified": "2024-06-24T21:24:19Z",
                 "published": "2022-03-16T00:00:45Z",
                 "url": "https://api.github.com/advisories/GHSA-x3mh-jvjw-3xwx",
@@ -310,8 +322,8 @@
             },
             {
                 "id": "EUVD-2022-1575",
-                "imported": "2026-04-27T16:33:00.215Z",
-                "modified": "2026-04-14T08:58:00Z",
+                "imported": "2026-07-17T21:24:44.677Z",
+                "modified": "2026-05-22T13:28:08Z",
                 "published": "2022-03-15T17:05:20Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2022-1575",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2022-1575"

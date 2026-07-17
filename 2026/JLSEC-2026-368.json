@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-368",
-    "modified": "2026-04-30T19:30:31.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-30T19:30:31.295Z",
     "upstream": [
         "CVE-2026-2968",
@@ -12,8 +12,19 @@
     "details": "A vulnerability was detected in Cesanta Mongoose up to 7.20. This impacts the function mg_chacha20_poly1305_decrypt of the file /src/tls_chacha20.c of the component Poly1305 Authentication Tag Handler. The manipulation results in improper verification of cryptographic signature. The attack may be launched remotely. This attack is characterized by high complexity. The exploitability is said to be difficult. The exploit is now public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
     "severity": [
         {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:H/Au:N/C:N/I:P/A:N",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P"
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -73,8 +84,8 @@
         "sources": [
             {
                 "id": "CVE-2026-2968",
-                "imported": "2026-04-30T18:54:47.770Z",
-                "modified": "2026-04-29T01:00:01.613Z",
+                "imported": "2026-07-17T21:43:52.625Z",
+                "modified": "2026-06-17T10:32:08.283Z",
                 "published": "2026-02-23T04:16:02.283Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-2968",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2968",
@@ -84,7 +95,7 @@
             },
             {
                 "id": "GHSA-jprc-mg35-68jq",
-                "imported": "2026-04-30T18:55:10.501Z",
+                "imported": "2026-07-17T21:43:52.777Z",
                 "modified": "2026-02-23T06:30:24Z",
                 "published": "2026-02-23T06:30:18Z",
                 "url": "https://api.github.com/advisories/GHSA-jprc-mg35-68jq",
@@ -92,7 +103,7 @@
             },
             {
                 "id": "EUVD-2026-7584",
-                "imported": "2026-04-30T18:55:03.376Z",
+                "imported": "2026-07-17T21:44:01.657Z",
                 "modified": "2026-02-23T17:26:53Z",
                 "published": "2026-02-23T03:02:07Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7584",

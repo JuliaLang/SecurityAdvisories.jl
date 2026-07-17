@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-252",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2024-5535",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -70,6 +71,30 @@
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2024/08/15/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-277137.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-398330.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-613116.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-769027.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-915275.html"
         },
         {
             "type": "WEB",
@@ -145,8 +170,8 @@
         "sources": [
             {
                 "id": "CVE-2024-5535",
-                "imported": "2026-04-27T16:34:21.055Z",
-                "modified": "2026-04-15T00:35:42.020Z",
+                "imported": "2026-07-17T21:29:02.020Z",
+                "modified": "2026-06-17T08:16:08.843Z",
                 "published": "2024-06-27T11:15:24.447Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-5535",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5535",
@@ -156,16 +181,16 @@
             },
             {
                 "id": "GHSA-4fc7-mvrr-wv2c",
-                "imported": "2026-04-27T16:36:09.346Z",
-                "modified": "2025-11-04T00:31:54Z",
+                "imported": "2026-07-17T21:29:02.162Z",
+                "modified": "2026-05-12T12:31:57Z",
                 "published": "2024-06-27T12:30:48Z",
                 "url": "https://api.github.com/advisories/GHSA-4fc7-mvrr-wv2c",
                 "html_url": "https://github.com/advisories/GHSA-4fc7-mvrr-wv2c"
             },
             {
                 "id": "EUVD-2024-46737",
-                "imported": "2026-04-27T16:33:14.193Z",
-                "modified": "2025-11-03T22:32:30Z",
+                "imported": "2026-07-17T21:29:11.688Z",
+                "modified": "2026-05-12T11:35:07Z",
                 "published": "2024-06-27T10:30:53Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-46737",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-46737"

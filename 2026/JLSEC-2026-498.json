@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-498",
-    "modified": "2026-05-14T11:59:52.457Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-14T11:59:52.457Z",
     "upstream": [
         "CVE-2026-34757"
     ],
     "details": "LIBPNG is a reference library for use in applications that read, create, and manipulate PNG (Portable Network Graphics) raster image files. From 1.0.9 to before 1.6.57, passing a pointer obtained from png_get_PLTE, png_get_tRNS, or png_get_hIST back into the corresponding setter on the same png_struct/png_info pair causes the setter to read from freed memory and copy its contents into the replacement buffer. The setter frees the internal buffer before copying from the caller-supplied pointer, which now dangles. The freed region may contain stale data (producing silently corrupted chunk metadata) or data from subsequent heap allocations (leaking unrelated heap contents into the chunk struct). This vulnerability is fixed in 1.6.57.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +67,8 @@
         "sources": [
             {
                 "id": "CVE-2026-34757",
-                "imported": "2026-05-14T09:09:57.239Z",
-                "modified": "2026-05-13T23:07:51.863Z",
+                "imported": "2026-07-17T22:01:02.673Z",
+                "modified": "2026-06-17T10:39:34.220Z",
                 "published": "2026-04-09T15:16:11.003Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34757",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34757",

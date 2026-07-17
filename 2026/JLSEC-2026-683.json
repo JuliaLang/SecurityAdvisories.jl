@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-683",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2024-5288",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -57,7 +58,7 @@
         "sources": [
             {
                 "id": "CVE-2024-5288",
-                "imported": "2026-07-14T21:22:48.740Z",
+                "imported": "2026-07-17T22:24:31.351Z",
                 "modified": "2026-06-17T08:15:37.460Z",
                 "published": "2024-08-27T19:15:17.797Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-5288",
@@ -68,7 +69,7 @@
             },
             {
                 "id": "GHSA-rrg9-cmw9-3pwx",
-                "imported": "2026-07-14T21:23:08.733Z",
+                "imported": "2026-07-17T22:24:31.567Z",
                 "modified": "2024-08-27T21:31:14Z",
                 "published": "2024-08-27T21:31:14Z",
                 "url": "https://api.github.com/advisories/GHSA-rrg9-cmw9-3pwx",
@@ -76,7 +77,7 @@
             },
             {
                 "id": "EUVD-2024-46524",
-                "imported": "2026-07-14T21:22:52.798Z",
+                "imported": "2026-07-17T22:24:41.329Z",
                 "modified": "2024-08-27T19:23:20Z",
                 "published": "2024-08-27T18:36:28Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-46524",

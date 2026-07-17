@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-103",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2019-9721"
     ],
     "summary": "A denial of service in the subtitle decoder in FFmpeg 3.2 and 4.1 allows attackers to hog the CPU vi...",
     "details": "A denial of service in the subtitle decoder in FFmpeg 3.2 and 4.1 allows attackers to hog the CPU via a crafted video file in Matroska format, because handle_open_brace in libavcodec/htmlsubtitles.c has a complex format argument to sscanf.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -53,11 +65,14 @@
         "sources": [
             {
                 "id": "CVE-2019-9721",
-                "imported": "2025-10-18T14:07:17.044Z",
-                "modified": "2024-11-21T04:52:10.573Z",
+                "imported": "2026-07-17T20:33:08.697Z",
+                "modified": "2026-06-17T02:44:13.997Z",
                 "published": "2019-03-12T09:29:00.577Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-9721",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9721"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9721",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

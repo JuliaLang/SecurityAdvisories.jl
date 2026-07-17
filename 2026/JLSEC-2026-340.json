@@ -1,12 +1,29 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-340",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2025-6270"
     ],
     "details": "A vulnerability, which was classified as critical, has been found in HDF5 up to 1.14.6. Affected by this issue is the function H5FS__sect_find_node of the file H5FSsection.c. The manipulation leads to heap-based buffer overflow. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -56,8 +73,8 @@
         "sources": [
             {
                 "id": "CVE-2025-6270",
-                "imported": "2026-04-29T08:59:44.778Z",
-                "modified": "2026-04-29T01:00:01.613Z",
+                "imported": "2026-07-17T21:40:46.366Z",
+                "modified": "2026-06-17T10:01:29.863Z",
                 "published": "2025-06-19T17:15:27.167Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-6270",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6270",

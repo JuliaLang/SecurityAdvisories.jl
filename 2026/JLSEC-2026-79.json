@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-79",
-    "modified": "2026-04-11T14:47:51.147Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-11T14:47:51.147Z",
     "upstream": [
         "CVE-2026-34085"
     ],
     "details": "fontconfig before 2.17.1 has an off-by-one error in allocation during sfnt capability handling, leading to a one-byte out-of-bounds write, and potentially a crash or code execution. This is in FcFontCapabilities in fcfreetype.c.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -48,11 +55,14 @@
         "sources": [
             {
                 "id": "CVE-2026-34085",
-                "imported": "2026-04-11T04:05:18.497Z",
-                "modified": "2026-03-27T21:39:33.240Z",
+                "imported": "2026-07-17T22:39:59.604Z",
+                "modified": "2026-06-17T10:38:32.393Z",
                 "published": "2026-03-25T17:17:09.210Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34085",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34085"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34085",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

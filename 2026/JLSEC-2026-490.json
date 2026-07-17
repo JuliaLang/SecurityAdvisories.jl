@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-490",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-08T13:06:54.969Z",
     "upstream": [
         "CVE-2018-16435"
     ],
     "details": "Little CMS (aka Little Color Management System) 2.9 has an integer overflow in the AllocateDataSet function in cmscgats.c, leading to a heap-based buffer overflow in the SetData function via a crafted file in the second argument to cmsIT8LoadFromFile.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -68,8 +80,8 @@
         "sources": [
             {
                 "id": "CVE-2018-16435",
-                "imported": "2026-05-08T08:40:12.764Z",
-                "modified": "2024-11-21T03:52:44.907Z",
+                "imported": "2026-07-17T22:00:00.392Z",
+                "modified": "2026-06-17T01:44:17.067Z",
                 "published": "2018-09-04T00:29:02.183Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-16435",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-16435",

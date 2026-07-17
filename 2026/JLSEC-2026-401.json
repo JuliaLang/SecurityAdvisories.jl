@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-401",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2022-43552"
     ],
     "details": "A use after free vulnerability exists in curl <7.87.0. Curl can be asked to *tunnel* virtually all protocols it supports through an HTTP proxy. HTTP proxies can (and often do) deny such tunnel operations. When getting denied to tunnel the specific protocols SMB or TELNET, curl would use a heap-allocated struct after it had been freed, in its transfer shutdown code path.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -76,8 +83,8 @@
         "sources": [
             {
                 "id": "CVE-2022-43552",
-                "imported": "2026-05-02T08:39:46.391Z",
-                "modified": "2024-11-21T07:26:46.133Z",
+                "imported": "2026-07-17T21:48:02.225Z",
+                "modified": "2026-06-17T05:06:49.660Z",
                 "published": "2023-02-09T20:15:10.950Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-43552",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-43552",

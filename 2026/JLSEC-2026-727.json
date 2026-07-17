@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-727",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5477",
@@ -12,8 +12,14 @@
     "details": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to forge CMAC tags. The function wc_CmacUpdate used the guard `if (cmac->totalSz != 0)` to skip XOR-chaining on the first block (where digest is all-zeros and the XOR is a no-op). However, totalSz is word32 and wraps to zero after 2^28 block flushes (4 GiB), causing the guard to erroneously discard the live CBC-MAC chain state. Any two messages sharing a common suffix beyond the 4 GiB mark then produce identical CMAC tags, enabling a zero-work prefix-substitution forgery. The fix removes the guard, making the XOR unconditional; the no-op property on the first block is preserved because digest is zero-initialized by wc_InitCmac_ex.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -57,7 +63,7 @@
         "sources": [
             {
                 "id": "CVE-2026-5477",
-                "imported": "2026-07-14T21:22:49.435Z",
+                "imported": "2026-07-17T22:31:41.012Z",
                 "modified": "2026-06-17T10:59:06.143Z",
                 "published": "2026-04-10T06:16:05.243Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5477",
@@ -68,7 +74,7 @@
             },
             {
                 "id": "GHSA-grqc-3vmg-p68x",
-                "imported": "2026-07-14T21:23:06.327Z",
+                "imported": "2026-07-17T22:31:41.164Z",
                 "modified": "2026-04-27T18:33:06Z",
                 "published": "2026-04-10T06:31:38Z",
                 "url": "https://api.github.com/advisories/GHSA-grqc-3vmg-p68x",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "EUVD-2026-21305",
-                "imported": "2026-07-14T21:22:51.653Z",
+                "imported": "2026-07-17T22:31:51.078Z",
                 "modified": "2026-04-10T14:04:00Z",
                 "published": "2026-04-10T05:06:22Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21305",

@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-101",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2019-1000016"
     ],
     "summary": "FFMPEG version 4.1 contains a CWE-129: Improper Validation of Array Index vulnerability in libavcode...",
     "details": "FFMPEG version 4.1 contains a CWE-129: Improper Validation of Array Index vulnerability in libavcodec/cbs_av1.c that can result in Denial of service. This attack appears to be exploitable via specially crafted AV1 file has to be provided as input. This vulnerability appears to have been fixed in after commit b97a4b658814b2de8b9f2a3bce491c002d34de31.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -41,11 +53,14 @@
         "sources": [
             {
                 "id": "CVE-2019-1000016",
-                "imported": "2025-10-18T14:07:17.039Z",
-                "modified": "2024-11-21T04:17:41.023Z",
+                "imported": "2026-07-17T20:32:56.402Z",
+                "modified": "2026-06-17T02:09:28.720Z",
                 "published": "2019-02-04T21:29:01.283Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-1000016",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1000016"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-1000016",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

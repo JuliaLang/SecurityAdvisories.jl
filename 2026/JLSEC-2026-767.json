@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-767",
-    "modified": "2026-07-15T21:25:44.755Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8084",
@@ -13,19 +13,18 @@
     "severity": [
         {
             "type": "CVSS_V2",
-            "score": "AV:L/AC:L/Au:S/C:N/I:N/A:P"
+            "score": "AV:L/AC:L/Au:S/C:N/I:N/A:P",
+            "source": "CNA"
         },
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
         },
         {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P"
-        },
-        {
-            "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -105,7 +104,7 @@
         "sources": [
             {
                 "id": "CVE-2026-8084",
-                "imported": "2026-07-15T18:22:32.439Z",
+                "imported": "2026-07-17T22:38:35.705Z",
                 "modified": "2026-06-17T11:03:27.940Z",
                 "published": "2026-05-07T19:16:02.950Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8084",
@@ -116,7 +115,7 @@
             },
             {
                 "id": "GHSA-jmvp-7877-wr2f",
-                "imported": "2026-07-15T18:22:33.379Z",
+                "imported": "2026-07-17T22:38:35.867Z",
                 "modified": "2026-05-07T21:30:36Z",
                 "published": "2026-05-07T21:30:29Z",
                 "url": "https://api.github.com/advisories/GHSA-jmvp-7877-wr2f",
@@ -124,7 +123,7 @@
             },
             {
                 "id": "EUVD-2026-28417",
-                "imported": "2026-07-15T18:22:33.034Z",
+                "imported": "2026-07-17T22:38:45.758Z",
                 "modified": "2026-05-08T22:53:55Z",
                 "published": "2026-05-07T18:30:13Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-28417",

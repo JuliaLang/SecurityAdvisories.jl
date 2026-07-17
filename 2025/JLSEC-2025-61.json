@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-61",
-    "modified": "2026-05-01T17:50:38.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2024-28757"
     ],
     "summary": "libexpat through 2.6.1 allows an XML Entity Expansion attack when there is isolated use of external ...",
     "details": "libexpat through 2.6.1 allows an XML Entity Expansion attack when there is isolated use of external parsers (created via XML_ExternalEntityParserCreate).",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -77,8 +84,8 @@
         "sources": [
             {
                 "id": "CVE-2024-28757",
-                "imported": "2026-04-30T20:01:46.109Z",
-                "modified": "2025-11-04T22:15:59.800Z",
+                "imported": "2026-07-17T21:03:58.225Z",
+                "modified": "2026-06-17T07:21:45.160Z",
                 "published": "2024-03-10T05:15:06.570Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-28757",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28757",

@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-23",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-03T13:08:33.428Z",
     "upstream": [
         "CVE-2017-5950"
     ],
     "details": "The SingleDocParser::HandleNode function in yaml-cpp (aka LibYaml-C++) 0.5.3 allows remote attackers to cause a denial of service (stack consumption and application crash) via a crafted YAML file.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -48,11 +60,14 @@
         "sources": [
             {
                 "id": "CVE-2017-5950",
-                "imported": "2026-04-03T04:08:06.329Z",
-                "modified": "2025-11-03T22:15:43.977Z",
+                "imported": "2026-07-17T21:25:06.302Z",
+                "modified": "2026-06-17T01:21:29.880Z",
                 "published": "2017-04-03T05:59:00.800Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2017-5950",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2017-5950"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2017-5950",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

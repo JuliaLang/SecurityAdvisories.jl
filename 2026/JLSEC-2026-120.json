@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-120",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-15T20:29:47.271Z",
     "upstream": [
         "CVE-2024-38428"
     ],
     "details": "url.c in GNU Wget through 1.24.5 mishandles semicolons in the userinfo subcomponent of a URI, and thus there may be insecure behavior in which data that was supposed to be in the userinfo subcomponent is misinterpreted to be part of the host subcomponent.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -52,8 +59,8 @@
         "sources": [
             {
                 "id": "CVE-2024-38428",
-                "imported": "2026-04-15T19:04:55.230Z",
-                "modified": "2025-04-21T10:15:14.207Z",
+                "imported": "2026-07-17T21:11:32.607Z",
+                "modified": "2026-06-17T07:40:15.510Z",
                 "published": "2024-06-16T03:15:08.430Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-38428",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-38428",

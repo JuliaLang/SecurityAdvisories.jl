@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-678",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2023-6936",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -69,7 +70,7 @@
         "sources": [
             {
                 "id": "CVE-2023-6936",
-                "imported": "2026-07-14T21:22:48.681Z",
+                "imported": "2026-07-17T22:23:41.884Z",
                 "modified": "2026-06-17T06:51:43.160Z",
                 "published": "2024-02-20T22:15:08.197Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-6936",
@@ -80,7 +81,7 @@
             },
             {
                 "id": "GHSA-cwpg-8775-j56v",
-                "imported": "2026-07-14T21:22:56.424Z",
+                "imported": "2026-07-17T22:23:42.047Z",
                 "modified": "2025-03-26T18:31:48Z",
                 "published": "2024-02-21T00:31:31Z",
                 "url": "https://api.github.com/advisories/GHSA-cwpg-8775-j56v",
@@ -88,7 +89,7 @@
             },
             {
                 "id": "EUVD-2023-59134",
-                "imported": "2026-07-14T21:22:52.763Z",
+                "imported": "2026-07-17T22:23:50.518Z",
                 "modified": "2025-03-26T16:28:30Z",
                 "published": "2024-02-20T21:52:02Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2023-59134",

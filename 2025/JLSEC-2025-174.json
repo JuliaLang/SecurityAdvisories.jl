@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-174",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-21T17:24:37.757Z",
     "upstream": [
         "CVE-2018-18751"
     ],
     "summary": "An issue was discovered in GNU gettext 0.19.8",
     "details": "An issue was discovered in GNU gettext 0.19.8. There is a double free in default_add_message in read-catalog.c, related to an invalid free in po_gram_parse in po-gram-gen.y, as demonstrated by lt-msgfmt.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +81,14 @@
         "sources": [
             {
                 "id": "CVE-2018-18751",
-                "imported": "2025-10-19T19:45:10.904Z",
-                "modified": "2024-11-21T03:56:31.223Z",
+                "imported": "2026-07-17T20:41:09.425Z",
+                "modified": "2026-06-17T01:47:49.847Z",
                 "published": "2018-10-29T12:29:09.617Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-18751",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-18751"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-18751",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

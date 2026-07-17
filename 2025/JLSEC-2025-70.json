@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-70",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2021-3537"
     ],
     "summary": "A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors wh...",
     "details": "A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors while parsing XML mixed content, causing a NULL dereference. If an untrusted XML document was parsed in recovery mode and post-validated, the flaw could be used to crash the application. The highest threat from this vulnerability is to system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -73,11 +85,14 @@
         "sources": [
             {
                 "id": "CVE-2021-3537",
-                "imported": "2025-10-28T18:09:07.775Z",
-                "modified": "2024-11-21T06:21:47.317Z",
+                "imported": "2026-07-17T21:05:00.549Z",
+                "modified": "2026-06-17T04:05:18.547Z",
                 "published": "2021-05-14T20:15:16.553Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3537",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3537"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3537",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

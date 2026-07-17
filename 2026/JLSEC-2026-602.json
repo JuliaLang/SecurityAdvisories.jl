@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-602",
-    "modified": "2026-06-08T13:54:13.679Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-08T13:54:13.679Z",
     "upstream": [
         "CVE-2026-6474"
     ],
     "details": "Externally-controlled format string in PostgreSQL timeofday() function allows an attacker to retrieve portions of server memory, via crafted timezone zones.  Versions before PostgreSQL 18.4, 17.10, 16.14, 15.18, and 14.23 are affected.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -40,8 +47,8 @@
         "sources": [
             {
                 "id": "CVE-2026-6474",
-                "imported": "2026-06-08T13:34:09.532Z",
-                "modified": "2026-05-18T15:00:45.520Z",
+                "imported": "2026-07-17T22:13:39.818Z",
+                "modified": "2026-06-17T11:00:51.327Z",
                 "published": "2026-05-14T14:16:24.997Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6474",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6474",

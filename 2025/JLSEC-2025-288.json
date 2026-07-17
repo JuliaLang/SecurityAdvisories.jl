@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-288",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-3970"
     ],
     "summary": "A vulnerability was found in LibTIFF",
     "details": "A vulnerability was found in LibTIFF. It has been classified as critical. This affects the function TIFFReadRGBATileExt of the file libtiff/tif_getimage.c. The manipulation leads to integer overflow. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used. The name of the patch is 227500897dfb07fb7d27f7aa570050e62617e3be. It is recommended to apply a patch to fix this issue. The identifier VDB-213549 was assigned to this vulnerability.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2022-3970",
-                "imported": "2025-11-25T21:56:30.645Z",
-                "modified": "2024-11-21T07:20:38.640Z",
+                "imported": "2026-07-17T20:55:54.871Z",
+                "modified": "2026-06-17T05:00:40.920Z",
                 "published": "2022-11-13T08:15:16.047Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-3970",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3970"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3970",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

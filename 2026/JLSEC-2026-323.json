@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-323",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-33876"
     ],
     "details": "HDF5 Library through 1.14.3 has a heap buffer overflow in H5S__point_deserialize in H5Spoint.c.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -40,8 +47,8 @@
         "sources": [
             {
                 "id": "CVE-2024-33876",
-                "imported": "2026-04-29T08:59:42.995Z",
-                "modified": "2025-04-18T14:35:04.110Z",
+                "imported": "2026-07-17T21:38:50.244Z",
+                "modified": "2026-06-17T07:32:29.507Z",
                 "published": "2024-05-14T15:38:10.250Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-33876",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-33876",

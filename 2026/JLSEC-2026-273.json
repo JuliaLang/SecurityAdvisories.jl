@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-273",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2026-28388",
@@ -11,7 +11,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -79,6 +80,14 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-032379.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/openssl/openssl/commit/59c3b3158553ab53275bbbccca5cb305d591cf2e"
         },
         {
@@ -107,19 +116,19 @@
         "sources": [
             {
                 "id": "CVE-2026-28388",
-                "imported": "2026-04-27T16:32:54.142Z",
-                "modified": "2026-04-23T15:40:08.410Z",
+                "imported": "2026-07-17T21:32:42.593Z",
+                "modified": "2026-06-17T10:28:31.590Z",
                 "published": "2026-04-07T22:16:20.863Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-28388",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28388",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             },
             {
                 "id": "EUVD-2026-19962",
-                "imported": "2026-04-27T16:33:01.841Z",
-                "modified": "2026-04-10T20:18:43Z",
+                "imported": "2026-07-17T21:32:52.929Z",
+                "modified": "2026-05-12T12:08:59Z",
                 "published": "2026-04-07T22:00:52Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19962",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19962"

@@ -1,13 +1,30 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-317",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2025-8176"
     ],
     "summary": "A vulnerability was found in LibTIFF up to 4.7.0",
     "details": "A vulnerability was found in LibTIFF up to 4.7.0. It has been declared as critical. This vulnerability affects the function get_histogram of the file tools/tiffmedian.c. The manipulation leads to use after free. The attack needs to be approached locally. The exploit has been disclosed to the public and may be used. The patch is identified as fe10872e53efba9cc36c66ac4ab3b41a839d5172. It is recommended to apply a patch to fix this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,11 +82,14 @@
         "sources": [
             {
                 "id": "CVE-2025-8176",
-                "imported": "2025-11-25T21:56:30.673Z",
-                "modified": "2025-09-11T16:58:39.627Z",
+                "imported": "2026-07-17T20:59:12.494Z",
+                "modified": "2026-06-17T10:06:27.507Z",
                 "published": "2025-07-26T04:16:10.527Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-8176",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8176"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8176",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

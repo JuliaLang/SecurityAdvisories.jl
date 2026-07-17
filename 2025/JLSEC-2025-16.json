@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-16",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2019-6462"
     ],
     "summary": "An issue was discovered in cairo 1.16.0",
     "details": "An issue was discovered in cairo 1.16.0. There is an infinite loop in the function _arc_error_normalized in the file cairo-arc.c, related to _arc_max_angle_for_tolerance_normalized.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -49,11 +61,14 @@
         "sources": [
             {
                 "id": "CVE-2019-6462",
-                "imported": "2025-10-09T21:00:34.750Z",
-                "modified": "2024-11-21T04:46:30.057Z",
+                "imported": "2026-07-17T20:39:30.682Z",
+                "modified": "2026-06-17T02:39:05.423Z",
                 "published": "2019-01-16T18:29:00.573Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-6462",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-6462"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-6462",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

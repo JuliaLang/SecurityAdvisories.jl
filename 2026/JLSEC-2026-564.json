@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-564",
-    "modified": "2026-05-27T18:18:39.624Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-27T18:18:39.624Z",
     "upstream": [
         "CVE-2026-24881",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,6 +42,14 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-24881"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2433480"
+        },
+        {
+            "type": "WEB",
             "url": "https://dev.gnupg.org/T8044"
         },
         {
@@ -53,6 +62,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-24881.json"
+        },
+        {
+            "type": "WEB",
             "url": "https://www.openwall.com/lists/oss-security/2026/01/27/8"
         }
     ],
@@ -61,27 +74,27 @@
         "sources": [
             {
                 "id": "CVE-2026-24881",
-                "imported": "2026-05-27T16:52:14.010Z",
-                "modified": "2026-02-12T18:15:38.923Z",
+                "imported": "2026-07-17T22:08:49.867Z",
+                "modified": "2026-07-15T02:18:52.100Z",
                 "published": "2026-01-27T19:16:16.517Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-24881",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24881",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             },
             {
                 "id": "GHSA-5w36-x85h-pphm",
-                "imported": "2026-05-27T16:52:15.749Z",
-                "modified": "2026-01-27T21:31:49Z",
+                "imported": "2026-07-17T22:08:50.036Z",
+                "modified": "2026-06-30T03:36:31Z",
                 "published": "2026-01-27T21:31:49Z",
                 "url": "https://api.github.com/advisories/GHSA-5w36-x85h-pphm",
                 "html_url": "https://github.com/advisories/GHSA-5w36-x85h-pphm"
             },
             {
                 "id": "EUVD-2026-4768",
-                "imported": "2026-05-27T16:52:14.912Z",
-                "modified": "2026-01-27T20:08:54Z",
+                "imported": "2026-07-17T22:08:58.738Z",
+                "modified": "2026-06-30T12:06:35Z",
                 "published": "2026-01-27T18:36:56Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-4768",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-4768"

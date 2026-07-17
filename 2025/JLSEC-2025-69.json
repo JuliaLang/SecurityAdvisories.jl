@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-69",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2020-24977"
     ],
     "summary": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in xmlEncodeEntitiesIntern...",
     "details": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in xmlEncodeEntitiesInternal at libxml2/entities.c. The issue has been fixed in commit 50f06b3e.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -121,11 +133,14 @@
         "sources": [
             {
                 "id": "CVE-2020-24977",
-                "imported": "2025-10-28T18:09:07.772Z",
-                "modified": "2024-11-21T05:16:15.740Z",
+                "imported": "2026-07-17T21:04:47.937Z",
+                "modified": "2026-06-17T03:06:11.700Z",
                 "published": "2020-09-04T00:15:10.693Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-24977",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-24977"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-24977",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

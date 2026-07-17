@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-140",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-35366"
     ],
     "summary": "FFmpeg n6.1.1 is Integer Overflow",
     "details": "FFmpeg n6.1.1 is Integer Overflow. The vulnerability exists in the parse_options function of sbgdec.c within the libavformat module. When parsing certain options, the software does not adequately validate the input. This allows for negative duration values to be accepted without proper bounds checking.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -49,11 +56,14 @@
         "sources": [
             {
                 "id": "CVE-2024-35366",
-                "imported": "2025-10-18T14:07:17.234Z",
-                "modified": "2025-06-03T16:03:53.080Z",
+                "imported": "2026-07-17T20:37:22.380Z",
+                "modified": "2026-06-17T07:34:49.370Z",
                 "published": "2024-11-29T20:15:19.863Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-35366",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35366"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35366",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

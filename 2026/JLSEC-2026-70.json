@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-70",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2023-51385"
     ],
     "details": "In ssh in OpenSSH before 9.6, OS command injection might occur if a user name or host name has shell metacharacters, and this name is referenced by an expansion token in certain situations. For example, an untrusted Git repository can have a submodule with shell metacharacters in a user name or host name.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -45,6 +52,18 @@
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2025/10/12/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-769027.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-794697.html"
         },
         {
             "type": "WEB",
@@ -88,11 +107,14 @@
         "sources": [
             {
                 "id": "CVE-2023-51385",
-                "imported": "2026-04-09T14:56:18.908Z",
-                "modified": "2025-12-18T15:15:49.263Z",
+                "imported": "2026-07-17T22:27:30.398Z",
+                "modified": "2026-06-17T06:40:51.080Z",
                 "published": "2023-12-18T19:15:08.773Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-51385",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51385"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-51385",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

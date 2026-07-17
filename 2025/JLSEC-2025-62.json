@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-62",
-    "modified": "2026-05-01T17:50:38.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2024-45490"
     ],
     "summary": "An issue was discovered in libexpat before 2.6.3",
     "details": "An issue was discovered in libexpat before 2.6.3. xmlparse.c does not reject a negative length for XML_ParseBuffer.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -53,6 +60,14 @@
         },
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-613116.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/libexpat/libexpat/issues/887"
         },
         {
@@ -73,8 +88,8 @@
         "sources": [
             {
                 "id": "CVE-2024-45490",
-                "imported": "2026-04-30T20:01:46.203Z",
-                "modified": "2025-11-04T17:16:15.060Z",
+                "imported": "2026-07-17T21:04:04.359Z",
+                "modified": "2026-06-17T07:54:18.503Z",
                 "published": "2024-08-30T03:15:03.757Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-45490",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45490",

@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-180",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-21T17:39:06.495Z",
     "upstream": [
         "CVE-2021-46822"
     ],
     "summary": "The PPM reader in libjpeg-turbo through 2.0.90 mishandles use of tjLoadImage for loading a 16-bit bi...",
     "details": "The PPM reader in libjpeg-turbo through 2.0.90 mishandles use of tjLoadImage for loading a 16-bit binary PPM file into a grayscale buffer and loading a 16-bit binary PGM file into an RGB buffer. This is related to a heap-based buffer overflow in the get_word_rgb_row function in rdppm.c.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -45,11 +57,14 @@
         "sources": [
             {
                 "id": "CVE-2021-46822",
-                "imported": "2025-10-21T15:03:32.808Z",
-                "modified": "2024-11-21T06:34:45.830Z",
+                "imported": "2026-07-17T20:41:52.379Z",
+                "modified": "2026-06-17T04:15:37.047Z",
                 "published": "2022-06-18T16:15:08.110Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-46822",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-46822"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-46822",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

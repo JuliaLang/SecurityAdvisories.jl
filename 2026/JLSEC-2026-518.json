@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-518",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2020-13777"
     ],
     "details": "GnuTLS 3.6.x before 3.6.14 uses incorrect cryptography for encrypting a session ticket (a loss of confidentiality in TLS 1.2, and an authentication bypass in TLS 1.3). The earliest affected version is 3.6.4 (2018-09-24) because of an error in a 2018-09-18 commit. Until the first key rotation, the TLS server always uses wrong data in place of an encryption key derived from an application.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -76,8 +88,8 @@
         "sources": [
             {
                 "id": "CVE-2020-13777",
-                "imported": "2026-05-22T18:34:34.589Z",
-                "modified": "2024-11-21T05:01:50.330Z",
+                "imported": "2026-07-17T22:03:29.015Z",
+                "modified": "2026-06-17T02:53:38.507Z",
                 "published": "2020-06-04T07:15:10Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-13777",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13777",

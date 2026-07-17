@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-641",
-    "modified": "2026-06-26T20:24:16.337Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2025-10256"
     ],
     "details": "A NULL pointer dereference vulnerability exists in FFmpeg’s Firequalizer filter (libavfilter/af_firequalizer.c) due to a missing check on the return value of av_malloc_array() in the config_input() function. An attacker could exploit this by tricking a victim into processing a crafted media file with the Firequalizer filter enabled, causing the application to dereference a NULL pointer and crash, leading to denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -72,7 +79,7 @@
         "sources": [
             {
                 "id": "CVE-2025-10256",
-                "imported": "2026-06-26T19:19:07.642Z",
+                "imported": "2026-07-17T22:18:20.532Z",
                 "modified": "2026-06-17T08:28:00.503Z",
                 "published": "2026-02-18T21:16:20.183Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-10256",

@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-44",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2023-5869"
     ],
     "details": "A flaw was found in PostgreSQL that allows authenticated database users to execute arbitrary code through missing overflow checks during SQL array value modification. This issue exists due to an integer overflow during array modification where a remote user can trigger the overflow by providing specially crafted data. This enables the execution of arbitrary code on the target system, allowing users to write arbitrary bytes to memory and extensively read the server's memory.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -176,11 +183,14 @@
         "sources": [
             {
                 "id": "CVE-2023-5869",
-                "imported": "2026-04-03T13:13:10.406Z",
-                "modified": "2025-11-04T20:17:13.783Z",
+                "imported": "2026-07-17T21:54:03.044Z",
+                "modified": "2026-06-17T06:49:32.977Z",
                 "published": "2023-12-10T18:15:07.410Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5869",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5869"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5869",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

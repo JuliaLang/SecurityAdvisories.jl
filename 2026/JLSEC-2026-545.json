@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-545",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2021-29338"
     ],
     "details": "Integer Overflow in OpenJPEG v2.4.0 allows remote attackers to crash the application, causing a Denial of Service (DoS). This occurs when the attacker uses the command line option \"-ImgDir\" on a directory that contains 1048576 files.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +72,8 @@
         "sources": [
             {
                 "id": "CVE-2021-29338",
-                "imported": "2026-05-25T01:08:37.615Z",
-                "modified": "2025-11-03T20:15:46.223Z",
+                "imported": "2026-07-17T22:06:35.626Z",
+                "modified": "2026-06-17T03:47:31.770Z",
                 "published": "2021-04-14T14:15:14.133Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-29338",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-29338",

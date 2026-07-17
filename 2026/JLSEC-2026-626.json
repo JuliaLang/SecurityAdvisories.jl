@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-626",
-    "modified": "2026-06-25T17:41:14.392Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-25T17:41:14.392Z",
     "upstream": [
         "CVE-2026-29518",
@@ -12,8 +12,14 @@
     "details": "Rsync versions before 3.4.3 contain a time-of-check to time-of-use (TOCTOU) race condition in daemon file handling that allows attackers to redirect file writes outside intended directories by replacing parent directory components with symbolic links. Attackers with write access to a module path can exploit this race condition to create or overwrite arbitrary files, potentially modifying sensitive system files and achieving privilege escalation when the daemon runs with elevated privileges. This vulnerability can only be triggered if the chroot setting is false.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:H/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:L/AC:H/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -41,6 +47,30 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26332"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26408"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26410"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:29197"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-29518"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2469055"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/RsyncProject/rsync/pull/895/changes/8471fdd1561049ef5f58df44a1811a50bd9a531d"
         },
         {
@@ -65,6 +95,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-29518.json"
+        },
+        {
+            "type": "WEB",
             "url": "https://www.vulncheck.com/advisories/rsync-toctou-race-condition-allows-symlink-based-arbitrary-file-write"
         }
     ],
@@ -73,8 +107,8 @@
         "sources": [
             {
                 "id": "CVE-2026-29518",
-                "imported": "2026-06-25T17:27:23.390Z",
-                "modified": "2026-06-17T10:29:48.210Z",
+                "imported": "2026-07-17T22:14:41.853Z",
+                "modified": "2026-07-15T02:19:25.073Z",
                 "published": "2026-05-20T13:16:17.040Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-29518",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-29518",
@@ -84,16 +118,16 @@
             },
             {
                 "id": "GHSA-pfv9-gp3h-73xv",
-                "imported": "2026-06-25T17:27:27.214Z",
-                "modified": "2026-05-26T18:31:40Z",
+                "imported": "2026-07-17T22:14:42.019Z",
+                "modified": "2026-06-30T03:36:46Z",
                 "published": "2026-05-20T15:35:30Z",
                 "url": "https://api.github.com/advisories/GHSA-pfv9-gp3h-73xv",
                 "html_url": "https://github.com/advisories/GHSA-pfv9-gp3h-73xv"
             },
             {
                 "id": "EUVD-2026-31100",
-                "imported": "2026-06-25T17:27:24.641Z",
-                "modified": "2026-05-26T14:40:30Z",
+                "imported": "2026-07-17T22:14:46.563Z",
+                "modified": "2026-07-15T01:10:19Z",
                 "published": "2026-05-20T12:48:07Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-31100",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-31100"

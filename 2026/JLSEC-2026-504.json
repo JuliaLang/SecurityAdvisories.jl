@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-504",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-18T14:23:04.937Z",
     "upstream": [
         "CVE-2018-20821"
     ],
     "details": "The parsing component in LibSass through 3.5.5 allows attackers to cause a denial-of-service (uncontrolled recursion in Sass::Parser::parse_css_variable_value in parser.cpp).",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -52,8 +64,8 @@
         "sources": [
             {
                 "id": "CVE-2018-20821",
-                "imported": "2026-05-16T01:24:16.904Z",
-                "modified": "2024-11-21T04:02:15.457Z",
+                "imported": "2026-07-17T22:01:53.315Z",
+                "modified": "2026-06-17T01:53:32.777Z",
                 "published": "2019-04-23T14:29:00.460Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-20821",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-20821",

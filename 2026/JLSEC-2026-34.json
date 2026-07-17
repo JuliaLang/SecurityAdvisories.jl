@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-34",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2021-3393"
     ],
     "details": "An information leak was discovered in postgresql in versions before 13.2, before 12.6 and before 11.11. A user having UPDATE permission but not SELECT permission to a particular column could craft queries which, under some circumstances, might disclose values from that column in error messages. An attacker could use this flaw to obtain information stored in a column they are allowed to write but not read.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:S/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -48,11 +60,14 @@
         "sources": [
             {
                 "id": "CVE-2021-3393",
-                "imported": "2026-04-03T13:13:09.843Z",
-                "modified": "2024-11-21T06:21:24.200Z",
+                "imported": "2026-07-17T21:40:40.282Z",
+                "modified": "2026-06-17T04:05:01.073Z",
                 "published": "2021-04-01T14:15:13.657Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3393",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3393"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3393",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

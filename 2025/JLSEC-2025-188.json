@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-188",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-27T15:45:54.694Z",
     "upstream": [
         "CVE-2019-17498"
     ],
     "summary": "In libssh2 v1.9.0 and earlier versions, the SSH_MSG_DISCONNECT logic in packet.c has an integer over...",
     "details": "In libssh2 v1.9.0 and earlier versions, the SSH_MSG_DISCONNECT logic in packet.c has an integer overflow in a bounds check, enabling an attacker to specify an arbitrary (out-of-bounds) offset for a subsequent memory read. A crafted SSH server may be able to disclose sensitive information or cause a denial of service condition on the client system when a user connects to the server.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -85,11 +97,14 @@
         "sources": [
             {
                 "id": "CVE-2019-17498",
-                "imported": "2025-10-21T17:13:02.869Z",
-                "modified": "2024-11-21T04:32:22.850Z",
+                "imported": "2026-07-17T20:42:49.729Z",
+                "modified": "2026-06-17T02:24:00.503Z",
                 "published": "2019-10-21T22:15:10.523Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-17498",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17498"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17498",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

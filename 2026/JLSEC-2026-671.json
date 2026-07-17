@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-671",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2022-34293"
     ],
     "details": "wolfSSL before 5.4.0 allows remote attackers to cause a denial of service via DTLS because a check for return-routability can be skipped.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -44,7 +51,7 @@
         "sources": [
             {
                 "id": "CVE-2022-34293",
-                "imported": "2026-07-14T21:22:48.495Z",
+                "imported": "2026-07-17T22:22:59.101Z",
                 "modified": "2026-06-17T04:50:03.633Z",
                 "published": "2022-08-08T16:15:08.390Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-34293",

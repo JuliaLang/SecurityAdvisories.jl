@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-453",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2023-29491"
     ],
     "details": "ncurses before 6.4 20230408, when used by a setuid application, allows local users to trigger security-relevant memory corruption via malformed data in a terminfo database file that is found in $HOME/.terminfo or reached via the TERMINFO or TERM environment variable.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -84,8 +91,8 @@
         "sources": [
             {
                 "id": "CVE-2023-29491",
-                "imported": "2026-05-05T15:04:40.855Z",
-                "modified": "2025-11-04T19:15:42.307Z",
+                "imported": "2026-07-17T21:55:34.766Z",
+                "modified": "2026-06-17T05:50:12.777Z",
                 "published": "2023-04-14T01:15:08.570Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-29491",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-29491",

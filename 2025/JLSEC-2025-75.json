@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-75",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2022-29824"
     ],
     "summary": "In libxml2 before 2.9.14, several buffer handling functions in buf.c (xmlBuf*) and tree.c (xmlBuffer...",
     "details": "In libxml2 before 2.9.14, several buffer handling functions in buf.c (xmlBuf*) and tree.c (xmlBuffer*) don't check for integer overflows. This can result in out-of-bounds memory writes. Exploitation requires a victim to open a crafted, multi-gigabyte XML file. Other software using libxml2's buffer functions, for example libxslt through 1.1.35, is affected as well.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -113,11 +125,14 @@
         "sources": [
             {
                 "id": "CVE-2022-29824",
-                "imported": "2025-10-28T18:09:07.783Z",
-                "modified": "2024-11-21T06:59:45.417Z",
+                "imported": "2026-07-17T21:05:32.431Z",
+                "modified": "2026-06-17T04:40:46.553Z",
                 "published": "2022-05-03T03:15:06.687Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-29824",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29824"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29824",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

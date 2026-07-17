@@ -1,13 +1,30 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-133",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-7055"
     ],
     "summary": "A vulnerability was found in FFmpeg up to 7.0.1",
     "details": "A vulnerability was found in FFmpeg up to 7.0.1. It has been classified as critical. This affects the function pnm_decode_frame in the library /libavcodec/pnmdec.c. The manipulation leads to heap-based buffer overflow. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used. Upgrading to version 7.0.2 is able to address this issue. It is recommended to upgrade the affected component. The associated identifier of this vulnerability is VDB-273651.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,6 +82,10 @@
         },
         {
             "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/10/msg00019.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://vuldb.com/?ctiid.273651"
         },
         {
@@ -81,11 +102,14 @@
         "sources": [
             {
                 "id": "CVE-2024-7055",
-                "imported": "2025-10-18T14:07:17.225Z",
-                "modified": "2025-06-03T17:20:06.493Z",
+                "imported": "2026-07-17T20:36:33.082Z",
+                "modified": "2026-06-17T08:19:16.523Z",
                 "published": "2024-08-06T06:15:36.107Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-7055",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7055"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7055",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

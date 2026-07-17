@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-13",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-03-31T16:50:26.988Z",
     "upstream": [
         "CVE-2018-20969"
     ],
     "details": "do_ed_script in pch.c in GNU patch through 2.7.6 does not block strings beginning with a ! character. NOTE: this is the same commit as for CVE-2019-13638, but the ! syntax is specific to ed, and is unrelated to a shell metacharacter.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -72,11 +84,14 @@
         "sources": [
             {
                 "id": "CVE-2018-20969",
-                "imported": "2026-03-31T16:10:31.560Z",
-                "modified": "2024-11-21T04:02:35.423Z",
+                "imported": "2026-07-17T21:12:34.012Z",
+                "modified": "2026-06-17T01:53:50.847Z",
                 "published": "2019-08-16T04:15:09.860Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-20969",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-20969"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-20969",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

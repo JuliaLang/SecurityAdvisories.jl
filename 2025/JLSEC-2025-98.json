@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-98",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T18:40:48.457Z",
     "upstream": [
         "CVE-2025-5351"
     ],
     "summary": "A flaw was found in the key export functionality of libssh",
     "details": "A flaw was found in the key export functionality of libssh. The issue occurs in the internal function responsible for converting cryptographic keys into serialized formats. During error handling, a memory structure is freed but not cleared, leading to a potential double free issue if an additional failure occurs later in the function. This condition may result in heap corruption or application instability in low-memory scenarios, posing a risk to system reliability where key export operations are performed.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -33,6 +40,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:18683"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2025-5351"
         },
         {
@@ -45,11 +56,14 @@
         "sources": [
             {
                 "id": "CVE-2025-5351",
-                "imported": "2025-10-18T14:10:41.583Z",
-                "modified": "2025-08-22T13:50:58.653Z",
+                "imported": "2026-07-17T21:08:07.434Z",
+                "modified": "2026-06-30T11:16:24.820Z",
                 "published": "2025-07-04T09:15:37.100Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5351",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5351"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5351",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

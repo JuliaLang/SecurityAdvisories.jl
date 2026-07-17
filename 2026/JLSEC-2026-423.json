@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-423",
-    "modified": "2026-05-04T13:12:06.605Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-10148",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -97,8 +98,8 @@
         "sources": [
             {
                 "id": "CVE-2025-10148",
-                "imported": "2026-05-02T08:39:49.503Z",
-                "modified": "2026-01-20T14:55:47.997Z",
+                "imported": "2026-07-17T21:51:09.381Z",
+                "modified": "2026-06-17T08:27:47Z",
                 "published": "2025-09-12T06:15:40.020Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-10148",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10148",
@@ -108,7 +109,7 @@
             },
             {
                 "id": "GHSA-cxvq-c3r3-8gwq",
-                "imported": "2026-05-02T08:42:50.138Z",
+                "imported": "2026-07-17T21:51:09.534Z",
                 "modified": "2025-11-18T21:32:29Z",
                 "published": "2025-09-12T06:30:26Z",
                 "url": "https://api.github.com/advisories/GHSA-cxvq-c3r3-8gwq",
@@ -116,7 +117,7 @@
             },
             {
                 "id": "EUVD-2025-29013",
-                "imported": "2026-05-02T08:41:29.106Z",
+                "imported": "2026-07-17T21:51:16.486Z",
                 "modified": "2025-11-18T20:05:32Z",
                 "published": "2025-09-12T05:10:37Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-29013",

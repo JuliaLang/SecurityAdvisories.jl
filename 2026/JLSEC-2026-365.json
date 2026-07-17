@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-365",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-30T14:15:09.088Z",
     "upstream": [
         "CVE-2022-4743"
     ],
     "details": "A potential memory leak issue was discovered in SDL2 in GLES_CreateTexture() function in SDL_render_gles.c. The vulnerability allows an attacker to cause a denial of service attack. The vulnerability affects SDL2 v2.0.4 and above. SDL-1.x are not affected.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -64,8 +71,8 @@
         "sources": [
             {
                 "id": "CVE-2022-4743",
-                "imported": "2026-04-30T14:03:00.092Z",
-                "modified": "2025-11-25T21:15:53.873Z",
+                "imported": "2026-07-17T21:43:34.348Z",
+                "modified": "2026-06-17T05:21:42.807Z",
                 "published": "2023-01-12T19:15:24.457Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-4743",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-4743",

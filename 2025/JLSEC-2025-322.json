@@ -1,13 +1,30 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-322",
-    "modified": "2025-11-25T22:18:43.603Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2025-8961"
     ],
     "summary": "A weakness has been identified in LibTIFF 4.7.0",
     "details": "A weakness has been identified in LibTIFF 4.7.0. This affects the function main of the file tiffcrop.c of the component tiffcrop. Executing manipulation can lead to memory corruption. The attack can only be executed locally. The exploit has been made available to the public and could be exploited.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:N/I:N/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,11 +82,14 @@
         "sources": [
             {
                 "id": "CVE-2025-8961",
-                "imported": "2025-11-25T21:56:30.677Z",
-                "modified": "2025-09-11T17:00:30.487Z",
+                "imported": "2026-07-17T20:59:49.810Z",
+                "modified": "2026-06-17T10:08:02.193Z",
                 "published": "2025-08-14T13:15:38.037Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-8961",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8961"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8961",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

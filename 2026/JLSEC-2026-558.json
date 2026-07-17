@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-558",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2021-44964"
     ],
     "details": "Use after free in garbage collector and finalizer of lgc.c in Lua interpreter 5.4.0~5.4.3 allows attackers to perform Sandbox Escape via a crafted script file.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -56,8 +68,8 @@
         "sources": [
             {
                 "id": "CVE-2021-44964",
-                "imported": "2026-05-26T02:05:11.425Z",
-                "modified": "2024-11-21T06:31:44.853Z",
+                "imported": "2026-07-17T22:08:02.945Z",
+                "modified": "2026-06-17T04:13:00.373Z",
                 "published": "2022-03-14T15:15:09.373Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44964",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44964",

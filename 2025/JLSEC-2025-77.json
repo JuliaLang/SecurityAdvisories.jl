@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-77",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2022-40303"
     ],
     "summary": "An issue was discovered in libxml2 before 2.10.3",
     "details": "An issue was discovered in libxml2 before 2.10.3. When parsing a multi-gigabyte XML document with the XML_PARSE_HUGE parser option enabled, several integer counters can overflow. This results in an attempt to access an array at a negative 2GB offset, typically leading to a segmentation fault.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -89,11 +96,14 @@
         "sources": [
             {
                 "id": "CVE-2022-40303",
-                "imported": "2025-10-28T18:09:09.584Z",
-                "modified": "2025-04-29T05:15:43.693Z",
+                "imported": "2026-07-17T21:05:45.139Z",
+                "modified": "2026-06-17T05:01:16.323Z",
                 "published": "2022-11-23T00:15:11.007Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-40303",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40303"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40303",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

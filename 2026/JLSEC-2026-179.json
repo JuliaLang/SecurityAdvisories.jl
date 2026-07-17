@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-179",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-23T15:10:48.547Z",
     "upstream": [
         "CVE-2023-0437"
     ],
     "details": "When calling bson_utf8_validate on some inputs a loop with an exit condition that cannot be reached may occur, i.e. an infinite loop. This issue affects All MongoDB C Driver versions prior to versions 1.25.0.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -52,8 +59,8 @@
         "sources": [
             {
                 "id": "CVE-2023-0437",
-                "imported": "2026-04-23T13:49:30.193Z",
-                "modified": "2025-11-03T20:15:59.617Z",
+                "imported": "2026-07-17T21:18:11.448Z",
+                "modified": "2026-06-17T05:25:33.043Z",
                 "published": "2024-01-12T14:15:47.387Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-0437",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0437",

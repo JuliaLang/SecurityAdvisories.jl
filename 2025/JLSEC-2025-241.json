@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-241",
-    "modified": "2026-04-20T16:58:42.289Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2024-48958"
     ],
     "summary": "execute_filter_delta in archive_read_support_format_rar.c in libarchive before 3.7.5 allows out-of-b...",
     "details": "execute_filter_delta in archive_read_support_format_rar.c in libarchive before 3.7.5 allows out-of-bounds access via a crafted archive file because src can move beyond dst.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -69,11 +76,14 @@
         "sources": [
             {
                 "id": "CVE-2024-48958",
-                "imported": "2025-11-25T21:58:26.890Z",
-                "modified": "2025-11-03T21:16:31.263Z",
+                "imported": "2026-07-17T20:48:53.530Z",
+                "modified": "2026-06-17T07:59:07.683Z",
                 "published": "2024-10-10T02:15:03.057Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-48958",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-48958"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-48958",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

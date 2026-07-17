@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-375",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-01T13:54:10.329Z",
     "upstream": [
         "CVE-2023-5217"
     ],
     "details": "Heap buffer overflow in vp8 encoding in libvpx in Google Chrome prior to 117.0.5938.132 and libvpx 1.13.1 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: High)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -248,8 +255,8 @@
         "sources": [
             {
                 "id": "CVE-2023-5217",
-                "imported": "2026-05-01T13:33:19.686Z",
-                "modified": "2025-10-24T14:07:24.923Z",
+                "imported": "2026-07-17T21:44:58.653Z",
+                "modified": "2026-06-17T06:48:06.467Z",
                 "published": "2023-09-28T16:15:10.980Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5217",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5217",

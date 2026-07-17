@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-222",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2021-23841",
@@ -10,6 +10,18 @@
     ],
     "summary": "Integer Overflow in openssl-src",
     "details": "The OpenSSL public API function X509_issuer_and_serial_hash() attempts to create a unique hash value based on the issuer and serial number data contained within an X509 certificate. However it fails to correctly handle any errors that may occur while parsing the issuer field (which might occur if the issuer field is maliciously constructed). This may subsequently result in a NULL pointer deref and a crash leading to a potential denial of service attack. The function X509_issuer_and_serial_hash() is never directly called by OpenSSL itself so applications are only vulnerable if they use this function directly and they use it on certificates that may have been obtained from untrusted sources. OpenSSL versions 1.1.1i and below are affected by this issue. Users of these versions should upgrade to OpenSSL 1.1.1j. OpenSSL versions 1.0.2x and below are affected by this issue. However OpenSSL 1.0.2 is out of support and no longer receiving public updates. Premium support customers of OpenSSL 1.0.2 should upgrade to 1.0.2y. Other users should upgrade to 1.1.1j. Fixed in OpenSSL 1.1.1j (Affected 1.1.1-1.1.1i). Fixed in OpenSSL 1.0.2y (Affected 1.0.2-1.0.2x).",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -188,8 +200,8 @@
         "sources": [
             {
                 "id": "CVE-2021-23841",
-                "imported": "2026-04-27T16:32:28.721Z",
-                "modified": "2024-11-21T05:51:55.460Z",
+                "imported": "2026-07-17T21:23:41.142Z",
+                "modified": "2026-06-17T03:38:54.823Z",
                 "published": "2021-02-16T17:15:13.377Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-23841",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-23841",
@@ -199,7 +211,7 @@
             },
             {
                 "id": "GHSA-84rm-qf37-fgc2",
-                "imported": "2026-04-27T16:35:05.924Z",
+                "imported": "2026-07-17T21:23:41.332Z",
                 "modified": "2023-04-03T19:26:16Z",
                 "published": "2021-08-25T20:52:21Z",
                 "url": "https://api.github.com/advisories/GHSA-84rm-qf37-fgc2",
@@ -207,7 +219,7 @@
             },
             {
                 "id": "EUVD-2021-1630",
-                "imported": "2026-04-27T16:33:23.771Z",
+                "imported": "2026-07-17T21:23:51.551Z",
                 "modified": "2024-09-16T22:39:57Z",
                 "published": "2021-02-16T16:55:18Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2021-1630",

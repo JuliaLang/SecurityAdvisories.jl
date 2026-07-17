@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-169",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-20T22:55:27.993Z",
     "upstream": [
         "CVE-2019-18397"
     ],
     "summary": "A buffer overflow in the fribidi_get_par_embedding_levels_ex() function in lib/fribidi-bidi.c of GNU...",
     "details": "A buffer overflow in the fribidi_get_par_embedding_levels_ex() function in lib/fribidi-bidi.c of GNU FriBidi through 1.0.7 allows an attacker to cause a denial of service or possibly execute arbitrary code by delivering crafted text content to a user, when this content is then rendered by an application that uses FriBidi for text layout calculations. Examples include any GNOME or GTK+ based application that uses Pango for text layout, as this internally uses FriBidi for bidirectional text layout. For example, the attacker can construct a crafted text file to be opened in GEdit, or a crafted IRC message to be viewed in HexChat.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -77,11 +89,14 @@
         "sources": [
             {
                 "id": "CVE-2019-18397",
-                "imported": "2025-10-19T19:44:23.674Z",
-                "modified": "2024-11-21T04:33:12.027Z",
+                "imported": "2026-07-17T20:40:32.487Z",
+                "modified": "2026-06-17T02:24:58.563Z",
                 "published": "2019-11-13T14:15:10.287Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-18397",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-18397"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-18397",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

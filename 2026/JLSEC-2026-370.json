@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-370",
-    "modified": "2026-04-30T19:30:31.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-30T19:30:31.295Z",
     "upstream": [
         "CVE-2026-5245",
@@ -12,8 +12,19 @@
     "details": "A vulnerability was found in Cesanta Mongoose up to 7.20. This impacts the function handle_mdns_record of the file mongoose.c of the component mDNS Record Handler. Performing a manipulation of the argument buf results in stack-based buffer overflow. Remote exploitation of the attack is possible. A high degree of complexity is needed for the attack. The exploitability is said to be difficult. The exploit has been made public and could be used. Upgrading to version 7.21 will fix this issue. The patch is named 0d882f1b43ff2308b7486a56a9d60cd6dba8a3f1. You should upgrade the affected component. The vendor was contacted early, responded in a very professional manner and quickly released a fixed version of the affected product.",
     "severity": [
         {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:H/Au:N/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P"
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -81,8 +92,8 @@
         "sources": [
             {
                 "id": "CVE-2026-5245",
-                "imported": "2026-04-30T18:54:47.964Z",
-                "modified": "2026-04-29T21:44:23.490Z",
+                "imported": "2026-07-17T21:44:18Z",
+                "modified": "2026-06-17T10:58:40.273Z",
                 "published": "2026-04-02T10:16:17.443Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5245",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5245",
@@ -92,7 +103,7 @@
             },
             {
                 "id": "GHSA-2rqj-7x75-2684",
-                "imported": "2026-04-30T18:55:54.242Z",
+                "imported": "2026-07-17T21:44:18.206Z",
                 "modified": "2026-04-02T12:31:13Z",
                 "published": "2026-04-02T12:31:05Z",
                 "url": "https://api.github.com/advisories/GHSA-2rqj-7x75-2684",
@@ -100,7 +111,7 @@
             },
             {
                 "id": "EUVD-2026-18183",
-                "imported": "2026-04-30T18:54:56.696Z",
+                "imported": "2026-07-17T21:44:21.899Z",
                 "modified": "2026-04-02T14:27:27Z",
                 "published": "2026-04-02T09:00:19Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-18183",

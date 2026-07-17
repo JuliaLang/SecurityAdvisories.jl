@@ -1,19 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-115",
-    "modified": "2026-04-14T13:10:46.494Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
-        "EUVD-2026-2935",
+        "CVE-2026-22864",
         "GHSA-m3c4-prhw-mrx6",
-        "CVE-2026-22864"
+        "EUVD-2026-2935"
     ],
     "summary": "Deno has an incomplete fix for command-injection prevention on Windows — case-insensitive extension bypass",
     "details": "### Summary\n\nA prior patch aimed to block spawning Windows batch/shell files by returning an error when a spawned path’s extension matched `.bat` or `.cmd`. That check performs a case-sensitive comparison against lowercase literals and therefore can be bypassed when the extension uses alternate casing (for example `.BAT, .Bat`, etc.).\n\n### POC\n\n```javascript\nconst command = new Deno.Command('./test.BAT', {\n  args: ['&calc.exe'],\n});\nconst child = command.spawn();\n```\n\nThis causes `calc.exe` to be launched; see the attached screenshot for evidence.\n\n**Patched in `CVE-2025-61787` — prevents execution of `.bat` and `.cmd` files:**\n![photo_2025-10-10 02 27 23](https://github.com/user-attachments/assets/43df25e2-e2e1-48aa-8060-cb0a22637f1f)\n\n**Bypass of the patched vulnerability:**\n![photo_2025-10-10 02 27 25](https://github.com/user-attachments/assets/2be1afb4-84a1-4883-8e18-6a174fdd3615)\n\n### Impact\n\nThe script launches calc.exe on Windows, demonstrating that passing user-controlled arguments to a spawned batch script can result in command-line injection.\n\n### Mitigation\n\nUsers should update to Deno v2.5.6 or newer.",
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -41,6 +42,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m3c4-prhw-mrx6"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/denoland/deno/releases/tag/v2.5.6"
         },
         {
@@ -50,24 +55,20 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22864"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-m3c4-prhw-mrx6"
         }
     ],
     "credits": [
         {
-            "name": "SharokhAtaie",
+            "name": "B14CK-SPID3R",
             "contact": [
-                "https://github.com/SharokhAtaie"
+                "https://github.com/B14CK-SPID3R"
             ],
             "type": "REPORTER"
         },
         {
-            "name": "B14CK-SPID3R",
+            "name": "SharokhAtaie",
             "contact": [
-                "https://github.com/B14CK-SPID3R"
+                "https://github.com/SharokhAtaie"
             ],
             "type": "REPORTER"
         }
@@ -77,15 +78,18 @@
         "sources": [
             {
                 "id": "CVE-2026-22864",
-                "imported": "2026-04-14T12:58:55.197Z",
-                "modified": "2026-01-21T14:32:39.837Z",
+                "imported": "2026-07-17T21:10:47.212Z",
+                "modified": "2026-06-17T10:20:31.700Z",
                 "published": "2026-01-15T23:15:51.937Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-22864",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22864"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22864",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             },
             {
                 "id": "GHSA-m3c4-prhw-mrx6",
-                "imported": "2026-04-14T12:59:06.994Z",
+                "imported": "2026-07-17T21:10:47.368Z",
                 "modified": "2026-01-27T16:49:29Z",
                 "published": "2026-01-16T15:49:38Z",
                 "url": "https://api.github.com/advisories/GHSA-m3c4-prhw-mrx6",
@@ -93,7 +97,7 @@
             },
             {
                 "id": "EUVD-2026-2935",
-                "imported": "2026-04-14T12:58:57.054Z",
+                "imported": "2026-07-17T21:10:57.217Z",
                 "modified": "2026-01-16T17:16:02Z",
                 "published": "2026-01-15T22:58:52Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-2935",

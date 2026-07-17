@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-491",
-    "modified": "2026-05-08T13:06:54.969Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-08T13:06:54.969Z",
     "upstream": [
         "CVE-2026-41254"
     ],
     "details": "Little CMS (lcms2) through 2.18 has an integer overflow in CubeSize in cmslut.c because the overflow check is performed after the multiplication.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +67,8 @@
         "sources": [
             {
                 "id": "CVE-2026-41254",
-                "imported": "2026-05-08T08:40:09.674Z",
-                "modified": "2026-05-07T18:16:19.300Z",
+                "imported": "2026-07-17T22:00:08.462Z",
+                "modified": "2026-06-17T10:46:23.470Z",
                 "published": "2026-04-18T07:16:10.807Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41254",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41254",

@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-114",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2021-33815"
     ],
     "summary": "dwa_uncompress in libavcodec/exr.c in FFmpeg 4.4 allows an out-of-bounds array access because dc_cou...",
     "details": "dwa_uncompress in libavcodec/exr.c in FFmpeg 4.4 allows an out-of-bounds array access because dc_count is not strictly checked.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -45,11 +57,14 @@
         "sources": [
             {
                 "id": "CVE-2021-33815",
-                "imported": "2025-10-18T14:07:17.117Z",
-                "modified": "2024-11-21T06:09:37.263Z",
+                "imported": "2026-07-17T20:34:22.995Z",
+                "modified": "2026-06-17T03:55:15.897Z",
                 "published": "2021-06-03T17:15:15.073Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-33815",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-33815"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-33815",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

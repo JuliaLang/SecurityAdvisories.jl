@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-733",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5507",
@@ -12,8 +12,14 @@
     "details": "When restoring a session from cache, a pointer from the serialized session data is used in a free operation without validation. An attacker who can poison the session cache could trigger an arbitrary free. Exploitation requires the ability to inject a crafted session into the cache and for the application to call specific session restore APIs.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -57,7 +63,7 @@
         "sources": [
             {
                 "id": "CVE-2026-5507",
-                "imported": "2026-07-14T21:22:49.294Z",
+                "imported": "2026-07-17T22:32:52.510Z",
                 "modified": "2026-06-17T10:59:08.460Z",
                 "published": "2026-04-09T23:17:01.543Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5507",
@@ -68,7 +74,7 @@
             },
             {
                 "id": "GHSA-f5fh-xmxq-55p9",
-                "imported": "2026-07-14T21:23:02.226Z",
+                "imported": "2026-07-17T22:32:52.678Z",
                 "modified": "2026-04-29T15:30:36Z",
                 "published": "2026-04-10T00:30:31Z",
                 "url": "https://api.github.com/advisories/GHSA-f5fh-xmxq-55p9",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "EUVD-2026-21216",
-                "imported": "2026-07-14T21:22:51.568Z",
+                "imported": "2026-07-17T22:33:02.514Z",
                 "modified": "2026-04-14T14:38:40Z",
                 "published": "2026-04-09T22:18:44Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21216",

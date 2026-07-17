@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-83",
-    "modified": "2026-04-13T13:20:05.063Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
         "CVE-2024-56378"
     ],
     "details": "libpoppler.so in Poppler through 24.12.0 has an out-of-bounds read vulnerability within the JBIG2Bitmap::combine function in JBIG2Stream.cc.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -52,11 +59,14 @@
         "sources": [
             {
                 "id": "CVE-2024-56378",
-                "imported": "2026-04-13T04:14:33.287Z",
-                "modified": "2025-11-03T20:16:51.900Z",
+                "imported": "2026-07-17T22:40:30.110Z",
+                "modified": "2026-06-17T08:12:08.577Z",
                 "published": "2024-12-23T00:15:05.133Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-56378",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-56378"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-56378",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

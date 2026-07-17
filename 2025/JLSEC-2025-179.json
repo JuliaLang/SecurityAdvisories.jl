@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-179",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-21T17:39:06.495Z",
     "upstream": [
         "CVE-2020-17541"
     ],
     "summary": "Libjpeg-turbo all version have a stack-based buffer overflow in the \"transform\" component",
     "details": "Libjpeg-turbo all version have a stack-based buffer overflow in the \"transform\" component. A remote attacker can send a malformed jpeg file to the service and cause arbitrary code execution or denial of service of the target service.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -45,11 +57,14 @@
         "sources": [
             {
                 "id": "CVE-2020-17541",
-                "imported": "2025-10-21T15:03:32.798Z",
-                "modified": "2024-11-21T05:08:19.537Z",
+                "imported": "2026-07-17T20:41:40.074Z",
+                "modified": "2026-06-17T02:59:06.480Z",
                 "published": "2021-06-01T15:15:07.417Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-17541",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-17541"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-17541",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

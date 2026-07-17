@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-267",
-    "modified": "2026-04-27T18:33:55.942Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2025-9231",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -42,6 +43,26 @@
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2025/09/30/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/05/11/11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-032379.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-089022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-253495.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-585531.html"
         },
         {
             "type": "WEB",
@@ -77,8 +98,8 @@
         "sources": [
             {
                 "id": "CVE-2025-9231",
-                "imported": "2026-04-27T16:35:30.251Z",
-                "modified": "2026-04-15T00:35:42.020Z",
+                "imported": "2026-07-17T21:31:39.571Z",
+                "modified": "2026-07-14T13:18:07.550Z",
                 "published": "2025-09-30T14:15:41.190Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-9231",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9231",
@@ -88,16 +109,16 @@
             },
             {
                 "id": "GHSA-9mrx-mqmg-gwj9",
-                "imported": "2026-04-27T16:36:30.115Z",
-                "modified": "2025-11-05T00:32:31Z",
+                "imported": "2026-07-17T21:31:39.715Z",
+                "modified": "2026-07-14T15:32:34Z",
                 "published": "2025-09-30T15:30:30Z",
                 "url": "https://api.github.com/advisories/GHSA-9mrx-mqmg-gwj9",
                 "html_url": "https://github.com/advisories/GHSA-9mrx-mqmg-gwj9"
             },
             {
                 "id": "EUVD-2025-31728",
-                "imported": "2026-04-27T16:33:10.695Z",
-                "modified": "2025-11-04T21:15:18Z",
+                "imported": "2026-07-17T21:31:49.766Z",
+                "modified": "2026-06-02T12:59:49Z",
                 "published": "2025-09-30T13:17:12Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-31728",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-31728"

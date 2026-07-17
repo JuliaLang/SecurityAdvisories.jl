@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-96",
-    "modified": "2025-12-01T22:35:06.458Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T18:40:48.457Z",
     "upstream": [
         "CVE-2025-5318"
     ],
     "summary": "A flaw was found in the libssh library in versions less than 0.11.2",
     "details": "A flaw was found in the libssh library in versions less than 0.11.2. An out-of-bounds read can be triggered in the sftp_handle function due to an incorrect comparison check that permits the function to access memory beyond the valid handle list and to return an invalid pointer, which is used in further processing. This vulnerability allows an authenticated remote attacker to potentially read unintended memory regions, exposing sensitive information or affect service behavior.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -109,6 +116,38 @@
         },
         {
             "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:22275"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23078"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23079"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2025:23080"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:0326"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:1541"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3461"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:3462"
+        },
+        {
+            "type": "WEB",
             "url": "https://access.redhat.com/security/cve/CVE-2025-5318"
         },
         {
@@ -125,11 +164,14 @@
         "sources": [
             {
                 "id": "CVE-2025-5318",
-                "imported": "2025-11-28T03:26:58.026Z",
-                "modified": "2025-11-27T18:15:46.597Z",
+                "imported": "2026-07-17T21:07:55.168Z",
+                "modified": "2026-06-30T11:16:24.470Z",
                 "published": "2025-06-24T14:15:30.523Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5318",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5318"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5318",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

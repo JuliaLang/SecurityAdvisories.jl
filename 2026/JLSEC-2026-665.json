@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-665",
-    "modified": "2026-07-14T14:59:33.004Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T14:59:33.004Z",
     "upstream": [
         "CVE-2026-23679",
@@ -12,8 +12,14 @@
     "details": "libusb before version 1.0.30 contains a NULL pointer dereference vulnerability that allows attackers to crash applications by supplying a malformed USB configuration descriptor where an interface claims bNumEndpoints greater than zero but is followed by a class-specific descriptor whose bLength exceeds the remaining buffer size, causing parse_interface() to return early without allocating the endpoint array. Attackers can exploit this flaw through libusb_get_active_config_descriptor or libusb_get_config_descriptor by providing crafted descriptors via virtualized USB passthrough, file-based descriptor parsing, or network sources, causing any application iterating over endpoints to dereference a NULL endpoint pointer and crash.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -73,8 +79,8 @@
         "sources": [
             {
                 "id": "CVE-2026-23679",
-                "imported": "2026-07-14T14:33:30.126Z",
-                "modified": "2026-06-17T10:21:56.773Z",
+                "imported": "2026-07-17T22:22:04.035Z",
+                "modified": "2026-07-14T16:16:52.027Z",
                 "published": "2026-05-27T14:16:44.170Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-23679",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23679",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "GHSA-jp69-qvgm-mqwx",
-                "imported": "2026-07-14T14:33:33.460Z",
+                "imported": "2026-07-17T22:22:04.198Z",
                 "modified": "2026-05-27T15:33:19Z",
                 "published": "2026-05-27T15:33:11Z",
                 "url": "https://api.github.com/advisories/GHSA-jp69-qvgm-mqwx",
@@ -92,8 +98,8 @@
             },
             {
                 "id": "EUVD-2026-32502",
-                "imported": "2026-07-14T14:33:31.631Z",
-                "modified": "2026-06-23T16:13:54Z",
+                "imported": "2026-07-17T22:22:14.114Z",
+                "modified": "2026-07-14T15:53:32Z",
                 "published": "2026-05-27T13:21:37Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-32502",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-32502"

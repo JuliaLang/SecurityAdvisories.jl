@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-383",
-    "modified": "2026-05-01T17:50:38.295Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-01T17:50:38.295Z",
     "upstream": [
         "CVE-2026-32778"
     ],
     "details": "libexpat before 2.7.5 allows a NULL pointer dereference in the function setContext on retry after an earlier ouf-of-memory condition.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -32,6 +39,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://github.com/libexpat/libexpat/pull/1159"
         },
         {
@@ -44,13 +55,13 @@
         "sources": [
             {
                 "id": "CVE-2026-32778",
-                "imported": "2026-04-30T20:01:47.178Z",
-                "modified": "2026-03-17T15:52:53.160Z",
+                "imported": "2026-07-17T21:45:53.426Z",
+                "modified": "2026-07-14T13:18:49.843Z",
                 "published": "2026-03-16T14:19:44.970Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-32778",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32778",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             }
         ]

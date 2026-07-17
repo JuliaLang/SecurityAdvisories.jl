@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-43",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-03T13:27:15.647Z",
     "upstream": [
         "CVE-2023-5868"
     ],
     "details": "A memory disclosure vulnerability was found in PostgreSQL that allows remote users to access sensitive information by exploiting certain aggregate function calls with 'unknown'-type arguments. Handling 'unknown'-type values from string literals without type designation can disclose bytes, potentially revealing notable and confidential information. This issue exists due to excessive data output in aggregate function calls, enabling remote users to read some portion of system memory.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -144,11 +151,14 @@
         "sources": [
             {
                 "id": "CVE-2023-5868",
-                "imported": "2026-04-03T13:13:10.372Z",
-                "modified": "2025-11-04T20:17:13.493Z",
+                "imported": "2026-07-17T21:52:19.708Z",
+                "modified": "2026-06-23T18:17:37.457Z",
                 "published": "2023-12-10T18:15:07.163Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-5868",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5868"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5868",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

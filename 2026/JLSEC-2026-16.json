@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-16",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-03-31T16:50:26.988Z",
     "upstream": [
         "CVE-2019-13636"
     ],
     "details": "In GNU patch through 2.7.6, the following of symlinks is mishandled in certain cases other than input files. This affects inp.c and util.c.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -84,11 +96,14 @@
         "sources": [
             {
                 "id": "CVE-2019-13636",
-                "imported": "2026-03-31T16:10:31.546Z",
-                "modified": "2024-11-21T04:25:24.703Z",
+                "imported": "2026-07-17T21:16:00.176Z",
+                "modified": "2026-06-17T02:17:07.513Z",
                 "published": "2019-07-17T21:15:11.797Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-13636",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13636"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13636",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

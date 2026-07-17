@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-440",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-04T13:35:07.628Z",
     "upstream": [
         "CVE-2023-1999"
     ],
     "details": "There exists a use after free/double free in libwebp. An attacker can use the ApplyFiltersAndEncode() function and loop through to free best.bw and assign best = trial pointer. The second loop will then return 0 because of an Out of memory error in VP8 encoder, the pointer is still assigned to trial and the AddressSanitizer will attempt a double free.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -44,8 +51,8 @@
         "sources": [
             {
                 "id": "CVE-2023-1999",
-                "imported": "2026-05-03T08:43:14.502Z",
-                "modified": "2025-02-13T17:16:01.293Z",
+                "imported": "2026-07-17T21:54:09.119Z",
+                "modified": "2026-06-17T05:29:14.063Z",
                 "published": "2023-06-20T12:15:09.600Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-1999",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-1999",

@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-239",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2024-26256"
     ],
     "summary": "Libarchive Remote Code Execution Vulnerability",
     "details": "Libarchive Remote Code Execution Vulnerability",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -73,11 +80,14 @@
         "sources": [
             {
                 "id": "CVE-2024-26256",
-                "imported": "2025-11-25T21:58:26.865Z",
-                "modified": "2025-01-08T16:03:05.373Z",
+                "imported": "2026-07-17T20:48:35.149Z",
+                "modified": "2026-06-17T07:17:28.940Z",
                 "published": "2024-04-09T17:15:47.507Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-26256",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26256"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-26256",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }

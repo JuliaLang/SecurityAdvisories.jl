@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-634",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2023-51791"
     ],
     "details": "Buffer Overflow vulenrability in Ffmpeg v.N113007-g8d24a28d06 allows a local attacker to execute arbitrary code via the libavcodec/jpegxl_parser.c in gen_alias_map.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -108,7 +115,7 @@
         "sources": [
             {
                 "id": "CVE-2023-51791",
-                "imported": "2026-06-26T19:19:04.625Z",
+                "imported": "2026-07-17T22:15:58.931Z",
                 "modified": "2026-06-17T06:41:40.663Z",
                 "published": "2024-04-19T17:15:52.183Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-51791",

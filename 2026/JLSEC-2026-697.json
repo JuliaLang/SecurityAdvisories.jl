@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-697",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-11310",
@@ -12,8 +12,14 @@
     "details": "X.509 trust-chain bypass in the OpenSSL compatibility certificate verifier (wolfSSL_X509_verify_cert()). This affects only builds with --enable-opensslextra (OPENSSL_EXTRA) and whose application validates certificates by calling X509_verify_cert() with caller-supplied untrusted intermediate certificates; for those users it is critical, otherwise the library is unaffected. In particular, native wolfSSL TLS/DTLS usage is not impacted. wolfSSL's X509_verify_cert() temporarily loads each caller-supplied untrusted intermediate into the certificate manager but failed to drop them before the trusted-store check, so an untrusted intermediate could anchor the path itself. An attacker can present a chain that never reaches a configured trust anchor and have it accepted, resulting in acceptance of an attacker-controlled certificate. This is certificate verification independent of TLS (e.g. S/MIME/CMS, code/firmware signing, JWT/JWS x5c), is not specific to any key type or algorithm, and a single untrusted intermediate suffices. The default wolfSSL TLS handshake (WOLFSSL_VERIFY_PEER) is not affected; only TLS applications doing manual or deferred peer verification through this API are, which also requires --enable-sessioncerts.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-11310",
-                "imported": "2026-07-14T21:22:49.585Z",
+                "imported": "2026-07-17T22:26:55.492Z",
                 "modified": "2026-06-26T18:54:51.247Z",
                 "published": "2026-06-25T20:17:09.777Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-11310",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-h4wh-367g-85gm",
-                "imported": "2026-07-14T21:22:58.411Z",
+                "imported": "2026-07-17T22:26:55.648Z",
                 "modified": "2026-06-26T21:32:11Z",
                 "published": "2026-06-25T21:31:31Z",
                 "url": "https://api.github.com/advisories/GHSA-h4wh-367g-85gm",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39548",
-                "imported": "2026-07-14T21:22:51.107Z",
+                "imported": "2026-07-17T22:27:03.763Z",
                 "modified": "2026-06-26T14:02:37Z",
                 "published": "2026-06-25T19:38:19Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39548",

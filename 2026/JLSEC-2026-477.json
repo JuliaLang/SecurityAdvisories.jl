@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-477",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-07T17:36:47.122Z",
     "upstream": [
         "CVE-2018-25032"
     ],
     "details": "zlib before 1.2.12 allows memory corruption when deflating (i.e., when compressing) if the input has many distant matches.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -106,6 +118,30 @@
         {
             "type": "WEB",
             "url": "http://www.openwall.com/lists/oss-security/2022/03/26/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-333517.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-398330.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-419740.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-470355.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-565386.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-942865.html"
         },
         {
             "type": "WEB",
@@ -209,13 +245,13 @@
         "sources": [
             {
                 "id": "CVE-2018-25032",
-                "imported": "2026-05-07T17:21:38.874Z",
-                "modified": "2025-08-21T20:37:11.840Z",
+                "imported": "2026-07-17T21:58:28.225Z",
+                "modified": "2026-07-14T12:16:46.733Z",
                 "published": "2022-03-25T09:15:08.187Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-25032",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-25032",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             }
         ]

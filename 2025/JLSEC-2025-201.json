@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-201",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-10932"
     ],
     "summary": "An issue was discovered in Arm Mbed TLS before 2.16.6 and 2.7.x before 2.7.15",
     "details": "An issue was discovered in Arm Mbed TLS before 2.16.6 and 2.7.x before 2.7.15. An attacker that can get precise enough side-channel measurements can recover the long-term ECDSA private key by (1) reconstructing the projective coordinate of the result of scalar multiplication by exploiting side channels in the conversion to affine coordinates; (2) using an attack described by Naccache, Smart, and Stern in 2003 to recover a few bits of the ephemeral scalar from those projective coordinates via several measurements; and (3) using a lattice attack to get from there to the long-term ECDSA private key used for the signatures. Typically an attacker would have sufficient access when attacking an SGX enclave and controlling the untrusted OS.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:M/Au:N/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -61,11 +73,14 @@
         "sources": [
             {
                 "id": "CVE-2020-10932",
-                "imported": "2025-11-20T23:04:00.266Z",
-                "modified": "2024-11-21T04:56:23.837Z",
+                "imported": "2026-07-17T20:44:21.981Z",
+                "modified": "2026-06-17T02:48:42.273Z",
                 "published": "2020-04-15T14:15:20.123Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-10932",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10932"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10932",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

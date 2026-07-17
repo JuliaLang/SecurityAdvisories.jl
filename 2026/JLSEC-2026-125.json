@@ -1,11 +1,11 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-125",
-    "modified": "2026-04-17T13:07:52.234Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-17T13:07:52.234Z",
     "upstream": [
-        "GHSA-f6x7-5x3c-j3rg",
         "CVE-2025-48174",
+        "GHSA-f6x7-5x3c-j3rg",
         "EUVD-2025-15404"
     ],
     "summary": "In libavif before 1.3.0, makeRoom in stream.c has an integer overflow and resultant buffer...",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:L"
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+            "source": "NVD"
         }
     ],
     "affected": [
@@ -57,15 +58,15 @@
         },
         {
             "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f6x7-5x3c-j3rg"
+        },
+        {
+            "type": "WEB",
             "url": "https://lists.debian.org/debian-lts-announce/2025/05/msg00031.html"
         },
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48174"
-        },
-        {
-            "type": "WEB",
-            "url": "https://github.com/advisories/GHSA-f6x7-5x3c-j3rg"
         }
     ],
     "database_specific": {
@@ -73,8 +74,8 @@
         "sources": [
             {
                 "id": "CVE-2025-48174",
-                "imported": "2026-04-17T08:45:49.614Z",
-                "modified": "2025-11-03T20:19:05.993Z",
+                "imported": "2026-07-17T21:12:03.519Z",
+                "modified": "2026-06-17T09:29:16.707Z",
                 "published": "2025-05-16T05:15:37.213Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-48174",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-48174",
@@ -84,7 +85,7 @@
             },
             {
                 "id": "GHSA-f6x7-5x3c-j3rg",
-                "imported": "2026-04-17T08:45:50.076Z",
+                "imported": "2026-07-17T21:12:03.668Z",
                 "modified": "2025-11-03T21:34:58Z",
                 "published": "2025-05-16T06:30:24Z",
                 "url": "https://api.github.com/advisories/GHSA-f6x7-5x3c-j3rg",
@@ -92,7 +93,7 @@
             },
             {
                 "id": "EUVD-2025-15404",
-                "imported": "2026-04-17T08:45:49.736Z",
+                "imported": "2026-07-17T21:12:03.962Z",
                 "modified": "2025-11-03T20:04:42Z",
                 "published": "2025-05-16T00:00:00Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-15404",

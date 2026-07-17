@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-517",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-20T04:02:19.667Z",
     "upstream": [
         "CVE-2021-20237"
     ],
     "details": "An uncontrolled resource consumption (memory leak) flaw was found in ZeroMQ's src/xpub.cpp in versions before 4.3.3. This flaw allows a remote unauthenticated attacker to send crafted PUB messages that consume excessive memory if the CURVE/ZAP authentication is disabled on the server, causing a denial of service. The highest threat from this vulnerability is to system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -44,8 +56,8 @@
         "sources": [
             {
                 "id": "CVE-2021-20237",
-                "imported": "2026-05-20T01:02:01.057Z",
-                "modified": "2024-11-21T05:46:11.477Z",
+                "imported": "2026-07-17T22:03:22.850Z",
+                "modified": "2026-06-17T03:33:31.573Z",
                 "published": "2021-05-28T11:15:07.970Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-20237",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-20237",

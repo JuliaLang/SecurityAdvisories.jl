@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-92",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T14:33:47.115Z",
     "upstream": [
         "CVE-2023-36054"
     ],
     "details": "lib/kadm5/kadm_rpc_xdr.c in MIT Kerberos 5 (aka krb5) before 1.20.2 and 1.21.x before 1.21.1 frees an uninitialized pointer. A remote authenticated user can trigger a kadmind crash. This occurs because _xdr_kadm5_principal_ent_rec does not validate the relationship between n_key_data and the key_data array count.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,11 +67,14 @@
         "sources": [
             {
                 "id": "CVE-2023-36054",
-                "imported": "2026-04-13T14:12:33.242Z",
-                "modified": "2024-11-21T08:09:15.227Z",
+                "imported": "2026-07-17T22:41:34.339Z",
+                "modified": "2026-06-17T06:05:45.137Z",
                 "published": "2023-08-07T19:15:09.840Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-36054",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36054"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36054",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-527",
-    "modified": "2026-05-26T14:17:50.003Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2025-32988"
     ],
     "details": "A flaw was found in GnuTLS. A double-free vulnerability exists in GnuTLS due to incorrect ownership handling in the export logic of Subject Alternative Name (SAN) entries containing an otherName. If the type-id OID is invalid or malformed, GnuTLS will call asn1_delete_structure() on an ASN.1 node it does not own, leading to a double-free condition when the parent function or caller later attempts to free the same structure.\n\nThis vulnerability can be triggered using only public GnuTLS APIs and may result in denial of service or memory corruption, depending on allocator behavior.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -96,8 +103,8 @@
         "sources": [
             {
                 "id": "CVE-2025-32988",
-                "imported": "2026-05-22T18:34:35.574Z",
-                "modified": "2026-05-12T13:16:40.963Z",
+                "imported": "2026-07-17T22:04:31.646Z",
+                "modified": "2026-06-30T01:16:26.207Z",
                 "published": "2025-07-10T08:15:24.223Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-32988",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32988",

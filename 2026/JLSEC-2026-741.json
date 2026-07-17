@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-741",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5778",
@@ -12,8 +12,14 @@
     "details": "Integer underflow in wolfSSL packet sniffer <= 5.9.0 allows an attacker to cause a program crash in the AEAD decryption path by injecting a TLS record shorter than the explicit IV plus authentication tag into traffic inspected by ssl_DecodePacket. The underflow wraps a 16-bit length to a large value that is passed to AEAD decryption routines, causing a large out-of-bounds read and crash. An unauthenticated attacker can trigger this remotely via malformed TLS Application Data records.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -57,7 +63,7 @@
         "sources": [
             {
                 "id": "CVE-2026-5778",
-                "imported": "2026-07-14T21:22:49.251Z",
+                "imported": "2026-07-17T22:34:24.520Z",
                 "modified": "2026-06-17T10:59:37.930Z",
                 "published": "2026-04-09T22:16:37.097Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5778",
@@ -68,7 +74,7 @@
             },
             {
                 "id": "GHSA-2jvp-h4w4-2vxh",
-                "imported": "2026-07-14T21:22:59.645Z",
+                "imported": "2026-07-17T22:34:24.672Z",
                 "modified": "2026-04-29T15:30:34Z",
                 "published": "2026-04-10T00:30:31Z",
                 "url": "https://api.github.com/advisories/GHSA-2jvp-h4w4-2vxh",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "EUVD-2026-21220",
-                "imported": "2026-07-14T21:22:51.674Z",
+                "imported": "2026-07-17T22:34:34.287Z",
                 "modified": "2026-04-10T13:53:29Z",
                 "published": "2026-04-09T21:45:09Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-21220",

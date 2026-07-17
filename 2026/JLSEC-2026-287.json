@@ -1,12 +1,19 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-287",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-28T13:07:10.945Z",
     "upstream": [
         "CVE-2023-43789"
     ],
     "details": "A vulnerability was found in libXpm where a vulnerability exists due to a boundary condition, a local user can trigger an out-of-bounds read error and read contents of memory on the system.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -80,8 +87,8 @@
         "sources": [
             {
                 "id": "CVE-2023-43789",
-                "imported": "2026-04-28T08:58:31.940Z",
-                "modified": "2025-11-04T20:17:07.800Z",
+                "imported": "2026-07-17T21:34:36.951Z",
+                "modified": "2026-06-17T06:26:26.750Z",
                 "published": "2023-10-12T12:15:10.710Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-43789",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43789",

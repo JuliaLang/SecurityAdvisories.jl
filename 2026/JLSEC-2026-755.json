@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-755",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6731",
@@ -12,8 +12,14 @@
     "details": "X.509 name constraint bypass via the Subject Common Name when treated as a DNS-type name. A certificate whose Subject CN violates an issuing CA's DNS name constraints could be accepted.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-6731",
-                "imported": "2026-07-14T21:22:49.699Z",
+                "imported": "2026-07-17T22:36:56.935Z",
                 "modified": "2026-06-27T20:02:06.700Z",
                 "published": "2026-06-25T21:16:28.400Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6731",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-9c3c-227q-3j67",
-                "imported": "2026-07-14T21:22:56.212Z",
+                "imported": "2026-07-17T22:36:57.127Z",
                 "modified": "2026-06-27T21:30:28Z",
                 "published": "2026-06-25T21:31:32Z",
                 "url": "https://api.github.com/advisories/GHSA-9c3c-227q-3j67",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39555",
-                "imported": "2026-07-14T21:22:51.286Z",
+                "imported": "2026-07-17T22:37:06.890Z",
                 "modified": "2026-06-26T13:16:07Z",
                 "published": "2026-06-25T20:08:13Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39555",

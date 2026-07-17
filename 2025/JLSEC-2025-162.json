@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-162",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2023-32636"
     ],
     "summary": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of servi...",
     "details": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of service introduced by additional input validation added to resolve CVE-2023-29499. The offset table validation may be very slow. This bug does not affect any released version of glib but does affect glib distributors who followed the guidance of glib developers to backport the initial fix for CVE-2023-29499.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -49,11 +56,14 @@
         "sources": [
             {
                 "id": "CVE-2023-32636",
-                "imported": "2025-10-19T21:13:24.605Z",
-                "modified": "2024-11-21T08:03:44.800Z",
+                "imported": "2026-07-17T20:39:49.222Z",
+                "modified": "2026-06-17T05:59:16.933Z",
                 "published": "2023-09-14T20:15:09.653Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-32636",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32636"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32636",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

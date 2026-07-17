@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-735",
-    "modified": "2026-07-14T21:41:35.775Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-55960",
@@ -12,8 +12,14 @@
     "details": "Un-negotiated Raw Public Key (RFC 7250) accepted in place of an X.509 certificate, bypassing chain validation. A raw public key has no chain, so ParseCertRelative() accepts it without performing any trust verification; it must therefore only be accepted when RPK was actually negotiated for that peer. The check now defaults the expected type to X.509 (per RFC 7250/8446) when no type was negotiated, comparing against the received server certificate type on the client and the selected client certificate type on the server, and rejects any mismatch, including an un-negotiated raw public key, with UNSUPPORTED_CERTIFICATE. Only affects builds with Raw Public Key support (HAVE_RPK) enabled - disabled by default in a standalone build, but included in --enable-all.",
     "severity": [
         {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "NVD"
+        },
+        {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N"
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -65,7 +71,7 @@
         "sources": [
             {
                 "id": "CVE-2026-55960",
-                "imported": "2026-07-14T21:22:49.617Z",
+                "imported": "2026-07-17T22:33:12.777Z",
                 "modified": "2026-06-26T18:54:02.313Z",
                 "published": "2026-06-25T20:17:16.617Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-55960",
@@ -76,7 +82,7 @@
             },
             {
                 "id": "GHSA-58fj-7xwc-45hq",
-                "imported": "2026-07-14T21:23:04.856Z",
+                "imported": "2026-07-17T22:33:12.962Z",
                 "modified": "2026-06-26T21:33:14Z",
                 "published": "2026-06-25T21:31:31Z",
                 "url": "https://api.github.com/advisories/GHSA-58fj-7xwc-45hq",
@@ -84,7 +90,7 @@
             },
             {
                 "id": "EUVD-2026-39545",
-                "imported": "2026-07-14T21:22:51.196Z",
+                "imported": "2026-07-17T22:33:22.858Z",
                 "modified": "2026-06-26T13:58:17Z",
                 "published": "2026-06-25T19:31:55Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39545",

@@ -1,12 +1,24 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-575",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-06-06T03:56:25.335Z",
     "upstream": [
         "CVE-2021-20305"
     ],
     "details": "A flaw was found in Nettle in versions before 3.7.2, where several Nettle signature verification functions (GOST DSA, EDDSA & ECDSA) result in the Elliptic Curve Cryptography point (ECC) multiply function being called with out-of-range scalers, possibly resulting in incorrect results. This flaw allows an attacker to force an invalid signature, causing an assertion failure or possible validation. The highest threat to this vulnerability is to confidentiality, integrity, as well as system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -60,8 +72,8 @@
         "sources": [
             {
                 "id": "CVE-2021-20305",
-                "imported": "2026-06-06T01:02:08.636Z",
-                "modified": "2024-11-21T05:46:19.280Z",
+                "imported": "2026-07-17T22:10:28.222Z",
+                "modified": "2026-06-17T03:33:38.447Z",
                 "published": "2021-04-05T22:15:12.727Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-20305",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-20305",

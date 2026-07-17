@@ -1,13 +1,25 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-157",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2021-27219"
     ],
     "summary": "An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3",
     "details": "An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3. The function g_bytes_new has an integer overflow on 64-bit platforms due to an implicit cast from 64 bits to 32 bits. The overflow could potentially lead to memory corruption.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -65,11 +77,14 @@
         "sources": [
             {
                 "id": "CVE-2021-27219",
-                "imported": "2025-10-19T21:13:23.542Z",
-                "modified": "2024-11-21T05:57:37.410Z",
+                "imported": "2026-07-17T20:39:12.384Z",
+                "modified": "2026-06-17T03:44:29.427Z",
                 "published": "2021-02-15T17:15:13.137Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-27219",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27219"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27219",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

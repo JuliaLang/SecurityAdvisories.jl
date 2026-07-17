@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-193",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-27T18:23:36.019Z",
     "upstream": [
         "CVE-2021-3996"
     ],
     "summary": "A logic error was found in the libmount library of util-linux in the function that allows an unprivi...",
     "details": "A logic error was found in the libmount library of util-linux in the function that allows an unprivileged user to unmount a FUSE filesystem. This flaw allows a local user on a vulnerable system to unmount other users' filesystems that are either world-writable themselves (like /tmp) or mounted in a world-writable directory. An attacker may use this flaw to cause a denial of service to applications that use the affected filesystems.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -117,11 +124,14 @@
         "sources": [
             {
                 "id": "CVE-2021-3996",
-                "imported": "2025-10-27T15:41:00.912Z",
-                "modified": "2024-11-21T06:23:20.377Z",
+                "imported": "2026-07-17T20:43:26.464Z",
+                "modified": "2026-06-17T04:06:21.753Z",
                 "published": "2022-08-23T20:15:08.560Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3996",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3996"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3996",
+                "database_specific": {
+                    "status": "Modified"
+                }
             }
         ]
     }

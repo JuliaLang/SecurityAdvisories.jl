@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-89",
-    "modified": "2026-04-13T13:20:05.063Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
         "CVE-2025-52885",
@@ -11,7 +11,8 @@
     "severity": [
         {
             "type": "CVSS_V4",
-            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U"
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -39,6 +40,10 @@
     "references": [
         {
             "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/10/13/2"
+        },
+        {
+            "type": "WEB",
             "url": "https://gitlab.freedesktop.org/poppler/poppler/-/merge_requests/1884"
         },
         {
@@ -48,10 +53,6 @@
         {
             "type": "WEB",
             "url": "https://securitylab.github.com/advisories/GHSL-2025-042_poppler/"
-        },
-        {
-            "type": "WEB",
-            "url": "http://www.openwall.com/lists/oss-security/2025/10/13/2"
         }
     ],
     "database_specific": {
@@ -59,15 +60,18 @@
         "sources": [
             {
                 "id": "CVE-2025-52885",
-                "imported": "2026-04-13T04:14:53.359Z",
-                "modified": "2025-11-04T22:16:20.757Z",
+                "imported": "2026-07-17T22:41:09.827Z",
+                "modified": "2026-06-17T09:37:12.863Z",
                 "published": "2025-10-10T23:15:36.397Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-52885",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-52885"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-52885",
+                "database_specific": {
+                    "status": "Deferred"
+                }
             },
             {
                 "id": "EUVD-2025-33795",
-                "imported": "2026-04-13T04:14:34.616Z",
+                "imported": "2026-07-17T22:41:14.048Z",
                 "modified": "2025-11-04T21:11:41Z",
                 "published": "2025-10-10T22:11:20Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-33795",

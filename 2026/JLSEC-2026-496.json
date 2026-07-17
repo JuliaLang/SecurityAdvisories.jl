@@ -1,7 +1,7 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2026-496",
-    "modified": "2026-05-14T02:21:35.919Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2026-05-14T02:21:35.919Z",
     "upstream": [
         "CVE-2026-41989",
@@ -13,7 +13,8 @@
     "severity": [
         {
             "type": "CVSS_V3",
-            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H"
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+            "source": "CNA"
         }
     ],
     "affected": [
@@ -41,6 +42,14 @@
     "references": [
         {
             "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-019113.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
             "url": "https://dev.gnupg.org/T8211"
         },
         {
@@ -65,26 +74,26 @@
         "sources": [
             {
                 "id": "CVE-2026-41989",
-                "imported": "2026-05-14T00:51:22.580Z",
-                "modified": "2026-04-27T18:33:18.157Z",
+                "imported": "2026-07-17T22:00:42.577Z",
+                "modified": "2026-07-14T13:18:51.503Z",
                 "published": "2026-04-23T05:16:05.750Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-41989",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41989",
                 "database_specific": {
-                    "status": "Analyzed"
+                    "status": "Modified"
                 }
             },
             {
                 "id": "GHSA-wrv8-79m2-qg24",
-                "imported": "2026-05-14T00:51:26.621Z",
-                "modified": "2026-04-23T06:30:28Z",
+                "imported": "2026-07-17T22:00:42.722Z",
+                "modified": "2026-07-14T15:31:54Z",
                 "published": "2026-04-23T06:30:22Z",
                 "url": "https://api.github.com/advisories/GHSA-wrv8-79m2-qg24",
                 "html_url": "https://github.com/advisories/GHSA-wrv8-79m2-qg24"
             },
             {
                 "id": "EUVD-2026-25192",
-                "imported": "2026-05-14T00:51:24.152Z",
+                "imported": "2026-07-17T22:00:52.036Z",
                 "modified": "2026-04-23T16:22:47Z",
                 "published": "2026-04-23T04:30:26Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25192",

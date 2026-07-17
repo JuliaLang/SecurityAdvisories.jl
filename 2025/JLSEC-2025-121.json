@@ -1,13 +1,20 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-121",
-    "modified": "2026-07-16T17:22:35.940Z",
+    "modified": "2026-07-17T23:50:43.660Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2022-3109"
     ],
     "summary": "An issue was discovered in the FFmpeg package, where vp3_decode_frame in libavcodec/vp3.c lacks chec...",
     "details": "An issue was discovered in the FFmpeg package, where vp3_decode_frame in libavcodec/vp3.c lacks check of the return value of av_malloc() and will cause a null pointer dereference, impacting availability.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -77,11 +84,14 @@
         "sources": [
             {
                 "id": "CVE-2022-3109",
-                "imported": "2025-10-18T14:07:17.202Z",
-                "modified": "2025-08-07T19:26:18.477Z",
+                "imported": "2026-07-17T20:35:11.960Z",
+                "modified": "2026-06-17T04:58:52.723Z",
                 "published": "2022-12-16T15:15:09.483Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-3109",
-                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3109"
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3109",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
             }
         ]
     }
