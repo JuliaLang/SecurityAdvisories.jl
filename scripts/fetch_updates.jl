@@ -17,9 +17,6 @@ function main(input = get(ARGS, 1, ""))
 end
 
 function write_pr_outputs(n, reset_fields)
-    path = joinpath(@__DIR__, "..", "advisories", "published")
-    modified = split(readchomp(`git ls-files --modified $path`), '\n', keepempty=false)
-
     # Nice logging information for the possible pull request
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     advisory_str = n == 1 ? "advisory" : "advisories"
@@ -29,16 +26,10 @@ function write_pr_outputs(n, reset_fields)
     print(io, "This action re-fetched the upstream sources for all published advisories and found ",
         n, " ", advisory_str, " with significant changes.")
     if !isempty(reset_fields)
-        print(io, " The field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
-            " were reset to their newly-fetched values, and only changes to those fields were considered significant.")
+        print(io, " The existing values in field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
+            " were discarded and reset to their newly-fetched values, and this only saved the updates if those fields changed.")
     end
     println(io, "\n")
-    if length(modified) <= 10
-        for file in modified
-            println(io, "* `", splitext(basename(file))[1], "`")
-        end
-        println(io)
-    end
     print_advisory_diff(io, "HEAD")
     println(io, "BODY_EOF")
     seekstart(io)
