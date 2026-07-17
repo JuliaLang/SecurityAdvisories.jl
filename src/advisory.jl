@@ -159,7 +159,7 @@ There is just one place where we differ:
 """
 @kwdef mutable struct Advisory
     ## OSV fields
-    schema_version::String = "1.7.4"
+    schema_version::String = "1.8.0"
     # The identifier and dates are re-written by GitHub Actions upon publication and modification
     id::String = string(PREFIX, "-0000-", string(Dates.datetime2epochms(Dates.now()), base=36), "-", string(rand(UInt32), base=36))
     modified::DateTime = Dates.now(Dates.UTC)
@@ -523,9 +523,13 @@ to_osv_dict(x::Union{AbstractString, Integer, AbstractFloat, Bool}) = x
 to_osv_dict(d::AbstractDict) = OrderedDict(string(k)=>to_osv_dict(v) for (k,v) in d)
 to_osv_dict(A::AbstractArray) = [to_osv_dict(v) for v in A]
 function to_osv_dict(a::Severity)
-    # We still export with OSV-schema v1.7, which does not include the `source` field, so we omit it here
-    # We plan to include it if/when it supports the values we use in the JLSEC database (cf. https://github.com/ossf/osv-schema/issues/581)
-    return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)) && f != :source)
+    # OSV-schema v1.8.0 only supports `source` values of "NVD", "CNA" or "SELF" (or missing). We also import advisories from EUVD and GitHub,
+    # and if those have severities that NVD doesn't, we record those as sources too. So only include the source if it's one of the three that OSV supports.
+    d = OrderedDict("type" => a.type, "score" => a.score)
+    if a.source in ("NVD", "CNA", "SELF")
+        d["source"] = a.source
+    end
+    return d
 end
 function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
