@@ -291,6 +291,22 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
 end
 
 """
+    combine_severities(a, b)
+
+Combine two lists of `Severity`s, keeping only one of each `type`: the first source to claim a
+type wins, but later values from that same source are updated assessments and replace it.
+"""
+function combine_severities(a::Vector{Severity}, b::Vector{Severity})
+    result = OrderedDict{String, Severity}(sev.type => sev for sev in a)
+    for sev in b
+        if get(result, sev.type, sev).source == sev.source
+            result[sev.type] = sev
+        end
+    end
+    return collect(values(result))
+end
+
+"""
     combine(a::Advisory, b::Advisory)
 
 Take two advisories and combine their information, preferring the first argument when it is unclear which is better
@@ -338,8 +354,7 @@ function combine(a::Advisory, b::Advisory)
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
         details = length(a.details) >= length(b.details) ? a.details : b.details,
-        # Only keep one severity of each type, preferring the first argument's if both exist
-        severity = unique!(s->s.type, vcat(a.severity, b.severity)),
+        severity = combine_severities(a.severity, b.severity),
         # Affected is the trickiest one when both exist; we want the "best" information here
         affected = if !isnothing(a.affected) && !isnothing(b.affected)
             pkgs = union((entry.pkg for entry in a.affected), (entry.pkg for entry in b.affected))
