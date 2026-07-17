@@ -134,6 +134,26 @@ end
     @test_throws "no UUID" SecurityAdvisories.purl("ThisPackageDoesHopefullyNotExist")
 end
 
+@testset "combining severities" begin
+    using SecurityAdvisories: Severity, combine_severities
+    v3_nvd = Severity("CVSS_V3", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H", "NVD")
+    v3_nvd_revised = Severity("CVSS_V3", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L", "NVD")
+    v3_ghsa = Severity("CVSS_V3", "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H", "GHSA")
+    v3_unsourced = Severity("CVSS_V3", "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")
+    v3_unsourced_revised = Severity("CVSS_V3", "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H")
+    v4_ghsa = Severity("CVSS_V4", "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N", "GHSA")
+    # New types are appended
+    @test combine_severities([v3_nvd], [v4_ghsa]) == [v3_nvd, v4_ghsa]
+    # Same type from a different source: the first argument wins
+    @test combine_severities([v3_nvd], [v3_ghsa]) == [v3_nvd]
+    # Same type from the same source: it's an updated assessment, so the new value wins
+    @test combine_severities([v3_nvd], [v3_nvd_revised]) == [v3_nvd_revised]
+    # Sources must match exactly; sourceless severities only match other sourceless ones
+    @test combine_severities([v3_unsourced], [v3_nvd]) == [v3_unsourced]
+    @test combine_severities([v3_nvd], [v3_unsourced]) == [v3_nvd]
+    @test combine_severities([v3_unsourced], [v3_unsourced_revised]) == [v3_unsourced_revised]
+end
+
 @testset "fetch_combinations tolerates aliases that can't be fetched" begin
     # GHSA/EUVD/NVD advisories can reference aliases (e.g. PYSEC-*) that `fetch_advisory`
     # doesn't know how to fetch; those should be dropped from `sources` but still retained as alias ids

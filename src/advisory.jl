@@ -103,12 +103,14 @@ Represent a CVSS severity. If no type is given, CVSS_V2/3/4 are auto-detected.
 @kwdef struct Severity
     type::String
     score::String
+    source::Union{Nothing, String} = nothing
 end
-function Severity(score)
+function Severity(score; source = nothing)
     s = tryparse(Severity, score)
     isnothing(s) && throw(ArgumentError("cannot parse severity score $score"))
-    return s
+    return Severity(s.type, s.score, source)
 end
+Severity(type, score; source = nothing) = Severity(type, score, source)
 Base.convert(::Type{Severity}, s::AbstractString) = Severity(s)
 Base.convert(::Type{Severity}, d::AbstractDict) = Severity(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.tryparse(::Type{Severity}, score)
@@ -157,7 +159,7 @@ There is just one place where we differ:
 """
 @kwdef mutable struct Advisory
     ## OSV fields
-    schema_version::String = "1.7.4"
+    schema_version::String = "1.8.0"
     # The identifier and dates are re-written by GitHub Actions upon publication and modification
     id::String = string(PREFIX, "-0000-", string(Dates.datetime2epochms(Dates.now()), base=36), "-", string(rand(UInt32), base=36))
     modified::DateTime = Dates.now(Dates.UTC)
@@ -289,6 +291,22 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
 end
 
 """
+    combine_severities(a, b)
+
+Combine two lists of `Severity`s, keeping only one of each `type`: the first source to claim a
+type wins, but later values from that same source are updated assessments and replace it.
+"""
+function combine_severities(a::Vector{Severity}, b::Vector{Severity})
+    result = OrderedDict{String, Severity}(sev.type => sev for sev in a)
+    for sev in b
+        if get(result, sev.type, sev).source == sev.source
+            result[sev.type] = sev
+        end
+    end
+    return collect(values(result))
+end
+
+"""
     combine(a::Advisory, b::Advisory)
 
 Take two advisories and combine their information, preferring the first argument when it is unclear which is better
@@ -336,7 +354,7 @@ function combine(a::Advisory, b::Advisory)
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
         details = length(a.details) >= length(b.details) ? a.details : b.details,
-        severity = union(a.severity, b.severity),
+        severity = combine_severities(a.severity, b.severity),
         # Affected is the trickiest one when both exist; we want the "best" information here
         affected = if !isnothing(a.affected) && !isnothing(b.affected)
             pkgs = union((entry.pkg for entry in a.affected), (entry.pkg for entry in b.affected))
@@ -424,7 +442,7 @@ function to_toml_frontmatter_collection(s::Severity, xs)
     if all(x isa Severity && x == tryparse(Severity, x.score) for x in xs)
         return s.score
     else
-        return OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(Severity))
+        return OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(Severity) if is_populated(getfield(s, f)))
     end
 end
 to_toml_frontmatter(c::Credit) = to_toml_frontmatter_collection(c, [c])
@@ -519,7 +537,16 @@ to_osv_dict(x::Dates.DateTime) = chopsuffix(string(x), "Z") * "Z" # All times sh
 to_osv_dict(x::Union{AbstractString, Integer, AbstractFloat, Bool}) = x
 to_osv_dict(d::AbstractDict) = OrderedDict(string(k)=>to_osv_dict(v) for (k,v) in d)
 to_osv_dict(A::AbstractArray) = [to_osv_dict(v) for v in A]
-function to_osv_dict(a::Union{Severity, Reference, Credit, AdvisorySource})
+function to_osv_dict(a::Severity)
+    # OSV-schema v1.8.0 only supports `source` values of "NVD", "CNA" or "SELF" (or missing). We also import advisories from EUVD and GitHub,
+    # and if those have severities that NVD doesn't, we record those as sources too. So only include the source if it's one of the three that OSV supports.
+    d = OrderedDict("type" => a.type, "score" => a.score)
+    if a.source in ("NVD", "CNA", "SELF")
+        d["source"] = a.source
+    end
+    return d
+end
+function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
 end
 function to_osv_dict(a::Advisory)
