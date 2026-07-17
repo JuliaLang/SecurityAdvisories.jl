@@ -2,6 +2,8 @@
 # jlsec_sources) and update it in place if the upstream data meaningfully changed.
 using SecurityAdvisories: SecurityAdvisories, Advisory
 
+include(joinpath(@__DIR__, "diff_advisories.jl"))  # for print_advisory_diff
+
 isspace_or_comma(c) = isspace(c) || c == ','
 
 function main(input = get(ARGS, 1, ""))
@@ -11,7 +13,10 @@ function main(input = get(ARGS, 1, ""))
 
     n = SecurityAdvisories.fetch_updates_for_all_advisories!(; reset_fields)
     @info "updated $n advisories"
+    write_pr_outputs(n, reset_fields)
+end
 
+function write_pr_outputs(n, reset_fields)
     path = joinpath(@__DIR__, "..", "advisories", "published")
     modified = split(readchomp(`git ls-files --modified $path`), '\n', keepempty=false)
 
@@ -28,9 +33,13 @@ function main(input = get(ARGS, 1, ""))
             " were reset to their newly-fetched values, and only changes to those fields were considered significant.")
     end
     println(io, "\n")
-    for file in modified
-        println(io, "* `", splitext(basename(file))[1], "`")
+    if length(modified) <= 10
+        for file in modified
+            println(io, "* `", splitext(basename(file))[1], "`")
+        end
+        println(io)
     end
+    print_advisory_diff(io, "HEAD")
     println(io, "BODY_EOF")
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
