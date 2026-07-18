@@ -222,6 +222,21 @@ function vuln_id(a::Advisory)
 end
 
 """
+    srcid(a::Advisory)
+
+Return the source ID of an advisory; either a published JLSEC ID or the only imported source ID
+"""
+function srcid(a::Advisory)
+    if startswith(a.id, string(PREFIX, "-2"))
+        return a.id
+    elseif length(a.jlsec_sources) == 1
+        return srcid(a.jlsec_sources[1])
+    else
+        error("cannot determine source ID for advisory with multiple sources and no published JLSEC ID")
+    end
+end
+
+"""
     function preferred_id(collection_of_ids)
 
 Given a collection of vulnerability IDs, return the "best" one
