@@ -1,14 +1,26 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-2",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-18T02:54:41.675Z",
     "published": "2025-10-08T17:41:37.190Z",
     "aliases": [
-        "GHSA-589r-g8hf-xx59",
-        "CVE-2025-52483"
+        "CVE-2025-52483",
+        "GHSA-589r-g8hf-xx59"
     ],
     "summary": "Command injection in `withpasswd()` function in Registrator.jl",
     "details": "### Impact\n\nIf the clone URL returned by GitHub is malicious (or can be injected using upstream vulnerabilities), a shell script injection can occur within the `withpasswd()` function.  This can then lead to a potential RCE.\n\n### Patches\n\nUsers should upgrade immediately to v1.9.5. All prior versions are vulnerable.\n\n### Workarounds\n\nNone\n\n### References\n\nFixed by: https://github.com/JuliaRegistries/Registrator.jl/pull/448 (which is available in v1.9.5).\n\n### Credits\n\nThanks to *splitline* from the DEVCORE Research Team for reporting this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -31,9 +43,30 @@
             }
         }
     ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaRegistries/Registrator.jl/pull/448"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaRegistries/Registrator.jl/security/advisories/GHSA-589r-g8hf-xx59"
+        }
+    ],
     "database_specific": {
         "license": "CC-BY-4.0",
         "sources": [
+            {
+                "id": "CVE-2025-52483",
+                "imported": "2026-07-18T02:39:19.159Z",
+                "modified": "2026-06-17T09:36:34.660Z",
+                "published": "2025-06-25T17:15:38.740Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-52483",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-52483",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
             {
                 "id": "GHSA-589r-g8hf-xx59",
                 "imported": "2025-10-07T02:26:14.285Z",
