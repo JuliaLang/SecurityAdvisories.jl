@@ -1,14 +1,21 @@
 {
-    "schema_version": "1.7.4",
+    "schema_version": "1.8.0",
     "id": "JLSEC-2025-5",
-    "modified": "2025-10-31T18:41:21.318Z",
+    "modified": "2026-07-18T03:36:43.042Z",
     "published": "2025-10-08T17:41:37.190Z",
     "aliases": [
-        "GHSA-jg9p-c3wh-q83x",
-        "CVE-2025-52569"
+        "CVE-2025-52569",
+        "GHSA-jg9p-c3wh-q83x"
     ],
     "summary": "Lack of validation for user-provided fields in GitHub.jl",
     "details": "There is a lack of input validation for user-provided values in certain functions.\n\nIn the `GitHub.repo()` function, the user can provide any string for the `repo_name` field. These inputs are not validated or safely encoded and are sent directly to the server.\n\n### Impact\n\nThis means a user can add path traversal patterns like `../` in the input to access any other endpoints on `api.github.com` that were not intended.\n\n### Patches\n\nUsers should upgrade immediately to v5.9.1 or later. All prior versions are vulnerable. We recommend users upgrade to v5.10.0\n\n### Workarounds\n\nNone\n\n### References\n\nFixed by: https://github.com/JuliaWeb/GitHub.jl/pull/224 (which is available in v5.9.1).\n\n### Credits\n\n*splitline* from the DEVCORE Research Team for reported similar issues in other packages. Audit of equivalent problems in this package resulted in this issue, found by Dilum Aluthge.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
     "affected": [
         {
             "ranges": [
@@ -31,9 +38,30 @@
             }
         }
     ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/GitHub.jl/pull/224"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaWeb/GitHub.jl/security/advisories/GHSA-jg9p-c3wh-q83x"
+        }
+    ],
     "database_specific": {
         "license": "CC-BY-4.0",
         "sources": [
+            {
+                "id": "CVE-2025-52569",
+                "imported": "2026-07-18T02:39:57.085Z",
+                "modified": "2026-06-17T09:36:41.850Z",
+                "published": "2025-06-25T17:15:38.883Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-52569",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-52569",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
             {
                 "id": "GHSA-jg9p-c3wh-q83x",
                 "imported": "2025-10-07T14:32:35.253Z",
