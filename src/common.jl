@@ -517,7 +517,7 @@ Given an advisory id and an (optional) list of its own aliases, return the publi
 JLSEC advisory corresponding to it or nothing none correspond.
 """
 function find_existing_jlsec(id, aliases=String[]; path=joinpath(@__DIR__, "..", "advisories", "published"))
-    startswith(id, string(PREFIX, "-2")) && return id # lol y3k problems
+    startswith(id, string(PREFIX, "-2")) && return fetch_advisory(id) # lol y3k problems
     isdir(path) || return nothing
     ids = Set(Iterators.flatten(([id], aliases)))
     @info "looking for $ids in existing jlsecs"
@@ -649,7 +649,7 @@ This is valuable because some databases are better at searching (e.g., EUVD), wh
 """
 function fetch_combinations(batch)
     # These advisories haven't been combined yet, so they only have one source
-    sources = Dict{String, Advisory}(a.jlsec_sources[].id => a for a in batch)
+    sources = Dict{String, Advisory}(srcid(a) => a for a in batch)
 
     # First gather all IDs referenced by the advisories in the batch and add missing ones
     known_ids = Set{String}(Iterators.flatten((Iterators.flatten(a.aliases for a in batch), Iterators.flatten(a.upstream for a in batch))))

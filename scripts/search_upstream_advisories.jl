@@ -17,7 +17,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     advisories = Advisory[]
     info = Dict{String,Any}()
     info["haystack"] = input
-    if startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
+    if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
