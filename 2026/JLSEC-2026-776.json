@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-776",
+    "modified": "2026-07-20T16:53:07.927Z",
+    "published": "2026-07-20T16:53:07.927Z",
+    "upstream": [
+        "CVE-2024-56732"
+    ],
+    "details": "HarfBuzz is a text shaping engine. Starting with 8.5.0 through 10.0.1, there is a heap-based buffer overflow in the hb_cairo_glyphs_from_buffer function.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "100.14002.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HarfBuzz_ICU_jll",
+                "purl": "pkg:julia/HarfBuzz_ICU_jll?uuid=655565e8-fb53-5cb3-b0cd-aec1ca0647ea"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.5.0+0"
+                        },
+                        {
+                            "fixed": "100.14002.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HarfBuzz_jll",
+                "purl": "pkg:julia/HarfBuzz_jll?uuid=2e76f6c2-a576-52d4-95c1-20adfe4de566"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/harfbuzz/harfbuzz/commit/1767f99e2e2196c3fcae27db6d8b60098d3f6d26"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-qmp9-xqm5-jh6m"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-56732",
+                "imported": "2026-07-20T16:42:11.976Z",
+                "modified": "2026-06-25T15:32:53.687Z",
+                "published": "2024-12-27T20:15:23.900Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-56732",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-56732",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

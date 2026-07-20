@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-777",
+    "modified": "2026-07-20T16:53:07.927Z",
+    "published": "2026-07-20T16:53:07.927Z",
+    "upstream": [
+        "CVE-2026-22693"
+    ],
+    "details": "HarfBuzz is a text shaping engine. Prior to version 12.3.0, a null pointer dereference vulnerability exists in the SubtableUnicodesCache::create function located in src/hb-ot-cmap-table.hh. The function fails to check if hb_malloc returns NULL before using placement new to construct an object at the returned pointer address. When hb_malloc fails to allocate memory (which can occur in low-memory conditions or when using custom allocators that simulate allocation failures), it returns NULL. The code then attempts to call the constructor on this null pointer using placement new syntax, resulting in undefined behavior and a Segmentation Fault. This issue has been patched in version 12.3.0.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "100.14002.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HarfBuzz_ICU_jll",
+                "purl": "pkg:julia/HarfBuzz_ICU_jll?uuid=655565e8-fb53-5cb3-b0cd-aec1ca0647ea"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "100.14002.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "HarfBuzz_jll",
+                "purl": "pkg:julia/HarfBuzz_jll?uuid=2e76f6c2-a576-52d4-95c1-20adfe4de566"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/11/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/01/12/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/harfbuzz/harfbuzz/commit/1265ff8d990284f04d8768f35b0e20ae5f60daae"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/harfbuzz/harfbuzz/security/advisories/GHSA-xvjr-f2r9-c7ww"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-22693",
+                "imported": "2026-07-20T16:42:11.998Z",
+                "modified": "2026-06-17T10:20:14.783Z",
+                "published": "2026-01-10T06:15:52.063Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-22693",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22693",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
