@@ -1,7 +1,7 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-620",
-    "modified": "2026-06-23T17:17:20.236Z",
+    "modified": "2026-07-21T13:44:29.342Z",
     "published": "2026-06-23T12:59:32.708Z",
     "aliases": [
         "ANT-2026-YCN945B6"
@@ -38,6 +38,12 @@
         {
             "type": "WEB",
             "url": "https://github.com/JuliaWeb/HTTP.jl/pull/1316"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
         }
     ],
     "database_specific": {
