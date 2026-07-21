@@ -67,6 +67,14 @@ jobs:
         body: ${{ steps.identify.outputs.body }}
         branch: ${{ steps.identify.outputs.branch }}
 
+    - uses: actions/create-github-app-token@v1
+      id: urdr_token
+      with:
+        app-id: ${{ secrets.URDARBRUNNR_APP_ID }}
+        private-key: ${{ secrets.URDARBRUNNR_APP_KEY }}
+        owner: JuliaPackaging
+        repositories: Urdarbrunnr.jl
+
     - name: Request JLL recipe updates
       # Unbounded JLLs whose upstream fix version is known just need a new build;
       # ask Urdarbrunnr to open the corresponding Yggdrasil recipe update PRs
@@ -75,7 +83,7 @@ jobs:
         steps.identify.outputs.recipe_updates != '' &&
         steps.identify.outputs.recipe_updates != '[]'
       env:
-        GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
+        GH_TOKEN: ${{ steps.urdr_token.outputs.token }}
         RECIPE_UPDATES: ${{ steps.identify.outputs.recipe_updates }}
         PULL_REQUEST_URL: ${{ steps.create_pull_request.outputs.pull-request-url }}
       run: |
@@ -83,5 +91,5 @@ jobs:
           name=$(jq -r '.name' <<< "$update")
           version=$(jq -r '.version' <<< "$update")
           echo "Requesting a recipe update for $name to v$version"
-          gh workflow run update-recipe.yml --repo mbauman/Urdarbrunnr -f name="$name" -f version="$version" -f context="${PULL_REQUEST_URL}"
+          gh workflow run update-recipe.yml --repo JuliaPackaging/Urdarbrunnr.jl -f name="$name" -f version="$version" -f context="${PULL_REQUEST_URL}"
         done
