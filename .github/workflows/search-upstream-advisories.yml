@@ -77,7 +77,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
         RECIPE_UPDATES: ${{ steps.identify.outputs.recipe_updates }}
-        PULL_REQUEST_URL: ${{ steps.create_pull_request.outputs.pull_request_url }}
+        PULL_REQUEST_URL: ${{ steps.create_pull_request.outputs.pull-request-url }}
       run: |
         jq -c '.[]' <<< "$RECIPE_UPDATES" | while read -r update; do
           name=$(jq -r '.name' <<< "$update")
