@@ -2,6 +2,7 @@
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
 using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX
 using GeneralMetadata
+using JSON3: JSON3
 using TOML: TOML
 using Dates: Dates
 using DataStructures: DefaultDict, OrderedDict
@@ -83,6 +84,13 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     n_total = length(advisories)
     n_created = n_total - n_modified
 
+    # Identify unbounded JLLs whose upstream fix is known but not yet built; these
+    # are actionable via an Yggdrasil recipe update (requested in a workflow step)
+    recipe_updates = Dict{String, SecurityAdvisories.VersionString}()
+    for adv in results, (name, version) in SecurityAdvisories.recipe_update_candidates(adv)
+        recipe_updates[name] = max(get(recipe_updates, name, version), version)
+    end
+
     # Nice logging information for the possible pull request
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
@@ -92,6 +100,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "branch=", input)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
+    println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
     println(io, "body<<BODY_EOF")
     println(io, "This action searched `", info["haystack"], "` for advisories that pertain here. ",
         "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", join("**" .* unique_pkgs .* "**", ", ", ", and "), ".")
@@ -103,6 +112,16 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     if unbounded > 0
         println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
+    end
+
+    if !isempty(recipe_updates)
+        println(io, "### 🔧 Requesting JLL recipe updates")
+        println(io, "These JLL packages are unbounded, but their upstream projects have known fixed versions that have not yet been built. ",
+            "`@jlsec-bot` has requested [recipe updates](https://github.com/mbauman/Urdarbrunnr/actions/workflows/update-recipe.yml) for:")
+        for (name, version) in sort!(collect(recipe_updates))
+            println(io, "* **", name, "_jll**: updating the `", name, "` recipe to v", version)
+        end
+        println(io)
     end
 
     aliases, upstreams = divide(x->!isempty(x.aliases), results)

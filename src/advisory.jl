@@ -254,6 +254,30 @@ is_vulnerable(a::Advisory) = any(is_vulnerable, a.affected)
 vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vulnerable(entry)]
 
 """
+    recipe_update_candidates(advisory)
+
+Return `name => version` pairs describing Yggdrasil recipe updates that could resolve
+unbounded JLL vulnerabilities in the given advisory: cases where a vulnerable `_jll`
+package has no known fixed version, yet every upstream range has an exclusive upper
+bound — meaning the upstream project has published a fixed version that simply hasn't
+been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
+name without its `_jll` suffix) and the version is the largest upstream fixed version
+as a [`VersionString`](@ref).
+"""
+function recipe_update_candidates(a::Advisory)
+    candidates = Pair{String, VersionString}[]
+    for vuln in a.affected
+        endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
+        is_populated(vuln.source_mapping) || continue
+        upstream_ranges = [tryparse(VersionRange, String(v)) for vmap in values(vuln.source_mapping) for v in keys(vmap)]
+        (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
+        all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
+        push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))
+    end
+    return unique!(candidates)
+end
+
+"""
     is_disputed(advisory)
 
 Return `true` if the advisory has been tagged as disputed (currently the only source giving this information is NVD)
