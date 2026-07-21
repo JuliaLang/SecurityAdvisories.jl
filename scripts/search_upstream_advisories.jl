@@ -114,16 +114,6 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
     end
 
-    if !isempty(recipe_updates)
-        println(io, "### 🔧 Requesting JLL recipe updates")
-        println(io, "These JLL packages are unbounded, but their upstream projects have known fixed versions that have not yet been built. ",
-            "`@jlsec-bot` has requested [recipe updates](https://github.com/mbauman/Urdarbrunnr/actions/workflows/update-recipe.yml) for:")
-        for (name, version) in sort!(collect(recipe_updates))
-            println(io, "* **", name, "_jll**: updating the `", name, "` recipe to v", version)
-        end
-        println(io)
-    end
-
     aliases, upstreams = divide(x->!isempty(x.aliases), results)
 
     if !isempty(aliases)
