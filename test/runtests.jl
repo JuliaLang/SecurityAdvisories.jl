@@ -166,6 +166,39 @@ end
     @test "PYSEC-2026-575" in only(combined).aliases
 end
 
+using SecurityAdvisories: Advisory, PackageVulnerability, VersionString, recipe_update_candidates
+using DataStructures: OrderedDict
+@testset "recipe update candidates" begin
+    unbounded = [VR{VersionNumber}(">= 1.0.0")]
+    bounded = [VR{VersionNumber}(">= 1.0.0, < 2.0.0")]
+    mapping(versions...) = Dict("vendor:product" => OrderedDict(v => [VR{VersionNumber}("*")] for v in versions))
+    jll(; kw...) = Advisory(affected=[PackageVulnerability(; pkg="Zstd_jll", ranges=unbounded, source_type="upstream", kw...)])
+
+    # An unbounded JLL whose upstream fix version is known (an exclusive upper bound) is actionable
+    @test recipe_update_candidates(jll(source_mapping=mapping("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    # ... using the largest fixed version across ranges, even non-semver-ish ones
+    @test recipe_update_candidates(jll(source_mapping=mapping(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test recipe_update_candidates(jll(source_mapping=mapping("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
+
+    # But not when any upstream range is inclusively bounded, unbounded, exact, or unparseable
+    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("<= 1.5.7"))))
+    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("< 1.5.7", "<= 1.5.7"))))
+    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("*"))))
+    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("= 1.5.7"))))
+    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("who knows"))))
+    # Nor without any upstream version information at all
+    @test isempty(recipe_update_candidates(jll()))
+    @test isempty(recipe_update_candidates(jll(source_mapping=Dict{String,Any}())))
+
+    # Only vulnerable-and-unbounded JLL packages are considered
+    @test isempty(recipe_update_candidates(Advisory(affected=[
+        PackageVulnerability(pkg="Zstd_jll", ranges=bounded, source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
+    @test isempty(recipe_update_candidates(Advisory(affected=[
+        PackageVulnerability(pkg="Zstd_jll", ranges=VR{VersionNumber}[], source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
+    @test isempty(recipe_update_candidates(Advisory(affected=[
+        PackageVulnerability(pkg="NotAJLL", ranges=unbounded, source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
+end
+
 using JSON3: JSON3
 @testset "sometimes EUVD has no description" begin
     vuln = JSON3.read(joinpath(@__DIR__, "EUVD-2025-32379.json"))
