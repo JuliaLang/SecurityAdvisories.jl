@@ -1,5 +1,7 @@
 # The Julia Security Advisory Database
 
+[![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://julialang.github.io/SecurityAdvisories.jl/)
+
 > [!WARNING]
 > Work in progress. The advisories here are imported on a best-effort basis and are known to be incomplete.
 
