@@ -204,8 +204,6 @@ function _severity_class(adv)
     score === nothing ? "" : last(_severity_label(score))
 end
 
-# Cross-reference rendering: link a list of identifiers (CVE/GHSA get URLs)
-
 function _idlinks_html(ids)
     io = IOBuffer()
     seen = Set{String}()
@@ -216,6 +214,8 @@ function _idlinks_html(ids)
             "https://nvd.nist.gov/vuln/detail/$id"
         elseif startswith(id, "GHSA-")
             "https://github.com/advisories/$id"
+        elseif startswith(id, "EUVD-")
+            "https://euvd.enisa.europa.eu/vulnerability/$id"
         else
             nothing
         end
