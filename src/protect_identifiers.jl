@@ -1,15 +1,8 @@
 # Protect identifier-like tokens in imported plaintext advisory details.
 #
-# Upstream sources like NVD and EUVD provide advisory descriptions as
-# plain text, but the website (../web) renders `details` as Markdown via
-# Franklin.  That mangles bare identifiers -- intraword `_`/`*` become
-# emphasis (`result_is_int` -> "result*is*int", often bleeding across
-# adjacent identifiers) -- and a few tokens break the build outright
-# (`\command` -> undefined LaTeX, `$VAR` -> math mode).
-#
-# `protect_identifiers` wraps the offending tokens in backticks so the
-# text renders as code.  GitHub (GHSA) descriptions are authored in
-# Markdown and are deliberately NOT run through this.
+# SecurityAdvisories imports both Markdown and non-markdown text, but
+# always renders markdown. This tries to catch some common problems that
+# would otherwise break the markdown rendering.
 
 # A run of identifier characters, optionally ending in an empty call "()".
 # The class includes `\` and `$` so that whole tokens such as `C:\etc` and
