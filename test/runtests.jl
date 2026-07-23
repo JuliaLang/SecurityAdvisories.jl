@@ -166,6 +166,24 @@ end
     @test "PYSEC-2026-575" in only(combined).aliases
 end
 
+@testset "fetch_combinations of repository GHSAs" begin
+    # Repository GHSAs are keyed by a repo-scoped `srcid` (owner/repo/GHSA-...) but their
+    # aliases only list the plain GHSA id; the two must still be recognized as the same advisory
+    batch = tryparse.(SecurityAdvisories.Advisory, [
+        "```toml\nschema_version = \"1.8.0\"\nid = \"JLSEC-0000-GHSA-r3xx-hw22-6h6w\"\nmodified = 2026-07-23T19:36:30.000Z\naliases = [\"GHSA-r3xx-hw22-6h6w\"]\n\n[[affected]]\npkg = \"LibSSH\"\nranges = [\"< 1.1.0\"]\n\n[[jlsec_sources]]\nid = \"GHSA-r3xx-hw22-6h6w\"\nimported = 2026-07-23T19:36:30.000Z\nmodified = 2026-07-23T15:00:00.000Z\npublished = 2026-07-23T15:00:00.000Z\nurl = \"https://api.github.com/repos/JuliaWeb/LibSSH.jl/security-advisories/GHSA-r3xx-hw22-6h6w\"\nhtml_url = \"https://github.com/JuliaWeb/LibSSH.jl/security/advisories/GHSA-r3xx-hw22-6h6w\"\n```\n\n# Writing to SFTP files resulting in sending out-of-bounds data to the server\n"])
+    combined = SecurityAdvisories.fetch_combinations(batch)
+    @test length(combined) == 1
+    @test "GHSA-r3xx-hw22-6h6w" in only(combined).aliases
+end
+
+@testset "fetch_combinations skips alias sets with no fetchable sources" begin
+    # A published JLSEC whose aliases can't be re-fetched shouldn't error
+    batch = tryparse.(SecurityAdvisories.Advisory, [
+        "```toml\nschema_version = \"1.8.0\"\nid = \"JLSEC-2026-12345\"\nmodified = 2026-07-23T19:36:30.000Z\npublished = 2026-07-23T19:36:30.000Z\naliases = [\"PYSEC-2026-99999\"]\n\n[[affected]]\npkg = \"Example\"\nranges = [\"< 1.0.0\"]\n\n[[jlsec_sources]]\nid = \"PYSEC-2026-99999\"\nimported = 2026-07-23T19:36:30.000Z\nmodified = 2026-07-23T15:00:00.000Z\npublished = 2026-07-23T15:00:00.000Z\nurl = \"https://example.com/PYSEC-2026-99999\"\nhtml_url = \"https://example.com/PYSEC-2026-99999\"\n```\n\n# Some advisory\n"])
+    combined = @test_logs (:info,) (:warn, r"no fetched advisories") SecurityAdvisories.fetch_combinations(batch)
+    @test isempty(combined)
+end
+
 using SecurityAdvisories: Advisory, PackageVulnerability, VersionString, recipe_update_candidates
 using DataStructures: OrderedDict
 @testset "recipe update candidates" begin
