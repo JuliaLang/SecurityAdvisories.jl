@@ -103,12 +103,40 @@ function _truncate(s::AbstractString, n::Int=120)
     s[1:prevind(s, n)] * "…"
 end
 
+# Serialize a string / string-keyed dict to a JS literal for inlining in a
+# <script>. `<` is escaped so a value can never terminate the script element.
+function _js_string(s::AbstractString)
+    io = IOBuffer()
+    write(io, '"')
+    for c in s
+        c == '\\'  ? write(io, "\\\\") :
+        c == '"'   ? write(io, "\\\"") :
+        c == '\n'  ? write(io, "\\n")  :
+        c == '<'   ? write(io, "\\u003c") :
+                     write(io, c)
+    end
+    write(io, '"')
+    String(take!(io))
+end
+
+_js_object(d::AbstractDict) =
+    "{" * join((_js_string(k) * ":" * _js_string(v) for (k, v) in d), ", ") * "}"
+
 _advisory_url(adv) = "/advisories/$(adv.id)/"
 
 # Whether an advisory was imported from an upstream source (CVE, GHSA, OSV…)
 # and mapped onto Julia packages, rather than authored natively for a package
 # in the Julia ecosystem. Upstream advisories carry a non-empty `upstream` list.
 _is_upstream(adv) = !isempty(adv.upstream)
+
+# Lead-in copy for the advisories index, keyed by the active source tab
+# (`""` = all sources). Rendered server-side for the default and swapped
+# client-side by `filterAdvisories` when a tab is selected.
+const SRC_DESCRIPTIONS = Dict(
+    ""         => "All published security advisories for packages in the Julia ecosystem.",
+    "julia"    => "Advisories authored directly for packages in the Julia ecosystem.",
+    "upstream" => "Advisories imported from upstream databases (CVE, GHSA, OSV) and mapped onto affected Julia packages.",
+)
 
 _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
@@ -245,26 +273,17 @@ function hfun_recent_advisories()
     String(take!(io))
 end
 
-function _write_advisory_section(io::IOBuffer, key, title, subtitle, advs)
-    write(io, """<section class="adv-section" data-source="$key">""")
-    write(io, """<div class="section-header"><h2>$title</h2><span class="adv-section-count">$(length(advs))</span></div>""")
-    write(io, """<p class="adv-section-sub">$subtitle</p>""")
-    write(io, """<div class="advisory-list">""")
-    for adv in advs
-        sev_cls = _severity_class(adv)
-        pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
-        summary = something(adv.summary, "No summary available")
-        attrs = """ data-severity="$sev_cls" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
-        _write_advisory_row(io, adv; extra_attrs=attrs)
-    end
-    write(io, "</div></section>")
-end
-
 function hfun_all_advisories()
     advs = load_all_advisories()
-    julia_advs    = filter(!_is_upstream, advs)
-    upstream_advs = filter(_is_upstream, advs)
     io = IOBuffer()
+
+    write(io, """<div class="src-tabs" id="adv-src-tabs">""")
+    write(io, """<button class="src-tab active" data-src="">All sources</button>""")
+    write(io, """<button class="src-tab" data-src="julia">Julia</button>""")
+    write(io, """<button class="src-tab" data-src="upstream">Upstream</button>""")
+    write(io, "</div>")
+
+    write(io, """<p class="adv-src-desc" id="adv-src-desc">$(SRC_DESCRIPTIONS[""])</p>""")
 
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()">""")
@@ -277,19 +296,20 @@ function hfun_all_advisories()
     write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
     write(io, "</div>")
 
-    write(io, """<div class="src-tabs" id="adv-src-tabs">""")
-    write(io, """<button class="src-tab active" data-src="">All sources</button>""")
-    write(io, """<button class="src-tab" data-src="julia">Julia</button>""")
-    write(io, """<button class="src-tab" data-src="upstream">Upstream</button>""")
+    write(io, """<div class="advisory-list" id="advisory-list">""")
+    for adv in advs
+        sev_cls = _severity_class(adv)
+        src = _is_upstream(adv) ? "upstream" : "julia"
+        pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
+        summary = something(adv.summary, "No summary available")
+        attrs = """ data-severity="$sev_cls" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true)
+    end
     write(io, "</div>")
-
-    _write_advisory_section(io, "julia", "Julia advisories",
-        "Authored for packages in the Julia ecosystem.", julia_advs)
-    _write_advisory_section(io, "upstream", "Upstream advisories",
-        "Imported from upstream databases (CVE, GHSA, OSV) and mapped onto affected Julia packages.", upstream_advs)
 
     write(io, """
 <script>
+var SRC_DESCRIPTIONS = $(_js_object(SRC_DESCRIPTIONS));
 (function(){
   function wire(sel, cb){
     var btns = document.querySelectorAll(sel);
@@ -310,28 +330,23 @@ function filterAdvisories(){
   var sev = activeSev ? activeSev.getAttribute('data-sev') : '';
   var activeSrc = document.querySelector('#adv-src-tabs .src-tab.active');
   var src = activeSrc ? activeSrc.getAttribute('data-src') : '';
-  var totalShown = 0, totalItems = 0;
-  document.querySelectorAll('.adv-section').forEach(function(section){
-    var sectionAllowed = !src || src === section.getAttribute('data-source');
-    var shown = 0;
-    var items = section.querySelectorAll('.advisory-item');
-    items.forEach(function(el){
-      totalItems++;
-      var id = el.querySelector('.advisory-id').textContent.toLowerCase();
-      var summary = el.getAttribute('data-summary') || '';
-      var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
-      var elSev = el.getAttribute('data-severity') || '';
-      var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
-      var matchSev = !sev || elSev === sev;
-      if(sectionAllowed && matchText && matchSev){ el.style.display=''; shown++; }
-      else { el.style.display='none'; }
-    });
-    totalShown += shown;
-    var cnt = section.querySelector('.adv-section-count');
-    if(cnt) cnt.textContent = shown;
-    section.style.display = (sectionAllowed && shown > 0) ? '' : 'none';
+  var desc = document.getElementById('adv-src-desc');
+  if(desc) desc.textContent = SRC_DESCRIPTIONS[src] || SRC_DESCRIPTIONS[''];
+  var items = document.querySelectorAll('#advisory-list .advisory-item');
+  var shown = 0;
+  items.forEach(function(el){
+    var id = el.querySelector('.advisory-id').textContent.toLowerCase();
+    var summary = el.getAttribute('data-summary') || '';
+    var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
+    var elSev = el.getAttribute('data-severity') || '';
+    var elSrc = el.getAttribute('data-source') || '';
+    var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
+    var matchSev = !sev || elSev === sev;
+    var matchSrc = !src || elSrc === src;
+    if(matchText && matchSev && matchSrc){ el.style.display=''; shown++; }
+    else { el.style.display='none'; }
   });
-  document.getElementById('adv-filter-count').textContent = totalShown + ' of ' + totalItems;
+  document.getElementById('adv-filter-count').textContent = shown + ' of ' + items.length;
 }
 filterAdvisories();
 </script>""")

@@ -1048,7 +1048,14 @@ a.pkg-tag:hover {
   gap: 0.3rem;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin: 0 0 0.9rem;
+}
+
+/* Lead-in copy that updates with the selected source tab */
+.adv-src-desc {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: var(--c-text-secondary);
 }
 
 .src-tab {
@@ -1067,25 +1074,7 @@ a.pkg-tag:hover {
 .src-tab:hover  { background: var(--c-surface-hover); color: var(--c-text); border-color: var(--c-text-muted); }
 .src-tab.active { background: var(--c-surface); color: var(--c-text); border-color: var(--c-text); }
 
-/* Grouped advisory sections */
-.adv-section {
-  margin-bottom: 2.5rem;
-}
-
-.adv-section-count {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--c-text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.adv-section-sub {
-  margin: 0 0 0.75rem;
-  font-size: 0.88rem;
-  color: var(--c-text-muted);
-}
-
-/* "Upstream" marker on advisory rows outside the grouped index */
+/* "Upstream" marker distinguishing imported advisories in list rows */
 .source-badge {
   display: inline-block;
   padding: 0.1em 0.45em;
