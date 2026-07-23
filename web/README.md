@@ -1,6 +1,6 @@
-# Julia Security Advisories — Website
+# Julia Ecosystem Security Advisories — Website
 
-Static website for browsing the Julia Security Advisory Database, built with [Franklin.jl](https://github.com/tlienart/Franklin.jl).
+Static website for browsing the Julia Ecosystem Security Advisory Database, built with [Franklin.jl](https://github.com/tlienart/Franklin.jl).
 
 ## Development
 

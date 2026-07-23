@@ -1,4 +1,4 @@
-# The Julia Security Advisory Database
+# The Julia Ecosystem Security Advisory Database
 
 > [!WARNING]
 > Work in progress. The advisories here are imported on a best-effort basis and are known to be incomplete.
