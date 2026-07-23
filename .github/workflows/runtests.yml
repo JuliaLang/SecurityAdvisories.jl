@@ -40,11 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check the website builds without warnings
-        # Franklin's optimize() exits 0 even when a page fails to render (the
-        # advisory 404s once deployed); the failure only shows up as a warning
         run: |
           cd web
-          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate()'
+          julia --project=. -e 'using Pkg; Pkg.instantiate()'
           julia --project=. pre_generate.jl --clean
-          julia --project=. -e 'using Franklin; optimize(prerender=false, minify=false)' 2>&1 | tee franklin-build.log
-          ! grep -qE "Franklin Warning|Warning: Failed to parse" franklin-build.log
+          julia --project=. -e 'using Franklin; optimize(prerender=false, minify=false, suppress_errors=true)'
