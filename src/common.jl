@@ -158,6 +158,26 @@ function osv_events(rng::VersionRange)
     return events
 end
 
+# Truncate `flat` to at most `limit` characters, backing the cut off so it
+# never splits a word or an inline `code span`, and append "..."
+function truncate_at_boundary(flat, limit=100)
+    length(flat) <= limit && return flat
+    cut = nextind(flat, 0, limit)
+    # Don't end inside a `code span`: with an odd number of backticks before
+    # the cut, we're mid-span, so back off to just before its opening backtick
+    if isodd(count(==('`'), SubString(flat, 1, cut)))
+        op = findprev('`', flat, cut)
+        op !== nothing && op > 1 && (cut = prevind(flat, op))
+    end
+    # Don't end mid-word: back off to the last space before the cut
+    nxt = nextind(flat, cut)
+    if nxt <= lastindex(flat) && flat[nxt] != ' '
+        sp = findprev(' ', flat, cut)
+        sp !== nothing && sp > 1 && (cut = prevind(flat, sp))
+    end
+    return string(rstrip(SubString(flat, 1, cut)), "...")
+end
+
 function extract_summary(description)
     N = lastindex(description)
     double_newline = something(findfirst("\n\n", description), N:N)[1]
@@ -168,10 +188,11 @@ function extract_summary(description)
     flat_description = replace(description, r"\s+"=>" ")
     summary_end = findfirst(". ", flat_description)
     if summary_end !== nothing && summary_end[1] < 100
-        flat_description[1:prevind(flat_description, summary_end[1])]
-    else
-        flat_description[1:min(thisind(flat_description, 100), end)] * "..."
+        sentence = flat_description[1:prevind(flat_description, summary_end[1])]
+        # A ". " inside a `code span` isn't a sentence end; fall through if so
+        iseven(count(==('`'), sentence)) && return sentence
     end
+    return truncate_at_boundary(flat_description, 100)
 end
 
 function get_registry(reg=Registry.RegistrySpec(name="General", uuid = "23338594-aafe-5451-b93e-139f81909106"); depot=Pkg.depots1())
