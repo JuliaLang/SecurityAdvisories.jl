@@ -6,7 +6,7 @@ using Dates: Dates, DateTime, @dateformat_str
 using TOML: TOML
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary, PREFIX
+using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary, protect_identifiers, PREFIX
 
 # https://euvd.enisa.europa.eu/apidoc
 const API_BASE = "https://euvdservices.enisa.europa.eu/api"
@@ -173,7 +173,7 @@ function advisory(vuln)
         upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
         id = string(PREFIX, "-0000-", vuln_id(vuln)),
         # related -- nothing structured
-        details = get(vuln, :description, nothing),
+        details = protect_identifiers(get(vuln, :description, nothing)),
         severity = if exists(vuln, :baseScoreVector) && exists(vuln, :baseScoreVersion)
                 Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector), source = "EUVD")]
             else

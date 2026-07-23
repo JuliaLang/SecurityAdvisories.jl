@@ -158,6 +158,26 @@ function osv_events(rng::VersionRange)
     return events
 end
 
+# Truncate `flat` to at most `limit` characters, backing the cut off so it
+# never splits a word or an inline `code span`, and append "..."
+function truncate_at_boundary(flat, limit=100)
+    length(flat) <= limit && return flat
+    cut = nextind(flat, 0, limit)
+    # Don't end inside a `code span`: with an odd number of backticks before
+    # the cut, we're mid-span, so back off to just before its opening backtick
+    if isodd(count(==('`'), SubString(flat, 1, cut)))
+        op = findprev('`', flat, cut)
+        op !== nothing && op > 1 && (cut = prevind(flat, op))
+    end
+    # Don't end mid-word: back off to the last space before the cut
+    nxt = nextind(flat, cut)
+    if nxt <= lastindex(flat) && flat[nxt] != ' '
+        sp = findprev(' ', flat, cut)
+        sp !== nothing && sp > 1 && (cut = prevind(flat, sp))
+    end
+    return string(rstrip(SubString(flat, 1, cut)), "...")
+end
+
 function extract_summary(description)
     N = lastindex(description)
     double_newline = something(findfirst("\n\n", description), N:N)[1]
@@ -168,10 +188,11 @@ function extract_summary(description)
     flat_description = replace(description, r"\s+"=>" ")
     summary_end = findfirst(". ", flat_description)
     if summary_end !== nothing && summary_end[1] < 100
-        flat_description[1:prevind(flat_description, summary_end[1])]
-    else
-        flat_description[1:min(thisind(flat_description, 100), end)] * "..."
+        sentence = flat_description[1:prevind(flat_description, summary_end[1])]
+        # A ". " inside a `code span` isn't a sentence end; fall through if so
+        iseven(count(==('`'), sentence)) && return sentence
     end
+    return truncate_at_boundary(flat_description, 100)
 end
 
 function get_registry(reg=Registry.RegistrySpec(name="General", uuid = "23338594-aafe-5451-b93e-139f81909106"); depot=Pkg.depots1())
@@ -655,7 +676,7 @@ function fetch_combinations(batch)
     known_ids = Set{String}(Iterators.flatten((Iterators.flatten(a.aliases for a in batch), Iterators.flatten(a.upstream for a in batch))))
     while !isempty(known_ids)
         id = pop!(known_ids)
-        if !haskey(sources, id)
+        if !any(k -> unscoped_id(k) == unscoped_id(id), keys(sources))
             try
                 # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
                 # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
@@ -694,8 +715,13 @@ function fetch_combinations(batch)
     advisories = Advisory[]
     for alias_set in alias_sets
         # Now combine the advisories within each alias set into a single advisory in our preferred order
-        # Note that we may not have fetched an advisory for all the aliases
-        ids = sort(collect(intersect(alias_set, keys(sources))), by=preferred_id_sort)
+        # Note that we may not have fetched an advisory for all the aliases, and that repo-scoped
+        # source ids (owner/repo/GHSA-xxxx) match their plain GHSA aliases
+        ids = sort(filter(id -> any(a -> unscoped_id(a) == unscoped_id(id), alias_set), collect(keys(sources))), by=preferred_id_sort)
+        if isempty(ids)
+            @warn "no fetched advisories correspond to an alias set; skipping it" alias_set
+            continue
+        end
         start_id = popfirst!(ids)
         advisory = sources[start_id]
         for id in ids
