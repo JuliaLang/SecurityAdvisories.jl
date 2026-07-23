@@ -204,25 +204,25 @@ function _severity_class(adv)
     score === nothing ? "" : last(_severity_label(score))
 end
 
-# Alias / cross-reference rendering
+# Cross-reference rendering: link a list of identifiers (CVE/GHSA get URLs)
 
-function _aliases_html(adv)
+function _idlinks_html(ids)
     io = IOBuffer()
     seen = Set{String}()
-    for alias in Iterators.flatten((adv.aliases, adv.upstream))
-        alias in seen && continue
-        push!(seen, alias)
-        url = if startswith(alias, "CVE-")
-            "https://nvd.nist.gov/vuln/detail/$alias"
-        elseif startswith(alias, "GHSA-")
-            "https://github.com/advisories/$alias"
+    for id in ids
+        id in seen && continue
+        push!(seen, id)
+        url = if startswith(id, "CVE-")
+            "https://nvd.nist.gov/vuln/detail/$id"
+        elseif startswith(id, "GHSA-")
+            "https://github.com/advisories/$id"
         else
             nothing
         end
         if url !== nothing
-            write(io, """<a href="$(_escape(url))">$(_escape(alias))</a> """)
+            write(io, """<a href="$(_escape(url))">$(_escape(id))</a> """)
         else
-            write(io, "$(_escape(alias)) ")
+            write(io, "$(_escape(id)) ")
         end
     end
     String(take!(io))
@@ -479,9 +479,14 @@ function hfun_advisory_detail()
         write(io, "</dd></div>")
     end
 
-    aliases_str = _aliases_html(adv)
+    aliases_str = _idlinks_html(adv.aliases)
     if !isempty(strip(aliases_str))
-        write(io, """<div class="meta-row"><dt>Aliases / Upstream</dt><dd>$aliases_str</dd></div>""")
+        write(io, """<div class="meta-row"><dt>Aliases</dt><dd>$aliases_str</dd></div>""")
+    end
+
+    upstream_str = _idlinks_html(adv.upstream)
+    if !isempty(strip(upstream_str))
+        write(io, """<div class="meta-row"><dt>Upstream</dt><dd>$upstream_str</dd></div>""")
     end
 
     write(io, "</dl>")
