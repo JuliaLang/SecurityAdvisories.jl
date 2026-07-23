@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-454",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2025-6141",
         "GHSA-wfwf-ggr2-rpjf",
         "EUVD-2025-18429"
     ],
-    "summary": "A vulnerability has been found in GNU ncurses up to 6.5-20250322 and classified as problematic....",
-    "details": "A vulnerability has been found in GNU ncurses up to 6.5-20250322 and classified as problematic. This vulnerability affects the function postprocess_termcap of the file tinfo/parse_entry.c. The manipulation leads to stack-based buffer overflow. The attack needs to be approached locally. Upgrading to version 6.5-20250329 is able to address this issue. It is recommended to upgrade the affected component.",
+    "summary": "A vulnerability has been found in GNU ncurses up to 6.5-20250322 and classified as problematic",
+    "details": "A vulnerability has been found in GNU ncurses up to 6.5-20250322 and classified as problematic. This vulnerability affects the function `postprocess_termcap` of the file `tinfo/parse_entry.c`. The manipulation leads to stack-based buffer overflow. The attack needs to be approached locally. Upgrading to version 6.5-20250329 is able to address this issue. It is recommended to upgrade the affected component.",
     "severity": [
         {
             "type": "CVSS_V2",

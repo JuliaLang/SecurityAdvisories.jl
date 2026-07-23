@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-350",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2025-7068"
     ],
-    "details": "A vulnerability, which was classified as problematic, has been found in HDF5 1.14.6. This issue affects the function H5FL__malloc of the file src/H5FL.c. The manipulation leads to memory leak. Attacking locally is a requirement. The exploit has been disclosed to the public and may be used.",
+    "details": "A vulnerability, which was classified as problematic, has been found in HDF5 1.14.6. This issue affects the function `H5FL__malloc` of the file `src/H5FL.c`. The manipulation leads to memory leak. Attacking locally is a requirement. The exploit has been disclosed to the public and may be used.",
     "severity": [
         {
             "type": "CVSS_V2",

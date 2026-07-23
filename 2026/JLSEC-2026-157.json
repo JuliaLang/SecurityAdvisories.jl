@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-157",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-20T19:31:50.289Z",
     "upstream": [
         "CVE-2025-61147"
     ],
-    "details": "strukturag libde265 commit d9fea9d wa discovered to contain a segmentation fault via the component decoder_context::compute_framedrop_table().",
+    "details": "strukturag libde265 commit d9fea9d wa discovered to contain a segmentation fault via the component `decoder_context::compute_framedrop_table()`.",
     "severity": [
         {
             "type": "CVSS_V3",

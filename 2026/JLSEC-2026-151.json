@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-151",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-17T15:47:23.992Z",
     "upstream": [
         "CVE-2026-40385",
         "GHSA-j9xr-5c85-xjhm",
         "EUVD-2026-21732"
     ],
-    "summary": "In libexif through 0.6.25, an unsigned 32bit integer overflow in Nikon MakerNote handling could...",
+    "summary": "In libexif through 0.6.25, an unsigned 32bit integer overflow in Nikon MakerNote handling could be...",
     "details": "In libexif through 0.6.25, an unsigned 32bit integer overflow in Nikon MakerNote handling could be used by local attackers to cause crashes or information leaks. This only affects 32bit systems.",
     "severity": [
         {

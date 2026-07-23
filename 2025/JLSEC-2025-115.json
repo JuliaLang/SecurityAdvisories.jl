@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-115",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2021-38114"
     ],
-    "summary": "libavcodec/dnxhddec.c in FFmpeg 4.4 does not check the return value of the init_vlc function, a simi...",
-    "details": "libavcodec/dnxhddec.c in FFmpeg 4.4 does not check the return value of the init_vlc function, a similar issue to CVE-2013-0868.",
+    "summary": "`libavcodec/dnxhddec.c` in FFmpeg 4.4 does not check the return value of the `init_vlc` function, a...",
+    "details": "`libavcodec/dnxhddec.c` in FFmpeg 4.4 does not check the return value of the `init_vlc` function, a similar issue to CVE-2013-0868.",
     "severity": [
         {
             "type": "CVSS_V2",

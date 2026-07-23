@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-59",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2023-52426"
     ],
-    "summary": "libexpat through 2.5.0 allows recursive XML Entity Expansion if XML_DTD is undefined at compile time...",
-    "details": "libexpat through 2.5.0 allows recursive XML Entity Expansion if XML_DTD is undefined at compile time.",
+    "summary": "libexpat through 2.5.0 allows recursive XML Entity Expansion if `XML_DTD` is undefined at compile...",
+    "details": "libexpat through 2.5.0 allows recursive XML Entity Expansion if `XML_DTD` is undefined at compile time.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-512",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-19T01:34:38.069Z",
     "upstream": [
         "CVE-2023-38633"
     ],
-    "details": "A directory traversal problem in the URL decoder of librsvg before 2.56.3 could be used by local or remote attackers to disclose files (on the local filesystem outside of the expected area), as demonstrated by href=\".?../../../../../../../../../../etc/passwd\" in an xi:include element.",
+    "details": "A directory traversal problem in the URL decoder of librsvg before 2.56.3 could be used by local or remote attackers to disclose files (on the local filesystem outside of the expected area), as demonstrated by `href=\".?../../../../../../../../../../etc/passwd\"` in an `xi:include` element.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-508",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-18T14:23:04.937Z",
     "upstream": [
         "CVE-2019-6283"
     ],
-    "details": "In LibSass 3.5.5, a heap-based buffer over-read exists in Sass::Prelexer::parenthese_scope in prelexer.hpp.",
+    "details": "In LibSass 3.5.5, a heap-based buffer over-read exists in `Sass::Prelexer::parenthese_scope` in prelexer.hpp.",
     "severity": [
         {
             "type": "CVSS_V2",

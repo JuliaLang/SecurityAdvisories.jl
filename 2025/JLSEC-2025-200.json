@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-200",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-10941"
     ],
-    "summary": "Arm Mbed TLS before 2.16.5 allows attackers to obtain sensitive information (an RSA private key) by ...",
+    "summary": "Arm Mbed TLS before 2.16.5 allows attackers to obtain sensitive information (an RSA private key) by...",
     "details": "Arm Mbed TLS before 2.16.5 allows attackers to obtain sensitive information (an RSA private key) by measuring cache usage during an import.",
     "severity": [
         {

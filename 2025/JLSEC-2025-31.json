@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-31",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2023-27535"
     ],
-    "summary": "An authentication bypass vulnerability exists in libcurl <8.0.0 in the FTP connection reuse feature ...",
-    "details": "An authentication bypass vulnerability exists in libcurl <8.0.0 in the FTP connection reuse feature that can result in wrong credentials being used during subsequent transfers. Previously created connections are kept in a connection pool for reuse if they match the current setup. However, certain FTP settings such as CURLOPT_FTP_ACCOUNT, CURLOPT_FTP_ALTERNATIVE_TO_USER, CURLOPT_FTP_SSL_CCC, and CURLOPT_USE_SSL were not included in the configuration match checks, causing them to match too easily. This could lead to libcurl using the wrong credentials when performing a transfer, potentially allowing unauthorized access to sensitive information.",
+    "summary": "An authentication bypass vulnerability exists in libcurl <8.0.0 in the FTP connection reuse feature...",
+    "details": "An authentication bypass vulnerability exists in libcurl <8.0.0 in the FTP connection reuse feature that can result in wrong credentials being used during subsequent transfers. Previously created connections are kept in a connection pool for reuse if they match the current setup. However, certain FTP settings such as `CURLOPT_FTP_ACCOUNT`, `CURLOPT_FTP_ALTERNATIVE_TO_USER`, `CURLOPT_FTP_SSL_CCC`, and `CURLOPT_USE_SSL` were not included in the configuration match checks, causing them to match too easily. This could lead to libcurl using the wrong credentials when performing a transfer, potentially allowing unauthorized access to sensitive information.",
     "severity": [
         {
             "type": "CVSS_V3",

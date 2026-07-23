@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-13",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2018-18064"
     ],
-    "summary": "cairo through 1.15.14 has an out-of-bounds stack-memory write during processing of a crafted documen...",
-    "details": "cairo through 1.15.14 has an out-of-bounds stack-memory write during processing of a crafted document by WebKitGTK+ because of the interaction between cairo-rectangular-scan-converter.c (the generate and render_rows functions) and cairo-image-compositor.c (the _cairo_image_spans_and_zero function).",
+    "summary": "cairo through 1.15.14 has an out-of-bounds stack-memory write during processing of a crafted...",
+    "details": "cairo through 1.15.14 has an out-of-bounds stack-memory write during processing of a crafted document by WebKitGTK+ because of the interaction between cairo-rectangular-scan-converter.c (the generate and `render_rows` functions) and cairo-image-compositor.c (the `_cairo_image_spans_and_zero` function).",
     "severity": [
         {
             "type": "CVSS_V2",

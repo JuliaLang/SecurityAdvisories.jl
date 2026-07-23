@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-521",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-26T14:17:50.003Z",
     "upstream": [
         "CVE-2021-20232"
     ],
-    "details": "A flaw was found in gnutls. A use after free issue in client_send_params in lib/ext/pre_shared_key.c may lead to memory corruption and other potential consequences.",
+    "details": "A flaw was found in gnutls. A use after free issue in `client_send_params` in `lib/ext/pre_shared_key.c` may lead to memory corruption and other potential consequences.",
     "severity": [
         {
             "type": "CVSS_V2",

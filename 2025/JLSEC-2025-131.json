@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-131",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2023-50009"
     ],
-    "summary": "FFmpeg v.n6.1-3-g466799d4f5 allows a heap-based buffer overflow via the ff_gaussian_blur_8 function ...",
-    "details": "FFmpeg v.n6.1-3-g466799d4f5 allows a heap-based buffer overflow via the ff_gaussian_blur_8 function in libavfilter/edge_template.c:116:5 component.",
+    "summary": "FFmpeg v.n6.1-3-g466799d4f5 allows a heap-based buffer overflow via the `ff_gaussian_blur_8`...",
+    "details": "FFmpeg v.n6.1-3-g466799d4f5 allows a heap-based buffer overflow via the `ff_gaussian_blur_8` function in `libavfilter/edge_template.c:116:5` component.",
     "severity": [
         {
             "type": "CVSS_V3",

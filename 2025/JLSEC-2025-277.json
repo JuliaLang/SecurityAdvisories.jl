@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-277",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-2868"
     ],
-    "summary": "libtiff's tiffcrop utility has a improper input validation flaw that can lead to out of bounds read ...",
+    "summary": "libtiff's tiffcrop utility has a improper input validation flaw that can lead to out of bounds read...",
     "details": "libtiff's tiffcrop utility has a improper input validation flaw that can lead to out of bounds read and ultimately cause a crash if an attacker is able to supply a crafted file to tiffcrop.",
     "severity": [
         {

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-236",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2021-31566"
     ],
-    "summary": "An improper link resolution flaw can occur while extracting an archive leading to changing modes, ti...",
+    "summary": "An improper link resolution flaw can occur while extracting an archive leading to changing modes,...",
     "details": "An improper link resolution flaw can occur while extracting an archive leading to changing modes, times, access control lists, and flags of a file outside of the archive. An attacker may provide a malicious archive to a victim user, who would trigger this flaw when trying to extract the archive. A local attacker may use this flaw to gain more privileges in a system.",
     "severity": [
         {

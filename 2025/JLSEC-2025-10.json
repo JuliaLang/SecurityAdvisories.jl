@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-10",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-09T21:46:55.585Z",
     "upstream": [
         "CVE-2016-3189"
     ],
-    "summary": "Use-after-free vulnerability in bzip2recover in bzip2 1.0.6 allows remote attackers to cause a denia...",
+    "summary": "Use-after-free vulnerability in bzip2recover in bzip2 1.0.6 allows remote attackers to cause a...",
     "details": "Use-after-free vulnerability in bzip2recover in bzip2 1.0.6 allows remote attackers to cause a denial of service (crash) via a crafted bzip2 file, related to block ends set to before the start of the block.",
     "severity": [
         {

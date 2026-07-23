@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-546",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2021-3575"
     ],
-    "details": "A heap-based buffer overflow was found in openjpeg in color.c:379:42 in sycc420_to_rgb when decompressing a crafted .j2k file. An attacker could use this to execute arbitrary code with the permissions of the application compiled against openjpeg.",
+    "details": "A heap-based buffer overflow was found in openjpeg in color.c:379:42 in `sycc420_to_rgb` when decompressing a crafted .j2k file. An attacker could use this to execute arbitrary code with the permissions of the application compiled against openjpeg.",
     "severity": [
         {
             "type": "CVSS_V2",

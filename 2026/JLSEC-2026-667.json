@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-667",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T14:59:33.004Z",
     "upstream": [
         "CVE-2026-57053",
         "GHSA-xpv7-vm32-p7wv",
         "EUVD-2026-38523"
     ],
-    "summary": "GNU libidn before 1.44 is prone to out-of-bounds reads of uninitialized memory in the ToUnicode...",
-    "details": "GNU libidn before 1.44 is prone to out-of-bounds reads of uninitialized memory in the ToUnicode APIs because of mishandling in idna_to_unicode_internal. The affected code is not present in libidn2.",
+    "summary": "GNU libidn before 1.44 is prone to out-of-bounds reads of uninitialized memory in the ToUnicode APIs...",
+    "details": "GNU libidn before 1.44 is prone to out-of-bounds reads of uninitialized memory in the ToUnicode APIs because of mishandling in `idna_to_unicode_internal`. The affected code is not present in libidn2.",
     "severity": [
         {
             "type": "CVSS_V3",

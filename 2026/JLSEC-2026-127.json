@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-127",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-17T13:51:45.880Z",
     "upstream": [
         "CVE-2022-27470"
     ],
-    "details": "SDL_ttf v2.0.18 and below was discovered to contain an arbitrary memory write via the function TTF_RenderText_Solid(). This vulnerability is triggered via a crafted TTF file.",
+    "details": "`SDL_ttf` v2.0.18 and below was discovered to contain an arbitrary memory write via the function `TTF_RenderText_Solid()`. This vulnerability is triggered via a crafted TTF file.",
     "severity": [
         {
             "type": "CVSS_V2",

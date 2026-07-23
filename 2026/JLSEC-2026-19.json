@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-19",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-01T13:43:19.210Z",
     "upstream": [
         "CVE-2023-33460"
     ],
-    "summary": "There's a memory leak in yajl 2.1.0 with use of yajl_tree_parse function",
-    "details": "There's a memory leak in yajl 2.1.0 with use of yajl_tree_parse function. which will cause out-of-memory in server and cause crash.",
+    "summary": "There's a memory leak in yajl 2.1.0 with use of `yajl_tree_parse` function",
+    "details": "There's a memory leak in yajl 2.1.0 with use of `yajl_tree_parse` function. which will cause out-of-memory in server and cause crash.",
     "severity": [
         {
             "type": "CVSS_V3",

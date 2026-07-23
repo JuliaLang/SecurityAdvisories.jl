@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-379",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-01T17:50:38.295Z",
     "upstream": [
         "CVE-2026-24515"
     ],
-    "details": "In libexpat before 2.7.4, XML_ExternalEntityParserCreate does not copy unknown encoding handler user data.",
+    "details": "In libexpat before 2.7.4, `XML_ExternalEntityParserCreate` does not copy unknown encoding handler user data.",
     "severity": [
         {
             "type": "CVSS_V3",

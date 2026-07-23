@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-278",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-2869"
     ],
-    "summary": "libtiff's tiffcrop tool has a uint32_t underflow which leads to out of bounds read and write in the ...",
-    "details": "libtiff's tiffcrop tool has a uint32_t underflow which leads to out of bounds read and write in the extractContigSamples8bits routine. An attacker who supplies a crafted file to tiffcrop could trigger this flaw, most likely by tricking a user into opening the crafted file with tiffcrop. Triggering this flaw could cause a crash or potentially further exploitation.",
+    "summary": "libtiff's tiffcrop tool has a `uint32_t` underflow which leads to out of bounds read and write in...",
+    "details": "libtiff's tiffcrop tool has a `uint32_t` underflow which leads to out of bounds read and write in the extractContigSamples8bits routine. An attacker who supplies a crafted file to tiffcrop could trigger this flaw, most likely by tricking a user into opening the crafted file with tiffcrop. Triggering this flaw could cause a crash or potentially further exploitation.",
     "severity": [
         {
             "type": "CVSS_V3",

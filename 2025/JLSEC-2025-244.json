@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-244",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2024-48615"
     ],
-    "summary": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar i...",
-    "details": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar in function header_pax_extension at rchive_read_support_format_tar.c:1844:8.",
+    "summary": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar...",
+    "details": "Null Pointer Dereference vulnerability in libarchive 3.7.6 and earlier when running program bsdtar in function `header_pax_extension` at `rchive_read_support_format_tar.c:1844:8`.",
     "severity": [
         {
             "type": "CVSS_V3",

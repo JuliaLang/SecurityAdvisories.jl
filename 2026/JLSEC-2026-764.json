@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-764",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T15:14:16.023Z",
     "upstream": [
         "CVE-2023-7256",
@@ -9,7 +9,7 @@
         "EUVD-2023-59437"
     ],
     "summary": "In affected libpcap versions during the setup of a remote packet capture the internal function...",
-    "details": "In affected libpcap versions during the setup of a remote packet capture the internal function sock_initaddress() calls getaddrinfo() and possibly freeaddrinfo(), but does not clearly indicate to the caller function whether freeaddrinfo() still remains to be called after the function returns.  This makes it possible in some scenarios that both the function and its caller call freeaddrinfo() for the same allocated memory block.  A similar problem was reported in Apple libpcap, to which Apple assigned CVE-2023-40400.",
+    "details": "In affected libpcap versions during the setup of a remote packet capture the internal function `sock_initaddress()` calls getaddrinfo() and possibly freeaddrinfo(), but does not clearly indicate to the caller function whether freeaddrinfo() still remains to be called after the function returns.  This makes it possible in some scenarios that both the function and its caller call freeaddrinfo() for the same allocated memory block.  A similar problem was reported in Apple libpcap, to which Apple assigned CVE-2023-40400.",
     "severity": [
         {
             "type": "CVSS_V3",

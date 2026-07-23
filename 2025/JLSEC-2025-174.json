@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-174",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-21T17:24:37.757Z",
     "upstream": [
         "CVE-2018-18751"
     ],
     "summary": "An issue was discovered in GNU gettext 0.19.8",
-    "details": "An issue was discovered in GNU gettext 0.19.8. There is a double free in default_add_message in read-catalog.c, related to an invalid free in po_gram_parse in po-gram-gen.y, as demonstrated by lt-msgfmt.",
+    "details": "An issue was discovered in GNU gettext 0.19.8. There is a double free in `default_add_message` in read-catalog.c, related to an invalid free in `po_gram_parse` in po-gram-gen.y, as demonstrated by lt-msgfmt.",
     "severity": [
         {
             "type": "CVSS_V2",

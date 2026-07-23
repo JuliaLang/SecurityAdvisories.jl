@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-288",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-28T13:07:10.945Z",
     "upstream": [
         "CVE-2026-4738",
         "GHSA-hp6p-5qh5-w9fj",
         "EUVD-2026-14706"
     ],
-    "summary": "Improper Restriction of Operations within the Bounds of a Memory Buffer vulnerability in OSGeo...",
+    "summary": "Improper Restriction of Operations within the Bounds of a Memory Buffer vulnerability in OSGeo gdal...",
     "details": "Improper Restriction of Operations within the Bounds of a Memory Buffer vulnerability in OSGeo gdal (frmts/zlib/contrib/infback9 modules). This vulnerability is associated with program files inftree9.C‎.\n\nThis issue affects gdal: before 3.11.0.",
     "severity": [
         {

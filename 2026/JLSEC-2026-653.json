@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-653",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2026-8461",
@@ -9,7 +9,7 @@
         "EUVD-2026-37878"
     ],
     "summary": "An out-of-bounds write vulnerability in FFmpeg's libavcodec library, specifically in the MagicYUV...",
-    "details": "An out-of-bounds write vulnerability in FFmpeg's libavcodec library, specifically in the MagicYUV decoder, allows denial-of-service and, in some cases, can be exploited for remote code execution.\n\nThis vulnerability is associated with the file libavcodec/magicyuv.C.\n\nThis issue affects FFmpeg before version 8.1.2.",
+    "details": "An out-of-bounds write vulnerability in FFmpeg's libavcodec library, specifically in the MagicYUV decoder, allows denial-of-service and, in some cases, can be exploited for remote code execution.\n\nThis vulnerability is associated with the file `libavcodec/magicyuv.C`.\n\nThis issue affects FFmpeg before version 8.1.2.",
     "severity": [
         {
             "type": "CVSS_V3",

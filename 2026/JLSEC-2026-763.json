@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-763",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T15:02:37.321Z",
     "upstream": [
         "CVE-2025-54350"
     ],
-    "details": "In iperf before 3.19.1, iperf_auth.c has a Base64Decode assertion failure and application exit upon a malformed authentication attempt.",
+    "details": "In iperf before 3.19.1, `iperf_auth.c` has a Base64Decode assertion failure and application exit upon a malformed authentication attempt.",
     "severity": [
         {
             "type": "CVSS_V3",

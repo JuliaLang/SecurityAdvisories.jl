@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-215",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-45450"
     ],
-    "summary": "In Mbed TLS before 2.28.0 and 3.x before 3.1.0, psa_cipher_generate_iv and psa_cipher_encrypt allow ...",
-    "details": "In Mbed TLS before 2.28.0 and 3.x before 3.1.0, psa_cipher_generate_iv and psa_cipher_encrypt allow policy bypass or oracle-based decryption when the output buffer is at memory locations accessible to an untrusted application.",
+    "summary": "In Mbed TLS before 2.28.0 and 3.x before 3.1.0, `psa_cipher_generate_iv` and `psa_cipher_encrypt`...",
+    "details": "In Mbed TLS before 2.28.0 and 3.x before 3.1.0, `psa_cipher_generate_iv` and `psa_cipher_encrypt` allow policy bypass or oracle-based decryption when the output buffer is at memory locations accessible to an untrusted application.",
     "severity": [
         {
             "type": "CVSS_V2",

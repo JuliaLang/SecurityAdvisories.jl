@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-202",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-27T13:45:07.015Z",
     "upstream": [
         "CVE-2022-29654"
     ],
-    "details": "Buffer overflow vulnerability in quote_for_pmake in asm/nasm.c in nasm before 2.15.05 allows attackers to cause a denial of service via crafted file.",
+    "details": "Buffer overflow vulnerability in `quote_for_pmake` in `asm/nasm.c` in nasm before 2.15.05 allows attackers to cause a denial of service via crafted file.",
     "severity": [
         {
             "type": "CVSS_V3",

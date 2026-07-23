@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-301",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2023-1916"
     ],
     "summary": "A flaw was found in tiffcrop, a program distributed by the libtiff package",
-    "details": "A flaw was found in tiffcrop, a program distributed by the libtiff package. A specially crafted tiff file can lead to an out-of-bounds read in the extractImageSection function in tools/tiffcrop.c, resulting in a denial of service and limited information disclosure. This issue affects libtiff versions 4.x.",
+    "details": "A flaw was found in tiffcrop, a program distributed by the libtiff package. A specially crafted tiff file can lead to an out-of-bounds read in the extractImageSection function in `tools/tiffcrop.c`, resulting in a denial of service and limited information disclosure. This issue affects libtiff versions 4.x.",
     "severity": [
         {
             "type": "CVSS_V3",

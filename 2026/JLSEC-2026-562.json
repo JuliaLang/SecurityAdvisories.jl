@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-562",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-27T18:18:39.624Z",
     "upstream": [
         "CVE-2025-68972",
         "GHSA-w789-3q45-984r",
         "EUVD-2025-205487"
     ],
-    "summary": "In GnuPG through 2.4.8, if a signed message has \\f at the end of a plaintext line, an adversary...",
-    "details": "In GnuPG through 2.4.8, if a signed message has \\f at the end of a plaintext line, an adversary can construct a modified message that places additional text after the signed material, such that signature verification of the modified message succeeds (although an \"invalid armor\" message is printed during verification). This is related to use of \\f as a marker to denote truncation of a long plaintext line.",
+    "summary": "In GnuPG through 2.4.8, if a signed message has `\\f` at the end of a plaintext line, an adversary...",
+    "details": "In GnuPG through 2.4.8, if a signed message has `\\f` at the end of a plaintext line, an adversary can construct a modified message that places additional text after the signed material, such that signature verification of the modified message succeeds (although an \"invalid armor\" message is printed during verification). This is related to use of `\\f` as a marker to denote truncation of a long plaintext line.",
     "severity": [
         {
             "type": "CVSS_V3",

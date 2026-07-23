@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-741",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5778",
         "GHSA-2jvp-h4w4-2vxh",
         "EUVD-2026-21220"
     ],
-    "summary": "Integer underflow in wolfSSL packet sniffer <= 5.9.0 allows an attacker to cause a program crash...",
-    "details": "Integer underflow in wolfSSL packet sniffer <= 5.9.0 allows an attacker to cause a program crash in the AEAD decryption path by injecting a TLS record shorter than the explicit IV plus authentication tag into traffic inspected by ssl_DecodePacket. The underflow wraps a 16-bit length to a large value that is passed to AEAD decryption routines, causing a large out-of-bounds read and crash. An unauthenticated attacker can trigger this remotely via malformed TLS Application Data records.",
+    "summary": "Integer underflow in wolfSSL packet sniffer <= 5.9.0 allows an attacker to cause a program crash in...",
+    "details": "Integer underflow in wolfSSL packet sniffer <= 5.9.0 allows an attacker to cause a program crash in the AEAD decryption path by injecting a TLS record shorter than the explicit IV plus authentication tag into traffic inspected by `ssl_DecodePacket`. The underflow wraps a 16-bit length to a large value that is passed to AEAD decryption routines, causing a large out-of-bounds read and crash. An unauthenticated attacker can trigger this remotely via malformed TLS Application Data records.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-377",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-01T13:54:10.329Z",
     "upstream": [
         "CVE-2024-5197"
     ],
-    "details": "There exists interger overflows in libvpx in versions prior to 1.14.1. Calling vpx_img_alloc() with a large value of the d_w, d_h, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned vpx_image_t struct may be invalid. Calling vpx_img_wrap() with a large value of the d_w, d_h, or stride_align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned vpx_image_t struct may be invalid. We recommend upgrading to version 1.14.1 or beyond",
+    "details": "There exists interger overflows in libvpx in versions prior to 1.14.1. Calling `vpx_img_alloc()` with a large value of the `d_w`, `d_h`, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned `vpx_image_t` struct may be invalid. Calling `vpx_img_wrap()` with a large value of the `d_w`, `d_h`, or `stride_align` parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned `vpx_image_t` struct may be invalid. We recommend upgrading to version 1.14.1 or beyond",
     "severity": [
         {
             "type": "CVSS_V3",

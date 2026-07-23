@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-497",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-14T02:21:35.919Z",
     "upstream": [
         "CVE-2026-41990",
         "GHSA-78pv-qq8x-94px",
         "EUVD-2026-25193"
     ],
-    "summary": "Libgcrypt before 1.12.2 mishandles Dilithium signing. Writes to a static array lack a bounds...",
+    "summary": "Libgcrypt before 1.12.2 mishandles Dilithium signing",
     "details": "Libgcrypt before 1.12.2 mishandles Dilithium signing. Writes to a static array lack a bounds check but do not use attacker-controlled data.",
     "severity": [
         {

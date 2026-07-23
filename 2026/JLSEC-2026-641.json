@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-641",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2025-10256"
     ],
-    "details": "A NULL pointer dereference vulnerability exists in FFmpeg’s Firequalizer filter (libavfilter/af_firequalizer.c) due to a missing check on the return value of av_malloc_array() in the config_input() function. An attacker could exploit this by tricking a victim into processing a crafted media file with the Firequalizer filter enabled, causing the application to dereference a NULL pointer and crash, leading to denial of service.",
+    "details": "A NULL pointer dereference vulnerability exists in FFmpeg’s Firequalizer filter (`libavfilter/af_firequalizer.c`) due to a missing check on the return value of `av_malloc_array()` in the `config_input()` function. An attacker could exploit this by tricking a victim into processing a crafted media file with the Firequalizer filter enabled, causing the application to dereference a NULL pointer and crash, leading to denial of service.",
     "severity": [
         {
             "type": "CVSS_V3",

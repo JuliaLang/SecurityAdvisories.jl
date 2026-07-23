@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-238",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2023-30571"
     ],
     "summary": "Libarchive through 3.6.2 can cause directories to have world-writable permissions",
-    "details": "Libarchive through 3.6.2 can cause directories to have world-writable permissions. The umask() call inside archive_write_disk_posix.c changes the umask of the whole process for a very short period of time; a race condition with another thread can lead to a permanent umask 0 setting. Such a race condition could lead to implicit directory creation with permissions 0777 (without the sticky bit), which means that any low-privileged local user can delete and rename files inside those directories.",
+    "details": "Libarchive through 3.6.2 can cause directories to have world-writable permissions. The umask() call inside `archive_write_disk_posix.c` changes the umask of the whole process for a very short period of time; a race condition with another thread can lead to a permanent umask 0 setting. Such a race condition could lead to implicit directory creation with permissions 0777 (without the sticky bit), which means that any low-privileged local user can delete and rename files inside those directories.",
     "severity": [
         {
             "type": "CVSS_V3",

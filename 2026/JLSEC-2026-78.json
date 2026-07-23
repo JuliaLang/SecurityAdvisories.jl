@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-78",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2026-35414",
         "EUVD-2026-18480"
     ],
-    "details": "OpenSSH before 10.3 mishandles the authorized_keys principals option in uncommon scenarios involving a principals list in conjunction with a Certificate Authority that makes certain use of comma characters.",
+    "details": "OpenSSH before 10.3 mishandles the `authorized_keys` principals option in uncommon scenarios involving a principals list in conjunction with a Certificate Authority that makes certain use of comma characters.",
     "severity": [
         {
             "type": "CVSS_V3",

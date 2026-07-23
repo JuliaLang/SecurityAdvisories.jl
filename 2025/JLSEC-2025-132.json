@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-132",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2023-50010"
     ],
-    "summary": "FFmpeg v.n6.1-3-g466799d4f5 allows a buffer over-read at ff_gradfun_blur_line_movdqa_sse2, as demons...",
-    "details": "FFmpeg v.n6.1-3-g466799d4f5 allows a buffer over-read at ff_gradfun_blur_line_movdqa_sse2, as demonstrated by a call to the set_encoder_id function in /fftools/ffmpeg_enc.c component.",
+    "summary": "FFmpeg v.n6.1-3-g466799d4f5 allows a buffer over-read at `ff_gradfun_blur_line_movdqa_sse2`, as...",
+    "details": "FFmpeg v.n6.1-3-g466799d4f5 allows a buffer over-read at `ff_gradfun_blur_line_movdqa_sse2`, as demonstrated by a call to the `set_encoder_id` function in `/fftools/ffmpeg_enc.c` component.",
     "severity": [
         {
             "type": "CVSS_V3",

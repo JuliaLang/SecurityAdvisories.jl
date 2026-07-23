@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-188",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-27T15:45:54.694Z",
     "upstream": [
         "CVE-2019-17498"
     ],
-    "summary": "In libssh2 v1.9.0 and earlier versions, the SSH_MSG_DISCONNECT logic in packet.c has an integer over...",
-    "details": "In libssh2 v1.9.0 and earlier versions, the SSH_MSG_DISCONNECT logic in packet.c has an integer overflow in a bounds check, enabling an attacker to specify an arbitrary (out-of-bounds) offset for a subsequent memory read. A crafted SSH server may be able to disclose sensitive information or cause a denial of service condition on the client system when a user connects to the server.",
+    "summary": "In libssh2 v1.9.0 and earlier versions, the `SSH_MSG_DISCONNECT` logic in packet.c has an integer...",
+    "details": "In libssh2 v1.9.0 and earlier versions, the `SSH_MSG_DISCONNECT` logic in packet.c has an integer overflow in a bounds check, enabling an attacker to specify an arbitrary (out-of-bounds) offset for a subsequent memory read. A crafted SSH server may be able to disclose sensitive information or cause a denial of service condition on the client system when a user connects to the server.",
     "severity": [
         {
             "type": "CVSS_V2",

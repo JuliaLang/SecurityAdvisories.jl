@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-425",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-11563",
         "GHSA-6xq2-fm6w-mxfm",
         "EUVD-2025-208109"
     ],
-    "summary": "URLs containing percent-encoded slashes (`/` or `\\`) can trick wcurl into saving the output file...",
-    "details": "URLs containing percent-encoded slashes (`/` or `\\`) can trick wcurl into\nsaving the output file outside of the current directory without the user\nexplicitly asking for it.\n\nThis flaw only affects the wcurl command line tool.",
+    "summary": "URLs containing percent-encoded slashes (`/` or `\\ `) can trick wcurl into saving the output file...",
+    "details": "URLs containing percent-encoded slashes (`/` or `\\ `) can trick wcurl into\nsaving the output file outside of the current directory without the user\nexplicitly asking for it.\n\nThis flaw only affects the wcurl command line tool.",
     "severity": [
         {
             "type": "CVSS_V3",

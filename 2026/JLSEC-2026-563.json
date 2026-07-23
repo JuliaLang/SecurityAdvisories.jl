@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-563",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-27T18:18:39.624Z",
     "upstream": [
         "CVE-2025-68973",
         "GHSA-pj23-86ww-f72p",
         "EUVD-2025-205519"
     ],
-    "summary": "In GnuPG through 2.4.8, armor_filter in g10/armor.c has two increments of an index variable where...",
-    "details": "In GnuPG before 2.4.9, armor_filter in g10/armor.c has two increments of an index variable where one is intended, leading to an out-of-bounds write for crafted input. (For ExtendedLTS, 2.2.51 and later are fixed versions.)",
+    "summary": "In GnuPG through 2.4.8, `armor_filter` in g10/armor.c has two increments of an index variable where...",
+    "details": "In GnuPG before 2.4.9, `armor_filter` in `g10/armor.c` has two increments of an index variable where one is intended, leading to an out-of-bounds write for crafted input. (For ExtendedLTS, 2.2.51 and later are fixed versions.)",
     "severity": [
         {
             "type": "CVSS_V3",

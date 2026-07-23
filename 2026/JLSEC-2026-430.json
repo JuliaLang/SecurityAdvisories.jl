@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-430",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-15079",
         "GHSA-7q9p-cx8r-rh2q",
         "EUVD-2026-1575"
     ],
-    "summary": "When doing SSH-based transfers using either SCP or SFTP, and setting the known_hosts file,...",
-    "details": "When doing SSH-based transfers using either SCP or SFTP, and setting the\nknown_hosts file, libcurl could still mistakenly accept connecting to hosts\n*not present* in the specified file if they were added as recognized in the\nlibssh *global* known_hosts file.",
+    "summary": "When doing SSH-based transfers using either SCP or SFTP, and setting the `known_hosts` file, libcurl...",
+    "details": "When doing SSH-based transfers using either SCP or SFTP, and setting the\n`known_hosts` file, libcurl could still mistakenly accept connecting to hosts\n*not present* in the specified file if they were added as recognized in the\nlibssh *global* `known_hosts` file.",
     "severity": [
         {
             "type": "CVSS_V3",

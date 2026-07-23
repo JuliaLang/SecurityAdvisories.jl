@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-554",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2020-15945"
     ],
-    "details": "Lua 5.4.0 (fixed in 5.4.1) has a segmentation fault in changedline in ldebug.c (e.g., when called by luaG_traceexec) because it incorrectly expects that an oldpc value is always updated upon a return of the flow of control to a function.",
+    "details": "Lua 5.4.0 (fixed in 5.4.1) has a segmentation fault in changedline in ldebug.c (e.g., when called by `luaG_traceexec`) because it incorrectly expects that an oldpc value is always updated upon a return of the flow of control to a function.",
     "severity": [
         {
             "type": "CVSS_V2",

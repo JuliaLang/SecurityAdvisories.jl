@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-713",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-4395",
         "EUVD-2026-13235"
     ],
-    "details": "Heap-based buffer overflow in the KCAPI ECC code path of wc_ecc_import_x963_ex() in wolfSSL wolfcrypt allows a remote attacker to write attacker-controlled data past the bounds of the pubkey_raw buffer via a crafted oversized EC public key point. The WOLFSSL_KCAPI_ECC code path copies the input to key->pubkey_raw (132 bytes) using XMEMCPY without a bounds check, unlike the ATECC code path which includes a length validation. This can be triggered during TLS key exchange when a malicious peer sends a crafted ECPoint in ServerKeyExchange.",
+    "details": "Heap-based buffer overflow in the KCAPI ECC code path of `wc_ecc_import_x963_ex()` in wolfSSL wolfcrypt allows a remote attacker to write attacker-controlled data past the bounds of the `pubkey_raw` buffer via a crafted oversized EC public key point. The `WOLFSSL_KCAPI_ECC` code path copies the input to key->`pubkey_raw` (132 bytes) using XMEMCPY without a bounds check, unlike the ATECC code path which includes a length validation. This can be triggered during TLS key exchange when a malicious peer sends a crafted ECPoint in ServerKeyExchange.",
     "severity": [
         {
             "type": "CVSS_V3",

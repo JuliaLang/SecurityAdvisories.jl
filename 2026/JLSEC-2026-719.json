@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-719",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5295",
         "EUVD-2026-21228"
     ],
-    "details": "A stack buffer overflow exists in wolfSSL's PKCS7 implementation in the wc_PKCS7_DecryptOri() function in wolfcrypt/src/pkcs7.c. When processing a CMS EnvelopedData message containing an OtherRecipientInfo (ORI) recipient, the function copies an ASN.1-parsed OID into a fixed 32-byte stack buffer (oriOID[MAX_OID_SZ]) via XMEMCPY without first validating that the parsed OID length does not exceed MAX_OID_SZ. A crafted CMS EnvelopedData message with an ORI recipient containing an OID longer than 32 bytes triggers a stack buffer overflow. Exploitation requires the library to be built with --enable-pkcs7 (disabled by default) and the application to have registered an ORI decrypt callback via wc_PKCS7_SetOriDecryptCb().",
+    "details": "A stack buffer overflow exists in wolfSSL's PKCS7 implementation in the `wc_PKCS7_DecryptOri()` function in `wolfcrypt/src/pkcs7.c`. When processing a CMS EnvelopedData message containing an OtherRecipientInfo (ORI) recipient, the function copies an ASN.1-parsed OID into a fixed 32-byte stack buffer (oriOID[`MAX_OID_SZ`]) via XMEMCPY without first validating that the parsed OID length does not exceed `MAX_OID_SZ`. A crafted CMS EnvelopedData message with an ORI recipient containing an OID longer than 32 bytes triggers a stack buffer overflow. Exploitation requires the library to be built with --enable-pkcs7 (disabled by default) and the application to have registered an ORI decrypt callback via `wc_PKCS7_SetOriDecryptCb()`.",
     "severity": [
         {
             "type": "CVSS_V3",

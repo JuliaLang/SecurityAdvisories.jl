@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-144",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-35365"
     ],
-    "summary": "FFmpeg version n6.1.1 has a double-free vulnerability in the fftools/ffmpeg_mux_init.c component of ...",
-    "details": "FFmpeg version n6.1.1 has a double-free vulnerability in the fftools/ffmpeg_mux_init.c component of FFmpeg, specifically within the new_stream_audio function.",
+    "summary": "FFmpeg version n6.1.1 has a double-free vulnerability in the `fftools/ffmpeg_mux_init.c` component...",
+    "details": "FFmpeg version n6.1.1 has a double-free vulnerability in the `fftools/ffmpeg_mux_init.c` component of FFmpeg, specifically within the `new_stream_audio` function.",
     "severity": [
         {
             "type": "CVSS_V3",

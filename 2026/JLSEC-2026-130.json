@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-130",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-17T15:19:54.657Z",
     "upstream": [
         "CVE-2021-3933"
     ],
-    "details": "An integer overflow could occur when OpenEXR processes a crafted file on systems where size_t < 64 bits. This could cause an invalid bytesPerLine and maxBytesPerLine value, which could lead to problems with application stability or lead to other attack paths.",
+    "details": "An integer overflow could occur when OpenEXR processes a crafted file on systems where `size_t` < 64 bits. This could cause an invalid bytesPerLine and maxBytesPerLine value, which could lead to problems with application stability or lead to other attack paths.",
     "severity": [
         {
             "type": "CVSS_V2",

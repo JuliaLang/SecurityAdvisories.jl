@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-92",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T22:31:47.919Z",
     "upstream": [
         "CVE-2022-34903"
     ],
-    "summary": "GnuPG through 2.3.6, in unusual situations where an attacker possesses any secret-key information fr...",
+    "summary": "GnuPG through 2.3.6, in unusual situations where an attacker possesses any secret-key information...",
     "details": "GnuPG through 2.3.6, in unusual situations where an attacker possesses any secret-key information from a victim's keyring and other constraints (e.g., use of GPGME) are met, allows signature forgery via injection into the status line.",
     "severity": [
         {

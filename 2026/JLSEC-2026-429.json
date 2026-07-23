@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-429",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-14819",
         "GHSA-vqhr-m87q-9jqh",
         "EUVD-2026-1566"
     ],
-    "summary": "When doing TLS related transfers with reused easy or multi handles and altering the ...",
+    "summary": "When doing TLS related transfers with reused easy or multi handles and altering the...",
     "details": "When doing TLS related transfers with reused easy or multi handles and\naltering the  `CURLSSLOPT_NO_PARTIALCHAIN` option, libcurl could accidentally\nreuse a CA store cached in memory for which the partial chain option was\nreversed. Contrary to the user's wishes and expectations. This could make\nlibcurl find and accept a trust chain that it otherwise would not.",
     "severity": [
         {

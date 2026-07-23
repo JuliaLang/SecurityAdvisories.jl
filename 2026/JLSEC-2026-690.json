@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-690",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2025-7395",
         "GHSA-g6x8-5jj7-qqfv",
         "EUVD-2025-21936"
     ],
-    "summary": "A certificate verification error in wolfSSL when building with the WOLFSSL_SYS_CA_CERTS and...",
-    "details": "A certificate verification error in wolfSSL when building with the WOLFSSL_SYS_CA_CERTS and WOLFSSL_APPLE_NATIVE_CERT_VALIDATION options results in the wolfSSL\nclient failing to properly verify the server certificate's domain name,\nallowing any certificate issued by a trusted CA to be accepted regardless of the hostname.",
+    "summary": "A certificate verification error in wolfSSL when building with the `WOLFSSL_SYS_CA_CERTS` and...",
+    "details": "A certificate verification error in wolfSSL when building with the `WOLFSSL_SYS_CA_CERTS` and `WOLFSSL_APPLE_NATIVE_CERT_VALIDATION` options results in the wolfSSL\nclient failing to properly verify the server certificate's domain name,\nallowing any certificate issued by a trusted CA to be accepted regardless of the hostname.",
     "severity": [
         {
             "type": "CVSS_V4",

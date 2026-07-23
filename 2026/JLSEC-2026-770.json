@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-770",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8088",
@@ -9,7 +9,7 @@
         "EUVD-2026-28436"
     ],
     "summary": "OSGeo GDAL vulnerable to out-of-bounds read",
-    "details": "A weakness has been identified in OSGeo gdal up to 3.13.0dev-4. The affected element is the function GDfieldinfo of the file frmts/hdf4/hdf-eos/GDapi.c. Executing a manipulation can lead to out-of-bounds read. The attack needs to be launched locally. The exploit has been made available to the public and could be used for attacks. Upgrading to version 3.13.0RC1 is sufficient to fix this issue. This patch is called a791f70f8eaec540974ec989ca6fb00266b7646c. The affected component should be upgraded.",
+    "details": "A weakness has been identified in OSGeo gdal up to 3.13.0dev-4. The affected element is the function GDfieldinfo of the file `frmts/hdf4/hdf-eos/GDapi.c`. Executing a manipulation can lead to out-of-bounds read. The attack needs to be launched locally. The exploit has been made available to the public and could be used for attacks. Upgrading to version 3.13.0RC1 is sufficient to fix this issue. This patch is called a791f70f8eaec540974ec989ca6fb00266b7646c. The affected component should be upgraded.",
     "severity": [
         {
             "type": "CVSS_V2",

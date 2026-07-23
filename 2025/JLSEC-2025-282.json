@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-282",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-3570"
     ],
-    "summary": "Multiple heap buffer overflows in tiffcrop.c utility in libtiff library Version 4.4.0 allows attacke...",
+    "summary": "Multiple heap buffer overflows in tiffcrop.c utility in libtiff library Version 4.4.0 allows...",
     "details": "Multiple heap buffer overflows in tiffcrop.c utility in libtiff library Version 4.4.0 allows attacker to trigger unsafe or out of bounds memory access via crafted TIFF image file which could result into application crash, potential information disclosure or any other context-dependent impact",
     "severity": [
         {

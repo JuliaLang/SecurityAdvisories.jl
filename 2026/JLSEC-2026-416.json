@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-416",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2024-2398",
         "GHSA-mq8w-c2j9-rqxc",
         "EUVD-2024-27350"
     ],
-    "summary": "When an application tells libcurl it wants to allow HTTP/2 server push, and the amount of...",
+    "summary": "When an application tells libcurl it wants to allow HTTP/2 server push, and the amount of received...",
     "details": "When an application tells libcurl it wants to allow HTTP/2 server push, and the amount of received headers for the push surpasses the maximum allowed limit (1000), libcurl aborts the server push. When aborting, libcurl inadvertently does not free all the previously allocated headers and instead leaks the memory.  Further, this error condition fails silently and is therefore not easily detected by an application.",
     "severity": [
         {

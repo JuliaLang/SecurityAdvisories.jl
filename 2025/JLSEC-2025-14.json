@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-14",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2018-19876"
     ],
-    "summary": "cairo 1.16.0, in cairo_ft_apply_variations() in cairo-ft-font.c, would free memory using a free func...",
-    "details": "cairo 1.16.0, in cairo_ft_apply_variations() in cairo-ft-font.c, would free memory using a free function incompatible with WebKit's fastMalloc, leading to an application crash with a \"free(): invalid pointer\" error.",
+    "summary": "cairo 1.16.0, in `cairo_ft_apply_variations()` in cairo-ft-font.c, would free memory using a free...",
+    "details": "cairo 1.16.0, in `cairo_ft_apply_variations()` in cairo-ft-font.c, would free memory using a free function incompatible with WebKit's fastMalloc, leading to an application crash with a \"free(): invalid pointer\" error.",
     "severity": [
         {
             "type": "CVSS_V2",

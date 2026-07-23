@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-422",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-0725",
         "GHSA-vvqh-cqpj-5537",
         "EUVD-2025-1837"
     ],
-    "summary": "When libcurl is asked to perform automatic gzip decompression of content-encoded HTTP responses...",
+    "summary": "When libcurl is asked to perform automatic gzip decompression of content-encoded HTTP responses with...",
     "details": "When libcurl is asked to perform automatic gzip decompression of\ncontent-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option,\n**using zlib 1.2.0.3 or older**, an attacker-controlled integer overflow would\nmake libcurl perform a buffer overflow.",
     "severity": [
         {

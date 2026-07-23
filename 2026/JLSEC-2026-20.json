@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-20",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-01T15:14:44.989Z",
     "upstream": [
         "CVE-2022-31394"
     ],
-    "details": "Hyperium Hyper before 0.14.19 does not allow for customization of the max_header_list_size method in the H2 third-party software, allowing attackers to perform HTTP2 attacks.",
+    "details": "Hyperium Hyper before 0.14.19 does not allow for customization of the `max_header_list_size` method in the H2 third-party software, allowing attackers to perform HTTP2 attacks.",
     "severity": [
         {
             "type": "CVSS_V3",

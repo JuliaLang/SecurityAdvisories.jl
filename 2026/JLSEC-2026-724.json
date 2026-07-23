@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-724",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5448",
         "GHSA-5jqq-xpcr-q3r7",
         "EUVD-2026-21233"
     ],
-    "summary": "X.509 date buffer overflow in wolfSSL_X509_notAfter / wolfSSL_X509_notBefore. A buffer overflow...",
-    "details": "X.509 date buffer overflow in wolfSSL_X509_notAfter / wolfSSL_X509_notBefore. A buffer overflow may occur when parsing date fields from a crafted X.509 certificate via the compatibility layer API. This is only triggered when calling these two APIs directly from an application, and does not affect TLS or certificate verify operations in wolfSSL.",
+    "summary": "X.509 date buffer overflow in `wolfSSL_X509_notAfter` / `wolfSSL_X509_notBefore`",
+    "details": "X.509 date buffer overflow in `wolfSSL_X509_notAfter` / `wolfSSL_X509_notBefore`. A buffer overflow may occur when parsing date fields from a crafted X.509 certificate via the compatibility layer API. This is only triggered when calling these two APIs directly from an application, and does not affect TLS or certificate verify operations in wolfSSL.",
     "severity": [
         {
             "type": "CVSS_V3",

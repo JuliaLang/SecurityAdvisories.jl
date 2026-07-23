@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-695",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-10512",
         "GHSA-gjm7-vch5-hch8",
         "EUVD-2026-39552"
     ],
-    "summary": "The X25519 x86_64 assembly implementation fails to clear the most significant bit during the...",
-    "details": "The X25519 x86_64 assembly implementation fails to clear the most significant bit during the final modular reduction, so the computed result may not be fully reduced modulo the field prime 2^255 - 19. This can leave the field element in a non-canonical form, producing an incorrect result from the scalar multiplication and potentially a wrong shared secret. The final carry-propagation chains in the x64 and AVX2 reduction routines could overflow into the top bit, and the high limb was not masked afterward, so the 255-bit field element was left non-canonical.",
+    "summary": "The X25519 `x86_64` assembly implementation fails to clear the most significant bit during the final...",
+    "details": "The X25519 `x86_64` assembly implementation fails to clear the most significant bit during the final modular reduction, so the computed result may not be fully reduced modulo the field prime 2^255 - 19. This can leave the field element in a non-canonical form, producing an incorrect result from the scalar multiplication and potentially a wrong shared secret. The final carry-propagation chains in the x64 and AVX2 reduction routines could overflow into the top bit, and the high limb was not masked afterward, so the 255-bit field element was left non-canonical.",
     "severity": [
         {
             "type": "CVSS_V3",

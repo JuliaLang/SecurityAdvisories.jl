@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-698",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-11703",
         "GHSA-q3px-vrjj-4f97",
         "EUVD-2026-39576"
     ],
-    "summary": "Missing SNI/ALPN binding on stateful (session-ID) resumption, which previously skipped the...",
+    "summary": "Missing SNI/ALPN binding on stateful (session-ID) resumption, which previously skipped the binding...",
     "details": "Missing SNI/ALPN binding on stateful (session-ID) resumption, which previously skipped the binding check performed for ticket-based resumption. A cached session could be resumed under a different SNI/ALPN than originally negotiated and, where client-authentication policy differs across virtual hosts, carry the cached peer-authentication state into a context it was not established for. Resumption now verifies the SNI/ALPN binding for all paths and declines (falling back to a full handshake) on mismatch.",
     "severity": [
         {

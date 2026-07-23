@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-256",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2020-35522"
     ],
-    "summary": "In LibTIFF, there is a memory malloc failure in tif_pixarlog.c",
-    "details": "In LibTIFF, there is a memory malloc failure in tif_pixarlog.c. A crafted TIFF document can lead to an abort, resulting in a remote denial of service attack.",
+    "summary": "In LibTIFF, there is a memory malloc failure in `tif_pixarlog.c`",
+    "details": "In LibTIFF, there is a memory malloc failure in `tif_pixarlog.c`. A crafted TIFF document can lead to an abort, resulting in a remote denial of service attack.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-691",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-0819",
         "GHSA-3cr6-hpf3-2hmg",
         "EUVD-2026-13131"
     ],
-    "summary": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality...",
-    "details": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality. In wc_PKCS7_BuildSignedAttributes(), when adding custom signed attributes, the code passes an incorrect capacity value (esd->signedAttribsCount) to EncodeAttributes() instead of the remaining available space in the fixed-size signedAttribs[7] array. When an application sets pkcs7->signedAttribsSz to a value greater than MAX_SIGNED_ATTRIBS_SZ (default 7) minus the number of default attributes already added, EncodeAttributes() writes beyond the array bounds, causing stack memory corruption. In WOLFSSL_SMALL_STACK builds, this becomes heap corruption. Exploitation requires an application that allows untrusted input to control the signedAttribs array size when calling wc_PKCS7_EncodeSignedData() or related signing functions.",
+    "summary": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality",
+    "details": "A stack buffer overflow vulnerability exists in wolfSSL's PKCS7 SignedData encoding functionality. In `wc_PKCS7_BuildSignedAttributes()`, when adding custom signed attributes, the code passes an incorrect capacity value (esd->signedAttribsCount) to EncodeAttributes() instead of the remaining available space in the fixed-size signedAttribs[7] array. When an application sets pkcs7->signedAttribsSz to a value greater than `MAX_SIGNED_ATTRIBS_SZ` (default 7) minus the number of default attributes already added, EncodeAttributes() writes beyond the array bounds, causing stack memory corruption. In `WOLFSSL_SMALL_STACK` builds, this becomes heap corruption. Exploitation requires an application that allows untrusted input to control the signedAttribs array size when calling `wc_PKCS7_EncodeSignedData()` or related signing functions.",
     "severity": [
         {
             "type": "CVSS_V3",

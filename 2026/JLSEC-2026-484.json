@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-484",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T18:17:01.111Z",
     "upstream": [
         "CVE-2025-61143"
     ],
-    "details": "libtiff up to v4.7.1 was discovered to contain a NULL pointer dereference via the component libtiff/tif_open.c.",
+    "details": "libtiff up to v4.7.1 was discovered to contain a NULL pointer dereference via the component `libtiff/tif_open.c`.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-561",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-26T19:45:06.761Z",
     "upstream": [
         "CVE-2022-33099"
     ],
-    "details": "An issue in the component luaG_runerror of Lua v5.4.4 and below leads to a heap-buffer overflow when a recursive error occurs.",
+    "details": "An issue in the component `luaG_runerror` of Lua v5.4.4 and below leads to a heap-buffer overflow when a recursive error occurs.",
     "severity": [
         {
             "type": "CVSS_V2",

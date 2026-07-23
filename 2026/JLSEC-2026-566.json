@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-566",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-27T18:18:39.624Z",
     "upstream": [
         "CVE-2026-24883",
         "GHSA-7246-cvp4-g68w",
         "EUVD-2026-4770"
     ],
-    "summary": "In GnuPG before 2.5.17, a long signature packet length causes parse_signature to return success...",
-    "details": "In GnuPG before 2.5.17, a long signature packet length causes parse_signature to return success with sig->data[] set to a NULL value, leading to a denial of service (application crash).",
+    "summary": "In GnuPG before 2.5.17, a long signature packet length causes `parse_signature` to return success...",
+    "details": "In GnuPG before 2.5.17, a long signature packet length causes `parse_signature` to return success with sig->data[] set to a NULL value, leading to a denial of service (application crash).",
     "severity": [
         {
             "type": "CVSS_V3",

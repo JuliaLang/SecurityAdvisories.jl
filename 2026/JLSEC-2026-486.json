@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-486",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T18:17:01.111Z",
     "upstream": [
         "CVE-2025-61145"
     ],
-    "details": "libtiff up to v4.7.1 was discovered to contain a double free via the component tools/tiffcrop.c.",
+    "details": "libtiff up to v4.7.1 was discovered to contain a double free via the component `tools/tiffcrop.c`.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-370",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-30T19:30:31.295Z",
     "upstream": [
         "CVE-2026-5245",
         "GHSA-2rqj-7x75-2684",
         "EUVD-2026-18183"
     ],
-    "summary": "A vulnerability was found in Cesanta Mongoose up to 7.20. This impacts the function...",
-    "details": "A vulnerability was found in Cesanta Mongoose up to 7.20. This impacts the function handle_mdns_record of the file mongoose.c of the component mDNS Record Handler. Performing a manipulation of the argument buf results in stack-based buffer overflow. Remote exploitation of the attack is possible. A high degree of complexity is needed for the attack. The exploitability is said to be difficult. The exploit has been made public and could be used. Upgrading to version 7.21 will fix this issue. The patch is named 0d882f1b43ff2308b7486a56a9d60cd6dba8a3f1. You should upgrade the affected component. The vendor was contacted early, responded in a very professional manner and quickly released a fixed version of the affected product.",
+    "summary": "A vulnerability was found in Cesanta Mongoose up to 7.20",
+    "details": "A vulnerability was found in Cesanta Mongoose up to 7.20. This impacts the function `handle_mdns_record` of the file mongoose.c of the component mDNS Record Handler. Performing a manipulation of the argument buf results in stack-based buffer overflow. Remote exploitation of the attack is possible. A high degree of complexity is needed for the attack. The exploitability is said to be difficult. The exploit has been made public and could be used. Upgrading to version 7.21 will fix this issue. The patch is named 0d882f1b43ff2308b7486a56a9d60cd6dba8a3f1. You should upgrade the affected component. The vendor was contacted early, responded in a very professional manner and quickly released a fixed version of the affected product.",
     "severity": [
         {
             "type": "CVSS_V2",

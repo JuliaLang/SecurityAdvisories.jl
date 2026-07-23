@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-189",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-27T15:45:54.694Z",
     "upstream": [
         "CVE-2020-22218"
     ],
-    "summary": "An issue was discovered in function _libssh2_packet_add in libssh2 1.10.0 allows attackers to access...",
-    "details": "An issue was discovered in function _libssh2_packet_add in libssh2 1.10.0 allows attackers to access out of bounds memory.",
+    "summary": "An issue was discovered in function `_libssh2_packet_add` in libssh2 1.10.0 allows attackers to...",
+    "details": "An issue was discovered in function `_libssh2_packet_add` in libssh2 1.10.0 allows attackers to access out of bounds memory.",
     "severity": [
         {
             "type": "CVSS_V3",

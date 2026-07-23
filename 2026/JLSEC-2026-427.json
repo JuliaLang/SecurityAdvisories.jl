@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-427",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-14017",
         "GHSA-jh4h-2cg6-889h",
         "EUVD-2026-1581"
     ],
-    "summary": "When doing multi-threaded LDAPS transfers (LDAP over TLS) with libcurl, changing TLS options in...",
+    "summary": "When doing multi-threaded LDAPS transfers (LDAP over TLS) with libcurl, changing TLS options in one...",
     "details": "When doing multi-threaded LDAPS transfers (LDAP over TLS) with libcurl,\nchanging TLS options in one thread would inadvertently change them globally\nand therefore possibly also affect other concurrently setup transfers.\n\nDisabling certificate verification for a specific transfer could\nunintentionally disable the feature for other threads as well.",
     "severity": [
         {

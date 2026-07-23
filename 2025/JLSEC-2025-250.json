@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-250",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2024-57970",
         "GHSA-2q66-6w43-8rm9",
         "EUVD-2024-53870"
     ],
-    "summary": "libarchive through 3.7.7 has a heap-based buffer over-read in header_gnu_longlink in archive_read_su...",
-    "details": "libarchive through 3.7.7 has a heap-based buffer over-read in header_gnu_longlink in archive_read_support_format_tar.c via a TAR archive because it mishandles truncation in the middle of a GNU long linkname.",
+    "summary": "libarchive through 3.7.7 has a heap-based buffer over-read in `header_gnu_longlink` in...",
+    "details": "libarchive through 3.7.7 has a heap-based buffer over-read in `header_gnu_longlink` in `archive_read_support_format_tar.c` via a TAR archive because it mishandles truncation in the middle of a GNU long linkname.",
     "severity": [
         {
             "type": "CVSS_V3",

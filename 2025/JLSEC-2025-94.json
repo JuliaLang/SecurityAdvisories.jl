@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-94",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T22:31:47.919Z",
     "upstream": [
         "CVE-2025-30258"
     ],
-    "summary": "In GnuPG before 2.5.5, if a user chooses to import a certificate with certain crafted subkey data th...",
+    "summary": "In GnuPG before 2.5.5, if a user chooses to import a certificate with certain crafted subkey data...",
     "details": "In GnuPG before 2.5.5, if a user chooses to import a certificate with certain crafted subkey data that lacks a valid backsig or that has incorrect usage flags, the user loses the ability to verify signatures made from certain other signing keys, aka a \"verification DoS.\"",
     "severity": [
         {

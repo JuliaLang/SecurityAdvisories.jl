@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-26",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2021-22876"
     ],
-    "summary": "curl 7.1.1 to and including 7.75.0 is vulnerable to an \"Exposure of Private Personal Information to ...",
+    "summary": "curl 7.1.1 to and including 7.75.0 is vulnerable to an \"Exposure of Private Personal Information to...",
     "details": "curl 7.1.1 to and including 7.75.0 is vulnerable to an \"Exposure of Private Personal Information to an Unauthorized Actor\" by leaking credentials in the HTTP Referer: header. libcurl does not strip off user credentials from the URL when automatically populating the Referer: HTTP request header field in outgoing HTTP requests, and therefore risks leaking sensitive data to the server that is the target of the second HTTP request.",
     "severity": [
         {

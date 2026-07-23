@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-683",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2024-5288",
         "GHSA-rrg9-cmw9-3pwx",
         "EUVD-2024-46524"
     ],
-    "summary": "An issue was discovered in wolfSSL before 5.7.0. A safe-error attack via Rowhammer, namely FAULT...",
-    "details": "An issue was discovered in wolfSSL before 5.7.0. A safe-error attack via Rowhammer, namely FAULT+PROBE, leads to ECDSA key disclosure. When WOLFSSL_CHECK_SIG_FAULTS is used in signing operations with private ECC keys,\n\nsuch as in server-side TLS connections, the connection is halted if any fault occurs. The success rate in a certain amount of connection requests can be processed via an advanced technique for ECDSA key recovery.",
+    "summary": "An issue was discovered in wolfSSL before 5.7.0",
+    "details": "An issue was discovered in wolfSSL before 5.7.0. A safe-error attack via Rowhammer, namely FAULT+PROBE, leads to ECDSA key disclosure. When `WOLFSSL_CHECK_SIG_FAULTS` is used in signing operations with private ECC keys,\n\nsuch as in server-side TLS connections, the connection is halted if any fault occurs. The success rate in a certain amount of connection requests can be processed via an advanced technique for ECDSA key recovery.",
     "severity": [
         {
             "type": "CVSS_V3",

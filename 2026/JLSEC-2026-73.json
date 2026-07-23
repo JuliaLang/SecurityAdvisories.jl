@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-73",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-09T21:32:46.691Z",
     "upstream": [
         "CVE-2025-32728",
         "GHSA-26mg-p594-q328",
         "EUVD-2025-10504"
     ],
-    "summary": "In sshd in OpenSSH before 10.0, the DisableForwarding directive does not adhere to the...",
+    "summary": "In sshd in OpenSSH before 10.0, the DisableForwarding directive does not adhere to the documentation...",
     "details": "In sshd in OpenSSH before 10.0, the DisableForwarding directive does not adhere to the documentation stating that it disables X11 and agent forwarding.",
     "severity": [
         {

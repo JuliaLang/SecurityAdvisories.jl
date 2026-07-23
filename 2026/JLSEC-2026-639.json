@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-639",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2023-51797"
     ],
-    "details": "Buffer Overflow vulnerability in Ffmpeg v.N113007-g8d24a28d06 allows a local attacker to execute arbitrary code via the libavfilter/avf_showwaves.c:722:24 in showwaves_filter_frame",
+    "details": "Buffer Overflow vulnerability in Ffmpeg v.N113007-g8d24a28d06 allows a local attacker to execute arbitrary code via the `libavfilter/avf_showwaves.c:722:24` in `showwaves_filter_frame`",
     "severity": [
         {
             "type": "CVSS_V3",

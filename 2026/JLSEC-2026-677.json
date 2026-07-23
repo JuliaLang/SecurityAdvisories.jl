@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-677",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2023-6935",
         "GHSA-r36f-f47x-637q",
         "EUVD-2023-59133"
     ],
-    "summary": "wolfSSL SP Math All RSA implementation is vulnerable to the Marvin Attack, new variation of a...",
-    "details": "wolfSSL SP Math All RSA implementation is vulnerable to the Marvin Attack, new variation of a timing Bleichenbacher style attack, when built with the following options to configure:\n\n--enable-all CFLAGS=\"-DWOLFSSL_STATIC_RSA\"\n\nThe define “WOLFSSL_STATIC_RSA” enables static RSA cipher suites, which is not recommended, and has been disabled by default since wolfSSL 3.6.6.  Therefore the default build since 3.6.6, even with \"--enable-all\", is not vulnerable to the Marvin Attack. The vulnerability is specific to static RSA cipher suites, and expected to be padding-independent.\n\nThe vulnerability allows an attacker to decrypt ciphertexts and forge signatures after probing with a large number of test observations. However the server’s private key is not exposed.",
+    "summary": "wolfSSL SP Math All RSA implementation is vulnerable to the Marvin Attack, new variation of a timing...",
+    "details": "wolfSSL SP Math All RSA implementation is vulnerable to the Marvin Attack, new variation of a timing Bleichenbacher style attack, when built with the following options to configure:\n\n--enable-all CFLAGS=\"-`DWOLFSSL_STATIC_RSA`\"\n\nThe define “`WOLFSSL_STATIC_RSA`” enables static RSA cipher suites, which is not recommended, and has been disabled by default since wolfSSL 3.6.6.  Therefore the default build since 3.6.6, even with \"--enable-all\", is not vulnerable to the Marvin Attack. The vulnerability is specific to static RSA cipher suites, and expected to be padding-independent.\n\nThe vulnerability allows an attacker to decrypt ciphertexts and forge signatures after probing with a large number of test observations. However the server’s private key is not exposed.",
     "severity": [
         {
             "type": "CVSS_V3",

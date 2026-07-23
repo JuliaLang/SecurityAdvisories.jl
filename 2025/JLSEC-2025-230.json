@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-230",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2025-48965"
     ],
-    "summary": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigg...",
-    "details": "Mbed TLS before 3.6.4 has a NULL pointer dereference because mbedtls_asn1_store_named_data can trigger conflicting data with val.p of NULL but val.len greater than zero.",
+    "summary": "Mbed TLS before 3.6.4 has a NULL pointer dereference because `mbedtls_asn1_store_named_data` can...",
+    "details": "Mbed TLS before 3.6.4 has a NULL pointer dereference because `mbedtls_asn1_store_named_data` can trigger conflicting data with val.p of NULL but val.len greater than zero.",
     "severity": [
         {
             "type": "CVSS_V3",

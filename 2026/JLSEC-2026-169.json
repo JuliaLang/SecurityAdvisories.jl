@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-169",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-21T00:04:14.628Z",
     "upstream": [
         "CVE-2020-36227"
     ],
-    "details": "A flaw was discovered in OpenLDAP before 2.4.57 leading to an infinite loop in slapd with the cancel_extop Cancel operation, resulting in denial of service.",
+    "details": "A flaw was discovered in OpenLDAP before 2.4.57 leading to an infinite loop in slapd with the `cancel_extop` Cancel operation, resulting in denial of service.",
     "severity": [
         {
             "type": "CVSS_V2",

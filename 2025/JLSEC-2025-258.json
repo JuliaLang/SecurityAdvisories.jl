@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-258",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2020-35524"
     ],
-    "summary": "A heap-based buffer overflow flaw was found in libtiff in the handling of TIFF images in libtiff's T...",
+    "summary": "A heap-based buffer overflow flaw was found in libtiff in the handling of TIFF images in libtiff's...",
     "details": "A heap-based buffer overflow flaw was found in libtiff in the handling of TIFF images in libtiff's TIFF2PDF tool. A specially crafted TIFF file can lead to arbitrary code execution. The highest threat from this vulnerability is to confidentiality, integrity, as well as system availability.",
     "severity": [
         {

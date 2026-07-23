@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-751",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6450",
         "GHSA-qpch-gjf6-c9gf",
         "EUVD-2026-39559"
     ],
-    "summary": "A CRL critical extension bypass exists in ParseCRL_Extensions where critical extensions are not...",
-    "details": "A CRL critical extension bypass exists in ParseCRL_Extensions where critical extensions are not properly enforced, allowing a crafted CRL with an unhandled critical extension to be accepted. This only affects builds with CRL support enabled and where a crafted CRL had a trusted signature when parsed.",
+    "summary": "A CRL critical extension bypass exists in `ParseCRL_Extensions` where critical extensions are not...",
+    "details": "A CRL critical extension bypass exists in `ParseCRL_Extensions` where critical extensions are not properly enforced, allowing a crafted CRL with an unhandled critical extension to be accepted. This only affects builds with CRL support enabled and where a crafted CRL had a trusted signature when parsed.",
     "severity": [
         {
             "type": "CVSS_V3",

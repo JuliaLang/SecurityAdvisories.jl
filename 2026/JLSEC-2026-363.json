@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-363",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-30T14:15:09.088Z",
     "upstream": [
         "CVE-2020-14410"
     ],
-    "details": "SDL (Simple DirectMedia Layer) through 2.0.12 has a heap-based buffer over-read in Blit_3or4_to_3or4__inversed_rgb in video/SDL_blit_N.c via a crafted .BMP file.",
+    "details": "SDL (Simple DirectMedia Layer) through 2.0.12 has a heap-based buffer over-read in `Blit_3or4_to_3or4__inversed_rgb` in `video/SDL_blit_N.c` via a crafted .BMP file.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-3",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-03-23T22:38:33.248Z",
     "upstream": [
         "CVE-2023-44487"
     ],
-    "summary": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancell...",
+    "summary": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request...",
     "details": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the wild in August through October 2023.",
     "severity": [
         {

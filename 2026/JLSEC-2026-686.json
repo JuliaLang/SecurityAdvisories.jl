@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-686",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2025-11931",
         "GHSA-h957-386q-gm5j",
         "EUVD-2025-198522"
     ],
-    "summary": "Integer Underflow Leads to Out-of-Bounds Access in XChaCha20-Poly1305 Decrypt. This issue is hit...",
-    "details": "Integer Underflow Leads to Out-of-Bounds Access in XChaCha20-Poly1305 Decrypt. This issue is hit specifically with a call to the function wc_XChaCha20Poly1305_Decrypt() which is not used with TLS connections, only from direct calls from an application.",
+    "summary": "Integer Underflow Leads to Out-of-Bounds Access in XChaCha20-Poly1305 Decrypt",
+    "details": "Integer Underflow Leads to Out-of-Bounds Access in XChaCha20-Poly1305 Decrypt. This issue is hit specifically with a call to the function `wc_XChaCha20Poly1305_Decrypt()` which is not used with TLS connections, only from direct calls from an application.",
     "severity": [
         {
             "type": "CVSS_V3",

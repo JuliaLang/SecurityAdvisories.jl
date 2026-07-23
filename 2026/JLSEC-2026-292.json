@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-292",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-29159"
     ],
-    "details": "HDF5 through 1.14.3 contains a buffer overflow in H5Z__filter_scaleoffset, resulting in the corruption of the instruction pointer and causing denial of service or potential code execution.",
+    "details": "HDF5 through 1.14.3 contains a buffer overflow in `H5Z__filter_scaleoffset`, resulting in the corruption of the instruction pointer and causing denial of service or potential code execution.",
     "severity": [
         {
             "type": "CVSS_V3",

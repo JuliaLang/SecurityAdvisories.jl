@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-162",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2023-32636"
     ],
-    "summary": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of servi...",
+    "summary": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of...",
     "details": "A flaw was found in glib, where the gvariant deserialization code is vulnerable to a denial of service introduced by additional input validation added to resolve CVE-2023-29499. The offset table validation may be very slow. This bug does not affect any released version of glib but does affect glib distributors who followed the guidance of glib developers to backport the initial fix for CVE-2023-29499.",
     "severity": [
         {

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-720",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5392",
         "GHSA-52wm-3mqv-vmmj",
         "EUVD-2026-21229"
     ],
-    "summary": "Heap out-of-bounds read in PKCS7 parsing. A crafted PKCS7 message can trigger an OOB read on the...",
-    "details": "Heap out-of-bounds read in PKCS7 parsing. A crafted PKCS7 message can trigger an OOB read on the heap. The missing bounds check is in the indefinite-length end-of-content verification loop in PKCS7_VerifySignedData().",
+    "summary": "Heap out-of-bounds read in PKCS7 parsing",
+    "details": "Heap out-of-bounds read in PKCS7 parsing. A crafted PKCS7 message can trigger an OOB read on the heap. The missing bounds check is in the indefinite-length end-of-content verification loop in `PKCS7_VerifySignedData()`.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-735",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-55960",
         "GHSA-58fj-7xwc-45hq",
         "EUVD-2026-39545"
     ],
-    "summary": "Un-negotiated Raw Public Key (RFC 7250) accepted in place of an X.509 certificate, bypassing...",
-    "details": "Un-negotiated Raw Public Key (RFC 7250) accepted in place of an X.509 certificate, bypassing chain validation. A raw public key has no chain, so ParseCertRelative() accepts it without performing any trust verification; it must therefore only be accepted when RPK was actually negotiated for that peer. The check now defaults the expected type to X.509 (per RFC 7250/8446) when no type was negotiated, comparing against the received server certificate type on the client and the selected client certificate type on the server, and rejects any mismatch, including an un-negotiated raw public key, with UNSUPPORTED_CERTIFICATE. Only affects builds with Raw Public Key support (HAVE_RPK) enabled - disabled by default in a standalone build, but included in --enable-all.",
+    "summary": "Un-negotiated Raw Public Key (RFC 7250) accepted in place of an X.509 certificate, bypassing chain...",
+    "details": "Un-negotiated Raw Public Key (RFC 7250) accepted in place of an X.509 certificate, bypassing chain validation. A raw public key has no chain, so ParseCertRelative() accepts it without performing any trust verification; it must therefore only be accepted when RPK was actually negotiated for that peer. The check now defaults the expected type to X.509 (per RFC 7250/8446) when no type was negotiated, comparing against the received server certificate type on the client and the selected client certificate type on the server, and rejects any mismatch, including an un-negotiated raw public key, with `UNSUPPORTED_CERTIFICATE`. Only affects builds with Raw Public Key support (`HAVE_RPK`) enabled - disabled by default in a standalone build, but included in --enable-all.",
     "severity": [
         {
             "type": "CVSS_V3",

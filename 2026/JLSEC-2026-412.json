@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-412",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2024-0853",
         "GHSA-697h-9h25-w4fm",
         "EUVD-2024-16636"
     ],
-    "summary": "curl inadvertently kept the SSL session ID for connections in its cache even when the verify...",
+    "summary": "curl inadvertently kept the SSL session ID for connections in its cache even when the verify status...",
     "details": "curl inadvertently kept the SSL session ID for connections in its cache even when the verify status (*OCSP stapling*) test failed. A subsequent transfer to\nthe same hostname could then succeed if the session ID cache was still fresh, which then skipped the verify status check.",
     "severity": [
         {

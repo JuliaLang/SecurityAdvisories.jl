@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-642",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2025-12343"
     ],
-    "details": "A flaw was found in FFmpeg’s TensorFlow backend within the libavfilter/dnn_backend_tf.c source file. The issue occurs in the dnn_execute_model_tf() function, where a task object is freed multiple times in certain error-handling paths. This redundant memory deallocation can lead to a double-free condition, potentially causing FFmpeg or any application using it to crash when processing TensorFlow-based DNN models. This results in a denial-of-service scenario but does not allow arbitrary code execution under normal conditions.",
+    "details": "A flaw was found in FFmpeg’s TensorFlow backend within the `libavfilter/dnn_backend_tf.c` source file. The issue occurs in the `dnn_execute_model_tf()` function, where a task object is freed multiple times in certain error-handling paths. This redundant memory deallocation can lead to a double-free condition, potentially causing FFmpeg or any application using it to crash when processing TensorFlow-based DNN models. This results in a denial-of-service scenario but does not allow arbitrary code execution under normal conditions.",
     "severity": [
         {
             "type": "CVSS_V3",

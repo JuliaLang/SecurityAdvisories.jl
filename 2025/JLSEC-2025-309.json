@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-309",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2020-18768"
     ],
-    "summary": "There exists one heap buffer overflow in _TIFFmemcpy in tif_unix.c in libtiff 4.0.10, which allows a...",
-    "details": "There exists one heap buffer overflow in _TIFFmemcpy in tif_unix.c in libtiff 4.0.10, which allows an attacker to cause a denial-of-service through a crafted tiff file.",
+    "summary": "There exists one heap buffer overflow in `_TIFFmemcpy` in `tif_unix.c` in libtiff 4.0.10, which...",
+    "details": "There exists one heap buffer overflow in `_TIFFmemcpy` in `tif_unix.c` in libtiff 4.0.10, which allows an attacker to cause a denial-of-service through a crafted tiff file.",
     "severity": [
         {
             "type": "CVSS_V3",

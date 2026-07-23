@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-63",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2024-45491"
     ],
     "summary": "An issue was discovered in libexpat before 2.6.3",
-    "details": "An issue was discovered in libexpat before 2.6.3. dtdCopy in xmlparse.c can have an integer overflow for nDefaultAtts on 32-bit platforms (where UINT_MAX equals SIZE_MAX).",
+    "details": "An issue was discovered in libexpat before 2.6.3. dtdCopy in xmlparse.c can have an integer overflow for nDefaultAtts on 32-bit platforms (where `UINT_MAX` equals `SIZE_MAX`).",
     "severity": [
         {
             "type": "CVSS_V3",

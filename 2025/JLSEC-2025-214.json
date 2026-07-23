@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-214",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2021-44732"
     ],
-    "summary": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an m...",
-    "details": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an mbedtls_ssl_set_session() failure.",
+    "summary": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an...",
+    "details": "Mbed TLS before 3.0.1 has a double free in certain out-of-memory conditions, as demonstrated by an `mbedtls_ssl_set_session()` failure.",
     "severity": [
         {
             "type": "CVSS_V2",

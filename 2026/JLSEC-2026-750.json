@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-750",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6412",
         "GHSA-w3gw-f9wr-g6qx",
         "EUVD-2026-39560"
     ],
-    "summary": "Certificate policy and RFC 8446 compliance concerns regarding the continued acceptance of SHA-1...",
+    "summary": "Certificate policy and RFC 8446 compliance concerns regarding the continued acceptance of SHA-1/MD5...",
     "details": "Certificate policy and RFC 8446 compliance concerns regarding the continued acceptance of SHA-1/MD5 in certificate processing.",
     "severity": [
         {

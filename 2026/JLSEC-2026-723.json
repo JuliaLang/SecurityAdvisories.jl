@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-723",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5447",
         "GHSA-mx4j-fjqx-f8qj",
         "EUVD-2026-21183"
     ],
-    "summary": "Heap buffer overflow in CertFromX509 via AuthorityKeyIdentifier size confusion. A heap buffer...",
+    "summary": "Heap buffer overflow in CertFromX509 via AuthorityKeyIdentifier size confusion",
     "details": "Heap buffer overflow in CertFromX509 via AuthorityKeyIdentifier size confusion. A heap buffer overflow occurs when converting an X.509 certificate internally due to incorrect size handling of the AuthorityKeyIdentifier extension.",
     "severity": [
         {

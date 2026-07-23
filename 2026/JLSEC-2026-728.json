@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-728",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5479",
         "GHSA-3xr8-r75g-g9c6",
         "EUVD-2026-21292"
     ],
-    "summary": "In wolfSSL's EVP layer, the ChaCha20-Poly1305 AEAD decryption path in wolfSSL_EVP_CipherFinal ...",
-    "details": "In wolfSSL's EVP layer, the ChaCha20-Poly1305 AEAD decryption path in wolfSSL_EVP_CipherFinal (and related EVP cipher finalization functions) fails to verify the authentication tag before returning plaintext to the caller. When an application uses the EVP API to perform ChaCha20-Poly1305 decryption, the implementation computes or accepts the tag but does not compare it against the expected value.",
+    "summary": "In wolfSSL's EVP layer, the ChaCha20-Poly1305 AEAD decryption path in `wolfSSL_EVP_CipherFinal` (and...",
+    "details": "In wolfSSL's EVP layer, the ChaCha20-Poly1305 AEAD decryption path in `wolfSSL_EVP_CipherFinal` (and related EVP cipher finalization functions) fails to verify the authentication tag before returning plaintext to the caller. When an application uses the EVP API to perform ChaCha20-Poly1305 decryption, the implementation computes or accepts the tag but does not compare it against the expected value.",
     "severity": [
         {
             "type": "CVSS_V3",

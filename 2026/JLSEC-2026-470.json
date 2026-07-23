@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-470",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T17:12:07.051Z",
     "upstream": [
         "CVE-2020-14363",
         "GHSA-qmwg-hw9q-xg39",
         "EUVD-2020-6506"
     ],
-    "summary": "An integer overflow vulnerability leading to a double-free was found in libX11. This flaw allows...",
+    "summary": "An integer overflow vulnerability leading to a double-free was found in libX11",
     "details": "An integer overflow vulnerability leading to a double-free was found in libX11. This flaw allows a local privileged attacker to cause an application compiled with libX11 to crash, or in some cases, result in arbitrary code execution. The highest threat from this flaw is to confidentiality, integrity as well as system availability.",
     "severity": [
         {

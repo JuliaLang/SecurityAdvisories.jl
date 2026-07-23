@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-97",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T18:40:48.457Z",
     "upstream": [
         "CVE-2025-5372"
     ],
-    "summary": "A flaw was found in libssh versions built with OpenSSL versions older than 3.0, specifically in the ...",
-    "details": "A flaw was found in libssh versions built with OpenSSL versions older than 3.0, specifically in the ssh_kdf() function responsible for key derivation. Due to inconsistent interpretation of return values where OpenSSL uses 0 to indicate failure and libssh uses 0 for success—the function may mistakenly return a success status even when key derivation fails. This results in uninitialized cryptographic key buffers being used in subsequent communication, potentially compromising SSH sessions' confidentiality, integrity, and availability.",
+    "summary": "A flaw was found in libssh versions built with OpenSSL versions older than 3.0, specifically in the...",
+    "details": "A flaw was found in libssh versions built with OpenSSL versions older than 3.0, specifically in the `ssh_kdf()` function responsible for key derivation. Due to inconsistent interpretation of return values where OpenSSL uses 0 to indicate failure and libssh uses 0 for success—the function may mistakenly return a success status even when key derivation fails. This results in uninitialized cryptographic key buffers being used in subsequent communication, potentially compromising SSH sessions' confidentiality, integrity, and availability.",
     "severity": [
         {
             "type": "CVSS_V3",

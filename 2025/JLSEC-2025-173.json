@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-173",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-21T14:51:00.329Z",
     "upstream": [
         "CVE-2025-59375"
     ],
-    "summary": "libexpat in Expat before 2.7.2 allows attackers to trigger large dynamic memory allocations via a sm...",
+    "summary": "libexpat in Expat before 2.7.2 allows attackers to trigger large dynamic memory allocations via a...",
     "details": "libexpat in Expat before 2.7.2 allows attackers to trigger large dynamic memory allocations via a small document that is submitted for parsing.",
     "severity": [
         {

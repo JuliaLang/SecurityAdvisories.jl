@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-253",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2019-14973"
     ],
-    "summary": "_TIFFCheckMalloc and _TIFFCheckRealloc in tif_aux.c in LibTIFF through 4.0.10 mishandle Integer Over...",
-    "details": "_TIFFCheckMalloc and _TIFFCheckRealloc in tif_aux.c in LibTIFF through 4.0.10 mishandle Integer Overflow checks because they rely on compiler behavior that is undefined by the applicable C standards. This can, for example, lead to an application crash.",
+    "summary": "`_TIFFCheckMalloc` and `_TIFFCheckRealloc` in `tif_aux.c` in LibTIFF through 4.0.10 mishandle...",
+    "details": "`_TIFFCheckMalloc` and `_TIFFCheckRealloc` in `tif_aux.c` in LibTIFF through 4.0.10 mishandle Integer Overflow checks because they rely on compiler behavior that is undefined by the applicable C standards. This can, for example, lead to an application crash.",
     "severity": [
         {
             "type": "CVSS_V2",

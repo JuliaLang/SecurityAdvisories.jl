@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-265",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-0908"
     ],
-    "summary": "Null source pointer passed as an argument to memcpy() function within TIFFFetchNormalTag () in tif_d...",
-    "details": "Null source pointer passed as an argument to memcpy() function within TIFFFetchNormalTag () in tif_dirread.c in libtiff versions up to 4.3.0 could lead to Denial of Service via crafted TIFF file.",
+    "summary": "Null source pointer passed as an argument to memcpy() function within TIFFFetchNormalTag () in...",
+    "details": "Null source pointer passed as an argument to memcpy() function within TIFFFetchNormalTag () in `tif_dirread.c` in libtiff versions up to 4.3.0 could lead to Denial of Service via crafted TIFF file.",
     "severity": [
         {
             "type": "CVSS_V2",

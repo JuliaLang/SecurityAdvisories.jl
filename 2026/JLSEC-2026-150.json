@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-150",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-17T15:47:23.992Z",
     "upstream": [
         "CVE-2026-32775",
         "EUVD-2026-12345"
     ],
-    "details": "libexif through 0.6.25 has a flaw in decoding MakerNotes. If the exif_mnote_data_get_value function gets passed in a 0 size, the passed in-buffer would be overwritten due to an integer underflow.",
+    "details": "libexif through 0.6.25 has a flaw in decoding MakerNotes. If the `exif_mnote_data_get_value` function gets passed in a 0 size, the passed in-buffer would be overwritten due to an integer underflow.",
     "severity": [
         {
             "type": "CVSS_V3",

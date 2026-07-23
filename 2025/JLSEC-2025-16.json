@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-16",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2019-6462"
     ],
     "summary": "An issue was discovered in cairo 1.16.0",
-    "details": "An issue was discovered in cairo 1.16.0. There is an infinite loop in the function _arc_error_normalized in the file cairo-arc.c, related to _arc_max_angle_for_tolerance_normalized.",
+    "details": "An issue was discovered in cairo 1.16.0. There is an infinite loop in the function `_arc_error_normalized` in the file cairo-arc.c, related to `_arc_max_angle_for_tolerance_normalized`.",
     "severity": [
         {
             "type": "CVSS_V2",

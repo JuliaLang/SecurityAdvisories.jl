@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-153",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2019-12450"
     ],
-    "summary": "file_copy_fallback in gio/gfile.c in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict fil...",
-    "details": "file_copy_fallback in gio/gfile.c in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict file permissions while a copy operation is in progress. Instead, default permissions are used.",
+    "summary": "`file_copy_fallback` in `gio/gfile.c` in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict...",
+    "details": "`file_copy_fallback` in `gio/gfile.c` in GNOME GLib 2.15.0 through 2.61.1 does not properly restrict file permissions while a copy operation is in progress. Instead, default permissions are used.",
     "severity": [
         {
             "type": "CVSS_V2",

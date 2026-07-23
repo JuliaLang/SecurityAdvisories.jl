@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-21",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-01T18:37:49.977Z",
     "upstream": [
         "CVE-2020-22219"
     ],
-    "summary": "Buffer Overflow vulnerability in function `bitwriter_grow_` in flac",
-    "details": "Buffer Overflow vulnerability in function bitwriter_grow_ in flac before 1.4.0 allows remote attackers to run arbitrary code via crafted input to the encoder.",
+    "summary": "Buffer Overflow vulnerability in function `bitwriter_grow_` in flac before 1.4.0 allows remote...",
+    "details": "Buffer Overflow vulnerability in function `bitwriter_grow_` in flac before 1.4.0 allows remote attackers to run arbitrary code via crafted input to the encoder.",
     "severity": [
         {
             "type": "CVSS_V3",

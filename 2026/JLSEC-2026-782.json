@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-782",
-    "modified": "2026-07-23T14:46:44.710Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-23T14:46:44.710Z",
     "upstream": [
         "CVE-2026-0967"
     ],
-    "details": "A flaw was found in libssh. A remote attacker, by controlling client configuration files or known_hosts files, could craft specific hostnames that when processed by the `match_pattern()` function can lead to inefficient regular expression backtracking. This can cause timeouts and resource exhaustion, resulting in a Denial of Service (DoS) for the client.",
+    "details": "A flaw was found in libssh. A remote attacker, by controlling client configuration files or `known_hosts` files, could craft specific hostnames that when processed by the `match_pattern()` function can lead to inefficient regular expression backtracking. This can cause timeouts and resource exhaustion, resulting in a Denial of Service (DoS) for the client.",
     "severity": [
         {
             "type": "CVSS_V3",

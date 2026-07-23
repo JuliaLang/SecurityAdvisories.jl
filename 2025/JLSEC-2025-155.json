@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-155",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2020-35457"
     ],
-    "summary": "GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in g_op...",
-    "details": "GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in g_option_group_add_entries. NOTE: the vendor's position is \"Realistically this is not a security issue. The standard pattern is for callers to provide a static list of option entries in a fixed number of calls to g_option_group_add_entries().\" The researcher states that this pattern is undocumented",
+    "summary": "GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in...",
+    "details": "GNOME GLib before 2.65.3 has an integer overflow, that might lead to an out-of-bounds write, in `g_option_group_add_entries`. NOTE: the vendor's position is \"Realistically this is not a security issue. The standard pattern is for callers to provide a static list of option entries in a fixed number of calls to `g_option_group_add_entries()`.\" The researcher states that this pattern is undocumented",
     "severity": [
         {
             "type": "CVSS_V2",

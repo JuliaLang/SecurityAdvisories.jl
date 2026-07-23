@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-111",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2020-35965"
     ],
-    "summary": "decode_frame in libavcodec/exr.c in FFmpeg 4.3.1 has an out-of-bounds write because of errors in cal...",
-    "details": "decode_frame in libavcodec/exr.c in FFmpeg 4.3.1 has an out-of-bounds write because of errors in calculations of when to perform memset zero operations.",
+    "summary": "`decode_frame` in `libavcodec/exr.c` in FFmpeg 4.3.1 has an out-of-bounds write because of errors in...",
+    "details": "`decode_frame` in `libavcodec/exr.c` in FFmpeg 4.3.1 has an out-of-bounds write because of errors in calculations of when to perform memset zero operations.",
     "severity": [
         {
             "type": "CVSS_V2",

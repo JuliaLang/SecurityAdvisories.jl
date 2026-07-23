@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-267",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-0924"
     ],
-    "summary": "Out-of-bounds Read error in tiffcp in libtiff 4.3.0 allows attackers to cause a denial-of-service vi...",
+    "summary": "Out-of-bounds Read error in tiffcp in libtiff 4.3.0 allows attackers to cause a denial-of-service...",
     "details": "Out-of-bounds Read error in tiffcp in libtiff 4.3.0 allows attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit 408976c4.",
     "severity": [
         {

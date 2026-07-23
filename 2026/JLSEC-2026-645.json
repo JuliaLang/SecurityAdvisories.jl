@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-645",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2025-59732",
@@ -9,7 +9,7 @@
         "EUVD-2025-32179"
     ],
     "summary": "When decoding an OpenEXR file that uses DWAA or DWAB compression, there's an implicit assumption...",
-    "details": "When decoding an OpenEXR file that uses DWAA or DWAB compression, there's an implicit assumption that the height and width are divisible by 8.\n\nIf the height or width of the image is not divisible by 8, the copy loops at [0] and [1] will continue to write until the next multiple of 8.\n\nThe buffer td->uncompressed_data is allocated in decode_block based on the precise height and width of the image, so the \"rounded-up\" multiple of 8 in the copy loop can exceed the buffer bounds, and the write block starting at [2] can corrupt following heap memory.\n\nWe recommend upgrading to version 8.0 or beyond.",
+    "details": "When decoding an OpenEXR file that uses DWAA or DWAB compression, there's an implicit assumption that the height and width are divisible by 8.\n\nIf the height or width of the image is not divisible by 8, the copy loops at [0] and [1] will continue to write until the next multiple of 8.\n\nThe buffer `td->uncompressed_data` is allocated in `decode_block` based on the precise height and width of the image, so the \"rounded-up\" multiple of 8 in the copy loop can exceed the buffer bounds, and the write block starting at [2] can corrupt following heap memory.\n\nWe recommend upgrading to version 8.0 or beyond.",
     "severity": [
         {
             "type": "CVSS_V4",

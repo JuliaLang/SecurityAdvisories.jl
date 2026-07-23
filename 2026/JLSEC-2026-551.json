@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-551",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-26T19:31:24.313Z",
     "upstream": [
         "CVE-2025-50952"
     ],
-    "details": "openjpeg v 2.5.0 was discovered to contain a NULL pointer dereference via the component /openjp2/dwt.c.",
+    "details": "openjpeg v 2.5.0 was discovered to contain a NULL pointer dereference via the component `/openjp2/dwt.c`.",
     "severity": [
         {
             "type": "CVSS_V3",

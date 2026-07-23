@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-245",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2025-5914"
     ],
-    "summary": "A vulnerability has been identified in the libarchive library, specifically within the archive_read_...",
-    "details": "A vulnerability has been identified in the libarchive library, specifically within the archive_read_format_rar_seek_data() function. This flaw involves an integer overflow that can ultimately lead to a double-free condition. Exploiting a double-free vulnerability can result in memory corruption, enabling an attacker to execute arbitrary code or cause a denial-of-service condition.",
+    "summary": "A vulnerability has been identified in the libarchive library, specifically within the...",
+    "details": "A vulnerability has been identified in the libarchive library, specifically within the `archive_read_format_rar_seek_data()` function. This flaw involves an integer overflow that can ultimately lead to a double-free condition. Exploiting a double-free vulnerability can result in memory corruption, enabling an attacker to execute arbitrary code or cause a denial-of-service condition.",
     "severity": [
         {
             "type": "CVSS_V3",

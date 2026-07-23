@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-270",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-1622"
     ],
-    "summary": "LibTIFF master branch has an out-of-bounds read in LZWDecode in libtiff/tif_lzw.c:619, allowing atta...",
-    "details": "LibTIFF master branch has an out-of-bounds read in LZWDecode in libtiff/tif_lzw.c:619, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit b4e79bfa.",
+    "summary": "LibTIFF master branch has an out-of-bounds read in LZWDecode in `libtiff/tif_lzw.c:619`, allowing...",
+    "details": "LibTIFF master branch has an out-of-bounds read in LZWDecode in `libtiff/tif_lzw.c:619`, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit b4e79bfa.",
     "severity": [
         {
             "type": "CVSS_V2",

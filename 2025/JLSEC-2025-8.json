@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-8",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-09T17:08:38.385Z",
     "upstream": [
         "CVE-2025-61985",
         "GHSA-8gmf-r74v-362p",
         "EUVD-2025-32134"
     ],
-    "summary": "ssh in OpenSSH before 10.1 allows the '\\0' character in an ssh:// URI, potentially leading to...",
-    "details": "ssh in OpenSSH before 10.1 allows the '\\0' character in an ssh:// URI, potentially leading to code execution when a ProxyCommand is used.",
+    "summary": "ssh in OpenSSH before 10.1 allows the '`\\0`' character in an `ssh://` URI, potentially leading to code...",
+    "details": "ssh in OpenSSH before 10.1 allows the '`\\0`' character in an `ssh://` URI, potentially leading to code execution when a ProxyCommand is used.",
     "severity": [
         {
             "type": "CVSS_V3",

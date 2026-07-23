@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-113",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2020-21041"
     ],
-    "summary": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via apng_do_inverse_blend in libavcodec/pngenc.c,...",
-    "details": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via apng_do_inverse_blend in libavcodec/pngenc.c, which could let a remote malicious user cause a Denial of Service",
+    "summary": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via `apng_do_inverse_blend` in...",
+    "details": "Buffer Overflow vulnerability exists in FFmpeg 4.1 via `apng_do_inverse_blend` in `libavcodec/pngenc.c`, which could let a remote malicious user cause a Denial of Service",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-200",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-27T13:45:07.015Z",
     "upstream": [
         "CVE-2020-21528"
     ],
-    "details": "A Segmentation Fault issue discovered in in ieee_segment function in outieee.c in nasm 2.14.03 and 2.15 allows remote attackers to cause a denial of service via crafted assembly file.",
+    "details": "A Segmentation Fault issue discovered in in `ieee_segment` function in outieee.c in nasm 2.14.03 and 2.15 allows remote attackers to cause a denial of service via crafted assembly file.",
     "severity": [
         {
             "type": "CVSS_V3",

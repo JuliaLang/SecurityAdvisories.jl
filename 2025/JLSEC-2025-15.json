@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-15",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T13:22:08.213Z",
     "upstream": [
         "CVE-2019-6461"
     ],
     "summary": "An issue was discovered in cairo 1.16.0",
-    "details": "An issue was discovered in cairo 1.16.0. There is an assertion problem in the function _cairo_arc_in_direction in the file cairo-arc.c.",
+    "details": "An issue was discovered in cairo 1.16.0. There is an assertion problem in the function `_cairo_arc_in_direction` in the file cairo-arc.c.",
     "severity": [
         {
             "type": "CVSS_V2",

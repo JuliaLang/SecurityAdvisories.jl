@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-564",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-27T18:18:39.624Z",
     "upstream": [
         "CVE-2026-24881",
         "GHSA-5w36-x85h-pphm",
         "EUVD-2026-4768"
     ],
-    "summary": "In GnuPG before 2.5.17, a crafted CMS (S/MIME) EnvelopedData message carrying an oversized...",
+    "summary": "In GnuPG before 2.5.17, a crafted CMS (S/MIME) EnvelopedData message carrying an oversized wrapped...",
     "details": "In GnuPG before 2.5.17, a crafted CMS (S/MIME) EnvelopedData message carrying an oversized wrapped session key can cause a stack-based buffer overflow in gpg-agent during PKDECRYPT--kem=CMS handling. This can easily be leveraged for denial of service; however, there is also memory corruption that could lead to remote code execution.",
     "severity": [
         {

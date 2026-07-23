@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-62",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2024-45490"
     ],
     "summary": "An issue was discovered in libexpat before 2.6.3",
-    "details": "An issue was discovered in libexpat before 2.6.3. xmlparse.c does not reject a negative length for XML_ParseBuffer.",
+    "details": "An issue was discovered in libexpat before 2.6.3. xmlparse.c does not reject a negative length for `XML_ParseBuffer`.",
     "severity": [
         {
             "type": "CVSS_V3",

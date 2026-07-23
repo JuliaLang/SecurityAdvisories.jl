@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-666",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T14:59:33.004Z",
     "upstream": [
         "CVE-2026-47104",
@@ -9,7 +9,7 @@
         "EUVD-2026-32500"
     ],
     "summary": "libusb before version 1.0.30 contains a one-byte out-of-bounds read vulnerability in...",
-    "details": "libusb before version 1.0.30 contains a one-byte out-of-bounds read vulnerability in parse_iad_array() in descriptor.c that allows attackers to trigger a denial of service by supplying a malformed USB descriptor whose bLength equals size minus one, causing the bounds check to use the original buffer size instead of the remaining size. Attackers in virtualized environments with USB passthrough can supply crafted descriptors through libusb_get_active_interface_association_descriptors or libusb_get_interface_association_descriptors to read one byte past the end of the malloc allocation, resulting in a denial of service.",
+    "details": "libusb before version 1.0.30 contains a one-byte out-of-bounds read vulnerability in `parse_iad_array()` in descriptor.c that allows attackers to trigger a denial of service by supplying a malformed USB descriptor whose bLength equals size minus one, causing the bounds check to use the original buffer size instead of the remaining size. Attackers in virtualized environments with USB passthrough can supply crafted descriptors through `libusb_get_active_interface_association_descriptors` or `libusb_get_interface_association_descriptors` to read one byte past the end of the malloc allocation, resulting in a denial of service.",
     "severity": [
         {
             "type": "CVSS_V3",

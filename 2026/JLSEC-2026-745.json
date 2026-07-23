@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-745",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6291",
         "GHSA-hvwm-w7rw-23cv",
         "EUVD-2026-39482"
     ],
-    "summary": "Bleichenbacher padding oracle in PKCS#7 KTRI decryption. When decrypting PKCS#7 EnvelopedData...",
+    "summary": "Bleichenbacher padding oracle in PKCS#7 KTRI decryption",
     "details": "Bleichenbacher padding oracle in PKCS#7 KTRI decryption. When decrypting PKCS#7 EnvelopedData using RSA PKCS#1 v1.5 key transport, wolfSSL returned distinguishable error codes depending on whether RSA padding validation failed versus whether the decrypted content was malformed. An attacker able to submit crafted EnvelopedData messages and observe error responses could use this as a padding oracle to incrementally recover the encrypted Content Encryption Key (CEK). The fix generates a deterministic pseudo-random fake CEK on padding failure (via HMAC-SHA256) and proceeds with decryption identically, using constant-time operations throughout, so that all failure paths produce the same error regardless of padding validity.",
     "severity": [
         {

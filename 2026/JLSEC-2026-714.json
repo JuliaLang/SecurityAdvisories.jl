@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-714",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5187",
         "EUVD-2026-21068"
     ],
-    "details": "Two potential heap out-of-bounds write locations existed in DecodeObjectId() in wolfcrypt/src/asn.c. First, a bounds check only validates one available slot before writing two OID arc values (out[0] and out[1]), enabling a 2-byte out-of-bounds write when outSz equals 1. Second, multiple callers pass sizeof(decOid) (64 bytes on 64-bit platforms) instead of the element count MAX_OID_SZ (32), causing the function to accept crafted OIDs with 33 or more arcs that write past the end of the allocated buffer.",
+    "details": "Two potential heap out-of-bounds write locations existed in DecodeObjectId() in `wolfcrypt/src/asn.c`. First, a bounds check only validates one available slot before writing two OID arc values (out[0] and out[1]), enabling a 2-byte out-of-bounds write when outSz equals 1. Second, multiple callers pass sizeof(decOid) (64 bytes on 64-bit platforms) instead of the element count `MAX_OID_SZ` (32), causing the function to accept crafted OIDs with 33 or more arcs that write past the end of the allocated buffer.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-684",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2024-5814",
         "GHSA-8cr7-x5g8-m3f3",
         "EUVD-2024-46962"
     ],
-    "summary": "A malicious TLS1.2 server can force a TLS1.3 client with downgrade capability to use a...",
+    "summary": "A malicious TLS1.2 server can force a TLS1.3 client with downgrade capability to use a ciphersuite...",
     "details": "A malicious TLS1.2 server can force a TLS1.3 client with downgrade capability to use a ciphersuite that it did not agree to and achieve a successful connection. This is because, aside from the extensions, the client was skipping fully parsing the server hello.  https://doi.org/10.46586/tches.v2024.i1.457-500",
     "severity": [
         {

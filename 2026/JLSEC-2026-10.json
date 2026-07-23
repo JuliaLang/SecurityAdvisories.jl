@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-10",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-03-24T16:21:52.681Z",
     "upstream": [
         "CVE-2025-28164"
     ],
-    "summary": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of s...",
-    "details": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of service via png_create_read_struct() function.",
+    "summary": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of...",
+    "details": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of service via `png_create_read_struct()` function.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-243",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2025-25724",
         "GHSA-722w-734r-qg74",
         "EUVD-2025-5869"
     ],
-    "summary": "list_item_verbose in tar/util.c in libarchive through 3.7.7 does not check an strftime return value,...",
-    "details": "list_item_verbose in tar/util.c in libarchive through 3.7.7 does not check an strftime return value, which can lead to a denial of service or unspecified other impact via a crafted TAR archive that is read with a verbose value of 2. For example, the 100-byte buffer may not be sufficient for a custom locale.",
+    "summary": "`list_item_verbose` in `tar/util.c` in libarchive through 3.7.7 does not check an strftime return...",
+    "details": "`list_item_verbose` in `tar/util.c` in libarchive through 3.7.7 does not check an strftime return value, which can lead to a denial of service or unspecified other impact via a crafted TAR archive that is read with a verbose value of 2. For example, the 100-byte buffer may not be sufficient for a custom locale.",
     "severity": [
         {
             "type": "CVSS_V3",

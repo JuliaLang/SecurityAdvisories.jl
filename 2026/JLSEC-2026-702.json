@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-702",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-2646",
         "GHSA-24vq-qfc5-qrmj",
         "EUVD-2026-13137"
     ],
-    "summary": "A heap-buffer-overflow vulnerability exists in wolfSSL's wolfSSL_d2i_SSL_SESSION() function. When...",
-    "details": "A heap-buffer-overflow vulnerability exists in wolfSSL's wolfSSL_d2i_SSL_SESSION() function. When deserializing session data with SESSION_CERTS enabled, certificate and session id lengths are read from an untrusted input without bounds validation, allowing an attacker to overflow fixed-size buffers and corrupt heap memory. A maliciously crafted session would need to be loaded from an external source to trigger this vulnerability. Internal sessions were not vulnerable.",
+    "summary": "A heap-buffer-overflow vulnerability exists in wolfSSL's `wolfSSL_d2i_SSL_SESSION()` function",
+    "details": "A heap-buffer-overflow vulnerability exists in wolfSSL's `wolfSSL_d2i_SSL_SESSION()` function. When deserializing session data with `SESSION_CERTS` enabled, certificate and session id lengths are read from an untrusted input without bounds validation, allowing an attacker to overflow fixed-size buffers and corrupt heap memory. A maliciously crafted session would need to be loaded from an external source to trigger this vulnerability. Internal sessions were not vulnerable.",
     "severity": [
         {
             "type": "CVSS_V3",

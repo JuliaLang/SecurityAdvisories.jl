@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-65",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T13:28:40.708Z",
     "upstream": [
         "CVE-2024-50602"
     ],
     "summary": "An issue was discovered in libexpat before 2.6.4",
-    "details": "An issue was discovered in libexpat before 2.6.4. There is a crash within the XML_ResumeParser function because XML_StopParser can stop/suspend an unstarted parser.",
+    "details": "An issue was discovered in libexpat before 2.6.4. There is a crash within the `XML_ResumeParser` function because `XML_StopParser` can stop/suspend an unstarted parser.",
     "severity": [
         {
             "type": "CVSS_V3",

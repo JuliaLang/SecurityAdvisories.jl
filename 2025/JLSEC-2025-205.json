@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-205",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-36422"
     ],
     "summary": "An issue was discovered in Arm Mbed TLS before 2.23.0",
-    "details": "An issue was discovered in Arm Mbed TLS before 2.23.0. A side channel allows recovery of an ECC private key, related to mbedtls_ecp_check_pub_priv, mbedtls_pk_parse_key, mbedtls_pk_parse_keyfile, mbedtls_ecp_mul, and mbedtls_ecp_mul_restartable.",
+    "details": "An issue was discovered in Arm Mbed TLS before 2.23.0. A side channel allows recovery of an ECC private key, related to `mbedtls_ecp_check_pub_priv`, `mbedtls_pk_parse_key`, `mbedtls_pk_parse_keyfile`, `mbedtls_ecp_mul`, and `mbedtls_ecp_mul_restartable`.",
     "severity": [
         {
             "type": "CVSS_V2",

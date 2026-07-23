@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-767",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8084",
         "GHSA-jmvp-7877-wr2f",
         "EUVD-2026-28417"
     ],
-    "summary": "A vulnerability was determined in OSGeo gdal up to 3.13.0dev-4. This vulnerability affects the...",
-    "details": "A vulnerability was determined in OSGeo gdal up to 3.13.0dev-4. This vulnerability affects the function memmove of the file frmts/hdf4/hdf-eos/SWapi.c of the component HDF-EOS Grid File Handler. This manipulation causes out-of-bounds read. The attack is restricted to local execution. The exploit has been publicly disclosed and may be utilized. Upgrading to version 3.13.0RC1 is able to resolve this issue. Patch name: a791f70f8eaec540974ec989ca6fb00266b7646c. Upgrading the affected component is advised.",
+    "summary": "A vulnerability was determined in OSGeo gdal up to 3.13.0dev-4",
+    "details": "A vulnerability was determined in OSGeo gdal up to 3.13.0dev-4. This vulnerability affects the function memmove of the file `frmts/hdf4/hdf-eos/SWapi.c` of the component HDF-EOS Grid File Handler. This manipulation causes out-of-bounds read. The attack is restricted to local execution. The exploit has been publicly disclosed and may be utilized. Upgrading to version 3.13.0RC1 is able to resolve this issue. Patch name: a791f70f8eaec540974ec989ca6fb00266b7646c. Upgrading the affected component is advised.",
     "severity": [
         {
             "type": "CVSS_V2",

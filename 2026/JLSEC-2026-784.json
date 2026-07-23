@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-784",
-    "modified": "2026-07-23T14:46:44.710Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-23T14:46:44.710Z",
     "upstream": [
         "CVE-2026-3731"
     ],
-    "details": "A weakness has been identified in libssh up to 0.11.3. The impacted element is the function sftp_extensions_get_name/sftp_extensions_get_data of the file src/sftp.c of the component SFTP Extension Name Handler. Executing a manipulation of the argument idx can lead to out-of-bounds read. The attack may be performed from remote. Upgrading to version 0.11.4 and 0.12.0 is sufficient to resolve this issue. This patch is called 855a0853ad3abd4a6cd85ce06fce6d8d4c7a0b60. You should upgrade the affected component.",
+    "details": "A weakness has been identified in libssh up to 0.11.3. The impacted element is the function `sftp_extensions_get_name/sftp_extensions_get_data` of the file `src/sftp.c` of the component SFTP Extension Name Handler. Executing a manipulation of the argument idx can lead to out-of-bounds read. The attack may be performed from remote. Upgrading to version 0.11.4 and 0.12.0 is sufficient to resolve this issue. This patch is called 855a0853ad3abd4a6cd85ce06fce6d8d4c7a0b60. You should upgrade the affected component.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-663",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-11T04:13:36.542Z",
     "upstream": [
         "CVE-2026-58051",
         "GHSA-c5f3-hwj2-xp5p",
         "EUVD-2026-39971"
     ],
-    "summary": "libssh2 through 1.11.1 grows its publickey list with SSH2_REALLOC but does not zero-initialize...",
-    "details": "libssh2 through 1.11.1 grows its publickey list with SSH2_REALLOC but does not zero-initialize new entries before parsing populates them, so a parse failure reaching the cleanup path leaves libssh2_publickey_list_free operating on an uninitialized entry. A malicious SSH server offering the publickey subsystem can use a malformed response to make cleanup free an uninitialized, attacker-influenceable attrs pointer in a connecting libssh2 client.",
+    "summary": "libssh2 through 1.11.1 grows its publickey list with `SSH2_REALLOC` but does not zero-initialize new...",
+    "details": "libssh2 through 1.11.1 grows its publickey list with `SSH2_REALLOC` but does not zero-initialize new entries before parsing populates them, so a parse failure reaching the cleanup path leaves `libssh2_publickey_list_free` operating on an uninitialized entry. A malicious SSH server offering the publickey subsystem can use a malformed response to make cleanup free an uninitialized, attacker-influenceable attrs pointer in a connecting libssh2 client.",
     "severity": [
         {
             "type": "CVSS_V3",

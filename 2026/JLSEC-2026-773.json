@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-773",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-16T13:20:54.142Z",
     "upstream": [
         "CVE-2026-6231"
     ],
-    "details": "The bson_validate function may return early on specific inputs and incorrectly report success. This behavior could result in skipping validation for BSON data, allowing malformed or invalid UTF-8 sequences to bypass validation and be processed incorrectly. The issue may affect applications that rely on these functions to validate untrusted BSON data before further processing. This issue affects MongoDB C Driver versions prior to 1.30.5, MongoDB C Driver version 2.0.0 and MongoDB C Driver version 2.0.1",
+    "details": "The `bson_validate` function may return early on specific inputs and incorrectly report success. This behavior could result in skipping validation for BSON data, allowing malformed or invalid UTF-8 sequences to bypass validation and be processed incorrectly. The issue may affect applications that rely on these functions to validate untrusted BSON data before further processing. This issue affects MongoDB C Driver versions prior to 1.30.5, MongoDB C Driver version 2.0.0 and MongoDB C Driver version 2.0.1",
     "severity": [
         {
             "type": "CVSS_V3",

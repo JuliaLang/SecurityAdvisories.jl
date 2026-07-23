@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-135",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-36619"
     ],
-    "summary": "FFmpeg n6.1.1 has a vulnerability in the WAVARC decoder of the libavcodec library which allows for a...",
+    "summary": "FFmpeg n6.1.1 has a vulnerability in the WAVARC decoder of the libavcodec library which allows for...",
     "details": "FFmpeg n6.1.1 has a vulnerability in the WAVARC decoder of the libavcodec library which allows for an integer overflow when handling certain block types, leading to a denial-of-service (DoS) condition.",
     "severity": [
         {

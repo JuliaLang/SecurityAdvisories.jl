@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-756",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-7511",
         "GHSA-69q5-vhm6-656f",
         "EUVD-2026-39581"
     ],
-    "summary": "PKCS7_verify signer confusion allows forged signatures, where the signer associated with a...",
-    "details": "PKCS7_verify signer confusion allows forged signatures, where the signer associated with a signature is not correctly bound, permitting a forged signature to be accepted.",
+    "summary": "`PKCS7_verify` signer confusion allows forged signatures, where the signer associated with a...",
+    "details": "`PKCS7_verify` signer confusion allows forged signatures, where the signer associated with a signature is not correctly bound, permitting a forged signature to be accepted.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-627",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-25T17:41:14.392Z",
     "upstream": [
         "CVE-2026-41035",
         "GHSA-m34r-4v3r-pp9v",
         "EUVD-2026-23215"
     ],
-    "summary": "In rsync 3.0.1 through 3.4.1, receive_xattr relies on an untrusted length value during a qsort...",
-    "details": "In rsync 3.0.1 through 3.4.1, receive_xattr relies on an untrusted length value during a qsort call, leading to a receiver use-after-free. The victim must run rsync with -X (aka --xattrs). On Linux, many (but not all) common configurations are vulnerable. Non-Linux platforms are more widely vulnerable.",
+    "summary": "In rsync 3.0.1 through 3.4.1, `receive_xattr` relies on an untrusted length value during a qsort...",
+    "details": "In rsync 3.0.1 through 3.4.1, `receive_xattr` relies on an untrusted length value during a qsort call, leading to a receiver use-after-free. The victim must run rsync with -X (aka --xattrs). On Linux, many (but not all) common configurations are vulnerable. Non-Linux platforms are more widely vulnerable.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-353",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2026-29043",
         "EUVD-2026-21406"
     ],
-    "details": "HDF5 is software for managing data. In 1.14.1-2 and earlier, an attacker who can control an h5 file parsed by HDF5 can trigger a write-based heap buffer overflow condition in the H5T__ref_mem_setnull method. This can lead to a denial-of-service condition, and potentially further issues such as remote code execution depending on the practical exploitability of the heap overflow against modern operating systems.",
+    "details": "HDF5 is software for managing data. In 1.14.1-2 and earlier, an attacker who can control an h5 file parsed by HDF5 can trigger a write-based heap buffer overflow condition in the `H5T__ref_mem_setnull` method. This can lead to a denial-of-service condition, and potentially further issues such as remote code execution depending on the practical exploitability of the heap overflow against modern operating systems.",
     "severity": [
         {
             "type": "CVSS_V3",

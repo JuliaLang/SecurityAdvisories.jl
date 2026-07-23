@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-649",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-26T20:24:16.337Z",
     "upstream": [
         "CVE-2026-30997"
     ],
-    "details": "An out-of-bounds read in the read_global_param() function (libavcodec/av1dec.c) of FFmpeg v8.0.1 allows attackers to cause a Denial of Service (DoS) via a crafted input.",
+    "details": "An out-of-bounds read in the `read_global_param()` function (`libavcodec/av1dec.c`) of FFmpeg v8.0.1 allows attackers to cause a Denial of Service (DoS) via a crafted input.",
     "severity": [
         {
             "type": "CVSS_V3",

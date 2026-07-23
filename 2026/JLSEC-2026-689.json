@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-689",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2025-7394",
         "GHSA-jgh6-fqf6-cpj8",
         "EUVD-2025-21938"
     ],
-    "summary": "In the OpenSSL compatibility layer implementation, the function RAND_poll() was not behaving as...",
-    "details": "In the OpenSSL compatibility layer implementation, the function RAND_poll() was not behaving as expected and leading to the potential for predictable values returned from RAND_bytes() after fork() is called. This can lead to weak or predictable random numbers generated in applications that are both using RAND_bytes() and doing fork() operations. This only affects applications explicitly calling RAND_bytes() after fork() and does not affect any internal TLS operations. Although RAND_bytes() documentation in OpenSSL calls out not being safe for use with fork() without first calling RAND_poll(), an additional code change was also made in wolfSSL to make RAND_bytes() behave similar to OpenSSL after a fork() call without calling RAND_poll(). Now the Hash-DRBG used gets reseeded after detecting running in a new process. If making use of RAND_bytes() and calling fork() we recommend updating to the latest version of wolfSSL. Thanks to Per Allansson from Appgate for the report.",
+    "summary": "In the OpenSSL compatibility layer implementation, the function `RAND_poll()` was not behaving as...",
+    "details": "In the OpenSSL compatibility layer implementation, the function `RAND_poll()` was not behaving as expected and leading to the potential for predictable values returned from `RAND_bytes()` after fork() is called. This can lead to weak or predictable random numbers generated in applications that are both using `RAND_bytes()` and doing fork() operations. This only affects applications explicitly calling `RAND_bytes()` after fork() and does not affect any internal TLS operations. Although `RAND_bytes()` documentation in OpenSSL calls out not being safe for use with fork() without first calling `RAND_poll()`, an additional code change was also made in wolfSSL to make `RAND_bytes()` behave similar to OpenSSL after a fork() call without calling `RAND_poll()`. Now the Hash-DRBG used gets reseeded after detecting running in a new process. If making use of `RAND_bytes()` and calling fork() we recommend updating to the latest version of wolfSSL. Thanks to Per Allansson from Appgate for the report.",
     "severity": [
         {
             "type": "CVSS_V3",

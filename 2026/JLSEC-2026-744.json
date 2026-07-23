@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-744",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6094",
         "GHSA-h6gc-rmv2-74g6",
         "EUVD-2026-39480"
     ],
-    "summary": "Heap buffer overread in wc_PKCS7_DecodeEnvelopedData when parsing crafted PKCS7 EnvelopedData....",
-    "details": "Heap buffer overread in wc_PKCS7_DecodeEnvelopedData when parsing crafted PKCS7 EnvelopedData. This could theoretically be triggered by attacker-supplied data delivered via S/MIME or CMS.",
+    "summary": "Heap buffer overread in `wc_PKCS7_DecodeEnvelopedData` when parsing crafted PKCS7 EnvelopedData",
+    "details": "Heap buffer overread in `wc_PKCS7_DecodeEnvelopedData` when parsing crafted PKCS7 EnvelopedData. This could theoretically be triggered by attacker-supplied data delivered via S/MIME or CMS.",
     "severity": [
         {
             "type": "CVSS_V3",

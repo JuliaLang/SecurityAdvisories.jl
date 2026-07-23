@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-740",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5772",
         "GHSA-6v2v-jgg9-h79w",
         "EUVD-2026-21218"
     ],
-    "summary": "A 1-byte stack buffer over-read was identified in the MatchDomainName function (src/internal.c)...",
-    "details": "A 1-byte stack buffer over-read was identified in the MatchDomainName function (src/internal.c) during wildcard hostname validation when the LEFT_MOST_WILDCARD_ONLY flag is active.  If a wildcard * exhausts the entire hostname string, the function reads one byte past the buffer without a bounds check, which could cause a crash.",
+    "summary": "A 1-byte stack buffer over-read was identified in the MatchDomainName function (`src/internal.c`)...",
+    "details": "A 1-byte stack buffer over-read was identified in the MatchDomainName function (`src/internal.c`) during wildcard hostname validation when the `LEFT_MOST_WILDCARD_ONLY` flag is active.  If a wildcard * exhausts the entire hostname string, the function reads one byte past the buffer without a bounds check, which could cause a crash.",
     "severity": [
         {
             "type": "CVSS_V3",

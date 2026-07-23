@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-295",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-29162"
     ],
-    "details": "HDF5 through 1.13.3 and/or 1.14.2 contains a stack buffer overflow in H5HG_read, resulting in denial of service or potential code execution.",
+    "details": "HDF5 through 1.13.3 and/or 1.14.2 contains a stack buffer overflow in `H5HG_read`, resulting in denial of service or potential code execution.",
     "severity": [
         {
             "type": "CVSS_V3",

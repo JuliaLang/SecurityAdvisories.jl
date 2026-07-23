@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-753",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6679",
         "GHSA-c9q2-5c67-xg9p",
         "EUVD-2026-39557"
     ],
-    "summary": "A heap buffer overflow could occur in the DTLS 1.3 ACK serialization path before the connecting...",
+    "summary": "A heap buffer overflow could occur in the DTLS 1.3 ACK serialization path before the connecting peer...",
     "details": "A heap buffer overflow could occur in the DTLS 1.3 ACK serialization path before the connecting peer is authenticated. The buffer overflow was due to an integer truncation when computing the length of the ACK record-number list, causing an undersized buffer to be allocated and then overrun. This affects builds using DTLS 1.3 and wolfSSL version 5.9.0 and earlier. A fix was added to the 5.9.1 release.",
     "severity": [
         {

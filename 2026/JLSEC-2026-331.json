@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-331",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2025-2914"
     ],
-    "details": "A vulnerability classified as problematic has been found in HDF5 up to 1.14.6. This affects the function H5FS__sinfo_Srialize_Sct_cb of the file src/H5FScache.c. The manipulation of the argument sect leads to heap-based buffer overflow. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used.",
+    "details": "A vulnerability classified as problematic has been found in HDF5 up to 1.14.6. This affects the function `H5FS__sinfo_Srialize_Sct_cb` of the file `src/H5FScache.c`. The manipulation of the argument sect leads to heap-based buffer overflow. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used.",
     "severity": [
         {
             "type": "CVSS_V2",

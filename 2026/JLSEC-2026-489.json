@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-489",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T18:51:34.228Z",
     "upstream": [
         "CVE-2025-14512",
         "GHSA-2p5v-p767-wqv5",
         "EUVD-2025-202664"
     ],
-    "summary": "A flaw was found in glib. This vulnerability allows a heap buffer overflow and denial-of-service ...",
-    "details": "A flaw was found in glib. This vulnerability allows a heap buffer overflow and denial-of-service (DoS) via an integer overflow in GLib's GIO (GLib Input/Output) escape_byte_string() function when processing malicious file or remote filesystem attribute values.",
+    "summary": "A flaw was found in glib",
+    "details": "A flaw was found in glib. This vulnerability allows a heap buffer overflow and denial-of-service (DoS) via an integer overflow in GLib's GIO (GLib Input/Output) `escape_byte_string()` function when processing malicious file or remote filesystem attribute values.",
     "severity": [
         {
             "type": "CVSS_V3",

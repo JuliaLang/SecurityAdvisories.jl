@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-567",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-05T15:18:28.412Z",
     "upstream": [
         "CVE-2023-2617"
     ],
-    "details": "A vulnerability classified as problematic was found in OpenCV wechat_qrcode Module up to 4.7.0. Affected by this vulnerability is the function DecodedBitStreamParser::decodeByteSegment of the file qrcode/decoder/decoded_bit_stream_parser.cpp. The manipulation leads to null pointer dereference. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue. The associated identifier of this vulnerability is VDB-228547.",
+    "details": "A vulnerability classified as problematic was found in OpenCV `wechat_qrcode` Module up to 4.7.0. Affected by this vulnerability is the function DecodedBitStreamParser::decodeByteSegment of the file `qrcode/decoder/decoded_bit_stream_parser.cpp`. The manipulation leads to null pointer dereference. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue. The associated identifier of this vulnerability is VDB-228547.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-148",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-17T15:19:54.657Z",
     "upstream": [
         "CVE-2026-34588"
     ],
-    "details": "OpenEXR provides the specification and reference implementation of the EXR file format, an image storage format for the motion picture industry. From 3.1.0 to before 3.2.7, 3.3.9, and 3.4.9, internal_exr_undo_piz() advances the working wavelet pointer with signed 32-bit arithmetic. Because nx, ny, and wcount are int, a crafted EXR file can make this product overflow and wrap. The next channel then decodes from an incorrect address. The wavelet decode path operates in place, so this yields both out-of-bounds reads and out-of-bounds writes. This vulnerability is fixed in 3.2.7, 3.3.9, and 3.4.9.",
+    "details": "OpenEXR provides the specification and reference implementation of the EXR file format, an image storage format for the motion picture industry. From 3.1.0 to before 3.2.7, 3.3.9, and 3.4.9, `internal_exr_undo_piz()` advances the working wavelet pointer with signed 32-bit arithmetic. Because nx, ny, and wcount are int, a crafted EXR file can make this product overflow and wrap. The next channel then decodes from an incorrect address. The wavelet decode path operates in place, so this yields both out-of-bounds reads and out-of-bounds writes. This vulnerability is fixed in 3.2.7, 3.3.9, and 3.4.9.",
     "severity": [
         {
             "type": "CVSS_V3",

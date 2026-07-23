@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-85",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
         "CVE-2025-32364",
@@ -9,7 +9,7 @@
         "EUVD-2025-9922"
     ],
     "summary": "A floating-point exception in the PSStack::roll function of Poppler before 25.04.0 can cause an...",
-    "details": "A floating-point exception in the PSStack::roll function of Poppler before 25.04.0 can cause an application to crash when handling malformed inputs associated with INT_MIN.",
+    "details": "A floating-point exception in the PSStack::roll function of Poppler before 25.04.0 can cause an application to crash when handling malformed inputs associated with `INT_MIN`.",
     "severity": [
         {
             "type": "CVSS_V3",

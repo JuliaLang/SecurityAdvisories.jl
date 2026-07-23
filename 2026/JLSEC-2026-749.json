@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-749",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6331",
         "GHSA-5hpf-pc4x-3jcf",
         "EUVD-2026-39565"
     ],
-    "summary": "HMAC zero-length tag forgery in EVP_DigestVerifyFinal, where a zero-length tag could be accepted...",
-    "details": "HMAC zero-length tag forgery in EVP_DigestVerifyFinal, where a zero-length tag could be accepted as valid during HMAC verification. In the OpenSSL-compatibility HMAC verify path the supplied signature length was only checked as not exceeding the MAC length, so a zero-length or otherwise truncated tag could pass verification. The fix requires the supplied tag length to exactly equal the MAC length and rejects a zero-length MAC, so a forged short or empty tag is no longer accepted.",
+    "summary": "HMAC zero-length tag forgery in `EVP_DigestVerifyFinal`, where a zero-length tag could be accepted...",
+    "details": "HMAC zero-length tag forgery in `EVP_DigestVerifyFinal`, where a zero-length tag could be accepted as valid during HMAC verification. In the OpenSSL-compatibility HMAC verify path the supplied signature length was only checked as not exceeding the MAC length, so a zero-length or otherwise truncated tag could pass verification. The fix requires the supplied tag length to exactly equal the MAC length and rejects a zero-length MAC, so a forged short or empty tag is no longer accepted.",
     "severity": [
         {
             "type": "CVSS_V3",

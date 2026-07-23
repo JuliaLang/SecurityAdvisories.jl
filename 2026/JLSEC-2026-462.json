@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-462",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T15:03:46.925Z",
     "upstream": [
         "CVE-2026-34743"
     ],
-    "details": "XZ Utils provide a general-purpose data-compression library plus command-line tools. Prior to version 5.8.3, if lzma_index_decoder() was used to decode an Index that contained no Records, the resulting lzma_index was left in a state where where a subsequent lzma_index_append() would allocate too little memory, and a buffer overflow would occur. This issue has been patched in version 5.8.3.",
+    "details": "XZ Utils provide a general-purpose data-compression library plus command-line tools. Prior to version 5.8.3, if `lzma_index_decoder()` was used to decode an Index that contained no Records, the resulting `lzma_index` was left in a state where where a subsequent `lzma_index_append()` would allocate too little memory, and a buffer overflow would occur. This issue has been patched in version 5.8.3.",
     "severity": [
         {
             "type": "CVSS_V3",

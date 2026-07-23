@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-196",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-28T13:50:46.694Z",
     "upstream": [
         "CVE-2025-6021"
     ],
-    "summary": "A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size calcula...",
+    "summary": "A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size...",
     "details": "A flaw was found in libxml2's xmlBuildQName function, where integer overflows in buffer size calculations can lead to a stack-based buffer overflow. This issue can result in memory corruption or a denial of service when processing crafted input.",
     "severity": [
         {

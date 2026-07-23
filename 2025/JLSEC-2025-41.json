@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-41",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2019-15903"
     ],
-    "summary": "In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to ...",
-    "details": "In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to document parsing too early; a consecutive call to XML_GetCurrentLineNumber (or XML_GetCurrentColumnNumber) then resulted in a heap-based buffer over-read.",
+    "summary": "In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to...",
+    "details": "In libexpat before 2.2.8, crafted XML input could fool the parser into changing from DTD parsing to document parsing too early; a consecutive call to `XML_GetCurrentLineNumber` (or `XML_GetCurrentColumnNumber`) then resulted in a heap-based buffer over-read.",
     "severity": [
         {
             "type": "CVSS_V2",

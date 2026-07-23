@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-437",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2026-3783",
         "GHSA-8whr-249c-vfjp",
         "EUVD-2026-11138"
     ],
-    "summary": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer performs a...",
+    "summary": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer performs a redirect...",
     "details": "When an OAuth2 bearer token is used for an HTTP(S) transfer, and that transfer\nperforms a redirect to a second URL, curl could leak that token to the second\nhostname under some circumstances.\n\nIf the hostname that the first request is redirected to has information in the\nused .netrc file, with either of the `machine` or `default` keywords, curl\nwould pass on the bearer token set for the first host also to the second one.",
     "severity": [
         {

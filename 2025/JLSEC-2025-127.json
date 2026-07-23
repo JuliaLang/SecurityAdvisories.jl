@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-127",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2024-31585"
     ],
-    "summary": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in libavfilt...",
-    "details": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in libavfilter/avf_showspectrum.c. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted input.",
+    "summary": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in...",
+    "details": "FFmpeg version n5.1 to n6.1 was discovered to contain an Off-by-one Error vulnerability in `libavfilter/avf_showspectrum.c`. This vulnerability allows attackers to cause a Denial of Service (DoS) via a crafted input.",
     "severity": [
         {
             "type": "CVSS_V3",

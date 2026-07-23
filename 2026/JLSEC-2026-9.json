@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-9",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-03-24T16:21:52.681Z",
     "upstream": [
         "CVE-2025-28162"
     ],
-    "summary": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of s...",
+    "summary": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of...",
     "details": "Buffer Overflow vulnerability in libpng 1.6.43-1.6.46 allows a local attacker to cause a denial of service via the pngimage with AddressSanitizer (ASan), the program leaks memory in various locations, eventually leading to high memory usage and causing the program to become unresponsive",
     "severity": [
         {

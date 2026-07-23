@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-50",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2022-23852"
     ],
-    "summary": "Expat (aka libexpat) before 2.4.4 has a signed integer overflow in XML_GetBuffer, for configurations...",
-    "details": "Expat (aka libexpat) before 2.4.4 has a signed integer overflow in XML_GetBuffer, for configurations with a nonzero XML_CONTEXT_BYTES.",
+    "summary": "Expat (aka libexpat) before 2.4.4 has a signed integer overflow in `XML_GetBuffer`, for...",
+    "details": "Expat (aka libexpat) before 2.4.4 has a signed integer overflow in `XML_GetBuffer`, for configurations with a nonzero `XML_CONTEXT_BYTES`.",
     "severity": [
         {
             "type": "CVSS_V2",

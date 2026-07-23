@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-742",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6091",
@@ -9,7 +9,7 @@
         "EUVD-2026-39486"
     ],
     "summary": "Partial-chain certificate verification may accept chains that terminate at a peer-supplied,...",
-    "details": "Partial-chain certificate verification may accept chains that terminate at a peer-supplied, untrusted intermediate certificate rather than a trusted anchor. An attacker could present a chain that ends at an intermediate they control and have it accepted as valid. This affects the OpenSSL compatibility certificate-path-building path (wolfSSL_X509_verify_cert / X509_STORE, OPENSSL_EXTRA) when the X509_V_FLAG_PARTIAL_CHAIN verify flag is enabled.",
+    "details": "Partial-chain certificate verification may accept chains that terminate at a peer-supplied, untrusted intermediate certificate rather than a trusted anchor. An attacker could present a chain that ends at an intermediate they control and have it accepted as valid. This affects the OpenSSL compatibility certificate-path-building path (`wolfSSL_X509_verify_cert` / `X509_STORE`, `OPENSSL_EXTRA`) when the `X509_V_FLAG_PARTIAL_CHAIN` verify flag is enabled.",
     "severity": [
         {
             "type": "CVSS_V3",

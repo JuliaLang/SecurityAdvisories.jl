@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-632",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-25T17:41:14.392Z",
     "upstream": [
         "CVE-2026-45232",
         "EUVD-2026-31009"
     ],
-    "details": "Rsync versions before 3.4.3 contain an off-by-one out-of-bounds stack write vulnerability in the establish_proxy_connection() function in socket.c that allows network attackers to corrupt stack memory by sending a malformed HTTP proxy response. Attackers can exploit this by positioning themselves between the client and proxy or controlling the proxy server to send a response line of 1023 or more bytes without a newline terminator, causing a null byte to be written to an out-of-bounds stack address when the RSYNC_PROXY environment variable is set.",
+    "details": "Rsync versions before 3.4.3 contain an off-by-one out-of-bounds stack write vulnerability in the `establish_proxy_connection()` function in socket.c that allows network attackers to corrupt stack memory by sending a malformed HTTP proxy response. Attackers can exploit this by positioning themselves between the client and proxy or controlling the proxy server to send a response line of 1023 or more bytes without a newline terminator, causing a null byte to be written to an out-of-bounds stack address when the `RSYNC_PROXY` environment variable is set.",
     "severity": [
         {
             "type": "CVSS_V3",

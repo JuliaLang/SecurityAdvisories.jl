@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-372",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-30T19:30:31.295Z",
     "upstream": [
         "CVE-2026-6985",
         "GHSA-3ppf-435x-3p66",
         "EUVD-2026-25661"
     ],
-    "details": "A weakness has been identified in Cesanta Mongoose up to 7.20. This vulnerability affects the function handle_opt of the file /src/net_builtin.c of the component TCP Option Handler. This manipulation of the argument optlen causes infinite loop. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 7.21 is able to resolve this issue. Upgrading the affected component is advised. VulDB has contacted the vendor early and they confirmed quickly, that this issue got fixed already.",
+    "details": "A weakness has been identified in Cesanta Mongoose up to 7.20. This vulnerability affects the function `handle_opt` of the file `/src/net_builtin.c` of the component TCP Option Handler. This manipulation of the argument optlen causes infinite loop. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 7.21 is able to resolve this issue. Upgrading the affected component is advised. VulDB has contacted the vendor early and they confirmed quickly, that this issue got fixed already.",
     "severity": [
         {
             "type": "CVSS_V2",

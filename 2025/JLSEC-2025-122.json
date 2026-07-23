@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-122",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2022-3341"
     ],
-    "summary": "A null pointer dereference issue was discovered in 'FFmpeg' in decode_main_header() function of liba...",
-    "details": "A null pointer dereference issue was discovered in 'FFmpeg' in decode_main_header() function of libavformat/nutdec.c file. The flaw occurs because the function lacks check of the return value of avformat_new_stream() and triggers the null pointer dereference error, causing an application to crash.",
+    "summary": "A null pointer dereference issue was discovered in 'FFmpeg' in `decode_main_header()` function of...",
+    "details": "A null pointer dereference issue was discovered in 'FFmpeg' in `decode_main_header()` function of `libavformat/nutdec.c` file. The flaw occurs because the function lacks check of the return value of `avformat_new_stream()` and triggers the null pointer dereference error, causing an application to crash.",
     "severity": [
         {
             "type": "CVSS_V3",

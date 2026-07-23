@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-573",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-05T15:18:28.412Z",
     "upstream": [
         "CVE-2026-41069",
         "EUVD-2026-31503"
     ],
-    "details": "libheif is a HEIF and AVIF file format decoder and encoder. In versions 1.21.2 and prior, a malformed HEIF sequence file can trigger an out-of-bounds read in core sequence parsing logic, causing DoS. A malformed file can have stco.entry_count == 0 (creating no chunks) while still passing validation because saio.entry_count == 0 matches, but with saiz.sample_count > 0 the SampleAuxInfoReader constructor still enters its loop. This leads to an out-of-bounds dereference on the empty chunks[0] in chunked mode.",
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. In versions 1.21.2 and prior, a malformed HEIF sequence file can trigger an out-of-bounds read in core sequence parsing logic, causing DoS. A malformed file can have `stco.entry_count` == 0 (creating no chunks) while still passing validation because `saio.entry_count` == 0 matches, but with `saiz.sample_count` > 0 the SampleAuxInfoReader constructor still enters its loop. This leads to an out-of-bounds dereference on the empty chunks[0] in chunked mode.",
     "severity": [
         {
             "type": "CVSS_V3",

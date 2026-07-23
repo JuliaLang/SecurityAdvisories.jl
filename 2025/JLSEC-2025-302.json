@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-302",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2023-30774"
     ],
     "summary": "A vulnerability was found in the libtiff library",
-    "details": "A vulnerability was found in the libtiff library. This flaw causes a heap buffer overflow issue via the TIFFTAG_INKNAMES and TIFFTAG_NUMBEROFINKS values.",
+    "details": "A vulnerability was found in the libtiff library. This flaw causes a heap buffer overflow issue via the `TIFFTAG_INKNAMES` and `TIFFTAG_NUMBEROFINKS` values.",
     "severity": [
         {
             "type": "CVSS_V3",

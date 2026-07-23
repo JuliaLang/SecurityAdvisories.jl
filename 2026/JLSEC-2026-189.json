@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-189",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-27T13:14:20.203Z",
     "upstream": [
         "CVE-2025-15538"
     ],
-    "details": "A security vulnerability has been detected in Open Asset Import Library Assimp up to 6.0.2. Affected by this vulnerability is the function Assimp::LWOImporter::FindUVChannels of the file /src/assimp/code/AssetLib/LWO/LWOMaterial.cpp. Such manipulation leads to use after free. The attack needs to be performed locally. The exploit has been disclosed publicly and may be used. This and similar defects are tracked and handled via issue #6128.",
+    "details": "A security vulnerability has been detected in Open Asset Import Library Assimp up to 6.0.2. Affected by this vulnerability is the function Assimp::LWOImporter::FindUVChannels of the file `/src/assimp/code/AssetLib/LWO/LWOMaterial.cpp`. Such manipulation leads to use after free. The attack needs to be performed locally. The exploit has been disclosed publicly and may be used. This and similar defects are tracked and handled via issue #6128.",
     "severity": [
         {
             "type": "CVSS_V2",

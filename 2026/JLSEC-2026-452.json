@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-452",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2022-29458"
     ],
-    "details": "ncurses 6.3 before patch 20220416 has an out-of-bounds read and segmentation violation in convert_strings in tinfo/read_entry.c in the terminfo library.",
+    "details": "ncurses 6.3 before patch 20220416 has an out-of-bounds read and segmentation violation in `convert_strings` in `tinfo/read_entry.c` in the terminfo library.",
     "severity": [
         {
             "type": "CVSS_V2",

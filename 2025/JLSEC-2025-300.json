@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-300",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2022-4645"
     ],
-    "summary": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcp in tools/tiffcp.c:948, allowing attackers to cause...",
-    "details": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcp in tools/tiffcp.c:948, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit e8131125.",
+    "summary": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcp in `tools/tiffcp.c:948`, allowing attackers to...",
+    "details": "LibTIFF 4.4.0 has an out-of-bounds read in tiffcp in `tools/tiffcp.c:948`, allowing attackers to cause a denial-of-service via a crafted tiff file. For users that compile libtiff from sources, the fix is available with commit e8131125.",
     "severity": [
         {
             "type": "CVSS_V3",

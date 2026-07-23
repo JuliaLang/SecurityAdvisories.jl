@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-300",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-32605"
     ],
-    "details": "HDF5 Library through 1.14.3 has a heap-based buffer over-read in H5VM_memcpyvv in H5VM.c (called from H5D__compact_readvv in H5Dcompact.c).",
+    "details": "HDF5 Library through 1.14.3 has a heap-based buffer over-read in `H5VM_memcpyvv` in H5VM.c (called from `H5D__compact_readvv` in H5Dcompact.c).",
     "severity": [
         {
             "type": "CVSS_V3",

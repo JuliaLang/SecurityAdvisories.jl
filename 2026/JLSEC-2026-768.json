@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-768",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8086",
         "GHSA-72pg-5w29-wjx6",
         "EUVD-2026-28418"
     ],
-    "summary": "A vulnerability was identified in OSGeo gdal up to 3.13.0dev-4. This issue affects the function...",
-    "details": "A vulnerability was identified in OSGeo gdal up to 3.13.0dev-4. This issue affects the function SWnentries of the file frmts/hdf4/hdf-eos/SWapi.c. Such manipulation of the argument DimensionName leads to heap-based buffer overflow. The attack must be carried out locally. The exploit is publicly available and might be used. Upgrading to version 3.12.4RC1 is capable of addressing this issue. The name of the patch is 9491e794f1757f08063ea2f7a274ad2994afa636. It is advisable to upgrade the affected component.",
+    "summary": "A vulnerability was identified in OSGeo gdal up to 3.13.0dev-4",
+    "details": "A vulnerability was identified in OSGeo gdal up to 3.13.0dev-4. This issue affects the function SWnentries of the file `frmts/hdf4/hdf-eos/SWapi.c`. Such manipulation of the argument DimensionName leads to heap-based buffer overflow. The attack must be carried out locally. The exploit is publicly available and might be used. Upgrading to version 3.12.4RC1 is capable of addressing this issue. The name of the patch is 9491e794f1757f08063ea2f7a274ad2994afa636. It is advisable to upgrade the affected component.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-488",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-07T18:51:34.228Z",
     "upstream": [
         "CVE-2025-14087",
         "GHSA-frh9-7wfp-w73p",
         "EUVD-2025-202405"
     ],
-    "summary": "A flaw was found in GLib (Gnome Lib). This vulnerability allows a remote attacker to cause heap...",
+    "summary": "A flaw was found in GLib (Gnome Lib)",
     "details": "A flaw was found in GLib (Gnome Lib). This vulnerability allows a remote attacker to cause heap corruption, leading to a denial of service or potential code execution via a buffer-underflow in the GVariant parser when processing maliciously crafted input strings.",
     "severity": [
         {

@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-158",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-20T19:31:50.289Z",
     "upstream": [
         "CVE-2026-33164",
         "EUVD-2026-13810"
     ],
-    "details": "libde265 is an open source implementation of the h.265 video codec. Prior to version 1.0.17, a malformed H.265 PPS NAL unit causes a segmentation fault in pic_parameter_set::set_derived_values(). This issue has been patched in version 1.0.17.",
+    "details": "libde265 is an open source implementation of the h.265 video codec. Prior to version 1.0.17, a malformed H.265 PPS NAL unit causes a segmentation fault in `pic_parameter_set::set_derived_values()`. This issue has been patched in version 1.0.17.",
     "severity": [
         {
             "type": "CVSS_V3",

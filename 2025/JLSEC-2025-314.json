@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-314",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2023-3164"
     ],
-    "summary": "A heap-buffer-overflow vulnerability was found in LibTIFF, in extractImageSection() at tools/tiffcro...",
-    "details": "A heap-buffer-overflow vulnerability was found in LibTIFF, in extractImageSection() at tools/tiffcrop.c:7916 and tools/tiffcrop.c:7801. This flaw allows attackers to cause a denial of service via a crafted tiff file.",
+    "summary": "A heap-buffer-overflow vulnerability was found in LibTIFF, in extractImageSection() at...",
+    "details": "A heap-buffer-overflow vulnerability was found in LibTIFF, in extractImageSection() at `tools/tiffcrop.c:7916` and `tools/tiffcrop.c:7801`. This flaw allows attackers to cause a denial of service via a crafted tiff file.",
     "severity": [
         {
             "type": "CVSS_V3",

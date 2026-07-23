@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-696",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-10592",
         "GHSA-m8r2-qgr6-4gqm",
         "EUVD-2026-39549"
     ],
-    "summary": "Certificates with wildcard DNS SANs (e.g. *.example.com) bypassed CA name-constraint checks. A...",
+    "summary": "Certificates with wildcard DNS SANs (e.g",
     "details": "Certificates with wildcard DNS SANs (e.g. *.example.com) bypassed CA name-constraint checks. A certificate with a wildcard DNS SAN that should be rejected by the issuing CA's permitted/excluded DNS name constraints could be accepted.",
     "severity": [
         {

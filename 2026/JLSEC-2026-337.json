@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-337",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2025-44904"
     ],
-    "details": "hdf5 v1.14.6 was discovered to contain a heap buffer overflow via the H5VM_memcpyvv function.",
+    "details": "hdf5 v1.14.6 was discovered to contain a heap buffer overflow via the `H5VM_memcpyvv` function.",
     "severity": [
         {
             "type": "CVSS_V3",

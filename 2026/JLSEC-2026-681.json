@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-681",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2024-1543",
         "GHSA-w782-gjg9-cjx6",
         "EUVD-2024-17290"
     ],
-    "summary": "The side-channel protected T-Table implementation in wolfSSL up to version 5.6.5 protects against...",
+    "summary": "The side-channel protected T-Table implementation in wolfSSL up to version 5.6.5 protects against a...",
     "details": "The side-channel protected T-Table implementation in wolfSSL up to version 5.6.5 protects against a side-channel attacker with cache-line resolution. In a controlled environment such as Intel SGX, an attacker can gain a per instruction sub-cache-line resolution allowing them to break the cache-line-level protection. For details on the attack refer to:  https://doi.org/10.46586/tches.v2024.i1.457-500",
     "severity": [
         {

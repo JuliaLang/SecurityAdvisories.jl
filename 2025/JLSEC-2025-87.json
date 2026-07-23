@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-87",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2025-24928"
     ],
-    "summary": "libxml2 before 2.12.10 and 2.13.x before 2.13.6 has a stack-based buffer overflow in xmlSnprintfElem...",
+    "summary": "libxml2 before 2.12.10 and 2.13.x before 2.13.6 has a stack-based buffer overflow in...",
     "details": "libxml2 before 2.12.10 and 2.13.x before 2.13.6 has a stack-based buffer overflow in xmlSnprintfElements in valid.c. To exploit this, DTD validation must occur for an untrusted document or untrusted DTD. NOTE: this is similar to CVE-2017-9047.",
     "severity": [
         {

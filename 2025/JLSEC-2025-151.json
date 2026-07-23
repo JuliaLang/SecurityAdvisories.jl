@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-151",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2025-1594"
     ],
     "summary": "A vulnerability, which was classified as critical, was found in FFmpeg up to 7.1",
-    "details": "A vulnerability, which was classified as critical, was found in FFmpeg up to 7.1. This affects the function ff_aac_search_for_tns of the file libavcodec/aacenc_tns.c of the component AAC Encoder. The manipulation leads to stack-based buffer overflow. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used.",
+    "details": "A vulnerability, which was classified as critical, was found in FFmpeg up to 7.1. This affects the function `ff_aac_search_for_tns` of the file `libavcodec/aacenc_tns.c` of the component AAC Encoder. The manipulation leads to stack-based buffer overflow. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-178",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-21T17:39:06.495Z",
     "upstream": [
         "CVE-2018-20330"
     ],
-    "summary": "The tjLoadImage function in libjpeg-turbo 2.0.1 has an integer overflow with a resultant heap-based ...",
+    "summary": "The tjLoadImage function in libjpeg-turbo 2.0.1 has an integer overflow with a resultant heap-based...",
     "details": "The tjLoadImage function in libjpeg-turbo 2.0.1 has an integer overflow with a resultant heap-based buffer overflow via a BMP image because multiplication of pitch and height is mishandled, as demonstrated by tjbench.",
     "severity": [
         {

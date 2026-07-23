@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-317",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-32622"
     ],
-    "details": "HDF5 Library through 1.14.3 contains a out-of-bounds read operation in H5FL_arr_malloc in H5FL.c (called from H5S_set_extent_simple in H5S.c).",
+    "details": "HDF5 Library through 1.14.3 contains a out-of-bounds read operation in `H5FL_arr_malloc` in H5FL.c (called from `H5S_set_extent_simple` in H5S.c).",
     "severity": [
         {
             "type": "CVSS_V3",

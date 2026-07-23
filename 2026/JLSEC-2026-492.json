@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-492",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-08T14:39:40.462Z",
     "upstream": [
         "CVE-2026-7598"
     ],
-    "details": "A security vulnerability has been detected in libssh2 up to 1.11.1. The impacted element is the function userauth_password of the file src/userauth.c. Such manipulation of the argument username_len/password_len leads to integer overflow. The attack may be launched remotely. The name of the patch is 256d04b60d80bf1190e96b0ad1e91b2174d744b1. A patch should be applied to remediate this issue.",
+    "details": "A security vulnerability has been detected in libssh2 up to 1.11.1. The impacted element is the function `userauth_password` of the file `src/userauth.c`. Such manipulation of the argument `username_len/password_len` leads to integer overflow. The attack may be launched remotely. The name of the patch is 256d04b60d80bf1190e96b0ad1e91b2174d744b1. A patch should be applied to remediate this issue.",
     "severity": [
         {
             "type": "CVSS_V2",

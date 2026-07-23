@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-24",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2020-8285"
     ],
-    "summary": "curl 7.21.0 to and including 7.73.0 is vulnerable to uncontrolled recursion due to a stack overflow ...",
+    "summary": "curl 7.21.0 to and including 7.73.0 is vulnerable to uncontrolled recursion due to a stack overflow...",
     "details": "curl 7.21.0 to and including 7.73.0 is vulnerable to uncontrolled recursion due to a stack overflow issue in FTP wildcard match parsing.",
     "severity": [
         {

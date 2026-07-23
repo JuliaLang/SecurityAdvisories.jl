@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-661",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-10T13:57:40.607Z",
     "upstream": [
         "CVE-2026-55200",
@@ -9,7 +9,7 @@
         "EUVD-2026-37784"
     ],
     "summary": "libssh2 through 1.11.1, fixed in commit 7acf3df contains an out-of-bounds write vulnerability in...",
-    "details": "libssh2 through 1.11.1, fixed in commit 7acf3df contains an out-of-bounds write vulnerability in ssh2_transport_read() that fails to enforce upper bounds on packet_length field. Remote attackers can send crafted SSH packets with excessively large packet_length values to corrupt heap memory and achieve remote code execution.",
+    "details": "libssh2 through 1.11.1, fixed in commit 7acf3df contains an out-of-bounds write vulnerability in `ssh2_transport_read()` that fails to enforce upper bounds on `packet_length` field. Remote attackers can send crafted SSH packets with excessively large `packet_length` values to corrupt heap memory and achieve remote code execution.",
     "severity": [
         {
             "type": "CVSS_V3",

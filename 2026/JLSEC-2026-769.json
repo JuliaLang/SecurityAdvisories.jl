@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-769",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8087",
@@ -9,7 +9,7 @@
         "EUVD-2026-28435"
     ],
     "summary": "OSGeo GDAL vulnerable to heap-based buffer overflow",
-    "details": "A security flaw has been discovered in OSGeo gdal up to 3.13.0dev-4. Impacted is the function GDnentries of the file frmts/hdf4/hdf-eos/GDapi.c. Performing a manipulation of the argument DataFieldName results in heap-based buffer overflow. The attack must be initiated from a local position. The exploit has been released to the public and may be used for attacks. Upgrading to version 3.13.0RC1 is recommended to address this issue. The patch is named 184f77dbcc74118c062c05e464c88161d3c37b9b. You should upgrade the affected component.",
+    "details": "A security flaw has been discovered in OSGeo gdal up to 3.13.0dev-4. Impacted is the function GDnentries of the file `frmts/hdf4/hdf-eos/GDapi.c`. Performing a manipulation of the argument DataFieldName results in heap-based buffer overflow. The attack must be initiated from a local position. The exploit has been released to the public and may be used for attacks. Upgrading to version 3.13.0RC1 is recommended to address this issue. The patch is named 184f77dbcc74118c062c05e464c88161d3c37b9b. You should upgrade the affected component.",
     "severity": [
         {
             "type": "CVSS_V2",

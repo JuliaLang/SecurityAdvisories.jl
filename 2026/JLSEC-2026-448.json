@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-448",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-05T15:51:30.603Z",
     "upstream": [
         "CVE-2020-19188"
     ],
-    "details": "Buffer Overflow vulnerability in fmt_entry function in progs/dump_entry.c:1116 in ncurses 6.1 allows remote attackers to cause a denial of service via crafted command.",
+    "details": "Buffer Overflow vulnerability in `fmt_entry` function in `progs/dump_entry.c:1116` in ncurses 6.1 allows remote attackers to cause a denial of service via crafted command.",
     "severity": [
         {
             "type": "CVSS_V3",

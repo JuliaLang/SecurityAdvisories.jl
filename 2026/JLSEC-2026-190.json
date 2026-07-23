@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-190",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-27T13:14:20.203Z",
     "upstream": [
         "CVE-2025-3548"
     ],
-    "details": "A vulnerability, which was classified as critical, has been found in Open Asset Import Library Assimp up to 5.4.3. This issue affects the function aiString::Set in the library include/assimp/types.h of the component File Handler. The manipulation leads to heap-based buffer overflow. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue.",
+    "details": "A vulnerability, which was classified as critical, has been found in Open Asset Import Library Assimp up to 5.4.3. This issue affects the function aiString::Set in the library `include/assimp/types.h` of the component File Handler. The manipulation leads to heap-based buffer overflow. It is possible to launch the attack on the local host. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue.",
     "severity": [
         {
             "type": "CVSS_V2",

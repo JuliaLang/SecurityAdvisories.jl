@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-413",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2024-11053",
         "GHSA-h288-5fq8-5pfw",
         "EUVD-2024-34411"
     ],
-    "summary": "When asked to both use a `.netrc` file for credentials and to follow HTTP redirects, curl could...",
+    "summary": "When asked to both use a `.netrc` file for credentials and to follow HTTP redirects, curl could leak...",
     "details": "When asked to both use a `.netrc` file for credentials and to follow HTTP\nredirects, curl could leak the password used for the first host to the\nfollowed-to host under certain circumstances.\n\nThis flaw only manifests itself if the netrc file has an entry that matches\nthe redirect target hostname but the entry either omits just the password or\nomits both login and password.",
     "severity": [
         {

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-359",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T19:13:38.526Z",
     "upstream": [
         "CVE-2025-31181"
     ],
-    "details": "A flaw was found in gnuplot. The X11_graphics() function may lead to a segmentation fault and cause a system crash.",
+    "details": "A flaw was found in gnuplot. The `X11_graphics()` function may lead to a segmentation fault and cause a system crash.",
     "severity": [
         {
             "type": "CVSS_V3",

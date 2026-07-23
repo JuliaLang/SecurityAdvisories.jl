@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-778",
-    "modified": "2026-07-23T14:46:44.710Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-23T14:46:44.710Z",
     "upstream": [
         "CVE-2025-14821"
     ],
-    "details": "A flaw was found in libssh. This vulnerability allows local man-in-the-middle attacks, security downgrades of SSH (Secure Shell) connections, and manipulation of trusted host information, posing a significant risk to the confidentiality, integrity, and availability of SSH communications via an insecure default configuration on Windows systems where the library automatically loads configuration files from the C:\\etc directory, which can be created and modified by unprivileged local users.",
+    "details": "A flaw was found in libssh. This vulnerability allows local man-in-the-middle attacks, security downgrades of SSH (Secure Shell) connections, and manipulation of trusted host information, posing a significant risk to the confidentiality, integrity, and availability of SSH communications via an insecure default configuration on Windows systems where the library automatically loads configuration files from the `C:\\etc` directory, which can be created and modified by unprivileged local users.",
     "severity": [
         {
             "type": "CVSS_V3",

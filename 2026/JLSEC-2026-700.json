@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-700",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-12340",
         "GHSA-q349-x427-xg3w",
         "EUVD-2026-39547"
     ],
-    "summary": "Out-of-bounds heap read during SM2/SM3 certificate signature verification. When parsing a...",
+    "summary": "Out-of-bounds heap read during SM2/SM3 certificate signature verification",
     "details": "Out-of-bounds heap read during SM2/SM3 certificate signature verification. When parsing a certificate with an SM3wSM2 signature, the Subject Key Identifier computation reads the trailing 65 bytes of the public key without checking that the key is at least that long. A public key shorter than 65 bytes results in an out-of-bounds heap read, leading to a potential crash (denial of service); there is no out-of-bounds write. Note this only affects builds with SM2 support (--enable-sm2 or --enable-all).",
     "severity": [
         {

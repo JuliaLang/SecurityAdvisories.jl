@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-319",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-29T13:21:01.555Z",
     "upstream": [
         "CVE-2024-32624"
     ],
-    "details": "HDF5 Library through 1.14.3 contains a heap-based buffer overflow in H5T__ref_mem_setnull in H5Tref.c (called from H5T__conv_ref in H5Tconv.c), resulting in the corruption of the instruction pointer.",
+    "details": "HDF5 Library through 1.14.3 contains a heap-based buffer overflow in `H5T__ref_mem_setnull` in H5Tref.c (called from `H5T__conv_ref` in H5Tconv.c), resulting in the corruption of the instruction pointer.",
     "severity": [
         {
             "type": "CVSS_V3",

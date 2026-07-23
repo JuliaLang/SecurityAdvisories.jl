@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-69",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2020-24977"
     ],
-    "summary": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in xmlEncodeEntitiesIntern...",
-    "details": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in xmlEncodeEntitiesInternal at libxml2/entities.c. The issue has been fixed in commit 50f06b3e.",
+    "summary": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in...",
+    "details": "GNOME project libxml2 v2.9.10 has a global buffer over-read vulnerability in xmlEncodeEntitiesInternal at `libxml2/entities.c`. The issue has been fixed in commit 50f06b3e.",
     "severity": [
         {
             "type": "CVSS_V2",

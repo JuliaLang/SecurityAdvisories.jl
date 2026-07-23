@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-746",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6325",
         "GHSA-xpf5-wwvx-w945",
         "EUVD-2026-39572"
     ],
-    "summary": "Out-of-bounds write in SetSuitesHashSigAlgo when processing an oversized signature algorithms...",
+    "summary": "Out-of-bounds write in SetSuitesHashSigAlgo when processing an oversized signature algorithms list,...",
     "details": "Out-of-bounds write in SetSuitesHashSigAlgo when processing an oversized signature algorithms list, allowing a write past the bounds of the destination buffer.",
     "severity": [
         {

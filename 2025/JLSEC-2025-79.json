@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-79",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2023-28484"
     ],
-    "summary": "In libxml2 before 2.10.4, parsing of certain invalid XSD schemas can lead to a NULL pointer derefere...",
+    "summary": "In libxml2 before 2.10.4, parsing of certain invalid XSD schemas can lead to a NULL pointer...",
     "details": "In libxml2 before 2.10.4, parsing of certain invalid XSD schemas can lead to a NULL pointer dereference and subsequently a segfault. This occurs in xmlSchemaFixupComplexType in xmlschemas.c.",
     "severity": [
         {

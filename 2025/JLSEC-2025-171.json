@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-171",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-20T22:55:27.993Z",
     "upstream": [
         "CVE-2022-25309"
     ],
-    "summary": "A heap-based buffer overflow flaw was found in the Fribidi package and affects the fribidi_cap_rtl_t...",
-    "details": "A heap-based buffer overflow flaw was found in the Fribidi package and affects the fribidi_cap_rtl_to_unicode() function of the fribidi-char-sets-cap-rtl.c file. This flaw allows an attacker to pass a specially crafted file to the Fribidi application with the '--caprtl' option, leading to a crash and causing a denial of service.",
+    "summary": "A heap-based buffer overflow flaw was found in the Fribidi package and affects the...",
+    "details": "A heap-based buffer overflow flaw was found in the Fribidi package and affects the `fribidi_cap_rtl_to_unicode()` function of the fribidi-char-sets-cap-rtl.c file. This flaw allows an attacker to pass a specially crafted file to the Fribidi application with the '--caprtl' option, leading to a crash and causing a denial of service.",
     "severity": [
         {
             "type": "CVSS_V3",

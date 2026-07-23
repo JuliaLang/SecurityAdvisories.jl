@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-582",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-08T13:15:35.983Z",
     "upstream": [
         "CVE-2024-55549",
         "GHSA-g8fv-r98j-937r",
         "EUVD-2024-54264"
     ],
-    "summary": "xsltGetInheritedNsList in libxslt before 1.1.43 has a use-after-free issue related to exclusion...",
+    "summary": "xsltGetInheritedNsList in libxslt before 1.1.43 has a use-after-free issue related to exclusion of...",
     "details": "xsltGetInheritedNsList in libxslt before 1.1.43 has a use-after-free issue related to exclusion of result prefixes.",
     "severity": [
         {

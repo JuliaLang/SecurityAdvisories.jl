@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-722",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5446",
         "GHSA-vgv9-mv66-mpc7",
         "EUVD-2026-21180"
     ],
-    "summary": "In wolfSSL, ARIA-GCM cipher suites used in TLS 1.2 and DTLS 1.2 reuse an identical 12-byte GCM...",
-    "details": "In wolfSSL, ARIA-GCM cipher suites used in TLS 1.2 and DTLS 1.2 reuse an identical 12-byte GCM nonce for every application-data record. Because wc_AriaEncrypt is stateless and passes the caller-supplied IV verbatim to the MagicCrypto SDK with no internal counter, and because the explicit IV is zero-initialized at session setup and never incremented in non-FIPS builds. This vulnerability affects wolfSSL builds configured with --enable-aria and the proprietary MagicCrypto SDK (a non-default, opt-in configuration required for Korean regulatory deployments). AES-GCM is not affected because wc_AesGcmEncrypt_ex maintains an internal invocation counter independently of the call-site guard.",
+    "summary": "In wolfSSL, ARIA-GCM cipher suites used in TLS 1.2 and DTLS 1.2 reuse an identical 12-byte GCM nonce...",
+    "details": "In wolfSSL, ARIA-GCM cipher suites used in TLS 1.2 and DTLS 1.2 reuse an identical 12-byte GCM nonce for every application-data record. Because `wc_AriaEncrypt` is stateless and passes the caller-supplied IV verbatim to the MagicCrypto SDK with no internal counter, and because the explicit IV is zero-initialized at session setup and never incremented in non-FIPS builds. This vulnerability affects wolfSSL builds configured with --enable-aria and the proprietary MagicCrypto SDK (a non-default, opt-in configuration required for Korean regulatory deployments). AES-GCM is not affected because `wc_AesGcmEncrypt_ex` maintains an internal invocation counter independently of the call-site guard.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-234",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:03:17.636Z",
     "upstream": [
         "CVE-2021-36976"
     ],
-    "summary": "libarchive 3.4.1 through 3.5.1 has a use-after-free in copy_string (called from do_uncompress_block ...",
-    "details": "libarchive 3.4.1 through 3.5.1 has a use-after-free in copy_string (called from do_uncompress_block and process_block).",
+    "summary": "libarchive 3.4.1 through 3.5.1 has a use-after-free in `copy_string` (called from...",
+    "details": "libarchive 3.4.1 through 3.5.1 has a use-after-free in `copy_string` (called from `do_uncompress_block` and `process_block`).",
     "severity": [
         {
             "type": "CVSS_V2",

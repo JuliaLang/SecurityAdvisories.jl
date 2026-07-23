@@ -1,14 +1,14 @@
 {
     "schema_version": "1.7.4",
     "id": "JLSEC-2026-615",
-    "modified": "2026-07-21T13:44:29.342Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-06-23T12:59:32.708Z",
     "aliases": [
         "ANT-2026-9G63DER3",
         "ANT-2026-GY6HYQTG",
         "ANT-2026-ZK96ACV8"
     ],
-    "summary": "Cookie jar accepts Secure/__Host-/__Secure- cookies from non-secure origins in HTTP.jl",
+    "summary": "Cookie jar accepts `Secure/__Host-/__Secure-` cookies from non-secure origins in HTTP.jl",
     "details": "### Description\n\n`setcookies!` stored every parsed `Set-Cookie` after only checking that the response scheme was http or https, with no protection symmetric to the read path (`shouldsend`, which already withholds `Secure` cookies from non-secure requests). A plaintext (http) origin could therefore plant a `Secure` cookie, plant a `__Secure-`/`__Host-`-prefixed cookie, or overwrite/delete (via `Max-Age=-1`) an existing `Secure` cookie set over https, enabling cookie fixation against hosts that mix http and https.\n\n### Impact\n\nA network attacker or malicious http origin could set, overwrite, or delete security-sensitive cookies in the client's cookie jar, enabling cookie fixation.\n\n### Patches\n\nFixed in HTTP.jl v2.4.0. Per RFC 6265bis, `setcookies!` now drops any `Secure` cookie arriving over a non-secure scheme, enforces the `__Secure-` and `__Host-` name prefixes (evaluated ASCII case-insensitively on the raw attributes), and refuses to overwrite or delete an existing `Secure` cookie of the same domain;path;name identity from a non-secure origin. Behavior over https is unchanged.\n\nReported to the JuliaLang security team through Anthropic's Coordinated Vulnerability Disclosure program.",
     "affected": [
         {

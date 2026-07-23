@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-433",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-04T13:12:06.605Z",
     "upstream": [
         "CVE-2025-5025",
         "GHSA-x8ch-h5vv-q6cm",
         "EUVD-2025-16332"
     ],
-    "summary": "libcurl supports *pinning* of the server certificate public key for HTTPS transfers. Due to an...",
+    "summary": "libcurl supports *pinning* of the server certificate public key for HTTPS transfers",
     "details": "libcurl supports *pinning* of the server certificate public key for HTTPS transfers. Due to an omission, this check is not performed when connecting with QUIC for HTTP/3, when the TLS backend is wolfSSL. Documentation says the option works with wolfSSL, failing to specify that it does not for QUIC and HTTP/3. Since pinning makes the transfer succeed if the pin is fine, users could unwittingly connect to an impostor server without noticing.",
     "severity": [
         {

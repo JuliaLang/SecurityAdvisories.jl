@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-228",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2025-52496"
     ],
-    "summary": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occu...",
+    "summary": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations...",
     "details": "Mbed TLS before 3.6.4 has a race condition in AESNI detection if certain compiler optimizations occur. An attacker may be able to extract an AES key from a multithreaded program, or perform a GCM forgery.",
     "severity": [
         {

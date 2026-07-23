@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-727",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-5477",
         "GHSA-grqc-3vmg-p68x",
         "EUVD-2026-21305"
     ],
-    "summary": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to...",
-    "details": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to forge CMAC tags. The function wc_CmacUpdate used the guard `if (cmac->totalSz != 0)` to skip XOR-chaining on the first block (where digest is all-zeros and the XOR is a no-op). However, totalSz is word32 and wraps to zero after 2^28 block flushes (4 GiB), causing the guard to erroneously discard the live CBC-MAC chain state. Any two messages sharing a common suffix beyond the 4 GiB mark then produce identical CMAC tags, enabling a zero-work prefix-substitution forgery. The fix removes the guard, making the XOR unconditional; the no-op property on the first block is preserved because digest is zero-initialized by wc_InitCmac_ex.",
+    "summary": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to forge...",
+    "details": "An integer overflow existed in the wolfCrypt CMAC implementation, that could be exploited to forge CMAC tags. The function `wc_CmacUpdate` used the guard `if (cmac->totalSz != 0)` to skip XOR-chaining on the first block (where digest is all-zeros and the XOR is a no-op). However, totalSz is word32 and wraps to zero after 2^28 block flushes (4 GiB), causing the guard to erroneously discard the live CBC-MAC chain state. Any two messages sharing a common suffix beyond the 4 GiB mark then produce identical CMAC tags, enabling a zero-work prefix-substitution forgery. The fix removes the guard, making the XOR unconditional; the no-op property on the first block is preserved because digest is zero-initialized by `wc_InitCmac_ex`.",
     "severity": [
         {
             "type": "CVSS_V3",

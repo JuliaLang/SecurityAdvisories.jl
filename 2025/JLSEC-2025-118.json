@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-118",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2021-38171"
     ],
-    "summary": "adts_decode_extradata in libavformat/adtsenc.c in FFmpeg 4.4 does not check the init_get_bits return...",
-    "details": "adts_decode_extradata in libavformat/adtsenc.c in FFmpeg 4.4 does not check the init_get_bits return value, which is a necessary step because the second argument to init_get_bits can be crafted.",
+    "summary": "`adts_decode_extradata` in `libavformat/adtsenc.c` in FFmpeg 4.4 does not check the `init_get_bits`...",
+    "details": "`adts_decode_extradata` in `libavformat/adtsenc.c` in FFmpeg 4.4 does not check the `init_get_bits` return value, which is a necessary step because the second argument to `init_get_bits` can be crafted.",
     "severity": [
         {
             "type": "CVSS_V2",

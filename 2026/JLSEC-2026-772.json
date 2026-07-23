@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-772",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8213",
         "GHSA-8q76-c96g-j64j",
         "EUVD-2026-28949"
     ],
-    "summary": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this issue is the...",
-    "details": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this issue is the function GDSDfldsrch of the file frmts/hdf4/hdf-eos/GDapi.c of the component Grid File Handler. The manipulation leads to heap-based buffer overflow. An attack has to be approached locally. The exploit has been disclosed to the public and may be used. Upgrading to version 3.13.0RC1 can resolve this issue. The identifier of the patch is 3e04c0385630e4d42517046d9a4967dfccfeb7fd. It is suggested to upgrade the affected component.",
+    "summary": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4",
+    "details": "A vulnerability has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this issue is the function GDSDfldsrch of the file `frmts/hdf4/hdf-eos/GDapi.c` of the component Grid File Handler. The manipulation leads to heap-based buffer overflow. An attack has to be approached locally. The exploit has been disclosed to the public and may be used. Upgrading to version 3.13.0RC1 can resolve this issue. The identifier of the patch is 3e04c0385630e4d42517046d9a4967dfccfeb7fd. It is suggested to upgrade the affected component.",
     "severity": [
         {
             "type": "CVSS_V2",

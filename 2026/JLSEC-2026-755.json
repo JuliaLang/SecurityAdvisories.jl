@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-755",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6731",
         "GHSA-9c3c-227q-3j67",
         "EUVD-2026-39555"
     ],
-    "summary": "X.509 name constraint bypass via the Subject Common Name when treated as a DNS-type name. A...",
+    "summary": "X.509 name constraint bypass via the Subject Common Name when treated as a DNS-type name",
     "details": "X.509 name constraint bypass via the Subject Common Name when treated as a DNS-type name. A certificate whose Subject CN violates an issuing CA's DNS name constraints could be accepted.",
     "severity": [
         {

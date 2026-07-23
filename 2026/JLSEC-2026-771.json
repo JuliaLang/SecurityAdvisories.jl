@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-771",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-15T21:25:44.755Z",
     "upstream": [
         "CVE-2026-8212",
@@ -10,7 +10,7 @@
         "PYSEC-2026-4"
     ],
     "summary": "OSGeo gdal has a heap-based buffer overflow",
-    "details": "A flaw has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this vulnerability is the function SWSDfldsrch of the file frmts/hdf4/hdf-eos/SWapi.c. Executing a manipulation can lead to heap-based buffer overflow. The attack requires local access. The exploit has been published and may be used. Upgrading to version 3.13.0RC1 addresses this issue. This patch commit sha is 3e04c0385630e4d42517046d9a4967dfccfeb7fd. The affected component should be upgraded.",
+    "details": "A flaw has been found in OSGeo gdal up to 3.13.0dev-4. Affected by this vulnerability is the function SWSDfldsrch of the file `frmts/hdf4/hdf-eos/SWapi.c`. Executing a manipulation can lead to heap-based buffer overflow. The attack requires local access. The exploit has been published and may be used. Upgrading to version 3.13.0RC1 addresses this issue. This patch commit sha is 3e04c0385630e4d42517046d9a4967dfccfeb7fd. The affected component should be upgraded.",
     "severity": [
         {
             "type": "CVSS_V2",

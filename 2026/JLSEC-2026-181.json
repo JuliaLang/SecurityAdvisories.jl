@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-181",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-23T15:10:48.547Z",
     "upstream": [
         "CVE-2025-12119"
     ],
-    "details": "A mongoc_bulk_operation_t may read invalid memory if large options are passed.",
+    "details": "A `mongoc_bulk_operation_t` may read invalid memory if large options are passed.",
     "severity": [
         {
             "type": "CVSS_V3",

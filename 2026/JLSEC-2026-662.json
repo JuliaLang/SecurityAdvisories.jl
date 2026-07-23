@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-662",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-11T04:13:36.542Z",
     "upstream": [
         "CVE-2026-58050",
         "GHSA-mf77-5hj2-98w9",
         "EUVD-2026-39970"
     ],
-    "summary": "libssh2 through 1.11.1 reads an attacker-controlled 32-bit attribute count from a publickey...",
-    "details": "libssh2 through 1.11.1 reads an attacker-controlled 32-bit attribute count from a publickey-subsystem response and uses it in the allocation num_attrs * sizeof(libssh2_publickey_attribute) without bounds checking, so on 32-bit platforms the multiplication overflows to an undersized buffer. A malicious SSH server can then drive the attribute-parsing loop to write past the allocation, causing a heap buffer overflow in a connecting libssh2 client.",
+    "summary": "libssh2 through 1.11.1 reads an attacker-controlled 32-bit attribute count from a...",
+    "details": "libssh2 through 1.11.1 reads an attacker-controlled 32-bit attribute count from a publickey-subsystem response and uses it in the allocation `num_attrs` * sizeof(`libssh2_publickey_attribute`) without bounds checking, so on 32-bit platforms the multiplication overflows to an undersized buffer. A malicious SSH server can then drive the attribute-parsing loop to write past the allocation, causing a heap buffer overflow in a connecting libssh2 client.",
     "severity": [
         {
             "type": "CVSS_V3",

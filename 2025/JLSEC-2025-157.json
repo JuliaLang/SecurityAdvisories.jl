@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-157",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T22:31:43.957Z",
     "upstream": [
         "CVE-2021-27219"
     ],
     "summary": "An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3",
-    "details": "An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3. The function g_bytes_new has an integer overflow on 64-bit platforms due to an implicit cast from 64 bits to 32 bits. The overflow could potentially lead to memory corruption.",
+    "details": "An issue was discovered in GNOME GLib before 2.66.6 and 2.67.x before 2.67.3. The function `g_bytes_new` has an integer overflow on 64-bit platforms due to an implicit cast from 64 bits to 32 bits. The overflow could potentially lead to memory corruption.",
     "severity": [
         {
             "type": "CVSS_V2",

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-60",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2023-52425"
     ],
-    "summary": "libexpat through 2.5.0 allows a denial of service (resource consumption) because many full reparsing...",
+    "summary": "libexpat through 2.5.0 allows a denial of service (resource consumption) because many full...",
     "details": "libexpat through 2.5.0 allows a denial of service (resource consumption) because many full reparsings are required in the case of a large token for which multiple buffer fills are needed.",
     "severity": [
         {

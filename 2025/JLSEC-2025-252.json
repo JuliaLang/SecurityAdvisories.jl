@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-252",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-25T22:18:43.603Z",
     "upstream": [
         "CVE-2019-7663"
     ],
-    "summary": "An Invalid Address dereference was discovered in TIFFWriteDirectoryTagTransferfunction in libtiff/ti...",
-    "details": "An Invalid Address dereference was discovered in TIFFWriteDirectoryTagTransferfunction in libtiff/tif_dirwrite.c in LibTIFF 4.0.10, affecting the cpSeparateBufToContigBuf function in tiffcp.c. Remote attackers could leverage this vulnerability to cause a denial-of-service via a crafted tiff file. This is different from CVE-2018-12900.",
+    "summary": "An Invalid Address dereference was discovered in TIFFWriteDirectoryTagTransferfunction in...",
+    "details": "An Invalid Address dereference was discovered in TIFFWriteDirectoryTagTransferfunction in `libtiff/tif_dirwrite.c` in LibTIFF 4.0.10, affecting the cpSeparateBufToContigBuf function in tiffcp.c. Remote attackers could leverage this vulnerability to cause a denial-of-service via a crafted tiff file. This is different from CVE-2018-12900.",
     "severity": [
         {
             "type": "CVSS_V2",

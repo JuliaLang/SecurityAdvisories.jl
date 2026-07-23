@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-495",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-13T01:42:44.063Z",
     "upstream": [
         "CVE-2025-32460",
         "GHSA-hf7q-qx98-4hm7",
         "EUVD-2025-10418"
     ],
-    "summary": "GraphicsMagick before 8e56520 has a heap-based buffer over-read in ReadJXLImage in coders/jxl.c,...",
-    "details": "GraphicsMagick before 8e56520 has a heap-based buffer over-read in ReadJXLImage in coders/jxl.c, related to an ImportViewPixelArea call.",
+    "summary": "GraphicsMagick before 8e56520 has a heap-based buffer over-read in ReadJXLImage in `coders/jxl.c`,...",
+    "details": "GraphicsMagick before 8e56520 has a heap-based buffer over-read in ReadJXLImage in `coders/jxl.c`, related to an ImportViewPixelArea call.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-212",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-36477"
     ],
     "summary": "An issue was discovered in Mbed TLS before 2.24.0",
-    "details": "An issue was discovered in Mbed TLS before 2.24.0. The verification of X.509 certificates when matching the expected common name (the cn argument of mbedtls_x509_crt_verify) with the actual certificate name is mishandled: when the subjecAltName extension is present, the expected name is compared to any name in that extension regardless of its type. This means that an attacker could impersonate a 4-byte or 16-byte domain by getting a certificate for the corresponding IPv4 or IPv6 address (this would require the attacker to control that IP address, though).",
+    "details": "An issue was discovered in Mbed TLS before 2.24.0. The verification of X.509 certificates when matching the expected common name (the cn argument of `mbedtls_x509_crt_verify`) with the actual certificate name is mishandled: when the subjecAltName extension is present, the expected name is compared to any name in that extension regardless of its type. This means that an attacker could impersonate a 4-byte or 16-byte domain by getting a certificate for the corresponding IPv4 or IPv6 address (this would require the attacker to control that IP address, though).",
     "severity": [
         {
             "type": "CVSS_V2",

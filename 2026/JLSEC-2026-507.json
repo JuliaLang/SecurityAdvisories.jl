@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-507",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-18T14:23:04.937Z",
     "upstream": [
         "CVE-2019-18799"
     ],
-    "details": "LibSass before 3.6.3 allows a NULL pointer dereference in Sass::Parser::parseCompoundSelector in parser_selectors.cpp.",
+    "details": "LibSass before 3.6.3 allows a NULL pointer dereference in Sass::Parser::parseCompoundSelector in `parser_selectors.cpp`.",
     "severity": [
         {
             "type": "CVSS_V2",

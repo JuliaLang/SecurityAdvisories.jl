@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-87",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-13T13:20:05.063Z",
     "upstream": [
         "CVE-2025-43903",
         "GHSA-4w9g-4h2x-7qxq",
         "EUVD-2025-11892"
     ],
-    "summary": "NSSCryptoSignBackend.cc in Poppler before 25.04.0 does not verify the adbe.pkcs7.sha1 signatures...",
+    "summary": "NSSCryptoSignBackend.cc in Poppler before 25.04.0 does not verify the adbe.pkcs7.sha1 signatures on...",
     "details": "NSSCryptoSignBackend.cc in Poppler before 25.04.0 does not verify the adbe.pkcs7.sha1 signatures on documents, resulting in potential signature forgeries.",
     "severity": [
         {

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-503",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-05-18T14:23:04.937Z",
     "upstream": [
         "CVE-2018-20190"
     ],
-    "details": "In LibSass 3.5.5, a NULL Pointer Dereference in the function Sass::Eval::operator()(Sass::Supports_Operator*) in eval.cpp may cause a Denial of Service (application crash) via a crafted sass input file.",
+    "details": "In LibSass 3.5.5, a NULL Pointer Dereference in the function Sass::Eval::operator()(`Sass::Supports_Operator`*) in eval.cpp may cause a Denial of Service (application crash) via a crafted sass input file.",
     "severity": [
         {
             "type": "CVSS_V2",

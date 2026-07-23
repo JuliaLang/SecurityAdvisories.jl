@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-25",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-10T15:04:01.319Z",
     "upstream": [
         "CVE-2020-8286"
     ],
-    "summary": "curl 7.41.0 through 7.73.0 is vulnerable to an improper check for certificate revocation due to insu...",
+    "summary": "curl 7.41.0 through 7.73.0 is vulnerable to an improper check for certificate revocation due to...",
     "details": "curl 7.41.0 through 7.73.0 is vulnerable to an improper check for certificate revocation due to insufficient verification of the OCSP response.",
     "severity": [
         {

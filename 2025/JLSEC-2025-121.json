@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-121",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-19T19:08:53.760Z",
     "upstream": [
         "CVE-2022-3109"
     ],
-    "summary": "An issue was discovered in the FFmpeg package, where vp3_decode_frame in libavcodec/vp3.c lacks chec...",
-    "details": "An issue was discovered in the FFmpeg package, where vp3_decode_frame in libavcodec/vp3.c lacks check of the return value of av_malloc() and will cause a null pointer dereference, impacting availability.",
+    "summary": "An issue was discovered in the FFmpeg package, where `vp3_decode_frame` in `libavcodec/vp3.c` lacks...",
+    "details": "An issue was discovered in the FFmpeg package, where `vp3_decode_frame` in `libavcodec/vp3.c` lacks check of the return value of `av_malloc()` and will cause a null pointer dereference, impacting availability.",
     "severity": [
         {
             "type": "CVSS_V3",

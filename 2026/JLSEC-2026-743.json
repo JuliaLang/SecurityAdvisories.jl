@@ -1,15 +1,15 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-743",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-07-14T21:41:35.775Z",
     "upstream": [
         "CVE-2026-6092",
         "GHSA-576m-xh9m-c774",
         "EUVD-2026-39573"
     ],
-    "summary": "When HAVE_ENCRYPT_THEN_MAC is configured, the implementation could fall back to MAC-then-Encrypt...",
-    "details": "When HAVE_ENCRYPT_THEN_MAC is configured, the implementation could fall back to MAC-then-Encrypt rather than enforcing Encrypt-then-MAC.",
+    "summary": "When `HAVE_ENCRYPT_THEN_MAC` is configured, the implementation could fall back to MAC-then-Encrypt...",
+    "details": "When `HAVE_ENCRYPT_THEN_MAC` is configured, the implementation could fall back to MAC-then-Encrypt rather than enforcing Encrypt-then-MAC.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-82",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T17:40:51.659Z",
     "withdrawn": "2026-05-07T16:59:28.152Z",
     "upstream": [
         "CVE-2023-45322"
     ],
-    "summary": "libxml2 through 2.11.5 has a use-after-free that can only occur after a certain memory allocation fa...",
+    "summary": "libxml2 through 2.11.5 has a use-after-free that can only occur after a certain memory allocation...",
     "details": "libxml2 through 2.11.5 has a use-after-free that can only occur after a certain memory allocation fails. This occurs in xmlUnlinkNode in tree.c. NOTE: the vendor's position is \"I don't think these issues are critical enough to warrant a CVE ID ... because an attacker typically can't control when memory allocations fail.\"",
     "severity": [
         {

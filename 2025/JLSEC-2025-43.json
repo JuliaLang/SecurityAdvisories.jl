@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-43",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-14T15:35:41.198Z",
     "upstream": [
         "CVE-2021-46143"
     ],
-    "summary": "In doProlog in xmlparse.c in Expat (aka libexpat) before 2.4.3, an integer overflow exists for m_gro...",
-    "details": "In doProlog in xmlparse.c in Expat (aka libexpat) before 2.4.3, an integer overflow exists for m_groupSize.",
+    "summary": "In doProlog in xmlparse.c in Expat (aka libexpat) before 2.4.3, an integer overflow exists for...",
+    "details": "In doProlog in xmlparse.c in Expat (aka libexpat) before 2.4.3, an integer overflow exists for `m_groupSize`.",
     "severity": [
         {
             "type": "CVSS_V2",

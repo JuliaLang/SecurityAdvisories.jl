@@ -1,13 +1,13 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-209",
-    "modified": "2026-07-17T23:50:43.660Z",
+    "modified": "2026-07-23T22:21:26.455Z",
     "published": "2025-11-21T15:59:04.054Z",
     "upstream": [
         "CVE-2020-36426"
     ],
     "summary": "An issue was discovered in Arm Mbed TLS before 2.24.0",
-    "details": "An issue was discovered in Arm Mbed TLS before 2.24.0. mbedtls_x509_crl_parse_der has a buffer over-read (of one byte).",
+    "details": "An issue was discovered in Arm Mbed TLS before 2.24.0. `mbedtls_x509_crl_parse_der` has a buffer over-read (of one byte).",
     "severity": [
         {
             "type": "CVSS_V2",
