@@ -135,7 +135,7 @@ _is_upstream(adv) = !isempty(adv.upstream)
 const SRC_DESCRIPTIONS = Dict(
     ""         => "All published security advisories for packages in the Julia ecosystem.",
     "julia"    => "Advisories authored directly for packages in the Julia ecosystem.",
-    "upstream" => "Advisories imported from upstream databases (CVE, GHSA, OSV) and mapped onto affected Julia packages.",
+    "upstream" => "Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL).",
 )
 
 _advisory_file_path(adv) =
@@ -278,9 +278,9 @@ function hfun_all_advisories()
     io = IOBuffer()
 
     write(io, """<div class="src-tabs" id="adv-src-tabs">""")
-    write(io, """<button class="src-tab active" data-src="">All sources</button>""")
-    write(io, """<button class="src-tab" data-src="julia">Julia</button>""")
-    write(io, """<button class="src-tab" data-src="upstream">Upstream</button>""")
+    write(io, """<button class="src-tab active" data-src="">All</button>""")
+    write(io, """<button class="src-tab" data-src="julia">Julia only</button>""")
+    write(io, """<button class="src-tab" data-src="upstream">Upstream only</button>""")
     write(io, "</div>")
 
     write(io, """<p class="adv-src-desc" id="adv-src-desc">$(SRC_DESCRIPTIONS[""])</p>""")
