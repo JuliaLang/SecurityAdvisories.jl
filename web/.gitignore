@@ -11,3 +11,6 @@ packages/*/
 
 # Pagefind output
 pagefind/
+
+# Build log captured for scripts/verify_rendered_pages.sh
+franklin-build.log
