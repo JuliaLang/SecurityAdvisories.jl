@@ -105,6 +105,11 @@ end
 
 _advisory_url(adv) = "/advisories/$(adv.id)/"
 
+# Whether an advisory was imported from an upstream source (CVE, GHSA, OSV…)
+# and mapped onto Julia packages, rather than authored natively for a package
+# in the Julia ecosystem. Upstream advisories carry a non-empty `upstream` list.
+_is_upstream(adv) = !isempty(adv.upstream)
+
 _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
 
@@ -200,13 +205,14 @@ end
 # keep list-item markup consistent.
 
 function _write_advisory_row(io::IOBuffer, adv;
-        extra_attrs::String="", summary_len::Int=90)
+        extra_attrs::String="", summary_len::Int=90, show_source::Bool=false)
     summary = something(adv.summary, "No summary available")
     badge = _severity_badge(adv)
     withdrawn_badge = adv.withdrawn !== nothing ? """<span class="withdrawn-badge">Withdrawn</span>""" : ""
+    source_badge = (show_source && _is_upstream(adv)) ? """<span class="source-badge">Upstream</span>""" : ""
     write(io, """<a href="$(_advisory_url(adv))" class="advisory-item"$extra_attrs>""")
     write(io, """<span class="advisory-id">$(adv.id)</span>""")
-    write(io, """<span class="advisory-badge">$badge$withdrawn_badge</span>""")
+    write(io, """<span class="advisory-badge">$badge$withdrawn_badge$source_badge</span>""")
     write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, summary_len)))</span>""")
     write(io, """<span class="advisory-meta">$(_display_date_inline(adv))</span>""")
     write(io, "</a>")
@@ -233,14 +239,31 @@ function hfun_recent_advisories()
     io = IOBuffer()
     write(io, """<div class="advisory-list">""")
     for adv in @view advs[1:n]
-        _write_advisory_row(io, adv)
+        _write_advisory_row(io, adv; show_source=true)
     end
     write(io, "</div>")
     String(take!(io))
 end
 
+function _write_advisory_section(io::IOBuffer, key, title, subtitle, advs)
+    write(io, """<section class="adv-section" data-source="$key">""")
+    write(io, """<div class="section-header"><h2>$title</h2><span class="adv-section-count">$(length(advs))</span></div>""")
+    write(io, """<p class="adv-section-sub">$subtitle</p>""")
+    write(io, """<div class="advisory-list">""")
+    for adv in advs
+        sev_cls = _severity_class(adv)
+        pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
+        summary = something(adv.summary, "No summary available")
+        attrs = """ data-severity="$sev_cls" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        _write_advisory_row(io, adv; extra_attrs=attrs)
+    end
+    write(io, "</div></section>")
+end
+
 function hfun_all_advisories()
     advs = load_all_advisories()
+    julia_advs    = filter(!_is_upstream, advs)
+    upstream_advs = filter(_is_upstream, advs)
     io = IOBuffer()
 
     write(io, """<div class="filter-bar">""")
@@ -254,45 +277,61 @@ function hfun_all_advisories()
     write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
     write(io, "</div>")
 
-    write(io, """<div class="advisory-list" id="advisory-list">""")
-    for adv in advs
-        sev_cls = _severity_class(adv)
-        pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
-        summary = something(adv.summary, "No summary available")
-        attrs = """ data-severity="$sev_cls" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
-        _write_advisory_row(io, adv; extra_attrs=attrs)
-    end
+    write(io, """<div class="src-tabs" id="adv-src-tabs">""")
+    write(io, """<button class="src-tab active" data-src="">All sources</button>""")
+    write(io, """<button class="src-tab" data-src="julia">Julia</button>""")
+    write(io, """<button class="src-tab" data-src="upstream">Upstream</button>""")
     write(io, "</div>")
+
+    _write_advisory_section(io, "julia", "Julia advisories",
+        "Authored for packages in the Julia ecosystem.", julia_advs)
+    _write_advisory_section(io, "upstream", "Upstream advisories",
+        "Imported from upstream databases (CVE, GHSA, OSV) and mapped onto affected Julia packages.", upstream_advs)
 
     write(io, """
 <script>
 (function(){
-  var btns = document.querySelectorAll('#adv-sev-btns .sev-btn');
-  btns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      filterAdvisories();
+  function wire(sel, cb){
+    var btns = document.querySelectorAll(sel);
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        cb();
+      });
     });
-  });
+  }
+  wire('#adv-sev-btns .sev-btn', filterAdvisories);
+  wire('#adv-src-tabs .src-tab', filterAdvisories);
 })();
 function filterAdvisories(){
   var text = document.getElementById('adv-filter-text').value.toLowerCase();
-  var activeBtn = document.querySelector('#adv-sev-btns .sev-btn.active');
-  var sev = activeBtn ? activeBtn.getAttribute('data-sev') : '';
-  var items = document.querySelectorAll('#advisory-list .advisory-item');
-  var shown = 0;
-  items.forEach(function(el){
-    var id = el.querySelector('.advisory-id').textContent.toLowerCase();
-    var summary = el.getAttribute('data-summary') || '';
-    var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
-    var elSev = el.getAttribute('data-severity') || '';
-    var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
-    var matchSev = !sev || elSev === sev;
-    if(matchText && matchSev){ el.style.display=''; shown++; }
-    else { el.style.display='none'; }
+  var activeSev = document.querySelector('#adv-sev-btns .sev-btn.active');
+  var sev = activeSev ? activeSev.getAttribute('data-sev') : '';
+  var activeSrc = document.querySelector('#adv-src-tabs .src-tab.active');
+  var src = activeSrc ? activeSrc.getAttribute('data-src') : '';
+  var totalShown = 0, totalItems = 0;
+  document.querySelectorAll('.adv-section').forEach(function(section){
+    var sectionAllowed = !src || src === section.getAttribute('data-source');
+    var shown = 0;
+    var items = section.querySelectorAll('.advisory-item');
+    items.forEach(function(el){
+      totalItems++;
+      var id = el.querySelector('.advisory-id').textContent.toLowerCase();
+      var summary = el.getAttribute('data-summary') || '';
+      var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
+      var elSev = el.getAttribute('data-severity') || '';
+      var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
+      var matchSev = !sev || elSev === sev;
+      if(sectionAllowed && matchText && matchSev){ el.style.display=''; shown++; }
+      else { el.style.display='none'; }
+    });
+    totalShown += shown;
+    var cnt = section.querySelector('.adv-section-count');
+    if(cnt) cnt.textContent = shown;
+    section.style.display = (sectionAllowed && shown > 0) ? '' : 'none';
   });
-  document.getElementById('adv-filter-count').textContent = shown + ' of ' + items.length;
+  document.getElementById('adv-filter-count').textContent = totalShown + ' of ' + totalItems;
 }
 filterAdvisories();
 </script>""")
@@ -459,7 +498,7 @@ function hfun_package_advisories()
     io = IOBuffer()
     write(io, """<div class="advisory-list">""")
     for adv in filtered
-        _write_advisory_row(io, adv)
+        _write_advisory_row(io, adv; show_source=true)
     end
     write(io, "</div>")
     isempty(filtered) && write(io, "<p>No advisories found for $(_escape(pkg)).</p>")

@@ -1042,6 +1042,66 @@ a.pkg-tag:hover {
   margin-left: auto;
 }
 
+/* Source-type tabs (Julia vs upstream) on the advisories index */
+.src-tabs {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.src-tab {
+  padding: 0.35em 0.9em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1.5px solid var(--c-border);
+  background: transparent;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.src-tab:hover  { background: var(--c-surface-hover); color: var(--c-text); border-color: var(--c-text-muted); }
+.src-tab.active { background: var(--c-surface); color: var(--c-text); border-color: var(--c-text); }
+
+/* Grouped advisory sections */
+.adv-section {
+  margin-bottom: 2.5rem;
+}
+
+.adv-section-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.adv-section-sub {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  color: var(--c-text-muted);
+}
+
+/* "Upstream" marker on advisory rows outside the grouped index */
+.source-badge {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  background: var(--c-accent-subtle);
+  color: var(--c-accent);
+  border: 1px solid var(--c-accent-subtle);
+  vertical-align: middle;
+  margin-left: 0.2em;
+}
+
 .home-paths {
   margin-top: 2.5rem;
   padding-top: 2rem;
