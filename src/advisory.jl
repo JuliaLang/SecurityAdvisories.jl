@@ -151,6 +151,16 @@ function srcid(src::AdvisorySource)
 end
 
 """
+    unscoped_id(id)
+
+Return the plain advisory id, dropping the `owner/repo/` prefix that scopes repository GHSAs
+"""
+function unscoped_id(id)
+    m = match(r"(GHSA-\w{4}-\w{4}-\w{4})$", id)
+    return isnothing(m) ? id : String(m.captures[1])
+end
+
+"""
     Advisory(; osv_kwargs...)
 
 Represent an advisory using OSV schema's definitions for nearly all its fields.
