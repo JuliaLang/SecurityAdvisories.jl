@@ -13,15 +13,25 @@
 
 # A run of identifier characters, optionally ending in an empty call "()".
 # The class includes `\` and `$` so that whole tokens such as `C:\etc` and
-# `$HOME/.terminfo` are captured (and then wrapped) intact.
-const _IDENTIFIER_RUN = r"[A-Za-z0-9_$\\][A-Za-z0-9_$\\./:\-]*(?:\(\))?"
+# `$HOME/.terminfo` are captured (and then wrapped) intact, and may start
+# with `/` so absolute paths like `/etc/passwd` keep their leading slash.
+# The lookarounds keep a wrap from starting mid-token or abutting a backtick
+# or a `\x00` mask placeholder (see `_protect_line`) -- inserting a backtick
+# against an existing span would produce a broken ``-delimited code block.
+const _IDENTIFIER_RUN = r"(?<![`\x00A-Za-z0-9_$\\./:\-])[/A-Za-z0-9_$\\][A-Za-z0-9_$\\./:\-]*(?:\(\))?(?![`\x00])"
 
-# True for identifiers Franklin would otherwise mangle or choke on.
+# True for identifiers Franklin would otherwise mangle or choke on, plus
+# path-like tokens that read better as code even when they'd render fine.
 function _needs_backticks(tok)
     occursin(r"^_[A-Za-z0-9]+_$", tok) && return false  # intended single-word _emphasis_
     occursin('_', tok)               && return true     # foo_bar -> foo*bar* emphasis
     occursin(r"\\[A-Za-z]", tok)     && return true     # \command -> undefined LaTeX (build error)
     occursin(r"\$[A-Za-z{]", tok)    && return true     # $VAR -> math mode (build error)
+    if occursin('/', tok) && (startswith(tok, "/") || occursin('.', tok))
+        # a path: absolute (/etc/shadow, /tmp) or dotted (libavcodec/utils.c) --
+        # but not a protocol version (HTTP/1.0), whose last segment has no letter
+        occursin(r"[A-Za-z]", last(split(tok, '/'))) && return true
+    end
     return false                                        # bare \0, currency $5, etc. are harmless
 end
 
@@ -66,9 +76,10 @@ end
 """
     protect_identifiers(details) -> String
 
-Wrap identifier-like tokens in plaintext advisory `details` with backticks
-so they render as code rather than being mis-parsed as Markdown by the
-website generator.  Prose only: inline code spans, fenced/indented code
+Wrap identifier-like tokens (including path-like tokens such as
+`/etc/passwd` or `libavcodec/utils.c`) in plaintext advisory `details`
+with backticks so they render as code rather than being mis-parsed as
+Markdown by the website generator.  Prose only: inline code spans, fenced/indented code
 blocks, headings, Markdown links, and bare URLs are left untouched, the
 intended word-bounded `_emphasis_` spans and harmless tokens like `\\0` or
 currency `\$5` are left alone, and the transform is idempotent.
