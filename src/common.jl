@@ -655,7 +655,7 @@ function fetch_combinations(batch)
     known_ids = Set{String}(Iterators.flatten((Iterators.flatten(a.aliases for a in batch), Iterators.flatten(a.upstream for a in batch))))
     while !isempty(known_ids)
         id = pop!(known_ids)
-        if !haskey(sources, id)
+        if !any(k -> unscoped_id(k) == unscoped_id(id), keys(sources))
             try
                 # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
                 # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
@@ -694,8 +694,14 @@ function fetch_combinations(batch)
     advisories = Advisory[]
     for alias_set in alias_sets
         # Now combine the advisories within each alias set into a single advisory in our preferred order
-        # Note that we may not have fetched an advisory for all the aliases
-        ids = sort(collect(intersect(alias_set, keys(sources))), by=preferred_id_sort)
+        # Note that we may not have fetched an advisory for all the aliases, and that repo-scoped
+        # source ids (owner/repo/GHSA-xxxx) match their plain GHSA aliases
+        ids = sort(filter(id -> any(a -> unscoped_id(a) == unscoped_id(id), alias_set), collect(keys(sources))), by=preferred_id_sort)
+        if isempty(ids)
+            # This can happen when re-searching a published JLSEC whose sources could not be re-fetched
+            @warn "no fetched advisories correspond to an alias set; skipping it" alias_set
+            continue
+        end
         start_id = popfirst!(ids)
         advisory = sources[start_id]
         for id in ids
