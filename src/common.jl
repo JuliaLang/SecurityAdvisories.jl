@@ -698,7 +698,6 @@ function fetch_combinations(batch)
         # source ids (owner/repo/GHSA-xxxx) match their plain GHSA aliases
         ids = sort(filter(id -> any(a -> unscoped_id(a) == unscoped_id(id), alias_set), collect(keys(sources))), by=preferred_id_sort)
         if isempty(ids)
-            # This can happen when re-searching a published JLSEC whose sources could not be re-fetched
             @warn "no fetched advisories correspond to an alias set; skipping it" alias_set
             continue
         end

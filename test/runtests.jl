@@ -177,8 +177,7 @@ end
 end
 
 @testset "fetch_combinations skips alias sets with no fetchable sources" begin
-    # A published JLSEC whose aliases can't be re-fetched shouldn't error; it's updated
-    # via `find_existing_jlsec` downstream rather than through re-combination
+    # A published JLSEC whose aliases can't be re-fetched shouldn't error
     batch = tryparse.(SecurityAdvisories.Advisory, [
         "```toml\nschema_version = \"1.8.0\"\nid = \"JLSEC-2026-12345\"\nmodified = 2026-07-23T19:36:30.000Z\npublished = 2026-07-23T19:36:30.000Z\naliases = [\"PYSEC-2026-99999\"]\n\n[[affected]]\npkg = \"Example\"\nranges = [\"< 1.0.0\"]\n\n[[jlsec_sources]]\nid = \"PYSEC-2026-99999\"\nimported = 2026-07-23T19:36:30.000Z\nmodified = 2026-07-23T15:00:00.000Z\npublished = 2026-07-23T15:00:00.000Z\nurl = \"https://example.com/PYSEC-2026-99999\"\nhtml_url = \"https://example.com/PYSEC-2026-99999\"\n```\n\n# Some advisory\n"])
     combined = @test_logs (:info,) (:warn, r"no fetched advisories") SecurityAdvisories.fetch_combinations(batch)
