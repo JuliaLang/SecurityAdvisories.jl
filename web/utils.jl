@@ -124,9 +124,6 @@ _js_object(d::AbstractDict) =
 
 _advisory_url(adv) = "/advisories/$(adv.id)/"
 
-# Whether an advisory was imported from an upstream source (CVE, GHSA, OSV…)
-# and mapped onto Julia packages, rather than authored natively for a package
-# in the Julia ecosystem. Upstream advisories carry a non-empty `upstream` list.
 _is_upstream(adv) = !isempty(adv.upstream)
 
 # Lead-in copy for the advisories index, keyed by the active source tab
