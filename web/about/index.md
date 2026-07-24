@@ -4,7 +4,7 @@
 
 # About
 
-The Julia Security Advisory Database is the canonical source of security advisories for packages in the [Julia](https://julialang.org) ecosystem. It covers all packages registered in the [General registry](https://github.com/JuliaRegistries/General), the Julia standard libraries, and Julia itself.
+The Julia Ecosystem Security Advisory Database is the canonical source of security advisories for packages in the [Julia](https://julialang.org) ecosystem. It covers all packages registered in the [General registry](https://github.com/JuliaRegistries/General), the Julia standard libraries, and Julia itself.
 
 ## Goals
 
