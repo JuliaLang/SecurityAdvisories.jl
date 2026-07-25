@@ -3,6 +3,7 @@ schema_version = "1.8.0"
 id = "JLSEC-0000-GHSA-r3xx-hw22-6h6w"
 modified = 2026-07-23T21:55:40.480Z
 aliases = ["GHSA-r3xx-hw22-6h6w"]
+severities = ["CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:L"]
 
 [[affected]]
 pkg = "LibSSH"
