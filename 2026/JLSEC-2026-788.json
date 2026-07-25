@@ -1,0 +1,71 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-788",
+    "modified": "2026-07-25T03:14:11.289Z",
+    "published": "2026-07-25T03:14:11.289Z",
+    "upstream": [
+        "CVE-2026-40553"
+    ],
+    "summary": "Buffer overflow in gawk's `readdir.c` can cause denial of service and possible code execution",
+    "details": "Buffer overflow vulnerability has been found in \"`extension/readdir.c`\" program file of gawk (ftype() routine). This issue could be used to crash the program and potentially to achieve code execution, although the latter has not been confirmed to be feasible. It affects gawk in versions 5.4.0 and below.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "5.4.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "gawk_jll",
+                "purl": "pkg:julia/gawk_jll?uuid=054acbdd-7fbc-53f6-b51a-0fe4f8189fb8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert.pl/en/posts/2026/07/CVE-2026-40467"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=cca0366144336b49aaa7d5d949966ce8e2c70843"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-40553",
+                "imported": "2026-07-24T13:47:27.345Z",
+                "modified": "2026-07-14T01:10:20.120Z",
+                "published": "2026-07-13T13:16:37.147Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-40553",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40553",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
