@@ -154,6 +154,93 @@ end
     @test combine_severities([v3_unsourced], [v3_unsourced_revised]) == [v3_unsourced_revised]
 end
 
+@testset "CVSS scoring" begin
+    using SecurityAdvisories: cvss_score, cvss2_score, cvss3_score, cvss4_score, Severity
+    # Expected scores verified against the RedHat `cvss` Python reference
+    # library (v2/v3 base scores; v4 full CVSS-BTE scores).
+    @testset "CVSS v3.x base scores" begin
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") == 9.8
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H") == 10.0
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N") == 6.1
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N") == 5.3
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H") == 7.5
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H") == 8.8
+        @test cvss3_score("CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H") == 7.8
+        # Changed scope exercises the alternate impact and 1.08 scaling terms
+        @test cvss3_score("CVSS:3.0/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N") == 5.6
+        @test cvss3_score("CVSS:3.1/AV:A/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:L") == 5.1
+        @test cvss3_score("CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:U/C:L/I:N/A:N") == 1.6
+        # No impact scores 0.0 regardless of exploitability
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N") == 0.0
+        # Temporal metrics are ignored; the base score is unaffected
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C") == 9.8
+        # Incomplete or invalid vectors
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H") === nothing
+        @test cvss3_score("CVSS:3.1/AV:Q/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") === nothing
+        @test cvss3_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/C:H/I:H/A:H") === nothing  # missing S
+        @test cvss3_score("AV:N/AC:L/Au:N/C:P/I:P/A:P") === nothing  # v2 vector
+        @test cvss3_score("bogus") === nothing
+    end
+
+    @testset "CVSS v2 base scores" begin
+        @test cvss2_score("AV:N/AC:L/Au:N/C:C/I:C/A:C") == 10.0
+        @test cvss2_score("AV:N/AC:L/Au:N/C:P/I:P/A:P") == 7.5
+        @test cvss2_score("AV:N/AC:M/Au:N/C:N/I:P/A:N") == 4.3
+        @test cvss2_score("AV:N/AC:L/Au:N/C:P/I:N/A:N") == 5.0
+        @test cvss2_score("AV:N/AC:L/Au:N/C:N/I:N/A:C") == 7.8
+        @test cvss2_score("AV:L/AC:H/Au:N/C:C/I:C/A:C") == 6.2
+        @test cvss2_score("AV:L/AC:H/Au:M/C:P/I:N/A:N") == 0.8
+        @test cvss2_score("AV:A/AC:M/Au:S/C:P/I:C/A:N") == 5.8
+        # No impact scores 0.0 regardless of exploitability
+        @test cvss2_score("AV:L/AC:L/Au:N/C:N/I:N/A:N") == 0.0
+        # Temporal metrics are ignored; the base score is unaffected
+        @test cvss2_score("AV:N/AC:L/Au:N/C:P/I:P/A:P/E:F/RL:OF/RC:C") == 7.5
+        # Incomplete or invalid vectors
+        @test cvss2_score("AV:N/AC:L/Au:N/C:P/I:P") === nothing
+        @test cvss2_score("AV:N/AC:L/Au:N/C:X/I:P/A:P") === nothing
+        @test cvss2_score("bogus") === nothing
+    end
+
+    @testset "CVSS v4.0 scores" begin
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 9.3
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H") == 10.0
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N") == 0.0
+        # Interpolation between MacroVectors (non-zero severity distances)
+        @test cvss4_score("CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 8.5
+        @test cvss4_score("CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N") == 2.1
+        @test cvss4_score("CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 7.0
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N") == 7.1
+        @test cvss4_score("CVSS:4.0/AV:A/AC:H/AT:P/PR:L/UI:A/VC:L/VI:L/VA:L/SC:L/SI:L/SA:L") == 1.0
+        # Threat metrics lower the score from the base 9.3
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P") == 8.9
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U") == 8.1
+        # Environmental metrics: M* overrides and security requirements
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/MAV:P/MVC:N") == 5.2
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/CR:L/IR:L/AR:L") == 8.9
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/MSI:S") == 9.1
+        # Incomplete or invalid vectors
+        @test cvss4_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N") === nothing
+        @test cvss4_score("CVSS:4.0/AV:Q/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") === nothing
+        @test cvss4_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") === nothing
+        @test cvss4_score("bogus") === nothing
+    end
+
+    @testset "cvss_score entry points" begin
+        # Version auto-detection from bare vector strings
+        @test cvss_score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") == 9.8
+        @test cvss_score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 9.3
+        @test cvss_score("AV:N/AC:L/Au:N/C:P/I:P/A:P") == 7.5
+        @test cvss_score("not a cvss vector") === nothing
+        # Dispatch on a Severity's type
+        @test cvss_score(Severity("CVSS_V3", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")) == 9.8
+        @test cvss_score(Severity("CVSS_V4", "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N")) == 9.3
+        @test cvss_score(Severity("CVSS_V2", "AV:N/AC:L/Au:N/C:P/I:P/A:P")) == 7.5
+        @test cvss_score(Severity("UBUNTU", "medium")) === nothing
+        # A Severity whose type doesn't match its vector scores as its type says
+        @test cvss_score(Severity("CVSS_V4", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")) === nothing
+    end
+end
+
 @testset "fetch_combinations tolerates aliases that can't be fetched" begin
     # GHSA/EUVD/NVD advisories can reference aliases (e.g. PYSEC-*) that `fetch_advisory`
     # doesn't know how to fetch; those should be dropped from `sources` but still retained as alias ids
