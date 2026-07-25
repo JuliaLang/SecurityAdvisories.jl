@@ -1,0 +1,52 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-791",
+    "modified": "2026-07-25T03:32:48.775Z",
+    "published": "2026-07-25T03:32:48.775Z",
+    "aliases": [
+        "GHSA-r3xx-hw22-6h6w"
+    ],
+    "summary": "Writing to SFTP files resulting in sending out-of-bounds data to the server",
+    "details": "### Impact\n\nThe `write(::SftpFile, ::DenseVector)` method assumed that the element type of the input vector had a size of 1 byte (e.g. `Int8`/`UInt8`), and used `length(data)` instead of `sizeof(data)` to get the number of bytes to send. If the input vector had a eltype with size more than 1 byte then this would result in some bytes *before* the vector in memory being sent (or a segfault).\n\nAny user writing to an `SftpFile` is potentially impacted.\n\n### Patches\n\nThe bug has been fixed in LibSSH v1.2.0.\n\n### Workarounds\n\nEnsure that all inputs to writing `SftpFile`'s are byte vectors.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:N/A:L"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.1.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibSSH",
+                "purl": "pkg:julia/LibSSH?uuid=00483490-30f8-4353-8aba-35b82f51f4d0"
+            }
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "GHSA-r3xx-hw22-6h6w",
+                "imported": "2026-07-23T21:55:40.451Z",
+                "modified": "2026-07-23T19:14:03Z",
+                "published": "2026-07-23T19:14:03Z",
+                "url": "https://api.github.com/repos/JuliaWeb/LibSSH.jl/security-advisories/GHSA-r3xx-hw22-6h6w",
+                "html_url": "https://github.com/JuliaWeb/LibSSH.jl/security/advisories/GHSA-r3xx-hw22-6h6w"
+            }
+        ]
+    }
+}
