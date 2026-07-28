@@ -1,0 +1,57 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-799",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-9AY5SJ8K",
+        "ANT-2026-Y2QRZ3CC"
+    ],
+    "summary": "Unauthenticated TLS records can exhaust memory or CPU during a handshake",
+    "details": "Reseau 1.1.0 through 1.3.1 contain two resource-exhaustion conditions in the\nnative TLS 1.2 and TLS 1.3 record layers. An unauthenticated network peer can\nsend records that consume memory without a bound or keep a handshake task\nprocessing non-progressing input.\n\n### Impact\n\nA peer can retain approximately 16 KiB of plaintext per record until the\nprocess exhausts memory, or stream empty handshake records to keep a connection\ntask consuming CPU. Multiple connections can amplify either condition and\nimpair service availability.\n\n### Technical details\n\nThis advisory consolidates two handshake-time input-validation defects:\n\n 1. After obtaining handshake traffic keys but before completing the handshake,\n    a peer could send application-data records. The record layers appended the\n    decrypted bytes to an unbounded plaintext buffer instead of rejecting the\n    record. Because each record was nonempty, it also reset the useless-record\n    counter.\n 2. Zero-length handshake records produced no handshake bytes but were not\n    rejected or charged against the useless-record limit. The handshake reader\n    could therefore loop forever while continuing to receive non-progressing\n    records.\n\nBoth defects were introduced with Reseau's native TLS stack in version 1.1.0.\nReleases 1.0.x used the previous OpenSSL TLS engine and are not affected.\n\n### Patches\n\nUpgrade to Reseau 1.3.2 or later. The fixed record layers reject both\napplication data received before handshake completion and empty handshake\nrecords with a fatal `unexpected_message` alert.\n\n### Workarounds\n\nThere is no complete in-process workaround. Set a finite\n`handshake_timeout_ns` and enforce connection rate and concurrency limits to\nbound each handshake's duration and reduce repeated attacks; an attacker can\nstill consume substantial resources within that window. Terminating TLS in a\npatched proxy before forwarding traffic to a vulnerable Reseau service avoids\nthe vulnerable record parser.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.1.0"
+                        },
+                        {
+                            "fixed": "1.3.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

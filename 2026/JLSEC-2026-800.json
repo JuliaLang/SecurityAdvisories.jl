@@ -1,0 +1,56 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-800",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-FPFYHMMM"
+    ],
+    "summary": "Slow DNS lookups can stall garbage collection process-wide",
+    "details": "Reseau 1.0.0 through 1.3.1 perform the blocking system `getaddrinfo` operation\nfrom Julia-adopted resolver threads without marking the foreign call as\ngarbage-collector safe. An attacker who can cause an application to resolve a\nslow hostname can delay stop-the-world garbage collection for the entire\nprocess.\n\n### Impact\n\nWhile a resolver worker is blocked outside a GC-safe region, a collection\nrequested by any thread can stall all Julia execution until the\noperating-system resolver returns. Repeated slow lookups can cause severe\nservice latency or temporary denial of service. Each individual stall remains\nbounded by the operating system's DNS timeout.\n\nExploitation requires either attacker influence over hostnames the application\nresolves or control of a relevant DNS response path.\n\n### Technical details\n\nReseau uses a native resolver pool whose worker threads enter Julia through\n`@cfunction`. The POSIX and Winsock resolver wrappers called `getaddrinfo` with\na plain `ccall`. Because the adopted thread could not reach a safepoint while\nthe resolver blocked, Julia's collector had to wait for it.\n\n### Patches\n\nUpgrade to Reseau 1.3.2 or later. The resolver now uses Reseau's\n`@gcsafe_ccall` wrapper for the blocking system call on both POSIX and Windows.\n\n### Workarounds\n\nReject or strictly allowlist attacker-supplied hostnames before resolution and\ncache validated DNS results where appropriate. Isolating untrusted resolution\nin a separate process also prevents its resolver timeout from blocking the\nmain Julia process. These measures are application-dependent; upgrading is the\ncomplete fix.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.3.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

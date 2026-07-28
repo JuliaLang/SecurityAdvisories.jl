@@ -1,0 +1,56 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-798",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-DEPR14J5"
+    ],
+    "summary": "TLS 1.3 KeyUpdate handling can race concurrent writes",
+    "details": "Reseau 1.1.0 through 1.3.1 process a peer-requested TLS 1.3\n`KeyUpdate(update_requested)` response from the read path without acquiring the\nconnection's write lock. A connected peer can race that response against an\napplication task writing on the same connection.\n\n### Impact\n\nThe two tasks can concurrently use and replace shared write-cipher state,\nincluding the record sequence number, nonce and output buffers, key material,\nand OpenSSL AEAD context. Depending on timing, this can cause AEAD nonce reuse,\ncorrupted or disclosed plaintext, use-after-free behavior in OpenSSL, or\nprocess termination.\n\nThe attack requires TLS 1.3, concurrent reader and writer tasks, and winning a\nrace with an otherwise valid post-handshake KeyUpdate message.\n\n### Technical details\n\nApplication writes hold `conn.write_lock`, but the vulnerable KeyUpdate handler\nwrote its response and called `_tls13_advance_write_cipher!` while holding only\nthe read lock. The application writer and handler could therefore encrypt with\nthe same sequence number, resize a shared output buffer while another task held\nits pointer across an I/O yield, or free and replace an EVP context still in\nuse by the writer.\n\nThe vulnerable native TLS implementation first shipped in Reseau 1.1.0.\nReleases 1.0.x used the previous OpenSSL TLS engine and are not affected.\n\n### Patches\n\nUpgrade to Reseau 1.3.2 or later. The fix serializes both the KeyUpdate response\nand write-cipher rotation under the same write lock used by application writes.\n\n### Workarounds\n\nConfiguring connections to use TLS 1.2, or ensuring that no application writer\nruns concurrently with the connection reader, avoids this particular race.\nUpgrading is recommended because those restrictions can be difficult to\nenforce for full-duplex protocols.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.1.0"
+                        },
+                        {
+                            "fixed": "1.3.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-797",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-A9EKTB8C",
+        "ANT-2026-KA1TSJPQ"
+    ],
+    "summary": "Windows IOCP lifetime bugs can corrupt memory during cancellation or shutdown",
+    "details": "Reseau releases before 1.3.3 contain related lifetime defects in the Windows I/O\ncompletion port (IOCP) backend. During cancellation or event-loop shutdown, the\npackage can stop retaining memory that the Windows kernel still owns. A remote\npeer that can time or stall I/O around application-driven deadlines, concurrent\ncloses, or event-loop shutdown may be able to trigger these races. Linux,\nmacOS, and FreeBSD use different polling backends and are not affected.\n\n### Impact\n\nDepending on the interleaving, the kernel can write network data or completion\nstatus into reclaimed Julia heap memory. The resulting memory corruption can\ncrash the process and may also cause information disclosure or code execution,\nalthough no reliable exploit was demonstrated.\n\nExploitation is timing-dependent. The most direct raw-buffer corruption path\nalso requires a read or write deadline to race with a concurrent close or\neviction of the same file descriptor.\n\n### Technical details\n\nThis advisory consolidates two variants of the same kernel-ownership failure:\n\n 1. `WSARecv` and `WSASend` received pointers into caller-owned buffers that were\n    preserved only for the dynamic extent of the Julia call. A cancellation\n    wake could be consumed before the kernel's completion packet, allowing the\n    call to unwind and the buffer to be collected while the kernel still owned\n    its address. Direct overlapped reads and writes, including this path, first\n    shipped in Reseau 1.1.3.\n 2. Event-loop shutdown closed the completion port and discarded the objects\n    that rooted pending `OVERLAPPED` structures without first canceling and\n    draining all kernel-owned operations.\n\nReseau 1.3.2 added roots for object-backed reads and writes and implemented\nsynchronous shutdown draining, but pointer-only operations still supplied no\nretained buffer root. During shutdown, their cancellation wait could lose\naccess to the registration and return before the backend drain finished. That\nrelease could also treat `CancelIoEx` returning `ERROR_NOT_FOUND` as terminal\nwhile the completion packet was queued or had been dequeued by the poller but\nnot yet consumed. Clearing the operation's active state at that point permitted\nlive `OVERLAPPED` storage to be reset or reused. Separately, a finish path could\nobserve a terminal `WSAGetOverlappedResult` after the poller dequeued a packet\nand reset the storage before the poller retired the old operation.\nConsequently, 1.3.2 is still included in the affected range.\n\n### Patches\n\nUpgrade to Reseau 1.3.3 or later. The complete fix:\n\n  - uses bounded, operation-owned buffers for raw reads and writes and retains\n    buffer roots until completion consumption;\n  - synchronously cancels and drains every outstanding operation before dropping\n    backend roots; and\n  - permits only the completion consumer to clear an active operation, preventing\n    premature `OVERLAPPED` reuse.\n\n### Workarounds\n\nThere is no complete Windows workaround that preserves use of the vulnerable\nIOCP backend. Running the service on a non-Windows backend avoids these defects.\nAvoiding concurrent close/deadline operations reduces exposure to the\nraw-buffer race but does not address the shutdown variant.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.3.3"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/9add20c1f39ecba430c9aa1dcd399191ccaeb76b"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/135"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.3"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

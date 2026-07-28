@@ -1,0 +1,56 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-803",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-JSEBXMP3"
+    ],
+    "summary": "Windows IOCP poller races unsynchronized registration tables",
+    "details": "Reseau 1.0.0 through 1.3.1 access the Windows I/O completion port (IOCP)\nbackend's registration dictionary and zombie vector concurrently from the\npoller and application threads without consistently taking the same lock. A\nremote peer can increase the likelihood of the race by driving connection churn\nand I/O completions at the same time. Linux, macOS, and FreeBSD use different\npolling backends and are not affected.\n\n### Impact\n\nA dictionary rehash or vector mutation that overlaps the poller's unlocked\nlookup or cleanup can crash or corrupt the poller state. A stale or incorrect\nlookup can also associate a kernel completion with the wrong I/O operation,\npotentially causing cross-connection completion misdelivery.\n\nThe outcome is probabilistic and timing-dependent; a peer can accelerate the\nrace but does not directly control the conflicting interleaving.\n\n### Technical details\n\nRegistration and deregistration mutated the IOCP backend's `by_ptr` dictionary\nand `zombies` vector while holding the shared poller-state lock. The dedicated\npoller thread looked up completions in `by_ptr` and removed completed\nregistrations from those same non-thread-safe collections without taking that\nlock. Concurrent insertion could rehash the dictionary while it was being\nread, and concurrent zombie cleanup could mutate a vector being traversed or\nsearched.\n\n### Patches\n\nUpgrade to Reseau 1.3.2 or later. The fixed IOCP dispatch path takes the shared\npoller-state lock around registration lookup, operation-state transition, and\nzombie cleanup, matching the synchronization used by the other polling\nbackends.\n\n### Workarounds\n\nThere is no complete Windows workaround that preserves use of the vulnerable\nIOCP backend. Running the service on a non-Windows backend avoids the race.\nLimiting connection churn can reduce its likelihood but does not make\nconcurrent table access safe.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.3.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}

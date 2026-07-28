@@ -1,0 +1,56 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-802",
+    "modified": "2026-07-28T13:54:29.705Z",
+    "published": "2026-07-28T13:54:29.705Z",
+    "aliases": [
+        "ANT-2026-5NJRQ19H"
+    ],
+    "summary": "TLS 1.2 session resumption can renew one master secret indefinitely",
+    "details": "Reseau 1.1.0 through 1.3.1 issue a fresh TLS 1.2 session ticket after a resumed\nhandshake by copying the original master secret while resetting the ticket's\ncreation and expiry times. A client that resumes at least once during every\nticket lifetime can keep the same master secret valid indefinitely.\n\n### Impact\n\nIndefinite renewal weakens the intended bound on a resumption secret's lifetime\nand erodes forward secrecy. If that master secret, or the server's\nticket-encryption key together with a usable ticket, is later compromised, an\nattacker may be able to decrypt a much larger window of captured\nresumed-session traffic than the configured ticket lifetime suggests.\n\nThe issue does not by itself disclose a ticket or secret; the attacker must\nfirst possess a valid ticket or obtain the relevant key material.\n\n### Technical details\n\nThe resumed-server handshake copied the cached session's `master_secret` into a\nnew ticket but set `created_at` to the current time and `use_by` to seven days\nlater. Because no absolute age was carried forward, chained resumptions renewed\nthe same secret without limit.\n\nThis ticket implementation was introduced with Reseau's native TLS stack in\nversion 1.1.0. Releases 1.0.x used the previous OpenSSL TLS engine and are not\naffected.\n\n### Patches\n\nUpgrade to Reseau 1.3.2 or later. Resumed tickets now preserve the original\nsecret's creation and expiry timestamps, and resumption is rejected once that\nabsolute lifetime expires so that a full handshake establishes fresh key\nmaterial.\n\n### Workarounds\n\nSet `session_tickets_disabled = true` in the TLS configuration, or configure\nthe service to require TLS 1.3, until Reseau can be upgraded. Operators can\nalso rotate ticket-encryption keys and force full handshakes more frequently,\nbut that is less reliable than disabling the vulnerable TLS 1.2 resumption\npath.\n\nReported to the JuliaLang security team through Anthropic's Coordinated\nVulnerability Disclosure program.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.1.0"
+                        },
+                        {
+                            "fixed": "1.3.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Reseau",
+                "purl": "pkg:julia/Reseau?uuid=802f3686-a58f-41ce-bb0c-3c43c75bba36"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/commit/ea95f091baaf7386267fd633742768121dfe20ff"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/pull/132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaServices/Reseau.jl/releases/tag/v1.3.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Julia Security Team in collaboration with Claude and Anthropic Research",
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}
