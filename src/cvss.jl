@@ -14,14 +14,29 @@ For v2 and v3.x this is the base score; for v4.0 it is the full CVSS-BTE score,
 which reduces to the base (CVSS-B) score when no threat or environmental
 metrics are present.
 """
-cvss_score(sev::Severity) =
-    sev.type == "CVSS_V4" ? cvss4_score(sev.score) :
-    sev.type == "CVSS_V3" ? cvss3_score(sev.score) :
-    sev.type == "CVSS_V2" ? cvss2_score(sev.score) : nothing
+function cvss_score(sev::Severity)
+    version = cvss_version(sev)
+    version == 4 ? cvss4_score(sev.score) :
+    version == 3 ? cvss3_score(sev.score) :
+    version == 2 ? cvss2_score(sev.score) : nothing
+end
 function cvss_score(vector::AbstractString)
     sev = tryparse(Severity, vector)
     sev === nothing ? nothing : cvss_score(sev)
 end
+
+"""
+    cvss_version(sev::Severity) -> Union{Nothing, Int}
+
+The CVSS version number (2, 3, or 4) of a severity entry, or `nothing` for
+non-CVSS severity types.
+"""
+cvss_version(sev::Severity) =
+    sev.type == "CVSS_V4" ? 4 :
+    sev.type == "CVSS_V3" ? 3 :
+    sev.type == "CVSS_V2" ? 2 : nothing
+
+_cvss_metric(table, m, key) = get(table, get(m, key, ""), nothing)
 
 _cvss_metric_pairs(vector::AbstractString) =
     Dict(String(kv[1]) => String(kv[2])
@@ -47,16 +62,16 @@ base metric is missing or invalid.
 """
 function cvss3_score(vector::AbstractString)::Union{Nothing,Float64}
     m = _cvss_metric_pairs(vector)
-    av = get(CVSS3_AV, get(m, "AV", ""), nothing)
-    ac = get(CVSS3_AC, get(m, "AC", ""), nothing)
+    av = _cvss_metric(CVSS3_AV, m, "AV")
+    ac = _cvss_metric(CVSS3_AC, m, "AC")
     s  = get(m, "S", "")
     s in ("U", "C") || return nothing
     sc = s == "C"
-    pr = get(sc ? CVSS3_PRC : CVSS3_PRU, get(m, "PR", ""), nothing)
-    ui = get(CVSS3_UI, get(m, "UI", ""), nothing)
-    c  = get(CVSS3_CIA, get(m, "C", ""), nothing)
-    i  = get(CVSS3_CIA, get(m, "I", ""), nothing)
-    a  = get(CVSS3_CIA, get(m, "A", ""), nothing)
+    pr = _cvss_metric(sc ? CVSS3_PRC : CVSS3_PRU, m, "PR")
+    ui = _cvss_metric(CVSS3_UI, m, "UI")
+    c  = _cvss_metric(CVSS3_CIA, m, "C")
+    i  = _cvss_metric(CVSS3_CIA, m, "I")
+    a  = _cvss_metric(CVSS3_CIA, m, "A")
     any(isnothing, (av, ac, pr, ui, c, i, a)) && return nothing
     iss = 1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a)
     impact = sc ? 7.52(iss - 0.029) - 3.25(iss - 0.02)^15 : 6.42iss
@@ -82,12 +97,12 @@ missing or invalid.
 """
 function cvss2_score(vector::AbstractString)::Union{Nothing,Float64}
     m = _cvss_metric_pairs(vector)
-    av = get(CVSS2_AV,  get(m, "AV", ""), nothing)
-    ac = get(CVSS2_AC,  get(m, "AC", ""), nothing)
-    au = get(CVSS2_AU,  get(m, "Au", ""), nothing)
-    c  = get(CVSS2_CIA, get(m, "C",  ""), nothing)
-    i  = get(CVSS2_CIA, get(m, "I",  ""), nothing)
-    a  = get(CVSS2_CIA, get(m, "A",  ""), nothing)
+    av = _cvss_metric(CVSS2_AV,  m, "AV")
+    ac = _cvss_metric(CVSS2_AC,  m, "AC")
+    au = _cvss_metric(CVSS2_AU,  m, "Au")
+    c  = _cvss_metric(CVSS2_CIA, m, "C")
+    i  = _cvss_metric(CVSS2_CIA, m, "I")
+    a  = _cvss_metric(CVSS2_CIA, m, "A")
     any(isnothing, (av, ac, au, c, i, a)) && return nothing
     impact = 10.41 * (1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a))
     exploitability = 20.0 * av * ac * au
@@ -277,28 +292,23 @@ function cvss4_score(vector::AbstractString)::Union{Nothing,Float64}
     lower_eq2 = lower("$eq1$(eq2 + 1)$eq3$eq4$eq5$eq6")
     lower_eq4 = lower("$eq1$eq2$eq3$(eq4 + 1)$eq5$eq6")
     lower_eq5 = lower("$eq1$eq2$eq3$eq4$(eq5 + 1)$eq6")
-    lower_eq3eq6 = if eq3 == 0 && eq6 == 0
-        # Two possible lower paths; take the higher score.
-        l = lower("$eq1$eq2$eq3$eq4$eq5$(eq6 + 1)")
-        r = lower("$eq1$eq2$(eq3 + 1)$eq4$eq5$eq6")
+    # EQ3/EQ6 has two possible lower paths; take the higher score.  Invalid
+    # neighbor combinations are simply absent from the lookup table (NaN).
+    lower_eq3eq6 = let l = lower("$eq1$eq2$eq3$eq4$eq5$(eq6 + 1)"),
+                       r = lower("$eq1$eq2$(eq3 + 1)$eq4$eq5$eq6")
         isnan(l) ? r : isnan(r) ? l : max(l, r)
-    elseif eq3 == 1 && eq6 == 0
-        lower("$eq1$eq2$eq3$eq4$eq5$(eq6 + 1)")
-    elseif eq3 == 2
-        NaN
-    else # (eq3, eq6) in ((0, 1), (1, 1))
-        lower("$eq1$eq2$(eq3 + 1)$eq4$eq5$eq6")
     end
 
     # Severity distance of the vector from the highest-severity vector in
     # its MacroVector: the first max candidate with no negative distances.
+    own = Dict(metric => CVSS4_LEVELS[metric][g(metric)] for metric in CVSS4_DISTANCE_METRICS)
     dist = Dict{String,Float64}()
     for a in CVSS4_MAX_COMPOSED["eq1"][eq1], b in CVSS4_MAX_COMPOSED["eq2"][eq2],
         c in CVSS4_MAX_COMPOSED_EQ3EQ6[eq3eq6], d in CVSS4_MAX_COMPOSED["eq4"][eq4],
         e in CVSS4_MAX_COMPOSED["eq5"][eq5]
 
         mvd = _cvss_metric_pairs(a * b * c * d * e)
-        trial = Dict(metric => CVSS4_LEVELS[metric][g(metric)] - CVSS4_LEVELS[metric][mvd[metric]]
+        trial = Dict(metric => own[metric] - CVSS4_LEVELS[metric][mvd[metric]]
                      for metric in CVSS4_DISTANCE_METRICS)
         if all(>=(0), values(trial))
             dist = trial

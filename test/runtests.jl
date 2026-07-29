@@ -155,7 +155,7 @@ end
 end
 
 @testset "CVSS scoring" begin
-    using SecurityAdvisories: cvss_score, cvss2_score, cvss3_score, cvss4_score, Severity
+    using SecurityAdvisories: cvss_score, cvss_version, cvss2_score, cvss3_score, cvss4_score, Severity
     # Expected scores verified against the RedHat `cvss` Python reference
     # library (v2/v3 base scores; v4 full CVSS-BTE scores).
     @testset "CVSS v3.x base scores" begin
@@ -236,6 +236,10 @@ end
         @test cvss_score(Severity("CVSS_V4", "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N")) == 9.3
         @test cvss_score(Severity("CVSS_V2", "AV:N/AC:L/Au:N/C:P/I:P/A:P")) == 7.5
         @test cvss_score(Severity("UBUNTU", "medium")) === nothing
+        @test cvss_version(Severity("CVSS_V4", "")) == 4
+        @test cvss_version(Severity("CVSS_V3", "")) == 3
+        @test cvss_version(Severity("CVSS_V2", "")) == 2
+        @test cvss_version(Severity("UBUNTU", "medium")) === nothing
         # A Severity whose type doesn't match its vector scores as its type says
         @test cvss_score(Severity("CVSS_V4", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")) === nothing
     end
