@@ -326,6 +326,25 @@ end
 _has_fix(v::SecurityAdvisories.PackageVulnerability) =
     all(r -> SecurityAdvisories.has_upper_bound(r) && !r.ubinclusive, v.ranges)
 
+# The subset of `pkgs` marked deprecated in the General registry, signalled
+# by a `[metadata.deprecated]` table in the package's Package.toml.  Pkg's
+# parsed PkgInfo doesn't surface this table until Julia 1.14, so read the
+# raw file through the registry's (possibly in-memory) file access.
+function _deprecated_packages(pkgs)
+    reg = SecurityAdvisories.get_registry()
+    deprecated = Set{String}()
+    for pkg in pkgs
+        uuids = SecurityAdvisories.uuids_from_name(pkg, reg)
+        isempty(uuids) && continue
+        entry = reg[first(uuids)]
+        d = SecurityAdvisories.Registry.parsefile(
+            entry.in_memory_registry, entry.registry_path, joinpath(entry.path, "Package.toml"))
+        meta = get(d, "metadata", nothing)
+        meta isa AbstractDict && haskey(meta, "deprecated") && push!(deprecated, pkg)
+    end
+    return deprecated
+end
+
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
@@ -340,13 +359,15 @@ function hfun_package_index()
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
+    deprecated = _deprecated_packages(keys(pkg_counts))
 
     io = IOBuffer()
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
     write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
     write(io, """<button class="sev-btn active" data-fix="">All</button>""")
-    write(io, """<button class="sev-btn" data-fix="unfixed" title="Packages with at least one advisory that has no fixed release">Unfixed only</button>""")
+    write(io, """<button class="sev-btn" data-fix="unfixed" title="Packages with at least one advisory that has no fixed release">Unfixed</button>""")
+    write(io, """<button class="sev-btn" data-fix="deprecated" title="Packages marked deprecated in the General registry">Deprecated</button>""")
     write(io, "</div>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
@@ -373,7 +394,7 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))">""")
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
         write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
         write(io, "</a>")
@@ -413,8 +434,9 @@ function filterPackages(){
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
     var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
+    var deprecated = el.getAttribute('data-deprecated') === '1';
     var matchText = !text || name.includes(text);
-    var matchFix = fix !== 'unfixed' || unfixed > 0;
+    var matchFix = !fix || (fix === 'unfixed' && unfixed > 0) || (fix === 'deprecated' && deprecated);
     if(matchText && matchFix){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
