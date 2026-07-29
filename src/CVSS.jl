@@ -1,15 +1,13 @@
 """
     CVSS
 
-CVSS scoring for vector strings. Implements the CVSS v2 and v3.x base score
-specifications and the CVSS v4.0 scoring system (a port of FIRST's official
-reference implementation).
+CVSS identification and scoring for vector strings.
 
-The main entry points are [`CVSS.score`](@ref) and [`CVSS.version`](@ref);
-[`v2_score`](@ref), [`v3_score`](@ref), and [`v4_score`](@ref) compute scores
-directly from version-specific vector strings.
+The main entry points are [`CVSS.score`](@ref) and [`CVSS.version`](@ref)
 """
 module CVSS
+
+public score, version
 
 """
     score(vector::AbstractString) -> Union{Nothing, Float64}

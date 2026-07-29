@@ -115,7 +115,6 @@ Base.convert(::Type{Severity}, s::AbstractString) = Severity(s)
 Base.convert(::Type{Severity}, d::AbstractDict) = Severity(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.tryparse(::Type{Severity}, score)
     v = CVSS.version(score)
-    # TODO: Should this assume medium/high/critical are Ubuntu's definitions?
     v === nothing && return nothing
     return Severity("CVSS_V$v", String(score))
 end

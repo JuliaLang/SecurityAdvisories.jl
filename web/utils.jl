@@ -139,14 +139,8 @@ _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
 
 # Severity display selection
-# CVSS score calculation lives in the SecurityAdvisories package
-# (`SecurityAdvisories.CVSS`); here we only decide which severity
-# entry to display and how to render it.
 
-# The severity entry to display as `(sev, version, score)`: the highest-scored
-# entry of the most recent CVSS version, ranking unscoreable entries last (with
-# `version`/`score` of `nothing`).  Returns `nothing` only when the advisory
-# has no severity entries at all.
+# We choose to display the highest-version CVSS score (and if more than one, the highest score)
 function _display_severity(adv)
     isempty(adv.severity) && return nothing
     rank(sev) = (something(CVSS.version(sev.score), -1), something(CVSS.score(sev.score), -1.0))
@@ -155,7 +149,7 @@ function _display_severity(adv)
 end
 
 function _severity_label(score::Float64, version::Int)
-    # CVSS v2 defines no qualitative scale; use NVD's Low/Medium/High.
+    # CVSS v2 defines no qualitative scale; use NVD's convention with only Low/Medium/High
     version != 2 && score >= 9.0 && return ("Critical", "critical")
     score >= 7.0 && return ("High", "high")
     score >= 4.0 && return ("Medium", "medium")
