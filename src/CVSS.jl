@@ -343,7 +343,12 @@ function v4_score(vector::AbstractString)::Union{Nothing,Float64}
         normalized += avail * (d / (maxsev * step))
     end
     n_lower > 0 && (value -= normalized / n_lower)
-    round(clamp(value, 0.0, 10.0), RoundNearestTiesUp; digits=1)
+    # A 1e-6 epsilon absorbs accumulated floating point error at .x5 rounding
+    # boundaries (e.g. 6.1 - 0.45 = 5.6499999…, which should round to 5.7).
+    # FIRST's JS calculator rounds the raw float; we follow the Red Hat cvss
+    # library in rounding the spec-intended decimal value instead, see
+    # https://github.com/RedHatProductSecurity/cvss-v4-calculator/issues/48
+    round(clamp(value, 0.0, 10.0) + 1e-6, RoundNearestTiesUp; digits=1)
 end
 
 end # module CVSS

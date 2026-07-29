@@ -37,7 +37,8 @@ TimeZones = "1.22.0"
 julia = "1.11"
 
 [extras]
+Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Downloads", "Test"]

@@ -243,6 +243,41 @@ end
     end
 end
 
+using Downloads: Downloads
+@testset "CVSS scoring corpus" begin
+    # The Red Hat `cvss` library's full test corpus (LGPL-3.0), downloaded
+    # on demand from a pinned revision. Each line pairs a vector with its
+    # expected scores as "<vector> - (base[, temporal, environmental])",
+    # where undefined scores are `None`. Our v2/v3 scorers compute the base
+    # score (the first element) and v4_score the full CVSS-BTE score.
+    corpus_url = "https://raw.githubusercontent.com/RedHatProductSecurity/cvss/2f149099257ae06b98cef252efc440bddafe61e5/tests/"
+    @testset "$file" for (file, scorer) in [
+        ("vectors_simple2",  CVSS.v2_score),
+        ("vectors_random2",  CVSS.v2_score),
+        ("vectors_simple3",  CVSS.v3_score),
+        ("vectors_random3",  CVSS.v3_score),
+        ("vectors_simple31", CVSS.v3_score),
+        ("vectors_random31", CVSS.v3_score),
+        ("vectors_simple4",  CVSS.v4_score),
+        ("vectors_random4",  CVSS.v4_score),
+    ]
+        path = Downloads.download(corpus_url * file)
+        n = 0
+        mismatches = String[]
+        for line in eachline(path)
+            isempty(strip(line)) && continue
+            vector, expected_str = split(line, " - ")
+            expected = parse(Float64, strip(first(split(strip(expected_str, ['(', ')', ' ']), ','))))
+            got = scorer(String(vector))
+            n += 1
+            got == expected || push!(mismatches, "$vector: expected $expected, got $(something(got, "nothing"))")
+        end
+        rm(path)
+        @test n > 0
+        @test isempty(mismatches)
+    end
+end
+
 @testset "fetch_combinations tolerates aliases that can't be fetched" begin
     # GHSA/EUVD/NVD advisories can reference aliases (e.g. PYSEC-*) that `fetch_advisory`
     # doesn't know how to fetch; those should be dropped from `sources` but still retained as alias ids
