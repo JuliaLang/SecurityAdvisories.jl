@@ -1,10 +1,21 @@
-# CVSS score calculation for the vector strings stored in `Severity` entries.
-# Implements the CVSS v2 and v3.x base score specifications and the CVSS v4.0
-# scoring system (a port of FIRST's official reference implementation).
+"""
+    CVSS
+
+CVSS score calculation for the vector strings stored in `Severity` entries.
+Implements the CVSS v2 and v3.x base score specifications and the CVSS v4.0
+scoring system (a port of FIRST's official reference implementation).
+
+The main entry points are [`CVSS.score`](@ref) and [`CVSS.version`](@ref);
+[`v2_score`](@ref), [`v3_score`](@ref), and [`v4_score`](@ref) compute scores
+directly from version-specific vector strings.
+"""
+module CVSS
+
+using ..SecurityAdvisories: Severity
 
 """
-    cvss_score(sev::Severity) -> Union{Nothing, Float64}
-    cvss_score(vector::AbstractString) -> Union{Nothing, Float64}
+    score(sev::Severity) -> Union{Nothing, Float64}
+    score(vector::AbstractString) -> Union{Nothing, Float64}
 
 Compute the numeric CVSS score for a severity's vector string, using the scoring
 system that matches its CVSS version. Returns `nothing` if the vector is not a
@@ -14,31 +25,31 @@ For v2 and v3.x this is the base score; for v4.0 it is the full CVSS-BTE score,
 which reduces to the base (CVSS-B) score when no threat or environmental
 metrics are present.
 """
-function cvss_score(sev::Severity)
-    version = cvss_version(sev)
-    version == 4 ? cvss4_score(sev.score) :
-    version == 3 ? cvss3_score(sev.score) :
-    version == 2 ? cvss2_score(sev.score) : nothing
+function score(sev::Severity)
+    v = version(sev)
+    v == 4 ? v4_score(sev.score) :
+    v == 3 ? v3_score(sev.score) :
+    v == 2 ? v2_score(sev.score) : nothing
 end
-function cvss_score(vector::AbstractString)
+function score(vector::AbstractString)
     sev = tryparse(Severity, vector)
-    sev === nothing ? nothing : cvss_score(sev)
+    sev === nothing ? nothing : score(sev)
 end
 
 """
-    cvss_version(sev::Severity) -> Union{Nothing, Int}
+    version(sev::Severity) -> Union{Nothing, Int}
 
 The CVSS version number (2, 3, or 4) of a severity entry, or `nothing` for
 non-CVSS severity types.
 """
-cvss_version(sev::Severity) =
+version(sev::Severity) =
     sev.type == "CVSS_V4" ? 4 :
     sev.type == "CVSS_V3" ? 3 :
     sev.type == "CVSS_V2" ? 2 : nothing
 
-_cvss_metric(table, m, key) = get(table, get(m, key, ""), nothing)
+_metric(table, m, key) = get(table, get(m, key, ""), nothing)
 
-_cvss_metric_pairs(vector::AbstractString) =
+_metric_pairs(vector::AbstractString) =
     Dict(String(kv[1]) => String(kv[2])
          for kv in (split(part, ':') for part in split(vector, '/'; keepempty=false))
          if length(kv) == 2)
@@ -46,32 +57,32 @@ _cvss_metric_pairs(vector::AbstractString) =
 # CVSS v3.x base score (https://www.first.org/cvss/v3.1/specification-document,
 # section 7.1)
 
-const CVSS3_AV  = Dict("N" => 0.85, "A" => 0.62, "L" => 0.55, "P" => 0.20)
-const CVSS3_AC  = Dict("L" => 0.77, "H" => 0.44)
-const CVSS3_PRU = Dict("N" => 0.85, "L" => 0.62, "H" => 0.27)
-const CVSS3_PRC = Dict("N" => 0.85, "L" => 0.68, "H" => 0.50)
-const CVSS3_UI  = Dict("N" => 0.85, "R" => 0.62)
-const CVSS3_CIA = Dict("N" => 0.0,  "L" => 0.22, "H" => 0.56)
+const V3_AV  = Dict("N" => 0.85, "A" => 0.62, "L" => 0.55, "P" => 0.20)
+const V3_AC  = Dict("L" => 0.77, "H" => 0.44)
+const V3_PRU = Dict("N" => 0.85, "L" => 0.62, "H" => 0.27)
+const V3_PRC = Dict("N" => 0.85, "L" => 0.68, "H" => 0.50)
+const V3_UI  = Dict("N" => 0.85, "R" => 0.62)
+const V3_CIA = Dict("N" => 0.0,  "L" => 0.22, "H" => 0.56)
 
 """
-    cvss3_score(vector::AbstractString) -> Union{Nothing, Float64}
+    v3_score(vector::AbstractString) -> Union{Nothing, Float64}
 
 Compute the CVSS v3.x base score for a vector string like
 `"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"`. Returns `nothing` if any
 base metric is missing or invalid.
 """
-function cvss3_score(vector::AbstractString)::Union{Nothing,Float64}
-    m = _cvss_metric_pairs(vector)
-    av = _cvss_metric(CVSS3_AV, m, "AV")
-    ac = _cvss_metric(CVSS3_AC, m, "AC")
+function v3_score(vector::AbstractString)::Union{Nothing,Float64}
+    m = _metric_pairs(vector)
+    av = _metric(V3_AV, m, "AV")
+    ac = _metric(V3_AC, m, "AC")
     s  = get(m, "S", "")
     s in ("U", "C") || return nothing
     sc = s == "C"
-    pr = _cvss_metric(sc ? CVSS3_PRC : CVSS3_PRU, m, "PR")
-    ui = _cvss_metric(CVSS3_UI, m, "UI")
-    c  = _cvss_metric(CVSS3_CIA, m, "C")
-    i  = _cvss_metric(CVSS3_CIA, m, "I")
-    a  = _cvss_metric(CVSS3_CIA, m, "A")
+    pr = _metric(sc ? V3_PRC : V3_PRU, m, "PR")
+    ui = _metric(V3_UI, m, "UI")
+    c  = _metric(V3_CIA, m, "C")
+    i  = _metric(V3_CIA, m, "I")
+    a  = _metric(V3_CIA, m, "A")
     any(isnothing, (av, ac, pr, ui, c, i, a)) && return nothing
     iss = 1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a)
     impact = sc ? 7.52(iss - 0.029) - 3.25(iss - 0.02)^15 : 6.42iss
@@ -83,26 +94,26 @@ end
 
 # CVSS v2 base score (https://www.first.org/cvss/v2/guide, section 3.2.1)
 
-const CVSS2_AV  = Dict("L" => 0.395, "A" => 0.646, "N" => 1.0)
-const CVSS2_AC  = Dict("H" => 0.35,  "M" => 0.61,  "L" => 0.71)
-const CVSS2_AU  = Dict("M" => 0.45,  "S" => 0.56,  "N" => 0.704)
-const CVSS2_CIA = Dict("N" => 0.0,   "P" => 0.275, "C" => 0.660)
+const V2_AV  = Dict("L" => 0.395, "A" => 0.646, "N" => 1.0)
+const V2_AC  = Dict("H" => 0.35,  "M" => 0.61,  "L" => 0.71)
+const V2_AU  = Dict("M" => 0.45,  "S" => 0.56,  "N" => 0.704)
+const V2_CIA = Dict("N" => 0.0,   "P" => 0.275, "C" => 0.660)
 
 """
-    cvss2_score(vector::AbstractString) -> Union{Nothing, Float64}
+    v2_score(vector::AbstractString) -> Union{Nothing, Float64}
 
 Compute the CVSS v2 base score for a vector string like
 `"AV:N/AC:L/Au:N/C:P/I:P/A:P"`. Returns `nothing` if any base metric is
 missing or invalid.
 """
-function cvss2_score(vector::AbstractString)::Union{Nothing,Float64}
-    m = _cvss_metric_pairs(vector)
-    av = _cvss_metric(CVSS2_AV,  m, "AV")
-    ac = _cvss_metric(CVSS2_AC,  m, "AC")
-    au = _cvss_metric(CVSS2_AU,  m, "Au")
-    c  = _cvss_metric(CVSS2_CIA, m, "C")
-    i  = _cvss_metric(CVSS2_CIA, m, "I")
-    a  = _cvss_metric(CVSS2_CIA, m, "A")
+function v2_score(vector::AbstractString)::Union{Nothing,Float64}
+    m = _metric_pairs(vector)
+    av = _metric(V2_AV,  m, "AV")
+    ac = _metric(V2_AC,  m, "AC")
+    au = _metric(V2_AU,  m, "Au")
+    c  = _metric(V2_CIA, m, "C")
+    i  = _metric(V2_CIA, m, "I")
+    a  = _metric(V2_CIA, m, "A")
     any(isnothing, (av, ac, au, c, i, a)) && return nothing
     impact = 10.41 * (1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a))
     exploitability = 20.0 * av * ac * au
@@ -116,7 +127,7 @@ end
 # lookup table of "MacroVector" equivalence classes plus an interpolation
 # step based on severity distances within each class.
 
-const CVSS4_LOOKUP = Dict{String,Float64}(
+const V4_LOOKUP = Dict{String,Float64}(
     "000000" => 10, "000001" => 9.9, "000010" => 9.8, "000011" => 9.5, "000020" => 9.5,
     "000021" => 9.2, "000100" => 10, "000101" => 9.6, "000110" => 9.3, "000111" => 8.7,
     "000120" => 9.1, "000121" => 8.1, "000200" => 9.3, "000201" => 9, "000210" => 8.9,
@@ -173,7 +184,7 @@ const CVSS4_LOOKUP = Dict{String,Float64}(
     "212111" => 1.2, "212121" => 0.5, "212201" => 1, "212211" => 0.3, "212221" => 0.1,
 )
 
-const CVSS4_LEVELS = Dict(
+const V4_LEVELS = Dict(
     "AV" => Dict("N" => 0.0, "A" => 0.1, "L" => 0.2, "P" => 0.3),
     "PR" => Dict("N" => 0.0, "L" => 0.1, "H" => 0.2),
     "UI" => Dict("N" => 0.0, "P" => 0.1, "A" => 0.2),
@@ -192,7 +203,7 @@ const CVSS4_LEVELS = Dict(
 
 # Highest-severity sub-vectors per MacroVector equivalence class.  EQ3 and
 # EQ6 are interdependent and keyed jointly as "$eq3$eq6".
-const CVSS4_MAX_COMPOSED = Dict(
+const V4_MAX_COMPOSED = Dict(
     "eq1" => Dict(
         0 => ["AV:N/PR:N/UI:N/"],
         1 => ["AV:A/PR:N/UI:N/", "AV:N/PR:L/UI:N/", "AV:N/PR:N/UI:P/"],
@@ -209,7 +220,7 @@ const CVSS4_MAX_COMPOSED = Dict(
         1 => ["E:P/"],
         2 => ["E:U/"]),
 )
-const CVSS4_MAX_COMPOSED_EQ3EQ6 = Dict(
+const V4_MAX_COMPOSED_EQ3EQ6 = Dict(
     "00" => ["VC:H/VI:H/VA:H/CR:H/IR:H/AR:H/"],
     "01" => ["VC:H/VI:H/VA:L/CR:M/IR:M/AR:H/", "VC:H/VI:H/VA:H/CR:M/IR:M/AR:M/"],
     "10" => ["VC:L/VI:H/VA:H/CR:H/IR:H/AR:H/", "VC:H/VI:L/VA:H/CR:H/IR:H/AR:H/"],
@@ -220,17 +231,17 @@ const CVSS4_MAX_COMPOSED_EQ3EQ6 = Dict(
 )
 
 # Max severity distances (in 0.1 steps) within each equivalence class.
-const CVSS4_MAX_SEVERITY = Dict(
+const V4_MAX_SEVERITY = Dict(
     "eq1" => Dict(0 => 1, 1 => 4, 2 => 5),
     "eq2" => Dict(0 => 1, 1 => 2),
     "eq4" => Dict(0 => 6, 1 => 5, 2 => 4),
 )
-const CVSS4_MAX_SEVERITY_EQ3EQ6 =
+const V4_MAX_SEVERITY_EQ3EQ6 =
     Dict("00" => 7, "01" => 6, "10" => 8, "11" => 8, "21" => 10)
 
 # Effective metric value: environmental M* metrics override their base
 # counterparts, and undefined E/CR/IR/AR default to their worst case.
-function cvss4_metric(m::Dict{String,String}, metric::String)
+function _v4_metric(m::Dict{String,String}, metric::String)
     v = get(m, metric, "X")
     if v == "X"
         metric == "E" && return "A"
@@ -241,8 +252,8 @@ function cvss4_metric(m::Dict{String,String}, metric::String)
     return v
 end
 
-function cvss4_macrovector(m::Dict{String,String})
-    g(x) = cvss4_metric(m, x)
+function _v4_macrovector(m::Dict{String,String})
+    g(x) = _v4_metric(m, x)
     eq1 = g("AV") == "N" && g("PR") == "N" && g("UI") == "N" ? 0 :
           (g("AV") == "N" || g("PR") == "N" || g("UI") == "N") && g("AV") != "P" ? 1 : 2
     eq2 = g("AC") == "L" && g("AT") == "N" ? 0 : 1
@@ -256,11 +267,11 @@ function cvss4_macrovector(m::Dict{String,String})
     (eq1, eq2, eq3, eq4, eq5, eq6)
 end
 
-const CVSS4_DISTANCE_METRICS =
+const V4_DISTANCE_METRICS =
     ("AV", "PR", "UI", "AC", "AT", "VC", "VI", "VA", "SC", "SI", "SA", "CR", "IR", "AR")
 
 """
-    cvss4_score(vector::AbstractString) -> Union{Nothing, Float64}
+    v4_score(vector::AbstractString) -> Union{Nothing, Float64}
 
 Compute the CVSS v4.0 score for a vector string like
 `"CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"`.
@@ -269,25 +280,25 @@ so this is the CVSS-BTE score; it reduces to the base CVSS-B score when only
 base metrics are given. Returns `nothing` if any mandatory metric is missing
 or invalid.
 """
-function cvss4_score(vector::AbstractString)::Union{Nothing,Float64}
+function v4_score(vector::AbstractString)::Union{Nothing,Float64}
     startswith(vector, "CVSS:4.0/") || return nothing
-    m = _cvss_metric_pairs(vector)
-    g(x) = cvss4_metric(m, x)
+    m = _metric_pairs(vector)
+    g(x) = _v4_metric(m, x)
     all(haskey(m, k) for k in ("AV", "AC", "AT", "PR", "UI", "VC", "VI", "VA", "SC", "SI", "SA")) ||
         return nothing
-    all(haskey(CVSS4_LEVELS[k], g(k)) for k in CVSS4_DISTANCE_METRICS) || return nothing
+    all(haskey(V4_LEVELS[k], g(k)) for k in V4_DISTANCE_METRICS) || return nothing
 
     # No impact at all is scored 0.0 outright.
     all(g(x) == "N" for x in ("VC", "VI", "VA", "SC", "SI", "SA")) && return 0.0
 
-    eq1, eq2, eq3, eq4, eq5, eq6 = cvss4_macrovector(m)
+    eq1, eq2, eq3, eq4, eq5, eq6 = _v4_macrovector(m)
     eq3eq6 = "$eq3$eq6"
-    value = get(CVSS4_LOOKUP, "$eq1$eq2$eq3$eq4$eq5$eq6", nothing)
+    value = get(V4_LOOKUP, "$eq1$eq2$eq3$eq4$eq5$eq6", nothing)
     value === nothing && return nothing
 
     # Scores of the next-lower MacroVector along each equivalence class
     # (NaN when none exists).
-    lower(s) = get(CVSS4_LOOKUP, s, NaN)
+    lower(s) = get(V4_LOOKUP, s, NaN)
     lower_eq1 = lower("$(eq1 + 1)$eq2$eq3$eq4$eq5$eq6")
     lower_eq2 = lower("$eq1$(eq2 + 1)$eq3$eq4$eq5$eq6")
     lower_eq4 = lower("$eq1$eq2$eq3$(eq4 + 1)$eq5$eq6")
@@ -301,15 +312,15 @@ function cvss4_score(vector::AbstractString)::Union{Nothing,Float64}
 
     # Severity distance of the vector from the highest-severity vector in
     # its MacroVector: the first max candidate with no negative distances.
-    own = Dict(metric => CVSS4_LEVELS[metric][g(metric)] for metric in CVSS4_DISTANCE_METRICS)
+    own = Dict(metric => V4_LEVELS[metric][g(metric)] for metric in V4_DISTANCE_METRICS)
     dist = Dict{String,Float64}()
-    for a in CVSS4_MAX_COMPOSED["eq1"][eq1], b in CVSS4_MAX_COMPOSED["eq2"][eq2],
-        c in CVSS4_MAX_COMPOSED_EQ3EQ6[eq3eq6], d in CVSS4_MAX_COMPOSED["eq4"][eq4],
-        e in CVSS4_MAX_COMPOSED["eq5"][eq5]
+    for a in V4_MAX_COMPOSED["eq1"][eq1], b in V4_MAX_COMPOSED["eq2"][eq2],
+        c in V4_MAX_COMPOSED_EQ3EQ6[eq3eq6], d in V4_MAX_COMPOSED["eq4"][eq4],
+        e in V4_MAX_COMPOSED["eq5"][eq5]
 
-        mvd = _cvss_metric_pairs(a * b * c * d * e)
-        trial = Dict(metric => own[metric] - CVSS4_LEVELS[metric][mvd[metric]]
-                     for metric in CVSS4_DISTANCE_METRICS)
+        mvd = _metric_pairs(a * b * c * d * e)
+        trial = Dict(metric => own[metric] - V4_LEVELS[metric][mvd[metric]]
+                     for metric in V4_DISTANCE_METRICS)
         if all(>=(0), values(trial))
             dist = trial
             break
@@ -323,12 +334,12 @@ function cvss4_score(vector::AbstractString)::Union{Nothing,Float64}
     normalized = 0.0
     n_lower = 0
     for (avail, d, maxsev) in (
-        (value - lower_eq1, dist["AV"] + dist["PR"] + dist["UI"], CVSS4_MAX_SEVERITY["eq1"][eq1]),
-        (value - lower_eq2, dist["AC"] + dist["AT"], CVSS4_MAX_SEVERITY["eq2"][eq2]),
+        (value - lower_eq1, dist["AV"] + dist["PR"] + dist["UI"], V4_MAX_SEVERITY["eq1"][eq1]),
+        (value - lower_eq2, dist["AC"] + dist["AT"], V4_MAX_SEVERITY["eq2"][eq2]),
         (value - lower_eq3eq6,
          dist["VC"] + dist["VI"] + dist["VA"] + dist["CR"] + dist["IR"] + dist["AR"],
-         CVSS4_MAX_SEVERITY_EQ3EQ6[eq3eq6]),
-        (value - lower_eq4, dist["SC"] + dist["SI"] + dist["SA"], CVSS4_MAX_SEVERITY["eq4"][eq4]),
+         V4_MAX_SEVERITY_EQ3EQ6[eq3eq6]),
+        (value - lower_eq4, dist["SC"] + dist["SI"] + dist["SA"], V4_MAX_SEVERITY["eq4"][eq4]),
         (value - lower_eq5, 0.0, 1),
     )
         isnan(avail) && continue
@@ -338,3 +349,5 @@ function cvss4_score(vector::AbstractString)::Union{Nothing,Float64}
     n_lower > 0 && (value -= normalized / n_lower)
     round(clamp(value, 0.0, 10.0), RoundNearestTiesUp; digits=1)
 end
+
+end # module CVSS

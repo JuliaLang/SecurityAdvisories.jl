@@ -5,12 +5,12 @@ using .VersionStrings: VersionString
 
 include("common.jl")
 include("advisory.jl")
-include("cvss.jl")
+include("CVSS.jl")
 include("protect_identifiers.jl")
 include("GitHub.jl")
 include("NVD.jl")
 include("EUVD.jl")
 
-export GitHub, NVD, EUVD
+export CVSS, GitHub, NVD, EUVD
 
 end

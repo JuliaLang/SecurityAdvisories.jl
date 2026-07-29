@@ -1,4 +1,4 @@
-using SecurityAdvisories: SecurityAdvisories
+using SecurityAdvisories: SecurityAdvisories, CVSS
 using Dates
 
 const ADVISORIES_DIR = joinpath(@__DIR__, "..", "advisories", "published")
@@ -140,7 +140,7 @@ _advisory_file_path(adv) =
 
 # Severity display selection
 # CVSS score calculation lives in the SecurityAdvisories package
-# (`SecurityAdvisories.cvss_score`); here we only decide which severity
+# (`SecurityAdvisories.CVSS`); here we only decide which severity
 # entry to display and how to render it.
 
 # The severity entry to display as `(sev, version, score)`: the highest-scored
@@ -151,9 +151,9 @@ function _display_severity(adv)
     isempty(adv.severity) && return nothing
     best = nothing
     for sev in adv.severity
-        version = SecurityAdvisories.cvss_version(sev)
+        version = CVSS.version(sev)
         version === nothing && continue
-        score = SecurityAdvisories.cvss_score(sev)
+        score = CVSS.score(sev)
         score === nothing && continue
         if best === nothing || (version, score) > (best[2], best[3])
             best = (sev, version, score)
