@@ -392,11 +392,22 @@ function hfun_package_index()
       filterPackages();
     });
   });
+  // Deep-linking: /packages/?filter=unfixed pre-selects the toggle
+  var wanted = new URLSearchParams(location.search).get('filter') || '';
+  btns.forEach(function(btn){
+    if(btn.getAttribute('data-fix') === wanted){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+  });
 })();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
   var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
   var fix = activeFix ? activeFix.getAttribute('data-fix') : '';
+  var url = new URL(location);
+  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
+  history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
