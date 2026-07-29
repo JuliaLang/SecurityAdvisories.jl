@@ -996,6 +996,15 @@ a.pkg-tag:hover {
   align-items: center;
 }
 
+.filter-group-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-muted);
+  margin-left: 0.35rem;
+}
+
 .sev-btn {
   padding: 0.28em 0.75em;
   font-size: 0.75rem;

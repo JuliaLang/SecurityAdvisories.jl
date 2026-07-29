@@ -365,9 +365,15 @@ function hfun_package_index()
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
     write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
-    write(io, """<button class="sev-btn active" data-fix="">All</button>""")
-    write(io, """<button class="sev-btn" data-fix="unfixed" title="Packages with at least one advisory that has no fixed release">Unfixed</button>""")
-    write(io, """<button class="sev-btn" data-fix="deprecated" title="Packages marked deprecated in the General registry">Deprecated</button>""")
+    write(io, """<span class="filter-group-label">Advisories</span>""")
+    write(io, """<button class="sev-btn active" data-val="">All</button>""")
+    write(io, """<button class="sev-btn" data-val="unfixed" title="Only packages with at least one advisory that has no fixed release">Unfixed</button>""")
+    write(io, "</div>")
+    write(io, """<div class="sev-btns" id="pkg-status-btns">""")
+    write(io, """<span class="filter-group-label">Registry</span>""")
+    write(io, """<button class="sev-btn active" data-val="">All</button>""")
+    write(io, """<button class="sev-btn" data-val="maintained" title="Exclude packages marked deprecated in the General registry">Maintained</button>""")
+    write(io, """<button class="sev-btn" data-val="deprecated" title="Only packages marked deprecated in the General registry">Deprecated</button>""")
     write(io, "</div>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
@@ -404,8 +410,11 @@ function hfun_package_index()
 
     write(io, """
 <script>
-(function(){
-  var btns = document.querySelectorAll('#pkg-fix-btns .sev-btn');
+// The two filter groups are orthogonal and combine with AND; each is a
+// mutually-exclusive button set synced to its own query parameter for
+// deep-linking, e.g. /packages/?advisories=unfixed&registry=maintained
+function wireFilterGroup(sel, param){
+  var btns = document.querySelectorAll(sel + ' .sev-btn');
   btns.forEach(function(btn){
     btn.addEventListener('click', function(){
       btns.forEach(function(b){ b.classList.remove('active'); });
@@ -413,21 +422,27 @@ function hfun_package_index()
       filterPackages();
     });
   });
-  // Deep-linking: /packages/?filter=unfixed pre-selects the toggle
-  var wanted = new URLSearchParams(location.search).get('filter') || '';
+  var wanted = new URLSearchParams(location.search).get(param) || '';
   btns.forEach(function(btn){
-    if(btn.getAttribute('data-fix') === wanted){
+    if(btn.getAttribute('data-val') === wanted){
       btns.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
     }
   });
-})();
+}
+wireFilterGroup('#pkg-fix-btns', 'advisories');
+wireFilterGroup('#pkg-status-btns', 'registry');
+function activeVal(sel){
+  var el = document.querySelector(sel + ' .sev-btn.active');
+  return el ? el.getAttribute('data-val') : '';
+}
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
-  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
-  var fix = activeFix ? activeFix.getAttribute('data-fix') : '';
+  var fix = activeVal('#pkg-fix-btns');
+  var status = activeVal('#pkg-status-btns');
   var url = new URL(location);
-  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
+  if(fix) url.searchParams.set('advisories', fix); else url.searchParams.delete('advisories');
+  if(status) url.searchParams.set('registry', status); else url.searchParams.delete('registry');
   history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
@@ -436,8 +451,9 @@ function filterPackages(){
     var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
     var deprecated = el.getAttribute('data-deprecated') === '1';
     var matchText = !text || name.includes(text);
-    var matchFix = !fix || (fix === 'unfixed' && unfixed > 0) || (fix === 'deprecated' && deprecated);
-    if(matchText && matchFix){ el.style.display=''; shown++; }
+    var matchFix = !fix || unfixed > 0;
+    var matchStatus = !status || (status === 'deprecated') === deprecated;
+    if(matchText && matchFix && matchStatus){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
