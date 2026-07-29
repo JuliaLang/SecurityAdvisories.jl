@@ -320,12 +320,23 @@ filterAdvisories();
     String(take!(io))
 end
 
+# A vulnerability is "fixed" only when every range has an exclusive upper
+# bound (the OSV `fixed` event); an inclusive `last_affected` bound or an
+# unbounded range means no fixed release is known.
+_has_fix(v::SecurityAdvisories.PackageVulnerability) =
+    all(r -> SecurityAdvisories.has_upper_bound(r) && !r.ubinclusive, v.ranges)
+
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
+    pkg_unfixed = Dict{String,Int}()
     for a in advs
-        for pkg in SecurityAdvisories.vulnerable_packages(a)
-            pkg_counts[pkg] = get(pkg_counts, pkg, 0) + 1
+        for v in a.affected
+            SecurityAdvisories.is_vulnerable(v) || continue
+            pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
+            if a.withdrawn === nothing && !_has_fix(v)
+                pkg_unfixed[v.pkg] = get(pkg_unfixed, v.pkg, 0) + 1
+            end
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
@@ -333,6 +344,10 @@ function hfun_package_index()
     io = IOBuffer()
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
+    write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
+    write(io, """<button class="sev-btn active" data-fix="">All</button>""")
+    write(io, """<button class="sev-btn" data-fix="unfixed" title="Packages with at least one advisory that has no fixed release">Unfixed only</button>""")
+    write(io, "</div>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
 
@@ -358,7 +373,7 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))">""")
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))">""")
         write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
         write(io, "</a>")
@@ -368,13 +383,28 @@ function hfun_package_index()
 
     write(io, """
 <script>
+(function(){
+  var btns = document.querySelectorAll('#pkg-fix-btns .sev-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      filterPackages();
+    });
+  });
+})();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
+  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
+  var fix = activeFix ? activeFix.getAttribute('data-fix') : '';
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
-    if(!text || name.includes(text)){ el.style.display=''; shown++; }
+    var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
+    var matchText = !text || name.includes(text);
+    var matchFix = fix !== 'unfixed' || unfixed > 0;
+    if(matchText && matchFix){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
