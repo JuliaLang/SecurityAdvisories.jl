@@ -144,22 +144,14 @@ _advisory_file_path(adv) =
 # entry to display and how to render it.
 
 # The severity entry to display as `(sev, version, score)`: the highest-scored
-# entry of the most recent CVSS version, or — when no entry has a computable
-# score — the first entry with `version`/`score` of `nothing`.  Returns
-# `nothing` only when the advisory has no severity entries at all.
+# entry of the most recent CVSS version, ranking unscoreable entries last (with
+# `version`/`score` of `nothing`).  Returns `nothing` only when the advisory
+# has no severity entries at all.
 function _display_severity(adv)
     isempty(adv.severity) && return nothing
-    best = nothing
-    for sev in adv.severity
-        version = CVSS.version(sev.score)
-        version === nothing && continue
-        score = CVSS.score(sev.score)
-        score === nothing && continue
-        if best === nothing || (version, score) > (best[2], best[3])
-            best = (sev, version, score)
-        end
-    end
-    something(best, Some((first(adv.severity), nothing, nothing)))
+    rank(sev) = (something(CVSS.version(sev.score), -1), something(CVSS.score(sev.score), -1.0))
+    sev = argmax(rank, adv.severity)
+    (sev, CVSS.version(sev.score), CVSS.score(sev.score))
 end
 
 function _severity_label(score::Float64, version::Int)
