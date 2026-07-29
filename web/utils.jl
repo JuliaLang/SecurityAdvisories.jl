@@ -1,4 +1,4 @@
-using SecurityAdvisories: SecurityAdvisories
+using SecurityAdvisories: SecurityAdvisories, CVSS
 using Dates
 
 const ADVISORIES_DIR = joinpath(@__DIR__, "..", "advisories", "published")
@@ -138,68 +138,38 @@ const SRC_DESCRIPTIONS = Dict(
 _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
 
-# CVSS v3 base score calculation
-# The SecurityAdvisories.jl package stores CVSS vectors as strings but
-# does not compute numeric scores.  We implement the CVSS v3.x
-# specification here for rendering severity badges in the web UI.
+# Severity display selection
 
-const _AV  = Dict('N' => 0.85, 'A' => 0.62, 'L' => 0.55, 'P' => 0.20)
-const _AC  = Dict('L' => 0.77, 'H' => 0.44)
-const _PRU = Dict('N' => 0.85, 'L' => 0.62, 'H' => 0.27)
-const _PRC = Dict('N' => 0.85, 'L' => 0.68, 'H' => 0.50)
-const _UI  = Dict('N' => 0.85, 'R' => 0.62)
-const _CIA = Dict('N' => 0.0,  'L' => 0.22, 'H' => 0.56)
-
-function _cvss3_base_score(vector::AbstractString)::Union{Nothing,Float64}
-    m = Dict{String,Char}()
-    for part in split(vector, '/')
-        kv = split(part, ':')
-        length(kv) == 2 && (m[kv[1]] = first(kv[2]))
-    end
-    av = get(_AV, get(m, "AV", ' '), nothing)
-    ac = get(_AC, get(m, "AC", ' '), nothing)
-    sc = get(m, "S", 'U') == 'C'
-    pr = get(sc ? _PRC : _PRU, get(m, "PR", ' '), nothing)
-    ui = get(_UI, get(m, "UI", ' '), nothing)
-    c  = get(_CIA, get(m, "C", ' '), nothing)
-    i  = get(_CIA, get(m, "I", ' '), nothing)
-    a  = get(_CIA, get(m, "A", ' '), nothing)
-    any(isnothing, (av, ac, pr, ui, c, i, a)) && return nothing
-    iss = 1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a)
-    impact = sc ? 7.52(iss - 0.029) - 3.25(iss - 0.02)^15 : 6.42iss
-    impact <= 0 && return 0.0
-    exploit = 8.22 * av * ac * pr * ui
-    base = sc ? min(1.08(impact + exploit), 10.0) : min(impact + exploit, 10.0)
-    ceil(base * 10) / 10
+# We choose to display the highest-version CVSS score (and if more than one, the highest score)
+function _display_severity(adv)
+    isempty(adv.severity) && return nothing
+    rank(sev) = (something(CVSS.version(sev.score), -1), something(CVSS.score(sev.score), -1.0))
+    sev = argmax(rank, adv.severity)
+    (sev, CVSS.version(sev.score), CVSS.score(sev.score))
 end
 
-function _severity_label(score::Float64)
-    score >= 9.0 && return ("Critical", "critical")
+function _severity_label(score::Float64, version::Int)
+    # CVSS v2 defines no qualitative scale; use NVD's convention with only Low/Medium/High
+    version != 2 && score >= 9.0 && return ("Critical", "critical")
     score >= 7.0 && return ("High", "high")
     score >= 4.0 && return ("Medium", "medium")
-    score >= 0.1 && return ("Low", "low")
+    (version == 2 || score >= 0.1) && return ("Low", "low")
     ("None", "info")
 end
 
-function _severity_badge(adv)
-    isempty(adv.severity) && return ""
-    sev = first(adv.severity)
-    if startswith(sev.type, "CVSS_V3") || startswith(sev.type, "CVSS_V4")
-        score = _cvss3_base_score(sev.score)
-        if score !== nothing
-            label, cls = _severity_label(score)
-            return """<span class="severity-badge severity-$cls" title="$(_escape(sev.score))">$label $(round(score; digits=1))</span>"""
-        end
-    end
-    """<span class="severity-badge severity-info" title="$(_escape(sev.score))">$(sev.type)</span>"""
+_severity_badge(adv) = _severity_badge(_display_severity(adv))
+function _severity_badge(disp::Union{Nothing,Tuple})
+    disp === nothing && return ""
+    sev, version, score = disp
+    score === nothing &&
+        return """<span class="severity-badge severity-info" title="$(_escape(sev.score))">$(sev.type)</span>"""
+    label, cls = _severity_label(score, version)
+    """<span class="severity-badge severity-$cls" title="$(_escape(sev.score))">$label $(round(score; digits=1))</span>"""
 end
 
-function _severity_class(adv)
-    isempty(adv.severity) && return ""
-    sev = first(adv.severity)
-    score = _cvss3_base_score(sev.score)
-    score === nothing ? "" : last(_severity_label(score))
-end
+_severity_class(adv) = _severity_class(_display_severity(adv))
+_severity_class(disp::Union{Nothing,Tuple}) =
+    disp === nothing || disp[3] === nothing ? "" : last(_severity_label(disp[3], disp[2]))
 
 function _idlinks_html(ids)
     io = IOBuffer()
@@ -230,9 +200,9 @@ end
 # keep list-item markup consistent.
 
 function _write_advisory_row(io::IOBuffer, adv;
-        extra_attrs::String="", summary_len::Int=90, show_source::Bool=false)
+        extra_attrs::String="", summary_len::Int=90, show_source::Bool=false,
+        badge::String=_severity_badge(adv))
     summary = something(adv.summary, "No summary available")
-    badge = _severity_badge(adv)
     withdrawn_badge = adv.withdrawn !== nothing ? """<span class="withdrawn-badge">Withdrawn</span>""" : ""
     source_badge = (show_source && _is_upstream(adv)) ? """<span class="source-badge">Upstream</span>""" : ""
     write(io, """<a href="$(_advisory_url(adv))" class="advisory-item"$extra_attrs>""")
@@ -295,12 +265,12 @@ function hfun_all_advisories()
 
     write(io, """<div class="advisory-list" id="advisory-list">""")
     for adv in advs
-        sev_cls = _severity_class(adv)
+        disp = _display_severity(adv)
         src = _is_upstream(adv) ? "upstream" : "julia"
         pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
         summary = something(adv.summary, "No summary available")
-        attrs = """ data-severity="$sev_cls" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
-        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true)
+        attrs = """ data-severity="$(_severity_class(disp))" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
 
@@ -432,7 +402,8 @@ function hfun_advisory_detail()
 
     fpath = _advisory_file_path(adv)
     summary = something(adv.summary, adv.id)
-    badge = _severity_badge(adv)
+    disp = _display_severity(adv)
+    badge = _severity_badge(disp)
 
     write(io, """<div class="advisory-detail-header">""")
     write(io, """<span class="advisory-id-large">$(adv.id)</span> $badge""")
@@ -460,9 +431,8 @@ function hfun_advisory_detail()
         write(io, """<div class="meta-row"><dt>Withdrawn</dt><dd>$(_format_datetime(adv.withdrawn))</dd></div>""")
     end
 
-    if !isempty(adv.severity)
-        sev = first(adv.severity)
-        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(_escape(sev.score))</code></dd></div>""")
+    if disp !== nothing
+        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(_escape(disp[1].score))</code></dd></div>""")
     end
 
     vuln_entries = filter(SecurityAdvisories.is_vulnerable, adv.affected)
