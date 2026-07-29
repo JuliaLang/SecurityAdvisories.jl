@@ -4,8 +4,8 @@ include("VersionStrings.jl")
 using .VersionStrings: VersionString
 
 include("common.jl")
-include("advisory.jl")
 include("CVSS.jl")
+include("advisory.jl")
 include("protect_identifiers.jl")
 include("GitHub.jl")
 include("NVD.jl")

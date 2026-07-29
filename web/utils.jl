@@ -151,9 +151,9 @@ function _display_severity(adv)
     isempty(adv.severity) && return nothing
     best = nothing
     for sev in adv.severity
-        version = CVSS.version(sev)
+        version = CVSS.version(sev.score)
         version === nothing && continue
-        score = CVSS.score(sev)
+        score = CVSS.score(sev.score)
         score === nothing && continue
         if best === nothing || (version, score) > (best[2], best[3])
             best = (sev, version, score)

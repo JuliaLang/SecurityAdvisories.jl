@@ -226,22 +226,20 @@ end
     end
 
     @testset "CVSS.score entry points" begin
-        # Version auto-detection from bare vector strings
+        # Version auto-detection from vector strings
+        @test CVSS.version("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") == 3
+        @test CVSS.version("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 4
+        @test CVSS.version("AV:N/AC:L/Au:N/C:P/I:P/A:P") == 2
+        @test CVSS.version("not a cvss vector") === nothing
         @test CVSS.score("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H") == 9.8
         @test CVSS.score("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N") == 9.3
         @test CVSS.score("AV:N/AC:L/Au:N/C:P/I:P/A:P") == 7.5
         @test CVSS.score("not a cvss vector") === nothing
-        # Dispatch on a Severity's type
-        @test CVSS.score(Severity("CVSS_V3", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")) == 9.8
-        @test CVSS.score(Severity("CVSS_V4", "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N")) == 9.3
-        @test CVSS.score(Severity("CVSS_V2", "AV:N/AC:L/Au:N/C:P/I:P/A:P")) == 7.5
-        @test CVSS.score(Severity("UBUNTU", "medium")) === nothing
-        @test CVSS.version(Severity("CVSS_V4", "")) == 4
-        @test CVSS.version(Severity("CVSS_V3", "")) == 3
-        @test CVSS.version(Severity("CVSS_V2", "")) == 2
-        @test CVSS.version(Severity("UBUNTU", "medium")) === nothing
-        # A Severity whose type doesn't match its vector scores as its type says
-        @test CVSS.score(Severity("CVSS_V4", "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H")) === nothing
+        # Severity parsing derives its type from the vector's CVSS version
+        @test Severity("CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H").type == "CVSS_V3"
+        @test Severity("CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N").type == "CVSS_V4"
+        @test Severity("AV:N/AC:L/Au:N/C:P/I:P/A:P").type == "CVSS_V2"
+        @test tryparse(Severity, "medium") === nothing
     end
 end
 

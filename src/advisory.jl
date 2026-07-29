@@ -114,15 +114,10 @@ Severity(type, score; source = nothing) = Severity(type, score, source)
 Base.convert(::Type{Severity}, s::AbstractString) = Severity(s)
 Base.convert(::Type{Severity}, d::AbstractDict) = Severity(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.tryparse(::Type{Severity}, score)
-    if startswith(score, r"^AV:[LAN]\/AC:[HML]\/Au:[MSN]\/C:[NPC]\/I:[NPC]\/A:[NPC]")
-        type = "CVSS_V2"
-    elseif (m = match(r"^CVSS:([34])", score); m !== nothing)
-        type = "CVSS_V$(m.captures[1])"
-    else
-        # TODO: Should this assume medium/high/critical are Ubuntu's definitions?
-        return nothing
-    end
-    return Severity(type, String(score))
+    v = CVSS.version(score)
+    # TODO: Should this assume medium/high/critical are Ubuntu's definitions?
+    v === nothing && return nothing
+    return Severity("CVSS_V$v", String(score))
 end
 
 @kwdef struct AdvisorySource

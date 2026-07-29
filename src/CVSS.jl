@@ -1,9 +1,9 @@
 """
     CVSS
 
-CVSS score calculation for the vector strings stored in `Severity` entries.
-Implements the CVSS v2 and v3.x base score specifications and the CVSS v4.0
-scoring system (a port of FIRST's official reference implementation).
+CVSS scoring for vector strings. Implements the CVSS v2 and v3.x base score
+specifications and the CVSS v4.0 scoring system (a port of FIRST's official
+reference implementation).
 
 The main entry points are [`CVSS.score`](@ref) and [`CVSS.version`](@ref);
 [`v2_score`](@ref), [`v3_score`](@ref), and [`v4_score`](@ref) compute scores
@@ -11,41 +11,37 @@ directly from version-specific vector strings.
 """
 module CVSS
 
-using ..SecurityAdvisories: Severity
-
 """
-    score(sev::Severity) -> Union{Nothing, Float64}
     score(vector::AbstractString) -> Union{Nothing, Float64}
 
-Compute the numeric CVSS score for a severity's vector string, using the scoring
-system that matches its CVSS version. Returns `nothing` if the vector is not a
+Compute the numeric CVSS score for a vector string, using the scoring system
+that matches its [`version`](@ref). Returns `nothing` if the vector is not a
 recognized or complete CVSS v2, v3.x, or v4.0 vector.
 
 For v2 and v3.x this is the base score; for v4.0 it is the full CVSS-BTE score,
 which reduces to the base (CVSS-B) score when no threat or environmental
 metrics are present.
 """
-function score(sev::Severity)
-    v = version(sev)
-    v == 4 ? v4_score(sev.score) :
-    v == 3 ? v3_score(sev.score) :
-    v == 2 ? v2_score(sev.score) : nothing
-end
 function score(vector::AbstractString)
-    sev = tryparse(Severity, vector)
-    sev === nothing ? nothing : score(sev)
+    v = version(vector)
+    v == 4 ? v4_score(vector) :
+    v == 3 ? v3_score(vector) :
+    v == 2 ? v2_score(vector) : nothing
 end
 
 """
-    version(sev::Severity) -> Union{Nothing, Int}
+    version(vector::AbstractString) -> Union{Nothing, Int}
 
-The CVSS version number (2, 3, or 4) of a severity entry, or `nothing` for
-non-CVSS severity types.
+The CVSS version number (2, 3, or 4) of a vector string, or `nothing` if it is
+not recognized as a CVSS vector. Version 3 and 4 vectors are identified by
+their `CVSS:` prefix; version 2 vectors by their mandatory base metrics.
 """
-version(sev::Severity) =
-    sev.type == "CVSS_V4" ? 4 :
-    sev.type == "CVSS_V3" ? 3 :
-    sev.type == "CVSS_V2" ? 2 : nothing
+function version(vector::AbstractString)
+    m = match(r"^CVSS:([34])", vector)
+    m !== nothing && return parse(Int, only(m.captures))
+    startswith(vector, r"AV:[LAN]/AC:[HML]/Au:[MSN]/C:[NPC]/I:[NPC]/A:[NPC]") && return 2
+    return nothing
+end
 
 _metric(table, m, key) = get(table, get(m, key, ""), nothing)
 
