@@ -365,16 +365,12 @@ function hfun_package_index()
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
     write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
-    write(io, """<span class="filter-group-label">Advisories</span>""")
     write(io, """<button class="sev-btn active" data-val="">All</button>""")
     write(io, """<button class="sev-btn" data-val="unfixed" title="Only packages with at least one advisory that has no fixed release">Unfixed</button>""")
     write(io, "</div>")
-    write(io, """<div class="sev-btns" id="pkg-status-btns">""")
-    write(io, """<span class="filter-group-label">Registry</span>""")
-    write(io, """<button class="sev-btn active" data-val="">All</button>""")
-    write(io, """<button class="sev-btn" data-val="maintained" title="Exclude packages marked deprecated in the General registry">Maintained</button>""")
-    write(io, """<button class="sev-btn" data-val="deprecated" title="Only packages marked deprecated in the General registry">Deprecated</button>""")
-    write(io, "</div>")
+    write(io, """<label class="filter-checkbox" title="Include packages marked deprecated in the General registry">""")
+    write(io, """<input type="checkbox" id="pkg-show-deprecated" onchange="filterPackages()"> Show deprecated packages""")
+    write(io, "</label>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
 
@@ -401,7 +397,8 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
         write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
-        write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
+        dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
+        write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
         write(io, "</a>")
     end
@@ -410,11 +407,11 @@ function hfun_package_index()
 
     write(io, """
 <script>
-// The two filter groups are orthogonal and combine with AND; each is a
-// mutually-exclusive button set synced to its own query parameter for
-// deep-linking, e.g. /packages/?advisories=unfixed&registry=maintained
-function wireFilterGroup(sel, param){
-  var btns = document.querySelectorAll(sel + ' .sev-btn');
+// Deprecated packages are hidden unless the checkbox opts in.  Both
+// controls sync to query parameters for deep-linking, e.g.
+// /packages/?filter=unfixed&deprecated=show
+(function(){
+  var btns = document.querySelectorAll('#pkg-fix-btns .sev-btn');
   btns.forEach(function(btn){
     btn.addEventListener('click', function(){
       btns.forEach(function(b){ b.classList.remove('active'); });
@@ -422,27 +419,25 @@ function wireFilterGroup(sel, param){
       filterPackages();
     });
   });
-  var wanted = new URLSearchParams(location.search).get(param) || '';
+  var params = new URLSearchParams(location.search);
+  var wanted = params.get('filter') || '';
   btns.forEach(function(btn){
     if(btn.getAttribute('data-val') === wanted){
       btns.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
     }
   });
-}
-wireFilterGroup('#pkg-fix-btns', 'advisories');
-wireFilterGroup('#pkg-status-btns', 'registry');
-function activeVal(sel){
-  var el = document.querySelector(sel + ' .sev-btn.active');
-  return el ? el.getAttribute('data-val') : '';
-}
+  if(params.get('deprecated') === 'show')
+    document.getElementById('pkg-show-deprecated').checked = true;
+})();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
-  var fix = activeVal('#pkg-fix-btns');
-  var status = activeVal('#pkg-status-btns');
+  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
+  var fix = activeFix ? activeFix.getAttribute('data-val') : '';
+  var showDep = document.getElementById('pkg-show-deprecated').checked;
   var url = new URL(location);
-  if(fix) url.searchParams.set('advisories', fix); else url.searchParams.delete('advisories');
-  if(status) url.searchParams.set('registry', status); else url.searchParams.delete('registry');
+  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
+  if(showDep) url.searchParams.set('deprecated', 'show'); else url.searchParams.delete('deprecated');
   history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
@@ -452,8 +447,8 @@ function filterPackages(){
     var deprecated = el.getAttribute('data-deprecated') === '1';
     var matchText = !text || name.includes(text);
     var matchFix = !fix || unfixed > 0;
-    var matchStatus = !status || (status === 'deprecated') === deprecated;
-    if(matchText && matchFix && matchStatus){ el.style.display=''; shown++; }
+    var matchDep = showDep || !deprecated;
+    if(matchText && matchFix && matchDep){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
