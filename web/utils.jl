@@ -320,19 +320,57 @@ filterAdvisories();
     String(take!(io))
 end
 
+# A vulnerability is "fixed" only when every range has an exclusive upper
+# bound (the OSV `fixed` event); an inclusive `last_affected` bound or an
+# unbounded range means no fixed release is known.
+_has_fix(v::SecurityAdvisories.PackageVulnerability) =
+    all(r -> SecurityAdvisories.has_upper_bound(r) && !r.ubinclusive, v.ranges)
+
+# The subset of `pkgs` marked deprecated in the General registry, signalled
+# by a `[metadata.deprecated]` table in the package's Package.toml.  Pkg's
+# parsed PkgInfo doesn't surface this table until Julia 1.14, so read the
+# raw file through the registry's (possibly in-memory) file access.
+function _deprecated_packages(pkgs)
+    reg = SecurityAdvisories.get_registry()
+    deprecated = Set{String}()
+    for pkg in pkgs
+        uuids = SecurityAdvisories.uuids_from_name(pkg, reg)
+        isempty(uuids) && continue
+        entry = reg[first(uuids)]
+        d = SecurityAdvisories.Registry.parsefile(
+            entry.in_memory_registry, entry.registry_path, joinpath(entry.path, "Package.toml"))
+        meta = get(d, "metadata", nothing)
+        meta isa AbstractDict && haskey(meta, "deprecated") && push!(deprecated, pkg)
+    end
+    return deprecated
+end
+
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
+    pkg_unfixed = Dict{String,Int}()
     for a in advs
-        for pkg in SecurityAdvisories.vulnerable_packages(a)
-            pkg_counts[pkg] = get(pkg_counts, pkg, 0) + 1
+        for v in a.affected
+            SecurityAdvisories.is_vulnerable(v) || continue
+            pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
+            if a.withdrawn === nothing && !_has_fix(v)
+                pkg_unfixed[v.pkg] = get(pkg_unfixed, v.pkg, 0) + 1
+            end
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
+    deprecated = _deprecated_packages(keys(pkg_counts))
 
     io = IOBuffer()
     write(io, """<div class="filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
+    write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
+    write(io, """<button class="sev-btn active" data-val="">All</button>""")
+    write(io, """<button class="sev-btn" data-val="unfixed" title="Only packages with at least one advisory that has no fixed release">Unfixed</button>""")
+    write(io, "</div>")
+    write(io, """<label class="filter-checkbox" title="Include packages marked deprecated in the General registry">""")
+    write(io, """<input type="checkbox" id="pkg-show-deprecated" onchange="filterPackages()"> Show deprecated packages""")
+    write(io, "</label>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
 
@@ -358,8 +396,9 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))">""")
-        write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
+        dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
+        write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
         write(io, "</a>")
     end
@@ -368,13 +407,48 @@ function hfun_package_index()
 
     write(io, """
 <script>
+// Deprecated packages are hidden unless the checkbox opts in.  Both
+// controls sync to query parameters for deep-linking, e.g.
+// /packages/?filter=unfixed&deprecated=show
+(function(){
+  var btns = document.querySelectorAll('#pkg-fix-btns .sev-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      filterPackages();
+    });
+  });
+  var params = new URLSearchParams(location.search);
+  var wanted = params.get('filter') || '';
+  btns.forEach(function(btn){
+    if(btn.getAttribute('data-val') === wanted){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+  });
+  if(params.get('deprecated') === 'show')
+    document.getElementById('pkg-show-deprecated').checked = true;
+})();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
+  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
+  var fix = activeFix ? activeFix.getAttribute('data-val') : '';
+  var showDep = document.getElementById('pkg-show-deprecated').checked;
+  var url = new URL(location);
+  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
+  if(showDep) url.searchParams.set('deprecated', 'show'); else url.searchParams.delete('deprecated');
+  history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
-    if(!text || name.includes(text)){ el.style.display=''; shown++; }
+    var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
+    var deprecated = el.getAttribute('data-deprecated') === '1';
+    var matchText = !text || name.includes(text);
+    var matchFix = !fix || unfixed > 0;
+    var matchDep = showDep || !deprecated;
+    if(matchText && matchFix && matchDep){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){

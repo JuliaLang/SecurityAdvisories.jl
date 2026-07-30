@@ -996,6 +996,21 @@ a.pkg-tag:hover {
   align-items: center;
 }
 
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-checkbox input {
+  accent-color: var(--c-accent);
+  cursor: pointer;
+}
+
 .sev-btn {
   padding: 0.28em 0.75em;
   font-size: 0.75rem;
@@ -1020,7 +1035,8 @@ a.pkg-tag:hover {
 .sev-btn-medium:hover,   .sev-btn-medium.active   { background: var(--c-medium-bg);   color: var(--c-medium);   border-color: var(--c-medium); }
 .sev-btn-low:hover,      .sev-btn-low.active      { background: var(--c-low-bg);      color: var(--c-low);      border-color: var(--c-low); }
 
-.withdrawn-badge {
+.withdrawn-badge, .deprecated-badge {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: inline-block;
   padding: 0.1em 0.45em;
   border-radius: 4px;
