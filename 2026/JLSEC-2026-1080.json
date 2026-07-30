@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1080",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-62363",
+        "GHSA-422r-8c97-xcg4",
+        "EUVD-2026-50573"
+    ],
+    "summary": "ImageMagick: Heap Buffer Over-Write in fx operation",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. In versions prior to 7.1.2-27, a heap buffer over-write can occur in the fx operation by passing a crafted argument. This issue has been fixed in version 7.1.2-27.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2029+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-422r-8c97-xcg4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-422r-8c97-xcg4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.15.0"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Kwstubbs",
+            "contact": [
+                "https://github.com/Kwstubbs"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-62363",
+                "imported": "2026-07-30T14:09:55.690Z",
+                "modified": "2026-07-30T00:16:25.213Z",
+                "published": "2026-07-30T00:16:25.213Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-62363",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62363",
+                "database_specific": {
+                    "status": "Received"
+                }
+            },
+            {
+                "id": "GHSA-422r-8c97-xcg4",
+                "imported": "2026-07-30T14:10:23.903Z",
+                "modified": "2026-07-24T16:20:09Z",
+                "published": "2026-07-24T16:20:08Z",
+                "url": "https://api.github.com/advisories/GHSA-422r-8c97-xcg4",
+                "html_url": "https://github.com/advisories/GHSA-422r-8c97-xcg4"
+            },
+            {
+                "id": "EUVD-2026-50573",
+                "imported": "2026-07-30T14:08:50.419Z",
+                "modified": "2026-07-30T13:08:51Z",
+                "published": "2026-07-30T00:02:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-50573",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-50573"
+            }
+        ]
+    }
+}

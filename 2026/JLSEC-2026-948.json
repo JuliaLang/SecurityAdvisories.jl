@@ -1,0 +1,109 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-948",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25798",
+        "GHSA-p863-5fgm-rgq4",
+        "EUVD-2026-7442"
+    ],
+    "summary": "ImageMagick has NULL Pointer Dereference in ClonePixelCacheRepository via crafted image",
+    "details": "A NULL pointer dereference in ClonePixelCacheRepository allows a remote attacker to crash any application linked against ImageMagick by supplying a crafted image file, resulting in Denial of Service.\n\n```\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==3704942==ERROR: AddressSanitizer: UNKNOWN SIGNAL on unknown address 0x000000000000 (pc 0x7f9d141239e0 bp 0x7ffd4c5711e0 sp 0x7ffd4c571148 T0)\n    #0 0x7f9d141239e0  (/lib/x86_64-linux-gnu/libc.so.6+0xc49e0)\n    #1 0x558a25e4f08d in ClonePixelCacheRepository._omp_fn.0 MagickCore/cache.c:784\n    #2 0x7f9d14c06a15 in GOMP_parallel (/lib/x86_64-linux-gnu/libgomp.so.1+0x14a15)\n    #3 0x558a25e43151 in ClonePixelCacheRepository MagickCore/cache.c:753\n    #4 0x558a25e49a96 in OpenPixelCache MagickCore/cache.c:3849\n    #5 0x558a25e45117 in GetImagePixelCache MagickCore/cache.c:1829\n    #6 0x558a25e4dde3 in SyncImagePixelCache MagickCore/cache.c:5647\n    #7 0x558a256ba57d in SetImageExtent MagickCore/image.c:2713\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/e046417675d5c26e5f48816851a406c121c77469"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/issues/8567"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-p863-5fgm-rgq4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-p863-5fgm-rgq4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25798"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25798",
+                "imported": "2026-07-30T14:08:45.026Z",
+                "modified": "2026-06-17T10:25:15.813Z",
+                "published": "2026-02-24T01:16:14.603Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25798",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25798",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-p863-5fgm-rgq4",
+                "imported": "2026-07-30T14:10:38.105Z",
+                "modified": "2026-02-24T15:36:10Z",
+                "published": "2026-02-24T15:36:08Z",
+                "url": "https://api.github.com/advisories/GHSA-p863-5fgm-rgq4",
+                "html_url": "https://github.com/advisories/GHSA-p863-5fgm-rgq4"
+            },
+            {
+                "id": "EUVD-2026-7442",
+                "imported": "2026-07-30T14:08:55.225Z",
+                "modified": "2026-02-26T15:21:20Z",
+                "published": "2026-02-24T01:02:30Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7442",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7442"
+            }
+        ]
+    }
+}

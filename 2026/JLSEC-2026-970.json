@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-970",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-27798",
+        "GHSA-qpgx-jfcq-r59f",
+        "EUVD-2026-8771"
+    ],
+    "summary": "ImageMagick: Heap Buffer Over-read in WaveletDenoise when processing small images",
+    "details": "A heap buffer over-read vulnerability occurs when processing an image with small dimension using the `-wavelet-denoise` operator.\n\n```\n==3693336==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x511000001280 at pc 0x5602c8b0cc75 bp 0x7ffcb105d510 sp 0x7ffcb105d500\nREAD of size 4 at 0x511000001280 thread T0\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/0377e60b3c0d766bd7271221c95d9ee54f6a3738"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-qpgx-jfcq-r59f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-qpgx-jfcq-r59f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27798"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27798",
+                "imported": "2026-07-30T14:08:45.785Z",
+                "modified": "2026-06-17T10:27:42.093Z",
+                "published": "2026-02-26T00:16:25.193Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27798",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27798",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-qpgx-jfcq-r59f",
+                "imported": "2026-07-30T14:10:39.848Z",
+                "modified": "2026-02-27T22:16:47Z",
+                "published": "2026-02-25T19:24:05Z",
+                "url": "https://api.github.com/advisories/GHSA-qpgx-jfcq-r59f",
+                "html_url": "https://github.com/advisories/GHSA-qpgx-jfcq-r59f"
+            },
+            {
+                "id": "EUVD-2026-8771",
+                "imported": "2026-07-30T14:08:55.072Z",
+                "modified": "2026-02-26T16:54:57Z",
+                "published": "2026-02-25T23:18:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-8771",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-8771"
+            }
+        ]
+    }
+}

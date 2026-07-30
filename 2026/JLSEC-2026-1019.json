@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1019",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-46693",
+        "GHSA-4g75-9r48-jf92",
+        "EUVD-2026-36176"
+    ],
+    "summary": "ImageMagick: Race Condition in distributed pixel cache server can result in file descriptor hijacking",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-48 and 7.1.2-23, an attacker who can connect to a magick -distribute-cache service can hijack a file descriptor in the server process when a race condition is met. This issue has been patched in versions 6.9.13-48 and 7.1.2-23.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-4g75-9r48-jf92"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4g75-9r48-jf92"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46693"
+        }
+    ],
+    "credits": [
+        {
+            "name": "SecurinDisclose",
+            "contact": [
+                "https://github.com/SecurinDisclose"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-46693",
+                "imported": "2026-07-30T14:08:47.452Z",
+                "modified": "2026-07-23T09:10:00.113Z",
+                "published": "2026-06-10T23:16:47.597Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-46693",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46693",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-4g75-9r48-jf92",
+                "imported": "2026-07-30T14:09:38.005Z",
+                "modified": "2026-06-11T14:07:02Z",
+                "published": "2026-05-22T13:11:29Z",
+                "url": "https://api.github.com/advisories/GHSA-4g75-9r48-jf92",
+                "html_url": "https://github.com/advisories/GHSA-4g75-9r48-jf92"
+            },
+            {
+                "id": "EUVD-2026-36176",
+                "imported": "2026-07-30T14:08:53.622Z",
+                "modified": "2026-06-11T13:12:40Z",
+                "published": "2026-06-10T21:47:41Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-36176",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-36176"
+            }
+        ]
+    }
+}

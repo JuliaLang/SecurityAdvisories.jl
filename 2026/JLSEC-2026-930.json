@@ -1,0 +1,102 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-930",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2025-68469",
+        "GHSA-fff3-4rp7-px97",
+        "EUVD-2025-204303"
+    ],
+    "summary": "ImageMagick has a heap-buffer-overflow",
+    "details": "### Summary\n\nWhile Processing a crafted TIFF file, imagemagick crashes.\n\n### Details\n\nFollowing is the imagemagick version:\n\n```\nimagemagick_git/build_26jun23/bin/magick --version\nVersion: ImageMagick 7.1.1-13 (Beta) Q16-HDRI x86_64 56f478940:20230625 https://imagemagick.org\nCopyright: (C) 1999 ImageMagick Studio LLC\nLicense: https://imagemagick.org/script/license.php\nFeatures: Cipher DPC HDRI \nDelegates (built-in): fontconfig freetype jbig jng jpeg lcms lzma pangocairo png tiff webp x xml zlib\nCompiler: gcc (4.2)\n```\n\n### PoC\n\nissue can be replicated with following command with provided POC file(sent over email):\n\n```bash\nmagick poc.tiff /dev/null\n```\n\n### Impact\n\nThis can lead to application crash.\n\n### Credits\n\nPlease give credits to Hardik shah of Vehere (Dawn Treaders team)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.1+1"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-fff3-4rp7-px97"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-fff3-4rp7-px97"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68469"
+        }
+    ],
+    "credits": [
+        {
+            "name": "hardik05",
+            "contact": [
+                "https://github.com/hardik05"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-68469",
+                "imported": "2026-07-30T14:08:44.516Z",
+                "modified": "2026-06-17T09:59:06.877Z",
+                "published": "2025-12-18T16:15:57.700Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-68469",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68469",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-fff3-4rp7-px97",
+                "imported": "2026-07-30T14:10:09.658Z",
+                "modified": "2025-12-31T22:18:05Z",
+                "published": "2025-08-25T15:54:51Z",
+                "url": "https://api.github.com/advisories/GHSA-fff3-4rp7-px97",
+                "html_url": "https://github.com/advisories/GHSA-fff3-4rp7-px97"
+            },
+            {
+                "id": "EUVD-2025-204303",
+                "imported": "2026-07-30T14:08:55.660Z",
+                "modified": "2025-12-18T15:52:40Z",
+                "published": "2025-12-18T15:36:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-204303",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-204303"
+            }
+        ]
+    }
+}

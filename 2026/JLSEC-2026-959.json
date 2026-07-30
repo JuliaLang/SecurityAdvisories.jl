@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-959",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25982",
+        "GHSA-pmq6-8289-hx3v",
+        "EUVD-2026-7425"
+    ],
+    "summary": "ImageMagick has Heap Out-of-Bounds Read in DCM Decoder (ReadDCMImage)",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 7.1.2-15 and 6.9.13-40, a heap out-of-bounds read vulnerability exists in the `coders/dcm.c` module. When processing DICOM files with a specific configuration, the decoder loop incorrectly reads bytes per iteration. This causes the function to read past the end of the allocated buffer, potentially leading to a Denial of Service (crash) or Information Disclosure (leaking heap memory into the image). Versions 7.1.2-15 and 6.9.13-40 contain a patch.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-pmq6-8289-hx3v"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-pmq6-8289-hx3v"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25982"
+        }
+    ],
+    "credits": [
+        {
+            "name": "marckwei",
+            "contact": [
+                "https://github.com/marckwei"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25982",
+                "imported": "2026-07-30T14:08:45.391Z",
+                "modified": "2026-06-17T10:25:32.563Z",
+                "published": "2026-02-24T02:16:02.303Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25982",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25982",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-pmq6-8289-hx3v",
+                "imported": "2026-07-30T14:10:38.851Z",
+                "modified": "2026-03-12T14:02:23Z",
+                "published": "2026-03-12T14:02:22Z",
+                "url": "https://api.github.com/advisories/GHSA-pmq6-8289-hx3v",
+                "html_url": "https://github.com/advisories/GHSA-pmq6-8289-hx3v"
+            },
+            {
+                "id": "EUVD-2026-7425",
+                "imported": "2026-07-30T14:08:54.970Z",
+                "modified": "2026-02-28T02:03:58Z",
+                "published": "2026-02-24T01:40:45Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7425",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7425"
+            }
+        ]
+    }
+}

@@ -1,0 +1,131 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-923",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2025-55212",
+        "GHSA-fh55-q5pj-pxgw",
+        "EUVD-2025-25815"
+    ],
+    "summary": "ImageMagick affected by divide-by-zero in ThumbnailImage via montage -geometry \":\" leads to crash",
+    "details": "## Summary\n\nPassing a geometry string containing only a colon (\":\") to montage -geometry leads GetGeometry() to set width/height to 0. Later, ThumbnailImage() divides by these zero dimensions, triggering a crash (SIGFPE/abort), resulting in a denial of service.\n\n## Details\n\n**Root Cause**\n\n 1. `montage -geometry \":\" ...` reaches `MagickCore/geometry.c:GetGeometry().`\n 2. `StringToDouble/InterpretLocaleValue` parses `\":\"` as `0.0;` then:\n    https://github.com/ImageMagick/ImageMagick/blob/0ba1b587be17543b664f7ad538e9e51e0da59d17/MagickCore/geometry.c#L355\n    `WidthValue` (and/or `HeightValue)` is set with a zero dimension.\n 3. In MagickCore/resize.c:ThumbnailImage(), the code computes:\n    https://github.com/ImageMagick/ImageMagick/blob/0ba1b587be17543b664f7ad538e9e51e0da59d17/MagickCore/resize.c#L4625-L4629\n    causing a division by zero and immediate crash.\n\nThe issue is trivially triggerable without external input files (e.g., using `xc:white`).\n\n### Reproduction\n\nEnvironment\n\n```\nVersion: ImageMagick 7.1.2-1 (Beta) Q16-HDRI x86_64 0ba1b587b:20250812 https://imagemagick.org\nFeatures: Cipher DPC HDRI\nDelegates (built-in): bzlib fontconfig freetype jbig jng jpeg lcms lzma pangocairo png tiff x xml zlib\nCompiler: clang (14.0.0)\nOS/Arch: Linux x86_64\n```\n\nSteps\n\n```\n./bin/magick montage -geometry : xc:white null:\n```\n\nObserved result\n\n```\nIOT instruction (core dumped)\n# (Environment-dependent: SIGFPE/abort may be observed.)\n```\n\n## PoC\n\nNo external file required; the pseudo image xc:white suffices:\n\n```\n./bin/magick montage -geometry : xc:white null:\n```\n\n## Impact\n\n  - **Denial of Service:** A divide-by-zero in `ThumbnailImage()` causes immediate abnormal termination (e.g., SIGFPE/abort), crashing the ImageMagick process.\n\n## Suggested fix\n\nDefensively reject zero dimensions early in `ThumbnailImage()`:\n\n```c\nif ((columns == 0) || (rows == 0)) {\n  (void) ThrowMagickException(exception, GetMagickModule(), OptionError,\n    \"InvalidGeometry\", \"thumbnail requires non-zero dimensions: %.20gx%.20g\",\n    (double) columns, (double) rows);\n  return (Image *) NULL;\n}\n```\n\nAdditionally, consider tightening validation in `GetGeometry()` so that colon-only (and similar malformed) inputs do not yield `WidthValue/HeightValue` with zero, or are rejected outright. Variants like `\"x:\"` or `\":x\"` may also need explicit handling (maintainer confirmation requested).\n\n## Credits\n\n### Team Daemon Fuzz Hunters\n\n**Bug Hunting Master Program, HSpace/Findthegap**\n<br>\n\n**Woojin Park**\n@jin-156\n[1203kids@gmail.com](mailto:1203kids@gmail.com)\n\n**Hojun Lee**\n@leehohojune\n[leehojune@korea.ac.kr](mailto:leehojune@korea.ac.kr)\n\n**Youngin Won**\n@amethyst0225\n[youngin04@korea.ac.kr](mailto:youngin04@korea.ac.kr)\n\n**Siyeon Han**\n@hanbunny\n[kokosyeon@gmail.com](mailto:kokosyeon@gmail.com)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2004+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/blob/0ba1b587be17543b664f7ad538e9e51e0da59d17/MagickCore/geometry.c#L355"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/blob/0ba1b587be17543b664f7ad538e9e51e0da59d17/MagickCore/resize.c#L4625-L4629"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/5f0bcf986b8b5e90567750d31a37af502b73f2af"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-fh55-q5pj-pxgw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-fh55-q5pj-pxgw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.8.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/09/msg00012.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55212"
+        }
+    ],
+    "credits": [
+        {
+            "name": "amethyst0225",
+            "contact": [
+                "https://github.com/amethyst0225"
+            ],
+            "type": "REPORTER"
+        },
+        {
+            "name": "jin-156",
+            "contact": [
+                "https://github.com/jin-156"
+            ],
+            "type": "REPORTER"
+        },
+        {
+            "name": "leehohojune",
+            "contact": [
+                "https://github.com/leehohojune"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-55212",
+                "imported": "2026-07-30T14:08:44.274Z",
+                "modified": "2026-06-17T09:41:28.043Z",
+                "published": "2025-08-26T17:15:39.863Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-55212",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55212",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-fh55-q5pj-pxgw",
+                "imported": "2026-07-30T14:09:05.258Z",
+                "modified": "2025-11-03T21:35:32Z",
+                "published": "2025-08-26T15:27:25Z",
+                "url": "https://api.github.com/advisories/GHSA-fh55-q5pj-pxgw",
+                "html_url": "https://github.com/advisories/GHSA-fh55-q5pj-pxgw"
+            },
+            {
+                "id": "EUVD-2025-25815",
+                "imported": "2026-07-30T14:08:55.767Z",
+                "modified": "2025-11-03T18:13:41Z",
+                "published": "2025-08-26T16:43:15Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-25815",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-25815"
+            }
+        ]
+    }
+}

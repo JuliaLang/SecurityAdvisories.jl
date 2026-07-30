@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1038",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-55594",
+        "GHSA-mx48-2qq3-23hf",
+        "EUVD-2026-41122"
+    ],
+    "summary": "ImageMagick: Stack Overflow in MVG decoder due to missing depth check.",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-51 and 7.1.2-26, a missing depth check in the MVG decoder will result in a stack overflow when a crafted image is provided. This issue has been fixed in versions 6.9.13-51 and 7.1.2-26.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-mx48-2qq3-23hf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-mx48-2qq3-23hf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.15.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55594"
+        }
+    ],
+    "credits": [
+        {
+            "name": "rexpository",
+            "contact": [
+                "https://github.com/rexpository"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-55594",
+                "imported": "2026-07-30T14:08:48.649Z",
+                "modified": "2026-07-02T19:30:34.957Z",
+                "published": "2026-07-01T19:16:55.037Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-55594",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55594",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-mx48-2qq3-23hf",
+                "imported": "2026-07-30T14:10:36.916Z",
+                "modified": "2026-07-24T14:05:41Z",
+                "published": "2026-07-24T14:05:39Z",
+                "url": "https://api.github.com/advisories/GHSA-mx48-2qq3-23hf",
+                "html_url": "https://github.com/advisories/GHSA-mx48-2qq3-23hf"
+            },
+            {
+                "id": "EUVD-2026-41122",
+                "imported": "2026-07-30T14:08:52.257Z",
+                "modified": "2026-07-02T14:38:08Z",
+                "published": "2026-07-01T18:58:46Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41122",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41122"
+            }
+        ]
+    }
+}

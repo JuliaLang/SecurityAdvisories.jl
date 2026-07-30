@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-946",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25796",
+        "GHSA-g2pr-qxjg-7r2w",
+        "EUVD-2026-7446"
+    ],
+    "summary": "ImageMagick has memory leak of watermark Image object in ReadSTEGANOImage on multiple error/early-return paths",
+    "details": "### Summary\n\nIn `ReadSTEGANOImage()` (`coders/stegano.c`), the `watermark` Image object is not freed on three early-return paths, resulting in a definite memory leak (~13.5KB+ per invocation) that can be exploited for denial of service.\n\n```\nDirect leak of 13512 byte(s) in 1 object(s) allocated from:\n    #0 0x7f5c11e27887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145\n    #1 0x55cdc38f65c4 in AcquireMagickMemory MagickCore/memory.c:536\n    #2 0x55cdc38f65eb in AcquireCriticalMemory MagickCore/memory.c:612\n    #3 0x55cdc3899e91 in AcquireImage MagickCore/image.c:154\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/93ad259ce4f6d641eea0bee73f374af90f35efc3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-g2pr-qxjg-7r2w"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g2pr-qxjg-7r2w"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25796"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25796",
+                "imported": "2026-07-30T14:08:44.957Z",
+                "modified": "2026-06-17T10:25:15.600Z",
+                "published": "2026-02-24T01:16:14.293Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25796",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25796",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-g2pr-qxjg-7r2w",
+                "imported": "2026-07-30T14:10:43.289Z",
+                "modified": "2026-02-24T15:34:00Z",
+                "published": "2026-02-24T15:33:56Z",
+                "url": "https://api.github.com/advisories/GHSA-g2pr-qxjg-7r2w",
+                "html_url": "https://github.com/advisories/GHSA-g2pr-qxjg-7r2w"
+            },
+            {
+                "id": "EUVD-2026-7446",
+                "imported": "2026-07-30T14:08:55.292Z",
+                "modified": "2026-02-26T15:12:22Z",
+                "published": "2026-02-24T00:57:27Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7446",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7446"
+            }
+        ]
+    }
+}

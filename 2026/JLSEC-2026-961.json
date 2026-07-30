@@ -1,0 +1,121 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-961",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25985",
+        "GHSA-v7g2-m8c5-mf84",
+        "EUVD-2026-7423"
+    ],
+    "summary": "ImageMagick: Memory allocation with excessive without limits in the internal SVG decoder",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 7.1.2-15 and 6.9.13-40, a crafted SVG file containing an malicious element causes ImageMagick to attempt to allocate ~674 GB of memory, leading to an out-of-memory abort. Versions 7.1.2-15 and 6.9.13-40 contain a patch.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:5573"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-25985"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2442127"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/1a51eb9af00c36724660e294520878fd1f13e312"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-v7g2-m8c5-mf84"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v7g2-m8c5-mf84"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25985"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-25985.json"
+        }
+    ],
+    "credits": [
+        {
+            "name": "petermalone",
+            "contact": [
+                "https://github.com/petermalone"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25985",
+                "imported": "2026-07-30T14:08:45.459Z",
+                "modified": "2026-07-15T02:18:58.147Z",
+                "published": "2026-02-24T02:16:02.620Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25985",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25985",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-v7g2-m8c5-mf84",
+                "imported": "2026-07-30T14:09:50.270Z",
+                "modified": "2026-02-24T15:44:21Z",
+                "published": "2026-02-24T15:44:19Z",
+                "url": "https://api.github.com/advisories/GHSA-v7g2-m8c5-mf84",
+                "html_url": "https://github.com/advisories/GHSA-v7g2-m8c5-mf84"
+            },
+            {
+                "id": "EUVD-2026-7423",
+                "imported": "2026-07-30T14:08:51.366Z",
+                "modified": "2026-07-15T01:15:44Z",
+                "published": "2026-02-24T01:43:07Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7423",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7423"
+            }
+        ]
+    }
+}

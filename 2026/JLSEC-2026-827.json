@@ -1,0 +1,142 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-827",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2019-13135"
+    ],
+    "details": "ImageMagick before 7.0.8-50 has a \"use of uninitialized value\" vulnerability in the function ReadCUTImage in `coders/cut.c`.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.9.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-08/msg00069.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-08/msg00069.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/cdb383749ef7b68a38891440af8cc23e0115306d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/cdb383749ef7b68a38891440af8cc23e0115306d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/issues/1599"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/issues/1599"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick6/commit/1e59b29e520d2beab73e8c78aacd5f1c0d76196d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick6/commit/1e59b29e520d2beab73e8c78aacd5f1c0d76196d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2019/08/msg00021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2019/08/msg00021.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/09/msg00007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2020/09/msg00007.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.f5.com/csp/article/K20336394"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.f5.com/csp/article/K20336394"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.f5.com/csp/article/K20336394?utm_source=f5support&amp%3Butm_medium=RSS"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.f5.com/csp/article/K20336394?utm_source=f5support&amp%3Butm_medium=RSS"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4192-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4192-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4712"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4712"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-13135",
+                "imported": "2026-07-30T14:08:40.502Z",
+                "modified": "2026-06-17T02:16:08.527Z",
+                "published": "2019-07-01T20:15:11.337Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-13135",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-13135",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

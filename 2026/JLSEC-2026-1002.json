@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1002",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-40310",
+        "EUVD-2026-22116"
+    ],
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Versions below both 7.1.2-19 and 6.9.13-44, contain a heap out-of-bounds write in the JP2 encoder with when a user specifies an invalid sampling index. This issue has been fixed in versions 6.9.13-44 and 7.1.2-19.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/3d653bea2df085c728a1c8f775808e1e9249dff9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/releases/tag/7.1.2-19"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-pwg5-6jfc-crvh"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.12.0"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-40310",
+                "imported": "2026-07-30T14:08:46.863Z",
+                "modified": "2026-06-17T10:44:58.920Z",
+                "published": "2026-04-13T22:16:29.790Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-40310",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40310",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-22116",
+                "imported": "2026-07-30T14:08:53.988Z",
+                "modified": "2026-04-14T16:28:25Z",
+                "published": "2026-04-13T21:32:53Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-22116",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-22116"
+            }
+        ]
+    }
+}

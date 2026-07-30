@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-954",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25967",
+        "GHSA-72hf-fj62-w6j4",
+        "EUVD-2026-7436"
+    ],
+    "summary": "ImageMagick: Stack buffer overflow in FTXT reader via oversized integer field",
+    "details": "### Summary\n\nA stack-based buffer overflow exists in the ImageMagick FTXT image reader. A crafted FTXT file can cause out-of-bounds writes on the stack, leading to a crash.\n\n```\n=================================================================\n==3537074==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffee4850ef0 at pc 0x5607c408fb33 bp 0x7ffee484fe50 sp 0x7ffee484fe40\nWRITE of size 1 at 0x7ffee4850ef0 thread T0\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/9afe96cc325da1e4349fbd7418675af2f8708c10"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-72hf-fj62-w6j4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-72hf-fj62-w6j4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25967"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25967",
+                "imported": "2026-07-30T14:08:45.229Z",
+                "modified": "2026-06-17T10:25:30.610Z",
+                "published": "2026-02-24T02:16:01.483Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25967",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25967",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-72hf-fj62-w6j4",
+                "imported": "2026-07-30T14:09:22.790Z",
+                "modified": "2026-02-24T15:43:05Z",
+                "published": "2026-02-24T15:43:02Z",
+                "url": "https://api.github.com/advisories/GHSA-72hf-fj62-w6j4",
+                "html_url": "https://github.com/advisories/GHSA-72hf-fj62-w6j4"
+            },
+            {
+                "id": "EUVD-2026-7436",
+                "imported": "2026-07-30T14:08:53.031Z",
+                "modified": "2026-06-23T15:48:18Z",
+                "published": "2026-02-24T01:29:44Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7436",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7436"
+            }
+        ]
+    }
+}

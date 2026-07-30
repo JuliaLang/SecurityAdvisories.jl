@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-958",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25971",
+        "GHSA-8mpr-6xr2-chhc",
+        "EUVD-2026-7427"
+    ],
+    "summary": "ImageMagick: MSL - Stack overflow in ProcessMSLScript",
+    "details": "### Summary\n\nMagick fails to check for circular references between two MSLs, leading to a stack overflow.\n\n### Details\n\nAfter reading a.msl using magick, the following is displayed:\n\n`MSLStartElement` -> `ReadImage` -> `ReadMSLImage` -> `ProcessMSLScript` -> `xmlParseChunk` -> `xmlParseTryOrFinish` -> `MSLStartElement`\n\n```bash\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==114345==ERROR: AddressSanitizer: UNKNOWN SIGNAL on unknown address 0x000000000000 (pc 0x72509fc7d804 bp 0x7ffd6598b390 sp 0x7ffd6598ab20 T0)\n    #0 0x72509fc7d804 in strlen ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:388\n[...]\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-8mpr-6xr2-chhc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8mpr-6xr2-chhc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25971"
+        }
+    ],
+    "credits": [
+        {
+            "name": "unbengable12",
+            "contact": [
+                "https://github.com/unbengable12"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25971",
+                "imported": "2026-07-30T14:08:45.358Z",
+                "modified": "2026-06-17T10:25:31.070Z",
+                "published": "2026-02-24T02:16:02.130Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25971",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25971",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-8mpr-6xr2-chhc",
+                "imported": "2026-07-30T14:10:13.852Z",
+                "modified": "2026-03-12T14:02:06Z",
+                "published": "2026-03-12T14:02:04Z",
+                "url": "https://api.github.com/advisories/GHSA-8mpr-6xr2-chhc",
+                "html_url": "https://github.com/advisories/GHSA-8mpr-6xr2-chhc"
+            },
+            {
+                "id": "EUVD-2026-7427",
+                "imported": "2026-07-30T14:08:52.930Z",
+                "modified": "2026-06-23T15:49:17Z",
+                "published": "2026-02-24T01:39:21Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7427",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7427"
+            }
+        ]
+    }
+}

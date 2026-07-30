@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1042",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-56361",
+        "GHSA-4h5w-9gq6-38f8",
+        "EUVD-2026-40445"
+    ],
+    "summary": "ImageMagick before 7.1.2-19 contains an off-by-one error in morphology validation allowing out-of...",
+    "details": "ImageMagick before 7.1.2-19 contains an off-by-one error in morphology validation allowing out-of-bounds heap buffer reads. Attackers can trigger heap buffer overflow by providing incorrect morphology parameters causing single pixel memory access violations.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-q8h3-jv9v-57qx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4h5w-9gq6-38f8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56361"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/imagemagick-heap-buffer-overflow-via-off-by-one-in-morphology-processing"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56361",
+                "imported": "2026-07-30T14:08:48.284Z",
+                "modified": "2026-07-02T18:39:10.723Z",
+                "published": "2026-06-30T23:17:31.140Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56361",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56361",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-4h5w-9gq6-38f8",
+                "imported": "2026-07-30T14:10:36.732Z",
+                "modified": "2026-07-01T00:34:41Z",
+                "published": "2026-07-01T00:34:13Z",
+                "url": "https://api.github.com/advisories/GHSA-4h5w-9gq6-38f8",
+                "html_url": "https://github.com/advisories/GHSA-4h5w-9gq6-38f8"
+            },
+            {
+                "id": "EUVD-2026-40445",
+                "imported": "2026-07-30T14:08:52.635Z",
+                "modified": "2026-07-01T14:28:19Z",
+                "published": "2026-06-30T22:08:36Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-40445",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-40445"
+            }
+        ]
+    }
+}

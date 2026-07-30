@@ -1,0 +1,109 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-996",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-33902",
+        "GHSA-f4qm-vj5j-9xpw",
+        "EUVD-2026-22106"
+    ],
+    "summary": "ImageMagick has a Stack Overflow via Recursive FX Expression Parsing",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. In versions below both 7.1.2-19 and 6.9.13-44, a stack overflow vulnerability in ImageMagick's FX expression parser allows an attacker to crash the process by providing a deeply nested expression. This issue has been fixed in versions 6.9.13-44 and 7.1.2-19.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/d3c0a37485314c5ccef72efb18f3847cd53868ba"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/releases/tag/7.1.2-19"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-f4qm-vj5j-9xpw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f4qm-vj5j-9xpw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.12.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-33902"
+        }
+    ],
+    "credits": [
+        {
+            "name": "fumfel",
+            "contact": [
+                "https://github.com/fumfel"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-33902",
+                "imported": "2026-07-30T14:08:46.692Z",
+                "modified": "2026-06-17T10:38:17.297Z",
+                "published": "2026-04-13T22:16:28.680Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-33902",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-33902",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-f4qm-vj5j-9xpw",
+                "imported": "2026-07-30T14:10:43.080Z",
+                "modified": "2026-04-14T18:48:08Z",
+                "published": "2026-04-14T18:48:06Z",
+                "url": "https://api.github.com/advisories/GHSA-f4qm-vj5j-9xpw",
+                "html_url": "https://github.com/advisories/GHSA-f4qm-vj5j-9xpw"
+            },
+            {
+                "id": "EUVD-2026-22106",
+                "imported": "2026-07-30T14:08:54.038Z",
+                "modified": "2026-04-14T15:51:26Z",
+                "published": "2026-04-13T20:59:47Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-22106",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-22106"
+            }
+        ]
+    }
+}

@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-986",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-30936",
+        "GHSA-5ggv-92r5-cp4p",
+        "EUVD-2026-10401"
+    ],
+    "summary": "ImageMagick has Heap Buffer Overflow in WaveletDenoiseImage",
+    "details": "A crafted image could cause an out of bounds heap write inside the WaveletDenoiseImage method. When processing a crafted image with the -wavelet-denoise operation an out of bounds write can occur.\n\n```\n=================================================================\n==661320==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x503000002754 at pc 0x5ff45f82c92a bp 0x7fffb732b400 sp 0x7fffb732b3f0\nWRITE of size 4 at 0x503000002754 thread T0\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-5ggv-92r5-cp4p"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5ggv-92r5-cp4p"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-30936"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Taardisaa",
+            "contact": [
+                "https://github.com/Taardisaa"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-30936",
+                "imported": "2026-07-30T14:08:46.325Z",
+                "modified": "2026-06-17T10:33:10.927Z",
+                "published": "2026-03-10T07:44:57.663Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-30936",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-30936",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5ggv-92r5-cp4p",
+                "imported": "2026-07-30T14:09:43.936Z",
+                "modified": "2026-03-12T14:16:35Z",
+                "published": "2026-03-12T14:16:33Z",
+                "url": "https://api.github.com/advisories/GHSA-5ggv-92r5-cp4p",
+                "html_url": "https://github.com/advisories/GHSA-5ggv-92r5-cp4p"
+            },
+            {
+                "id": "EUVD-2026-10401",
+                "imported": "2026-07-30T14:08:54.612Z",
+                "modified": "2026-03-10T14:48:27Z",
+                "published": "2026-03-09T21:49:36Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-10401",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-10401"
+            }
+        ]
+    }
+}

@@ -1,0 +1,86 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-868",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2020-27770"
+    ],
+    "details": "Due to a missing check for 0 value of `replace_extent`, it is possible for offset `p` to overflow in SubstituteString(), causing potential impact to application availability. This could be triggered by a crafted input file that is processed by ImageMagick. This flaw affects ImageMagick versions prior to 7.0.8-68.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.9.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1894691"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1894691"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/03/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/03/msg00030.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/03/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/03/msg00008.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-27770",
+                "imported": "2026-07-30T14:08:41.853Z",
+                "modified": "2026-06-17T03:09:36.677Z",
+                "published": "2020-12-04T15:15:10.707Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-27770",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-27770",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

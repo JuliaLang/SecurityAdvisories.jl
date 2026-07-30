@@ -1,0 +1,117 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-952",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25965",
+        "GHSA-8jvj-p28h-9gm7",
+        "EUVD-2026-7438"
+    ],
+    "summary": "ImageMagick: Policy bypass through path traversal allows reading restricted content despite secured policy",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 7.1.2-15 and 6.9.13-40, ImageMagick’s path security policy is enforced on the raw filename string before the filesystem resolves it. As a result, a policy rule such as /etc/* can be bypassed by a path traversal. The OS resolves the traversal and opens the sensitive file, but the policy matcher only sees the unnormalized path and therefore allows the read. This enables local file disclosure (LFI) even when policy-secure.xml is applied. Actions to prevent reading from files have been taken in versions .7.1.2-15 and 6.9.13-40 But it make sure writing is also not possible the following should be added to one's policy. This will also be included in ImageMagick's more secure policies by default.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:5573"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-25965"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2442118"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-8jvj-p28h-9gm7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8jvj-p28h-9gm7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25965"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-25965.json"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Ap4sh",
+            "contact": [
+                "https://github.com/Ap4sh"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25965",
+                "imported": "2026-07-30T14:08:45.163Z",
+                "modified": "2026-07-15T02:18:57.950Z",
+                "published": "2026-02-24T02:16:01.167Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25965",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25965",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-8jvj-p28h-9gm7",
+                "imported": "2026-07-30T14:10:15.425Z",
+                "modified": "2026-02-24T15:40:08Z",
+                "published": "2026-02-24T15:40:06Z",
+                "url": "https://api.github.com/advisories/GHSA-8jvj-p28h-9gm7",
+                "html_url": "https://github.com/advisories/GHSA-8jvj-p28h-9gm7"
+            },
+            {
+                "id": "EUVD-2026-7438",
+                "imported": "2026-07-30T14:08:51.330Z",
+                "modified": "2026-07-15T01:15:47Z",
+                "published": "2026-02-24T01:20:44Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7438",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7438"
+            }
+        ]
+    }
+}

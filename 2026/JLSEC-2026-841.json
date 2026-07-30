@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-841",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2020-25664"
+    ],
+    "details": "In WriteOnePNGImage() of the PNG coder at `coders/png.c`, an improper call to AcquireVirtualMemory() and memset() allows for an out-of-bounds write later when PopShortPixel() from `MagickCore/quantum-private.h` is called. The patch fixes the calls by adding 256 to rowbytes. An attacker who is able to supply a specially crafted image could affect availability with a low impact to data integrity. This flaw affects ImageMagick versions prior to 6.9.10-68 and 7.0.8-68.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.9.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1891605"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1891605"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/Z3J6D7POCQYQKNVRDYLTTPM5SQC3WVTR/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/Z3J6D7POCQYQKNVRDYLTTPM5SQC3WVTR/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-25664",
+                "imported": "2026-07-30T14:08:42.164Z",
+                "modified": "2026-06-17T03:07:05.160Z",
+                "published": "2020-12-08T21:15:12.497Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-25664",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25664",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

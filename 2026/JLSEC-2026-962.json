@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-962",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25986",
+        "GHSA-mqfc-82jx-3mr2",
+        "EUVD-2026-7420"
+    ],
+    "summary": "ImageMagick has heap buffer overflow in YUV 4:2:2 decoder",
+    "details": "A heap buffer overflow write vulnerability exists in ReadYUVImage() (coders/yuv.c) when processing malicious YUV 4:2:2 (NoInterlace) images. The pixel-pair loop writes one pixel beyond the allocated row buffer.\n\n```\n=================================================================\n==204642==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5170000002e0 at pc 0x562d21a7e8de bp 0x7fffa9ae1270 sp 0x7fffa9ae1260\nWRITE of size 8 at 0x5170000002e0 thread T0\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-mqfc-82jx-3mr2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-mqfc-82jx-3mr2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25986"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25986",
+                "imported": "2026-07-30T14:08:45.496Z",
+                "modified": "2026-06-17T10:25:32.963Z",
+                "published": "2026-02-24T02:16:02.780Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25986",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25986",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-mqfc-82jx-3mr2",
+                "imported": "2026-07-30T14:10:39.102Z",
+                "modified": "2026-03-12T14:02:38Z",
+                "published": "2026-03-12T14:02:35Z",
+                "url": "https://api.github.com/advisories/GHSA-mqfc-82jx-3mr2",
+                "html_url": "https://github.com/advisories/GHSA-mqfc-82jx-3mr2"
+            },
+            {
+                "id": "EUVD-2026-7420",
+                "imported": "2026-07-30T14:08:54.904Z",
+                "modified": "2026-02-28T02:06:51Z",
+                "published": "2026-02-24T01:44:34Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7420",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7420"
+            }
+        ]
+    }
+}

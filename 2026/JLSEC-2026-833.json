@@ -1,0 +1,86 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-833",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2019-17547"
+    ],
+    "details": "In ImageMagick before 7.0.8-62, TraceBezier in `MagickCore/draw.c` has a use-after-free.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16537"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16537"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/ecf7c6b288e11e7e7f75387c5e9e93e423b98397"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/ecf7c6b288e11e7e7f75387c5e9e93e423b98397"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/compare/7.0.8-51...7.0.8-62"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/compare/7.0.8-51...7.0.8-62"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-17547",
+                "imported": "2026-07-30T14:08:41.235Z",
+                "modified": "2026-06-17T02:24:07.700Z",
+                "published": "2019-10-14T02:15:11.170Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-17547",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17547",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

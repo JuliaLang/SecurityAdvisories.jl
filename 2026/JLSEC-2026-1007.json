@@ -1,0 +1,113 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1007",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-45031",
+        "GHSA-cwpj-h54c-xjpx",
+        "EUVD-2026-36157"
+    ],
+    "summary": "ImageMagick: Policy Bypass in PSD decoder",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-47 and 7.1.2-22, due to a missing check in the PSD decoder it would be possible to bypass the list-length resource policy when decoding a PSD image. Other security limits would still apply. This issue has been patched in versions 6.9.13-47 and 7.1.2-22.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:32961"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-45031"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487734"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-cwpj-h54c-xjpx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-cwpj-h54c-xjpx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45031"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-45031.json"
+        }
+    ],
+    "credits": [
+        {
+            "name": "dayzsec",
+            "contact": [
+                "https://github.com/dayzsec"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-45031",
+                "imported": "2026-07-30T14:08:47.026Z",
+                "modified": "2026-07-23T09:10:00.113Z",
+                "published": "2026-06-10T22:16:57.800Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-45031",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45031",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-cwpj-h54c-xjpx",
+                "imported": "2026-07-30T14:09:52.282Z",
+                "modified": "2026-06-11T13:30:37Z",
+                "published": "2026-05-18T17:53:18Z",
+                "url": "https://api.github.com/advisories/GHSA-cwpj-h54c-xjpx",
+                "html_url": "https://github.com/advisories/GHSA-cwpj-h54c-xjpx"
+            },
+            {
+                "id": "EUVD-2026-36157",
+                "imported": "2026-07-30T14:08:51.543Z",
+                "modified": "2026-07-15T00:52:56Z",
+                "published": "2026-06-10T21:25:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-36157",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-36157"
+            }
+        ]
+    }
+}

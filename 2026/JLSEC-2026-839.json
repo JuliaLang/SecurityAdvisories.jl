@@ -1,0 +1,110 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-839",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2019-7398"
+    ],
+    "details": "In ImageMagick before 7.0.8-25, a memory leak exists in WriteDIBImage in `coders/dib.c`.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.9.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-04/msg00034.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-04/msg00034.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-05/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-05/msg00006.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/106848"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/106848"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/issues/1453"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/issues/1453"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4034-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4034-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4712"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2020/dsa-4712"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2019-7398",
+                "imported": "2026-07-30T14:08:40.064Z",
+                "modified": "2026-06-17T02:40:33.847Z",
+                "published": "2019-02-05T00:29:00.570Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2019-7398",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2019-7398",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

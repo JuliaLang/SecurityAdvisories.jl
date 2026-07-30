@@ -1,0 +1,117 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-981",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-28693",
+        "GHSA-hffp-q43q-qq76",
+        "EUVD-2026-10389"
+    ],
+    "summary": "ImageMagick: Integer overflow in DIB coder can result in out of bounds read or write",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 7.1.2-16 and 6.9.13-41, an integer overflow in DIB coder can result in out of bounds read or write. This vulnerability is fixed in 7.1.2-16 and 6.9.13-41.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:6713"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-28693"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2445888"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-hffp-q43q-qq76"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hffp-q43q-qq76"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28693"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-28693.json"
+        }
+    ],
+    "credits": [
+        {
+            "name": "jakelodwick",
+            "contact": [
+                "https://github.com/jakelodwick"
+            ],
+            "type": "REMEDIATION_DEVELOPER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-28693",
+                "imported": "2026-07-30T14:08:46.173Z",
+                "modified": "2026-07-15T02:19:15.763Z",
+                "published": "2026-03-10T07:43:44.577Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-28693",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28693",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-hffp-q43q-qq76",
+                "imported": "2026-07-30T14:10:11.271Z",
+                "modified": "2026-03-12T14:12:57Z",
+                "published": "2026-03-12T14:12:56Z",
+                "url": "https://api.github.com/advisories/GHSA-hffp-q43q-qq76",
+                "html_url": "https://github.com/advisories/GHSA-hffp-q43q-qq76"
+            },
+            {
+                "id": "EUVD-2026-10389",
+                "imported": "2026-07-30T14:08:51.435Z",
+                "modified": "2026-07-15T01:11:36Z",
+                "published": "2026-03-09T21:42:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-10389",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-10389"
+            }
+        ]
+    }
+}

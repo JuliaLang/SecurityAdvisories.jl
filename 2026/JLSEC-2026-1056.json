@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1056",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-56375",
+        "GHSA-xqmc-7954-658r",
+        "EUVD-2026-44627"
+    ],
+    "summary": "ImageMagick through 7.1.2-18 contains a memory leak vulnerability in the ASHLAR coder when an...",
+    "details": "ImageMagick through 7.1.2-18 contains a memory leak vulnerability in the ASHLAR coder when an action fails. Attackers can trigger failed actions to exhaust memory resources and cause denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-6p22-q7w5-33pg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-xqmc-7954-658r"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56375"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/imagemagick-memory-leak-in-ashlar-coder-action-failure"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56375",
+                "imported": "2026-07-30T14:10:17.545Z",
+                "modified": "2026-07-15T18:20:21.237Z",
+                "published": "2026-07-15T12:18:02.727Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56375",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56375",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-xqmc-7954-658r",
+                "imported": "2026-07-30T14:10:15.841Z",
+                "modified": "2026-07-15T12:32:03Z",
+                "published": "2026-07-15T12:32:02Z",
+                "url": "https://api.github.com/advisories/GHSA-xqmc-7954-658r",
+                "html_url": "https://github.com/advisories/GHSA-xqmc-7954-658r"
+            },
+            {
+                "id": "EUVD-2026-44627",
+                "imported": "2026-07-30T14:08:51.170Z",
+                "modified": "2026-07-15T12:21:07Z",
+                "published": "2026-07-15T11:25:30Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-44627",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-44627"
+            }
+        ]
+    }
+}

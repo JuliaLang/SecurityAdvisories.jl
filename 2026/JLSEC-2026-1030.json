@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1030",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-53462",
+        "GHSA-px7q-ggqj-hcf2",
+        "EUVD-2026-36189"
+    ],
+    "summary": "ImageMagick has a Use-After-Free when allocation in CheckPrimitiveExtent fails",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-50 and 7.1.2-25, when an allocation fails in CheckPrimitiveExtent this can result in a heap-use-after-free and result in a crash. This issue has been patched in versions 6.9.13-50 and 7.1.2-25.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-px7q-ggqj-hcf2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-px7q-ggqj-hcf2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.14.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53462"
+        }
+    ],
+    "credits": [
+        {
+            "name": "jeremybuis",
+            "contact": [
+                "https://github.com/jeremybuis"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-53462",
+                "imported": "2026-07-30T14:08:47.879Z",
+                "modified": "2026-07-23T09:10:00.113Z",
+                "published": "2026-06-10T23:16:50.580Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-53462",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53462",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-px7q-ggqj-hcf2",
+                "imported": "2026-07-30T14:09:31.936Z",
+                "modified": "2026-06-26T16:21:38Z",
+                "published": "2026-06-26T16:21:36Z",
+                "url": "https://api.github.com/advisories/GHSA-px7q-ggqj-hcf2",
+                "html_url": "https://github.com/advisories/GHSA-px7q-ggqj-hcf2"
+            },
+            {
+                "id": "EUVD-2026-36189",
+                "imported": "2026-07-30T14:08:53.339Z",
+                "modified": "2026-06-11T15:45:14Z",
+                "published": "2026-06-10T22:04:53Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-36189",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-36189"
+            }
+        ]
+    }
+}

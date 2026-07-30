@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1023",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-48733",
+        "GHSA-5v62-8fq6-cp9m",
+        "EUVD-2026-36180"
+    ],
+    "summary": "ImageMagick has an Infinite Loop in subimage-search with crafted image",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-49 and 7.1.2-24, an infinite loop in the subimage-search operation can happen when using a crafted image. This issue has been patched in versions 6.9.13-49 and 7.1.2-24.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-5v62-8fq6-cp9m"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5v62-8fq6-cp9m"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.14.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48733"
+        }
+    ],
+    "credits": [
+        {
+            "name": "omkhar",
+            "contact": [
+                "https://github.com/omkhar"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-48733",
+                "imported": "2026-07-30T14:08:47.612Z",
+                "modified": "2026-07-23T09:10:00.113Z",
+                "published": "2026-06-10T23:16:49.083Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-48733",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48733",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5v62-8fq6-cp9m",
+                "imported": "2026-07-30T14:09:05.661Z",
+                "modified": "2026-06-25T21:48:12Z",
+                "published": "2026-06-25T21:48:11Z",
+                "url": "https://api.github.com/advisories/GHSA-5v62-8fq6-cp9m",
+                "html_url": "https://github.com/advisories/GHSA-5v62-8fq6-cp9m"
+            },
+            {
+                "id": "EUVD-2026-36180",
+                "imported": "2026-07-30T14:08:53.659Z",
+                "modified": "2026-06-11T13:09:36Z",
+                "published": "2026-06-10T21:53:35Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-36180",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-36180"
+            }
+        ]
+    }
+}

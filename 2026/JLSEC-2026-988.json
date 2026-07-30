@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-988",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-31853",
+        "GHSA-56jp-jfqg-f8f4",
+        "EUVD-2026-11243"
+    ],
+    "summary": "ImageMagick is vulnerable to heap buffer over-write on 32-bit systems in SFW decoder",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to 7.1.2-16 and 6.9.13-41, an overflow on 32-bit systems can cause a crash in the SFW decoder when processing extremely large images. This vulnerability is fixed in 7.1.2-16 and 6.9.13-41.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-56jp-jfqg-f8f4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-56jp-jfqg-f8f4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31853"
+        }
+    ],
+    "credits": [
+        {
+            "name": "Mcsky23",
+            "contact": [
+                "https://github.com/Mcsky23"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-31853",
+                "imported": "2026-07-30T14:08:46.395Z",
+                "modified": "2026-06-17T10:34:38.233Z",
+                "published": "2026-03-11T17:16:58.760Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-31853",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31853",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-56jp-jfqg-f8f4",
+                "imported": "2026-07-30T14:10:37.859Z",
+                "modified": "2026-03-19T18:26:38Z",
+                "published": "2026-03-10T21:05:28Z",
+                "url": "https://api.github.com/advisories/GHSA-56jp-jfqg-f8f4",
+                "html_url": "https://github.com/advisories/GHSA-56jp-jfqg-f8f4"
+            },
+            {
+                "id": "EUVD-2026-11243",
+                "imported": "2026-07-30T14:08:54.286Z",
+                "modified": "2026-03-11T17:42:31Z",
+                "published": "2026-03-11T17:09:46Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-11243",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-11243"
+            }
+        ]
+    }
+}

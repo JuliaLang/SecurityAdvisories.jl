@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-964",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-25988",
+        "GHSA-782x-jh29-9mf7",
+        "EUVD-2026-7417"
+    ],
+    "summary": "ImageMagick: MSL image stack index may fail to refresh, leading to leaked images",
+    "details": "Sometimes msl.c fails to update the stack index, so an image is stored in the wrong slot and never freed on error, causing leaks.\n\n```\n==841485==ERROR: LeakSanitizer: detected memory leaks\n\nDirect leak of 13512 byte(s) in 1 object(s) allocated from:\n    #0 0x7ff330759887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/4354fc1d554ec2e6314aed13536efa7bde9593d2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-782x-jh29-9mf7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-782x-jh29-9mf7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25988"
+        }
+    ],
+    "credits": [
+        {
+            "name": "ylwango613",
+            "contact": [
+                "https://github.com/ylwango613"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-25988",
+                "imported": "2026-07-30T14:08:45.570Z",
+                "modified": "2026-06-17T10:25:33.183Z",
+                "published": "2026-02-24T02:16:03.097Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-25988",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25988",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-782x-jh29-9mf7",
+                "imported": "2026-07-30T14:08:59.047Z",
+                "modified": "2026-02-24T15:45:15Z",
+                "published": "2026-02-24T15:45:13Z",
+                "url": "https://api.github.com/advisories/GHSA-782x-jh29-9mf7",
+                "html_url": "https://github.com/advisories/GHSA-782x-jh29-9mf7"
+            },
+            {
+                "id": "EUVD-2026-7417",
+                "imported": "2026-07-30T14:08:54.832Z",
+                "modified": "2026-02-28T02:08:29Z",
+                "published": "2026-02-24T01:48:29Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-7417",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-7417"
+            }
+        ]
+    }
+}

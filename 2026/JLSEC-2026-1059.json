@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1059",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-56378",
+        "GHSA-jmqv-2mx7-544h",
+        "EUVD-2026-38174"
+    ],
+    "summary": "ImageMagick before 7.1.2-15 (and 6.x before 6.9.13-40) contains a heap out-of-bounds read in the...",
+    "details": "ImageMagick before 7.1.2-15 (and 6.x before 6.9.13-40) contains a heap out-of-bounds read in the PCD coder's DecodeImage loop. A crafted PCD file can trigger a one-byte heap out-of-bounds read during image decoding, resulting in denial of service and potential disclosure of an adjacent heap byte.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.0+0"
+                        },
+                        {
+                            "introduced": "7.1.2001+0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-wgxp-q8xq-wpp9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jmqv-2mx7-544h"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56378"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/imagemagick-heap-out-of-bounds-read-in-pcd-decoder"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56378",
+                "imported": "2026-07-30T14:08:48.048Z",
+                "modified": "2026-06-26T13:41:36.727Z",
+                "published": "2026-06-21T14:16:25.500Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56378",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56378",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-jmqv-2mx7-544h",
+                "imported": "2026-07-30T14:10:42.648Z",
+                "modified": "2026-06-21T15:31:31Z",
+                "published": "2026-06-21T15:31:24Z",
+                "url": "https://api.github.com/advisories/GHSA-jmqv-2mx7-544h",
+                "html_url": "https://github.com/advisories/GHSA-jmqv-2mx7-544h"
+            },
+            {
+                "id": "EUVD-2026-38174",
+                "imported": "2026-07-30T14:08:53.203Z",
+                "modified": "2026-06-22T13:20:32Z",
+                "published": "2026-06-21T13:26:57Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38174",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38174"
+            }
+        ]
+    }
+}

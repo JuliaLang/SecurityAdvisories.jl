@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-937",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-23952",
+        "GHSA-5vx3-wx4q-6cj8",
+        "EUVD-2026-3699"
+    ],
+    "summary": "ImageMagick has a NULL pointer dereference in MSL parser via <comment> tag before image load",
+    "details": "## Summary\n\nNULL pointer dereference in MSL (Magick Scripting Language) parser when processing `<comment>` tag before any image is loaded.\n\n## Version\n\n  - ImageMagick 7.x (tested on current main branch)\n  - Commit: HEAD\n\n## Steps to Reproduce\n\n### Method 1: Using ImageMagick directly\n\n```bash\nmagick MSL:poc.msl out.png\n```\n\n### Method 2: Using OSS-Fuzz reproduce\n\n```bash\npython3 infra/helper.py build_fuzzers imagemagick\npython3 infra/helper.py reproduce imagemagick msl_fuzzer poc.msl\n```\n\nOr run the fuzzer directly:\n\n```bash\n./msl_fuzzer poc.msl\n```\n\n## Expected Behavior\n\nImageMagick should handle the malformed MSL gracefully and return an error message.\n\n## Actual Behavior\n\n```\nconvert: MagickCore/property.c:297: MagickBooleanType DeleteImageProperty(Image *, const char *): Assertion `image != (Image *) NULL' failed.\nAborted\n```\n\n## Root Cause Analysis\n\nIn `coders/msl.c:7091`, `MSLEndElement()` calls `DeleteImageProperty()` on `msl_info->image[n]` when handling the `</comment>` end tag without checking if the image is NULL:\n\n```c\nif (LocaleCompare((const char *) tag,\"comment\") == 0 )\n  {\n    (void) DeleteImageProperty(msl_info->image[n],\"comment\");  // No NULL check\n    ...\n  }\n```\n\nWhen `<comment>` appears before any `<read>` operation, `msl_info->image[n]` is NULL, causing the assertion failure in `DeleteImageProperty()` at `property.c:297`.\n\n## Impact\n\n  - **DoS**: Crash via assertion failure (debug builds) or NULL pointer dereference (release builds)\n  - **Affected**: Any application using ImageMagick to process user-supplied MSL files\n\n## Fuzzer\n\nThis issue was discovered using a custom MSL fuzzer:\n\n```cpp\n#include <cstdint>\n#include <Magick++/Blob.h>\n#include <Magick++/Image.h>\n#include \"utils.cc\"\n\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)\n{\n  if (IsInvalidSize(Size))\n    return(0);\n  try\n  {\n    const Magick::Blob blob(Data, Size);\n    Magick::Image image;\n    image.magick(\"MSL\");\n    image.fileName(\"MSL:\");\n    image.read(blob);\n  }\n  catch (Magick::Exception)\n  {\n  }\n  return(0);\n}\n```\n\nThis issue was found by Team FuzzingBrain @ Texas A&M University",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-5vx3-wx4q-6cj8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5vx3-wx4q-6cj8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "OwenSanzas",
+            "contact": [
+                "https://github.com/OwenSanzas"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-23952",
+                "imported": "2026-07-30T14:08:44.683Z",
+                "modified": "2026-06-17T10:22:20.537Z",
+                "published": "2026-01-22T01:15:52.790Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-23952",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23952",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5vx3-wx4q-6cj8",
+                "imported": "2026-07-30T14:09:38.835Z",
+                "modified": "2026-01-21T01:06:53Z",
+                "published": "2026-01-21T01:06:51Z",
+                "url": "https://api.github.com/advisories/GHSA-5vx3-wx4q-6cj8",
+                "html_url": "https://github.com/advisories/GHSA-5vx3-wx4q-6cj8"
+            },
+            {
+                "id": "EUVD-2026-3699",
+                "imported": "2026-07-30T14:08:55.556Z",
+                "modified": "2026-01-22T21:43:42Z",
+                "published": "2026-01-22T00:32:52Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-3699",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-3699"
+            }
+        ]
+    }
+}

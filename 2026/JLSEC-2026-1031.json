@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1031",
+    "modified": "2026-07-30T16:02:27.435Z",
+    "published": "2026-07-30T16:02:27.435Z",
+    "upstream": [
+        "CVE-2026-53463",
+        "GHSA-p9rq-q46c-g4x6",
+        "EUVD-2026-36190"
+    ],
+    "summary": "ImageMagick has Null Pointer Dereference caused by the distort operation when passing incorrect arguments",
+    "details": "ImageMagick is free and open-source software used for editing and manipulating digital images. Prior to versions 6.9.13-50 and 7.1.2-25, when passing incorrect arguments in the distort operation a null pointer deference will occur. This issue has been patched in versions 6.9.13-50 and 7.1.2-25.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.1.2028+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ImageMagick_jll",
+                "purl": "pkg:julia/ImageMagick_jll?uuid=c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-p9rq-q46c-g4x6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-p9rq-q46c-g4x6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/dlemstra/Magick.NET/releases/tag/14.14.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53463"
+        }
+    ],
+    "credits": [
+        {
+            "name": "007bsd",
+            "contact": [
+                "https://github.com/007bsd"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-53463",
+                "imported": "2026-07-30T14:08:47.919Z",
+                "modified": "2026-07-23T09:10:00.113Z",
+                "published": "2026-06-10T23:16:50.720Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-53463",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53463",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-p9rq-q46c-g4x6",
+                "imported": "2026-07-30T14:10:37.180Z",
+                "modified": "2026-06-26T17:51:24Z",
+                "published": "2026-06-26T17:51:22Z",
+                "url": "https://api.github.com/advisories/GHSA-p9rq-q46c-g4x6",
+                "html_url": "https://github.com/advisories/GHSA-p9rq-q46c-g4x6"
+            },
+            {
+                "id": "EUVD-2026-36190",
+                "imported": "2026-07-30T14:08:53.693Z",
+                "modified": "2026-06-11T12:56:56Z",
+                "published": "2026-06-10T22:05:58Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-36190",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-36190"
+            }
+        ]
+    }
+}
