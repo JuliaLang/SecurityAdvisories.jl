@@ -1164,6 +1164,34 @@ a.pkg-tag:hover {
   color: var(--c-text-secondary);
 }
 
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: 2.25rem;
+}
+
+.subnav a {
+  padding: 0 0 0.55rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.subnav a:hover {
+  color: var(--c-text);
+}
+
+.subnav a.active {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
+
 .about-content {
   max-width: 680px;
 }
@@ -1255,8 +1283,7 @@ a.pkg-tag:hover {
 .content-main a,
 .meta-row dd a,
 .detail-body a {
-  overflow-wrap: break-word;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .franklin-content {
