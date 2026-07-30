@@ -65,15 +65,13 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     # Now create or update the found advisories:
     n_modified = 0
     results = Advisory[]
-    resurfaced = Pair{Advisory, Pair{String, Dict{String, Any}}}[]
     for advisory in advisories
         filter_results && SecurityAdvisories.strip_rejected!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
         else
-            rejection = SecurityAdvisories.find_rejected(advisory)
-            if filter_results && !isnothing(rejection) && !SecurityAdvisories.is_vulnerable(advisory)
+            if filter_results && !SecurityAdvisories.is_vulnerable(advisory) && !isnothing(SecurityAdvisories.find_rejected(advisory))
                 @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and rejected (see advisories/rejected.toml), skipping publication. Re-run with the filter disabled to import it anyway."
                 continue
             end
@@ -81,9 +79,6 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
                 @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
                 continue
             end
-            # This advisory has a rejection entry but still has vulnerable packages, so it is
-            # being imported anyway — in whole or in part. Flag it for the reviewer.
-            isnothing(rejection) || push!(resurfaced, advisory => rejection)
         end
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
         file = joinpath(dir, advisory.id * ".md")
@@ -239,24 +234,6 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
                     print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
                 end
             end
-            println(io)
-        end
-        println(io)
-    end
-    if !isempty(resurfaced)
-        adv_str = length(resurfaced) == 1 ? "advisory was" : "advisories were"
-        println(io, "### ⚠ ", length(resurfaced), " proposed ", adv_str, " previously rejected\n")
-        println(io, "These advisories have entries in `advisories/rejected.toml` but are included here — in whole ",
-            "or in part — because they identify packages beyond the rejected ones (or the filter was disabled). ",
-            "If they still don't apply, update their `rejected.toml` entries rather than simply deleting the ",
-            "advisory files from this pull request.\n")
-        for (adv, (id, entry)) in resurfaced
-            rejected_pkgs = get(entry, "packages", String[])
-            new_pkgs = setdiff(SecurityAdvisories.vulnerable_packages(adv), rejected_pkgs)
-            print(io, "* `", id, "`")
-            isempty(new_pkgs) || print(io, " newly affects: ", join("**" .* new_pkgs .* "**", ", ", " and "), ";")
-            isempty(rejected_pkgs) || print(io, " rejected for: ", join(rejected_pkgs, ", ", " and "), ";")
-            haskey(entry, "reason") && print(io, " ", SecurityAdvisories.truncate_at_boundary(entry["reason"], 120))
             println(io)
         end
         println(io)

@@ -31,7 +31,7 @@ packages = ["Example_jll"]         # only reject it for these packages
 reason = "Example_jll does not build the vulnerable code."
 ```
 
-A rejection is scoped to its `packages` field. This means an advisory can be rejected for one package while remaining published for others — remove the rejected package from the published advisory's `affected` list in the same pull request that adds the entry (the tests require the two to agree). It also means that if a future search newly matches the advisory to a package that isn't listed, it is still proposed for review, flagged with a note pointing back at the rejection. Omitting `packages` rejects the advisory outright for all packages until the entry is removed, so prefer listing the assessed packages when they're known.
+A rejection is scoped to its `packages` field. This means an advisory can be rejected for one package while remaining published for others — remove the rejected package from the published advisory's `affected` list in the same pull request that adds the entry (the tests require the two to agree). It also means that if a future search newly matches the advisory to a package that isn't listed, it is still proposed for review. Omitting `packages` rejects the advisory outright for all packages until the entry is removed, so prefer listing the assessed packages when they're known.
 
 To deliberately import a rejected advisory, run the "Search for upstream advisories" workflow with the filter disabled (and remove or adjust its `rejected.toml` entry in the resulting pull request).
 
