@@ -55,7 +55,7 @@ Most of the code in this repository is built to search, convert, and draft advis
     * It is also possible that `deps/build.jl` was (ab)used in other ways, too.
     * It is also possible that `Artifacts.toml` downloads arbitrary executables.
 * [GeneralMetadata.jl](https://github.com/JuliaRegistries/GeneralMetadata.jl) exposes the artifact URLs and attempts to reconstruct some metadata about the artifacts if they were built by Yggdrasil. It allows manual editing of upstream information.
-* [repology.org](https://repology.org) is a compendium of
+* [repology.org](https://repology.org) is a compendium of package metadata across hundreds of software repositories; it helps connect upstream projects to the many names and versions under which they are distributed.
 
 ## Automation strategy
 

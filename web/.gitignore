@@ -8,6 +8,7 @@ Manifest.toml
 advisories/JLSEC-*/
 packages/*/
 !packages/index.md
+about/contributing.md
 
 # Pagefind output
 pagefind/

@@ -106,13 +106,10 @@ function main()
     for (path, title) in about_docs
         content = read(joinpath(@__DIR__, "..", path), String)
         open(joinpath(@__DIR__, "about", lowercase(title) * ".md"), "w") do f
-            write(f, """
-                @def title = "$title"
-
-            ~~~<div class="about-content">~~~
-            """)
+            write(f, """@def title = "$title"\n\n""")
+            write(f, "~~~<div class=\"about-content\">~~~\n")
             write(f, content)
-            write(f, "\n\n~~~</div>~~~")
+            write(f, "\n~~~</div>~~~\n")
         end
         abouts_written += 1
     end

@@ -1,6 +1,6 @@
 # Advisory Publication Workflow
 
-This page documents the complete workflow for security advisories in the Julia ecosystem, from initial discovery through publication and distribution. All advisories are proposed, reviewed, edited, and published through a typical GitHub pull request workflow; see [contributing](about/contributing.md) for more details.
+This page documents the complete workflow for security advisories in the Julia ecosystem, from initial discovery through publication and distribution. All advisories are proposed, reviewed, edited, and published through a typical GitHub pull request workflow; see [contributing](/about/contributing/) for more details.
 
 There are three key stages in the lifecycle of an advisory: identification, review, and publication.
 
@@ -10,7 +10,7 @@ Security advisories are the notification mechanism for _downstream consumers_ of
 
 Report any potentially-exploitable security issues privately, either following the applicable security policy (if there is one), contacting the maintainer(s) directly, or by mailing security@julialang.org. A coordinated disclosure with a reserved identifier can be privately organized if necessary.
 
-Once an issue has been publicly identified, fixed, and/or otherwise published, then it can be publicly proposed for inclusion in the database by opening a pull request.  This process can either be done [manually](about/contributing.md) or automatically.
+Once an issue has been publicly identified, fixed, and/or otherwise published, then it can be publicly proposed for inclusion in the database by opening a pull request.  This process can either be done [manually](/about/contributing/) or automatically.
 
 ### Automatic identification
 
