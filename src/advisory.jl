@@ -330,9 +330,7 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
     isempty(src_ids) && throw(ArgumentError("cannot fetch updates for an advisory with no sources"))
     updates = SecurityAdvisories.fetch_advisory.(src_ids)
     advisory = Advisory(; (f => getfield(original, f) for f in fieldnames(Advisory) if f ∉ reset_fields)...)
-    # Freshly-fetched sources re-derive `affected` from upstream data, which would re-add
-    # any reviewed-and-rejected package assessments; strip those back out
-    return strip_rejected!(foldl(combine, updates; init=advisory))
+    return foldl(combine, updates; init=advisory)
 end
 
 """
