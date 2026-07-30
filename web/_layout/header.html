@@ -62,3 +62,11 @@
 </div>
 
 <main class="content-main" data-pagefind-body>
+{{ispage about/*}}
+<nav class="subnav" aria-label="About section" data-pagefind-ignore>
+    <a href="/about/" {{ispage about/index.html}}class="active"{{end}}>About</a>
+    <a href="/about/contributing/" {{ispage about/contributing/*}}class="active"{{end}}>Contributing</a>
+    <a href="/about/schema/" {{ispage about/schema/*}}class="active"{{end}}>Schema</a>
+    <a href="/about/workflow/" {{ispage about/workflow/*}}class="active"{{end}}>Workflow</a>
+</nav>
+{{end}}
