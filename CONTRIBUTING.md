@@ -18,6 +18,27 @@ Other Julia packages may need to issue advisories because they are directly redi
 
 Anyone can update advisories! Good updates can include further population of the structured fields, grammatical and spelling improvements, and technical reviews. Upon every change, the modified dates will be appropriately bumped upon merge to master.  Check out [osv.dev's properties of a high-quality OSV record](https://google.github.io/osv.dev/data_quality.html) for some more inspiration and guidance.
 
+## Ignoring an inapplicable upstream advisory
+
+The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new `JLSEC-0000-*` advisories. Sometimes human review determines that a proposed advisory doesn't actually apply: the vulnerable code was never in a released version, the upstream version data mis-maps to package versions, or the vulnerable configuration isn't used in the packaged builds. Simply deleting the proposed file from the pull request allows the automation to re-propose the very same advisory later.
+
+Instead, record the rejection in `advisories/ignored/<ID>.md`, named for its preferred upstream identifier (typically the CVE). Keep the proposed advisory's `upstream` ids and its `[[affected]]` tables in the TOML frontmatter, add a `reviewed` timestamp, and replace the body with the reasoning for the rejection:
+
+````markdown
+```toml
+upstream = ["CVE-1234-56789"]
+reviewed = 2026-07-30T00:00:00.000Z
+
+[[affected]]
+pkg = "Example_jll"
+ranges = ["*"]
+```
+
+The vulnerable code was never part of a released version, so no Example_jll build contains it.
+````
+
+An ignored advisory is not unconditionally ignored forever. The entry records the `affected` assessment as it stood at review time, and if a future search finds materially better information — newly vulnerable packages, or new upper bounds — the advisory is re-proposed for review with a note pointing back at the ignored entry. If it still doesn't apply, update the entry's `[[affected]]` tables to the newly-assessed values; if it now does apply, delete the entry in the same pull request that publishes the advisory. You can also deliberately import a previously-ignored advisory by manually running the "Search for upstream advisories" workflow with the filter disabled.
+
 ## FAQ
 
 **Q:** Do I need to be the owner or maintainer of a package to file an advisory?

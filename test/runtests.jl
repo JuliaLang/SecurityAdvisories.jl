@@ -357,3 +357,76 @@ end
                   ("Red Hat", "", "")
                   ("n/a", "", "")]
 end
+
+using Dates: DateTime
+@testset "ignored advisories" begin
+    using SecurityAdvisories: IgnoredAdvisory, find_ignored, is_ignored, ignored_advisories
+    entry_str = """
+    ```toml
+    upstream = ["CVE-2000-12345", "GHSA-xxxx-yyyy-zzzz"]
+    reviewed = 2026-01-02T03:04:05.000Z
+
+    [[affected]]
+    pkg = "Example_jll"
+    ranges = ["*"]
+    ```
+
+    It doesn't apply because of reasons.
+    """
+    entry = tryparse(IgnoredAdvisory, entry_str)
+    @test entry isa IgnoredAdvisory
+    @test entry.upstream == ["CVE-2000-12345", "GHSA-xxxx-yyyy-zzzz"]
+    @test entry.reviewed == DateTime(2026, 1, 2, 3, 4, 5)
+    @test SecurityAdvisories.vulnerable_packages(entry.affected) == ["Example_jll"]
+    @test contains(entry.reason, "reasons")
+    # And it round-trips through print
+    @test tryparse(IgnoredAdvisory, sprint(print, entry)) == entry
+
+    mktempdir() do dir
+        write(joinpath(dir, "CVE-2000-12345.md"), entry_str)
+        advisory(affected...) = SecurityAdvisories.Advisory(; upstream=["CVE-2000-12345"], affected=collect(affected))
+        vuln(pkg, rngs...) = SecurityAdvisories.PackageVulnerability(; pkg, ranges=[VR{VersionNumber}(r) for r in rngs])
+        # Unrelated ids are not ignored
+        @test isnothing(find_ignored(["CVE-1999-0001"]; path=dir))
+        @test !is_ignored(SecurityAdvisories.Advisory(upstream=["CVE-1999-0001"], affected=[vuln("Example_jll", "*")]); path=dir)
+        # Any id in the ignored alias set matches, including repo-scoped GHSA ids
+        @test !isnothing(find_ignored(["CVE-2000-12345"]; path=dir))
+        @test !isnothing(find_ignored(["Example/Example.jl/GHSA-xxxx-yyyy-zzzz"]; path=dir))
+        # A matched advisory with the same (or worse) affected data is ignored
+        @test is_ignored(advisory(vuln("Example_jll", "*")); path=dir)
+        @test is_ignored(advisory(); path=dir)
+        # But materially better data re-proposes it: a new package or a new upper bound
+        @test !is_ignored(advisory(vuln("Example_jll", "*"), vuln("Other_jll", "*")); path=dir)
+        @test !is_ignored(advisory(vuln("Example_jll", "< 1.2.3")); path=dir)
+        # A missing directory simply has no ignored advisories
+        @test isempty(ignored_advisories(joinpath(dir, "nonexistent")))
+        # But an unparseable ignore file is an error — it would silently stop ignoring its advisory
+        write(joinpath(dir, "CVE-2000-99999.md"), "no frontmatter here\n")
+        @test_throws "failed to parse" ignored_advisories(dir)
+    end
+end
+
+@testset "advisories/ignored data validation" begin
+    published_ids = Set{String}()
+    for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
+        SecurityAdvisories.is_jlsec_advisory_path(joinpath(root, file)) || continue
+        adv = SecurityAdvisories.parsefile(joinpath(root, file))
+        union!(published_ids, SecurityAdvisories.unscoped_id.([adv.id; adv.aliases; adv.upstream]))
+    end
+    seen = Set{String}()
+    for file in filter(endswith(".md"), readdir(SecurityAdvisories.IGNORED_PATH, join=true))
+        entry = open(io->tryparse(SecurityAdvisories.IgnoredAdvisory, io), file)
+        @test !isnothing(entry)
+        isnothing(entry) && continue
+        # Files are named for their preferred upstream id
+        @test basename(file) == SecurityAdvisories.preferred_id(entry.upstream) * ".md"
+        # And they must document their reasoning
+        @test SecurityAdvisories.is_populated(entry.reason)
+        for id in SecurityAdvisories.unscoped_id.(entry.upstream)
+            # Each id may only be ignored once, and must not also be published
+            @test id ∉ seen
+            @test id ∉ published_ids
+            push!(seen, id)
+        end
+    end
+end
