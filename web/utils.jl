@@ -396,7 +396,7 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-count="$count" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
         dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
         write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
@@ -448,6 +448,10 @@ function filterPackages(){
     var matchText = !text || name.includes(text);
     var matchFix = !fix || unfixed > 0;
     var matchDep = showDep || !deprecated;
+    // The count badge tracks the active filter: unfixed advisories only
+    // when the Unfixed filter is on, all advisories otherwise.
+    el.querySelector('.pkg-list-count').textContent =
+      fix ? unfixed : el.getAttribute('data-count');
     if(matchText && matchFix && matchDep){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
