@@ -102,9 +102,18 @@ function main()
     end
 
     abouts_written = 0
-    about_docs = [("CONTRIBUTING.md", "Contributing")]
+    about_docs = [("CONTRIBUTING.md", "Contributing"), ("SCHEMA.md", "Schema")]
+    routes = Dict(path => "/about/" * lowercase(title) * "/" for (path, title) in about_docs)
     for (path, title) in about_docs
         content = read(joinpath(@__DIR__, "..", path), String)
+        # Repo-root docs use GitHub-relative links to each other; point them
+        # at the rendered pages instead
+        for (src, route) in routes
+            content = replace(content, "]($src)" => "]($route)", "]($src#" => "]($route#")
+        end
+        # Franklin escapes raw HTML; pass pure-tag lines (<details>/<summary>)
+        # through as raw blocks
+        content = replace(content, r"^(</?(?:details|summary)\b[^\n]*>)$"m => s"~~~\1~~~")
         open(joinpath(@__DIR__, "about", lowercase(title) * ".md"), "w") do f
             write(f, """@def title = "$title"\n\n""")
             write(f, "~~~<div class=\"about-content\">~~~\n")

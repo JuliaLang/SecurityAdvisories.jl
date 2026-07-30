@@ -8,7 +8,7 @@ Each advisory is canonically stored and edited as a Markdown file with TOML fron
 
 * The `summary` is the (optional) header immediately following the frontmatter.
 * The `details` are the remainder of the file.
-* All other fields defined in the TOML frontmatter, as a ```` ```toml ```` block:
+* All other fields defined in the TOML frontmatter, as a fenced `toml` code block:
     * The `affected` packages are stored much more succinctly as an array of tables with each package's name (`pkg`) and vulnerable `ranges`. The ranges themselves are vectors of strings, using [GitHub's vulnerable version range (VVR) syntax](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/best-practices-for-writing-repository-security-advisories#affected-versions). The package names are exactly as they appear in the General registry, without the conventional `.jl` suffix.
     * Timestamps are stored directly as TOML datetimes, not as strings.
     * OSV's `credits`, `references`, and `severities` are all canonically arrays of tables with multiple fields, but JLSEC supports specifying typical entries as a single string:

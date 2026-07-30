@@ -19,7 +19,7 @@ This is a **security** advisory database; informational and other notices that a
 
 ## Authoring, reviewing, and maintaining JLSEC advisories
 
-New JLSEC advisories are published through a typical pull request process on this repository; see [CONTRIBUTING.md](https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md) for details.
+New JLSEC advisories are published through a typical pull request process on this repository; see [CONTRIBUTING.md](https://github.com/JuliaLang/SecurityAdvisories.jl/blob/main/CONTRIBUTING.md) for details. The advisory file format is documented in [SCHEMA.md](SCHEMA.md).
 
 Once published, an advisory **shall not** be deleted. If it is determined to have been published in error, its `withdrawn` date should be set.
 
