@@ -15,7 +15,7 @@ The Julia Ecosystem Security Advisory Database is the canonical source of securi
 
 ## Contributing
 
-Anyone can submit or update advisories via pull request. See the [contributing guide](/about/contributing/) for details, the [advisory schema](/about/schema/) for the file format, and the [publication workflow](/about/workflow/) for an overview of the full advisory lifecycle. For disclosure of serious issues, please email `security@julialang.org`.
+Anyone can submit or update advisories via pull request. See the [contributing guide](/about/contributing/) for details, the [advisory schema](/about/schema/) for the file format, and the [publication workflow](/about/workflow/) for an overview of the full advisory lifecycle. Report any potentially-exploitable security issues privately, either following the package security policy (if it has one), contacting the maintainer(s) directly, or by mailing `security@julialang.org`.
 
 ## Data Export
 
