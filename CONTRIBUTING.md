@@ -37,6 +37,8 @@ ranges = ["*"]
 The vulnerable code was never part of a released version, so no Example_jll build contains it.
 ````
 
+Rejections are scoped to the packages listed in the entry's `[[affected]]` tables, so this also works for an advisory that genuinely applies to *some* packages but was wrongly matched to another: keep the advisory published, remove the inapplicable package from its `affected` list, and add an ignored entry listing just that package (in the same pull request — the tests require the two files to agree). The importers will keep excluding that package whenever they re-derive the affected data from upstream.
+
 An ignored advisory is not unconditionally ignored forever. The entry records the `affected` assessment as it stood at review time, and if a future search finds materially better information — newly vulnerable packages, or new upper bounds — the advisory is re-proposed for review with a note pointing back at the ignored entry. If it still doesn't apply, update the entry's `[[affected]]` tables to the newly-assessed values; if it now does apply, delete the entry in the same pull request that publishes the advisory. You can also deliberately import a previously-ignored advisory by manually running the "Search for upstream advisories" workflow with the filter disabled.
 
 ## FAQ

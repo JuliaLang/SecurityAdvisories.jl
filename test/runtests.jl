@@ -360,7 +360,7 @@ end
 
 using Dates: DateTime
 @testset "ignored advisories" begin
-    using SecurityAdvisories: IgnoredAdvisory, find_ignored, is_ignored, ignored_advisories
+    using SecurityAdvisories: IgnoredAdvisory, find_ignored, strip_ignored!, ignored_advisories
     entry_str = """
     ```toml
     upstream = ["CVE-2000-12345", "GHSA-xxxx-yyyy-zzzz"]
@@ -384,20 +384,24 @@ using Dates: DateTime
 
     mktempdir() do dir
         write(joinpath(dir, "CVE-2000-12345.md"), entry_str)
-        advisory(affected...) = SecurityAdvisories.Advisory(; upstream=["CVE-2000-12345"], affected=collect(affected))
+        advisory(ids, affected...) = SecurityAdvisories.Advisory(; upstream=ids, affected=collect(affected))
         vuln(pkg, rngs...) = SecurityAdvisories.PackageVulnerability(; pkg, ranges=[VR{VersionNumber}(r) for r in rngs])
-        # Unrelated ids are not ignored
+        stripped(a) = SecurityAdvisories.vulnerable_packages(strip_ignored!(a; path=dir))
+        # Unrelated ids are untouched
         @test isnothing(find_ignored(["CVE-1999-0001"]; path=dir))
-        @test !is_ignored(SecurityAdvisories.Advisory(upstream=["CVE-1999-0001"], affected=[vuln("Example_jll", "*")]); path=dir)
+        @test stripped(advisory(["CVE-1999-0001"], vuln("Example_jll", "*"))) == ["Example_jll"]
         # Any id in the ignored alias set matches, including repo-scoped GHSA ids
         @test !isnothing(find_ignored(["CVE-2000-12345"]; path=dir))
         @test !isnothing(find_ignored(["Example/Example.jl/GHSA-xxxx-yyyy-zzzz"]; path=dir))
-        # A matched advisory with the same (or worse) affected data is ignored
-        @test is_ignored(advisory(vuln("Example_jll", "*")); path=dir)
-        @test is_ignored(advisory(); path=dir)
-        # But materially better data re-proposes it: a new package or a new upper bound
-        @test !is_ignored(advisory(vuln("Example_jll", "*"), vuln("Other_jll", "*")); path=dir)
-        @test !is_ignored(advisory(vuln("Example_jll", "< 1.2.3")); path=dir)
+        # A recorded package assessment without material improvement is stripped...
+        @test isempty(stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"))))
+        # ...while unrecorded packages are kept — a package-scoped rejection
+        @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"), vuln("Other_jll", "*"))) == ["Other_jll"]
+        # A new upper bound on a recorded unbounded assessment is kept for re-review
+        @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "< 1.2.3"))) == ["Example_jll"]
+        # But not when the recorded assessment was already bounded
+        write(joinpath(dir, "CVE-2001-0001.md"), replace(entry_str, "CVE-2000-12345" => "CVE-2001-0001", "\"*\"" => "\"< 1.0.0\""))
+        @test isempty(stripped(advisory(["CVE-2001-0001"], vuln("Example_jll", "< 1.2.3"))))
         # A missing directory simply has no ignored advisories
         @test isempty(ignored_advisories(joinpath(dir, "nonexistent")))
         # But an unparseable ignore file is an error — it would silently stop ignoring its advisory
@@ -407,11 +411,14 @@ using Dates: DateTime
 end
 
 @testset "advisories/ignored data validation" begin
-    published_ids = Set{String}()
+    # unscoped id (including aliases/upstreams) => that published advisory's vulnerable packages
+    published_pkgs = Dict{String, Vector{String}}()
     for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
         SecurityAdvisories.is_jlsec_advisory_path(joinpath(root, file)) || continue
         adv = SecurityAdvisories.parsefile(joinpath(root, file))
-        union!(published_ids, SecurityAdvisories.unscoped_id.([adv.id; adv.aliases; adv.upstream]))
+        for id in SecurityAdvisories.unscoped_id.([adv.id; adv.aliases; adv.upstream])
+            published_pkgs[id] = SecurityAdvisories.vulnerable_packages(adv)
+        end
     end
     seen = Set{String}()
     for file in filter(endswith(".md"), readdir(SecurityAdvisories.IGNORED_PATH, join=true))
@@ -423,10 +430,12 @@ end
         # And they must document their reasoning
         @test SecurityAdvisories.is_populated(entry.reason)
         for id in SecurityAdvisories.unscoped_id.(entry.upstream)
-            # Each id may only be ignored once, and must not also be published
+            # Each id may only be ignored once
             @test id ∉ seen
-            @test id ∉ published_ids
             push!(seen, id)
+            # An entry may coexist with a published advisory (a package-scoped rejection),
+            # but they must not disagree about the packages the entry rejects
+            @test isempty(intersect(get(published_pkgs, id, String[]), [v.pkg for v in entry.affected]))
         end
     end
 end

@@ -10,10 +10,11 @@ Record an upstream advisory (and its aliases) that was reviewed and intentionall
 preventing the automation from repeatedly re-proposing it.
 
 Unlike a simple denylist, this stores the `affected` packages and ranges _as they were assessed_
-at review time. An ignored advisory is re-proposed for human review if a future import would
-materially improve upon that assessment — that is, if it identifies newly vulnerable packages or
-adds upper bounds that were not known when the advisory was ignored (see
-[`has_material_improvements`](@ref)).
+at review time, and its scope is exactly those packages. An entry may cover all of an advisory's
+packages (fully ignoring it) or just some of them (rejecting those packages while the advisory
+remains published for the rest). An ignored package is re-proposed for human review if a future
+import would materially improve upon its recorded assessment — if it sets an upper bound where
+none was recorded — and newly-matched packages are never ignored (see [`strip_ignored!`](@ref)).
 
 These are stored in `advisories/ignored/`, one file per ignored alias set, named by its
 preferred upstream identifier. They use the same Markdown-with-TOML-frontmatter format as
@@ -109,14 +110,22 @@ function find_ignored(a::Advisory; path=IGNORED_PATH)
 end
 
 """
-    is_ignored(advisory::Advisory; path=IGNORED_PATH)
+    strip_ignored!(advisory::Advisory; path=IGNORED_PATH)
 
-Return `true` if the advisory was previously reviewed and ignored *and* it does not materially
-improve upon the assessment recorded at review time. An advisory that identifies newly
-vulnerable packages or new upper bounds is not considered ignored — it should be re-proposed
-for human review.
+Remove reviewed-and-rejected package assessments from the advisory's `affected` list, as
+recorded by a matching [`IgnoredAdvisory`](@ref). A recorded package is kept only if the new
+assessment materially improves upon the recorded one — that is, it sets an upper bound where
+the recorded assessment had none — so that it is re-proposed for human review. Packages not
+recorded in the entry are always kept: an entry may reject an advisory for just one package
+while the advisory remains published for others.
 """
-function is_ignored(a::Advisory; path=IGNORED_PATH)
+function strip_ignored!(a::Advisory; path=IGNORED_PATH)
     entry = find_ignored(a; path)
-    return !isnothing(entry) && !has_material_improvements(a.affected, entry.affected)
+    isnothing(entry) && return a
+    filter!(a.affected) do v
+        recorded = findfirst(r -> r.pkg == v.pkg, entry.affected)
+        isnothing(recorded) && return true
+        return vuln_with_upper_bound(v) && !vuln_with_upper_bound(entry.affected[recorded])
+    end
+    return a
 end

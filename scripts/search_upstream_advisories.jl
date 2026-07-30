@@ -67,24 +67,23 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     results = Advisory[]
     resurfaced = Pair{Advisory, SecurityAdvisories.IgnoredAdvisory}[]
     for advisory in advisories
+        filter_results && SecurityAdvisories.strip_ignored!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         if !isnothing(existing)
             advisory = SecurityAdvisories.update(existing, advisory)
         else
+            ignored = SecurityAdvisories.find_ignored(advisory)
+            if filter_results && !isnothing(ignored) && !SecurityAdvisories.is_vulnerable(advisory)
+                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and ignored (see advisories/ignored/), skipping publication. Re-run with the filter disabled to import it anyway."
+                continue
+            end
             if filter_results && (!SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory))
                 @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
                 continue
             end
-            ignored = SecurityAdvisories.find_ignored(advisory)
-            if !isnothing(ignored)
-                if filter_results && !SecurityAdvisories.has_material_improvements(advisory.affected, ignored.affected)
-                    @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and ignored (see advisories/ignored/) without material changes since, skipping publication. Re-run with the filter disabled to import it anyway."
-                    continue
-                end
-                # It's ignored, but it's being imported anyway — either the affected data
-                # materially improved or the filter is disabled. Flag it for the reviewer.
-                push!(resurfaced, advisory => ignored)
-            end
+            # This advisory overlaps an ignored entry but still has vulnerable packages, so it is
+            # being imported anyway — in whole or in part. Flag it for the reviewer.
+            isnothing(ignored) || push!(resurfaced, advisory => ignored)
         end
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
         file = joinpath(dir, advisory.id * ".md")
@@ -245,18 +244,23 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         println(io)
     end
     if !isempty(resurfaced)
-        adv_str = length(resurfaced) == 1 ? "advisory was" : "advisories were"
-        println(io, "### ⚠ ", length(resurfaced), " previously-ignored ", adv_str, " re-proposed\n")
-        println(io, "These advisories were reviewed and ignored (in `advisories/ignored/`), but they are included ",
-            "here because they now identify more than what was originally assessed (or the filter was disabled). ",
-            "If they still don't apply, update their `advisories/ignored/` entries with the newly-assessed ",
-            "`affected` data rather than simply deleting the advisory files from this pull request.\n")
+        adv_str = length(resurfaced) == 1 ? "advisory overlaps" : "advisories overlap"
+        println(io, "### ⚠ ", length(resurfaced), " proposed ", adv_str, " with previously-ignored entries\n")
+        println(io, "These advisories match entries in `advisories/ignored/` but are included here — in whole ",
+            "or in part — because they identify packages or bounds beyond what was originally assessed ",
+            "(or the filter was disabled). If they still don't apply, update their `advisories/ignored/` ",
+            "entries with the newly-assessed `affected` data rather than simply deleting the advisory ",
+            "files from this pull request.\n")
         for (adv, entry) in resurfaced
-            new_pkgs = setdiff(SecurityAdvisories.vulnerable_packages(adv), SecurityAdvisories.vulnerable_packages(entry.affected))
-            new_bounds = count(SecurityAdvisories.vuln_with_upper_bound, adv.affected) - count(SecurityAdvisories.vuln_with_upper_bound, entry.affected)
+            entry_pkgs = [v.pkg for v in entry.affected]
+            adv_pkgs = SecurityAdvisories.vulnerable_packages(adv)
+            new_pkgs = setdiff(adv_pkgs, entry_pkgs)
+            improved = intersect(adv_pkgs, entry_pkgs)
+            excluded = setdiff(entry_pkgs, adv_pkgs)
             print(io, "* `", SecurityAdvisories.preferred_id(entry.upstream), "` (ignored on ", Dates.Date(entry.reviewed), ")")
             isempty(new_pkgs) || print(io, "; newly affects: ", join("**" .* new_pkgs .* "**", ", ", " and "))
-            new_bounds > 0 && print(io, "; sets $new_bounds additional upper bound", new_bounds == 1 ? "" : "s")
+            isempty(improved) || print(io, "; ", join("**" .* improved .* "**", ", ", " and "), " now exceed", length(improved) == 1 ? "s" : "", " the recorded assessment")
+            isempty(excluded) || print(io, "; still excluded: ", join(excluded, ", ", " and "))
             println(io)
         end
         println(io)
