@@ -748,11 +748,13 @@ function search_package(pkg, filter_results)
         filter!(advisories) do advisory
             existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
             pkgs = vulnerable_packages(advisory)
+            vuln_with_upper_bound(x) = has_upper_bound(x) && is_vulnerable(x)
             return pkg in pkgs && # only consider advisories that actually affect the requested package
                 minimum(x.published for x in advisory.jlsec_sources) > Dates.Date(2018,8,8) && # only consider advisories since Julia 1.0
                 (!isnothing(existing) ? (
                     # An update to an existing advisory; only suggest it if the new one:
-                    has_material_improvements(advisory.affected, existing.affected) || # contains new packages or sets additional upper bounds
+                    !isempty(setdiff(pkgs, vulnerable_packages(existing))) || # contains new packages
+                    count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
                     (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
                 ) : (
                     # A new advisory; suggest it if it's both valid and still contains some

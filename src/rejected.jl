@@ -1,6 +1,7 @@
 using TOML: TOML
 
 const REJECTED_PATH = joinpath(@__DIR__, "..", "advisories", "rejected.toml")
+const REJECTED_ADVISORIES = Ref{Dict{String, Any}}()
 
 """
     rejected_advisories(path=REJECTED_PATH)
@@ -13,7 +14,11 @@ id and has optional fields:
   outright for all packages until the entry is removed
 * `reason` — why it doesn't apply
 """
-rejected_advisories(path=REJECTED_PATH) = ispath(path) ? TOML.parsefile(path) : Dict{String, Any}()
+function rejected_advisories(path=REJECTED_PATH)
+    path === REJECTED_PATH || return TOML.parsefile(path)
+    isassigned(REJECTED_ADVISORIES) && return REJECTED_ADVISORIES[]
+    return REJECTED_ADVISORIES[] = TOML.parsefile(path)
+end
 
 """
     find_rejected(advisory::Advisory; path=REJECTED_PATH)

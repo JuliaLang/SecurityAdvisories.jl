@@ -1,11 +1,7 @@
 # Upstream advisories that were reviewed and rejected, preventing the automation
-# from re-proposing them. Each entry is keyed by the advisory's preferred upstream
-# id and has optional fields:
-#   aliases  — other upstream ids for the same advisory
-#   packages — reject it only for these packages; when omitted, the advisory is
-#              rejected outright for all packages until the entry is removed
-#   reason   — why it doesn't apply
-# See CONTRIBUTING.md for details.
+# from re-proposing them. Entries are keyed by the advisory's preferred upstream
+# id, with optional `aliases`, `packages`, and `reason` fields; a rejection only
+# applies to the packages it lists. See CONTRIBUTING.md for details.
 
 [CVE-2010-0207]
 aliases = ["GHSA-3274-8h4c-g6q9", "EUVD-2010-0238"]

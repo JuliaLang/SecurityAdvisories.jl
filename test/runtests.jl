@@ -359,7 +359,7 @@ end
 end
 
 @testset "rejected advisories" begin
-    using SecurityAdvisories: find_rejected, strip_rejected!, rejected_advisories
+    using SecurityAdvisories: find_rejected, strip_rejected!
     mktempdir() do dir
         path = joinpath(dir, "rejected.toml")
         write(path, """
@@ -386,21 +386,10 @@ end
         @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"), vuln("Other_jll", "*"))) == ["Other_jll"]
         # An entry without a packages field rejects everything
         @test isempty(stripped(advisory(["CVE-2001-0001"], vuln("A_jll", "*"), vuln("B_jll", "< 1.0.0"))))
-        # A missing file simply has no rejections
-        @test isempty(rejected_advisories(joinpath(dir, "nonexistent.toml")))
     end
 end
 
 @testset "advisories/rejected.toml validation" begin
-    # unscoped id (including aliases/upstreams) => that published advisory's vulnerable packages
-    published_pkgs = Dict{String, Vector{String}}()
-    for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
-        SecurityAdvisories.is_jlsec_advisory_path(joinpath(root, file)) || continue
-        adv = SecurityAdvisories.parsefile(joinpath(root, file))
-        for id in SecurityAdvisories.unscoped_id.([adv.id; adv.aliases; adv.upstream])
-            published_pkgs[id] = SecurityAdvisories.vulnerable_packages(adv)
-        end
-    end
     seen = Set{String}()
     for (id, entry) in SecurityAdvisories.rejected_advisories()
         # Only known fields (this catches typos that would silently not apply)
@@ -409,14 +398,16 @@ end
             # Each id may only be rejected once
             @test i ∉ seen
             push!(seen, i)
-            if haskey(entry, "packages")
-                # A package-scoped rejection may coexist with a published advisory, but they
-                # must not disagree about the packages the entry rejects
-                @test isempty(intersect(get(published_pkgs, i, String[]), entry["packages"]))
-            else
-                # An unscoped rejection must not be published at all
-                @test i ∉ keys(published_pkgs)
-            end
         end
+    end
+    # A rejection may only coexist with a published advisory if it's package-scoped, and then
+    # the two must not disagree about the packages it rejects
+    for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
+        SecurityAdvisories.is_jlsec_advisory_path(joinpath(root, file)) || continue
+        adv = SecurityAdvisories.parsefile(joinpath(root, file))
+        rejection = SecurityAdvisories.find_rejected(adv)
+        isnothing(rejection) && continue
+        entry = last(rejection)
+        @test haskey(entry, "packages") && isempty(intersect(SecurityAdvisories.vulnerable_packages(adv), entry["packages"]))
     end
 end

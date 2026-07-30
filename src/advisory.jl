@@ -255,21 +255,7 @@ preferred_id_sort(id) = (!startswith(id, "JLSEC-2"), !startswith(id, "CVE"), !co
 Return `true` if the `Advisory` or `PackageVulnerability` has a non-empty set of versions
 """
 is_vulnerable(a::Advisory) = any(is_vulnerable, a.affected)
-vulnerable_packages(a::Advisory) = vulnerable_packages(a.affected)
-vulnerable_packages(affected::Vector{PackageVulnerability}) = [entry.pkg for entry in affected if is_vulnerable(entry)]
-vuln_with_upper_bound(v::PackageVulnerability) = is_vulnerable(v) && has_upper_bound(v)
-
-"""
-    has_material_improvements(new_affected, old_affected)
-
-Return `true` if the new `affected` data materially improves upon the old: it identifies newly
-vulnerable packages or it bounds more vulnerable ranges. This is the significance test used both
-for updating already-published advisories and for re-proposing previously-ignored ones.
-"""
-function has_material_improvements(new_affected::Vector{PackageVulnerability}, old_affected::Vector{PackageVulnerability})
-    return !isempty(setdiff(vulnerable_packages(new_affected), vulnerable_packages(old_affected))) ||
-        count(vuln_with_upper_bound, new_affected) > count(vuln_with_upper_bound, old_affected)
-end
+vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vulnerable(entry)]
 
 """
     recipe_update_candidates(advisory)
