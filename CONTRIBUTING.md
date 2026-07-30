@@ -18,28 +18,22 @@ Other Julia packages may need to issue advisories because they are directly redi
 
 Anyone can update advisories! Good updates can include further population of the structured fields, grammatical and spelling improvements, and technical reviews. Upon every change, the modified dates will be appropriately bumped upon merge to master.  Check out [osv.dev's properties of a high-quality OSV record](https://google.github.io/osv.dev/data_quality.html) for some more inspiration and guidance.
 
-## Ignoring an inapplicable upstream advisory
+## Rejecting an inapplicable upstream advisory
 
 The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new `JLSEC-0000-*` advisories. Sometimes human review determines that a proposed advisory doesn't actually apply: the vulnerable code was never in a released version, the upstream version data mis-maps to package versions, or the vulnerable configuration isn't used in the packaged builds. Simply deleting the proposed file from the pull request allows the automation to re-propose the very same advisory later.
 
-Instead, record the rejection in `advisories/ignored/<ID>.md`, named for its preferred upstream identifier (typically the CVE). Keep the proposed advisory's `upstream` ids and its `[[affected]]` tables in the TOML frontmatter, add a `reviewed` timestamp, and replace the body with the reasoning for the rejection:
+Instead, record the rejection in [`advisories/rejected.toml`](advisories/rejected.toml). Each entry is a table keyed by the advisory's preferred upstream identifier (typically the CVE), with optional `aliases`, `packages`, and `reason` fields:
 
-````markdown
 ```toml
-upstream = ["CVE-1234-56789"]
-reviewed = 2026-07-30T00:00:00.000Z
-
-[[affected]]
-pkg = "Example_jll"
-ranges = ["*"]
+[CVE-1234-56789]
+aliases = ["GHSA-xxxx-xxxx-xxxx"]  # other upstream ids for the same advisory
+packages = ["Example_jll"]         # only reject it for these packages
+reason = "Example_jll does not build the vulnerable code."
 ```
 
-The vulnerable code was never part of a released version, so no Example_jll build contains it.
-````
+A rejection is scoped to its `packages` field. This means an advisory can be rejected for one package while remaining published for others — remove the rejected package from the published advisory's `affected` list in the same pull request that adds the entry (the tests require the two to agree). It also means that if a future search newly matches the advisory to a package that isn't listed, it is still proposed for review, flagged with a note pointing back at the rejection. Omitting `packages` rejects the advisory outright for all packages until the entry is removed, so prefer listing the assessed packages when they're known.
 
-Rejections are scoped to the packages listed in the entry's `[[affected]]` tables, so this also works for an advisory that genuinely applies to *some* packages but was wrongly matched to another: keep the advisory published, remove the inapplicable package from its `affected` list, and add an ignored entry listing just that package (in the same pull request — the tests require the two files to agree). The importers will keep excluding that package whenever they re-derive the affected data from upstream.
-
-An ignored advisory is not unconditionally ignored forever. The entry records the `affected` assessment as it stood at review time, and if a future search finds materially better information — newly vulnerable packages, or new upper bounds — the advisory is re-proposed for review with a note pointing back at the ignored entry. If it still doesn't apply, update the entry's `[[affected]]` tables to the newly-assessed values; if it now does apply, delete the entry in the same pull request that publishes the advisory. You can also deliberately import a previously-ignored advisory by manually running the "Search for upstream advisories" workflow with the filter disabled.
+To deliberately import a rejected advisory, run the "Search for upstream advisories" workflow with the filter disabled (and remove or adjust its `rejected.toml` entry in the resulting pull request).
 
 ## FAQ
 

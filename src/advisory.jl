@@ -346,7 +346,7 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
     advisory = Advisory(; (f => getfield(original, f) for f in fieldnames(Advisory) if f ∉ reset_fields)...)
     # Freshly-fetched sources re-derive `affected` from upstream data, which would re-add
     # any reviewed-and-rejected package assessments; strip those back out
-    return strip_ignored!(foldl(combine, updates; init=advisory))
+    return strip_rejected!(foldl(combine, updates; init=advisory))
 end
 
 """

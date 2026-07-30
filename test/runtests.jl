@@ -358,59 +358,40 @@ end
                   ("n/a", "", "")]
 end
 
-using Dates: DateTime
-@testset "ignored advisories" begin
-    using SecurityAdvisories: IgnoredAdvisory, find_ignored, strip_ignored!, ignored_advisories
-    entry_str = """
-    ```toml
-    upstream = ["CVE-2000-12345", "GHSA-xxxx-yyyy-zzzz"]
-    reviewed = 2026-01-02T03:04:05.000Z
-
-    [[affected]]
-    pkg = "Example_jll"
-    ranges = ["*"]
-    ```
-
-    It doesn't apply because of reasons.
-    """
-    entry = tryparse(IgnoredAdvisory, entry_str)
-    @test entry isa IgnoredAdvisory
-    @test entry.upstream == ["CVE-2000-12345", "GHSA-xxxx-yyyy-zzzz"]
-    @test entry.reviewed == DateTime(2026, 1, 2, 3, 4, 5)
-    @test SecurityAdvisories.vulnerable_packages(entry.affected) == ["Example_jll"]
-    @test contains(entry.reason, "reasons")
-    # And it round-trips through print
-    @test tryparse(IgnoredAdvisory, sprint(print, entry)) == entry
-
+@testset "rejected advisories" begin
+    using SecurityAdvisories: find_rejected, strip_rejected!, rejected_advisories
     mktempdir() do dir
-        write(joinpath(dir, "CVE-2000-12345.md"), entry_str)
+        path = joinpath(dir, "rejected.toml")
+        write(path, """
+        [CVE-2000-12345]
+        aliases = ["GHSA-xxxx-yyyy-zzzz"]
+        packages = ["Example_jll"]
+        reason = "It doesn't apply because of reasons."
+
+        [CVE-2001-0001]
+        reason = "Nothing about this one applies at all."
+        """)
         advisory(ids, affected...) = SecurityAdvisories.Advisory(; upstream=ids, affected=collect(affected))
         vuln(pkg, rngs...) = SecurityAdvisories.PackageVulnerability(; pkg, ranges=[VR{VersionNumber}(r) for r in rngs])
-        stripped(a) = SecurityAdvisories.vulnerable_packages(strip_ignored!(a; path=dir))
+        stripped(a) = SecurityAdvisories.vulnerable_packages(strip_rejected!(a; path))
         # Unrelated ids are untouched
-        @test isnothing(find_ignored(["CVE-1999-0001"]; path=dir))
+        @test isnothing(find_rejected(["CVE-1999-0001"]; path))
         @test stripped(advisory(["CVE-1999-0001"], vuln("Example_jll", "*"))) == ["Example_jll"]
-        # Any id in the ignored alias set matches, including repo-scoped GHSA ids
-        @test !isnothing(find_ignored(["CVE-2000-12345"]; path=dir))
-        @test !isnothing(find_ignored(["Example/Example.jl/GHSA-xxxx-yyyy-zzzz"]; path=dir))
-        # A recorded package assessment without material improvement is stripped...
+        # The key and any alias match, including repo-scoped GHSA ids
+        @test first(something(find_rejected(["CVE-2000-12345"]; path))) == "CVE-2000-12345"
+        @test first(something(find_rejected(["Example/Example.jl/GHSA-xxxx-yyyy-zzzz"]; path))) == "CVE-2000-12345"
+        # A rejected package assessment is stripped...
         @test isempty(stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"))))
-        # ...while unrecorded packages are kept — a package-scoped rejection
+        # ...while unlisted packages are kept — a package-scoped rejection
         @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"), vuln("Other_jll", "*"))) == ["Other_jll"]
-        # A new upper bound on a recorded unbounded assessment is kept for re-review
-        @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "< 1.2.3"))) == ["Example_jll"]
-        # But not when the recorded assessment was already bounded
-        write(joinpath(dir, "CVE-2001-0001.md"), replace(entry_str, "CVE-2000-12345" => "CVE-2001-0001", "\"*\"" => "\"< 1.0.0\""))
-        @test isempty(stripped(advisory(["CVE-2001-0001"], vuln("Example_jll", "< 1.2.3"))))
-        # A missing directory simply has no ignored advisories
-        @test isempty(ignored_advisories(joinpath(dir, "nonexistent")))
-        # But an unparseable ignore file is an error — it would silently stop ignoring its advisory
-        write(joinpath(dir, "CVE-2000-99999.md"), "no frontmatter here\n")
-        @test_throws "failed to parse" ignored_advisories(dir)
+        # An entry without a packages field rejects everything
+        @test isempty(stripped(advisory(["CVE-2001-0001"], vuln("A_jll", "*"), vuln("B_jll", "< 1.0.0"))))
+        # A missing file simply has no rejections
+        @test isempty(rejected_advisories(joinpath(dir, "nonexistent.toml")))
     end
 end
 
-@testset "advisories/ignored data validation" begin
+@testset "advisories/rejected.toml validation" begin
     # unscoped id (including aliases/upstreams) => that published advisory's vulnerable packages
     published_pkgs = Dict{String, Vector{String}}()
     for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
@@ -421,21 +402,21 @@ end
         end
     end
     seen = Set{String}()
-    for file in filter(endswith(".md"), readdir(SecurityAdvisories.IGNORED_PATH, join=true))
-        entry = open(io->tryparse(SecurityAdvisories.IgnoredAdvisory, io), file)
-        @test !isnothing(entry)
-        isnothing(entry) && continue
-        # Files are named for their preferred upstream id
-        @test basename(file) == SecurityAdvisories.preferred_id(entry.upstream) * ".md"
-        # And they must document their reasoning
-        @test SecurityAdvisories.is_populated(entry.reason)
-        for id in SecurityAdvisories.unscoped_id.(entry.upstream)
-            # Each id may only be ignored once
-            @test id ∉ seen
-            push!(seen, id)
-            # An entry may coexist with a published advisory (a package-scoped rejection),
-            # but they must not disagree about the packages the entry rejects
-            @test isempty(intersect(get(published_pkgs, id, String[]), [v.pkg for v in entry.affected]))
+    for (id, entry) in SecurityAdvisories.rejected_advisories()
+        # Only known fields (this catches typos that would silently not apply)
+        @test entry isa Dict && issubset(keys(entry), ["aliases", "packages", "reason"])
+        for i in SecurityAdvisories.unscoped_id.([id; get(entry, "aliases", String[])])
+            # Each id may only be rejected once
+            @test i ∉ seen
+            push!(seen, i)
+            if haskey(entry, "packages")
+                # A package-scoped rejection may coexist with a published advisory, but they
+                # must not disagree about the packages the entry rejects
+                @test isempty(intersect(get(published_pkgs, i, String[]), entry["packages"]))
+            else
+                # An unscoped rejection must not be published at all
+                @test i ∉ keys(published_pkgs)
+            end
         end
     end
 end

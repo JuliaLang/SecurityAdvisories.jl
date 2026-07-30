@@ -744,7 +744,7 @@ otherwise, return all matches.
 function search_package(pkg, filter_results)
     advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
     if filter_results
-        foreach(strip_ignored!, advisories)
+        foreach(strip_rejected!, advisories)
         filter!(advisories) do advisory
             existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
             pkgs = vulnerable_packages(advisory)
@@ -756,7 +756,7 @@ function search_package(pkg, filter_results)
                     (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
                 ) : (
                     # A new advisory; suggest it if it's both valid and still contains some
-                    # vulnerable range after stripping reviewed-and-ignored assessments
+                    # vulnerable range after stripping reviewed-and-rejected assessments
                     (is_valid(advisory) && is_vulnerable(advisory))
                 ))
         end
