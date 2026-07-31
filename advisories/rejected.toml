@@ -35,8 +35,3 @@ reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master br
 [CVE-2025-25469]
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master before commit d5873be; no FFmpeg release contains it. Reviewed in #399."
-
-[CVE-2026-6192]
-aliases = ["GHSA-6jfp-5ggc-pgmx", "EUVD-2026-22030"]
-packages = ["OpenJpeg_jll"]
-reason = "Patched upstream (commit 839936aa) but no released OpenJPEG version contains the fix, so importing would publish an unbounded advisory with no upgrade path. Remove this entry once a fixed OpenJPEG release exists. Reviewed in #526."
