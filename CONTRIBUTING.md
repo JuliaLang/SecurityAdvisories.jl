@@ -18,7 +18,7 @@ Other Julia packages may need to issue advisories because they are directly redi
 
 Anyone can update advisories! Good updates can include further population of the structured fields, grammatical and spelling improvements, and technical reviews. Upon every change, the modified dates will be appropriately bumped upon merge to master.  Check out [osv.dev's properties of a high-quality OSV record](https://google.github.io/osv.dev/data_quality.html) for some more inspiration and guidance.
 
-## Rejecting an inapplicable upstream advisory
+## Rejecting an upstream advisory
 
 The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new advisories that match. Sometimes review determines that a proposed advisory doesn't actually apply. Just deleting it from the PR avoids publication but would lead to it being proposed again in a subsequent search.
 
