@@ -20,6 +20,10 @@ reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Ker
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
 
+[CVE-2021-4048]
+packages = ["SLICOT_jll"]
+reason = "SLICOT_jll's buildscript only extracts and builds three routines; these do not include the vulnerable `*ARRV` family. Ref https://github.com/JuliaPackaging/Yggdrasil/blob/31d7ae44c2fc697b3d53d08dd6b02c69d46b69bd/S/SLICOT/build_tarballs.jl#L30-L31"
+
 [CVE-2023-52353]
 packages = ["MbedTLS_jll"]
 reason = "Only applies when TLS 1.3 is enabled, per the Debian security team; MbedTLS_jll ships the 2.x series, which does not support TLS 1.3. Reviewed in #202 and #465."
