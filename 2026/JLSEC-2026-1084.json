@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1084",
+    "modified": "2026-07-31T13:46:32.466Z",
+    "published": "2026-07-31T13:46:32.466Z",
+    "upstream": [
+        "CVE-2026-57062",
+        "GHSA-m6x2-4hhh-669j",
+        "EUVD-2026-38550"
+    ],
+    "summary": "CMS (Cryptographic Message Syntax) parsing in gpgsm in GnuPG through 2.5.20 mishandles the CMS...",
+    "details": "CMS (Cryptographic Message Syntax) parsing in gpgsm in GnuPG through 2.5.20 mishandles the CMS format for AES-GCM because aes-ICVlen is supposed to be 12 bytes but 4 bytes is accepted. NOTE: this is related to CVE-2026-34182.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.5.21+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GnuPG_jll",
+                "purl": "pkg:julia/GnuPG_jll?uuid=1522389b-45f8-5faa-af4d-a301b79c50ac"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://blog.calif.io/p/how-to-format-a-ciphertext"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m6x2-4hhh-669j"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57062"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnupg.org/download"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnupg.org/download/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-57062",
+                "imported": "2026-07-31T13:16:39.079Z",
+                "modified": "2026-06-25T20:16:05.473Z",
+                "published": "2026-06-23T18:18:10.973Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-57062",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57062",
+                "database_specific": {
+                    "status": "Awaiting Analysis"
+                }
+            },
+            {
+                "id": "GHSA-m6x2-4hhh-669j",
+                "imported": "2026-07-31T13:16:39.270Z",
+                "modified": "2026-06-23T18:31:56Z",
+                "published": "2026-06-23T18:31:45Z",
+                "url": "https://api.github.com/advisories/GHSA-m6x2-4hhh-669j",
+                "html_url": "https://github.com/advisories/GHSA-m6x2-4hhh-669j"
+            },
+            {
+                "id": "EUVD-2026-38550",
+                "imported": "2026-07-31T13:16:36.435Z",
+                "modified": "2026-06-23T17:35:30Z",
+                "published": "2026-06-23T17:26:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38550",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38550"
+            }
+        ]
+    }
+}
