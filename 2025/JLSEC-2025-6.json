@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2025-6",
-    "modified": "2026-07-23T22:21:26.455Z",
+    "modified": "2026-07-31T17:58:05.846Z",
     "published": "2025-10-08T17:41:37.190Z",
     "upstream": [
         "CVE-2021-4048"
@@ -213,23 +213,6 @@
                 "ecosystem": "Julia",
                 "name": "ReferenceBLAS_jll",
                 "purl": "pkg:julia/ReferenceBLAS_jll?uuid=ee697234-451c-51c9-b102-303d89a9c3a0"
-            }
-        },
-        {
-            "ranges": [
-                {
-                    "type": "SEMVER",
-                    "events": [
-                        {
-                            "introduced": "0"
-                        }
-                    ]
-                }
-            ],
-            "package": {
-                "ecosystem": "Julia",
-                "name": "SLICOT_jll",
-                "purl": "pkg:julia/SLICOT_jll?uuid=545525a2-e20e-568b-b87f-b40a06098995"
             }
         },
         {
