@@ -357,3 +357,57 @@ end
                   ("Red Hat", "", "")
                   ("n/a", "", "")]
 end
+
+@testset "rejected advisories" begin
+    using SecurityAdvisories: find_rejected, strip_rejected!
+    mktempdir() do dir
+        path = joinpath(dir, "rejected.toml")
+        write(path, """
+        [CVE-2000-12345]
+        aliases = ["GHSA-xxxx-yyyy-zzzz"]
+        packages = ["Example_jll"]
+        reason = "It doesn't apply because of reasons."
+
+        [CVE-2001-0001]
+        reason = "Nothing about this one applies at all."
+        """)
+        advisory(ids, affected...) = SecurityAdvisories.Advisory(; upstream=ids, affected=collect(affected))
+        vuln(pkg, rngs...) = SecurityAdvisories.PackageVulnerability(; pkg, ranges=[VR{VersionNumber}(r) for r in rngs])
+        stripped(a) = SecurityAdvisories.vulnerable_packages(strip_rejected!(a; path))
+        # Unrelated ids are untouched
+        @test isnothing(find_rejected(["CVE-1999-0001"]; path))
+        @test stripped(advisory(["CVE-1999-0001"], vuln("Example_jll", "*"))) == ["Example_jll"]
+        # The key and any alias match, including repo-scoped GHSA ids
+        @test first(something(find_rejected(["CVE-2000-12345"]; path))) == "CVE-2000-12345"
+        @test first(something(find_rejected(["Example/Example.jl/GHSA-xxxx-yyyy-zzzz"]; path))) == "CVE-2000-12345"
+        # A rejected package assessment is stripped...
+        @test isempty(stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"))))
+        # ...while unlisted packages are kept — a package-scoped rejection
+        @test stripped(advisory(["CVE-2000-12345"], vuln("Example_jll", "*"), vuln("Other_jll", "*"))) == ["Other_jll"]
+        # An entry without a packages field rejects everything
+        @test isempty(stripped(advisory(["CVE-2001-0001"], vuln("A_jll", "*"), vuln("B_jll", "< 1.0.0"))))
+    end
+end
+
+@testset "advisories/rejected.toml validation" begin
+    seen = Set{String}()
+    for (id, entry) in SecurityAdvisories.rejected_advisories()
+        # Only known fields (this catches typos that would silently not apply)
+        @test entry isa Dict && issubset(keys(entry), ["aliases", "packages", "reason"])
+        for i in SecurityAdvisories.unscoped_id.([id; get(entry, "aliases", String[])])
+            # Each id may only be rejected once
+            @test i ∉ seen
+            push!(seen, i)
+        end
+    end
+    # A rejection may only coexist with a published advisory if it's package-scoped, and then
+    # the two must not disagree about the packages it rejects
+    for (root, _, files) in walkdir(joinpath(@__DIR__, "..", "advisories", "published")), file in files
+        SecurityAdvisories.is_jlsec_advisory_path(joinpath(root, file)) || continue
+        adv = SecurityAdvisories.parsefile(joinpath(root, file))
+        rejection = SecurityAdvisories.find_rejected(adv)
+        isnothing(rejection) && continue
+        entry = last(rejection)
+        @test haskey(entry, "packages") && isempty(intersect(SecurityAdvisories.vulnerable_packages(adv), entry["packages"]))
+    end
+end

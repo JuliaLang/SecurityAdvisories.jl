@@ -24,6 +24,23 @@ Advisories should never be deleted. If an advisory was found to be issued in err
 
 In addition to the database of `advisories`, SecurityAdvisories.jl is itself a Julia package with source code to help manage the database. In particular, there is significant tooling to search and import advisories from other advisory databases. Contributions to this tooling are welcome, too!
 
+## Rejecting an upstream advisory
+
+The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new advisories that match. Sometimes review determines that a proposed advisory doesn't actually apply. Just deleting it from the PR avoids publication but would lead to it being proposed again in a subsequent search.
+
+Instead, record the rejection in [`advisories/rejected.toml`](advisories/rejected.toml). Each entry is a table keyed by the advisory's preferred upstream identifier (typically the CVE), with optional `aliases`, `packages`, and `reason` fields:
+
+```toml
+[CVE-1234-56789]
+aliases = ["GHSA-xxxx-xxxx-xxxx"]  # other upstream ids for the same advisory
+packages = ["Example_jll"]         # only reject it for these packages
+reason = "Example_jll does not build the vulnerable code."
+```
+
+A rejection is scoped to its `packages` field. This means an advisory can be rejected for one package while remaining published for others — remove the rejected package from the published advisory's `affected` list in the same pull request that adds the entry (the tests require the two to agree). It also means that if a future search newly matches the advisory to a package that isn't listed, it is still proposed for review. Omitting `packages` rejects the advisory outright for all packages until the entry is removed, so prefer listing the assessed packages when they're known.
+
+To deliberately import a rejected advisory, run the "Search for upstream advisories" workflow with the filter disabled (and remove or adjust its `rejected.toml` entry in the resulting pull request).
+
 ## FAQ
 
 **Q:** Do I need to be the owner or maintainer of a package to file an advisory?
