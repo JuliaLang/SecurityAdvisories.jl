@@ -8,10 +8,6 @@ aliases = ["GHSA-3274-8h4c-g6q9", "EUVD-2010-0238"]
 packages = ["Poppler_jll"]
 reason = "This 2010-era xpdf infinite loop was fixed long before any Poppler_jll build existed; NVD only lists an unmappable distribution-style version (0.26.5-2), producing a spurious unbounded match. Reviewed in #353."
 
-[CVE-2013-0340]
-packages = ["Expat_jll", "Python_jll"]
-reason = "This XXE issue describes expat's default entity-expansion behavior rather than a flaw in expat itself; applications can and must disable expansion themselves, and the CVE description itself notes it should arguably be rejected in favor of per-application CVEs. Reviewed in #397."
-
 [CVE-2018-20217]
 packages = ["Kerberos_krb5_jll"]
 reason = "Fixed in krb5 1.17, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
