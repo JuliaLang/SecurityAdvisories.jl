@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1086",
+    "modified": "2026-07-31T18:09:08.751Z",
+    "published": "2026-07-31T18:09:08.751Z",
+    "upstream": [
+        "CVE-2026-66033",
+        "GHSA-2g8c-wcg8-r65c",
+        "EUVD-2026-48720"
+    ],
+    "summary": "libssh2 through 1.11.1, fixed in commit a2ed82d, contains a pre-authentication integer underflow...",
+    "details": "libssh2 through 1.11.1, fixed in commit a2ed82d, contains a pre-authentication integer underflow vulnerability in the `ssh2_cipher_crypt()` function in `src/openssl.c` that allows a malicious SSH server to crash any connecting client by negotiating AES-GCM ciphers during handshake. Attackers can exploit the underflow in the expression computing blocksize minus aadlen minus authentication tag length to trigger an out-of-bounds read and a memcpy call with a `near-SIZE_MAX` length argument, causing immediate process crash before any authentication occurs.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.11.104+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibSSH2_jll",
+                "purl": "pkg:julia/LibSSH2_jll?uuid=29816b5a-b9ab-546f-933c-edad1886dfa8"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-2g8c-wcg8-r65c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libssh2/libssh2/commit/a2ed82d40964bbc0d64cd717aa0a5a892117d2e6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libssh2/libssh2/pull/2401"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66033"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/libssh2-integer-underflow-dos-via-aes-gcm-cipher-negotiation"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-66033",
+                "imported": "2026-07-31T17:07:21.927Z",
+                "modified": "2026-07-30T15:44:47.257Z",
+                "published": "2026-07-24T17:17:35.263Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-66033",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66033",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-2g8c-wcg8-r65c",
+                "imported": "2026-07-31T17:07:29.882Z",
+                "modified": "2026-07-24T18:31:41Z",
+                "published": "2026-07-24T18:31:29Z",
+                "url": "https://api.github.com/advisories/GHSA-2g8c-wcg8-r65c",
+                "html_url": "https://github.com/advisories/GHSA-2g8c-wcg8-r65c"
+            },
+            {
+                "id": "EUVD-2026-48720",
+                "imported": "2026-07-31T17:07:23.846Z",
+                "modified": "2026-07-28T01:06:25Z",
+                "published": "2026-07-24T16:35:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-48720",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-48720"
+            }
+        ]
+    }
+}
