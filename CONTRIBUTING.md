@@ -20,7 +20,7 @@ Anyone can update advisories! Good updates can include further population of the
 
 ## Rejecting an inapplicable upstream advisory
 
-The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new `JLSEC-0000-*` advisories. Sometimes human review determines that a proposed advisory doesn't actually apply: the vulnerable code was never in a released version, the upstream version data mis-maps to package versions, or the vulnerable configuration isn't used in the packaged builds. Simply deleting the proposed file from the pull request allows the automation to re-propose the very same advisory later.
+The automation here continually searches upstream databases (GHSA, NVD, and EUVD) and opens pull requests that propose new advisories that match. Sometimes review determines that a proposed advisory doesn't actually apply. Just deleting it from the PR avoids publication but would lead to it being proposed again in a subsequent search.
 
 Instead, record the rejection in [`advisories/rejected.toml`](advisories/rejected.toml). Each entry is a table keyed by the advisory's preferred upstream identifier (typically the CVE), with optional `aliases`, `packages`, and `reason` fields:
 
