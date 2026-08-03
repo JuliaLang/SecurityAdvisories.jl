@@ -1,0 +1,94 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1160",
+    "modified": "2026-08-03T21:18:59.775Z",
+    "published": "2026-08-03T21:18:59.775Z",
+    "upstream": [
+        "CVE-2026-58471",
+        "GHSA-vv88-699v-w5rh",
+        "EUVD-2026-42083"
+    ],
+    "summary": "GNU Wget through 1.25.0, fixed in commit c2640fe, contains a heap buffer overflow vulnerability...",
+    "details": "GNU Wget through 1.25.0, fixed in commit c2640fe, contains a heap buffer overflow vulnerability in the `convert_fname()` function within `src/url.c` that allows remote attackers to trigger memory corruption through a server-supplied filename requiring character set conversion. When the output buffer is too small during iconv E2BIG reallocation, the reallocation logic miscalculates the remaining space, leading to a heap buffer overflow that can be exploited via a maliciously crafted server response.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:P/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wget_jll",
+                "purl": "pkg:julia/wget_jll?uuid=25883557-5102-5516-a11b-f84f27e871d7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-vv88-699v-w5rh"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/gnuwget/wget/-/commit/c2640fe5171c59f87c58dc9fcb195b2d18b010ee"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58471"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/gnu-wget-heap-buffer-overflow-via-convert-fname-in-url-c"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-58471",
+                "imported": "2026-08-03T20:01:18.307Z",
+                "modified": "2026-07-09T16:02:07.273Z",
+                "published": "2026-07-07T21:17:28.710Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-58471",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58471",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-vv88-699v-w5rh",
+                "imported": "2026-08-03T20:01:21.687Z",
+                "modified": "2026-07-07T21:31:43Z",
+                "published": "2026-07-07T21:31:36Z",
+                "url": "https://api.github.com/advisories/GHSA-vv88-699v-w5rh",
+                "html_url": "https://github.com/advisories/GHSA-vv88-699v-w5rh"
+            },
+            {
+                "id": "EUVD-2026-42083",
+                "imported": "2026-08-03T20:01:19.724Z",
+                "modified": "2026-07-14T22:03:12Z",
+                "published": "2026-07-07T19:47:47Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-42083",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-42083"
+            }
+        ]
+    }
+}
