@@ -1,0 +1,162 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1143",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-45445",
+        "GHSA-v446-xwfm-x7mr",
+        "EUVD-2026-35489"
+    ],
+    "summary": "Issue summary: When an application drives an AES-OCB context through the public EVP_Cipher() one...",
+    "details": "Issue summary: When an application drives an AES-OCB context through the\npublic `EVP_Cipher()` one-shot interface, the application-supplied\ninitialisation vector (IV) is silently discarded.\n\nImpact summary: Every message encrypted under the same key uses the\nsame effective nonce regardless of the IV supplied by the caller,\nresulting in (key, nonce) reuse and loss of confidentiality.  If the\nsame code path is used to compute the authentication tag, the tag\ndepends only on the (key, IV) pair and not on the plaintext or\nciphertext, allowing universal forgery of arbitrary ciphertext from a\nsingle captured message.\n\nOpenSSL provides two ways to drive a cipher: the documented streaming\ninterface (`EVP_CipherUpdate` / `EVP_CipherFinal_ex`) and a lower-level\none-shot, `EVP_Cipher()`, whose documentation explicitly recommends\nagainst use by applications in favour of `EVP_CipherUpdate()` and\n`EVP_CipherFinal_ex()`.  The OCB provider's streaming handler flushes\nthe application-supplied IV into the OCB context before processing\ndata; the one-shot handler did not.  Every call to `EVP_Cipher()` on an\nAES-OCB context therefore ran with the all-zero key-derived offset\nstate left by cipher initialisation, regardless of the caller's IV.\n\nIf `EVP_EncryptFinal_ex()` is subsequently used to obtain the\nauthentication tag, the deferred IV setup runs at that point and\nclears the running checksum that should have been accumulated over the\nplaintext.  The resulting tag is a function of (key, IV) only and\nverifies against any ciphertext produced under the same (key, IV)\npair.\n\nThe OpenSSL SSL/TLS implementation is not affected: AES-OCB is not a\nTLS cipher suite, and libssl does not call `EVP_Cipher()` in any case.\nApplications that drive AES-OCB through the documented streaming AEAD\nAPI (`EVP_CipherUpdate` / `EVP_CipherFinal_ex`) are not affected.  Only\napplications that combine the AES-OCB cipher with the `EVP_Cipher()`\none-shot API are vulnerable.\n\nThe FIPS modules in 4.0, 3.6, 3.5, 3.4 and 3.0 are not affected by\nthis issue, as AES-OCB is outside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v446-xwfm-x7mr"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/323f0b6e7d530a4cb4336d50c88cb70f3ac2a451"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/787a6dfba81b7b09c1e05ab31396c0cd7c36b3f7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7ac4715234ee72d9f3c93426a2c08554b5b771af"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/843c9b94ca9c2ed248bb30127bb4f3d7af0d607c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/983d54b5cce8d16147548ed1a37892d1720bbab6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/323f0b6e7d530a4cb4336d50c88cb70f3ac2a451"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/787a6dfba81b7b09c1e05ab31396c0cd7c36b3f7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/7ac4715234ee72d9f3c93426a2c08554b5b771af"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/843c9b94ca9c2ed248bb30127bb4f3d7af0d607c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/983d54b5cce8d16147548ed1a37892d1720bbab6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45445"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-45445",
+                "imported": "2026-08-03T18:18:15.859Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:18.993Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-45445",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45445",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-v446-xwfm-x7mr",
+                "imported": "2026-08-03T18:19:07.769Z",
+                "modified": "2026-06-10T09:32:59Z",
+                "published": "2026-06-09T18:30:48Z",
+                "url": "https://api.github.com/advisories/GHSA-v446-xwfm-x7mr",
+                "html_url": "https://github.com/advisories/GHSA-v446-xwfm-x7mr"
+            },
+            {
+                "id": "EUVD-2026-35489",
+                "imported": "2026-08-03T18:18:17.907Z",
+                "modified": "2026-06-10T07:48:10Z",
+                "published": "2026-06-09T16:03:31Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35489",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35489"
+            }
+        ]
+    }
+}

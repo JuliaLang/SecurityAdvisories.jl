@@ -1,0 +1,154 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1134",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-34181",
+        "GHSA-4jgc-cj59-f9mm",
+        "EUVD-2026-35477"
+    ],
+    "summary": "Issue Summary: The PKCS#12 file processing fails to perform sufficient input validation for files...",
+    "details": "Issue Summary: The PKCS#12 file processing fails to perform sufficient input\nvalidation for files that use Password-Based Message Authentication Code 1\n(PBMAC1) integrity mechanism allowing a certificate and private key forgery.\n\nImpact Summary: An attacker impersonating a user can cause a service reading\nPKCS#12 files to accept forged certificates and private keys with a 1 in 256\nprobability.\n\nIf a service accepting PKCS#12 files is using passwords for authenticating\nthe received files, the attacker can create unencrypted PKCS#12 files that\nuse PBMAC1 authentication that specifies an HMAC key of only one byte, allowing\nthem to craft a file that will be accepted with a 1 in 256 probability.\nThat would then cause the service to accept a certificate and private key\ncontrolled by the attacker.\n\nThe FIPS modules are not affected by this issue, as the affected code is\noutside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4jgc-cj59-f9mm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/0300eb9ddce7a0895bf301a4b0c03a9da2313a0f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/79eb76a937e474bb7610a0a3dc57131dc8dc6610"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/85dcbb3abaa4878af5c8fbbe11bce708fcf984a7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/ec36f2417c4ddd8cabce4b4a60a3d7a7365f2d81"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/0300eb9ddce7a0895bf301a4b0c03a9da2313a0f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/79eb76a937e474bb7610a0a3dc57131dc8dc6610"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/85dcbb3abaa4878af5c8fbbe11bce708fcf984a7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/ec36f2417c4ddd8cabce4b4a60a3d7a7365f2d81"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34181"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34181",
+                "imported": "2026-08-03T18:18:15.431Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:04.740Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34181",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34181",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-4jgc-cj59-f9mm",
+                "imported": "2026-08-03T18:20:15.806Z",
+                "modified": "2026-06-10T18:32:45Z",
+                "published": "2026-06-09T18:30:42Z",
+                "url": "https://api.github.com/advisories/GHSA-4jgc-cj59-f9mm",
+                "html_url": "https://github.com/advisories/GHSA-4jgc-cj59-f9mm"
+            },
+            {
+                "id": "EUVD-2026-35477",
+                "imported": "2026-08-03T18:18:17.733Z",
+                "modified": "2026-06-10T16:02:19Z",
+                "published": "2026-06-09T16:03:22Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35477",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35477"
+            }
+        ]
+    }
+}

@@ -1,0 +1,146 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1137",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-42764",
+        "GHSA-5pg7-f6xv-j6m4",
+        "EUVD-2026-35481"
+    ],
+    "summary": "Issue summary: Receiving a QUIC initial packet with an invalid token may trigger a NULL pointer...",
+    "details": "Issue summary: Receiving a QUIC initial packet with an invalid token may\ntrigger a NULL pointer dereference in the OpenSSL QUIC server with\naddress validation disabled.\n\nImpact summary: NULL pointer dereference typically causes abnormal termination\nof the affected QUIC server process and a Denial of Service.\n\nIf the address validation is disabled in the OpenSSL QUIC server\nimplementation, an attacker can crash the server by sending an initial\npacket with an invalid or expired token.\n\nBy default, the client address validation is enabled in the OpenSSL QUIC server\nimplementation, which makes the default configuration not vulnerable\nto this issue. However if the `SSL_LISTENER_FLAG_NO_VALIDATE` is used with\nthe `SSL_new_listener()` call, the address validation is disabled making the\nvulnerable code reachable.\n\nThe FIPS modules in 4.0, 3.6, 3.5, 3.4, and 3.0 are not affected by this\nissue, as the affected code is outside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5pg7-f6xv-j6m4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/5e3ed291b8af0b03d5d3b9e56a1da69a187e9729"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a45a0aba8095682c88ff4fc4a784892b8c6f0677"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/bf29a458c1a231eca87e384c62b9c2553fa57a91"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/5e3ed291b8af0b03d5d3b9e56a1da69a187e9729"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/a45a0aba8095682c88ff4fc4a784892b8c6f0677"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/bf29a458c1a231eca87e384c62b9c2553fa57a91"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42764"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-42764",
+                "imported": "2026-08-03T18:18:15.561Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:07.693Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-42764",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42764",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5pg7-f6xv-j6m4",
+                "imported": "2026-08-03T18:18:49.385Z",
+                "modified": "2026-06-10T09:31:57Z",
+                "published": "2026-06-09T18:30:43Z",
+                "url": "https://api.github.com/advisories/GHSA-5pg7-f6xv-j6m4",
+                "html_url": "https://github.com/advisories/GHSA-5pg7-f6xv-j6m4"
+            },
+            {
+                "id": "EUVD-2026-35481",
+                "imported": "2026-08-03T18:18:18.161Z",
+                "modified": "2026-06-10T07:47:58Z",
+                "published": "2026-06-09T16:03:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35481",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35481"
+            }
+        ]
+    }
+}

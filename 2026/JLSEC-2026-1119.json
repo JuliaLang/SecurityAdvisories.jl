@@ -1,0 +1,81 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1119",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2023-47090"
+    ],
+    "details": "NATS nats-server before 2.9.23 and 2.10.x before 2.10.2 has an authentication bypass. An implicit `$G` user in an authorization block can sometimes be used for unauthenticated access, even when the intention of the configuration was for each user to have an account. The earliest affected version is 2.2.0.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.10.18+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "nats_server_jll",
+                "purl": "pkg:julia/nats_server_jll?uuid=8b1691f7-6002-537d-bdf7-c6203599dc08"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/30/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/10/30/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/nats-io/nats-server/security/advisories/GHSA-fr2g-9hjm-wr23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/nats-io/nats-server/security/advisories/GHSA-fr2g-9hjm-wr23"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/10/13/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/10/13/2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-47090",
+                "imported": "2026-08-03T18:16:26.851Z",
+                "modified": "2026-06-17T06:32:07.110Z",
+                "published": "2023-10-30T17:15:52.467Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-47090",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47090",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

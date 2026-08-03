@@ -1,0 +1,162 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1135",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-34182",
+        "GHSA-f9v2-4w9p-2cwc",
+        "EUVD-2026-35478"
+    ],
+    "summary": "Issue Summary: Cryptographic Message Services (CMS) processing fails to perform sufficient input...",
+    "details": "Issue Summary: Cryptographic Message Services (CMS) processing fails to perform\nsufficient input validation on the cipher and tag length fields of\nAuthEnvelopedData containers, leading to various potential compromises.\n\nImpact Summary: Attackers making use of these vulnerabilities may achieve\nkey-equivalent functionality for a given CMS recipient and/or bypass integrity\nvalidation for a given message.\n\nIn one use case, an attacker may send a CMS message containing\nAuthEnvelopedData with the cipher specified as a non-AEAD cipher.  OpenSSL\nerroneously allows this selection, and attempts to decrypt and validate the\nmessage.\n\nAn on-path attacker who captures one legitimate AES-GCM AuthEnvelopedData\naddressed to the victim can re-emit it with the recipientInfos set left\nbyte-for-byte intact, so the victim's private key still unwraps the genuine CEK\n(the content-encryption key), but with the inner OID rewritten to AES-256-OFB\n(Output Feedback Mode, an unauthenticated keystream mode) and with an\nattacker-chosen IV and ciphertext. The victim initializes AES-256-OFB under the\nreal CEK, never consults the MAC field, and `CMS_decrypt()` returns success.\n\nIf the application under attack responds to the attacker with any indicator\nshowing success or failure of the decryption effort, it is possible for the\nattacker to use this as an oracle to obtain key equivalent functionality for the\nCEK used for the chosen recipient of the message.\n\nIn another use case, an attacker can reduce the tag length of the chosen AEAD\ncipher for a given AuthEnvelopedData container to be a single byte long,\nallowing an attacker to brute force CMS decryption, producing an integrity\nbypass for applications that trust `CMS_decrypt()` to reject modified content.\n\nThe FIPS modules are not affected by this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-f9v2-4w9p-2cwc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/03c1f4d45fb963aee7d5833390c507cd290182bc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/439ed7d2c0962ce964482727264668bf277c333f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7947e6a81eb8776802f159fb6762cb7fcf7e34c7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/9fd97f8cfdc2c0be214998de3b2b55c8edf6c7ac"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/d2ca86bcd43e4f17d899f347101766b6107676e0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/03c1f4d45fb963aee7d5833390c507cd290182bc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/439ed7d2c0962ce964482727264668bf277c333f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/7947e6a81eb8776802f159fb6762cb7fcf7e34c7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/9fd97f8cfdc2c0be214998de3b2b55c8edf6c7ac"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/d2ca86bcd43e4f17d899f347101766b6107676e0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34182"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34182",
+                "imported": "2026-08-03T18:18:15.485Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:04.857Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34182",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34182",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-f9v2-4w9p-2cwc",
+                "imported": "2026-08-03T18:18:51.029Z",
+                "modified": "2026-06-10T18:32:45Z",
+                "published": "2026-06-09T18:30:42Z",
+                "url": "https://api.github.com/advisories/GHSA-f9v2-4w9p-2cwc",
+                "html_url": "https://github.com/advisories/GHSA-f9v2-4w9p-2cwc"
+            },
+            {
+                "id": "EUVD-2026-35478",
+                "imported": "2026-08-03T18:18:17.776Z",
+                "modified": "2026-06-10T15:58:52Z",
+                "published": "2026-06-09T16:03:22Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35478",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35478"
+            }
+        ]
+    }
+}

@@ -1,0 +1,154 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1140",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-42768",
+        "GHSA-5m8f-m8jv-3rp3",
+        "EUVD-2026-35485"
+    ],
+    "summary": "Issue summary: The CMS_decrypt and PKCS7_decrypt functions are vulnerable to Bleichenbacher-style...",
+    "details": "Issue summary: The `CMS_decrypt` and `PKCS7_decrypt` functions are vulnerable to\nBleichenbacher-style attack when an attacker is able to provide the CMS or\nS/MIME messages and observe the error code and/or decryption output.\n\nImpact summary: The Bleichenbacher-style attack allows an attacker to use the\nvictim's vulnerable application as a way to decrypt or sign messages with the\nvictim's private RSA key.\n\nThe attack is possible in 2 variants.\n\n 1. The decryption API (`CMS_decrypt()`, `PKCS7_decrypt()`) is used without\n    providing the recipient certificate. In this case OpenSSL iterates over every\n    KeyTransRecipientInfo (KTRI) without stopping at the first success.\n\nAn attacker who authors a message with two KTRI entries — the first one\nwrapping a real CEK under the victim's public key, the second with an\narbitrary probe ciphertext — obtains opportunity to iterate the 2nd KTRI to\nget a valid PKCS#1 v1.5 padding if the error code of the application is\navailable.\n\nThat is a Bleichenbacher oracle (Bleichenbacher, CRYPTO '98): an\nadaptive-chosen-ciphertext side channel from which the attacker decrypts any\nRSA ciphertext to the victim's key or forges any PKCS#1 v1.5 signature under\nit.\n\n 2. When the decryption API (`CMS_decrypt()`, `PKCS7_decrypt()`) is provided with\n    the recipient certificate, and the recipient is not found, a random\n    key is substituted.\n\nAn attacker who authors a message and is able to compare both error code and\nthe result of the decryption, can mount a Bleichenbacher oracle.\n\nWe are not aware of any applications that provide a remote attacker\nan opportunity to mount an attack described in these scenarios. We consider\nthe existence of such application very unlikely, and for this reason this\nCVE has been evaluated as Low severity.\n\nTo avoid these attacks, when RSA PKCS#1 v1.5 Key Transport is in use, the\ninvoked `EVP_PKEY_decrypt()` will use the implicit rejection mechanism described\nin draft-irtf-cfrg-rsa-guidance. In previous OpenSSL releases the implicit\nrejection was explicitly disabled.\n\nThe implicit rejection mechanism always returns a plaintext value,\nthe symmetric key. This result is deterministic for the ciphertext and the\nprivate key.  The length of the decryption result can happen to match the\nlength of the key of the symmetric cipher that was used for the content\nencryption. When a certificate is not provided, the last RecipientInfo\nproducing a key that looks valid will be used. It may cause getting garbage\ncontent on decryption. As a proper way to deal with this a recipient\ncertificate has to be provided to identify the particular RecipientInfo for\ndecryption.\n\nThe FIPS modules in 4.0, 3.6, 3.5, and 3.4 are not affected by this issue, as\nCMS and S/MIME processing happens outside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.5.0+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.29.203+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5m8f-m8jv-3rp3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/a2ca7b2d73e0ffc1eae183fe6e1741dac767cb4f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/bbb151a83041705d9d001ed2f9c12f5523e1b54d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/dd68364107a58841c0a2546812518b65d3a23abd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/f04b377be3d821741c86d1f4bf84dee09f3d5c3e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/a2ca7b2d73e0ffc1eae183fe6e1741dac767cb4f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/bbb151a83041705d9d001ed2f9c12f5523e1b54d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/dd68364107a58841c0a2546812518b65d3a23abd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/f04b377be3d821741c86d1f4bf84dee09f3d5c3e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42768"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-42768",
+                "imported": "2026-08-03T18:18:15.722Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:08.223Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-42768",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42768",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5m8f-m8jv-3rp3",
+                "imported": "2026-08-03T18:20:23.627Z",
+                "modified": "2026-06-10T09:32:58Z",
+                "published": "2026-06-09T18:30:43Z",
+                "url": "https://api.github.com/advisories/GHSA-5m8f-m8jv-3rp3",
+                "html_url": "https://github.com/advisories/GHSA-5m8f-m8jv-3rp3"
+            },
+            {
+                "id": "EUVD-2026-35485",
+                "imported": "2026-08-03T18:18:18.009Z",
+                "modified": "2026-06-10T07:48:04Z",
+                "published": "2026-06-09T16:03:28Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35485",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35485"
+            }
+        ]
+    }
+}

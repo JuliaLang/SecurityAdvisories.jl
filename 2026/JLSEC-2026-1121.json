@@ -1,0 +1,89 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1121",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-27889"
+    ],
+    "details": "NATS-Server is a High-Performance server for NATS.io, a cloud and edge native messaging system. Starting in version 2.2.0 and prior to versions 2.11.14 and 2.12.5, a missing sanity check on a WebSockets frame could trigger a server panic in the nats-server.  This happens before authentication, and so is exposed to anyone who can connect to the websockets port. Versions 2.11.14 and 2.12.5 contains a fix. A workaround is available. The vulnerability only affects deployments which use WebSockets and which expose the network port to untrusted end-points. If one is able to do so, a defense in depth of restricting either of these will mitigate the attack.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.14.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "nats_server_jll",
+                "purl": "pkg:julia/nats_server_jll?uuid=8b1691f7-6002-537d-bdf7-c6203599dc08"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:21769"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:22347"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:23345"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-27889"
+        },
+        {
+            "type": "WEB",
+            "url": "https://advisories.nats.io/CVE/secnote-2026-03.txt"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2451447"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/nats-io/nats-server/security/advisories/GHSA-pq2q-rcw4-3hr6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-27889.json"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27889",
+                "imported": "2026-08-03T18:16:26.994Z",
+                "modified": "2026-08-03T13:17:36.973Z",
+                "published": "2026-03-25T20:16:27.210Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27889",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27889",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

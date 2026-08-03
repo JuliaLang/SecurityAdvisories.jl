@@ -1,0 +1,162 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1144",
+    "modified": "2026-08-03T19:08:57.739Z",
+    "published": "2026-08-03T19:08:57.739Z",
+    "upstream": [
+        "CVE-2026-45446",
+        "GHSA-7phf-qpm5-q6p3",
+        "EUVD-2026-35490"
+    ],
+    "summary": "Issue summary: The implementations of AES-SIV (RFC 5297) and AES-GCM-SIV (RFC 8452) mishandle the...",
+    "details": "Issue summary: The implementations of AES-SIV (RFC 5297) and AES-GCM-SIV\n(RFC 8452) mishandle the authentication of AAD (Additional Authenticated\nData) with an empty ciphertext allowing a forgery of such messages.\n\nImpact summary: An attacker can forge empty messages with arbitrary AAD\nto the victim's application using these ciphers.\n\nAES-SIV (RFC 5297) and AES-GCM-SIV (RFC 8452) are nonce-misuse-resistant AEAD\nmodes: they accept a key, nonce, optional AAD (bytes that are authenticated\nbut not encrypted), and plaintext, and produces ciphertext plus a 16-byte\ntag. On decrypt, `EVP_DecryptFinal_ex()` is documented to return success only\nif the tag is verified succesfully.\n\nIn OpenSSL's provider implementation of these ciphers, the expected tag is\ncomputed only when decryption function is invoked with non-empty data.\nIf the caller supplies AAD and then calls `EVP_DecryptFinal_ex()` without\ninvocation of the ciphertext update, which can happen when the received\nciphertext length is zero, the tag is never recalculated and still holds its\nall-zeros value.\n\nWhen AES-GCM-SIV is used, an attacker who sends arbitrary AAD, empty\nciphertext, and all-zeros tag passes authentication under any key they do not\nknow, single-shot. When AES-SIV is used, for mounting the attack it's\nnecessary for the application to reuse the decryption context without\nresetting the key.\n\nAES-SIV is implemented since OpenSSL 3.0. AES-GCM-SIV is implemented since\nOpenSSL 3.2.\n\nNo protocols implemented in OpenSSL itself (TLS/CMS/PKCS7/HPKE/QUIC) support\neither AES-GCM-SIV or AES-SIV. To mount an attack, the applications must\nimplement their own protocol and use the EVP interface. Also they must skip the\nciphertext update when a message with an empty ciphertext arrives.\n\nThe FIPS modules in 4.0, 3.6, 3.5, 3.4, and 3.0 are not affected by this\nissue, as these algorithms are not FIPS approved and the affected code is\noutside the OpenSSL FIPS module boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.0.0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "AppBundler",
+                "purl": "pkg:julia/AppBundler?uuid=40eb83ae-c93a-480c-8f39-f018b568f472"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.0.8+0"
+                        },
+                        {
+                            "fixed": "3.5.7+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSL_jll",
+                "purl": "pkg:julia/OpenSSL_jll?uuid=458c3c95-2e84-50aa-8efc-19380b2a3a95"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "1.27.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Openresty_jll",
+                "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7phf-qpm5-q6p3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/25b32cd9d41d2bc01b6abc425bb4baf2c2236fdc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/71e2a5d263518cf5866043bd60ee4994d59e53a3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/7fe3f33a3b3a4c487aa4dcdbc87057f66ffd2b85"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/daca0f48e4a69a2892a62262bad59e62a8a76598"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/openssl/commit/eec5e9bf0d867333b8495e456f5235d225798a68"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/25b32cd9d41d2bc01b6abc425bb4baf2c2236fdc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/71e2a5d263518cf5866043bd60ee4994d59e53a3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/7fe3f33a3b3a4c487aa4dcdbc87057f66ffd2b85"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/daca0f48e4a69a2892a62262bad59e62a8a76598"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/openssl/security/commit/eec5e9bf0d867333b8495e456f5235d225798a68"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45446"
+        },
+        {
+            "type": "WEB",
+            "url": "https://openssl-library.org/news/secadv/20260609.txt"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-45446",
+                "imported": "2026-08-03T18:18:15.902Z",
+                "modified": "2026-07-23T08:10:00.137Z",
+                "published": "2026-06-09T17:17:19.137Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-45446",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45446",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-7phf-qpm5-q6p3",
+                "imported": "2026-08-03T18:18:42.706Z",
+                "modified": "2026-06-10T09:32:58Z",
+                "published": "2026-06-09T18:30:48Z",
+                "url": "https://api.github.com/advisories/GHSA-7phf-qpm5-q6p3",
+                "html_url": "https://github.com/advisories/GHSA-7phf-qpm5-q6p3"
+            },
+            {
+                "id": "EUVD-2026-35490",
+                "imported": "2026-08-03T18:18:17.859Z",
+                "modified": "2026-06-10T07:48:14Z",
+                "published": "2026-06-09T16:03:32Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35490",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35490"
+            }
+        ]
+    }
+}
