@@ -1,0 +1,79 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1097",
+    "modified": "2026-08-03T13:28:07.759Z",
+    "published": "2026-08-03T13:28:07.759Z",
+    "upstream": [
+        "CVE-2026-47251",
+        "EUVD-2026-46435"
+    ],
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. The fix for CVE-2026-3949 (commit `b97c8b5`, PR #1712) introduced an integer overflow in the very security check it added. The check itself can be bypassed, allowing a crafted HEIF file with a VVC track to trigger the same out-of-bounds heap read that CVE-2026-3949 was meant to prevent. This is a separate, currently-unpatched vulnerability. Issue #1712 was closed as fixed without testing the edge case where `size` is near `UINT32_MAX`. Version 1.22.0 patches the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:L/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.22.2000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libheif_jll",
+                "purl": "pkg:julia/libheif_jll?uuid=a13778fd-9a17-58b4-b5a0-4b4a242815a9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/issues/1712"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/security/advisories/GHSA-p6q9-fhf2-vj9v"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-47251",
+                "imported": "2026-08-03T06:12:12.958Z",
+                "modified": "2026-07-27T15:19:27.190Z",
+                "published": "2026-07-21T22:17:12.800Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-47251",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47251",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-46435",
+                "imported": "2026-08-03T06:12:13.008Z",
+                "modified": "2026-07-22T13:48:12Z",
+                "published": "2026-07-21T21:18:56Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-46435",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-46435"
+            }
+        ]
+    }
+}

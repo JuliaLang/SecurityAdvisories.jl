@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1098",
+    "modified": "2026-08-03T13:28:07.759Z",
+    "published": "2026-08-03T13:28:07.759Z",
+    "upstream": [
+        "CVE-2026-47254",
+        "EUVD-2026-46436"
+    ],
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. Prior to version 1.22.0, `Track::init_sample_timing_table()` in `libheif/sequences/track.cc` stores an out-of-bounds chunk index (`m_chunks.size()`) into `m_presentation_timeline` when the number of chunks defined in the `stco` box is less than the number of samples in `stsz`. A subsequent call to `heif_track_get_next_raw_sequence_sample()` reads `m_chunks[chunk_idx]` with that OOB index, causing a heap-buffer-overflow. Version 1.22.0 fixes the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.22.2000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libheif_jll",
+                "purl": "pkg:julia/libheif_jll?uuid=a13778fd-9a17-58b4-b5a0-4b4a242815a9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/security/advisories/GHSA-wqjg-4x9g-6cvg"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-47254",
+                "imported": "2026-08-03T06:12:12.977Z",
+                "modified": "2026-07-27T15:16:14.643Z",
+                "published": "2026-07-21T22:17:12.957Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-47254",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47254",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-46436",
+                "imported": "2026-08-03T06:12:13.008Z",
+                "modified": "2026-07-22T18:24:43Z",
+                "published": "2026-07-21T21:21:41Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-46436",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-46436"
+            }
+        ]
+    }
+}

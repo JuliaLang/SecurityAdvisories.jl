@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1101",
+    "modified": "2026-08-03T13:28:07.759Z",
+    "published": "2026-08-03T13:28:07.759Z",
+    "upstream": [
+        "CVE-2026-49271",
+        "EUVD-2026-38055"
+    ],
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. Prior to version 1.22.1, the uncompressed HEIF decoder validates explicit icef compressed-unit offsets using `unit_offset` + `unit_size`. Because the addition can wrap, a crafted HEIF file can pass the range check and then construct a vector from iterators outside the compressed item buffer, producing an out-of-bounds heap read and crash. Version 1.22.1 patches the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.22.2000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libheif_jll",
+                "purl": "pkg:julia/libheif_jll?uuid=a13778fd-9a17-58b4-b5a0-4b4a242815a9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/security/advisories/GHSA-r7qj-cg5r-r6vf"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-49271",
+                "imported": "2026-08-03T06:12:12.877Z",
+                "modified": "2026-06-26T12:33:18.310Z",
+                "published": "2026-06-19T18:16:19.353Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-49271",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49271",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-38055",
+                "imported": "2026-08-03T06:12:13.009Z",
+                "modified": "2026-06-22T17:05:02Z",
+                "published": "2026-06-19T17:16:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38055",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38055"
+            }
+        ]
+    }
+}

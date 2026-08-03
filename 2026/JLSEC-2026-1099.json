@@ -1,0 +1,83 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1099",
+    "modified": "2026-08-03T13:28:07.759Z",
+    "published": "2026-08-03T13:28:07.759Z",
+    "upstream": [
+        "CVE-2026-47709",
+        "EUVD-2026-46451"
+    ],
+    "details": "libheif is a HEIF and AVIF file format decoder and encoder. Versions prior to 1.22.0 crashes in the public C API `heif_image_handle_get_image_tiling()` when a malformed uncompressed HEIF image item has an associated `uncC` property but no associated `ispe` property. In debug builds this trips the `ispe && uncC` assertion in `ImageItem_uncompressed::get_heif_image_tiling()`. In a release/NDEBUG ASan build, the same file causes a null pointer read at address `0xa8`. Version 1.22.0 fixes the issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.22.2000+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libheif_jll",
+                "purl": "pkg:julia/libheif_jll?uuid=a13778fd-9a17-58b4-b5a0-4b4a242815a9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/issues/1802"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/pull/1806"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/strukturag/libheif/security/advisories/GHSA-4h72-vqgp-9376"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-47709",
+                "imported": "2026-08-03T06:12:12.996Z",
+                "modified": "2026-07-27T15:17:57.187Z",
+                "published": "2026-07-21T22:17:13.097Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-47709",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47709",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-46451",
+                "imported": "2026-08-03T06:12:13.008Z",
+                "modified": "2026-07-22T15:06:56Z",
+                "published": "2026-07-21T21:31:14Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-46451",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-46451"
+            }
+        ]
+    }
+}
