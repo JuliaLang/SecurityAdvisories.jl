@@ -1,0 +1,144 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1115",
+    "modified": "2026-08-03T14:05:55.614Z",
+    "published": "2026-08-03T14:05:55.614Z",
+    "upstream": [
+        "CVE-2026-21413",
+        "GHSA-g53g-r75r-95g5",
+        "EUVD-2026-19624"
+    ],
+    "summary": "A heap-based buffer overflow vulnerability exists in the lossless_jpeg_load_raw functionality of...",
+    "details": "A heap-based buffer overflow vulnerability exists in the `lossless_jpeg_load_raw` functionality of LibRaw Commit 0b56545 and Commit d20315b. A specially crafted malicious file can lead to a heap buffer overflow. An attacker can provide a malicious file to trigger this vulnerability.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0.22.1+0"
+                        },
+                        {
+                            "fixed": "0.22.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibRaw_jll",
+                "purl": "pkg:julia/LibRaw_jll?uuid=d66ac3f3-933a-5ab8-8aa2-9e591b3c5af3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:11360"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13284"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13854"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13860"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13868"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:13870"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:14224"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:14655"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:14673"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:19345"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-21413"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2455929"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-g53g-r75r-95g5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21413"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-21413.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://talosintelligence.com/vulnerability_reports/TALOS-2026-2331"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.talosintelligence.com/vulnerability_reports/TALOS-2026-2331"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-21413",
+                "imported": "2026-08-03T13:28:43.720Z",
+                "modified": "2026-07-15T02:18:25.153Z",
+                "published": "2026-04-07T15:17:35.633Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-21413",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21413",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-g53g-r75r-95g5",
+                "imported": "2026-08-03T13:28:53.537Z",
+                "modified": "2026-06-30T03:37:12Z",
+                "published": "2026-04-07T15:30:51Z",
+                "url": "https://api.github.com/advisories/GHSA-g53g-r75r-95g5",
+                "html_url": "https://github.com/advisories/GHSA-g53g-r75r-95g5"
+            },
+            {
+                "id": "EUVD-2026-19624",
+                "imported": "2026-08-03T13:28:45.857Z",
+                "modified": "2026-07-15T01:20:03Z",
+                "published": "2026-04-07T13:49:29Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19624",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19624"
+            }
+        ]
+    }
+}

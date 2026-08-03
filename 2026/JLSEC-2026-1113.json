@@ -1,0 +1,74 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1113",
+    "modified": "2026-08-03T14:05:55.614Z",
+    "published": "2026-08-03T14:05:55.614Z",
+    "upstream": [
+        "CVE-2026-20884",
+        "EUVD-2026-19618"
+    ],
+    "details": "An integer overflow vulnerability exists in the `deflate_dng_load_raw` functionality of LibRaw Commit 8dc68e2. A specially crafted malicious file can lead to a heap buffer overflow. An attacker can provide a malicious file to trigger this vulnerability.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0.22.1+0"
+                        },
+                        {
+                            "fixed": "0.22.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibRaw_jll",
+                "purl": "pkg:julia/LibRaw_jll?uuid=d66ac3f3-933a-5ab8-8aa2-9e591b3c5af3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://talosintelligence.com/vulnerability_reports/TALOS-2026-2364"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.talosintelligence.com/vulnerability_reports/TALOS-2026-2364"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-20884",
+                "imported": "2026-08-03T13:28:43.573Z",
+                "modified": "2026-06-17T10:17:59.533Z",
+                "published": "2026-04-07T15:17:35.127Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-20884",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-20884",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "EUVD-2026-19618",
+                "imported": "2026-08-03T13:28:45.958Z",
+                "modified": "2026-04-13T13:04:17Z",
+                "published": "2026-04-07T13:49:22Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19618",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-19618"
+            }
+        ]
+    }
+}

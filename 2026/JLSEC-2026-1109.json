@@ -1,0 +1,100 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1109",
+    "modified": "2026-08-03T14:05:55.614Z",
+    "published": "2026-08-03T14:05:55.614Z",
+    "upstream": [
+        "CVE-2025-43961",
+        "GHSA-m4w2-g4cp-m5hw",
+        "EUVD-2025-11962"
+    ],
+    "summary": "In LibRaw before 0.21.4, metadata/tiff.cpp has an out-of-bounds read in the Fujifilm 0xf00c tag...",
+    "details": "In LibRaw before 0.21.4, `metadata/tiff.cpp` has an out-of-bounds read in the Fujifilm 0xf00c tag parser.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.22.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibRaw_jll",
+                "purl": "pkg:julia/LibRaw_jll?uuid=d66ac3f3-933a-5ab8-8aa2-9e591b3c5af3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/commit/66fe663e02a4dd610b4e832f5d9af326709336c2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/compare/0.21.3...0.21.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m4w2-g4cp-m5hw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/04/msg00038.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43961"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.libraw.org/news/libraw-0-21-4-release"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-43961",
+                "imported": "2026-08-03T13:28:43.380Z",
+                "modified": "2026-06-17T09:24:49.703Z",
+                "published": "2025-04-21T00:15:32.873Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-43961",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43961",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-m4w2-g4cp-m5hw",
+                "imported": "2026-08-03T13:28:48.208Z",
+                "modified": "2025-11-03T21:34:44Z",
+                "published": "2025-04-21T00:30:19Z",
+                "url": "https://api.github.com/advisories/GHSA-m4w2-g4cp-m5hw",
+                "html_url": "https://github.com/advisories/GHSA-m4w2-g4cp-m5hw"
+            },
+            {
+                "id": "EUVD-2025-11962",
+                "imported": "2026-08-03T13:28:46.075Z",
+                "modified": "2025-11-03T20:04:07Z",
+                "published": "2025-04-20T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-11962",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-11962"
+            }
+        ]
+    }
+}

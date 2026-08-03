@@ -1,0 +1,73 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1107",
+    "modified": "2026-08-03T14:05:55.614Z",
+    "published": "2026-08-03T14:05:55.614Z",
+    "upstream": [
+        "CVE-2020-35535"
+    ],
+    "details": "In LibRaw, there is an out-of-bounds read vulnerability within the \"LibRaw::parseSonySRF()\" function (`libraw\\src\\metadata\\sony.cpp`) when processing srf files.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.22.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibRaw_jll",
+                "purl": "pkg:julia/LibRaw_jll?uuid=d66ac3f3-933a-5ab8-8aa2-9e591b3c5af3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/commit/c243f4539233053466c1309bde606815351bee81"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/commit/c243f4539233053466c1309bde606815351bee81"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/issues/283"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/issues/283"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-35535",
+                "imported": "2026-08-03T13:28:43.251Z",
+                "modified": "2026-06-17T03:13:52.960Z",
+                "published": "2022-09-01T18:15:09.027Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-35535",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35535",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

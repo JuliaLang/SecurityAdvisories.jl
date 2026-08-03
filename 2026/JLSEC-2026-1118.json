@@ -1,0 +1,103 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1118",
+    "modified": "2026-08-03T14:05:55.614Z",
+    "published": "2026-08-03T14:05:55.614Z",
+    "upstream": [
+        "CVE-2026-5342"
+    ],
+    "details": "A flaw has been found in LibRaw up to 0.22.0. This affects the function `LibRaw::nikon_load_padded_packed_raw` of the file `src/decoders/decoders_libraw.cpp` of the component TIFF/NEF. Executing a manipulation of the argument `load_flags/raw_width` can lead to out-of-bounds read. It is possible to launch the attack remotely. The exploit has been published and may be used. Upgrading to version 0.22.1 mitigates this issue. This patch is called b8397cd45657b84e88bd1202528d1764265f185c. It is advisable to upgrade the affected component.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "0.22.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibRaw_jll",
+                "purl": "pkg:julia/LibRaw_jll?uuid=d66ac3f3-933a-5ab8-8aa2-9e591b3c5af3"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/commit/b8397cd45657b84e88bd1202528d1764265f185c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/issues/795"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/issues/795#issuecomment-4073769886"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/LibRaw/LibRaw/releases/tag/0.22.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/biniamf/pocs/tree/main/libraw_nikonpadded"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/781223"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/354671"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/354671/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5342",
+                "imported": "2026-08-03T13:28:43.543Z",
+                "modified": "2026-07-24T21:10:00.143Z",
+                "published": "2026-04-02T15:16:53.343Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5342",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5342",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
