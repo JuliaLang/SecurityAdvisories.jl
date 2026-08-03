@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-3",
-    "modified": "2026-07-23T22:21:26.455Z",
+    "modified": "2026-08-03T19:27:41.338Z",
     "published": "2026-03-23T22:38:33.248Z",
     "upstream": [
         "CVE-2023-44487"
@@ -34,6 +34,23 @@
                 "ecosystem": "Julia",
                 "name": "Openresty_jll",
                 "purl": "pkg:julia/Openresty_jll?uuid=87da34d4-7b1b-5a94-8376-8cb65bf3132c"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "18.12.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libnode_jll",
+                "purl": "pkg:julia/libnode_jll?uuid=76d26698-d9ba-5ca1-ae24-4ac9393d02a0"
             }
         },
         {
@@ -756,7 +773,7 @@
         "sources": [
             {
                 "id": "CVE-2023-44487",
-                "imported": "2026-07-17T21:36:05.453Z",
+                "imported": "2026-07-31T15:38:11.944Z",
                 "modified": "2026-06-17T06:27:44.067Z",
                 "published": "2023-10-10T14:15:10.883Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-44487",
