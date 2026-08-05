@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1165",
+    "modified": "2026-08-05T18:20:40.259Z",
+    "published": "2026-08-05T18:20:40.259Z",
+    "upstream": [
+        "CVE-2026-49860",
+        "GHSA-83pc-3rw9-qpwj",
+        "EUVD-2026-38542"
+    ],
+    "summary": "Deno: WebSocket API sandbox bypass via missing post-DNS check",
+    "details": "## Summary\n\nWhen a WebSocket connection was opened, Deno checked the destination hostname\nagainst `--deny-net` rules but did not re-check the IP addresses that hostname\nresolved to. An attacker-controlled script could use a specially crafted domain\nname that passes the hostname check yet resolves to a denied IP, bypassing the\nnetwork restriction entirely.\n\n## Impact\n\nCode running under `--deny-net` could connect to hosts that the user intended\nto block. In practice this means network isolation rules — for example,\nblocking access to `localhost` or internal services — could be silently\ncircumvented by a malicious or compromised dependency.\n\n`Deno.connect` and `fetch()` were not affected by this specific issue (a\ncompanion advisory covers `fetch()`).\n\n## Who is affected\n\nUsers who:\n\n  - run untrusted or third-party code with `deno run`, and\n  - rely on `--deny-net` to restrict which hosts that code can reach.\n\nIf you do not use `--deny-net`, or if you only run fully trusted code, you are\nnot affected.\n\n## Workaround\n\nNo workaround is available short of upgrading. If upgrading immediately is not\npossible, avoid granting `--allow-net` to untrusted code that also has\n`--deny-net` restrictions you depend on for security.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-83pc-3rw9-qpwj"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-83pc-3rw9-qpwj"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49860"
+        }
+    ],
+    "credits": [
+        {
+            "name": "alcls01111",
+            "contact": [
+                "https://github.com/alcls01111"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-49860",
+                "imported": "2026-08-05T06:30:31.282Z",
+                "modified": "2026-06-29T14:37:08.490Z",
+                "published": "2026-06-23T18:18:04.053Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-49860",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49860",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-83pc-3rw9-qpwj",
+                "imported": "2026-08-05T06:30:32.446Z",
+                "modified": "2026-07-20T21:01:05Z",
+                "published": "2026-06-16T19:04:07Z",
+                "url": "https://api.github.com/advisories/GHSA-83pc-3rw9-qpwj",
+                "html_url": "https://github.com/advisories/GHSA-83pc-3rw9-qpwj"
+            },
+            {
+                "id": "EUVD-2026-38542",
+                "imported": "2026-08-05T06:30:31.318Z",
+                "modified": "2026-06-23T17:37:07Z",
+                "published": "2026-06-23T17:15:05Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38542",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38542"
+            }
+        ]
+    }
+}

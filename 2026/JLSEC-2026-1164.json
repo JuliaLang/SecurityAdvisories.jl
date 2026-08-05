@@ -1,0 +1,104 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1164",
+    "modified": "2026-08-05T18:20:40.259Z",
+    "published": "2026-08-05T18:20:40.259Z",
+    "upstream": [
+        "CVE-2026-49859",
+        "GHSA-cpgj-f7g3-2pp2",
+        "EUVD-2026-38541"
+    ],
+    "summary": "Deno: `fetch()` API sandbox bypass via missing DNS resolution check",
+    "details": "## Summary\n\nWhen `fetch()` was called, Deno checked the destination hostname against\n`--deny-net` rules but did not re-check the IP addresses that hostname\nresolved to. An attacker-controlled script could use a specially crafted domain\nname that passes the hostname check yet resolves to a denied IP, bypassing the\nnetwork restriction entirely.\n\n## Impact\n\nCode running under `--deny-net` could reach hosts that the user intended to\nblock. In practice this means network isolation rules — for example, blocking\naccess to `localhost` or internal services — could be silently circumvented by\na malicious or compromised dependency.\n\nA companion advisory covers the same class of issue in the WebSocket API.\n\n## Who is affected\n\nUsers who:\n\n  - run untrusted or third-party code with `deno run`, and\n  - rely on `--deny-net` to restrict which hosts that code can reach.\n\nIf you do not use `--deny-net`, or if you only run fully trusted code, you are\nnot affected.\n\n## Workaround\n\nNo workaround is available short of upgrading. If upgrading immediately is not\npossible, avoid granting `--allow-net` to untrusted code that also has\n`--deny-net` restrictions you depend on for security.\n\n## Fix\n\nThe `fetch()` DNS resolver now performs a post-resolution check on every IP\naddress before passing it to the HTTP connector, consistent with how\n`Deno.connect` already behaved.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-cpgj-f7g3-2pp2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-cpgj-f7g3-2pp2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49859"
+        }
+    ],
+    "credits": [
+        {
+            "name": "7thParkk",
+            "contact": [
+                "https://github.com/7thParkk"
+            ],
+            "type": "REPORTER"
+        },
+        {
+            "name": "alcls01111",
+            "contact": [
+                "https://github.com/alcls01111"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-49859",
+                "imported": "2026-08-05T06:30:31.265Z",
+                "modified": "2026-06-29T14:38:17.253Z",
+                "published": "2026-06-23T18:18:03.927Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-49859",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49859",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-cpgj-f7g3-2pp2",
+                "imported": "2026-08-05T06:30:41.504Z",
+                "modified": "2026-07-20T21:01:14Z",
+                "published": "2026-06-16T19:02:55Z",
+                "url": "https://api.github.com/advisories/GHSA-cpgj-f7g3-2pp2",
+                "html_url": "https://github.com/advisories/GHSA-cpgj-f7g3-2pp2"
+            },
+            {
+                "id": "EUVD-2026-38541",
+                "imported": "2026-08-05T06:30:31.318Z",
+                "modified": "2026-06-24T14:23:09Z",
+                "published": "2026-06-23T17:14:16Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38541",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38541"
+            }
+        ]
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1166",
+    "modified": "2026-08-05T18:20:40.259Z",
+    "published": "2026-08-05T18:20:40.259Z",
+    "upstream": [
+        "CVE-2026-49983",
+        "GHSA-4c8g-jvcx-v4hv",
+        "EUVD-2026-38543"
+    ],
+    "summary": "Deno: process.loadEnvFile() bypasses env permission checks and mutates process.env with only read access",
+    "details": "## Summary\n\nIn Deno, environment access is gated by the `env` permission. You can deny it\nwith `--deny-env`, or restrict it to a specific allowlist with\n`--allow-env=FOO,BAR`. The expectation is that a program running without `env`\npermission cannot change `process.env`.\n\n`process.loadEnvFile()` (the Node-compatible API for loading variables from a\n`.env` file) does **not** honor this. It only checks that the program has\n**read** permission for the dotenv file, then writes every key in that file\ninto the process environment — even when `env` access is denied.\n\nIn effect, **`--allow-read` plus a writable or attacker-controlled `.env` file\nis enough to defeat `--deny-env`.**\n\n## Am I affected?\n\nYou are potentially affected if **all** of the following are true:\n\n 1. You run Deno **v2.3.0 or newer**.\n 2. Your program (or any dependency it imports) calls `process.loadEnvFile()`\n    from `node:process`.\n 3. You rely on Deno's permission model — specifically `--deny-env`, an\n    `--allow-env=…` allowlist, or running without granting `env` — as a\n    security boundary.\n 4. The `.env` path passed to `loadEnvFile()` can be controlled or modified by\n    a less-trusted party (untrusted input, user-writable directory, third-party\n    dependency, etc.) and is covered by your `--allow-read` grant.\n\nIf your program does not use `process.loadEnvFile()` at all, or if it already\ngrants full `env` access, this advisory does not change your risk.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.6.3+0"
+                        },
+                        {
+                            "fixed": "2.8.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Deno_jll",
+                "purl": "pkg:julia/Deno_jll?uuid=04572ae6-984a-583e-9378-9577a1c2574d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4c8g-jvcx-v4hv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/denoland/deno/security/advisories/GHSA-4c8g-jvcx-v4hv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49983"
+        }
+    ],
+    "credits": [
+        {
+            "name": "fallintoplace",
+            "contact": [
+                "https://github.com/fallintoplace"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-49983",
+                "imported": "2026-08-05T06:30:31.300Z",
+                "modified": "2026-06-29T13:35:34.613Z",
+                "published": "2026-06-23T18:18:04.190Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-49983",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49983",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-4c8g-jvcx-v4hv",
+                "imported": "2026-08-05T06:30:33.882Z",
+                "modified": "2026-07-20T21:01:25Z",
+                "published": "2026-06-16T19:04:57Z",
+                "url": "https://api.github.com/advisories/GHSA-4c8g-jvcx-v4hv",
+                "html_url": "https://github.com/advisories/GHSA-4c8g-jvcx-v4hv"
+            },
+            {
+                "id": "EUVD-2026-38543",
+                "imported": "2026-08-05T06:30:31.318Z",
+                "modified": "2026-06-23T17:54:51Z",
+                "published": "2026-06-23T17:16:17Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-38543",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-38543"
+            }
+        ]
+    }
+}
