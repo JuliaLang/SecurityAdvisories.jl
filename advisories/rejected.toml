@@ -39,3 +39,1443 @@ reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
+
+# TensorFlow advisories rejected for XLA_Tools_jll, reviewed in #615. XLA_Tools_jll
+# builds only the six standalone tools in //tensorflow/compiler/xla/tools from
+# TensorFlow v2.2.1 (show_signature, show_literal, convert_computation,
+# show_text_literal, dumped_computation_to_text, dumped_computation_to_operation_list).
+# Their link closure is XLA core/client/service plus the interpreter backend,
+# tensorflow/core:lib (core/lib + core/platform), host stream_executor, protobuf, and
+# absl. It contains no TF op kernels, no core/framework objects, no GraphDef/executor/
+# grappler machinery, no TFLite, no Python, and no tf2xla bridge, so TensorFlow
+# vulnerabilities in those components are not built into the shipped binaries.
+
+[CVE-2020-15265]
+aliases = ["GHSA-rrfp-j2mp-hq9c", "EUVD-2020-0211", "PYSEC-2020-138", "PYSEC-2020-295", "PYSEC-2020-330"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2020-15266]
+aliases = ["GHSA-xwhf-g6j5-j5gc", "EUVD-2020-0212", "PYSEC-2020-139", "PYSEC-2020-296", "PYSEC-2020-331"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2020-26266]
+aliases = ["GHSA-qhxx-j73r-qpm2", "EUVD-2020-0213", "PYSEC-2020-254", "PYSEC-2020-297", "PYSEC-2020-332"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects Eigen's FixedPoint quantized types; their headers are included via xla/types.h but quantized types are never instantiated in the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only), as XLA 2.2.1 has no quantized dtypes. Reviewed in #615."
+
+[CVE-2020-26267]
+aliases = ["GHSA-c9f3-9wfr-wgh7", "EUVD-2020-0214", "PYSEC-2020-140", "PYSEC-2020-298", "PYSEC-2020-333"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2020-26268]
+aliases = ["GHSA-hhvc-g5hv-48c6", "EUVD-2020-0215", "PYSEC-2020-255", "PYSEC-2020-299", "PYSEC-2020-334"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2020-26270]
+aliases = ["GHSA-m648-33qf-v3gp", "EUVD-2020-0217", "PYSEC-2020-256", "PYSEC-2020-301", "PYSEC-2020-336"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the cuDNN LSTM/GRU kernel, which is GPU-only; XLA_Tools_jll is built without GPU support and TF op kernels are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2020-26271]
+aliases = ["GHSA-q263-fvxm-m5mw", "EUVD-2020-0218", "PYSEC-2020-257", "PYSEC-2020-302", "PYSEC-2020-337"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TF executor (tensorflow/core/common_runtime), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29513]
+aliases = ["GHSA-452g-f7fp-9jf7", "EUVD-2021-0254", "PYSEC-2021-150", "PYSEC-2021-441", "PYSEC-2021-639"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29515]
+aliases = ["GHSA-hc6c-75p4-hmq4", "EUVD-2021-0256", "PYSEC-2021-152", "PYSEC-2021-443", "PYSEC-2021-641"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29516]
+aliases = ["GHSA-84mw-34w6-2q43", "EUVD-2021-0257", "PYSEC-2021-153", "PYSEC-2021-444", "PYSEC-2021-642"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29517]
+aliases = ["GHSA-772p-x54p-hjrv", "EUVD-2021-0258", "PYSEC-2021-154", "PYSEC-2021-445", "PYSEC-2021-643"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29518]
+aliases = ["GHSA-62gx-355r-9fhg", "EUVD-2021-0259", "PYSEC-2021-155", "PYSEC-2021-446", "PYSEC-2021-644"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29519]
+aliases = ["GHSA-772j-h9xw-ffp5", "EUVD-2021-0260", "PYSEC-2021-156", "PYSEC-2021-447", "PYSEC-2021-645"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29520]
+aliases = ["GHSA-wcv5-qrj6-9pfm", "EUVD-2021-0261", "PYSEC-2021-157", "PYSEC-2021-448", "PYSEC-2021-646"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29522]
+aliases = ["GHSA-c968-pq7h-7fxv", "EUVD-2021-0263", "PYSEC-2021-159", "PYSEC-2021-450", "PYSEC-2021-648"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29523]
+aliases = ["GHSA-2cpx-427x-q2c6", "EUVD-2021-0264", "PYSEC-2021-160", "PYSEC-2021-451", "PYSEC-2021-649"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29524]
+aliases = ["GHSA-r4pj-74mg-8868", "EUVD-2021-0265", "PYSEC-2021-161", "PYSEC-2021-452", "PYSEC-2021-650"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29525]
+aliases = ["GHSA-xm2v-8rrw-w9pm", "EUVD-2021-0266", "PYSEC-2021-162", "PYSEC-2021-453", "PYSEC-2021-651"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29526]
+aliases = ["GHSA-4vf2-4xcg-65cx", "EUVD-2021-0267", "PYSEC-2021-163", "PYSEC-2021-454", "PYSEC-2021-652"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29527]
+aliases = ["GHSA-x4g7-fvjj-prg8", "EUVD-2021-0268", "PYSEC-2021-164", "PYSEC-2021-455", "PYSEC-2021-653"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29528]
+aliases = ["GHSA-6f84-42vf-ppwp", "EUVD-2021-0269", "PYSEC-2021-165", "PYSEC-2021-456", "PYSEC-2021-654"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29529]
+aliases = ["GHSA-jfp7-4j67-8r3q", "EUVD-2021-0270", "PYSEC-2021-166", "PYSEC-2021-457", "PYSEC-2021-655"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29530]
+aliases = ["GHSA-xcwj-wfcm-m23c", "EUVD-2021-0271", "PYSEC-2021-167", "PYSEC-2021-458", "PYSEC-2021-656"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29531]
+aliases = ["GHSA-3qxp-qjq7-w4hf", "EUVD-2021-0272", "PYSEC-2021-168", "PYSEC-2021-459", "PYSEC-2021-657"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the EncodePng op and tensorflow/core/lib/png, which are referenced only by image op kernels and are dropped at link time from the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29532]
+aliases = ["GHSA-j47f-4232-hvv8", "EUVD-2021-0273", "PYSEC-2021-169", "PYSEC-2021-460", "PYSEC-2021-658"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29533]
+aliases = ["GHSA-393f-2jr3-cp69", "EUVD-2021-0274", "PYSEC-2021-170", "PYSEC-2021-461", "PYSEC-2021-659"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29534]
+aliases = ["GHSA-6j9c-grc6-5m6g", "EUVD-2021-0275", "PYSEC-2021-171", "PYSEC-2021-462", "PYSEC-2021-660"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29535]
+aliases = ["GHSA-m3f9-w3p3-p669", "EUVD-2021-0276", "PYSEC-2021-172", "PYSEC-2021-463", "PYSEC-2021-661"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29536]
+aliases = ["GHSA-2gfx-95x2-5v3x", "EUVD-2021-0277", "PYSEC-2021-173", "PYSEC-2021-464", "PYSEC-2021-662"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29537]
+aliases = ["GHSA-8c89-2vwr-chcq", "EUVD-2021-0278", "PYSEC-2021-174", "PYSEC-2021-465", "PYSEC-2021-663"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29538]
+aliases = ["GHSA-j8qc-5fqr-52fp", "EUVD-2021-0279", "PYSEC-2021-175", "PYSEC-2021-466", "PYSEC-2021-664"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29539]
+aliases = ["GHSA-g4h2-gqm3-c9wq", "EUVD-2021-0280", "PYSEC-2021-176", "PYSEC-2021-467", "PYSEC-2021-665"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29540]
+aliases = ["GHSA-xgc3-m89p-vr3x", "EUVD-2021-0281", "PYSEC-2021-177", "PYSEC-2021-468", "PYSEC-2021-666"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29541]
+aliases = ["GHSA-xqfj-35wv-m3cr", "EUVD-2021-0282", "PYSEC-2021-178", "PYSEC-2021-469", "PYSEC-2021-667"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29542]
+aliases = ["GHSA-4hrh-9vmp-2jgg", "EUVD-2021-0283", "PYSEC-2021-179", "PYSEC-2021-470", "PYSEC-2021-668"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29543]
+aliases = ["GHSA-fphq-gw9m-ghrv", "EUVD-2021-0284", "PYSEC-2021-180", "PYSEC-2021-471", "PYSEC-2021-669"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29545]
+aliases = ["GHSA-hmg3-c7xj-6qwm", "EUVD-2021-0286", "PYSEC-2021-182", "PYSEC-2021-473", "PYSEC-2021-671"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29546]
+aliases = ["GHSA-m34j-p8rj-wjxq", "EUVD-2021-0287", "PYSEC-2021-183", "PYSEC-2021-474", "PYSEC-2021-672"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29547]
+aliases = ["GHSA-4fg4-p75j-w5xj", "EUVD-2021-0288", "PYSEC-2021-184", "PYSEC-2021-475", "PYSEC-2021-673"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29548]
+aliases = ["GHSA-p45v-v4pw-77jr", "EUVD-2021-0289", "PYSEC-2021-185", "PYSEC-2021-476", "PYSEC-2021-674"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29549]
+aliases = ["GHSA-x83m-p7pv-ch8v", "EUVD-2021-0290", "PYSEC-2021-186", "PYSEC-2021-477", "PYSEC-2021-675"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29550]
+aliases = ["GHSA-f78g-q7r4-9wcv", "EUVD-2021-0291", "PYSEC-2021-187", "PYSEC-2021-478", "PYSEC-2021-676"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29551]
+aliases = ["GHSA-vqw6-72r7-fgw7", "EUVD-2021-0292", "PYSEC-2021-188", "PYSEC-2021-479", "PYSEC-2021-677"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29552]
+aliases = ["GHSA-jhq9-wm9m-cf89", "EUVD-2021-0293", "PYSEC-2021-189", "PYSEC-2021-480", "PYSEC-2021-678"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29553]
+aliases = ["GHSA-h9px-9vqg-222h", "EUVD-2021-0294", "PYSEC-2021-190", "PYSEC-2021-481", "PYSEC-2021-679"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29554]
+aliases = ["GHSA-qg48-85hg-mqc5", "EUVD-2021-0295", "PYSEC-2021-191", "PYSEC-2021-482", "PYSEC-2021-680"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29555]
+aliases = ["GHSA-r35g-4525-29fq", "EUVD-2021-0296", "PYSEC-2021-192", "PYSEC-2021-483", "PYSEC-2021-681"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29556]
+aliases = ["GHSA-fxqh-cfjm-fp93", "EUVD-2021-0297", "PYSEC-2021-193", "PYSEC-2021-484", "PYSEC-2021-682"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29557]
+aliases = ["GHSA-xw93-v57j-fcgh", "EUVD-2021-0298", "PYSEC-2021-194", "PYSEC-2021-485", "PYSEC-2021-683"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29558]
+aliases = ["GHSA-mqh2-9wrp-vx84", "EUVD-2021-0299", "PYSEC-2021-195", "PYSEC-2021-486", "PYSEC-2021-684"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects core/util/sparse, which is used only by TF op kernels and is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29559]
+aliases = ["GHSA-59q2-x2qc-4c97", "EUVD-2021-0300", "PYSEC-2021-196", "PYSEC-2021-487", "PYSEC-2021-685"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29560]
+aliases = ["GHSA-8gv3-57p6-g35r", "EUVD-2021-0301", "PYSEC-2021-197", "PYSEC-2021-488", "PYSEC-2021-686"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29561]
+aliases = ["GHSA-gvm4-h8j3-rjrq", "EUVD-2021-0302", "PYSEC-2021-198", "PYSEC-2021-489", "PYSEC-2021-687"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29562]
+aliases = ["GHSA-36vm-xw34-x4pj", "EUVD-2021-0303", "PYSEC-2021-199", "PYSEC-2021-490", "PYSEC-2021-688"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29563]
+aliases = ["GHSA-ph87-fvjr-v33w", "EUVD-2021-0304", "PYSEC-2021-200", "PYSEC-2021-491", "PYSEC-2021-689"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29564]
+aliases = ["GHSA-75f6-78jr-4656", "EUVD-2021-0305", "PYSEC-2021-201", "PYSEC-2021-492", "PYSEC-2021-690"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29565]
+aliases = ["GHSA-r6pg-pjwc-j585", "EUVD-2021-0306", "PYSEC-2021-202", "PYSEC-2021-493", "PYSEC-2021-691"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29566]
+aliases = ["GHSA-pvrc-hg3f-58r6", "EUVD-2021-0307", "PYSEC-2021-203", "PYSEC-2021-494", "PYSEC-2021-692"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29567]
+aliases = ["GHSA-wp3c-xw9g-gpcg", "EUVD-2021-0308", "PYSEC-2021-204", "PYSEC-2021-495", "PYSEC-2021-693"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29568]
+aliases = ["GHSA-4p4p-www8-8fv9", "EUVD-2021-0309", "PYSEC-2021-205", "PYSEC-2021-496", "PYSEC-2021-694"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29569]
+aliases = ["GHSA-3h8m-483j-7xxm", "EUVD-2021-0310", "PYSEC-2021-206", "PYSEC-2021-497", "PYSEC-2021-695"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29570]
+aliases = ["GHSA-545v-42p7-98fq", "EUVD-2021-0311", "PYSEC-2021-207", "PYSEC-2021-498", "PYSEC-2021-696"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29571]
+aliases = ["GHSA-whr9-vfh2-7hm6", "EUVD-2021-0312", "PYSEC-2021-208", "PYSEC-2021-499", "PYSEC-2021-697"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29572]
+aliases = ["GHSA-5gqf-456p-4836", "EUVD-2021-0313", "PYSEC-2021-209", "PYSEC-2021-500", "PYSEC-2021-698"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29573]
+aliases = ["GHSA-9vpm-rcf4-9wqw", "EUVD-2021-0314", "PYSEC-2021-210", "PYSEC-2021-501", "PYSEC-2021-699"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29574]
+aliases = ["GHSA-828x-qc2p-wprq", "EUVD-2021-0315", "PYSEC-2021-211", "PYSEC-2021-502", "PYSEC-2021-700"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29575]
+aliases = ["GHSA-6qgm-fv6v-rfpv", "EUVD-2021-0316", "PYSEC-2021-212", "PYSEC-2021-503", "PYSEC-2021-701"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29576]
+aliases = ["GHSA-7cqx-92hp-x6wh", "EUVD-2021-0317", "PYSEC-2021-213", "PYSEC-2021-504", "PYSEC-2021-702"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29577]
+aliases = ["GHSA-v6r6-84gr-92rm", "EUVD-2021-0318", "PYSEC-2021-214", "PYSEC-2021-505", "PYSEC-2021-703"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29578]
+aliases = ["GHSA-6f89-8j54-29xf", "EUVD-2021-0319", "PYSEC-2021-215", "PYSEC-2021-506", "PYSEC-2021-704"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29579]
+aliases = ["GHSA-79fv-9865-4qcv", "EUVD-2021-0320", "PYSEC-2021-216", "PYSEC-2021-507", "PYSEC-2021-705"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29580]
+aliases = ["GHSA-x8h6-xgqx-jqgp", "EUVD-2021-0321", "PYSEC-2021-217", "PYSEC-2021-508", "PYSEC-2021-706"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29581]
+aliases = ["GHSA-vq2r-5xvm-3hc3", "EUVD-2021-0322", "PYSEC-2021-218", "PYSEC-2021-509", "PYSEC-2021-707"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29582]
+aliases = ["GHSA-c45w-2wxr-pp53", "EUVD-2021-0323", "PYSEC-2021-219", "PYSEC-2021-510", "PYSEC-2021-708"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29583]
+aliases = ["GHSA-9xh4-23q4-v6wr", "EUVD-2021-0324", "PYSEC-2021-220", "PYSEC-2021-511", "PYSEC-2021-709"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29584]
+aliases = ["GHSA-xvjm-fvxx-q3hv", "EUVD-2021-0325", "PYSEC-2021-221", "PYSEC-2021-512", "PYSEC-2021-710"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29585]
+aliases = ["GHSA-mv78-g7wq-mhp4", "EUVD-2021-0326", "PYSEC-2021-222", "PYSEC-2021-513", "PYSEC-2021-711"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29586]
+aliases = ["GHSA-26j7-6w8w-7922", "EUVD-2021-0327", "PYSEC-2021-223", "PYSEC-2021-514", "PYSEC-2021-712"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29587]
+aliases = ["GHSA-j7rm-8ww4-xx2g", "EUVD-2021-0328", "PYSEC-2021-224", "PYSEC-2021-515", "PYSEC-2021-713"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29588]
+aliases = ["GHSA-vfr4-x8j2-3rf9", "EUVD-2021-0329", "PYSEC-2021-225", "PYSEC-2021-516", "PYSEC-2021-714"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29589]
+aliases = ["GHSA-3w67-q784-6w7c", "EUVD-2021-0330", "PYSEC-2021-226", "PYSEC-2021-517", "PYSEC-2021-715"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29590]
+aliases = ["GHSA-24x6-8c7m-hv3f", "EUVD-2021-0331", "PYSEC-2021-227", "PYSEC-2021-518", "PYSEC-2021-716"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29591]
+aliases = ["GHSA-cwv3-863g-39vx", "EUVD-2021-0332", "PYSEC-2021-228", "PYSEC-2021-519", "PYSEC-2021-717"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29592]
+aliases = ["GHSA-jjr8-m8g8-p6wv", "EUVD-2021-0333", "PYSEC-2021-229", "PYSEC-2021-520", "PYSEC-2021-718"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29593]
+aliases = ["GHSA-cfx7-2xpc-8w4h", "EUVD-2021-0334", "PYSEC-2021-230", "PYSEC-2021-521", "PYSEC-2021-719"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29594]
+aliases = ["GHSA-3qgw-p4fm-x7gf", "EUVD-2021-0335", "PYSEC-2021-231", "PYSEC-2021-522", "PYSEC-2021-720"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29595]
+aliases = ["GHSA-vf94-36g5-69v8", "EUVD-2021-0336", "PYSEC-2021-232", "PYSEC-2021-523", "PYSEC-2021-721"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29596]
+aliases = ["GHSA-4vrf-ff7v-hpgr", "EUVD-2021-0337", "PYSEC-2021-233", "PYSEC-2021-524", "PYSEC-2021-722"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29597]
+aliases = ["GHSA-v52p-hfjf-wg88", "EUVD-2021-0338", "PYSEC-2021-234", "PYSEC-2021-525", "PYSEC-2021-723"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29598]
+aliases = ["GHSA-pmpr-55fj-r229", "EUVD-2021-0339", "PYSEC-2021-235", "PYSEC-2021-526", "PYSEC-2021-724"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29599]
+aliases = ["GHSA-97wf-p777-86jq", "EUVD-2021-0340", "PYSEC-2021-236", "PYSEC-2021-527", "PYSEC-2021-725"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29600]
+aliases = ["GHSA-j8qh-3xrq-c825", "EUVD-2021-0341", "PYSEC-2021-237", "PYSEC-2021-528", "PYSEC-2021-726"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29601]
+aliases = ["GHSA-9c84-4hx6-xmm4", "EUVD-2021-0342", "PYSEC-2021-238", "PYSEC-2021-529", "PYSEC-2021-727"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29602]
+aliases = ["GHSA-rf3h-xgv5-2q39", "EUVD-2021-0343", "PYSEC-2021-239", "PYSEC-2021-530", "PYSEC-2021-728"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29603]
+aliases = ["GHSA-crch-j389-5f84", "EUVD-2021-0344", "PYSEC-2021-240", "PYSEC-2021-531", "PYSEC-2021-729"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29604]
+aliases = ["GHSA-8rm6-75mf-7r7r", "EUVD-2021-0345", "PYSEC-2021-241", "PYSEC-2021-532", "PYSEC-2021-730"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29605]
+aliases = ["GHSA-jf7h-7m85-w2v2", "EUVD-2021-0346", "PYSEC-2021-242", "PYSEC-2021-533", "PYSEC-2021-731"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29606]
+aliases = ["GHSA-h4pc-gx2w-f2xv", "EUVD-2021-0347", "PYSEC-2021-243", "PYSEC-2021-534", "PYSEC-2021-732"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29607]
+aliases = ["GHSA-gv26-jpj9-c8gq", "EUVD-2021-0348", "PYSEC-2021-244", "PYSEC-2021-535", "PYSEC-2021-733"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29608]
+aliases = ["GHSA-rgvq-pcvf-hx75", "EUVD-2021-0349", "PYSEC-2021-245", "PYSEC-2021-536", "PYSEC-2021-734"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29609]
+aliases = ["GHSA-cjc7-49v2-jp64", "EUVD-2021-0350", "PYSEC-2021-246", "PYSEC-2021-537", "PYSEC-2021-735"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29610]
+aliases = ["GHSA-mq5c-prh3-3f3h", "EUVD-2021-0351", "PYSEC-2021-247", "PYSEC-2021-538", "PYSEC-2021-736"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29611]
+aliases = ["GHSA-9rpc-5v9q-5r7f", "EUVD-2021-0352", "PYSEC-2021-248", "PYSEC-2021-539", "PYSEC-2021-737"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29612]
+aliases = ["GHSA-2xgj-xhgf-ggjv", "EUVD-2021-0353", "PYSEC-2021-249", "PYSEC-2021-540", "PYSEC-2021-738"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29613]
+aliases = ["GHSA-vvg4-vgrv-xfr7", "EUVD-2021-0354", "PYSEC-2021-250", "PYSEC-2021-541", "PYSEC-2021-739"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29614]
+aliases = ["GHSA-8pmx-p244-g88h", "EUVD-2021-0355", "PYSEC-2021-251", "PYSEC-2021-542", "PYSEC-2021-740"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29615]
+aliases = ["GHSA-qw5h-7f53-xrp6", "EUVD-2021-0356", "PYSEC-2021-252", "PYSEC-2021-543", "PYSEC-2021-741"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29616]
+aliases = ["GHSA-4hvv-7x94-7vq8", "EUVD-2021-0357", "PYSEC-2021-253", "PYSEC-2021-544", "PYSEC-2021-742"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29617]
+aliases = ["GHSA-mmq6-q8r3-48fm", "EUVD-2021-0358", "PYSEC-2021-254", "PYSEC-2021-545", "PYSEC-2021-743"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29618]
+aliases = ["GHSA-xqfj-cr6q-pc8w", "EUVD-2021-0359", "PYSEC-2021-255", "PYSEC-2021-546", "PYSEC-2021-744"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-29619]
+aliases = ["GHSA-wvjw-p9f5-vq28", "EUVD-2021-0360", "PYSEC-2021-256", "PYSEC-2021-547", "PYSEC-2021-745"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41195]
+aliases = ["GHSA-cq76-mxrc-vchh", "EUVD-2021-0451", "PYSEC-2021-842", "PYSEC-2021-844", "PYSEC-2021-846"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41196]
+aliases = ["GHSA-m539-j985-hcr8", "EUVD-2021-0419", "PYSEC-2021-389", "PYSEC-2021-606", "PYSEC-2021-804"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41197]
+aliases = ["GHSA-prcg-wp5q-rv7p", "EUVD-2021-0420", "PYSEC-2021-390", "PYSEC-2021-607", "PYSEC-2021-805"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41198]
+aliases = ["GHSA-2p25-55c9-h58q", "EUVD-2021-0421", "PYSEC-2021-391", "PYSEC-2021-608", "PYSEC-2021-806"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41199]
+aliases = ["GHSA-5hx2-qx8j-qjqm", "EUVD-2021-0422", "PYSEC-2021-392", "PYSEC-2021-609", "PYSEC-2021-807"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41200]
+aliases = ["GHSA-gh8h-7j2j-qv4f", "EUVD-2021-0423", "PYSEC-2021-393", "PYSEC-2021-610", "PYSEC-2021-808"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41201]
+aliases = ["GHSA-j86v-p27c-73fm", "EUVD-2021-0424", "PYSEC-2021-394", "PYSEC-2021-611", "PYSEC-2021-809"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41203]
+aliases = ["GHSA-7pxj-m4jf-r6h2", "EUVD-2021-0426", "PYSEC-2021-396", "PYSEC-2021-613", "PYSEC-2021-811"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects SavedModel/checkpoint loading, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41204]
+aliases = ["GHSA-786j-5qwq-r36x", "EUVD-2021-0427", "PYSEC-2021-397", "PYSEC-2021-614", "PYSEC-2021-812"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects Grappler constant folding (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41205]
+aliases = ["GHSA-49rx-x2rw-pc6f", "EUVD-2021-0428", "PYSEC-2021-398", "PYSEC-2021-615", "PYSEC-2021-813"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41210]
+aliases = ["GHSA-m342-ff57-4jcc", "EUVD-2021-0432", "PYSEC-2021-402", "PYSEC-2021-619", "PYSEC-2021-817"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41212]
+aliases = ["GHSA-fr77-rrx3-cp7g", "EUVD-2021-0434", "PYSEC-2021-404", "PYSEC-2021-621", "PYSEC-2021-819"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41214]
+aliases = ["GHSA-vwhq-49r4-gj9v", "EUVD-2021-0436", "PYSEC-2021-406", "PYSEC-2021-623", "PYSEC-2021-821"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41215]
+aliases = ["GHSA-x3v8-c8qx-3j3r", "EUVD-2021-0437", "PYSEC-2021-407", "PYSEC-2021-624", "PYSEC-2021-822"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41217]
+aliases = ["GHSA-5crj-c72x-m7gq", "EUVD-2021-0439", "PYSEC-2021-409", "PYSEC-2021-626", "PYSEC-2021-824"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TF executor (tensorflow/core/common_runtime), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41219]
+aliases = ["GHSA-4f99-p9c2-3j8x", "EUVD-2021-0441", "PYSEC-2021-411", "PYSEC-2021-628", "PYSEC-2021-826"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41223]
+aliases = ["GHSA-f54p-f6jp-4rhr", "EUVD-2021-0445", "PYSEC-2021-415", "PYSEC-2021-632", "PYSEC-2021-830"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41224]
+aliases = ["GHSA-rg3m-hqc5-344v", "EUVD-2021-0446", "PYSEC-2021-416", "PYSEC-2021-633", "PYSEC-2021-831"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-41226]
+aliases = ["GHSA-374m-jm66-3vj8", "EUVD-2021-0448", "PYSEC-2021-418", "PYSEC-2021-635", "PYSEC-2021-833"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21725]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21726]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21727]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21728]
+packages = ["XLA_Tools_jll"]
+reason = "Affects op registration/shape functions in tensorflow/core/ops, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21729]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21730]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21731]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21732]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21733]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21734]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21735]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21736]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21737]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21738]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21739]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21740]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-21741]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23557]
+aliases = ["GHSA-gf2j-f278-xh4v", "EUVD-2022-0305", "PYSEC-2022-121", "PYSEC-2022-66", "PYSEC-2026-3188"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23558]
+aliases = ["GHSA-9gwq-6cwj-47h3", "EUVD-2022-0306", "PYSEC-2022-122", "PYSEC-2022-67", "PYSEC-2026-3151"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23559]
+aliases = ["GHSA-98p5-x8x4-c9m5", "EUVD-2022-0307", "PYSEC-2022-123", "PYSEC-2022-68", "PYSEC-2026-3146"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23560]
+aliases = ["GHSA-4hvf-hxvg-f67v", "EUVD-2022-0308", "PYSEC-2022-124", "PYSEC-2022-69", "PYSEC-2026-3099"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23561]
+aliases = ["GHSA-9c78-vcq7-7vxq", "EUVD-2022-0309", "PYSEC-2022-125", "PYSEC-2022-70", "PYSEC-2026-3148"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23562]
+aliases = ["GHSA-qx3f-p745-w4hr", "EUVD-2022-0310", "PYSEC-2022-126", "PYSEC-2022-71", "PYSEC-2026-3232"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Range op kernel and shape function, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23563]
+aliases = ["GHSA-wc4g-r73w-x8mm", "EUVD-2022-0311", "PYSEC-2022-127", "PYSEC-2022-72", "PYSEC-2026-3253"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tempfile.mktemp uses in the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23564]
+aliases = ["GHSA-8rcj-c8pj-v3m3", "EUVD-2022-0312", "PYSEC-2022-128", "PYSEC-2022-73", "PYSEC-2026-3139"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects ResourceHandle::FromProto in tensorflow/core/framework, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only); the tools never decode TF tensors or resource handles. Reviewed in #615."
+
+[CVE-2022-23565]
+aliases = ["GHSA-4v5p-v5h9-6xjx", "EUVD-2022-0313", "PYSEC-2022-129", "PYSEC-2022-74", "PYSEC-2026-3102"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects SavedModel/checkpoint loading, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23566]
+aliases = ["GHSA-5qw5-89mw-wcg2", "EUVD-2022-0314", "PYSEC-2022-130", "PYSEC-2022-75", "PYSEC-2026-3109"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23567]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23568]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23569]
+packages = ["XLA_Tools_jll"]
+reason = "Affects CHECK-failures in multiple TF op kernels, which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23570]
+aliases = ["GHSA-9p77-mmrw-69c7", "EUVD-2022-0318", "PYSEC-2022-134", "PYSEC-2022-79", "PYSEC-2026-3153"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23571]
+aliases = ["GHSA-j3mj-fhpq-qqjj", "EUVD-2022-0319", "PYSEC-2022-135", "PYSEC-2022-80", "PYSEC-2026-3204"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects Tensor::FromProto validation in tensorflow/core/framework, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only); XLA uses its own Literal type rather than tensorflow::Tensor. Reviewed in #615."
+
+[CVE-2022-23572]
+aliases = ["GHSA-rww7-2gpw-fv6j", "EUVD-2022-0320", "PYSEC-2022-136", "PYSEC-2022-81", "PYSEC-2026-3241"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23573]
+aliases = ["GHSA-q85f-69q7-55h2", "EUVD-2022-0321", "PYSEC-2022-137", "PYSEC-2022-82", "PYSEC-2026-3229"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23574]
+aliases = ["GHSA-77gp-3h4r-6428", "EUVD-2022-0322", "PYSEC-2022-138", "PYSEC-2022-83", "PYSEC-2026-3127"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23575]
+aliases = ["GHSA-c94w-c95p-phf8", "EUVD-2022-0323", "PYSEC-2022-139", "PYSEC-2022-84", "PYSEC-2026-3160"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23576]
+aliases = ["GHSA-wm93-f238-7v37", "EUVD-2022-0324", "PYSEC-2022-140", "PYSEC-2022-85", "PYSEC-2026-3254"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23577]
+aliases = ["GHSA-8cxv-76p7-jxwr", "EUVD-2022-0325", "PYSEC-2022-141", "PYSEC-2022-86", "PYSEC-2026-3135"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the C++ SavedModel API (tensorflow/cc), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23578]
+aliases = ["GHSA-8r7c-3cm2-3h8f", "EUVD-2022-0326", "PYSEC-2022-142", "PYSEC-2022-87", "PYSEC-2026-3138"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TF executor (tensorflow/core/common_runtime), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23579]
+aliases = ["GHSA-5f2r-qp73-37mr", "EUVD-2022-0327", "PYSEC-2022-143", "PYSEC-2022-88", "PYSEC-2026-3108"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23580]
+aliases = ["GHSA-627q-g293-49q7", "EUVD-2022-0328", "PYSEC-2022-144", "PYSEC-2022-89", "PYSEC-2026-3113"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23581]
+aliases = ["GHSA-fq86-3f29-px2c", "EUVD-2022-0329", "PYSEC-2022-145", "PYSEC-2022-90", "PYSEC-2026-3175"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23582]
+aliases = ["GHSA-4j82-5ccr-4r8v", "EUVD-2022-0330", "PYSEC-2022-146", "PYSEC-2022-91", "PYSEC-2026-3100"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23583]
+aliases = ["GHSA-gjqc-q9g6-q2j3", "EUVD-2022-0331", "PYSEC-2022-147", "PYSEC-2022-92", "PYSEC-2026-3191"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23584]
+aliases = ["GHSA-24x4-6qmh-88qg", "EUVD-2022-0332", "PYSEC-2022-148", "PYSEC-2022-93", "PYSEC-2026-3085"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23585]
+aliases = ["GHSA-fq6p-6334-8gr4", "EUVD-2022-0333", "PYSEC-2022-149", "PYSEC-2022-94", "PYSEC-2026-3174"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23586]
+aliases = ["GHSA-43jf-985q-588j", "EUVD-2022-0334", "PYSEC-2022-150", "PYSEC-2022-95", "PYSEC-2026-3096"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23587]
+aliases = ["GHSA-8jj7-5vxc-pg2q", "EUVD-2022-0335", "PYSEC-2022-151", "PYSEC-2022-96", "PYSEC-2026-3137"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23588]
+aliases = ["GHSA-fx5c-h9f6-rv7c", "EUVD-2022-0336", "PYSEC-2022-152", "PYSEC-2022-97", "PYSEC-2026-3181"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23589]
+aliases = ["GHSA-9px9-73fg-3fqp", "EUVD-2022-0337", "PYSEC-2022-153", "PYSEC-2022-98", "PYSEC-2026-3154"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23590]
+aliases = ["GHSA-pqrv-8r2f-7278", "EUVD-2022-0338", "PYSEC-2022-154", "PYSEC-2022-99", "PYSEC-2026-3225"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects GraphDef processing (tensorflow/core/graph), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23591]
+aliases = ["GHSA-247x-2f9f-5wp7", "EUVD-2022-0284", "PYSEC-2022-100", "PYSEC-2022-155", "PYSEC-2026-3084"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects SavedModel/checkpoint loading, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-23595]
+aliases = ["GHSA-fpcp-9h7m-ffpx", "EUVD-2022-0287", "PYSEC-2022-103", "PYSEC-2022-158", "PYSEC-2026-3173"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TF2XLA JIT bridge (tensorflow/compiler/jit), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only); the tools invoke XLA directly. Reviewed in #615."
+
+[CVE-2022-29191]
+aliases = ["GHSA-fv25-wrff-wf86", "EUVD-2022-3830", "PYSEC-2026-3179", "PYSEC-2026-3324", "PYSEC-2026-993"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29192]
+aliases = ["GHSA-h2wq-prv9-2f56", "EUVD-2022-4047", "PYSEC-2026-1002", "PYSEC-2026-3195", "PYSEC-2026-3334"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29193]
+aliases = ["GHSA-2p9q-h29j-3f5v", "EUVD-2022-2022", "PYSEC-2026-3087", "PYSEC-2026-3265", "PYSEC-2026-942"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29194]
+aliases = ["GHSA-h5g4-ppwx-48q2", "EUVD-2022-4068", "PYSEC-2026-1004", "PYSEC-2026-3197", "PYSEC-2026-3336"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29195]
+aliases = ["GHSA-h48f-q7rw-hvr7", "EUVD-2022-4060", "PYSEC-2026-1003", "PYSEC-2026-3196", "PYSEC-2026-3335"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29196]
+aliases = ["GHSA-5v77-j66x-4c4g", "EUVD-2022-2660", "PYSEC-2026-3110", "PYSEC-2026-3278", "PYSEC-2026-953"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29197]
+aliases = ["GHSA-hrg5-737c-2p56", "EUVD-2022-4208", "PYSEC-2026-1009", "PYSEC-2026-3202", "PYSEC-2026-3341"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29198]
+aliases = ["GHSA-mg66-qvc5-rm93", "EUVD-2022-4559", "PYSEC-2026-1018", "PYSEC-2026-3214", "PYSEC-2026-3350"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29199]
+aliases = ["GHSA-p9rc-rmr5-529j", "EUVD-2022-4728", "PYSEC-2026-1025", "PYSEC-2026-3221", "PYSEC-2026-3357"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29200]
+aliases = ["GHSA-2vv3-56qg-g2cf", "EUVD-2022-2054", "PYSEC-2026-3089", "PYSEC-2026-3267", "PYSEC-2026-944"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29201]
+aliases = ["GHSA-pqhm-4wvf-2jg8", "EUVD-2022-4806", "PYSEC-2026-1026", "PYSEC-2026-3224", "PYSEC-2026-3358"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29202]
+aliases = ["GHSA-cwpm-f78v-7m5c", "EUVD-2022-3651", "PYSEC-2026-3163", "PYSEC-2026-3312", "PYSEC-2026-983"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29203]
+aliases = ["GHSA-jjm6-4vf7-cjh4", "EUVD-2022-4388", "PYSEC-2026-1012", "PYSEC-2026-3207", "PYSEC-2026-3344"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29204]
+aliases = ["GHSA-hx9q-2mx4-m4pg", "EUVD-2022-4238", "PYSEC-2026-1010", "PYSEC-2026-3203", "PYSEC-2026-3342"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29205]
+aliases = ["GHSA-54ch-gjq5-4976", "EUVD-2022-2494", "PYSEC-2026-3104", "PYSEC-2026-3274", "PYSEC-2026-950"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29206]
+aliases = ["GHSA-rc9w-5c64-9vqq", "EUVD-2022-5149", "PYSEC-2026-1032", "PYSEC-2026-3235", "PYSEC-2026-3365"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29207]
+aliases = ["GHSA-5wpj-c6f7-24x8", "EUVD-2022-2670", "PYSEC-2026-3112", "PYSEC-2026-3280", "PYSEC-2026-955"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29208]
+aliases = ["GHSA-2r2f-g8mw-9gvr", "EUVD-2022-2039", "PYSEC-2026-3088", "PYSEC-2026-3266", "PYSEC-2026-943"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29209]
+aliases = ["GHSA-f4rr-5m7v-wxcw", "EUVD-2022-3688", "PYSEC-2026-3167", "PYSEC-2026-3315", "PYSEC-2026-986"]
+packages = ["XLA_Tools_jll"]
+reason = "The affected CHECK macros in tensorflow/core/platform/default/logging.h are compiled into the XLA tools, but the flaw only enables assertion-failure denial of service; the tools are short-lived CLI utilities that abort on malformed input by design, so this is not a meaningful vulnerability for XLA_Tools_jll. Reviewed in #615."
+
+[CVE-2022-29211]
+aliases = ["GHSA-xrp2-fhq4-4q3w", "EUVD-2022-5854", "PYSEC-2026-1048", "PYSEC-2026-3260", "PYSEC-2026-3382"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TF runtime op kernels (tensorflow/core/kernels), which are not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29212]
+aliases = ["GHSA-8wwm-6264-x792", "EUVD-2022-3254", "PYSEC-2026-3141", "PYSEC-2026-3299", "PYSEC-2026-972"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29213]
+aliases = ["GHSA-5889-7v45-q28m", "EUVD-2022-2533", "PYSEC-2026-3107", "PYSEC-2026-3277", "PYSEC-2026-952"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-29216]
+aliases = ["GHSA-75c9-jrh4-79mc", "EUVD-2022-2924", "PYSEC-2026-3125", "PYSEC-2026-3289", "PYSEC-2026-963"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35979]
+aliases = ["GHSA-v7vw-577f-vp8x", "EUVD-2022-6944", "PYSEC-2026-1038", "PYSEC-2026-3245", "PYSEC-2026-3372"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35981]
+aliases = ["GHSA-vxv8-r8q2-63xw", "EUVD-2022-6954", "PYSEC-2026-1041", "PYSEC-2026-3250", "PYSEC-2026-3375"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35982]
+aliases = ["GHSA-397c-5g2j-qxpv", "EUVD-2022-6675", "PYSEC-2026-3093", "PYSEC-2026-3270", "PYSEC-2026-947"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35983]
+aliases = ["GHSA-m6vp-8q9j-whx4", "EUVD-2022-6872", "PYSEC-2026-1017", "PYSEC-2026-3213", "PYSEC-2026-3349"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35984]
+aliases = ["GHSA-p2xf-8hgm-hpw5", "EUVD-2022-6889", "PYSEC-2026-1023", "PYSEC-2026-3219", "PYSEC-2026-3355"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35985]
+aliases = ["GHSA-9942-r22v-78cp", "EUVD-2022-6754", "PYSEC-2026-3147", "PYSEC-2026-3303", "PYSEC-2026-975"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35986]
+aliases = ["GHSA-wr9v-g9vf-c74v", "EUVD-2022-6968", "PYSEC-2026-938"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35987]
+aliases = ["GHSA-w62h-8xjm-fv49", "EUVD-2022-6958", "PYSEC-2026-1043", "PYSEC-2026-3252", "PYSEC-2026-3377"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35988]
+aliases = ["GHSA-9vqj-64pv-w55c", "EUVD-2022-6768", "PYSEC-2026-3156", "PYSEC-2026-3308", "PYSEC-2026-980"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35989]
+aliases = ["GHSA-j43h-pgmg-5hjq", "EUVD-2022-6847", "PYSEC-2026-1011", "PYSEC-2026-3205", "PYSEC-2026-3343"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35990]
+aliases = ["GHSA-h7ff-cfc9-wmmh", "EUVD-2022-6837", "PYSEC-2026-1006", "PYSEC-2026-3199", "PYSEC-2026-3338"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35991]
+aliases = ["GHSA-vm7x-4qhj-rrcq", "EUVD-2022-6949", "PYSEC-2026-1040", "PYSEC-2026-3248", "PYSEC-2026-3374"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35992]
+aliases = ["GHSA-9v8w-xmr4-wgxp", "EUVD-2022-6766", "PYSEC-2026-3155", "PYSEC-2026-3307", "PYSEC-2026-979"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35993]
+aliases = ["GHSA-wq6q-6m32-9rv9", "EUVD-2022-6964", "PYSEC-2026-1044", "PYSEC-2026-3255", "PYSEC-2026-3378"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35994]
+aliases = ["GHSA-fhfc-2q7x-929f", "EUVD-2022-6796", "PYSEC-2026-3172", "PYSEC-2026-3320", "PYSEC-2026-990"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35995]
+aliases = ["GHSA-g9h5-vr8m-x2h4", "EUVD-2022-6819", "PYSEC-2026-3186", "PYSEC-2026-3329", "PYSEC-2026-998"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35996]
+aliases = ["GHSA-q5jv-m6qw-5g37", "EUVD-2022-6908", "PYSEC-2026-1029", "PYSEC-2026-3228", "PYSEC-2026-3361"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35997]
+aliases = ["GHSA-p7hr-f446-x6qf", "EUVD-2022-6894", "PYSEC-2026-1024", "PYSEC-2026-3220", "PYSEC-2026-3356"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35998]
+aliases = ["GHSA-qhw4-wwr7-gjc5", "EUVD-2022-6918", "PYSEC-2026-937"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-35999]
+aliases = ["GHSA-37jf-mjv6-xfqw", "EUVD-2022-6674", "PYSEC-2026-3092", "PYSEC-2026-3269", "PYSEC-2026-946"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36000]
+aliases = ["GHSA-fqxc-pvf8-2w9v", "EUVD-2022-6807", "PYSEC-2026-3177", "PYSEC-2026-3322", "PYSEC-2026-991"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36001]
+aliases = ["GHSA-jqm7-m5q7-3hm5", "EUVD-2022-6859", "PYSEC-2026-1014", "PYSEC-2026-3209", "PYSEC-2026-3346"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36002]
+aliases = ["GHSA-mh3m-62v7-68xg", "EUVD-2022-6877", "PYSEC-2026-1020", "PYSEC-2026-3216", "PYSEC-2026-3352"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36003]
+aliases = ["GHSA-cv2p-32v3-vhwq", "EUVD-2022-6784", "PYSEC-2026-3162", "PYSEC-2026-3311", "PYSEC-2026-982"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36004]
+aliases = ["GHSA-mv8m-8x97-937q", "EUVD-2022-6881", "PYSEC-2026-1022", "PYSEC-2026-3218", "PYSEC-2026-3354"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36005]
+aliases = ["GHSA-r26c-679w-mrjm", "EUVD-2022-6926", "PYSEC-2026-1031", "PYSEC-2026-3234", "PYSEC-2026-3364"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the FakeQuantWithMinMaxVarsGradient op kernel, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36011]
+aliases = ["GHSA-fv43-93gv-vm8f", "EUVD-2022-6810", "PYSEC-2026-3180", "PYSEC-2026-3325", "PYSEC-2026-994"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow's MLIR components, which are not used by the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36012]
+aliases = ["GHSA-jvhc-5hhr-w3v5", "EUVD-2022-6864", "PYSEC-2026-1015", "PYSEC-2026-3210", "PYSEC-2026-3347"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow's MLIR components, which are not used by the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36013]
+aliases = ["GHSA-828c-5j5q-vrjq", "EUVD-2022-6737", "PYSEC-2026-3132", "PYSEC-2026-3295", "PYSEC-2026-968"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow's MLIR components, which are not used by the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36014]
+aliases = ["GHSA-7j3m-8g3c-9qqq", "EUVD-2022-6733", "PYSEC-2026-3129", "PYSEC-2026-3292", "PYSEC-2026-966"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow's MLIR components, which are not used by the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36015]
+aliases = ["GHSA-rh87-q4vg-m45j", "EUVD-2022-6936", "PYSEC-2026-1033", "PYSEC-2026-3237", "PYSEC-2026-3367"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects RangeSize in tensorflow/core/ops/math_ops.cc, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36016]
+aliases = ["GHSA-g468-qj8g-vcjc", "EUVD-2022-6816", "PYSEC-2026-3184", "PYSEC-2026-3327", "PYSEC-2026-996"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow::full_type::SubstituteFromAttrs, part of full-type inference in tensorflow/core, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36017]
+aliases = ["GHSA-wqmc-pm8c-2jhc", "EUVD-2022-6965", "PYSEC-2026-1045", "PYSEC-2026-3256", "PYSEC-2026-3379"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36018]
+aliases = ["GHSA-m6cv-4fmf-66xf", "EUVD-2022-6871", "PYSEC-2026-1016", "PYSEC-2026-3212", "PYSEC-2026-3348"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36019]
+aliases = ["GHSA-9j4v-pp28-mxv7", "EUVD-2022-6759", "PYSEC-2026-3152", "PYSEC-2026-3306", "PYSEC-2026-978"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36026]
+aliases = ["GHSA-9cr2-8pwr-fhfq", "EUVD-2022-6756", "PYSEC-2026-3149", "PYSEC-2026-3304", "PYSEC-2026-976"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-36027]
+aliases = ["GHSA-79h2-q768-fpxr", "EUVD-2022-6729", "PYSEC-2026-3128", "PYSEC-2026-3291", "PYSEC-2026-965"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41880]
+aliases = ["GHSA-8w5g-3wcv-9g2j", "EUVD-2022-7289", "PYSEC-2026-3140", "PYSEC-2026-3298", "PYSEC-2026-971"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41884]
+aliases = ["GHSA-jq6x-99hj-q636", "EUVD-2022-7375", "PYSEC-2026-1013", "PYSEC-2026-3208", "PYSEC-2026-3345"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the TensorFlow Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41885]
+aliases = ["GHSA-762h-vpvw-3rcx", "EUVD-2022-7264", "PYSEC-2026-3126", "PYSEC-2026-3290", "PYSEC-2026-964"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41886]
+aliases = ["GHSA-54pp-c6pp-7fpx", "EUVD-2022-7234", "PYSEC-2026-3105", "PYSEC-2026-3275", "PYSEC-2026-951"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41888]
+aliases = ["GHSA-6x99-gv2v-q76v", "EUVD-2022-7262", "PYSEC-2026-3124", "PYSEC-2026-3288", "PYSEC-2026-962"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41889]
+aliases = ["GHSA-xxcj-rhqg-m46g", "EUVD-2022-7469", "PYSEC-2026-1050", "PYSEC-2026-3262", "PYSEC-2026-3384"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41890]
+aliases = ["GHSA-h246-cgh4-7475", "EUVD-2022-7354", "PYSEC-2026-1001", "PYSEC-2026-3194", "PYSEC-2026-3333"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects BCast in tensorflow/core/util/bcast.h, which is used only by TF op kernels and is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only); XLA has its own broadcast handling. Reviewed in #615."
+
+[CVE-2022-41891]
+aliases = ["GHSA-66vq-54fq-6jvv", "EUVD-2022-7252", "PYSEC-2026-3117", "PYSEC-2026-3283", "PYSEC-2026-957"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41893]
+aliases = ["GHSA-67pf-62xr-q35m", "EUVD-2022-7254", "PYSEC-2026-3118", "PYSEC-2026-3284", "PYSEC-2026-958"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41894]
+aliases = ["GHSA-h6q3-vv32-2cq5", "EUVD-2022-7356", "PYSEC-2026-936"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41895]
+aliases = ["GHSA-gq2j-cr96-gvqx", "EUVD-2022-7351", "PYSEC-2026-1000", "PYSEC-2026-3192", "PYSEC-2026-3332"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41896]
+aliases = ["GHSA-rmg2-f698-wq35", "EUVD-2022-7428", "PYSEC-2026-1035", "PYSEC-2026-3239", "PYSEC-2026-3369"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41897]
+aliases = ["GHSA-f2w8-jw48-fr7j", "EUVD-2022-7320", "PYSEC-2026-3165", "PYSEC-2026-3313", "PYSEC-2026-984"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41898]
+aliases = ["GHSA-hq7g-wwwp-q46h", "EUVD-2022-7365", "PYSEC-2026-1008", "PYSEC-2026-3201", "PYSEC-2026-3340"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41899]
+aliases = ["GHSA-27rc-728f-x5w2", "EUVD-2022-7195", "PYSEC-2026-3086", "PYSEC-2026-3264", "PYSEC-2026-941"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41900]
+aliases = ["GHSA-xvwp-h6jv-7472", "EUVD-2022-7468", "PYSEC-2026-1049", "PYSEC-2026-3261", "PYSEC-2026-3383"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41901]
+aliases = ["GHSA-g9fm-r5mm-rf9f", "EUVD-2022-7345", "PYSEC-2026-3185", "PYSEC-2026-3328", "PYSEC-2026-997"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41902]
+aliases = ["GHSA-cg88-rpvp-cjv5", "EUVD-2022-7310", "PYSEC-2026-3161", "PYSEC-2026-3310", "PYSEC-2026-981"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the Grappler graph optimizer (tensorflow/core/grappler), which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41907]
+aliases = ["GHSA-368v-7v32-52fx", "EUVD-2022-7202", "PYSEC-2026-3091", "PYSEC-2026-3268", "PYSEC-2026-945"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41908]
+aliases = ["GHSA-mv77-9g28-cwg3", "EUVD-2022-7388", "PYSEC-2026-1021", "PYSEC-2026-3217", "PYSEC-2026-3353"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41909]
+aliases = ["GHSA-rjx6-v474-2ch9", "EUVD-2022-7425", "PYSEC-2026-1034", "PYSEC-2026-3238", "PYSEC-2026-3368"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41910]
+aliases = ["GHSA-frqp-wp83-qggv", "EUVD-2022-7333", "PYSEC-2026-3178", "PYSEC-2026-3323", "PYSEC-2026-992"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2022-41911]
+aliases = ["GHSA-pf36-r9c6-h97j", "EUVD-2022-7399", "PYSEC-2026-1954", "PYSEC-2026-3222", "PYSEC-2026-939"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects tensorflow/core/framework code, none of which is referenced by or linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25658]
+aliases = ["GHSA-68v3-g9cm-rmm6", "EUVD-2023-0898", "PYSEC-2026-3120", "PYSEC-2026-3286", "PYSEC-2026-960"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25659]
+aliases = ["GHSA-93vr-9q9m-pj8p", "EUVD-2023-0957", "PYSEC-2026-1959", "PYSEC-2026-3142", "PYSEC-2026-3300"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25660]
+aliases = ["GHSA-qjqc-vqcf-5qvj", "EUVD-2023-1082", "PYSEC-2026-1963", "PYSEC-2026-3231", "PYSEC-2026-3362"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25661]
+aliases = ["GHSA-fxgc-95xx-grvq", "EUVD-2023-1006", "PYSEC-2026-1952", "PYSEC-2026-3182"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25662]
+aliases = ["GHSA-7jvm-xxmr-v5cw", "EUVD-2023-0925", "PYSEC-2026-1958", "PYSEC-2026-3130", "PYSEC-2026-3293"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25663]
+aliases = ["GHSA-64jg-wjww-7c5w", "EUVD-2023-0893", "PYSEC-2026-1957", "PYSEC-2026-3116", "PYSEC-2026-3282"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25664]
+aliases = ["GHSA-6hg6-5c2q-7rcr", "EUVD-2023-0906", "PYSEC-2026-1951", "PYSEC-2026-3122"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25665]
+aliases = ["GHSA-558h-mq8x-7q9g", "EUVD-2023-0874", "PYSEC-2026-1956", "PYSEC-2026-3106", "PYSEC-2026-3276"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25666]
+aliases = ["GHSA-f637-vh3r-vfh2", "EUVD-2023-0994", "PYSEC-2026-1960", "PYSEC-2026-3169", "PYSEC-2026-3317"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25667]
+aliases = ["GHSA-fqm2-gh8w-gr68", "EUVD-2023-1001", "PYSEC-2026-1961", "PYSEC-2026-3176", "PYSEC-2026-3321"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the GIF decoder in tensorflow/core/lib/gif, which is referenced only by image op kernels and is dropped at link time from the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25668]
+aliases = ["GHSA-gw97-ff7c-9v96", "EUVD-2023-1018", "PYSEC-2026-548", "PYSEC-2026-549", "PYSEC-2026-550"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25669]
+aliases = ["GHSA-rcf8-g8jv-vg6p", "EUVD-2023-1095", "PYSEC-2026-1964", "PYSEC-2026-3236", "PYSEC-2026-3366"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25670]
+aliases = ["GHSA-49rq-hwc3-x77w", "EUVD-2023-0862", "PYSEC-2026-1955", "PYSEC-2026-3098", "PYSEC-2026-3271"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25671]
+aliases = ["GHSA-j5w9-hmfh-4cr6", "EUVD-2023-1044", "PYSEC-2026-1953", "PYSEC-2026-3206"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow's MLIR components, which are not used by the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25672]
+aliases = ["GHSA-94mm-g2mv-8p7r", "EUVD-2023-0959", "PYSEC-2026-3143", "PYSEC-2026-3301", "PYSEC-2026-973"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25673]
+aliases = ["GHSA-647v-r7qq-24fh", "EUVD-2023-0892", "PYSEC-2026-3115", "PYSEC-2026-3281", "PYSEC-2026-956"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25674]
+aliases = ["GHSA-gf97-q72m-7579", "EUVD-2023-1012", "PYSEC-2026-3189", "PYSEC-2026-3330", "PYSEC-2026-999"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25675]
+aliases = ["GHSA-7x4v-9gxg-9hwj", "EUVD-2023-0933", "PYSEC-2026-3131", "PYSEC-2026-3294", "PYSEC-2026-967"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25676]
+aliases = ["GHSA-6wfh-89q8-44jq", "EUVD-2023-0913", "PYSEC-2026-3123", "PYSEC-2026-3287", "PYSEC-2026-961"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-25801]
+aliases = ["GHSA-f49c-87jh-g47q", "EUVD-2023-0992", "PYSEC-2026-3166", "PYSEC-2026-3314", "PYSEC-2026-985"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects a TensorFlow op or Python-level API that requires the TF runtime or Python layer, neither of which is part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-27579]
+aliases = ["GHSA-5w96-866f-6rm8", "EUVD-2023-0889", "PYSEC-2026-3111", "PYSEC-2026-3279", "PYSEC-2026-954"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Lite, a separate runtime that is not part of the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2023-33976]
+aliases = ["GHSA-gjh7-xx4r-x345", "EUVD-2024-2351", "PYSEC-2026-1962", "PYSEC-2026-3190", "PYSEC-2026-3331"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects the array_ops.upper_bound op kernel, which is not linked into the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2025-0649]
+aliases = ["GHSA-h488-5g2w-vhxr", "EUVD-2025-13642"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects TensorFlow Serving, a separate product that shares no code with the XLA tools built by XLA_Tools_jll. Reviewed in #615."
+
+[CVE-2026-2492]
+aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
+packages = ["XLA_Tools_jll"]
+reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
