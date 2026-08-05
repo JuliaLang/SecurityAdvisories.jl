@@ -1,0 +1,161 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1168",
+    "modified": "2026-08-05T21:11:23.872Z",
+    "published": "2026-08-05T21:11:23.872Z",
+    "upstream": [
+        "CVE-2021-43618"
+    ],
+    "summary": "GMP has an integer overflow with crafted inputs on 32-bit builds in `int_raw.c`, leading to buffer overflow",
+    "details": "GNU Multiple Precision Arithmetic Library (GMP) through 6.2.1 has an `mpz/inp_raw.c` integer overflow and resultant buffer overflow via crafted input, leading to a segmentation fault on 32-bit platforms.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "6.3.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GMP_jll",
+                "purl": "pkg:julia/GMP_jll?uuid=781609d7-10c4-51f6-84f2-b8444358ff6d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibStdCxx_jll",
+                "purl": "pkg:julia/LibStdCxx_jll?uuid=476790bb-718c-51bf-8f54-ac0345b4adaf"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/8"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/8"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/10/13/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2022/10/13/3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/994405"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/994405"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gmplib.org/list-archives/gmp-bugs/2021-September/005077.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gmplib.org/list-archives/gmp-bugs/2021-September/005077.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gmplib.org/repo/gmp-6.2/rev/561a9c25298e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/12/msg00001.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/12/msg00001.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-13"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221111-0001/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20221111-0001/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-43618",
+                "imported": "2026-07-31T06:09:06.115Z",
+                "modified": "2026-06-17T04:11:12.263Z",
+                "published": "2021-11-15T04:15:06.873Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-43618",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-43618",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}

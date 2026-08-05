@@ -1,0 +1,98 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1169",
+    "modified": "2026-08-05T21:11:23.872Z",
+    "published": "2026-08-05T21:11:23.872Z",
+    "upstream": [
+        "CVE-2026-58052",
+        "GHSA-fx33-p83c-vpr5",
+        "EUVD-2026-39972"
+    ],
+    "summary": "7-Zip for Windows fails to preserve the Mark-of-the-Web when extracting a crafted RAR5 archive",
+    "details": "7-Zip for Windows through 26.01 fails to preserve the Mark-of-the-Web when extracting a crafted RAR5 archive, because its guard that suppresses an archive-supplied Zone.Identifier stream matches the exact name 'Zone.Identifier' while a RAR5 STM record named ':Zone.Identifier:$DATA' is not matched and NTFS canonicalizes it to the same stream, overwriting the propagated Internet-zone marker with ZoneId=0. A second STM record named '::$DATA' overwrites the extracted file's default data stream, letting an attacker defeat SmartScreen/MotW warnings and spoof file content.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "p7zip_jll",
+                "purl": "pkg:julia/p7zip_jll?uuid=3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-fx33-p83c-vpr5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bikini/exploitarium/tree/main/7zip-rar5-motw-chain-poc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ip7z/7zip"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58052"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/7-zip-mark-of-the-web-bypass-via-rar5-alternate-data-stream-name-collision"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-58052",
+                "imported": "2026-08-05T20:35:31.507Z",
+                "modified": "2026-07-14T21:17:06.020Z",
+                "published": "2026-06-28T02:16:32.283Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-58052",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58052",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-fx33-p83c-vpr5",
+                "imported": "2026-08-05T20:35:29.104Z",
+                "modified": "2026-06-28T03:33:40Z",
+                "published": "2026-06-28T03:33:40Z",
+                "url": "https://api.github.com/advisories/GHSA-fx33-p83c-vpr5",
+                "html_url": "https://github.com/advisories/GHSA-fx33-p83c-vpr5"
+            },
+            {
+                "id": "EUVD-2026-39972",
+                "imported": "2026-08-05T20:35:26.180Z",
+                "modified": "2026-07-14T20:48:24Z",
+                "published": "2026-06-28T01:32:54Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-39972",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-39972"
+            }
+        ]
+    }
+}
