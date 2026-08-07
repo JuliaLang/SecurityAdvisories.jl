@@ -575,23 +575,34 @@ function hfun_package_advisories()
     end
     io = IOBuffer()
 
-    # Independent severity toggles (all enabled by default; deselect a class
-    # to hide it), offered only for the classes actually present and only
-    # when there's more than one to distinguish.  The deselected set syncs
-    # to a `?hide=` query parameter for deep-linking.
+    # Independent fix-status and severity toggles (all enabled by default;
+    # deselect a property to hide advisories having it).  Each group is
+    # offered only when both/multiple of its values are actually present.
+    # The deselected set syncs to a `?hide=` query parameter.
     _class_key(a) = (cls = _severity_class(a); isempty(cls) ? "unknown" : cls)
+    _adv_fixed(a) = all(_has_fix(v) for v in a.affected
+                        if v.pkg == pkg && SecurityAdvisories.is_vulnerable(v))
     present = [c for c in ("critical", "high", "medium", "low", "unknown")
                if any(a -> _class_key(a) == c, filtered)]
-    show_filter = length(present) > 1
-    if show_filter
-        write(io, """<div class="filter-bar">""")
-        write(io, """<div class="sev-btns" id="pkg-adv-sev-btns">""")
-        for sev in present
-            label = sev == "unknown" ? "Unknown severity" : uppercasefirst(sev)
-            color = sev == "unknown" ? "" : " sev-btn-$sev"
-            write(io, """<button class="sev-btn$color active" data-sev="$sev">$label</button>""")
+    show_fix = length(unique(_adv_fixed.(filtered))) > 1
+    show_sev = length(present) > 1
+    if show_fix || show_sev
+        write(io, """<div class="filter-bar" id="pkg-adv-filter-bar">""")
+        if show_fix
+            write(io, """<div class="sev-btns">""")
+            write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Fix available</button>""")
+            write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">No fix available</button>""")
+            write(io, "</div>")
         end
-        write(io, "</div>")
+        if show_sev
+            write(io, """<div class="sev-btns">""")
+            for sev in present
+                label = sev == "unknown" ? "Unknown severity" : uppercasefirst(sev)
+                color = sev == "unknown" ? "" : " sev-btn-$sev"
+                write(io, """<button class="sev-btn$color active" data-key="$sev">$label</button>""")
+            end
+            write(io, "</div>")
+        end
         write(io, """<span class="filter-count" id="pkg-adv-filter-count"></span>""")
         write(io, "</div>")
     end
@@ -599,20 +610,20 @@ function hfun_package_advisories()
     write(io, """<div class="advisory-list" id="pkg-advisory-list">""")
     for adv in filtered
         disp = _display_severity(adv)
-        attrs = """ data-severity="$(_class_key(adv))" """
+        attrs = """ data-severity="$(_class_key(adv))" data-fixed="$(Int(_adv_fixed(adv)))" """
         _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
     isempty(filtered) && write(io, "<p>No advisories found for $(_escape(pkg)).</p>")
 
-    if show_filter
+    if show_fix || show_sev
         write(io, """
 <script>
 (function(){
   var params = new URLSearchParams(location.search);
   var hidden = (params.get('hide') || '').split(',');
-  document.querySelectorAll('#pkg-adv-sev-btns .sev-btn').forEach(function(btn){
-    if(hidden.indexOf(btn.getAttribute('data-sev')) >= 0) btn.classList.remove('active');
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
     btn.addEventListener('click', function(){
       btn.classList.toggle('active');
       filterPackageAdvisories();
@@ -621,8 +632,8 @@ function hfun_package_advisories()
 })();
 function filterPackageAdvisories(){
   var sel = {}, hidden = [];
-  document.querySelectorAll('#pkg-adv-sev-btns .sev-btn').forEach(function(btn){
-    var key = btn.getAttribute('data-sev');
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
     sel[key] = btn.classList.contains('active');
     if(!sel[key]) hidden.push(key);
   });
@@ -633,7 +644,10 @@ function filterPackageAdvisories(){
   var shown = 0;
   items.forEach(function(el){
     var s = el.getAttribute('data-severity') || 'unknown';
-    if(s in sel ? sel[s] : true){ el.style.display=''; shown++; }
+    var f = el.getAttribute('data-fixed') === '1' ? 'fixed' : 'unfixed';
+    // A property whose toggle group isn't rendered is always selected.
+    var ok = (s in sel ? sel[s] : true) && (f in sel ? sel[f] : true);
+    if(ok){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.getElementById('pkg-adv-filter-count').textContent = shown + ' of ' + items.length;
