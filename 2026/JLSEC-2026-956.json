@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-956",
-    "modified": "2026-07-30T16:02:27.435Z",
+    "modified": "2026-08-07T19:23:02.268Z",
     "published": "2026-07-30T16:02:27.435Z",
     "upstream": [
         "CVE-2026-25969",
@@ -9,7 +9,7 @@
         "EUVD-2026-7431"
     ],
     "summary": "Image Magick has a Memory Leak in coders/ashlar.c",
-    "details": "Memory leak exists in `coders/ashlar.c`. The `WriteASHLARImage` allocates a structure.  However, when an exception is thrown, the allocated memory is not properly released, resulting in a potential memory leak.\n\n```\n```bash\n==78968== Memcheck, a memory error detector\n==78968== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.\n==78968== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info\n==78968== \n==78968== HEAP SUMMARY:\n==78968==     in use at exit: 17,232 bytes in 4 blocks\n==78968==   total heap usage: 4,781 allocs, 4,777 frees, 785,472 bytes allocated\n```",
+    "details": "Memory leak exists in `coders/ashlar.c`. The `WriteASHLARImage` allocates a structure.  However, when an exception is thrown, the allocated memory is not properly released, resulting in a potential memory leak.\n\n```\n==78968== Memcheck, a memory error detector\n==78968== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.\n==78968== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info\n==78968== \n==78968== HEAP SUMMARY:\n==78968==     in use at exit: 17,232 bytes in 4 blocks\n==78968==   total heap usage: 4,781 allocs, 4,777 frees, 785,472 bytes allocated\n```",
     "severity": [
         {
             "type": "CVSS_V3",
