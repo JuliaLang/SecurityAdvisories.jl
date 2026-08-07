@@ -9,6 +9,6 @@ ignore = ["node_modules/", "pagefind/"]
 generate_rss  = true
 website_title = "Julia Ecosystem Security Advisories"
 website_descr = "Security advisory database for the Julia ecosystem"
-website_url   = "https://julialang.github.io/SecurityAdvisories.jl/"
+website_url   = "https://security.julialang.org"
 prepath       = get(ENV, "FRANKLIN_PREPATH", "")
 +++
