@@ -1,0 +1,138 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1179",
+    "modified": "2026-08-07T13:27:45.313Z",
+    "published": "2026-08-07T13:27:45.313Z",
+    "upstream": [
+        "CVE-2026-65704",
+        "GHSA-98cx-cw6c-5pj4",
+        "EUVD-2026-48371"
+    ],
+    "summary": "FFmpeg through 8.1.2 contains an out-of-bounds write vulnerability that allows attackers to cause...",
+    "details": "FFmpeg through 8.1.2 contains an out-of-bounds write vulnerability that allows attackers to cause heap corruption by supplying a crafted ffconcat file processed with the -safe 0 flag. The TY demuxer's `demux_audio()` function decrements packet size without bounds checking, producing a negative size value that is passed to memcpy() in `shorten_decode_frame()`, where conversion to `size_t` wraps the value to near `SIZE_MAX` and triggers reads beyond the source allocation and writes far beyond the Shorten decoder's bitstream buffer.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_jll",
+                "purl": "pkg:julia/FFMPEG_jll?uuid=b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFMPEG_nogpl_jll",
+                "purl": "pkg:julia/FFMPEG_nogpl_jll?uuid=a6892c6b-5768-548c-b024-ff8dabf482c5"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "FFplay_jll",
+                "purl": "pkg:julia/FFplay_jll?uuid=c4dce911-e170-5107-8314-c7bdc6785395"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/de771bd52774a52d45b0e2c82e56995a1ef40df7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23767"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-98cx-cw6c-5pj4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65704"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/ffmpeg-out-of-bounds-write-via-ty-demuxer-and-shorten-decoder"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-65704",
+                "imported": "2026-08-07T05:41:14.641Z",
+                "modified": "2026-08-07T00:16:40.287Z",
+                "published": "2026-07-23T20:17:21.973Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-65704",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65704",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-98cx-cw6c-5pj4",
+                "imported": "2026-08-07T05:42:36.848Z",
+                "modified": "2026-07-23T21:31:09Z",
+                "published": "2026-07-23T21:31:02Z",
+                "url": "https://api.github.com/advisories/GHSA-98cx-cw6c-5pj4",
+                "html_url": "https://github.com/advisories/GHSA-98cx-cw6c-5pj4"
+            },
+            {
+                "id": "EUVD-2026-48371",
+                "imported": "2026-08-07T05:41:15.536Z",
+                "modified": "2026-07-28T01:06:12Z",
+                "published": "2026-07-23T18:55:41Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-48371",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-48371"
+            }
+        ]
+    }
+}
