@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1219",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-9080",
+        "GHSA-hf34-v47h-w6m3",
+        "EUVD-2026-41511"
+    ],
+    "summary": "Calling `curl_easy_pause()` within the event-based `CURLMOPT_SOCKETFUNCTION` callback triggers a...",
+    "details": "Calling `curl_easy_pause()` within the event-based `CURLMOPT_SOCKETFUNCTION`\ncallback triggers a use-after-free vulnerability, where libcurl attempts to\nstore a flag using a dangling struct pointer immediately after that pointer's\nmemory has been freed.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.13.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-9080.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-9080.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hf34-v47h-w6m3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3749204"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9080"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-9080",
+                "imported": "2026-08-07T19:54:38.974Z",
+                "modified": "2026-07-07T15:05:26.530Z",
+                "published": "2026-07-03T07:16:25.713Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-9080",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9080",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-hf34-v47h-w6m3",
+                "imported": "2026-08-07T19:56:07.173Z",
+                "modified": "2026-07-07T15:33:53Z",
+                "published": "2026-07-03T09:31:27Z",
+                "url": "https://api.github.com/advisories/GHSA-hf34-v47h-w6m3",
+                "html_url": "https://github.com/advisories/GHSA-hf34-v47h-w6m3"
+            },
+            {
+                "id": "EUVD-2026-41511",
+                "imported": "2026-08-07T19:55:05.252Z",
+                "modified": "2026-07-06T16:55:16Z",
+                "published": "2026-07-03T06:17:34Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41511",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41511"
+            }
+        ]
+    }
+}

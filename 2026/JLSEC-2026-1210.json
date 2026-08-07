@@ -1,0 +1,120 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1210",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-7168",
+        "GHSA-v92m-hrhj-gw54",
+        "EUVD-2026-29932"
+    ],
+    "summary": "Successfully using libcurl to do a transfer over a specific HTTP proxy (`proxyA`) with **Digest**...",
+    "details": "Successfully using libcurl to do a transfer over a specific HTTP proxy\n(`proxyA`) with **Digest** authentication and then changing the proxy host to\na second one (`proxyB`) for a second transfer, reusing the same handle, makes\nlibcurl wrongly pass on the `Proxy-Authorization:` header field meant for\n`proxyA`, to `proxyB`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/29/14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-7168.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-7168.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-v92m-hrhj-gw54"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3697719"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7168"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-7168",
+                "imported": "2026-08-07T19:54:38.706Z",
+                "modified": "2026-06-17T11:01:57.700Z",
+                "published": "2026-05-13T13:01:57.200Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-7168",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7168",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-v92m-hrhj-gw54",
+                "imported": "2026-08-07T19:56:03.675Z",
+                "modified": "2026-05-14T15:31:57Z",
+                "published": "2026-05-13T18:30:52Z",
+                "url": "https://api.github.com/advisories/GHSA-v92m-hrhj-gw54",
+                "html_url": "https://github.com/advisories/GHSA-v92m-hrhj-gw54"
+            },
+            {
+                "id": "EUVD-2026-29932",
+                "imported": "2026-08-07T19:55:10.249Z",
+                "modified": "2026-06-23T16:12:24Z",
+                "published": "2026-05-13T08:29:08Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-29932",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-29932"
+            }
+        ]
+    }
+}

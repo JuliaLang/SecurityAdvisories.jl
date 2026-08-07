@@ -1,0 +1,120 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1203",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-4873",
+        "GHSA-5fgw-rv54-prjx",
+        "EUVD-2026-29922"
+    ],
+    "summary": "A vulnerability exists where a connection requiring TLS incorrectly reuses an existing...",
+    "details": "A vulnerability exists where a connection requiring TLS incorrectly reuses an\nexisting unencrypted connection from the same connection pool. If an initial\ntransfer is made in clear-text (via IMAP, SMTP, or POP3), a subsequent request\nto that same host bypasses the TLS requirement and instead transmit data\nunencrypted.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/29/7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-4873.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-4873.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-5fgw-rv54-prjx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3621851"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4873"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-4873",
+                "imported": "2026-08-07T19:54:38.575Z",
+                "modified": "2026-06-17T10:57:22.293Z",
+                "published": "2026-05-13T13:01:55.893Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-4873",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4873",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-5fgw-rv54-prjx",
+                "imported": "2026-08-07T19:56:10.652Z",
+                "modified": "2026-05-14T15:31:56Z",
+                "published": "2026-05-13T21:32:05Z",
+                "url": "https://api.github.com/advisories/GHSA-5fgw-rv54-prjx",
+                "html_url": "https://github.com/advisories/GHSA-5fgw-rv54-prjx"
+            },
+            {
+                "id": "EUVD-2026-29922",
+                "imported": "2026-08-07T19:55:17.337Z",
+                "modified": "2026-05-13T19:30:04Z",
+                "published": "2026-05-13T08:27:04Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-29922",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-29922"
+            }
+        ]
+    }
+}

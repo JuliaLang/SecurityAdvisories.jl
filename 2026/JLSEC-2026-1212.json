@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1212",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-8458",
+        "GHSA-88c6-6jfq-mm4q",
+        "EUVD-2026-41504"
+    ],
+    "summary": "libcurl might in some circumstances reuse the wrong connection when asked to do Negotiate...",
+    "details": "libcurl might in some circumstances reuse the wrong connection when asked to\ndo Negotiate-authenticated ones, even when they are set to use different\n'services'.\n\nlibcurl features a pool of recent connections so that subsequent requests can\nreuse an existing connection to avoid overhead.\n\nWhen reusing a connection a range of criteria must be met. Due to a logical\nerror in the code, a request that was issued by an application could\nwrongfully reuse an existing connection to the same server that was\nauthenticated using different services.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-8458.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-8458.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-88c6-6jfq-mm4q"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3721183"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8458"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-8458",
+                "imported": "2026-08-07T19:54:38.863Z",
+                "modified": "2026-07-07T23:12:17.003Z",
+                "published": "2026-07-03T07:16:24.630Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8458",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8458",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-88c6-6jfq-mm4q",
+                "imported": "2026-08-07T19:56:07.773Z",
+                "modified": "2026-07-06T18:30:48Z",
+                "published": "2026-07-03T09:31:26Z",
+                "url": "https://api.github.com/advisories/GHSA-88c6-6jfq-mm4q",
+                "html_url": "https://github.com/advisories/GHSA-88c6-6jfq-mm4q"
+            },
+            {
+                "id": "EUVD-2026-41504",
+                "imported": "2026-08-07T19:54:56.135Z",
+                "modified": "2026-07-06T17:32:06Z",
+                "published": "2026-07-03T06:14:42Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41504",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41504"
+            }
+        ]
+    }
+}

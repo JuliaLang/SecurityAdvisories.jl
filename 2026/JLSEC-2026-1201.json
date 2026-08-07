@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1201",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-11856",
+        "GHSA-9crq-qh8v-6xmm",
+        "EUVD-2026-41501"
+    ],
+    "summary": "Successfully using libcurl to do a transfer to a specific HTTP origin (`hostA`) with **Digest**...",
+    "details": "Successfully using libcurl to do a transfer to a specific HTTP origin\n(`hostA`) with **Digest** authentication and then changing the origin to a\ndifferent one (`hostB`) for a second transfer, reusing the same handle, makes\nlibcurl wrongly pass on the  `Authorization:` header field meant for `hostA`,\nto `hostB`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-11856.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-11856.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-9crq-qh8v-6xmm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3793260"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11856"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-11856",
+                "imported": "2026-08-07T19:54:38.797Z",
+                "modified": "2026-07-07T19:43:55.600Z",
+                "published": "2026-07-03T07:16:23.973Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-11856",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11856",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-9crq-qh8v-6xmm",
+                "imported": "2026-08-07T19:56:05.124Z",
+                "modified": "2026-07-07T21:32:33Z",
+                "published": "2026-07-03T09:31:26Z",
+                "url": "https://api.github.com/advisories/GHSA-9crq-qh8v-6xmm",
+                "html_url": "https://github.com/advisories/GHSA-9crq-qh8v-6xmm"
+            },
+            {
+                "id": "EUVD-2026-41501",
+                "imported": "2026-08-07T19:54:51.770Z",
+                "modified": "2026-07-06T18:23:52Z",
+                "published": "2026-07-03T06:13:31Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41501",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41501"
+            }
+        ]
+    }
+}

@@ -1,0 +1,120 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1205",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-5773",
+        "GHSA-rp9q-8q5w-ch44",
+        "EUVD-2026-29924"
+    ],
+    "summary": "libcurl might in some circumstances reuse the wrong connection for SMB(S) transfers. libcurl...",
+    "details": "libcurl might in some circumstances reuse the wrong connection for SMB(S)\ntransfers.\n\nlibcurl features a pool of recent connections so that subsequent requests can\nreuse an existing connection to avoid overhead.\n\nWhen reusing a connection a range of criteria must be met. Due to a logical\nerror in the code, a network transfer operation that was requested by an\napplication could wrongfully reuse an existing SMB connection to the same\nserver that was using a different 'share' than the new subsequent transfer\nshould.\n\nThis could in unlucky situations lead to the download of the wrong file or the\nupload of a file to the wrong place. When this happens, the same credentials\nare used and the server name is the same.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.20.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/04/29/9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-5773.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-5773.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-rp9q-8q5w-ch44"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3650689"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5773"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-5773",
+                "imported": "2026-08-07T19:54:38.615Z",
+                "modified": "2026-06-17T10:59:37.340Z",
+                "published": "2026-05-13T13:01:56.307Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-5773",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5773",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-rp9q-8q5w-ch44",
+                "imported": "2026-08-07T19:56:09.568Z",
+                "modified": "2026-05-13T21:32:05Z",
+                "published": "2026-05-13T18:30:52Z",
+                "url": "https://api.github.com/advisories/GHSA-rp9q-8q5w-ch44",
+                "html_url": "https://github.com/advisories/GHSA-rp9q-8q5w-ch44"
+            },
+            {
+                "id": "EUVD-2026-29924",
+                "imported": "2026-08-07T19:55:22.670Z",
+                "modified": "2026-05-13T17:45:08Z",
+                "published": "2026-05-13T08:27:42Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-29924",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-29924"
+            }
+        ]
+    }
+}

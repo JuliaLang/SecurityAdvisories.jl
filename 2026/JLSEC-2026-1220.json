@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1220",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-9545",
+        "GHSA-6v72-wfcj-jv53",
+        "EUVD-2026-41493"
+    ],
+    "summary": "In this scenario, libcurl first uses a proper HTTP/3 server for the initial transfers, and when...",
+    "details": "In this scenario, libcurl first uses a proper HTTP/3 server for the initial\ntransfers, and when it makes a second transfer to the same site it has been\nreplaced by the attacker's impostor machine - without a valid certificate.\n\nWhen libcurl returns to the hostname the second time with a cached SSL session\n(`CURLOPT_SSL_SESSIONID_CACHE` is not disabled) and early data enabled (the\n`CURLSSLOPT_EARLYDATA` bit is set in `CURLOPT_SSL_OPTIONS`), libcurl might\nsend off the second request's bytes on that new connection *before* enforcing\nthe certificate verification failure. Potentially leaking sensitive\ninformation.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.11.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.11.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-9545.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-9545.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-6v72-wfcj-jv53"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3752888"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9545"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-9545",
+                "imported": "2026-08-07T19:54:38.989Z",
+                "modified": "2026-07-07T15:03:56.920Z",
+                "published": "2026-07-03T07:16:25.807Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-9545",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9545",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-6v72-wfcj-jv53",
+                "imported": "2026-08-07T19:56:04.342Z",
+                "modified": "2026-07-06T18:30:50Z",
+                "published": "2026-07-03T09:31:27Z",
+                "url": "https://api.github.com/advisories/GHSA-6v72-wfcj-jv53",
+                "html_url": "https://github.com/advisories/GHSA-6v72-wfcj-jv53"
+            },
+            {
+                "id": "EUVD-2026-41493",
+                "imported": "2026-08-07T19:55:05.504Z",
+                "modified": "2026-07-06T16:53:23Z",
+                "published": "2026-07-03T06:17:55Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41493",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41493"
+            }
+        ]
+    }
+}

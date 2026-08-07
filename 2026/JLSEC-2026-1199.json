@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1199",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-11564",
+        "GHSA-hf82-6jff-f22v",
+        "EUVD-2026-41499"
+    ],
+    "summary": "libcurl keeps previously used connections in a connection pool for subsequent transfers to reuse...",
+    "details": "libcurl keeps previously used connections in a connection pool for subsequent\ntransfers to reuse if one of them matches the setup.\n\nAn easy handle that first uses default native CA trust can continue trusting\nthe native platform store after the application switches that same handle to\ncustom CA material for a later transfer.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.17.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "8.17.0+0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-11564.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-11564.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hf82-6jff-f22v"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3788984"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11564"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-11564",
+                "imported": "2026-08-07T19:54:38.760Z",
+                "modified": "2026-07-07T18:00:35.840Z",
+                "published": "2026-07-03T07:16:23.790Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-11564",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11564",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-hf82-6jff-f22v",
+                "imported": "2026-08-07T19:56:03.528Z",
+                "modified": "2026-07-07T18:31:40Z",
+                "published": "2026-07-03T09:31:25Z",
+                "url": "https://api.github.com/advisories/GHSA-hf82-6jff-f22v",
+                "html_url": "https://github.com/advisories/GHSA-hf82-6jff-f22v"
+            },
+            {
+                "id": "EUVD-2026-41499",
+                "imported": "2026-08-07T19:54:56.217Z",
+                "modified": "2026-07-06T17:10:33Z",
+                "published": "2026-07-03T06:12:35Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41499",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41499"
+            }
+        ]
+    }
+}

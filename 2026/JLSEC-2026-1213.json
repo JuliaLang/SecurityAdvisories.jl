@@ -1,0 +1,116 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1213",
+    "modified": "2026-08-07T20:11:58.984Z",
+    "published": "2026-08-07T20:11:58.984Z",
+    "upstream": [
+        "CVE-2026-8924",
+        "GHSA-hm6c-rc5h-32m9",
+        "EUVD-2026-41505"
+    ],
+    "summary": "A flaw in curl’s cookie parsing logic allows a malicious HTTP server to set 'super cookies' that...",
+    "details": "A flaw in curl’s cookie parsing logic allows a malicious HTTP server to set\n'super cookies' that bypass the Public Suffix List check. This enables an\nattacker-controlled origin to inject cookies that curl subsequently scopes and\ntransmits to unrelated third-party domains.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "CURL_jll",
+                "purl": "pkg:julia/CURL_jll?uuid=b21e61f3-bafc-59ac-ab14-4c5c62d6588d"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "8.21.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-8924.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2026-8924.json"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hm6c-rc5h-32m9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/3733905"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8924"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-8924",
+                "imported": "2026-08-07T19:54:38.879Z",
+                "modified": "2026-07-07T23:06:00.797Z",
+                "published": "2026-07-03T07:16:24.793Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8924",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8924",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-hm6c-rc5h-32m9",
+                "imported": "2026-08-07T19:56:00.479Z",
+                "modified": "2026-07-06T18:30:48Z",
+                "published": "2026-07-03T09:31:26Z",
+                "url": "https://api.github.com/advisories/GHSA-hm6c-rc5h-32m9",
+                "html_url": "https://github.com/advisories/GHSA-hm6c-rc5h-32m9"
+            },
+            {
+                "id": "EUVD-2026-41505",
+                "imported": "2026-08-07T19:55:05.089Z",
+                "modified": "2026-07-06T16:57:16Z",
+                "published": "2026-07-03T06:15:04Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-41505",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-41505"
+            }
+        ]
+    }
+}
