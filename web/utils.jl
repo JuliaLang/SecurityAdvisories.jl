@@ -348,43 +348,39 @@ end
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
-    pkg_unfixed = Dict{String,Int}()
-    # pkg => severity class => [total, unfixed] advisory counts; advisories
-    # without a CVSS score belong to no class and only match "All"
+    # pkg => severity class => [fix-available, no-fix] advisory counts;
+    # advisories without a CVSS score land in the "unknown" class
     pkg_sevs = Dict{String,Dict{String,Vector{Int}}}()
     for a in advs
         cls = _severity_class(a)
+        isempty(cls) && (cls = "unknown")
         for v in a.affected
             SecurityAdvisories.is_vulnerable(v) || continue
             pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
-            unfixed = a.withdrawn === nothing && !_has_fix(v)
-            unfixed && (pkg_unfixed[v.pkg] = get(pkg_unfixed, v.pkg, 0) + 1)
-            if !isempty(cls)
-                counts = get!(get!(pkg_sevs, v.pkg, Dict{String,Vector{Int}}()), cls, [0, 0])
-                counts[1] += 1
-                unfixed && (counts[2] += 1)
-            end
+            counts = get!(get!(pkg_sevs, v.pkg, Dict{String,Vector{Int}}()), cls, [0, 0])
+            counts[_has_fix(v) ? 1 : 2] += 1
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
     deprecated = _deprecated_packages(keys(pkg_counts))
 
     io = IOBuffer()
-    write(io, """<div class="filter-bar">""")
+    write(io, """<div class="filter-bar" id="pkg-filter-bar">""")
     write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
-    write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
-    write(io, """<button class="sev-btn active" data-val="">All</button>""")
-    write(io, """<button class="sev-btn" data-val="unfixed" title="Only packages with at least one advisory that has no fixed release">Unfixed</button>""")
+    write(io, """<div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Fix available</button>""")
+    write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">No fix available</button>""")
     write(io, "</div>")
-    write(io, """<div class="sev-btns" id="pkg-sev-btns">""")
-    write(io, """<button class="sev-btn active" data-sev="">All</button>""")
+    write(io, """<div class="sev-btns">""")
     for sev in ("critical", "high", "medium", "low")
-        write(io, """<button class="sev-btn sev-btn-$sev" data-sev="$sev" title="Only packages with at least one $(uppercasefirst(sev))-severity advisory">$(uppercasefirst(sev))</button>""")
+        write(io, """<button class="sev-btn sev-btn-$sev active" data-key="$sev" title="$(uppercasefirst(sev))-severity advisories">$(uppercasefirst(sev))</button>""")
     end
+    write(io, """<button class="sev-btn active" data-key="unknown" title="Advisories without a CVSS score">Unknown severity</button>""")
     write(io, "</div>")
-    write(io, """<label class="filter-checkbox" title="Include packages marked deprecated in the General registry">""")
-    write(io, """<input type="checkbox" id="pkg-show-deprecated" onchange="filterPackages()"> Show deprecated packages""")
-    write(io, "</label>")
+    write(io, """<div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="deprecated" title="Packages marked deprecated in the General registry">Deprecated</button>""")
+    write(io, """<button class="sev-btn active" data-key="nondeprecated" title="Packages not marked deprecated">Not deprecated</button>""")
+    write(io, "</div>")
     write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
     write(io, "</div>")
 
@@ -410,10 +406,9 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        sevs = get(pkg_sevs, pkg, nothing)
-        sevs_json = sevs === nothing ? "{}" :
-            "{" * join(("\"$k\":[$(v[1]),$(v[2])]" for (k, v) in sevs), ",") * "}"
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-count="$count" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))" data-sevs='$sevs_json'>""")
+        sevs = pkg_sevs[pkg]
+        sevs_json = "{" * join(("\"$k\":[$(v[1]),$(v[2])]" for (k, v) in sevs), ",") * "}"
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-deprecated="$(Int(pkg in deprecated))" data-sevs='$sevs_json'>""")
         dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
         write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
@@ -424,65 +419,53 @@ function hfun_package_index()
 
     write(io, """
 <script>
-// Deprecated packages are hidden unless the checkbox opts in.  All
-// controls sync to query parameters for deep-linking, e.g.
-// /packages/?filter=unfixed&severity=high&deprecated=show
+// Every filter button is an independent toggle and all start enabled:
+// deselect a property to hide packages whose advisories have it.  The
+// deselected set syncs to a ?hide= query parameter for deep-linking,
+// e.g. /packages/?hide=fixed,low,deprecated
 (function(){
   var params = new URLSearchParams(location.search);
-  function wire(sel, attr, param){
-    var btns = document.querySelectorAll(sel);
-    btns.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        btns.forEach(function(b){ b.classList.remove('active'); });
-        btn.classList.add('active');
-        filterPackages();
-      });
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      filterPackages();
     });
-    var wanted = params.get(param) || '';
-    btns.forEach(function(btn){
-      if(btn.getAttribute(attr) === wanted){
-        btns.forEach(function(b){ b.classList.remove('active'); });
-        btn.classList.add('active');
-      }
-    });
-  }
-  wire('#pkg-fix-btns .sev-btn', 'data-val', 'filter');
-  wire('#pkg-sev-btns .sev-btn', 'data-sev', 'severity');
-  if(params.get('deprecated') === 'show')
-    document.getElementById('pkg-show-deprecated').checked = true;
+  });
 })();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
-  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
-  var fix = activeFix ? activeFix.getAttribute('data-val') : '';
-  var activeSev = document.querySelector('#pkg-sev-btns .sev-btn.active');
-  var sev = activeSev ? activeSev.getAttribute('data-sev') : '';
-  var showDep = document.getElementById('pkg-show-deprecated').checked;
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
   var url = new URL(location);
-  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
-  if(sev) url.searchParams.set('severity', sev); else url.searchParams.delete('severity');
-  if(showDep) url.searchParams.set('deprecated', 'show'); else url.searchParams.delete('deprecated');
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
   history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
-    var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
     var deprecated = el.getAttribute('data-deprecated') === '1';
     var sevs = {};
     try { sevs = JSON.parse(el.getAttribute('data-sevs') || '{}'); } catch(e) {}
-    var sevCounts = sevs[sev] || [0, 0];
-    // The count badge tracks the active filters: advisories at the selected
-    // severity (unfixed ones when Unfixed is also on), unfixed advisories
-    // when only Unfixed is on, all advisories otherwise.
-    var badge = sev ? (fix ? sevCounts[1] : sevCounts[0])
-                    : (fix ? unfixed : parseInt(el.getAttribute('data-count') || '0', 10));
+    // The count badge tallies the advisories still selected: each severity
+    // class holds [fix-available, no-fix] counts, and a package with no
+    // selected advisories is hidden.
+    var badge = 0;
+    ['critical','high','medium','low','unknown'].forEach(function(s){
+      if(!sel[s]) return;
+      var c = sevs[s] || [0, 0];
+      if(sel.fixed) badge += c[0];
+      if(sel.unfixed) badge += c[1];
+    });
     var matchText = !text || name.includes(text);
-    var matchSev = !sev || badge > 0;
-    var matchFix = !fix || unfixed > 0;
-    var matchDep = showDep || !deprecated;
+    var matchDep = deprecated ? sel.deprecated : sel.nondeprecated;
     el.querySelector('.pkg-list-count').textContent = badge;
-    if(matchText && matchSev && matchFix && matchDep){ el.style.display=''; shown++; }
+    if(matchText && matchDep && badge > 0){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
@@ -592,18 +575,21 @@ function hfun_package_advisories()
     end
     io = IOBuffer()
 
-    # Severity filter, offered only for the classes actually present (and
-    # only when there's more than one advisory to filter).  Synced to a
-    # `?severity=` query parameter for deep-linking.
-    present = [c for c in ("critical", "high", "medium", "low")
-               if any(a -> _severity_class(a) == c, filtered)]
-    show_filter = length(filtered) > 1 && !isempty(present)
+    # Independent severity toggles (all enabled by default; deselect a class
+    # to hide it), offered only for the classes actually present and only
+    # when there's more than one to distinguish.  The deselected set syncs
+    # to a `?hide=` query parameter for deep-linking.
+    _class_key(a) = (cls = _severity_class(a); isempty(cls) ? "unknown" : cls)
+    present = [c for c in ("critical", "high", "medium", "low", "unknown")
+               if any(a -> _class_key(a) == c, filtered)]
+    show_filter = length(present) > 1
     if show_filter
         write(io, """<div class="filter-bar">""")
         write(io, """<div class="sev-btns" id="pkg-adv-sev-btns">""")
-        write(io, """<button class="sev-btn active" data-sev="">All</button>""")
         for sev in present
-            write(io, """<button class="sev-btn sev-btn-$sev" data-sev="$sev">$(uppercasefirst(sev))</button>""")
+            label = sev == "unknown" ? "Unknown severity" : uppercasefirst(sev)
+            color = sev == "unknown" ? "" : " sev-btn-$sev"
+            write(io, """<button class="sev-btn$color active" data-sev="$sev">$label</button>""")
         end
         write(io, "</div>")
         write(io, """<span class="filter-count" id="pkg-adv-filter-count"></span>""")
@@ -613,7 +599,7 @@ function hfun_package_advisories()
     write(io, """<div class="advisory-list" id="pkg-advisory-list">""")
     for adv in filtered
         disp = _display_severity(adv)
-        attrs = """ data-severity="$(_severity_class(disp))" """
+        attrs = """ data-severity="$(_class_key(adv))" """
         _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
@@ -624,30 +610,30 @@ function hfun_package_advisories()
 <script>
 (function(){
   var params = new URLSearchParams(location.search);
-  var btns = document.querySelectorAll('#pkg-adv-sev-btns .sev-btn');
-  var wanted = params.get('severity') || '';
-  btns.forEach(function(btn){
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-adv-sev-btns .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-sev')) >= 0) btn.classList.remove('active');
     btn.addEventListener('click', function(){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
+      btn.classList.toggle('active');
       filterPackageAdvisories();
     });
-    if(wanted && btn.getAttribute('data-sev') === wanted){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-    }
   });
 })();
 function filterPackageAdvisories(){
-  var activeSev = document.querySelector('#pkg-adv-sev-btns .sev-btn.active');
-  var sev = activeSev ? activeSev.getAttribute('data-sev') : '';
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-adv-sev-btns .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-sev');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
   var url = new URL(location);
-  if(sev) url.searchParams.set('severity', sev); else url.searchParams.delete('severity');
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
   history.replaceState(null, '', url);
   var items = document.querySelectorAll('#pkg-advisory-list .advisory-item');
   var shown = 0;
   items.forEach(function(el){
-    if(!sev || (el.getAttribute('data-severity') || '') === sev){ el.style.display=''; shown++; }
+    var s = el.getAttribute('data-severity') || 'unknown';
+    if(s in sel ? sel[s] : true){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.getElementById('pkg-adv-filter-count').textContent = shown + ' of ' + items.length;
