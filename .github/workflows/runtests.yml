@@ -44,4 +44,4 @@ jobs:
           cd web
           julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate()'
           julia --project=. pre_generate.jl --clean
-          julia --project=. -e 'using Franklin; optimize(prerender=false, minify=false, fail_on_warning=true)'
+          julia --project=. -e 'using Franklin; optimize(prerender=false, minify=false, fail_on_warning=true, suppress_errors=false)'
