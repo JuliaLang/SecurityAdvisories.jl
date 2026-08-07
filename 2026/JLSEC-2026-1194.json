@@ -1,0 +1,122 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1194",
+    "modified": "2026-08-07T17:08:02.500Z",
+    "published": "2026-08-07T17:08:02.500Z",
+    "upstream": [
+        "CVE-2025-50422",
+        "GHSA-6f98-2v97-grfv",
+        "EUVD-2025-23528"
+    ],
+    "summary": "An issue was discovered in freedesktop poppler v25.04.0. The heap memory containing PDF stream...",
+    "details": "An issue was discovered in freedesktop poppler v25.04.0. The heap memory containing PDF stream objects is not cleared upon program exit, allowing attackers to obtain sensitive PDF content via a memory dump.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Cairo_NoGPL_jll",
+                "purl": "pkg:julia/Cairo_NoGPL_jll?uuid=a683250b-caed-589c-a637-5aa540466d33"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Cairo_jll",
+                "purl": "pkg:julia/Cairo_jll?uuid=83423d85-b0ee-5818-9007-b63ccbeb887a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://freedesktop.com"
+        },
+        {
+            "type": "WEB",
+            "url": "http://poppler.com"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Landw-hub/CVE-2025-50422"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-6f98-2v97-grfv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/cairo/cairo/-/merge_requests/621"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/issues/1591"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/poppler/poppler/-/issues/1591#note_3045081"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-50422"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-50422",
+                "imported": "2026-08-06T14:01:06.500Z",
+                "modified": "2026-06-17T09:35:04.097Z",
+                "published": "2025-08-04T17:15:30.813Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-50422",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-50422",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-6f98-2v97-grfv",
+                "imported": "2026-08-06T14:01:06.257Z",
+                "modified": "2025-08-10T03:31:36Z",
+                "published": "2025-08-04T18:30:37Z",
+                "url": "https://api.github.com/advisories/GHSA-6f98-2v97-grfv",
+                "html_url": "https://github.com/advisories/GHSA-6f98-2v97-grfv"
+            },
+            {
+                "id": "EUVD-2025-23528",
+                "imported": "2026-08-06T14:01:04.642Z",
+                "modified": "2025-08-26T18:48:32Z",
+                "published": "2025-08-04T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-23528",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-23528"
+            }
+        ]
+    }
+}

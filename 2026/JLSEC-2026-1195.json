@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1195",
+    "modified": "2026-08-07T17:08:02.500Z",
+    "published": "2026-08-07T17:08:02.500Z",
+    "upstream": [
+        "CVE-2026-56391",
+        "GHSA-7xvj-m9x7-qgxq",
+        "EUVD-2026-48524"
+    ],
+    "summary": "GNU coreutils uniq is vulnerable to an out‑of‑bounds read due to incorrect handling of multibyte...",
+    "details": "GNU coreutils uniq is vulnerable to an out‑of‑bounds read due to incorrect handling of multibyte input when the -w (--check-chars) option is used. The `find_field()` function miscalculates the byte length of characters by repeatedly processing a fixed pointer instead of advancing through the input, resulting in an inflated length value.\nThis incorrect length is later used in a memcmp operation, causing reads beyond the allocated buffer when processing crafted multibyte input.\n\nWhen running GNU coreutils uniq with attacker-provided arguments, this behavior leads to a crash and potential adjacent heap memory exposure.\n\nThis issue has been fixed in the commit d64e35a8a4c0e4608321433e0d84d917e4e36371.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "9.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "coreutils_jll",
+                "purl": "pkg:julia/coreutils_jll?uuid=5818bda4-868b-5068-b238-e370ed6eefef"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert.pl/en/posts/2026/07/CVE-2026-56391"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/coreutils.git"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/coreutils.git/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=d64e35a8a4c0e4608321433e0d84d917e4e36371"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-7xvj-m9x7-qgxq"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56391"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56391",
+                "imported": "2026-07-27T06:18:45.521Z",
+                "modified": "2026-07-24T13:18:27.743Z",
+                "published": "2026-07-24T09:16:25.003Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56391",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56391",
+                "database_specific": {
+                    "status": "Received"
+                }
+            },
+            {
+                "id": "GHSA-7xvj-m9x7-qgxq",
+                "imported": "2026-07-27T06:18:45.409Z",
+                "modified": "2026-07-24T09:32:27Z",
+                "published": "2026-07-24T09:32:16Z",
+                "url": "https://api.github.com/advisories/GHSA-7xvj-m9x7-qgxq",
+                "html_url": "https://github.com/advisories/GHSA-7xvj-m9x7-qgxq"
+            },
+            {
+                "id": "EUVD-2026-48524",
+                "imported": "2026-07-27T06:18:45.241Z",
+                "modified": "2026-07-24T12:31:34Z",
+                "published": "2026-07-24T07:44:45Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-48524",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-48524"
+            }
+        ]
+    }
+}
