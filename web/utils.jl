@@ -555,14 +555,16 @@ function hfun_package_advisories()
     io = IOBuffer()
 
     # Independent fix-status, source, and severity toggles (all enabled by
-    # default; deselect a property to hide advisories having it).  Each
-    # group is offered only when both/multiple of its values are actually
-    # present.  The deselected set syncs to a `?hide=` query parameter.
+    # default; deselect a property to hide advisories having it).  The fix
+    # group is always offered and reflects only this package's affected
+    # ranges (an advisory may be fixed here while other packages it covers
+    # are not); the others appear only when multiple of their values are
+    # actually present.  The deselected set syncs to a `?hide=` parameter.
     _pkg_fixed(a) = all(_has_fix(v) for v in a.affected
                         if v.pkg == pkg && SecurityAdvisories.is_vulnerable(v))
     present = [c for c in ("critical", "high", "medium", "low", "unknown")
                if any(a -> _severity_key(a) == c, filtered)]
-    show_fix = length(unique(_pkg_fixed.(filtered))) > 1
+    show_fix = !isempty(filtered)
     show_src = length(unique(_is_upstream.(filtered))) > 1
     show_sev = length(present) > 1
     if show_fix || show_src || show_sev
