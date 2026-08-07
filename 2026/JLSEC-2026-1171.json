@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1171",
-    "modified": "2026-08-07T13:27:45.313Z",
+    "modified": "2026-08-07T16:58:24.939Z",
     "published": "2026-08-07T13:27:45.313Z",
     "upstream": [
         "CVE-2026-58049",
@@ -30,6 +30,9 @@
                     "events": [
                         {
                             "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
                         }
                     ]
                 }
@@ -47,6 +50,9 @@
                     "events": [
                         {
                             "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
                         }
                     ]
                 }
