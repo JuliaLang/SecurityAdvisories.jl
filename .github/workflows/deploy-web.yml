@@ -41,8 +41,6 @@ jobs:
           julia --project=. pre_generate.jl --clean
 
       - name: Build site
-        env:
-          FRANKLIN_PREPATH: SecurityAdvisories.jl
         run: |
           cd web
           julia --project=. -e 'using Franklin; optimize(prerender=true, minify=false)'
