@@ -960,10 +960,31 @@ a.pkg-tag:hover {
 
 .filter-bar {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.55rem;
   margin-bottom: 1.25rem;
-  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+}
+
+/* One orthogonal toggle group per row, introduced by a small caps label */
+.filter-row {
+  display: flex;
   align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  flex: 0 0 4.6rem;
+  text-align: right;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-muted);
+  user-select: none;
 }
 
 .filter-bar input[type="text"] {
@@ -994,21 +1015,6 @@ a.pkg-tag:hover {
   gap: 0.3rem;
   flex-wrap: wrap;
   align-items: center;
-}
-
-.filter-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  color: var(--c-text-muted);
-  cursor: pointer;
-  user-select: none;
-}
-
-.filter-checkbox input {
-  accent-color: var(--c-accent);
-  cursor: pointer;
 }
 
 .sev-btn {
@@ -1058,37 +1064,12 @@ a.pkg-tag:hover {
   margin-left: auto;
 }
 
-/* Source-type tabs (Julia vs upstream) on the advisories index */
-.src-tabs {
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 0 0 0.9rem;
-}
-
-/* Lead-in copy that updates with the selected source tab */
+/* Lead-in copy on the advisories index */
 .adv-src-desc {
   margin: 0 0 1.5rem;
   font-size: 0.95rem;
   color: var(--c-text-secondary);
 }
-
-.src-tab {
-  padding: 0.35em 0.9em;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: 1.5px solid var(--c-border);
-  background: transparent;
-  color: var(--c-text-muted);
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
-}
-
-.src-tab:hover  { background: var(--c-surface-hover); color: var(--c-text); border-color: var(--c-text-muted); }
-.src-tab.active { background: var(--c-surface); color: var(--c-text); border-color: var(--c-text); }
 
 /* "Upstream" marker distinguishing imported advisories in list rows */
 .source-badge {

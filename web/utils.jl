@@ -103,37 +103,9 @@ function _truncate(s::AbstractString, n::Int=120)
     s[1:prevind(s, n)] * "…"
 end
 
-# Serialize a string / string-keyed dict to a JS literal for inlining in a
-# <script>. `<` is escaped so a value can never terminate the script element.
-function _js_string(s::AbstractString)
-    io = IOBuffer()
-    write(io, '"')
-    for c in s
-        c == '\\'  ? write(io, "\\\\") :
-        c == '"'   ? write(io, "\\\"") :
-        c == '\n'  ? write(io, "\\n")  :
-        c == '<'   ? write(io, "\\u003c") :
-                     write(io, c)
-    end
-    write(io, '"')
-    String(take!(io))
-end
-
-_js_object(d::AbstractDict) =
-    "{" * join((_js_string(k) * ":" * _js_string(v) for (k, v) in d), ", ") * "}"
-
 _advisory_url(adv) = "/advisories/$(adv.id)/"
 
 _is_upstream(adv) = !isempty(adv.upstream)
-
-# Lead-in copy for the advisories index, keyed by the active source tab
-# (`""` = all sources). Rendered server-side for the default and swapped
-# client-side by `filterAdvisories` when a tab is selected.
-const SRC_DESCRIPTIONS = Dict(
-    ""         => "All published security advisories for packages in the Julia ecosystem.",
-    "julia"    => "Advisories authored directly for packages in the Julia ecosystem.",
-    "upstream" => "Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL).",
-)
 
 _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
@@ -244,73 +216,76 @@ function hfun_all_advisories()
     advs = load_all_advisories()
     io = IOBuffer()
 
-    write(io, """<div class="src-tabs" id="adv-src-tabs">""")
-    write(io, """<button class="src-tab active" data-src="">All</button>""")
-    write(io, """<button class="src-tab" data-src="julia">Julia only</button>""")
-    write(io, """<button class="src-tab" data-src="upstream">Upstream only</button>""")
-    write(io, "</div>")
+    write(io, """<p class="adv-src-desc">All published security advisories for packages in the Julia ecosystem &mdash; both authored directly for Julia packages and imported for upstream components (like artifacts) incorporated into them.</p>""")
 
-    write(io, """<p class="adv-src-desc" id="adv-src-desc">$(SRC_DESCRIPTIONS[""])</p>""")
-
-    write(io, """<div class="filter-bar">""")
-    write(io, """<input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()">""")
-    write(io, """<div class="sev-btns" id="adv-sev-btns">""")
-    write(io, """<button class="sev-btn active" data-sev="">All</button>""")
+    write(io, """<div class="filter-bar" id="adv-filter-bar">""")
+    write(io, """<div class="filter-row"><input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()"><span class="filter-count" id="adv-filter-count"></span></div>""")
+    write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+    write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Advisory type"><span class="filter-label">Type</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="direct" title="Advisories authored directly for packages in the Julia ecosystem">Direct</button>""")
+    write(io, """<button class="sev-btn active" data-key="upstream" title="Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL)">Upstream</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
     for sev in ("critical", "high", "medium", "low")
-        write(io, """<button class="sev-btn sev-btn-$sev" data-sev="$sev">$(uppercasefirst(sev))</button>""")
+        write(io, """<button class="sev-btn sev-btn-$sev active" data-key="$sev" title="$(uppercasefirst(sev))-severity advisories">$(uppercasefirst(sev))</button>""")
     end
-    write(io, "</div>")
-    write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
+    write(io, """<button class="sev-btn active" data-key="unknown" title="Advisories without a CVSS score">Unknown</button>""")
+    write(io, "</div></div>")
     write(io, "</div>")
 
     write(io, """<div class="advisory-list" id="advisory-list">""")
     for adv in advs
         disp = _display_severity(adv)
-        src = _is_upstream(adv) ? "upstream" : "julia"
+        src = _is_upstream(adv) ? "upstream" : "direct"
         pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
         summary = something(adv.summary, "No summary available")
-        attrs = """ data-severity="$(_severity_class(disp))" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        attrs = """ data-severity="$(_severity_key(adv))" data-fixed="$(Int(_adv_fixed(adv)))" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
         _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
 
     write(io, """
 <script>
-var SRC_DESCRIPTIONS = $(_js_object(SRC_DESCRIPTIONS));
+// Every filter button is an independent toggle and all start enabled:
+// deselect a property to hide advisories having it.  The deselected set
+// syncs to a ?hide= query parameter for deep-linking, e.g.
+// /advisories/?hide=fixed,upstream,low
 (function(){
-  function wire(sel, cb){
-    var btns = document.querySelectorAll(sel);
-    btns.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        btns.forEach(function(b){ b.classList.remove('active'); });
-        btn.classList.add('active');
-        cb();
-      });
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#adv-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      filterAdvisories();
     });
-  }
-  wire('#adv-sev-btns .sev-btn', filterAdvisories);
-  wire('#adv-src-tabs .src-tab', filterAdvisories);
+  });
 })();
 function filterAdvisories(){
   var text = document.getElementById('adv-filter-text').value.toLowerCase();
-  var activeSev = document.querySelector('#adv-sev-btns .sev-btn.active');
-  var sev = activeSev ? activeSev.getAttribute('data-sev') : '';
-  var activeSrc = document.querySelector('#adv-src-tabs .src-tab.active');
-  var src = activeSrc ? activeSrc.getAttribute('data-src') : '';
-  var desc = document.getElementById('adv-src-desc');
-  if(desc) desc.textContent = SRC_DESCRIPTIONS[src] || SRC_DESCRIPTIONS[''];
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#adv-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
+  var url = new URL(location);
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
+  history.replaceState(null, '', url);
   var items = document.querySelectorAll('#advisory-list .advisory-item');
   var shown = 0;
   items.forEach(function(el){
     var id = el.querySelector('.advisory-id').textContent.toLowerCase();
     var summary = el.getAttribute('data-summary') || '';
     var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
-    var elSev = el.getAttribute('data-severity') || '';
-    var elSrc = el.getAttribute('data-source') || '';
+    var s = el.getAttribute('data-severity') || 'unknown';
+    var f = el.getAttribute('data-fixed') === '1' ? 'fixed' : 'unfixed';
+    var src = el.getAttribute('data-source') || 'direct';
     var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
-    var matchSev = !sev || elSev === sev;
-    var matchSrc = !src || elSrc === src;
-    if(matchText && matchSev && matchSrc){ el.style.display=''; shown++; }
+    if(matchText && sel[s] && sel[f] && sel[src]){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.getElementById('adv-filter-count').textContent = shown + ' of ' + items.length;
@@ -325,6 +300,12 @@ end
 # unbounded range means no fixed release is known.
 _has_fix(v::SecurityAdvisories.PackageVulnerability) =
     all(r -> SecurityAdvisories.has_upper_bound(r) && !r.ubinclusive, v.ranges)
+
+# Filter-toggle keys shared by the advisories/packages pages: an advisory's
+# fix status (fixed only when every vulnerable package range has one) and
+# its severity class ("unknown" when there's no CVSS score).
+_adv_fixed(a) = all(_has_fix(v) for v in a.affected if SecurityAdvisories.is_vulnerable(v))
+_severity_key(a) = (cls = _severity_class(a); isempty(cls) ? "unknown" : cls)
 
 # The subset of `pkgs` marked deprecated in the General registry, signalled
 # by a `[metadata.deprecated]` table in the package's Package.toml.  Pkg's
@@ -348,30 +329,38 @@ end
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
-    pkg_unfixed = Dict{String,Int}()
+    # pkg => severity class => [fix-available, no-fix] advisory counts;
+    # advisories without a CVSS score land in the "unknown" class
+    pkg_sevs = Dict{String,Dict{String,Vector{Int}}}()
     for a in advs
+        cls = _severity_key(a)
         for v in a.affected
             SecurityAdvisories.is_vulnerable(v) || continue
             pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
-            if a.withdrawn === nothing && !_has_fix(v)
-                pkg_unfixed[v.pkg] = get(pkg_unfixed, v.pkg, 0) + 1
-            end
+            counts = get!(get!(pkg_sevs, v.pkg, Dict{String,Vector{Int}}()), cls, [0, 0])
+            counts[_has_fix(v) ? 1 : 2] += 1
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
     deprecated = _deprecated_packages(keys(pkg_counts))
 
     io = IOBuffer()
-    write(io, """<div class="filter-bar">""")
-    write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
-    write(io, """<div class="sev-btns" id="pkg-fix-btns">""")
-    write(io, """<button class="sev-btn active" data-val="">All</button>""")
-    write(io, """<button class="sev-btn" data-val="unfixed" title="Only packages with at least one advisory that has no fixed release">Unfixed</button>""")
-    write(io, "</div>")
-    write(io, """<label class="filter-checkbox" title="Include packages marked deprecated in the General registry">""")
-    write(io, """<input type="checkbox" id="pkg-show-deprecated" onchange="filterPackages()"> Show deprecated packages""")
-    write(io, "</label>")
-    write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
+    write(io, """<div class="filter-bar" id="pkg-filter-bar">""")
+    write(io, """<div class="filter-row"><input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()"><span class="filter-count" id="pkg-filter-count"></span></div>""")
+    write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+    write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
+    for sev in ("critical", "high", "medium", "low")
+        write(io, """<button class="sev-btn sev-btn-$sev active" data-key="$sev" title="$(uppercasefirst(sev))-severity advisories">$(uppercasefirst(sev))</button>""")
+    end
+    write(io, """<button class="sev-btn active" data-key="unknown" title="Advisories without a CVSS score">Unknown</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Registry status"><span class="filter-label">Registry</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="nondeprecated" title="Packages not marked deprecated in the General registry">Active</button>""")
+    write(io, """<button class="sev-btn active" data-key="deprecated" title="Packages marked deprecated in the General registry">Deprecated</button>""")
+    write(io, "</div></div>")
     write(io, "</div>")
 
     letters_available = Set([uppercase(string(first(pkg))) for (pkg, _) in sorted])
@@ -396,7 +385,9 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-count="$count" data-unfixed="$(get(pkg_unfixed, pkg, 0))" data-deprecated="$(Int(pkg in deprecated))">""")
+        sevs = pkg_sevs[pkg]
+        sevs_json = "{" * join(("\"$k\":[$(v[1]),$(v[2])]" for (k, v) in sevs), ",") * "}"
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-deprecated="$(Int(pkg in deprecated))" data-sevs='$sevs_json'>""")
         dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
         write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
@@ -407,52 +398,53 @@ function hfun_package_index()
 
     write(io, """
 <script>
-// Deprecated packages are hidden unless the checkbox opts in.  Both
-// controls sync to query parameters for deep-linking, e.g.
-// /packages/?filter=unfixed&deprecated=show
+// Every filter button is an independent toggle and all start enabled:
+// deselect a property to hide packages whose advisories have it.  The
+// deselected set syncs to a ?hide= query parameter for deep-linking,
+// e.g. /packages/?hide=fixed,low,deprecated
 (function(){
-  var btns = document.querySelectorAll('#pkg-fix-btns .sev-btn');
-  btns.forEach(function(btn){
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
     btn.addEventListener('click', function(){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
+      btn.classList.toggle('active');
       filterPackages();
     });
   });
-  var params = new URLSearchParams(location.search);
-  var wanted = params.get('filter') || '';
-  btns.forEach(function(btn){
-    if(btn.getAttribute('data-val') === wanted){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-    }
-  });
-  if(params.get('deprecated') === 'show')
-    document.getElementById('pkg-show-deprecated').checked = true;
 })();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
-  var activeFix = document.querySelector('#pkg-fix-btns .sev-btn.active');
-  var fix = activeFix ? activeFix.getAttribute('data-val') : '';
-  var showDep = document.getElementById('pkg-show-deprecated').checked;
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
   var url = new URL(location);
-  if(fix) url.searchParams.set('filter', fix); else url.searchParams.delete('filter');
-  if(showDep) url.searchParams.set('deprecated', 'show'); else url.searchParams.delete('deprecated');
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
   history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
-    var unfixed = parseInt(el.getAttribute('data-unfixed') || '0', 10);
     var deprecated = el.getAttribute('data-deprecated') === '1';
+    var sevs = {};
+    try { sevs = JSON.parse(el.getAttribute('data-sevs') || '{}'); } catch(e) {}
+    // The count badge tallies the advisories still selected: each severity
+    // class holds [fix-available, no-fix] counts, and a package with no
+    // selected advisories is hidden.
+    var badge = 0;
+    ['critical','high','medium','low','unknown'].forEach(function(s){
+      if(!sel[s]) return;
+      var c = sevs[s] || [0, 0];
+      if(sel.fixed) badge += c[0];
+      if(sel.unfixed) badge += c[1];
+    });
     var matchText = !text || name.includes(text);
-    var matchFix = !fix || unfixed > 0;
-    var matchDep = showDep || !deprecated;
-    // The count badge tracks the active filter: unfixed advisories only
-    // when the Unfixed filter is on, all advisories otherwise.
-    el.querySelector('.pkg-list-count').textContent =
-      fix ? unfixed : el.getAttribute('data-count');
-    if(matchText && matchFix && matchDep){ el.style.display=''; shown++; }
+    var matchDep = deprecated ? sel.deprecated : sel.nondeprecated;
+    el.querySelector('.pkg-list-count').textContent = badge;
+    if(matchText && matchDep && badge > 0){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
@@ -561,11 +553,96 @@ function hfun_package_advisories()
         any(v -> v.pkg == pkg && SecurityAdvisories.is_vulnerable(v), a.affected)
     end
     io = IOBuffer()
-    write(io, """<div class="advisory-list">""")
+
+    # Independent fix-status, source, and severity toggles (all enabled by
+    # default; deselect a property to hide advisories having it).  The fix
+    # group is always offered and reflects only this package's affected
+    # ranges (an advisory may be fixed here while other packages it covers
+    # are not); the others appear only when multiple of their values are
+    # actually present.  The deselected set syncs to a `?hide=` parameter.
+    _pkg_fixed(a) = all(_has_fix(v) for v in a.affected
+                        if v.pkg == pkg && SecurityAdvisories.is_vulnerable(v))
+    present = [c for c in ("critical", "high", "medium", "low", "unknown")
+               if any(a -> _severity_key(a) == c, filtered)]
+    show_fix = !isempty(filtered)
+    show_src = length(unique(_is_upstream.(filtered))) > 1
+    show_sev = length(present) > 1
+    if show_fix || show_src || show_sev
+        write(io, """<div class="filter-bar" id="pkg-adv-filter-bar">""")
+        write(io, """<div class="filter-row"><span class="filter-count" id="pkg-adv-filter-count"></span></div>""")
+        if show_fix
+            write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+            write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+            write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+            write(io, "</div></div>")
+        end
+        if show_src
+            write(io, """<div class="filter-row" role="group" aria-label="Advisory type"><span class="filter-label">Type</span><div class="sev-btns">""")
+            write(io, """<button class="sev-btn active" data-key="direct" title="Advisories authored directly for packages in the Julia ecosystem">Direct</button>""")
+            write(io, """<button class="sev-btn active" data-key="upstream" title="Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL)">Upstream</button>""")
+            write(io, "</div></div>")
+        end
+        if show_sev
+            write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
+            for sev in present
+                label = sev == "unknown" ? "Unknown" : uppercasefirst(sev)
+                color = sev == "unknown" ? "" : " sev-btn-$sev"
+                write(io, """<button class="sev-btn$color active" data-key="$sev">$label</button>""")
+            end
+            write(io, "</div></div>")
+        end
+        write(io, "</div>")
+    end
+
+    write(io, """<div class="advisory-list" id="pkg-advisory-list">""")
     for adv in filtered
-        _write_advisory_row(io, adv; show_source=true)
+        disp = _display_severity(adv)
+        src = _is_upstream(adv) ? "upstream" : "direct"
+        attrs = """ data-severity="$(_severity_key(adv))" data-fixed="$(Int(_pkg_fixed(adv)))" data-source="$src" """
+        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
     isempty(filtered) && write(io, "<p>No advisories found for $(_escape(pkg)).</p>")
+
+    if show_fix || show_src || show_sev
+        write(io, """
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      filterPackageAdvisories();
+    });
+  });
+})();
+function filterPackageAdvisories(){
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
+  var url = new URL(location);
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
+  history.replaceState(null, '', url);
+  var items = document.querySelectorAll('#pkg-advisory-list .advisory-item');
+  var shown = 0;
+  items.forEach(function(el){
+    var s = el.getAttribute('data-severity') || 'unknown';
+    var f = el.getAttribute('data-fixed') === '1' ? 'fixed' : 'unfixed';
+    var src = el.getAttribute('data-source') || 'direct';
+    // A property whose toggle group isn't rendered is always selected.
+    var ok = (s in sel ? sel[s] : true) && (f in sel ? sel[f] : true) && (src in sel ? sel[src] : true);
+    if(ok){ el.style.display=''; shown++; }
+    else { el.style.display='none'; }
+  });
+  document.getElementById('pkg-adv-filter-count').textContent = shown + ' of ' + items.length;
+}
+filterPackageAdvisories();
+</script>""")
+    end
     String(take!(io))
 end
