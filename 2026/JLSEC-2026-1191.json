@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1191",
-    "modified": "2026-08-07T13:27:45.313Z",
+    "modified": "2026-08-08T23:00:28.419Z",
     "published": "2026-08-07T13:27:45.313Z",
     "upstream": [
         "CVE-2026-70631",
@@ -70,6 +70,9 @@
                     "events": [
                         {
                             "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
                         }
                     ]
                 }
@@ -105,6 +108,10 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70631"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/ffmpeg-uninitialized-heap-memory-read-in-tiff-decoder"
         }
     ],
     "database_specific": {
@@ -112,8 +119,8 @@
         "sources": [
             {
                 "id": "CVE-2026-70631",
-                "imported": "2026-08-07T05:41:28.789Z",
-                "modified": "2026-08-06T22:18:27.420Z",
+                "imported": "2026-08-08T05:24:31.490Z",
+                "modified": "2026-08-08T03:16:47.057Z",
                 "published": "2026-08-06T22:18:27.420Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-70631",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70631",
@@ -123,16 +130,16 @@
             },
             {
                 "id": "GHSA-5f73-3r3j-p8mr",
-                "imported": "2026-08-07T05:42:30.591Z",
-                "modified": "2026-08-07T00:31:27Z",
+                "imported": "2026-08-08T05:25:32.968Z",
+                "modified": "2026-08-07T18:31:42Z",
                 "published": "2026-08-07T00:31:21Z",
                 "url": "https://api.github.com/advisories/GHSA-5f73-3r3j-p8mr",
                 "html_url": "https://github.com/advisories/GHSA-5f73-3r3j-p8mr"
             },
             {
                 "id": "EUVD-2026-54164",
-                "imported": "2026-08-07T05:41:14.856Z",
-                "modified": "2026-08-06T21:27:47Z",
+                "imported": "2026-08-08T05:24:17.663Z",
+                "modified": "2026-08-08T02:44:18Z",
                 "published": "2026-08-06T21:25:53Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-54164",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-54164"

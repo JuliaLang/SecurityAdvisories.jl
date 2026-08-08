@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1192",
-    "modified": "2026-08-07T13:27:45.313Z",
+    "modified": "2026-08-08T23:00:28.419Z",
     "published": "2026-08-07T13:27:45.313Z",
     "upstream": [
         "CVE-2026-70632",
@@ -70,6 +70,9 @@
                     "events": [
                         {
                             "introduced": "4.4.4+0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
                         }
                     ]
                 }
@@ -105,6 +108,10 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70632"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/ffmpeg-heap-out-of-bounds-write-in-cfhd-decoder-via-avi-demuxing"
         }
     ],
     "database_specific": {
@@ -112,8 +119,8 @@
         "sources": [
             {
                 "id": "CVE-2026-70632",
-                "imported": "2026-08-07T05:41:16.345Z",
-                "modified": "2026-08-06T22:18:27.567Z",
+                "imported": "2026-08-08T05:24:19.300Z",
+                "modified": "2026-08-07T18:17:22.307Z",
                 "published": "2026-08-06T22:18:27.567Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-70632",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70632",
@@ -123,16 +130,16 @@
             },
             {
                 "id": "GHSA-q24x-99v6-6hxc",
-                "imported": "2026-08-07T05:42:36.991Z",
-                "modified": "2026-08-07T00:31:27Z",
+                "imported": "2026-08-08T05:25:39.276Z",
+                "modified": "2026-08-07T18:31:42Z",
                 "published": "2026-08-07T00:31:21Z",
                 "url": "https://api.github.com/advisories/GHSA-q24x-99v6-6hxc",
                 "html_url": "https://github.com/advisories/GHSA-q24x-99v6-6hxc"
             },
             {
                 "id": "EUVD-2026-54166",
-                "imported": "2026-08-07T05:41:14.834Z",
-                "modified": "2026-08-06T21:28:05Z",
+                "imported": "2026-08-08T05:24:17.710Z",
+                "modified": "2026-08-07T17:20:24Z",
                 "published": "2026-08-06T21:26:17Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-54166",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-54166"

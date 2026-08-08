@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1188",
-    "modified": "2026-08-07T13:27:45.313Z",
+    "modified": "2026-08-08T23:00:28.419Z",
     "published": "2026-08-07T13:27:45.313Z",
     "upstream": [
         "CVE-2026-70628",
@@ -70,6 +70,9 @@
                     "events": [
                         {
                             "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.0.0+0"
                         }
                     ]
                 }
@@ -105,6 +108,10 @@
         {
             "type": "WEB",
             "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70628"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/ffmpeg-dvb-subtitle-parser-heap-buffer-overflow-via-wtv-file"
         }
     ],
     "database_specific": {
@@ -112,8 +119,8 @@
         "sources": [
             {
                 "id": "CVE-2026-70628",
-                "imported": "2026-08-07T05:41:40.935Z",
-                "modified": "2026-08-06T22:18:26.957Z",
+                "imported": "2026-08-08T05:24:43.617Z",
+                "modified": "2026-08-07T18:17:21.783Z",
                 "published": "2026-08-06T22:18:26.957Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-70628",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70628",
@@ -123,16 +130,16 @@
             },
             {
                 "id": "GHSA-qw9h-2hhv-hpfr",
-                "imported": "2026-08-07T05:42:30.904Z",
-                "modified": "2026-08-07T00:31:27Z",
+                "imported": "2026-08-08T05:25:33.259Z",
+                "modified": "2026-08-07T18:31:42Z",
                 "published": "2026-08-07T00:31:21Z",
                 "url": "https://api.github.com/advisories/GHSA-qw9h-2hhv-hpfr",
                 "html_url": "https://github.com/advisories/GHSA-qw9h-2hhv-hpfr"
             },
             {
                 "id": "EUVD-2026-54160",
-                "imported": "2026-08-07T05:41:14.920Z",
-                "modified": "2026-08-06T21:26:44Z",
+                "imported": "2026-08-08T05:24:17.774Z",
+                "modified": "2026-08-07T17:10:51Z",
                 "published": "2026-08-06T21:24:15Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-54160",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-54160"
