@@ -1,0 +1,61 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1228",
+    "modified": "2026-08-09T01:27:54.135Z",
+    "published": "2026-08-09T01:27:54.135Z",
+    "upstream": [
+        "CVE-2026-56404"
+    ],
+    "details": "libexpat before 2.8.2 has an integer overflow in addBinding.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:L",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.8.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Expat_jll",
+                "purl": "pkg:julia/Expat_jll?uuid=2e619515-83b5-522b-bb60-26c02a35a201"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/pull/1249"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56404",
+                "imported": "2026-08-09T01:17:11.887Z",
+                "modified": "2026-06-23T20:15:05.850Z",
+                "published": "2026-06-21T16:16:27.620Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56404",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56404",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
