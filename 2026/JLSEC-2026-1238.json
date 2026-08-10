@@ -1,0 +1,73 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1238",
+    "modified": "2026-08-10T01:45:29.909Z",
+    "published": "2026-08-10T01:45:29.909Z",
+    "upstream": [
+        "CVE-2026-0990"
+    ],
+    "details": "A flaw was found in libxml2, an XML parsing library. This uncontrolled recursion vulnerability occurs in the xmlCatalogXMLResolveURI function when an XML catalog contains a delegate URI entry that references itself. A remote attacker could exploit this configuration-dependent issue by providing a specially crafted XML catalog, leading to infinite recursion and call stack exhaustion. This ultimately results in a segmentation fault, causing a Denial of Service (DoS) by crashing affected applications.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.15.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XML2_jll",
+                "purl": "pkg:julia/XML2_jll?uuid=02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:7519"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-0990"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2429959"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/1018"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-0990",
+                "imported": "2026-08-09T06:30:35.826Z",
+                "modified": "2026-06-30T20:18:46.463Z",
+                "published": "2026-01-15T15:15:52.503Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-0990",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0990",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

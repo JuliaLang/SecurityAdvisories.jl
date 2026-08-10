@@ -1,0 +1,77 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1241",
+    "modified": "2026-08-10T01:45:29.909Z",
+    "published": "2026-08-10T01:45:29.909Z",
+    "upstream": [
+        "CVE-2026-6732"
+    ],
+    "details": "A flaw was found in libxml2. This vulnerability occurs when the library processes a specially crafted XML Schema Definition (XSD) validated document that includes an internal entity reference. An attacker could exploit this by providing a malicious document, leading to a type confusion error that causes the application to crash. This results in a denial of service (DoS), making the affected system or application unavailable.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "2.13.1+0"
+                        },
+                        {
+                            "fixed": "2.15.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XML2_jll",
+                "purl": "pkg:julia/XML2_jll?uuid=02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:11503"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-6732"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2461300"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/1097"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests/411"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6732",
+                "imported": "2026-08-09T06:30:35.867Z",
+                "modified": "2026-06-30T20:16:50.030Z",
+                "published": "2026-04-23T23:16:16.443Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6732",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6732",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}

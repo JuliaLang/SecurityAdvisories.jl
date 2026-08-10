@@ -1,0 +1,73 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1239",
+    "modified": "2026-08-10T01:45:29.909Z",
+    "published": "2026-08-10T01:45:29.909Z",
+    "upstream": [
+        "CVE-2026-0992"
+    ],
+    "details": "A flaw was found in the libxml2 library. This uncontrolled resource consumption vulnerability occurs when processing XML catalogs that contain repeated <nextCatalog> elements pointing to the same downstream catalog. A remote attacker can exploit this by supplying crafted catalogs, causing the parser to redundantly traverse catalog chains. This leads to excessive CPU consumption and degrades application availability, resulting in a denial-of-service condition.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.15.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XML2_jll",
+                "purl": "pkg:julia/XML2_jll?uuid=02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:7519"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-0992"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2429975"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues/1019"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-0992",
+                "imported": "2026-08-09T06:30:35.846Z",
+                "modified": "2026-06-30T20:17:25.733Z",
+                "published": "2026-01-15T15:15:52.657Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-0992",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0992",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
