@@ -1,0 +1,100 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1246",
+    "modified": "2026-08-11T13:55:26.657Z",
+    "published": "2026-08-11T13:55:26.657Z",
+    "upstream": [
+        "CVE-2026-58013",
+        "GHSA-4x46-h598-64qr",
+        "EUVD-2026-40315"
+    ],
+    "summary": "A flaw was found in GLib. A buffer over-read can occur in g_io_channel_read_line_backend() in the...",
+    "details": "A flaw was found in GLib. A buffer over-read can occur in `g_io_channel_read_line_backend()` in the giochannel.c file when a custom line terminator with a length greater than one is set, causing memcmp to read past the GString buffer. This vulnerability can cause a minor information disclosure of 7 bytes or a denial of service when the buffer over-read crosses a page boundary.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.88.3+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Glib_jll",
+                "purl": "pkg:julia/Glib_jll?uuid=7746bdde-850d-59dc-9ae8-88ece973131d"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:49512"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-58013"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2492248"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-4x46-h598-64qr"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/glib/-/issues/3925"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58013"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-58013",
+                "imported": "2026-08-11T06:49:24.108Z",
+                "modified": "2026-08-03T06:16:38.747Z",
+                "published": "2026-06-30T13:19:17.457Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-58013",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58013",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-4x46-h598-64qr",
+                "imported": "2026-08-11T06:49:25.586Z",
+                "modified": "2026-08-03T06:32:44Z",
+                "published": "2026-06-30T15:30:45Z",
+                "url": "https://api.github.com/advisories/GHSA-4x46-h598-64qr",
+                "html_url": "https://github.com/advisories/GHSA-4x46-h598-64qr"
+            },
+            {
+                "id": "EUVD-2026-40315",
+                "imported": "2026-08-11T06:49:24.330Z",
+                "modified": "2026-08-03T04:04:39Z",
+                "published": "2026-06-30T12:57:34Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-40315",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-40315"
+            }
+        ]
+    }
+}
