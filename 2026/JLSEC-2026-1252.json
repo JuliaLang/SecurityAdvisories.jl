@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1252",
+    "modified": "2026-08-11T14:12:22.442Z",
+    "published": "2026-08-11T14:12:22.442Z",
+    "upstream": [
+        "CVE-2024-10918",
+        "GHSA-96xh-5wq4-m4cc",
+        "EUVD-2024-53894"
+    ],
+    "summary": "Stack-based Buffer Overflow vulnerability in libmodbus v3.1.10 allows to overflow the buffer...",
+    "details": "Stack-based Buffer Overflow vulnerability in libmodbus v3.1.10 allows to overflow the buffer allocated for the Modbus response if the function tries to reply to a Modbus request with an\nunexpected length.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "3.1.10+0"
+                        },
+                        {
+                            "fixed": "3.1.12+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibModbus_jll",
+                "purl": "pkg:julia/LibModbus_jll?uuid=f28bf708-275a-52ef-9ea6-4821c17573f9"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-96xh-5wq4-m4cc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2025/03/msg00010.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/08/msg00003.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10918"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2024-10918"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-10918",
+                "imported": "2026-08-11T13:56:40.877Z",
+                "modified": "2026-08-01T19:16:41.023Z",
+                "published": "2025-02-27T12:15:33.807Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-10918",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10918",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-96xh-5wq4-m4cc",
+                "imported": "2026-08-11T13:56:43.797Z",
+                "modified": "2026-08-01T21:31:27Z",
+                "published": "2025-02-27T12:30:55Z",
+                "url": "https://api.github.com/advisories/GHSA-96xh-5wq4-m4cc",
+                "html_url": "https://github.com/advisories/GHSA-96xh-5wq4-m4cc"
+            },
+            {
+                "id": "EUVD-2024-53894",
+                "imported": "2026-08-11T13:56:42.230Z",
+                "modified": "2026-08-01T18:20:11Z",
+                "published": "2025-02-27T11:44:25Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-53894",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-53894"
+            }
+        ]
+    }
+}
