@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1262",
+    "modified": "2026-08-12T15:35:13.213Z",
+    "published": "2026-08-12T15:35:13.213Z",
+    "upstream": [
+        "CVE-2024-58249",
+        "GHSA-643m-q4f3-rfc2",
+        "EUVD-2024-54426"
+    ],
+    "summary": "In wxWidgets before 3.2.7, a crash can be triggered in wxWidgets apps when connections are...",
+    "details": "In wxWidgets before 3.2.7, a crash can be triggered in wxWidgets apps when connections are refused in wxWebRequestCURL.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "wxWidgets_jll",
+                "purl": "pkg:julia/wxWidgets_jll?uuid=3a62192b-5e76-5fff-8887-7dbaab5f1e7e"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-643m-q4f3-rfc2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wxWidgets/wxWidgets/commit/f2918a9ac823074901ce27de939baa57788beb3d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wxWidgets/wxWidgets/compare/v3.2.6...v3.2.7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/wxWidgets/wxWidgets/issues/24885"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58249"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-58249",
+                "imported": "2026-08-12T12:48:10.440Z",
+                "modified": "2026-06-17T08:14:42.620Z",
+                "published": "2025-04-16T16:15:29.010Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-58249",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58249",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-643m-q4f3-rfc2",
+                "imported": "2026-08-12T12:48:12.045Z",
+                "modified": "2025-04-16T18:31:56Z",
+                "published": "2025-04-16T18:31:50Z",
+                "url": "https://api.github.com/advisories/GHSA-643m-q4f3-rfc2",
+                "html_url": "https://github.com/advisories/GHSA-643m-q4f3-rfc2"
+            },
+            {
+                "id": "EUVD-2024-54426",
+                "imported": "2026-08-12T12:48:10.266Z",
+                "modified": "2025-04-17T14:21:41Z",
+                "published": "2025-04-16T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-54426",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-54426"
+            }
+        ]
+    }
+}
