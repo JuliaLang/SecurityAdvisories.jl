@@ -36,6 +36,9 @@ reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master br
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master before commit d5873be; no FFmpeg release contains it. Reviewed in #399."
 
+[CVE-2026-0994]
+reason = "This Protobuf issue only affects the Python bindings and is not included in the JLLs"
+
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
