@@ -18,6 +18,11 @@ on:
 permissions:
   contents: read
 
+# Only allow one search to run at a time; queue subsequent runs
+concurrency:
+  group: search-upstream-advisories
+  cancel-in-progress: false
+
 jobs:
   identify-advisories:
     name: >-
