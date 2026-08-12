@@ -36,12 +36,23 @@ reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master br
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master before commit d5873be; no FFmpeg release contains it. Reviewed in #399."
 
-[CVE-2026-0994]
-reason = "This Protobuf issue only affects the Python bindings and is not included in the JLLs"
-
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
+
+# Protobuf uses a large monorepo for all its bindings and advisories are tagged against
+# the entire monorepo but often just affect a single language binding
+[CVE-2021-22569]
+reason = "This Protobuf issue only affects the Java bindings and is not included in the JLLs"
+
+[CVE-2022-3171]
+reason = "This Protobuf issue only affects the Java bindings and is not included in the JLLs"
+
+[CVE-2024-7254]
+reason = "This Protobuf issue only affects the Java bindings and is not included in the JLLs"
+
+[CVE-2026-0994]
+reason = "This Protobuf issue only affects the Python bindings and is not included in the JLLs"
 
 # TensorFlow advisories rejected for XLA_Tools_jll, reviewed in #615. XLA_Tools_jll
 # builds only the six standalone tools in //tensorflow/compiler/xla/tools from
