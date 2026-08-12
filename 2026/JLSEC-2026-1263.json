@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1263",
+    "modified": "2026-08-12T15:58:36.032Z",
+    "published": "2026-08-12T15:58:36.032Z",
+    "upstream": [
+        "CVE-2026-13595"
+    ],
+    "details": "A flaw was found in the libblkid library of util-linux. During nested partition probing, the BSD, Minix, Solaris x86, and UnixWare partition probers cache a raw pointer to a parent partition entry in a dynamically allocated array. When subsequent partition additions cause the array to be reallocated, this pointer becomes stale, leading to a heap use-after-free read. An attacker who can present a crafted block device image (for example, via USB insertion or a loop-mounted disk image) can trigger this flaw without user interaction, as libblkid is invoked automatically by udev/udisks as root on block-device hot-plug events. This could lead to limited information disclosure or denial of service.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Libmount_jll",
+                "purl": "pkg:julia/Libmount_jll?uuid=4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "util_linux_jll",
+                "purl": "pkg:julia/util_linux_jll?uuid=a762b42e-dc87-5958-a639-9c9eec9c0153"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:26573"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-13595"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2494101"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/util-linux/util-linux/commit/c0186f14fbdb02f64c8e0ba701ce727ea764ff4c"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-13595",
+                "imported": "2026-08-12T14:31:09.675Z",
+                "modified": "2026-07-08T03:37:21.637Z",
+                "published": "2026-06-29T09:16:28.303Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-13595",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13595",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            }
+        ]
+    }
+}
