@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1258",
+    "modified": "2026-08-12T14:29:53.019Z",
+    "published": "2026-08-12T14:29:53.019Z",
+    "upstream": [
+        "CVE-2026-40355",
+        "GHSA-8qgv-wm66-hrmc",
+        "EUVD-2026-25981"
+    ],
+    "summary": "In MIT Kerberos 5 (aka krb5) before 1.22.3, there is a NULL pointer dereference if an application...",
+    "details": "In MIT Kerberos 5 (aka krb5) before 1.22.3, there is a NULL pointer dereference if an application calls `gss_accept_sec_context()` on a system with a NegoEx mechanism registered in `/etc/gss/mech`. An unauthenticated remote attacker can trigger this, causing the process to terminate in `parse_nego_message`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Kerberos_krb5_jll",
+                "purl": "pkg:julia/Kerberos_krb5_jll?uuid=b39eb1a6-c29a-53d7-8c32-632cd16f18da"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cems.fun/2026/04/27/krb5-two-unauthenticated-network-vulnerabilities.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-019113.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8qgv-wm66-hrmc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/krb5/krb5/commit/2e75f0d9362fb979f5fc92829431a590a130929f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40355"
+        },
+        {
+            "type": "WEB",
+            "url": "https://web.mit.edu/kerberos/advisories"
+        },
+        {
+            "type": "WEB",
+            "url": "https://web.mit.edu/kerberos/advisories/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-40355",
+                "imported": "2026-08-12T12:42:57.100Z",
+                "modified": "2026-07-14T13:18:50.990Z",
+                "published": "2026-04-28T06:16:03.663Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-40355",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40355",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "GHSA-8qgv-wm66-hrmc",
+                "imported": "2026-08-12T12:43:00.346Z",
+                "modified": "2026-07-14T15:33:00Z",
+                "published": "2026-04-28T06:30:29Z",
+                "url": "https://api.github.com/advisories/GHSA-8qgv-wm66-hrmc",
+                "html_url": "https://github.com/advisories/GHSA-8qgv-wm66-hrmc"
+            },
+            {
+                "id": "EUVD-2026-25981",
+                "imported": "2026-08-12T12:42:58.454Z",
+                "modified": "2026-07-14T12:48:52Z",
+                "published": "2026-04-28T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-25981",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-25981"
+            }
+        ]
+    }
+}
