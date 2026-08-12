@@ -1,0 +1,127 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1267",
+    "modified": "2026-08-12T16:30:03.817Z",
+    "published": "2026-08-12T16:30:03.817Z",
+    "upstream": [
+        "CVE-2026-6192",
+        "GHSA-6jfp-5ggc-pgmx",
+        "EUVD-2026-22030"
+    ],
+    "summary": "A vulnerability was identified in uclouvain openjpeg up to 2.5.4. This impacts the function...",
+    "details": "A vulnerability was identified in uclouvain openjpeg up to 2.5.4. This impacts the function `opj_pi_initialise_encode` in the library `src/lib/openjp2/pi.c`. The manipulation leads to integer overflow. The attack must be carried out locally. The exploit is publicly available and might be used. The identifier of the patch is 839936aa33eb8899bbbd80fda02796bb65068951. It is suggested to install a patch to address this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:N/I:N/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenJpeg_jll",
+                "purl": "pkg:julia/OpenJpeg_jll?uuid=643b3616-a352-519d-856d-80112ee9badc"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-6jfp-5ggc-pgmx"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/commit/839936aa33eb8899bbbd80fda02796bb65068951"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/issues/1619"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/uclouvain/openjpeg/pull/1628"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/05/msg00038.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6192"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/submit/797385"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/357114"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/vuln/357114/cti"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6192",
+                "imported": "2026-08-12T15:00:20.298Z",
+                "modified": "2026-06-17T11:00:27.637Z",
+                "published": "2026-04-13T17:16:32.333Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6192",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6192",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-6jfp-5ggc-pgmx",
+                "imported": "2026-08-12T15:00:05.567Z",
+                "modified": "2026-05-21T18:33:06Z",
+                "published": "2026-04-13T18:30:42Z",
+                "url": "https://api.github.com/advisories/GHSA-6jfp-5ggc-pgmx",
+                "html_url": "https://github.com/advisories/GHSA-6jfp-5ggc-pgmx"
+            },
+            {
+                "id": "EUVD-2026-22030",
+                "imported": "2026-08-12T15:00:04.079Z",
+                "modified": "2026-05-21T15:04:22Z",
+                "published": "2026-04-13T16:45:11Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-22030",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-22030"
+            }
+        ]
+    }
+}
