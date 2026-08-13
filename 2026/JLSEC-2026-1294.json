@@ -1,0 +1,70 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1294",
+    "modified": "2026-08-13T10:57:26.913Z",
+    "published": "2026-08-13T10:57:26.913Z",
+    "upstream": [
+        "CVE-2020-27819"
+    ],
+    "details": "An issue was discovered in libxls before and including 1.6.1 when reading Microsoft Excel files. A NULL pointer dereference vulnerability exists when parsing XLS cells in `libxls/xls2csv.c:199`. It could allow a remote attacker to cause a denial of service via crafted XLS file.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.6.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libxls_jll",
+                "purl": "pkg:julia/libxls_jll?uuid=86717fa1-76ed-5f2d-aba0-009d7207923f"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1903296"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=1903296"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-27819",
+                "imported": "2026-08-12T16:06:13.387Z",
+                "modified": "2026-06-17T03:09:40.823Z",
+                "published": "2021-02-23T04:15:13.883Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-27819",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-27819",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
