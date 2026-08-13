@@ -1,0 +1,109 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1276",
+    "modified": "2026-08-13T09:38:52.525Z",
+    "published": "2026-08-13T09:38:52.525Z",
+    "upstream": [
+        "CVE-2023-46045"
+    ],
+    "details": "Graphviz 2.36.0 through 9.x before 10.0.1 has an out-of-bounds read via a crafted config6a file. NOTE: exploitability may be uncommon because this file is typically owned by root.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "15.1.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Graphviz_jll",
+                "purl": "pkg:julia/Graphviz_jll?uuid=3c863552-8265-54e4-a6dc-903eb78fde85"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://packetstormsecurity.com/files/176816/graphviz-2.43.0-Buffer-Overflow-Code-Execution.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2024/Feb/24"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2024/Feb/24"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2024/Jan/62"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2024/Jan/73"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/graphviz/graphviz/-/issues/2441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.com/graphviz/graphviz/-/issues/2441"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/fulldisclosure/2024/Feb/24"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/fulldisclosure/2024/Feb/24"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/fulldisclosure/2024/Jan/73"
+        },
+        {
+            "type": "WEB",
+            "url": "https://seclists.org/fulldisclosure/2024/Jan/73"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/02/01/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/02/01/2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-46045",
+                "imported": "2026-08-12T15:20:04.284Z",
+                "modified": "2026-06-17T06:29:55.777Z",
+                "published": "2024-02-02T06:15:45.123Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-46045",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46045",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
