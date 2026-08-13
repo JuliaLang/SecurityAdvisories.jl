@@ -1,0 +1,175 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1290",
+    "modified": "2026-08-13T09:49:53.975Z",
+    "published": "2026-08-13T09:49:53.975Z",
+    "upstream": [
+        "CVE-2022-28739"
+    ],
+    "details": "There is a buffer over-read in Ruby before 2.6.10, 2.7.x before 2.7.6, 3.x before 3.0.4, and 3.1.x before 3.1.2. It occurs in String-to-Float conversion, including Kernel#Float and String#`to_f`.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ruby_jll",
+                "purl": "pkg:julia/ruby_jll?uuid=3ea333e9-fd8a-53ca-adba-366e8551b7d5"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/28"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/29"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/29"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/30"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/30"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/41"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/42"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2022/Oct/42"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1248108"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/1248108"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00012.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/06/msg00012.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/09/msg00000.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security-tracker.debian.org/tracker/CVE-2022-28739"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security-tracker.debian.org/tracker/CVE-2022-28739"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-27"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202401-27"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220624-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220624-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213488"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213493"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213494"
+        },
+        {
+            "type": "WEB",
+            "url": "https://support.apple.com/kb/HT213494"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.ruby-lang.org/en/news/2022/04/12/buffer-overrun-in-string-to-float-cve-2022-28739/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.ruby-lang.org/en/news/2022/04/12/buffer-overrun-in-string-to-float-cve-2022-28739/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-28739",
+                "imported": "2026-08-12T15:35:15.649Z",
+                "modified": "2026-06-17T04:38:56.890Z",
+                "published": "2022-05-09T18:15:08.540Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-28739",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-28739",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
