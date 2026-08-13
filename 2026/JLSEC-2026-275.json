@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-275",
-    "modified": "2026-07-23T22:21:26.455Z",
+    "modified": "2026-08-13T12:52:06.089Z",
     "published": "2026-04-27T18:33:55.942Z",
     "upstream": [
         "CVE-2026-28390",
@@ -23,6 +23,9 @@
                     "events": [
                         {
                             "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.0.1"
                         }
                     ]
                 }
@@ -116,8 +119,8 @@
         "sources": [
             {
                 "id": "CVE-2026-28390",
-                "imported": "2026-07-17T21:33:03.759Z",
-                "modified": "2026-06-17T10:28:31.950Z",
+                "imported": "2026-08-13T12:35:17.884Z",
+                "modified": "2026-07-24T23:10:00.563Z",
                 "published": "2026-04-07T22:16:21.190Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-28390",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28390",
@@ -127,7 +130,7 @@
             },
             {
                 "id": "EUVD-2026-19966",
-                "imported": "2026-07-17T21:33:13.879Z",
+                "imported": "2026-08-13T12:35:25.094Z",
                 "modified": "2026-05-12T12:09:02Z",
                 "published": "2026-04-07T22:00:54Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-19966",

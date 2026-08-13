@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1145",
-    "modified": "2026-08-03T19:08:57.739Z",
+    "modified": "2026-08-13T12:52:06.089Z",
     "published": "2026-08-03T19:08:57.739Z",
     "upstream": [
         "CVE-2026-45447",
@@ -25,6 +25,9 @@
                     "events": [
                         {
                             "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.0.1"
                         }
                     ]
                 }
@@ -204,8 +207,8 @@
         "sources": [
             {
                 "id": "CVE-2026-45447",
-                "imported": "2026-08-03T18:18:15.972Z",
-                "modified": "2026-08-03T13:18:39.687Z",
+                "imported": "2026-08-13T12:35:19.750Z",
+                "modified": "2026-08-10T13:19:41.017Z",
                 "published": "2026-06-09T17:17:19.277Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-45447",
                 "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45447",
@@ -215,7 +218,7 @@
             },
             {
                 "id": "GHSA-f684-cpcq-j565",
-                "imported": "2026-08-03T18:19:22.181Z",
+                "imported": "2026-08-13T12:36:38.148Z",
                 "modified": "2026-07-29T15:30:56Z",
                 "published": "2026-06-09T18:30:48Z",
                 "url": "https://api.github.com/advisories/GHSA-f684-cpcq-j565",
@@ -223,8 +226,8 @@
             },
             {
                 "id": "EUVD-2026-35491",
-                "imported": "2026-08-03T18:18:17.218Z",
-                "modified": "2026-08-03T12:06:05Z",
+                "imported": "2026-08-13T12:35:21.683Z",
+                "modified": "2026-08-10T12:05:52Z",
                 "published": "2026-06-09T16:03:32Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35491",
                 "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-35491"

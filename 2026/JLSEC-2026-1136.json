@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1136",
-    "modified": "2026-08-03T19:08:57.739Z",
+    "modified": "2026-08-13T12:52:06.089Z",
     "published": "2026-08-03T19:08:57.739Z",
     "upstream": [
         "CVE-2026-34183",
@@ -25,6 +25,9 @@
                     "events": [
                         {
                             "introduced": "1.0.0"
+                        },
+                        {
+                            "fixed": "1.0.1"
                         }
                     ]
                 }
@@ -124,7 +127,7 @@
         "sources": [
             {
                 "id": "CVE-2026-34183",
-                "imported": "2026-08-03T18:18:15.519Z",
+                "imported": "2026-08-13T12:35:18.585Z",
                 "modified": "2026-07-23T08:10:00.137Z",
                 "published": "2026-06-09T17:17:05Z",
                 "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34183",
@@ -135,7 +138,7 @@
             },
             {
                 "id": "GHSA-f5vx-f6jp-89j6",
-                "imported": "2026-08-03T18:19:52.623Z",
+                "imported": "2026-08-13T12:37:08.890Z",
                 "modified": "2026-06-10T18:31:41Z",
                 "published": "2026-06-09T18:30:41Z",
                 "url": "https://api.github.com/advisories/GHSA-f5vx-f6jp-89j6",
@@ -143,7 +146,7 @@
             },
             {
                 "id": "EUVD-2026-35479",
-                "imported": "2026-08-03T18:18:17.811Z",
+                "imported": "2026-08-13T12:35:22.902Z",
                 "modified": "2026-06-10T15:51:12Z",
                 "published": "2026-06-09T16:03:23Z",
                 "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-35479",
