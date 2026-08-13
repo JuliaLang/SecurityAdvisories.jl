@@ -1,0 +1,112 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1315",
+    "modified": "2026-08-13T15:55:58.236Z",
+    "published": "2026-08-13T15:55:58.236Z",
+    "upstream": [
+        "CVE-2025-55304",
+        "GHSA-m54q-mm9w-fp6g",
+        "EUVD-2025-26206",
+        "PYSEC-2026-1355"
+    ],
+    "summary": "Exiv2 has quadratic performance in ICC profile parsing in `JpegBase::readMetadata`",
+    "details": "### Impact\n\nA denial-of-service was found in Exiv2 version v0.28.5: a quadratic algorithm in the ICC profile parsing code in `jpegBase::readMetadata()` can cause Exiv2 to run for a long time. Exiv2 is a command-line utility and C++ library for reading, writing, deleting, and modifying the metadata of image files. The denial-of-service is triggered when Exiv2 is used to read the metadata of a crafted jpg image file.\n\n### Patches\n\nThe bug is fixed in version v0.28.6.\n\n### References\n\nIssue: https://github.com/Exiv2/exiv2/issues/3333\nFixes: https://github.com/Exiv2/exiv2/pull/3335 (main branch), https://github.com/Exiv2/exiv2/pull/3345 (0.28.x branch)\n\n### For more information\n\nPlease see our [security policy](https://github.com/Exiv2/exiv2/security/policy) for information about Exiv2 security.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:A/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Exiv2_jll",
+                "purl": "pkg:julia/Exiv2_jll?uuid=d2dc9c37-b624-5257-85b1-2eb67ce3a11b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/issues/3333"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/pull/3335"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/pull/3345"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/security/advisories/GHSA-m54q-mm9w-fp6g"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-m54q-mm9w-fp6g"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55304"
+        }
+    ],
+    "credits": [
+        {
+            "name": "gluck-pwn",
+            "contact": [
+                "https://github.com/gluck-pwn"
+            ],
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-55304",
+                "imported": "2026-08-12T14:19:47.137Z",
+                "modified": "2026-06-17T09:41:37.083Z",
+                "published": "2025-08-29T15:15:35.950Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-55304",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55304",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-m54q-mm9w-fp6g",
+                "imported": "2026-08-12T14:19:52.333Z",
+                "modified": "2025-08-29T21:04:02Z",
+                "published": "2025-08-29T14:59:37Z",
+                "url": "https://api.github.com/advisories/GHSA-m54q-mm9w-fp6g",
+                "html_url": "https://github.com/advisories/GHSA-m54q-mm9w-fp6g"
+            },
+            {
+                "id": "EUVD-2025-26206",
+                "imported": "2026-08-12T14:19:48.704Z",
+                "modified": "2025-08-29T15:27:17Z",
+                "published": "2025-08-29T15:00:05Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-26206",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-26206"
+            }
+        ]
+    }
+}

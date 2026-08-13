@@ -1,0 +1,92 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1303",
+    "modified": "2026-08-13T15:55:58.236Z",
+    "published": "2026-08-13T15:55:58.236Z",
+    "upstream": [
+        "CVE-2021-32815",
+        "EUVD-2021-19565"
+    ],
+    "details": "Exiv2 is a command-line utility and C++ library for reading, writing, deleting, and modifying the metadata of image files. The assertion failure is triggered when Exiv2 is used to modify the metadata of a crafted image file. An attacker could potentially exploit the vulnerability to cause a denial of service, if they can trick the victim into running Exiv2 on a crafted image file. Note that this bug is only triggered when modifying the metadata, which is a less frequently used Exiv2 operation than reading the metadata. For example, to trigger the bug in the Exiv2 command-line application, you need to add an extra command-line argument such as `fi`. ### Patches The bug is fixed in version v0.27.5. ### References Regression test and bug fix: #1739 ### For more information Please see our [security policy](https://github.com/Exiv2/exiv2/security/policy) for information about Exiv2 security.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Exiv2_jll",
+                "purl": "pkg:julia/Exiv2_jll?uuid=d2dc9c37-b624-5257-85b1-2eb67ce3a11b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/pull/1739"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Exiv2/exiv2/security/advisories/GHSA-mv9g-fxh2-m49m"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2023/01/msg00004.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/FMDT4PJB7P43WSOM3TRQIY3J33BAFVVE/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UYGDELIFFJWKUU7SO3QATCIXCZJERGAC/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202312-06"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-32815",
+                "imported": "2026-08-12T14:19:46.413Z",
+                "modified": "2026-06-17T03:53:41.310Z",
+                "published": "2021-08-09T18:15:07.397Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-32815",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-32815",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            },
+            {
+                "id": "EUVD-2021-19565",
+                "imported": "2026-08-12T14:19:49.123Z",
+                "modified": "2024-11-19T14:12:57Z",
+                "published": "2021-08-09T00:00:00Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2021-19565",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2021-19565"
+            }
+        ]
+    }
+}
