@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1320",
+    "modified": "2026-08-14T07:55:16.253Z",
+    "published": "2026-08-14T07:55:16.253Z",
+    "upstream": [
+        "CVE-2026-59996",
+        "GHSA-8v2x-fhq9-4fv3",
+        "EUVD-2026-42138"
+    ],
+    "summary": "scp in OpenSSH before 10.4 may place a file in the parent directory of an intended directory when...",
+    "details": "scp in OpenSSH before 10.4 may place a file in the parent directory of an intended directory when the copy occurs between two remote destinations.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:L",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.4.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-8v2x-fhq9-4fv3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://marc.info/?l=openssh-unix-dev&m=178333966933090&w=2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59996"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssh.org/releasenotes.html#10.4p1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/07/06/5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-59996",
+                "imported": "2026-08-14T05:41:12.780Z",
+                "modified": "2026-07-09T17:14:27.620Z",
+                "published": "2026-07-08T01:16:28.557Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-59996",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59996",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-8v2x-fhq9-4fv3",
+                "imported": "2026-08-14T05:41:14.359Z",
+                "modified": "2026-07-08T03:30:33Z",
+                "published": "2026-07-08T03:30:27Z",
+                "url": "https://api.github.com/advisories/GHSA-8v2x-fhq9-4fv3",
+                "html_url": "https://github.com/advisories/GHSA-8v2x-fhq9-4fv3"
+            },
+            {
+                "id": "EUVD-2026-42138",
+                "imported": "2026-08-14T05:41:13.211Z",
+                "modified": "2026-07-08T13:03:41Z",
+                "published": "2026-07-08T00:07:07Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-42138",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-42138"
+            }
+        ]
+    }
+}

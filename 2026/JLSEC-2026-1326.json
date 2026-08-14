@@ -1,0 +1,96 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1326",
+    "modified": "2026-08-14T07:55:16.253Z",
+    "published": "2026-08-14T07:55:16.253Z",
+    "upstream": [
+        "CVE-2026-60002",
+        "GHSA-gp5v-jg37-fvg6",
+        "EUVD-2026-42146"
+    ],
+    "summary": "ssh in OpenSSH before 10.4 can have a use-after-free when a server changes its host key during a...",
+    "details": "ssh in OpenSSH before 10.4 can have a use-after-free when a server changes its host key during a key re-exchange. (This outcome occurs only on the client side.)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.4.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-gp5v-jg37-fvg6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://marc.info/?l=openssh-unix-dev&m=178333966933090&w=2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-60002"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssh.org/releasenotes.html#10.4p1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/07/06/5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-60002",
+                "imported": "2026-08-14T05:41:12.939Z",
+                "modified": "2026-07-09T16:36:21.363Z",
+                "published": "2026-07-08T01:16:29.430Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-60002",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-60002",
+                "database_specific": {
+                    "status": "Analyzed"
+                }
+            },
+            {
+                "id": "GHSA-gp5v-jg37-fvg6",
+                "imported": "2026-08-14T05:41:14.573Z",
+                "modified": "2026-07-08T03:30:33Z",
+                "published": "2026-07-08T03:30:27Z",
+                "url": "https://api.github.com/advisories/GHSA-gp5v-jg37-fvg6",
+                "html_url": "https://github.com/advisories/GHSA-gp5v-jg37-fvg6"
+            },
+            {
+                "id": "EUVD-2026-42146",
+                "imported": "2026-08-14T05:41:13.234Z",
+                "modified": "2026-07-08T13:02:27Z",
+                "published": "2026-07-08T00:17:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-42146",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-42146"
+            }
+        ]
+    }
+}

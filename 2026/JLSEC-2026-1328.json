@@ -1,0 +1,88 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1328",
+    "modified": "2026-08-14T07:55:16.253Z",
+    "published": "2026-08-14T07:55:16.253Z",
+    "upstream": [
+        "CVE-2026-73282",
+        "GHSA-jwc3-6qvm-4r66",
+        "EUVD-2026-56891"
+    ],
+    "summary": "In ssh in OpenSSH before 10.5, a use-after-free for realloc data can occur if a certain pair of...",
+    "details": "In ssh in OpenSSH before 10.5, a use-after-free for realloc data can occur if a certain pair of remote-forwarding operations are concurrent.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.5.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "OpenSSH_jll",
+                "purl": "pkg:julia/OpenSSH_jll?uuid=9bd350c2-7e96-507f-8002-3f2e150b4e1b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jwc3-6qvm-4r66"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73282"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openssh.org/releasenotes.html#10.5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-73282",
+                "imported": "2026-08-14T05:41:34.015Z",
+                "modified": "2026-08-11T21:17:52.990Z",
+                "published": "2026-08-11T20:18:49.830Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-73282",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73282",
+                "database_specific": {
+                    "status": "Received"
+                }
+            },
+            {
+                "id": "GHSA-jwc3-6qvm-4r66",
+                "imported": "2026-08-14T05:41:15.080Z",
+                "modified": "2026-08-11T21:33:18Z",
+                "published": "2026-08-11T21:33:11Z",
+                "url": "https://api.github.com/advisories/GHSA-jwc3-6qvm-4r66",
+                "html_url": "https://github.com/advisories/GHSA-jwc3-6qvm-4r66"
+            },
+            {
+                "id": "EUVD-2026-56891",
+                "imported": "2026-08-14T05:41:12.962Z",
+                "modified": "2026-08-11T20:17:22Z",
+                "published": "2026-08-11T19:12:24Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-56891",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-56891"
+            }
+        ]
+    }
+}
