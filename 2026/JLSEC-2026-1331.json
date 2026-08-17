@@ -1,0 +1,102 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1331",
+    "modified": "2026-08-17T13:15:13.400Z",
+    "published": "2026-08-17T13:15:13.400Z",
+    "upstream": [
+        "CVE-2020-8177"
+    ],
+    "details": "curl 7.20.0 through 7.70.0 is vulnerable to improper restriction of names for files and other resources that can lead too overwriting a local file when the -J flag is used.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "7.71.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "LibCURL_jll",
+                "purl": "pkg:julia/LibCURL_jll?uuid=deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/pdf/ssa-389290.pdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2020-8177.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://curl.se/docs/CVE-2020-8177.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/887462"
+        },
+        {
+            "type": "WEB",
+            "url": "https://hackerone.com/reports/887462"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4881"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4881"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpujan2022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.oracle.com/security-alerts/cpujan2022.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-8177",
+                "imported": "2026-08-16T08:05:12.373Z",
+                "modified": "2026-06-17T03:25:59.823Z",
+                "published": "2020-12-14T20:15:13.497Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-8177",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-8177",
+                "database_specific": {
+                    "status": "Modified"
+                }
+            }
+        ]
+    }
+}
