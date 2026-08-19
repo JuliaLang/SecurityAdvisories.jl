@@ -1,0 +1,97 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1346",
+    "modified": "2026-08-19T13:25:39.310Z",
+    "published": "2026-08-19T13:25:39.310Z",
+    "upstream": [
+        "CVE-2026-56390",
+        "GHSA-3pcj-vqw8-47jm",
+        "EUVD-2026-50277"
+    ],
+    "summary": "GNU Bison improperly handles grammar‑defined output paths. Grammar directives such as %output and...",
+    "details": "GNU Bison improperly handles grammar‑defined output paths. Grammar directives such as %output and %header allow specifying file paths, which are accepted without restriction and override caller‑supplied output options.\nWhen processing attacker-supplied grammar, this behavior allows directing generated files to arbitrary writable locations on the filesystem, potentially overwriting existing files accessible to the Bison process.\n\nMaintainers of this project were notified about this vulnerability, and fixed the issue in commit 8d101c19d4d9aaedf83a448c925513742d4efcf0. However, they did not provide vulnerable version range. Version 3.8.2 was tested and confirmed as vulnerable, other versions were not tested but might also be vulnerable.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Bison_jll",
+                "purl": "pkg:julia/Bison_jll?uuid=0f48145f-aea8-549d-8864-7f251ac1e6d0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert.pl/en/posts/2026/07/CVE-2026-56389"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.git.savannah.gnu.org/cgit/bison.git"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.git.savannah.gnu.org/cgit/bison.git/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-3pcj-vqw8-47jm"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56390"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-56390",
+                "imported": "2026-08-19T05:30:16.770Z",
+                "modified": "2026-07-30T16:28:33.633Z",
+                "published": "2026-07-29T11:16:49.910Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-56390",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56390",
+                "database_specific": {
+                    "status": "Awaiting Analysis"
+                }
+            },
+            {
+                "id": "GHSA-3pcj-vqw8-47jm",
+                "imported": "2026-08-19T05:30:22.997Z",
+                "modified": "2026-07-29T12:31:30Z",
+                "published": "2026-07-29T12:31:23Z",
+                "url": "https://api.github.com/advisories/GHSA-3pcj-vqw8-47jm",
+                "html_url": "https://github.com/advisories/GHSA-3pcj-vqw8-47jm"
+            },
+            {
+                "id": "EUVD-2026-50277",
+                "imported": "2026-08-19T05:30:11.100Z",
+                "modified": "2026-07-29T12:15:19Z",
+                "published": "2026-07-29T09:40:03Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-50277",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-50277"
+            }
+        ]
+    }
+}
