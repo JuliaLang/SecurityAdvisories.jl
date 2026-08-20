@@ -1,0 +1,61 @@
+name: Update PR message
+
+# Recompute a pull request's title and body from the advisory files changed on its branch.
+# This runs on jlsec-bot's fork — where the bot's PR branches live — whenever a branch is
+# pushed, so edits to a branch keep its PR message up to date. The fork must define a
+# JLSEC_BOT_TOKEN secret that can edit pull requests on JuliaLang/SecurityAdvisories.jl.
+
+on:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-pr-message-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-message:
+    # The PR branches only live on the bot's fork
+    if: github.repository == 'jlsec-bot/SecurityAdvisories.jl'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: 0
+
+    - name: Fetch the upstream base
+      run: |
+        git remote add upstream https://github.com/JuliaLang/SecurityAdvisories.jl
+        git fetch upstream main
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Recompute the PR message
+      id: message
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        julia --project=. scripts/update_pr_message.jl "$(git merge-base upstream/main HEAD)" HEAD
+
+    - name: Update the pull request
+      env:
+        GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
+        TITLE: ${{ steps.message.outputs.title }}
+        BODY: ${{ steps.message.outputs.body }}
+      run: |
+        pr=$(gh pr list --repo JuliaLang/SecurityAdvisories.jl --head "jlsec-bot:${GITHUB_REF_NAME}" --json number --jq '.[0].number')
+        if [ -z "$pr" ]; then
+          echo "No open pull request for ${GITHUB_REF_NAME}; nothing to update"
+          exit 0
+        fi
+        gh pr edit "$pr" --repo JuliaLang/SecurityAdvisories.jl --title "$TITLE" --body "$BODY"
