@@ -53,19 +53,10 @@ function strip_rejected!(a::Advisory; path=REJECTED_PATH)
     rejection = find_rejected(a; path)
     isnothing(rejection) && return a
     entry = last(rejection)
-    strip_pkgs = haskey(entry, "packages") ? entry["packages"] : nothing
-    if !isnothing(strip_pkgs)
-        filter!(v -> v.pkg ∉ strip_pkgs, a.affected)
+    if haskey(entry, "packages")
+        filter!(v -> v.pkg ∉ entry["packages"], a.affected)
     else
         empty!(a.affected)
-    end
-    # And drop the rejected packages from the sources' claimed upstream ranges, too
-    a.jlsec_sources = map(a.jlsec_sources) do src
-        isempty(src.affected) && return src
-        affected = isnothing(strip_pkgs) ? UpstreamRanges[] :
-            filter!(u -> !isempty(u.pkgs),
-                [UpstreamRanges(u.vendor_product, filter(∉(strip_pkgs), u.pkgs), u.ranges) for u in src.affected])
-        AdvisorySource(; (f => f == :affected ? affected : getfield(src, f) for f in fieldnames(AdvisorySource))...)
     end
     return a
 end

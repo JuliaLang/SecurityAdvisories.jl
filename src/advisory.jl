@@ -46,28 +46,26 @@ function sort_version_ranges!(versions)
 end
 
 """
-    UpstreamRanges(; vendor_product, pkgs=[], ranges=[])
+    UpstreamRanges(; vendor_product, ranges=[])
 
 Record the originating vulnerable version ranges of an upstream (non-Julia) component, as claimed
 by the [`AdvisorySource`](@ref) whose `affected` field holds it. The component is identified by
-its CPE-like `"vendor:product"` string, its vulnerable `ranges` are kept verbatim in the source's
-own version numbers, and `pkgs` lists the affected Julia packages whose vulnerable ranges were
-derived from this component.
+its CPE-like `"vendor:product"` string and its vulnerable `ranges` are kept verbatim in the
+source's own version numbers. The Julia packages that provide the component are intentionally not
+recorded; they are computed from GeneralMetadata (see `packages_with_upstream_component`).
 """
 @kwdef struct UpstreamRanges
     vendor_product::String
-    pkgs::Vector{String} = String[]
     ranges::Vector{String} = String[]
-    function UpstreamRanges(vendor_product, pkgs, ranges)
-        new(vendor_product, sort!(unique!(collect(String, pkgs))),
-            sort_version_ranges!(unique!(collect(String, ranges))))
+    function UpstreamRanges(vendor_product, ranges)
+        new(vendor_product, sort_version_ranges!(unique!(collect(String, ranges))))
     end
 end
 Base.convert(::Type{UpstreamRanges}, d::AbstractDict) = UpstreamRanges(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.:(==)(a::UpstreamRanges, b::UpstreamRanges)
-    return a.vendor_product == b.vendor_product && a.pkgs == b.pkgs && a.ranges == b.ranges
+    return a.vendor_product == b.vendor_product && a.ranges == b.ranges
 end
-Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.pkgs, hash(a.ranges, hash(0x43700fd0d84b71d3, h))))
+Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.ranges, hash(0x43700fd0d84b71d3, h)))
 
 """
     Reference(; url, type="WEB")
@@ -303,13 +301,17 @@ bound — meaning the upstream project has published a fixed version that simply
 been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
 name without its `_jll` suffix) and the version is the largest upstream fixed version
 as a [`VersionString`](@ref).
+
+Since the sources' claims do not record the Julia packages they map to, the association
+is computed with `packages_with_component` (a keyword, primarily for testing).
 """
-function recipe_update_candidates(a::Advisory)
+function recipe_update_candidates(a::Advisory; packages_with_component = packages_with_upstream_component)
     candidates = Pair{String, VersionString}[]
+    any(!isempty(src.affected) for src in a.jlsec_sources) || return candidates
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
         upstream_ranges = [tryparse(VersionRange, v)
-            for src in a.jlsec_sources for u in src.affected if vuln.pkg in u.pkgs for v in u.ranges]
+            for src in a.jlsec_sources for u in src.affected if vuln.pkg in packages_with_component(u.vendor_product) for v in u.ranges]
         (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
         all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
         push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))

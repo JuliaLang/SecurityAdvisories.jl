@@ -137,9 +137,10 @@ function print_version_ranges(io, id, old, new; from="")
             newr = get(u, "ranges", Any[])
             oldr = get(old_claims, (src_id, cpe), nothing)
             was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
-            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was, ", mapping to")
-            foreach(e -> pkgline(e, "        "), [e for e in new_affected if string(get(e, "pkg", "")) in get(u, "pkgs", Any[])])
+            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was)
         end
+        println(io, "    - mapping to packages:")
+        foreach(e -> pkgline(e, "        "), new_affected)
     end
     # Packages that were affected before but are no longer listed
     for (pkg, oldr) in sort!(collect(old_pkgs), by=first)

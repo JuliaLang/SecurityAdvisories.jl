@@ -46,10 +46,11 @@ end
     @test only(matches[(x->x.pkg).(matches) .== "OpenBLASHighCoreCount_jll"]).ranges == [SecurityAdvisories.VersionRange{VersionNumber}("*")]
 
     # The upstream components' originating ranges are recorded alongside, verbatim
-    lapack = only(u for u in upstreams if u.vendor_product == "lapack_project:lapack")
-    @test lapack.ranges == ["<= 3.10.0"] && "LAPACK_jll" in lapack.pkgs
-    openblas = only(u for u in upstreams if u.vendor_product == "openblas_project:openblas")
-    @test openblas.ranges == ["< 0.3.18"] && "OpenBLAS_jll" in openblas.pkgs
+    @test only(u for u in upstreams if u.vendor_product == "lapack_project:lapack").ranges == ["<= 3.10.0"]
+    @test only(u for u in upstreams if u.vendor_product == "openblas_project:openblas").ranges == ["< 0.3.18"]
+    # ... and the packages providing each component are computed, not stored
+    @test "LAPACK_jll" in SecurityAdvisories.packages_with_upstream_component("lapack_project:lapack")
+    @test "OpenBLAS_jll" in SecurityAdvisories.packages_with_upstream_component("openblas_project:openblas")
 end
 
 using SecurityAdvisories: convert_versions, VersionRange
@@ -323,43 +324,45 @@ test_source(; kw...) = AdvisorySource(; id="CVE-2025-99999", imported=DateTime(2
 @testset "recipe update candidates" begin
     unbounded = [VR{VersionNumber}(">= 1.0.0")]
     bounded = [VR{VersionNumber}(">= 1.0.0, < 2.0.0")]
-    upstreams(versions...; pkgs=["Zstd_jll"]) = [test_source(affected=[
-        UpstreamRanges(vendor_product="vendor:product", pkgs=pkgs, ranges=collect(String, versions))])]
+    upstreams(versions...) = [test_source(affected=[
+        UpstreamRanges(vendor_product="vendor:product", ranges=collect(String, versions))])]
     jll(; kw...) = Advisory(; affected=[PackageVulnerability(pkg="Zstd_jll", ranges=unbounded)], kw...)
+    # The component-to-package association is computed from GeneralMetadata; inject a test double
+    candidates(adv; pkgs=["Zstd_jll"]) = recipe_update_candidates(adv;
+        packages_with_component = vp -> vp == "vendor:product" ? pkgs : String[])
 
     # An unbounded JLL whose upstream fix version is known (an exclusive upper bound) is actionable
-    @test recipe_update_candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
     # ... using the largest fixed version across ranges, even non-semver-ish ones
-    @test recipe_update_candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
-    @test recipe_update_candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
+    @test candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
 
     # But not when any upstream range is inclusively bounded, unbounded, exact, or unparseable
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("<= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("*"))))
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("who knows"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("<= 1.5.7"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("*"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("= 1.5.7"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("who knows"))))
     # Nor without any upstream version information at all
-    @test isempty(recipe_update_candidates(jll()))
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams())))
+    @test isempty(candidates(jll()))
+    @test isempty(candidates(jll(jlsec_sources=upstreams())))
     # Nor when the upstream component belongs to some other package
-    @test isempty(recipe_update_candidates(jll(jlsec_sources=upstreams("< 1.5.7"; pkgs=["Other_jll"]))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("< 1.5.7")); pkgs=["Other_jll"]))
 
     # Only vulnerable-and-unbounded JLL packages are considered
-    @test isempty(recipe_update_candidates(Advisory(affected=[
+    @test isempty(candidates(Advisory(affected=[
         PackageVulnerability(pkg="Zstd_jll", ranges=bounded)], jlsec_sources=upstreams("< 1.5.7"))))
-    @test isempty(recipe_update_candidates(Advisory(affected=[
+    @test isempty(candidates(Advisory(affected=[
         PackageVulnerability(pkg="Zstd_jll", ranges=VR{VersionNumber}[])], jlsec_sources=upstreams("< 1.5.7"))))
-    @test isempty(recipe_update_candidates(Advisory(affected=[
-        PackageVulnerability(pkg="NotAJLL", ranges=unbounded)], jlsec_sources=upstreams("< 1.5.7"; pkgs=["NotAJLL"]))))
+    @test isempty(candidates(Advisory(affected=[
+        PackageVulnerability(pkg="NotAJLL", ranges=unbounded)], jlsec_sources=upstreams("< 1.5.7")); pkgs=["NotAJLL"]))
 end
 
 @testset "upstream ranges normalization and serialization" begin
     VRN = VR{VersionNumber}
-    # Construction canonicalizes: pkgs are sorted and deduped, ranges are sorted by their parsed values
-    u = UpstreamRanges(vendor_product="ffmpeg:ffmpeg", pkgs=["FFplay_jll", "FFMPEG_jll", "FFplay_jll"],
-        ranges=[">= 4.10, < 4.11", ">= 4.9, < 4.10", "< 3.4.14"])
-    @test u.pkgs == ["FFMPEG_jll", "FFplay_jll"]
+    # Construction canonicalizes: the ranges are deduped and sorted by their parsed values
+    u = UpstreamRanges(vendor_product="ffmpeg:ffmpeg",
+        ranges=[">= 4.10, < 4.11", ">= 4.9, < 4.10", "< 3.4.14", "< 3.4.14"])
     @test u.ranges == ["< 3.4.14", ">= 4.9, < 4.10", ">= 4.10, < 4.11"] # numerically, not lexicographically
     # Unparseable ranges fall back to lexicographic order
     @test UpstreamRanges(vendor_product="v:p", ranges=["who knows", "< 1.0"]).ranges == ["< 1.0", "who knows"]
@@ -382,7 +385,7 @@ end
     VRN = VR{VersionNumber}
     adv(id; kw...) = Advisory(; id, aliases=["CVE-2025-99999"],
         affected=[PackageVulnerability(pkg="Foo", ranges=[VRN("< 1.2.0")])], details="Details.", kw...)
-    record(ranges) = UpstreamRanges(; vendor_product="v:p", pkgs=["Foo"], ranges)
+    record(ranges) = UpstreamRanges(; vendor_product="v:p", ranges)
 
     # A newer import of the same source replaces it, carrying its claimed upstream ranges along
     bare = adv("JLSEC-2025-9998", jlsec_sources=[test_source(imported=DateTime(2026,1,1))])

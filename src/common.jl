@@ -319,6 +319,16 @@ function packages_with_project(proj)
     return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]
 end
 
+"""
+    packages_with_upstream_component(vendor_product)
+
+Return the Julia packages whose artifacts provide the upstream component identified by the
+CPE-like `"vendor:product"` string, as computed from GeneralMetadata's component tracking.
+"""
+function packages_with_upstream_component(vendor_product)
+    return unique!(reduce(vcat, packages_with_project.(upstream_projects_by_cpe(vendor_product)); init=String[]))
+end
+
 function upstream_projects_for_package(pkg)
     return Set(Iterators.flatten(keys(verinfo) for (_, verinfo) in get(package_components(), pkg, Dict())))
 end
@@ -492,16 +502,15 @@ function affected_julia_packages(description, vendorproductversions)
         push!(vulns, PackageVulnerability(pkg,
             merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
     end
-    # Record the originating upstream component ranges (verbatim) and the packages they map to
+    # Record the originating upstream component ranges, verbatim
     upstreams = UpstreamRanges[]
     if advisory_type == "upstream"
-        by_cpe = DefaultDict{String, Any}(()->(pkgs=String[], versions=String[]))
+        by_cpe = DefaultDict{String, Vector{String}}(()->String[])
         for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
-            push!(by_cpe[cpe].pkgs, pkg)
-            union!(by_cpe[cpe].versions, keys(conversions))
+            union!(by_cpe[cpe], keys(conversions))
         end
-        # The UpstreamRanges constructor canonically sorts and dedupes its pkgs and ranges
-        append!(upstreams, [UpstreamRanges(cpe, info.pkgs, info.versions) for (cpe, info) in by_cpe])
+        # The UpstreamRanges constructor canonically sorts and dedupes its ranges
+        append!(upstreams, [UpstreamRanges(cpe, versions) for (cpe, versions) in by_cpe])
     end
     return (; affected=vulns, upstreams)
 end
