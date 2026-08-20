@@ -97,6 +97,53 @@ end
 # A markdown code span, safe for use in table cells
 mdcode(s) = "`" * replace(s, "`" => "'", "|" => "\\|") * "`"
 
+# Cap the per-advisory version range listing to keep huge PR bodies under GitHub's size limit
+const MAX_RANGE_DETAILS = 20
+
+ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
+
+# Render one advisory's affected packages — and the upstream components they derive from —
+# in the same style as the search_upstream_advisories PR body, annotating range changes.
+# `old` is the advisory's prior TOML frontmatter, or `nothing` for a newly-added advisory.
+function print_version_ranges(io, id, old, new)
+    aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
+    ups(t) = t === nothing ? Any[] : [u for u in asvector(get(t, "jlsec_upstreams", Any[])) if u isa AbstractDict]
+    old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
+    new_affected = aff(new)
+    upstreams = ups(new)
+
+    function pkgline(e, indent)
+        pkg = string(get(e, "pkg", "?"))
+        newr = get(e, "ranges", Any[])
+        oldr = get(old_pkgs, pkg, nothing)
+        was = oldr === nothing ? (old === nothing ? "" : " (newly listed)") :
+              isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
+        println(io, indent, "- **", pkg, "** at versions: ", ranges_str(newr), was)
+    end
+
+    println(io, "- ", mdcode(id), isempty(upstreams) ? " for packages:" : " for upstream project(s):")
+    if isempty(upstreams)
+        foreach(e -> pkgline(e, "    "), new_affected)
+    else
+        old_ups = Dict{Any,Any}((string(get(u, "vendor_product", "?")), get(u, "source", nothing)) => get(u, "ranges", Any[])
+                                for u in ups(old))
+        for u in upstreams
+            cpe = string(get(u, "vendor_product", "?"))
+            newr = get(u, "ranges", Any[])
+            oldr = get(old_ups, (cpe, get(u, "source", nothing)), nothing)
+            was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
+            src = haskey(u, "source") ? " (from $(u["source"]))" : ""
+            println(io, "    - **", cpe, "**", src, " at versions: ", ranges_str(newr), was, ", mapping to")
+            foreach(e -> pkgline(e, "        "), [e for e in new_affected if string(get(e, "pkg", "")) in get(u, "pkgs", Any[])])
+        end
+    end
+    # Packages that were affected before but are no longer listed
+    for (pkg, oldr) in sort!(collect(old_pkgs), by=first)
+        any(e -> string(get(e, "pkg", "")) == pkg, new_affected) && continue
+        println(io, "    - **", pkg, "**: no longer affected (was: ", ranges_str(oldr), ")")
+    end
+end
+
 # ---- element pairing heuristic for array diffs ----
 # Score how plausible it is that `b` is an edited version of `a`; -Inf means don't pair.
 function pair_score(a::AbstractDict, b::AbstractDict)
@@ -178,6 +225,9 @@ function print_advisory_diff(io::IO, base, target=nothing)
         push!(specs, "$base:$f")
         target === nothing || push!(specs, "$target:$f")
     end
+    for f in added_files
+        target === nothing || push!(specs, "$target:$f")
+    end
     blobs = fetch_blobs(specs)
     root = target === nothing ? readchomp(`git rev-parse --show-toplevel`) : ""
     fetch_new(f) = target === nothing ?
@@ -187,7 +237,18 @@ function print_advisory_diff(io::IO, base, target=nothing)
     scalar_counts = Dict{Tuple{Char,String},Int}()
     array_stats = Dict{String,ArrayAgg}()
     signatures = Dict{Vector{String},Vector{String}}()  # change signature => files
+    version_changes = Tuple{String,Union{Nothing,Dict},Dict}[]  # (id, old toml, new toml)
     parse_failures = String[]
+
+    for f in added_files
+        newc = fetch_new(f)
+        newc === nothing && continue
+        toml_src, _ = split_frontmatter(newc)
+        toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
+        toml isa Dict || continue
+        haskey(toml, "affected") || haskey(toml, "jlsec_upstreams") || continue
+        push!(version_changes, (splitext(basename(f))[1], nothing, toml))
+    end
 
     for f in modified
         oldc, newc = blobs["$base:$f"], fetch_new(f)
@@ -205,6 +266,11 @@ function print_advisory_diff(io::IO, base, target=nothing)
             summary, details = parse_body(body)
             summary === nothing || (toml["summary"] = summary)
             details === nothing || (toml["details"] = details)
+        end
+
+        if !isequal(get(old, "affected", nothing), get(new, "affected", nothing)) ||
+           !isequal(get(old, "jlsec_upstreams", nothing), get(new, "jlsec_upstreams", nothing))
+            push!(version_changes, (splitext(basename(f))[1], old, new))
         end
 
         sig = String[]
@@ -272,6 +338,17 @@ function print_advisory_diff(io::IO, base, target=nothing)
             a.reordered > 0 && push!(eparts, "reordered in $(a.reordered) files")
             println(io, "| $(mdcode(key)) | $(join(fparts, " ")) | $(a.old_elems) → $(a.new_elems) | $(join(eparts, ", ")) |")
         end
+    end
+
+    if !isempty(version_changes)
+        sort!(version_changes, by=first)
+        println(io, "\n### Affected version ranges\n")
+        println(io, "_Advisories whose affected packages or upstream component ranges changed._\n")
+        for (id, o, n) in first(version_changes, MAX_RANGE_DETAILS)
+            print_version_ranges(io, id, o, n)
+        end
+        extra = length(version_changes) - MAX_RANGE_DETAILS
+        extra > 0 && println(io, "- …and $extra more advisories")
     end
 
     if !isempty(signatures)
