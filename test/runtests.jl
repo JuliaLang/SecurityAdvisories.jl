@@ -20,6 +20,19 @@ using SecurityAdvisories.VersionStrings: VersionString as V
 end
 
 using SecurityAdvisories: VersionRange as VR, merge_ranges
+@testset "VersionRange parsing" begin
+    # EUVD writes an inclusive lower bound before the operator, with or without a comma
+    @test VR("26.0.0<36.0.3") == VR(">= 26.0.0, < 36.0.3")
+    @test VR("26.0.0, < 36.0.3") == VR(">= 26.0.0, < 36.0.3")
+    @test VR("4.2.0.Final, < 4.2.17.Final") == VR(">= 4.2.0.Final, < 4.2.17.Final")
+    @test VR("1.0.0-alpha.0, ≤ 1.0.0-alpha.20").ubinclusive
+    # But other comma-ed or operator-less shapes stay unparseable
+    @test tryparse(VR, "patch: 0:2.6.4-8.el10_2") === nothing
+    @test tryparse(VR, "25.0.0, 26.0.0, < 27.0.0") === nothing
+    @test tryparse(VR, ", < 1.0") === nothing
+    @test tryparse(VR, "1.0, 2.0") === nothing
+end
+
 @testset "VersionRange merging" begin
     @test merge_ranges(VR.(["1 < 2", "2 < 3", "3 < 4"])) == [VR("1 < 4")]
     @test merge_ranges(VR.(["1 < 2", "2 <= 4", "3 < 4"])) == [VR("1 <= 4")]

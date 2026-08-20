@@ -54,7 +54,8 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
     #   ">= 0.0.1" denotes a version range with a known minimum, but no known maximum.
     #   (Undocumented) ">" is also a valid operator.
     # EUVD does something similar, albeit with unicode equivalents (≤ and maybe ≥?) and an optional
-    #   inclusive lower bound on the LHS of a less-than operator
+    #   inclusive lower bound on the LHS of a less-than operator, sometimes comma-separated:
+    #   both "26.0.0<36.0.3" and "26.0.0, < 36.0.3" denote ">= 26.0.0, < 36.0.3"
     # The special string "*" denotes all versions
     str = strip(arg)
     if str == "*"
@@ -78,9 +79,13 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
         ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, startswith(lower, r"(?:>=|≥)"), startswith(upper, r"(?:<=|≤)"))
-    elseif count(in(('<','≤')), str) == 1 && !contains(str, ",")
-        # This is an EUVD-style range, with in inclusive lower bound and an upper bound
-        lower, upper = split(str, r"\s*(?=[<≤])", limit=2, keepempty=false)
+    elseif count(in(('<','≤')), str) == 1
+        # This is an EUVD-style range, with an inclusive lower bound (optionally followed
+        # by a comma) and an upper bound
+        parts = split(str, r",?\s*(?=[<≤])", limit=2, keepempty=false)
+        length(parts) == 2 || return nothing
+        lower, upper = parts
+        contains(lower, ',') && return nothing # only the one comma before the operator is allowed
         lb = tryparse(V, strip(lower))
         isnothing(lb) && return nothing
         ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
