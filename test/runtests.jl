@@ -337,12 +337,18 @@ test_source(; kw...) = AdvisorySource(; id="CVE-2025-99999", imported=DateTime(2
     @test candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
     @test candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
 
-    # But not when any upstream range is inclusively bounded, unbounded, exact, or unparseable
+    # Ranges that don't identify a fixed version (inclusively bounded, unbounded, exact,
+    # or unparseable ones) are ignored...
     @test isempty(candidates(jll(jlsec_sources=upstreams("<= 1.5.7"))))
-    @test isempty(candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))))
     @test isempty(candidates(jll(jlsec_sources=upstreams("*"))))
     @test isempty(candidates(jll(jlsec_sources=upstreams("= 1.5.7"))))
     @test isempty(candidates(jll(jlsec_sources=upstreams("who knows"))))
+    # ... and don't veto ranges that do — such as when a second source makes a looser claim
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("*", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=[only(upstreams("< 1.5.7")),
+        test_source(id="EUVD-2025-1", affected=[UpstreamRanges(vendor_product="vendor:product", ranges=["*"])])])) ==
+        ["Zstd" => VersionString("1.5.7")]
     # Nor without any upstream version information at all
     @test isempty(candidates(jll()))
     @test isempty(candidates(jll(jlsec_sources=upstreams())))
@@ -366,6 +372,8 @@ end
     @test u.ranges == ["< 3.4.14", ">= 4.9, < 4.10", ">= 4.10, < 4.11"] # numerically, not lexicographically
     # Unparseable ranges fall back to lexicographic order
     @test UpstreamRanges(vendor_product="v:p", ranges=["who knows", "< 1.0"]).ranges == ["< 1.0", "who knows"]
+    # Malformed vendor_product identifiers (now hand-editable in advisory files) error clearly
+    @test_throws ArgumentError SecurityAdvisories.upstream_projects_by_cpe("no-colon-here")
 
     # The sources' claims round-trip through the Markdown/TOML serialization
     adv = Advisory(id="JLSEC-2025-9999", modified=DateTime(2026,1,1), published=DateTime(2025,1,1),
@@ -406,15 +414,32 @@ end
     @test length(combined.jlsec_sources) == 2
     @test only(s for s in combined.jlsec_sources if s.id == "CVE-2025-99999").affected == [record(["< 2.0"])]
     @test only(s for s in combined.jlsec_sources if s.id == "EUVD-2025-1").affected == [record(["< 1.5"])]
+
+    # Claims are canonically sorted at construction, so their in-memory ordering (which
+    # depends upon Dict iteration order at import time) cannot masquerade as a material change
+    claims = [UpstreamRanges(vendor_product="v:q", ranges=["< 3.0"]), record(["< 2.0"])]
+    @test test_source(affected=claims).affected == test_source(affected=reverse(claims)).affected
+    @test adv("JLSEC-2025-9998", jlsec_sources=[test_source(affected=claims)]) ≈
+          adv("JLSEC-2025-9998", jlsec_sources=[test_source(affected=reverse(claims))])
+
+    # Advisories without details can still be combined
+    @test isnothing(SecurityAdvisories.combine(
+        Advisory(id="JLSEC-2025-9998", aliases=["CVE-2025-99999"]),
+        Advisory(id="JLSEC-0000-placeholder", aliases=["CVE-2025-99999"])).details)
 end
 
 using SecurityAdvisories: print_advisory_versions
 @testset "version range rendering" begin
     VRN = VR{VersionNumber}
+    # The component-to-package association is computed from GeneralMetadata; inject a test double
+    render(adv, old=nothing) = sprint() do io
+        print_advisory_versions(io, adv, old;
+            packages_with_component = vp -> vp == "ffmpeg:ffmpeg" ? ["FFMPEG_jll", "FFplay_jll"] : String[])
+    end
     adv = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
         affected=[PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.2+0")])],
         jlsec_sources=[test_source(affected=[UpstreamRanges(vendor_product="ffmpeg:ffmpeg", ranges=["< 6.1.2"])])])
-    out = sprint(print_advisory_versions, adv)
+    out = render(adv)
     @test contains(out, "- `JLSEC-2025-9999` (from: [CVE-2025-99999](https://example.com)) for upstream project(s):")
     @test contains(out, "- **ffmpeg:ffmpeg** (per CVE-2025-99999) at versions: `< 6.1.2`")
     @test contains(out, "- mapping to packages:")
@@ -424,14 +449,22 @@ using SecurityAdvisories: print_advisory_versions
     old = SecurityAdvisories.to_toml_frontmatter(adv)
     adv.affected = [PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.3+0")]),
                     PackageVulnerability(pkg="FFplay_jll", ranges=[VRN("< 7.1.0+0")])]
-    out = sprint(io -> print_advisory_versions(io, adv, old))
+    out = render(adv, old)
     @test contains(out, "- **FFMPEG_jll** at versions: `< 6.1.3+0` (was: `< 6.1.2+0`)")
     @test contains(out, "- **FFplay_jll** at versions: `< 7.1.0+0` (newly listed)")
+
+    # Claims about components that map to none of the listed packages are not shown
+    adv.jlsec_sources = [test_source(affected=[UpstreamRanges(vendor_product="ffmpeg:ffmpeg", ranges=["< 6.1.2"]),
+                                               UpstreamRanges(vendor_product="other:lib", ranges=["< 9.9"])])]
+    @test !contains(render(adv), "other:lib")
+    # ... and an advisory whose claims all map elsewhere renders as a plain package list
+    adv.jlsec_sources = [test_source(affected=[UpstreamRanges(vendor_product="other:lib", ranges=["< 9.9"])])]
+    @test contains(render(adv), "for packages:\n    - **FFMPEG_jll**")
 
     # Advisories without upstream claims render a flat package list
     alias = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
         affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])], jlsec_sources=[test_source()])
-    @test contains(sprint(print_advisory_versions, alias), "for packages:\n    - **HTTP** at versions: `< 1.10.17`")
+    @test contains(render(alias), "for packages:\n    - **HTTP** at versions: `< 1.10.17`")
 end
 
 using JSON3: JSON3

@@ -161,6 +161,11 @@ end
     database_specific::Dict{String, Any} = Dict{String, Any}()
     # The upstream (non-Julia) components this source claims are vulnerable, as UpstreamRanges
     affected::Vector{UpstreamRanges} = UpstreamRanges[]
+    function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
+        # Canonically sort the claims so that freshly-imported and file-parsed sources compare equal
+        new(id, imported, modified, published, url, html_url, fields, database_specific,
+            sort!(collect(UpstreamRanges, affected), by=u->u.vendor_product))
+    end
 end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
@@ -296,11 +301,13 @@ vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vuln
 
 Return `name => version` pairs describing Yggdrasil recipe updates that could resolve
 unbounded JLL vulnerabilities in the given advisory: cases where a vulnerable `_jll`
-package has no known fixed version, yet every upstream range has an exclusive upper
+package has no known fixed version, yet an upstream range has an exclusive upper
 bound — meaning the upstream project has published a fixed version that simply hasn't
 been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
-name without its `_jll` suffix) and the version is the largest upstream fixed version
-as a [`VersionString`](@ref).
+name without its `_jll` suffix) and the version is the largest such upstream fixed
+version across all the sources' claims, as a [`VersionString`](@ref). Ranges that don't
+identify a fixed version (unbounded, inclusively-bounded, exact, or unparseable ones)
+are simply ignored.
 
 Since the sources' claims do not record the Julia packages they map to, the association
 is computed with `packages_with_component` (a keyword, primarily for testing).
@@ -312,9 +319,10 @@ function recipe_update_candidates(a::Advisory; packages_with_component = package
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
         upstream_ranges = [tryparse(VersionRange, v)
             for src in a.jlsec_sources for u in src.affected if vuln.pkg in packages_with_component(u.vendor_product) for v in u.ranges]
-        (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
-        all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
-        push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))
+        # Only ranges with exclusive upper bounds tell us the upstream's fixed version
+        fixed = filter(r -> !isnothing(r) && has_upper_bound(r) && !r.ubinclusive, upstream_ranges)
+        isempty(fixed) && continue
+        push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, fixed))
     end
     return unique!(candidates)
 end
@@ -434,7 +442,7 @@ function combine(a::Advisory, b::Advisory)
         related = union(a.related, b.related),
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
-        details = length(a.details) >= length(b.details) ? a.details : b.details,
+        details = length(something(a.details, "")) >= length(something(b.details, "")) ? a.details : b.details,
         severity = combine_severities(a.severity, b.severity),
         # Affected is the trickiest one when both exist; we want the "best" information here
         affected = if !isnothing(a.affected) && !isnothing(b.affected)
@@ -552,7 +560,7 @@ function to_toml_frontmatter(v::PackageVulnerability)
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
 function to_toml_frontmatter(u::UpstreamRanges)
-    # The `pkgs` and `ranges` are canonically sorted at construction; serialize them verbatim
+    # The `ranges` are canonically sorted at construction; serialize them verbatim
     return OrderedDict{String,Any}(string(f) => deepcopy(getfield(u, f))
         for f in fieldnames(UpstreamRanges) if is_populated(getfield(u, f)))
 end
@@ -658,15 +666,19 @@ source_claims(t) = t === nothing ? Tuple{String,Any}[] :
 Render one advisory's affected packages — and the upstream components they derive from —
 from its TOML frontmatter `new` as a Markdown list item, annotating range changes against
 the prior frontmatter `old` (`nothing` for a newly-added advisory). Extra header text (like
-the source links of [`print_advisory_versions`](@ref)) may be passed via `from`. Operating
-on the raw frontmatter allows rendering both freshly-imported advisories (via
-[`to_toml_frontmatter`](@ref)) and old revisions pulled from git (via `print_advisory_diff`).
+the source links of [`print_advisory_versions`](@ref)) may be passed via `from`, and claims
+about components that map to none of the listed affected packages (as computed by the
+`packages_with_component` keyword) are not shown. Operating on the raw frontmatter allows
+rendering both freshly-imported advisories (via [`to_toml_frontmatter`](@ref)) and old
+revisions pulled from git (via `print_advisory_diff`).
 """
-function print_version_ranges(io, id, old, new; from="")
+function print_version_ranges(io, id, old, new; from="", packages_with_component = packages_with_upstream_component)
     aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
-    claims = source_claims(new)
+    pkgs = [string(get(e, "pkg", "")) for e in new_affected]
+    claims = [(src_id, u) for (src_id, u) in source_claims(new)
+              if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
 
     function pkgline(e, indent)
         pkg = string(get(e, "pkg", "?"))
@@ -707,9 +719,9 @@ Render one advisory's affected version ranges (with links to its sources) via
 [`print_version_ranges`](@ref), annotating changes against the previously-published TOML
 frontmatter `old` (`nothing` for newly-imported advisories).
 """
-function print_advisory_versions(io, adv::Advisory, old=nothing)
+function print_advisory_versions(io, adv::Advisory, old=nothing; kw...)
     from = string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
-    print_version_ranges(io, adv.id, old, to_toml_frontmatter(adv); from)
+    print_version_ranges(io, adv.id, old, to_toml_frontmatter(adv); from, kw...)
     println(io)
 end
 

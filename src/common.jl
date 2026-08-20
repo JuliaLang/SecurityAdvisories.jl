@@ -315,7 +315,12 @@ function upstream_projects_by_vendor_product(vendor, product)
     end
     return get(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT[], (lowercase(vendor),lowercase(product)), String[])
 end
-upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)
+function upstream_projects_by_cpe(vendorproduct)
+    parts = split(vendorproduct, ":", limit=2)
+    # These identifiers now round-trip through hand-editable advisory files; be explicit about the format
+    length(parts) == 2 || throw(ArgumentError("expected a \"vendor:product\"-style identifier, got $(repr(vendorproduct))"))
+    return upstream_projects_by_vendor_product(parts...)
+end
 
 function packages_with_project(proj)
     return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]

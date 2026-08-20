@@ -7,21 +7,27 @@
 # `split_frontmatter`/`parse_body` in advisory.jl) rather than parsed `Advisory`s, so that
 # old revisions remain comparable even when their schema no longer round-trips.
 
-# Runs `git` against the repository of the current working directory:
-function changed_files(base, target)
+# Return (status, path, old_path) triples for the files changed in the repository at `dir`;
+# `old_path` is `nothing` except for renames and copies, whose `path` is the new location.
+function changed_files(base, target; dir)
     cmd = target === nothing ? `git diff --name-status $base` : `git diff --name-status $base $target`
-    files = Tuple{Char,String}[]  # (status, path)
-    for line in eachline(cmd)
-        status, path = split(line, '\t', limit=2)
-        push!(files, (status[1], String(path)))
+    files = Tuple{Char,String,Union{Nothing,String}}[]
+    for line in eachline(Cmd(cmd; dir))
+        parts = split(line, '\t')
+        status = parts[1][1]
+        if status in ('R', 'C')  # "R093\told\tnew"
+            push!(files, (status, String(parts[3]), String(parts[2])))
+        else
+            push!(files, (status, String(parts[2]), nothing))
+        end
     end
     return files
 end
 
 # Fetch many blobs through one `git cat-file --batch` process.
-function fetch_blobs(specs::Vector{String})
+function fetch_blobs(specs::Vector{String}; dir)
     blobs = Dict{String,Union{String,Nothing}}()
-    proc = open(`git cat-file --batch`, "r+")
+    proc = open(Cmd(`git cat-file --batch`; dir), "r+")
     # Write from a separate task: writing everything up front deadlocks once
     # git's output fills the pipe buffer while we aren't reading yet.
     writer = @async begin
@@ -106,36 +112,39 @@ ArrayAgg() = ArrayAgg(0, 0, 0, 0, 0, 0, 0, 0, 0)
 const MAX_RANGE_DETAILS = 20
 
 """
-    print_advisory_diff(io, base, target=nothing)
+    print_advisory_diff(io, base, target=nothing; dir=pwd())
 
 Print a summary of the Advisory field changes between the git revisions `base` and
 `target` to `io`; a `target` of `nothing` compares against the working tree. Scalar
 fields are reported as added/removed/changed and array fields are diffed at the element
 level, with the affected version ranges of changed advisories rendered in full (via
-[`print_version_ranges`](@ref)). The report is GitHub-flavored markdown, suitable for a
-PR body, and the `git` commands run against the current working directory's repository.
+[`print_version_ranges`](@ref)). Renamed advisories are diffed across the rename. The
+report is GitHub-flavored markdown, suitable for a PR body, and the `git` commands run
+against the repository at `dir`.
 """
-function print_advisory_diff(io::IO, base, target=nothing)
+function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     tname = target === nothing ? "working tree" : target
-    files = changed_files(base, target)
+    files = changed_files(base, target; dir)
     isempty(files) && (println(io, "No files changed between $base and $tname."); return)
 
-    mdfiles = [(st, f) for (st, f) in files if endswith(f, ".md") && startswith(f, "advisories/")]
+    mdfiles = [(st, f, old) for (st, f, old) in files if endswith(f, ".md") && startswith(f, "advisories/")]
     other = length(files) - length(mdfiles)
-    added_files   = [f for (st, f) in mdfiles if st == 'A']
-    deleted_files = [f for (st, f) in mdfiles if st == 'D']
-    modified = [f for (st, f) in mdfiles if st == 'M']
+    added_files   = [f for (st, f, _) in mdfiles if st in ('A', 'C')]
+    deleted_files = [f for (st, f, _) in mdfiles if st == 'D']
+    renamed = [(old, f) for (st, f, old) in mdfiles if st == 'R']
+    # Renamed files are diffed like modifications, old path against new
+    modified = [[(f, f) for (st, f, _) in mdfiles if st == 'M']; renamed]
 
     specs = String[]
-    for f in modified
-        push!(specs, "$base:$f")
-        target === nothing || push!(specs, "$target:$f")
+    for (oldf, newf) in modified
+        push!(specs, "$base:$oldf")
+        target === nothing || push!(specs, "$target:$newf")
     end
     for f in added_files
         target === nothing || push!(specs, "$target:$f")
     end
-    blobs = fetch_blobs(specs)
-    root = target === nothing ? readchomp(`git rev-parse --show-toplevel`) : ""
+    blobs = fetch_blobs(specs; dir)
+    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
     fetch_new(f) = target === nothing ?
         (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
         blobs["$target:$f"]
@@ -156,8 +165,8 @@ function print_advisory_diff(io::IO, base, target=nothing)
         push!(version_changes, (splitext(basename(f))[1], nothing, toml))
     end
 
-    for f in modified
-        oldc, newc = blobs["$base:$f"], fetch_new(f)
+    for (oldf, f) in modified
+        oldc, newc = blobs["$base:$oldf"], fetch_new(f)
         (oldc === nothing || newc === nothing) && (push!(parse_failures, f); continue)
         old_toml_src, old_body = split_frontmatter(oldc)
         new_toml_src, new_body = split_frontmatter(newc)
@@ -213,8 +222,9 @@ function print_advisory_diff(io::IO, base, target=nothing)
 
     # ------- report (GitHub-flavored markdown) -------
     println(io, "**Diff ", mdcode(base), " → ", target === nothing ? "working tree" : mdcode(tname), ":** ",
-            length(mdfiles), " advisory file", length(mdfiles) == 1 ? "" : "s", " touched (", length(modified), " modified, ",
-            length(added_files), " added, ", length(deleted_files), " deleted)",
+            length(mdfiles), " advisory file", length(mdfiles) == 1 ? "" : "s", " touched (",
+            length(modified) - length(renamed), " modified, ",
+            length(added_files), " added, ", length(deleted_files), " deleted, ", length(renamed), " renamed)",
             other > 0 ? ", plus $other non-advisory file$(other == 1 ? "" : "s")" : "", ".")
     isempty(parse_failures) || println(io, "\n> ⚠️ $(length(parse_failures)) files skipped (missing/unparseable TOML fence), e.g. $(mdcode(first(parse_failures)))")
 
