@@ -408,6 +408,32 @@ end
     @test only(s for s in combined.jlsec_sources if s.id == "EUVD-2025-1").affected == [record(["< 1.5"])]
 end
 
+using SecurityAdvisories: print_advisory_versions
+@testset "version range rendering" begin
+    VRN = VR{VersionNumber}
+    adv = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.2+0")])],
+        jlsec_sources=[test_source(affected=[UpstreamRanges(vendor_product="ffmpeg:ffmpeg", ranges=["< 6.1.2"])])])
+    out = sprint(print_advisory_versions, adv)
+    @test contains(out, "- `JLSEC-2025-9999` (from: [CVE-2025-99999](https://example.com)) for upstream project(s):")
+    @test contains(out, "- **ffmpeg:ffmpeg** (per CVE-2025-99999) at versions: `< 6.1.2`")
+    @test contains(out, "- mapping to packages:")
+    @test contains(out, "- **FFMPEG_jll** at versions: `< 6.1.2+0`")
+
+    # Changes against a prior version of the advisory are annotated
+    old = SecurityAdvisories.to_toml_frontmatter(adv)
+    adv.affected = [PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.3+0")]),
+                    PackageVulnerability(pkg="FFplay_jll", ranges=[VRN("< 7.1.0+0")])]
+    out = sprint(io -> print_advisory_versions(io, adv, old))
+    @test contains(out, "- **FFMPEG_jll** at versions: `< 6.1.3+0` (was: `< 6.1.2+0`)")
+    @test contains(out, "- **FFplay_jll** at versions: `< 7.1.0+0` (newly listed)")
+
+    # Advisories without upstream claims render a flat package list
+    alias = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])], jlsec_sources=[test_source()])
+    @test contains(sprint(print_advisory_versions, alias), "for packages:\n    - **HTTP** at versions: `< 1.10.17`")
+end
+
 using JSON3: JSON3
 @testset "sometimes EUVD has no description" begin
     vuln = JSON3.read(joinpath(@__DIR__, "EUVD-2025-32379.json"))

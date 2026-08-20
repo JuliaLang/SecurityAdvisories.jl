@@ -614,6 +614,105 @@ function Base.tryparse(::Type{Advisory}, s::Union{AbstractString, IO})
     end
 end
 
+# The schema-agnostic counterparts of `tryparse(Advisory, ...)` above: split an advisory
+# file into its raw TOML frontmatter and body without round-tripping through the Advisory
+# struct, so that (possibly old, possibly differently-schemed) revisions can be compared
+# field-by-field. Used by `print_advisory_diff`.
+
+# Pull the contents of the first ```toml fence, and everything after it (the markdown body)
+function split_frontmatter(content::AbstractString)
+    m = match(r"^(`{3,})toml\r?\n(.*?)^\1`*\r?\n?(.*)"ms, content)
+    m === nothing && return nothing, content
+    return m[2], m[3]
+end
+
+# Mirror Base.tryparse(Advisory, ...): the body is an optional leading `#` heading
+# (the summary, whitespace-normalized) followed by the details.
+function parse_body(body::AbstractString)
+    body = strip(body)
+    summary = nothing
+    m = match(r"^#+[ \t]+(.+?)[ \t#]*(\r?\n|$)", body)
+    if m !== nothing
+        summary = replace(m[1], r"\s+" => " ")
+        body = strip(body[ncodeunits(m.match)+1:end])
+    end
+    details = isempty(body) ? nothing : String(body)
+    return summary, details
+end
+
+####### Markdown presentation of an advisory's version ranges
+
+# A markdown code span, safe for use in table cells
+mdcode(s) = "`" * replace(s, "`" => "'", "|" => "\\|") * "`"
+
+ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
+
+# The `(source id, upstream component record)` claims held within an advisory's jlsec_sources
+source_claims(t) = t === nothing ? Tuple{String,Any}[] :
+    [(string(get(s, "id", "?")), u) for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict
+                                    for u in asvector(get(s, "affected", Any[])) if u isa AbstractDict]
+
+"""
+    print_version_ranges(io, id, old, new; from="")
+
+Render one advisory's affected packages — and the upstream components they derive from —
+from its TOML frontmatter `new` as a Markdown list item, annotating range changes against
+the prior frontmatter `old` (`nothing` for a newly-added advisory). Extra header text (like
+the source links of [`print_advisory_versions`](@ref)) may be passed via `from`. Operating
+on the raw frontmatter allows rendering both freshly-imported advisories (via
+[`to_toml_frontmatter`](@ref)) and old revisions pulled from git (via `print_advisory_diff`).
+"""
+function print_version_ranges(io, id, old, new; from="")
+    aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
+    old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
+    new_affected = aff(new)
+    claims = source_claims(new)
+
+    function pkgline(e, indent)
+        pkg = string(get(e, "pkg", "?"))
+        newr = get(e, "ranges", Any[])
+        oldr = get(old_pkgs, pkg, nothing)
+        was = oldr === nothing ? (old === nothing ? "" : " (newly listed)") :
+              isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
+        println(io, indent, "- **", pkg, "** at versions: ", ranges_str(newr), was)
+    end
+
+    println(io, "- ", mdcode(id), from, isempty(claims) ? " for packages:" : " for upstream project(s):")
+    if isempty(claims)
+        foreach(e -> pkgline(e, "    "), new_affected)
+    else
+        old_claims = Dict{Any,Any}((src_id, string(get(u, "vendor_product", "?"))) => get(u, "ranges", Any[])
+                                   for (src_id, u) in source_claims(old))
+        for (src_id, u) in claims
+            cpe = string(get(u, "vendor_product", "?"))
+            newr = get(u, "ranges", Any[])
+            oldr = get(old_claims, (src_id, cpe), nothing)
+            was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
+            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was)
+        end
+        println(io, "    - mapping to packages:")
+        foreach(e -> pkgline(e, "        "), new_affected)
+    end
+    # Packages that were affected before but are no longer listed
+    for (pkg, oldr) in sort!(collect(old_pkgs), by=first)
+        any(e -> string(get(e, "pkg", "")) == pkg, new_affected) && continue
+        println(io, "    - **", pkg, "**: no longer affected (was: ", ranges_str(oldr), ")")
+    end
+end
+
+"""
+    print_advisory_versions(io, advisory::Advisory, old=nothing)
+
+Render one advisory's affected version ranges (with links to its sources) via
+[`print_version_ranges`](@ref), annotating changes against the previously-published TOML
+frontmatter `old` (`nothing` for newly-imported advisories).
+"""
+function print_advisory_versions(io, adv::Advisory, old=nothing)
+    from = string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
+    print_version_ranges(io, adv.id, old, to_toml_frontmatter(adv); from)
+    println(io)
+end
+
 """
     to_osv_dict(x)
 

@@ -1,8 +1,6 @@
 # Re-fetch every published advisory from its upstream sources (as recorded in its
 # jlsec_sources) and update it in place if the upstream data meaningfully changed.
-using SecurityAdvisories: SecurityAdvisories, Advisory
-
-include(joinpath(@__DIR__, "diff_advisories.jl"))  # for print_advisory_diff
+using SecurityAdvisories: SecurityAdvisories, Advisory, print_advisory_diff
 
 isspace_or_comma(c) = isspace(c) || c == ','
 

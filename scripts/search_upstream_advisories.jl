@@ -1,6 +1,6 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
-using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX
+using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX, print_advisory_versions
 using GeneralMetadata
 using JSON3: JSON3
 using TOML: TOML
@@ -8,26 +8,11 @@ using Dates: Dates
 using DataStructures: DefaultDict, OrderedDict
 using SHA: sha256
 
-include(joinpath(@__DIR__, "diff_advisories.jl"))  # for the shared print_version_ranges renderer
-
 link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
 link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, ")")
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 isspace_or_comma(c) = isspace(c) || c == ','
-
-"""
-    print_advisory_versions(io, adv, old=nothing)
-
-Render one advisory's affected version ranges (with links to its sources) using the shared
-renderer from diff_advisories.jl, annotating changes against the previously-published TOML
-frontmatter `old` (`nothing` for newly-imported advisories).
-"""
-function print_advisory_versions(io, adv, old=nothing)
-    from = string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
-    print_version_ranges(io, adv.id, old, SecurityAdvisories.to_toml_frontmatter(adv); from)
-    println(io)
-end
 
 function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
     advisories = Advisory[]
