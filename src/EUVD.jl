@@ -146,7 +146,7 @@ function fetch_vulnerabilities()
     return fetch_all_pages(string(API_BASE, "/search"), headers, params)
 end
 
-affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(get(vuln, :description, ""), vendor_product_versions(vuln); source="EUVD")
+affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(get(vuln, :description, ""), vendor_product_versions(vuln))
 
 function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
@@ -182,14 +182,14 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref) for ref in split(get(vuln, :references, ""), "\n"; keepempty=false)],
         # credits -- not structured
-        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.id,
             modified = parse_euvd_datetime(vuln.dateUpdated),
             published = if exists(vuln, :datePublished) parse_euvd_datetime(vuln.datePublished) end,
             imported = Dates.now(Dates.UTC),
             url = string(API_BASE, "/enisaid?id=", vuln.id),
-            html_url = string("https://euvd.enisa.europa.eu/vulnerability/", vuln.id)
+            html_url = string("https://euvd.enisa.europa.eu/vulnerability/", vuln.id),
+            affected = upstreams,
             )]
         )
 end

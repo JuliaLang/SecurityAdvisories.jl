@@ -149,7 +149,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
 
     if !isempty(upstreams)
         vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
-        vulnerable_cpes = unique(u.vendor_product for adv in upstreams for u in adv.jlsec_upstreams)
+        vulnerable_cpes = unique(u.vendor_product for adv in upstreams for src in adv.jlsec_sources for u in src.affected)
         vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
         pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in vulnerable_pkgs)
         println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")

@@ -416,15 +416,15 @@ function convert_versions(pkg_project_map, vulnerable_range)
 end
 
 """
-    affected_julia_packages(description, vendorproductversions; source=nothing)
+    affected_julia_packages(description, vendorproductversions)
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
 for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
 vector of the corresponding Julia `PackageVulnerability`s and — when the vulnerability was
 identified through upstream (non-Julia) components — the `UpstreamRanges` that record those
-components' originating version ranges, attributed to the given `source` database.
+components' originating version ranges (for the importing source's `affected` field).
 """
-function affected_julia_packages(description, vendorproductversions; source=nothing)
+function affected_julia_packages(description, vendorproductversions)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
     # There are four reasons why this might return a ["*"] range
     # 1. That's the correct answer
@@ -501,7 +501,7 @@ function affected_julia_packages(description, vendorproductversions; source=noth
             union!(by_cpe[cpe].versions, keys(conversions))
         end
         # The UpstreamRanges constructor canonically sorts and dedupes its pkgs and ranges
-        append!(upstreams, [UpstreamRanges(cpe, info.pkgs, info.versions, source) for (cpe, info) in by_cpe])
+        append!(upstreams, [UpstreamRanges(cpe, info.pkgs, info.versions) for (cpe, info) in by_cpe])
     end
     return (; affected=vulns, upstreams)
 end

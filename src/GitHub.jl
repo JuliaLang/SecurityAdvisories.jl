@@ -245,7 +245,7 @@ function vendor_product_versions(advisory)
     return vpv
 end
 
-affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory); source="GHSA")
+affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory))
 
 function advisory(vuln)
     (; affected, upstreams) = affected_julia_packages(vuln)
@@ -291,14 +291,14 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref) for ref in something(get(vuln, :references, nothing), [])],
         credits = credits,
-        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.ghsa_id,
             modified = Dates.DateTime(chopsuffix(vuln.updated_at, "Z")),
             published = Dates.DateTime(chopsuffix(vuln.published_at, "Z")),
             imported = Dates.now(Dates.UTC),
             url = vuln.url,
-            html_url = vuln.html_url
+            html_url = vuln.html_url,
+            affected = upstreams,
             )]
         )
 end

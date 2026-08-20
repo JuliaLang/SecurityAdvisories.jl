@@ -46,28 +46,28 @@ function sort_version_ranges!(versions)
 end
 
 """
-    UpstreamRanges(; vendor_product, pkgs=[], ranges=[], source=nothing)
+    UpstreamRanges(; vendor_product, pkgs=[], ranges=[])
 
 Record the originating vulnerable version ranges of an upstream (non-Julia) component, as claimed
-by a `source` advisory database. The component is identified by its CPE-like `"vendor:product"`
-string, its vulnerable `ranges` are kept verbatim in the source's own version numbers, and `pkgs`
-lists the affected Julia packages whose vulnerable ranges were derived from this component.
+by the [`AdvisorySource`](@ref) whose `affected` field holds it. The component is identified by
+its CPE-like `"vendor:product"` string, its vulnerable `ranges` are kept verbatim in the source's
+own version numbers, and `pkgs` lists the affected Julia packages whose vulnerable ranges were
+derived from this component.
 """
 @kwdef struct UpstreamRanges
     vendor_product::String
     pkgs::Vector{String} = String[]
     ranges::Vector{String} = String[]
-    source::Union{Nothing, String} = nothing
-    function UpstreamRanges(vendor_product, pkgs, ranges, source)
+    function UpstreamRanges(vendor_product, pkgs, ranges)
         new(vendor_product, sort!(unique!(collect(String, pkgs))),
-            sort_version_ranges!(unique!(collect(String, ranges))), source)
+            sort_version_ranges!(unique!(collect(String, ranges))))
     end
 end
 Base.convert(::Type{UpstreamRanges}, d::AbstractDict) = UpstreamRanges(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.:(==)(a::UpstreamRanges, b::UpstreamRanges)
-    return a.vendor_product == b.vendor_product && a.pkgs == b.pkgs && a.ranges == b.ranges && a.source == b.source
+    return a.vendor_product == b.vendor_product && a.pkgs == b.pkgs && a.ranges == b.ranges
 end
-Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.pkgs, hash(a.ranges, hash(a.source, hash(0x43700fd0d84b71d3, h)))))
+Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.pkgs, hash(a.ranges, hash(0x43700fd0d84b71d3, h))))
 
 """
     Reference(; url, type="WEB")
@@ -161,6 +161,8 @@ end
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
     database_specific::Dict{String, Any} = Dict{String, Any}()
+    # The upstream (non-Julia) components this source claims are vulnerable, as UpstreamRanges
+    affected::Vector{UpstreamRanges} = UpstreamRanges[]
 end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
@@ -213,7 +215,6 @@ There is just one place where we differ:
     references::Vector{Reference} = Reference[]
     credits::Vector{Credit} = Credit[]
     ## JLSEC database_specific fields:
-    jlsec_upstreams::Vector{UpstreamRanges} = UpstreamRanges[]
     jlsec_sources::Vector{AdvisorySource} = AdvisorySource[]
 end
 osv_fieldnames(::Type{Advisory}) = filter(!startswith("jlsec_")∘string, fieldnames(Advisory))
@@ -242,11 +243,11 @@ function Base.:≈(a::Advisory, b::Advisory)
         a.details == b.details &&
         Set(a.severity) == Set(b.severity) &&
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
-        Set(a.jlsec_upstreams) == Set(b.jlsec_upstreams) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
-        Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
-        Set((src.id, src.published, src.url) for src in b.jlsec_sources)
+        # Note that a source's claimed upstream ranges are material, but its timestamps are not
+        Set((src.id, src.published, src.url, src.affected) for src in a.jlsec_sources) ==
+        Set((src.id, src.published, src.url, src.affected) for src in b.jlsec_sources)
 end
 
 """
@@ -307,7 +308,8 @@ function recipe_update_candidates(a::Advisory)
     candidates = Pair{String, VersionString}[]
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
-        upstream_ranges = [tryparse(VersionRange, v) for u in a.jlsec_upstreams if vuln.pkg in u.pkgs for v in u.ranges]
+        upstream_ranges = [tryparse(VersionRange, v)
+            for src in a.jlsec_sources for u in src.affected if vuln.pkg in u.pkgs for v in u.ranges]
         (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
         all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
         push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))
@@ -379,21 +381,6 @@ function combine_severities(a::Vector{Severity}, b::Vector{Severity})
         if get(result, sev.type, sev).source == sev.source
             result[sev.type] = sev
         end
-    end
-    return collect(values(result))
-end
-
-"""
-    combine_upstreams(a, b)
-
-Combine two lists of `UpstreamRanges`, keyed by their `(vendor_product, source)`: claims about
-new components (or from new sources) are added, while later claims about the same component from
-the same source are updated assessments and replace the earlier ones.
-"""
-function combine_upstreams(a::Vector{UpstreamRanges}, b::Vector{UpstreamRanges})
-    result = OrderedDict((u.vendor_product, u.source) => u for u in a)
-    for u in b
-        result[(u.vendor_product, u.source)] = u
     end
     return collect(values(result))
 end
@@ -475,7 +462,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        jlsec_upstreams = combine_upstreams(a.jlsec_upstreams, b.jlsec_upstreams),
+        # Each source's claimed upstream ranges ride along with the source entries themselves
         jlsec_sources = sources,
     )
 end
@@ -575,7 +562,7 @@ sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
 sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
 sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
-sort_collection(xs::Vector{UpstreamRanges}) = sort(xs, by=x->(x.vendor_product, something(x.source, "")))
+sort_collection(xs::Vector{UpstreamRanges}) = sort(xs, by=x->x.vendor_product)
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)

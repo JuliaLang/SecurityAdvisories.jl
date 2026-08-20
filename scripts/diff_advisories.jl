@@ -102,16 +102,20 @@ const MAX_RANGE_DETAILS = 20
 
 ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
 
+# The `(source id, upstream component record)` claims held within an advisory's jlsec_sources
+source_claims(t) = t === nothing ? Tuple{String,Any}[] :
+    [(string(get(s, "id", "?")), u) for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict
+                                    for u in asvector(get(s, "affected", Any[])) if u isa AbstractDict]
+
 # Render one advisory's affected packages — and the upstream components they derive from —
 # from its TOML frontmatter, annotating range changes. This is shared with the
 # search_upstream_advisories PR body, which passes its source links via `from`.
 # `old` is the advisory's prior TOML frontmatter, or `nothing` for a newly-added advisory.
 function print_version_ranges(io, id, old, new; from="")
     aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
-    ups(t) = t === nothing ? Any[] : [u for u in asvector(get(t, "jlsec_upstreams", Any[])) if u isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
-    upstreams = ups(new)
+    claims = source_claims(new)
 
     function pkgline(e, indent)
         pkg = string(get(e, "pkg", "?"))
@@ -122,19 +126,18 @@ function print_version_ranges(io, id, old, new; from="")
         println(io, indent, "- **", pkg, "** at versions: ", ranges_str(newr), was)
     end
 
-    println(io, "- ", mdcode(id), from, isempty(upstreams) ? " for packages:" : " for upstream project(s):")
-    if isempty(upstreams)
+    println(io, "- ", mdcode(id), from, isempty(claims) ? " for packages:" : " for upstream project(s):")
+    if isempty(claims)
         foreach(e -> pkgline(e, "    "), new_affected)
     else
-        old_ups = Dict{Any,Any}((string(get(u, "vendor_product", "?")), get(u, "source", nothing)) => get(u, "ranges", Any[])
-                                for u in ups(old))
-        for u in upstreams
+        old_claims = Dict{Any,Any}((src_id, string(get(u, "vendor_product", "?"))) => get(u, "ranges", Any[])
+                                   for (src_id, u) in source_claims(old))
+        for (src_id, u) in claims
             cpe = string(get(u, "vendor_product", "?"))
             newr = get(u, "ranges", Any[])
-            oldr = get(old_ups, (cpe, get(u, "source", nothing)), nothing)
+            oldr = get(old_claims, (src_id, cpe), nothing)
             was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
-            src = haskey(u, "source") ? " (from $(u["source"]))" : ""
-            println(io, "    - **", cpe, "**", src, " at versions: ", ranges_str(newr), was, ", mapping to")
+            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was, ", mapping to")
             foreach(e -> pkgline(e, "        "), [e for e in new_affected if string(get(e, "pkg", "")) in get(u, "pkgs", Any[])])
         end
     end
@@ -247,7 +250,7 @@ function print_advisory_diff(io::IO, base, target=nothing)
         toml_src, _ = split_frontmatter(newc)
         toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
         toml isa Dict || continue
-        haskey(toml, "affected") || haskey(toml, "jlsec_upstreams") || continue
+        haskey(toml, "affected") || !isempty(source_claims(toml)) || continue
         push!(version_changes, (splitext(basename(f))[1], nothing, toml))
     end
 
@@ -270,7 +273,7 @@ function print_advisory_diff(io::IO, base, target=nothing)
         end
 
         if !isequal(get(old, "affected", nothing), get(new, "affected", nothing)) ||
-           !isequal(get(old, "jlsec_upstreams", nothing), get(new, "jlsec_upstreams", nothing))
+           !isequal(source_claims(old), source_claims(new))
             push!(version_changes, (splitext(basename(f))[1], old, new))
         end
 

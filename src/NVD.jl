@@ -262,7 +262,7 @@ function vendor_product_versions(vuln)
     return unique!(vpvs)
 end
 
-affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(english_description(vuln), vendor_product_versions(vuln); source="NVD")
+affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(english_description(vuln), vendor_product_versions(vuln))
 
 function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
@@ -324,7 +324,6 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref.url) for ref in get(vuln.cve, :references, []) if haskey(ref, :url)],
         # credits -- not structured
-        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.cve.id,
             modified = Dates.DateTime(vuln.cve.lastModified),
@@ -333,6 +332,7 @@ function advisory(vuln)
             url = string(NVD_API_BASE, "?cveId=", vuln.cve.id),
             html_url = string("https://nvd.nist.gov/vuln/detail/", vuln.cve.id),
             database_specific = db,
+            affected = upstreams,
             )]
         )
 end
