@@ -245,11 +245,11 @@ function vendor_product_versions(advisory)
     return vpv
 end
 
-affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory))
+affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory); source="GHSA")
 
 function advisory(vuln)
-    affected = affected_julia_packages(vuln)
-    upstream_type = Dict("alias"=>:aliases,"upstream"=>:upstream)[get(unique(map(x->x.source_type, affected)), 1, "alias")]
+    (; affected, upstreams) = affected_julia_packages(vuln)
+    upstream_type = isempty(upstreams) ? :aliases : :upstream
 
     # Aliases are in multiple places:
     aliases = String[vuln.ghsa_id]
@@ -291,6 +291,7 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref) for ref in something(get(vuln, :references, nothing), [])],
         credits = credits,
+        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.ghsa_id,
             modified = Dates.DateTime(chopsuffix(vuln.updated_at, "Z")),

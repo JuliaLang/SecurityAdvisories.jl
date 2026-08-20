@@ -15,7 +15,9 @@ Each advisory is canonically stored and edited as a Markdown file with TOML fron
         * Credits can use a shorthand `"Author Name <author@example.com>"` for the common cases where no credit type is assigned and there is only one email-based contact method
         * References can contain URLs directly; these become `WEB` reference types
         * Severities can contain the CVSS string itself
-    * Any additional fields whose names start with `jlsec_` are placed into `database_specific` (with the prefix removed). Currently there is only one supported database specific field, `jlsec_sources`, which stores information about the database(s) from which the advisory was imported (if imported).
+    * Any additional fields whose names start with `jlsec_` are placed into `database_specific` (with the prefix removed). There are currently two supported database-specific fields:
+        * `jlsec_sources` stores information about the database(s) from which the advisory was imported (if imported).
+        * `jlsec_upstreams` records the provenance of advisories identified through an upstream (non-Julia) component, like the libraries that `_jll` packages provide. Each entry names the matched `vendor_product` identifier, the affected Julia `pkgs` whose vulnerable ranges were derived from that component, the component's vulnerable `ranges` verbatim in the source's own version numbers, and the `source` database that reported them.
 
 <details><summary>In practice, a valid JLSEC advisory looks like this:</summary>
 

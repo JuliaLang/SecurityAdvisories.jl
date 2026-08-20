@@ -262,13 +262,13 @@ function vendor_product_versions(vuln)
     return unique!(vpvs)
 end
 
-affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(english_description(vuln), vendor_product_versions(vuln))
+affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(english_description(vuln), vendor_product_versions(vuln); source="NVD")
 
 function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
 
     for vuln in vulnerabilities
-        if !isempty(affected_julia_packages(vuln))
+        if !isempty(affected_julia_packages(vuln).affected)
             push!(julia_vulnerabilities, vuln)
         end
     end
@@ -288,8 +288,8 @@ function english_description(vuln)
 end
 
 function advisory(vuln)
-    affected = affected_julia_packages(vuln)
-    upstream_type = Dict("alias"=>:aliases,"upstream"=>:upstream)[get(unique(map(x->x.source_type, affected)), 1, "alias")]
+    (; affected, upstreams) = affected_julia_packages(vuln)
+    upstream_type = isempty(upstreams) ? :aliases : :upstream
 
     # Severities are a little complicated
     severities = Severity[]
@@ -324,6 +324,7 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref.url) for ref in get(vuln.cve, :references, []) if haskey(ref, :url)],
         # credits -- not structured
+        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.cve.id,
             modified = Dates.DateTime(vuln.cve.lastModified),

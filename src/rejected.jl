@@ -55,8 +55,12 @@ function strip_rejected!(a::Advisory; path=REJECTED_PATH)
     entry = last(rejection)
     if haskey(entry, "packages")
         filter!(v -> v.pkg ∉ entry["packages"], a.affected)
+        a.jlsec_upstreams = [UpstreamRanges(u.vendor_product, filter(∉(entry["packages"]), u.pkgs), u.ranges, u.source)
+                             for u in a.jlsec_upstreams]
     else
         empty!(a.affected)
+        empty!(a.jlsec_upstreams)
     end
+    filter!(u -> !isempty(u.pkgs), a.jlsec_upstreams)
     return a
 end

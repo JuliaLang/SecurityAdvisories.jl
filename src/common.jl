@@ -416,12 +416,15 @@ function convert_versions(pkg_project_map, vulnerable_range)
 end
 
 """
-    affected_julia_packages(description, vendorproductversions)
+    affected_julia_packages(description, vendorproductversions; source=nothing)
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
-for which the vulnerability applies, return the vector of the corresponding Julia `PackageVulnerability`s.
+for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
+vector of the corresponding Julia `PackageVulnerability`s and — when the vulnerability was
+identified through upstream (non-Julia) components — the `UpstreamRanges` that record those
+components' originating version ranges, attributed to the given `source` database.
 """
-function affected_julia_packages(description, vendorproductversions)
+function affected_julia_packages(description, vendorproductversions; source=nothing)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
     # There are four reasons why this might return a ["*"] range
     # 1. That's the correct answer
@@ -484,23 +487,23 @@ function affected_julia_packages(description, vendorproductversions)
         advisory_type = "alias"
     end
 
-    # return pkgs
     vulns = PackageVulnerability[]
-    for (pkg, source_mapping) in pkgs
-        # Use a better sorting if we can:
-        for (_, vs) in source_mapping
-            if all(!isnothing, tryparse.(VersionRange, keys(vs)))
-                sort!(vs, by=x->something(tryparse(SecurityAdvisories.VersionRange, x), x))
-            else
-                sort!(vs)
-            end
-        end
+    for (pkg, mapping) in pkgs
         push!(vulns, PackageVulnerability(pkg,
-            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in source_mapping for (_,v) in map)))),
-            advisory_type,
-            source_mapping))
+            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
     end
-    return vulns
+    # Record the originating upstream component ranges (verbatim) and the packages they map to
+    upstreams = UpstreamRanges[]
+    if advisory_type == "upstream"
+        by_cpe = DefaultDict{String, Any}(()->(pkgs=String[], versions=String[]))
+        for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
+            push!(by_cpe[cpe].pkgs, pkg)
+            union!(by_cpe[cpe].versions, keys(conversions))
+        end
+        # The UpstreamRanges constructor canonically sorts and dedupes its pkgs and ranges
+        append!(upstreams, [UpstreamRanges(cpe, info.pkgs, info.versions, source) for (cpe, info) in by_cpe])
+    end
+    return (; affected=vulns, upstreams)
 end
 
 # TODO: use the above Pkg machinery for this, too

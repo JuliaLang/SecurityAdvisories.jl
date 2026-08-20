@@ -142,7 +142,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
 
     if !isempty(upstreams)
         vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
-        vulnerable_cpes = unique(Iterators.flatten(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected) for adv in upstreams))
+        vulnerable_cpes = unique(u.vendor_product for adv in upstreams for u in adv.jlsec_upstreams)
         vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
         pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in vulnerable_pkgs)
         println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
@@ -210,14 +210,12 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
                 print(io, " [", src.id, "](", src.html_url, ")")
             end
             print(io, ")")
-            if any(SecurityAdvisories.is_populated(a.source_mapping) for a in adv.affected)
+            if !isempty(adv.jlsec_upstreams)
                 print(io, " for upstream project(s): \n")
-                projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
-                for cpe in projects
-                    versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
-                    affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
+                for u in adv.jlsec_upstreams
+                    affecteds = filter(x->x.pkg in u.pkgs && SecurityAdvisories.is_vulnerable(x), adv.affected)
                     isempty(affecteds) && continue
-                    println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
+                    println(io, "    * **", u.vendor_product, "** at versions: ", join("`" .* u.ranges .* "`", ", ", ", and "), ", mapping to ")
                     pkgs = unique(x.pkg for x in affecteds)
                     for pkg in pkgs
                         print(io, "        * **", pkg, "** at versions: ")

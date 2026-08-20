@@ -3,27 +3,22 @@ using Dates: Dates, DateTime
 using CommonMark: CommonMark
 
 """
-    PackageVulnerability(; pkgs, ranges, source_type=nothing, source_mapping=nothing)
+    PackageVulnerability(; pkg, ranges)
 
 Represent an item in OSV's `affected` array, but using ranges of `VersionRange` instead of named events.
-
-The `source_type` and `source_mapping` are a bit of *unserialized* metadata to "show the work" of doing version conversion,
-particularly of importance when the type is `"upstream"` and the version mappings are nontrivial.
 """
 @kwdef struct PackageVulnerability
     pkg::String
     ranges::Vector{VersionRange{VersionNumber}}
-    source_type::Union{Nothing, String} = nothing # or "upstream" or "alias"
-    source_mapping::Union{Nothing, AbstractDict} = nothing
 end
 function Base.convert(::Type{PackageVulnerability}, d::AbstractDict)
     PackageVulnerability(; Dict(Symbol(k)=>(Symbol(k) == :ranges ? VersionRange{VersionNumber}.(v) : v) for (k,v) in d)...)
 end
 function Base.:(==)(a::PackageVulnerability, b::PackageVulnerability)
-    return a.pkg == b.pkg && a.ranges == b.ranges && a.source_type == b.source_type && a.source_mapping == b.source_mapping
+    return a.pkg == b.pkg && a.ranges == b.ranges
 end
 function Base.hash(a::PackageVulnerability, h::UInt)
-    return hash(a.pkg, hash(a.ranges, hash(a.source_type, hash(a.source_mapping, hash(0x30652ead7d10dc57, h)))))
+    return hash(a.pkg, hash(a.ranges, hash(0x30652ead7d10dc57, h)))
 end
 is_vulnerable(v::PackageVulnerability) = !isempty(v.ranges)
 has_lower_bound(v::PackageVulnerability) = all(has_lower_bound, v.ranges)
@@ -36,6 +31,44 @@ function purl(pkg::String)
     end
     return "pkg:julia/$pkg?uuid=$(first(uuid))"
 end
+"""
+    sort_version_ranges!(versions)
+
+Sort a vector of version range strings by their parsed `VersionRange`s, falling back to
+lexicographic order if any of them fail to parse.
+"""
+function sort_version_ranges!(versions)
+    if all(!isnothing, tryparse.(VersionRange, versions))
+        sort!(versions, by=VersionRange)
+    else
+        sort!(versions)
+    end
+end
+
+"""
+    UpstreamRanges(; vendor_product, pkgs=[], ranges=[], source=nothing)
+
+Record the originating vulnerable version ranges of an upstream (non-Julia) component, as claimed
+by a `source` advisory database. The component is identified by its CPE-like `"vendor:product"`
+string, its vulnerable `ranges` are kept verbatim in the source's own version numbers, and `pkgs`
+lists the affected Julia packages whose vulnerable ranges were derived from this component.
+"""
+@kwdef struct UpstreamRanges
+    vendor_product::String
+    pkgs::Vector{String} = String[]
+    ranges::Vector{String} = String[]
+    source::Union{Nothing, String} = nothing
+    function UpstreamRanges(vendor_product, pkgs, ranges, source)
+        new(vendor_product, sort!(unique!(collect(String, pkgs))),
+            sort_version_ranges!(unique!(collect(String, ranges))), source)
+    end
+end
+Base.convert(::Type{UpstreamRanges}, d::AbstractDict) = UpstreamRanges(; Dict(Symbol(k)=>v for (k,v) in d)...)
+function Base.:(==)(a::UpstreamRanges, b::UpstreamRanges)
+    return a.vendor_product == b.vendor_product && a.pkgs == b.pkgs && a.ranges == b.ranges && a.source == b.source
+end
+Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.pkgs, hash(a.ranges, hash(a.source, hash(0x43700fd0d84b71d3, h)))))
+
 """
     Reference(; url, type="WEB")
 
@@ -180,6 +213,7 @@ There is just one place where we differ:
     references::Vector{Reference} = Reference[]
     credits::Vector{Credit} = Credit[]
     ## JLSEC database_specific fields:
+    jlsec_upstreams::Vector{UpstreamRanges} = UpstreamRanges[]
     jlsec_sources::Vector{AdvisorySource} = AdvisorySource[]
 end
 osv_fieldnames(::Type{Advisory}) = filter(!startswith("jlsec_")∘string, fieldnames(Advisory))
@@ -208,6 +242,7 @@ function Base.:≈(a::Advisory, b::Advisory)
         a.details == b.details &&
         Set(a.severity) == Set(b.severity) &&
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
+        Set(a.jlsec_upstreams) == Set(b.jlsec_upstreams) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
         Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
@@ -272,8 +307,7 @@ function recipe_update_candidates(a::Advisory)
     candidates = Pair{String, VersionString}[]
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
-        is_populated(vuln.source_mapping) || continue
-        upstream_ranges = [tryparse(VersionRange, String(v)) for vmap in values(vuln.source_mapping) for v in keys(vmap)]
+        upstream_ranges = [tryparse(VersionRange, v) for u in a.jlsec_upstreams if vuln.pkg in u.pkgs for v in u.ranges]
         (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
         all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
         push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))
@@ -345,6 +379,21 @@ function combine_severities(a::Vector{Severity}, b::Vector{Severity})
         if get(result, sev.type, sev).source == sev.source
             result[sev.type] = sev
         end
+    end
+    return collect(values(result))
+end
+
+"""
+    combine_upstreams(a, b)
+
+Combine two lists of `UpstreamRanges`, keyed by their `(vendor_product, source)`: claims about
+new components (or from new sources) are added, while later claims about the same component from
+the same source are updated assessments and replace the earlier ones.
+"""
+function combine_upstreams(a::Vector{UpstreamRanges}, b::Vector{UpstreamRanges})
+    result = OrderedDict((u.vendor_product, u.source) => u for u in a)
+    for u in b
+        result[(u.vendor_product, u.source)] = u
     end
     return collect(values(result))
 end
@@ -426,6 +475,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
+        jlsec_upstreams = combine_upstreams(a.jlsec_upstreams, b.jlsec_upstreams),
         jlsec_sources = sources,
     )
 end
@@ -512,6 +562,11 @@ function to_toml_frontmatter(v::PackageVulnerability)
     return OrderedDict("pkg" => to_toml_frontmatter(v.pkg),
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
+function to_toml_frontmatter(u::UpstreamRanges)
+    # The `pkgs` and `ranges` are canonically sorted at construction; serialize them verbatim
+    return OrderedDict{String,Any}(string(f) => deepcopy(getfield(u, f))
+        for f in fieldnames(UpstreamRanges) if is_populated(getfield(u, f)))
+end
 
 sort_collection(xs) = xs
 sort_collection(xs::Vector{String}) = sort(xs, by=preferred_id_sort)
@@ -520,6 +575,7 @@ sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
 sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
 sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
+sort_collection(xs::Vector{UpstreamRanges}) = sort(xs, by=x->(x.vendor_product, something(x.source, "")))
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
@@ -589,7 +645,7 @@ function to_osv_dict(a::Severity)
     end
     return d
 end
-function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
+function to_osv_dict(a::Union{Reference, Credit, AdvisorySource, UpstreamRanges})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
 end
 function to_osv_dict(a::Advisory)

@@ -146,13 +146,13 @@ function fetch_vulnerabilities()
     return fetch_all_pages(string(API_BASE, "/search"), headers, params)
 end
 
-affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(get(vuln, :description, ""), vendor_product_versions(vuln))
+affected_julia_packages(vuln) = SecurityAdvisories.affected_julia_packages(get(vuln, :description, ""), vendor_product_versions(vuln); source="EUVD")
 
 function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
 
     for vuln in vulnerabilities
-        if !isempty(affected_julia_packages(vuln))
+        if !isempty(affected_julia_packages(vuln).affected)
             push!(julia_vulnerabilities, vuln)
         end
     end
@@ -165,8 +165,8 @@ vuln_id(vuln) = get(filter(startswith("CVE-"),  split(get(vuln, :aliases, ""))),
 
 parse_euvd_datetime(str) = DateTime(str, dateformat"u d, y, H:M:S p")
 function advisory(vuln)
-    affected = affected_julia_packages(vuln)
-    upstream_type = Dict("alias"=>:aliases,"upstream"=>:upstream)[get(unique(map(x->x.source_type, affected)), 1, "alias")]
+    (; affected, upstreams) = affected_julia_packages(vuln)
+    upstream_type = isempty(upstreams) ? :aliases : :upstream
 
     return Advisory(;
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
@@ -182,6 +182,7 @@ function advisory(vuln)
         affected = affected,
         references = [Reference(url=ref) for ref in split(get(vuln, :references, ""), "\n"; keepempty=false)],
         # credits -- not structured
+        jlsec_upstreams = upstreams,
         jlsec_sources = [AdvisorySource(;
             id = vuln.id,
             modified = parse_euvd_datetime(vuln.dateUpdated),
