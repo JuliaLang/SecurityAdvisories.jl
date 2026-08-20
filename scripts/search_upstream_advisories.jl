@@ -1,5 +1,13 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
+#
+# This runs in two fully-separate phases:
+#   1. `update_advisory_files` searches the upstream databases and writes the advisory files
+#   2. `print_pr_outputs` composes the pull request title and body from the state of the
+#      branch alone (the changed advisory files), so the message can be recomputed at any
+#      time — for example after edits land on the PR branch:
+#
+#          julia --project=. scripts/search_upstream_advisories.jl --message origin/main HEAD
 using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX, print_advisory_versions
 using GeneralMetadata
 using JSON3: JSON3
@@ -14,10 +22,16 @@ meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/bl
 
 isspace_or_comma(c) = isspace(c) || c == ','
 
-function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
+"""
+    update_advisory_files(input, filter_results) -> (; branch, haystack)
+
+Search the upstream databases per `input` and write the new or updated advisory files.
+Returns the branch name and a description of what was searched; everything else about
+this run is left to be read back from the changed files themselves.
+"""
+function update_advisory_files(input, filter_results)
     advisories = Advisory[]
-    info = Dict{String,Any}()
-    info["haystack"] = input
+    haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif !isempty(input) && !any(isspace_or_comma, input)
@@ -48,7 +62,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
                 empty!(advisories)
             end
         end
-        info["haystack"] = "$pkg_search_count packages"
+        haystack = "$pkg_search_count packages"
     end
 
     @info "found $(length(advisories)) advisories in $input"
@@ -63,9 +77,6 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     end
 
     # Now create or update the found advisories:
-    n_modified = 0
-    results = Advisory[]
-    olds = Dict{String, Any}()  # id => previously-published TOML frontmatter (or nothing)
     for advisory in advisories
         filter_results && SecurityAdvisories.strip_rejected!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
@@ -80,16 +91,74 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
             continue
         end
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
-        file = joinpath(dir, advisory.id * ".md")
-        n_modified += isfile(file)
-        open(file, "w") do io
+        open(joinpath(dir, advisory.id * ".md"), "w") do io
             SecurityAdvisories.print(io, advisory)
         end
-        olds[advisory.id] = isnothing(existing) ? nothing : SecurityAdvisories.to_toml_frontmatter(existing)
-        push!(results, advisory)
     end
-    n_total = length(advisories)
-    n_created = n_total - n_modified
+    return (; branch=input, haystack)
+end
+
+"""
+    changed_advisories(base, target=nothing; dir=pwd())
+
+Parse the advisory files that changed between the git revisions `base` and `target`
+(`nothing` compares against the working tree, including not-yet-tracked files), returning
+`(; advisory, old, status)` entries with the parsed new `Advisory`, the prior revision's
+TOML frontmatter (or `nothing` for new advisories), and the git status letter.
+"""
+function changed_advisories(base, target=nothing; dir=pwd())
+    files = [(st, f, old) for (st, f, old) in SecurityAdvisories.changed_files(base, target; dir)
+             if endswith(f, ".md") && startswith(f, "advisories/") && st in ('A', 'M', 'R', 'C')]
+    if target === nothing
+        # `git diff` doesn't see brand-new files that haven't been added yet
+        for f in eachline(Cmd(`git ls-files --others --exclude-standard -- advisories`; dir))
+            endswith(f, ".md") && push!(files, ('A', f, nothing))
+        end
+    end
+    specs = String[]
+    for (st, f, old) in files
+        st in ('M', 'R') && push!(specs, "$base:$(something(old, f))")
+        target === nothing || push!(specs, "$target:$f")
+    end
+    blobs = SecurityAdvisories.fetch_blobs(specs; dir)
+    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
+    fetch_new(f) = target === nothing ?
+        (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
+        blobs["$target:$f"]
+
+    changed = []
+    for (st, f, oldpath) in files
+        content = fetch_new(f)
+        content === nothing && continue
+        advisory = tryparse(Advisory, content)
+        if advisory === nothing
+            @warn "could not parse $f; leaving it out of the PR message"
+            continue
+        end
+        old = if st in ('M', 'R')
+            oldsrc = first(SecurityAdvisories.split_frontmatter(something(blobs["$base:$(something(oldpath, f))"], "")))
+            oldsrc === nothing ? nothing : TOML.tryparse(oldsrc)
+        end
+        push!(changed, (; advisory, old = old isa Dict ? old : nothing, status=st))
+    end
+    return changed
+end
+
+"""
+    print_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=nothing)
+
+Write the pull request `title=`, `recipe_updates=`, and `body<<BODY_EOF` outputs, composed
+entirely from the advisory files that changed between the git revisions `base` and `target`
+(`nothing` compares against the working tree). The optional `haystack` describes what was
+searched to produce the changes; without it the body simply describes the changes themselves.
+"""
+function print_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=nothing)
+    changed = changed_advisories(base, target; dir)
+    results = [c.advisory for c in changed]
+    olds = Dict(c.advisory.id => c.old for c in changed)
+    n_created = count(c.status in ('A', 'C') for c in changed)
+    n_modified = length(changed) - n_created
+    n_total = length(changed)
 
     # Identify unbounded JLLs whose upstream fix is known but not yet built; these
     # are actionable via an Yggdrasil recipe update (requested in a workflow step)
@@ -98,19 +167,21 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         recipe_updates[name] = max(get(recipe_updates, name, version), version)
     end
 
-    # Nice logging information for the possible pull request
-    io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     verb = n_modified > 0 && n_created == 0 ? "Update" :
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
     unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
-    println(io, "branch=", input)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
     println(io, "body<<BODY_EOF")
-    println(io, "This action searched `", info["haystack"], "` for advisories that pertain here. ",
-        "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", join("**" .* unique_pkgs .* "**", ", ", ", and "), ".")
+    pkgs_str = join("**" .* unique_pkgs .* "**", ", ", ", and ")
+    if haystack !== nothing
+        println(io, "This action searched `", haystack, "` for advisories that pertain here. ",
+            "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", pkgs_str, ".")
+    else
+        println(io, "This pull request changes ", n_total, " ", advisory_str, " related to the Julia package(s): ", pkgs_str, ".")
+    end
     println(io)
 
     divide(f, x) = return (filter(f, x), filter(!f, x))
@@ -127,7 +198,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(aliases)))
         println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print_advisory_versions(io, adv, get(olds, adv.id, nothing))
+            print_advisory_versions(io, adv, olds[adv.id])
         end
         println(io)
     end
@@ -200,15 +271,28 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
 
         println(io, "\n### Advisory summaries\n")
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print_advisory_versions(io, adv, get(olds, adv.id, nothing))
+            print_advisory_versions(io, adv, olds[adv.id])
         end
         println(io)
     end
     println(io, "BODY_EOF")
+end
+
+function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
+    (; branch, haystack) = update_advisory_files(input, filter_results)
+    # The PR message is composed entirely from the changed files, comparing HEAD to the working tree
+    io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
+    println(io, "branch=", branch)
+    print_pr_outputs(io, "HEAD"; haystack)
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    main()
+    if get(ARGS, 1, "") == "--message"
+        # Recompose the PR outputs from the branch state alone, e.g. after edits to the branch
+        print_pr_outputs(stdout, get(ARGS, 2, "origin/main"), get(ARGS, 3, nothing))
+    else
+        main()
+    end
 end
