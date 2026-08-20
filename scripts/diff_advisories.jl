@@ -103,9 +103,10 @@ const MAX_RANGE_DETAILS = 20
 ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
 
 # Render one advisory's affected packages — and the upstream components they derive from —
-# in the same style as the search_upstream_advisories PR body, annotating range changes.
+# from its TOML frontmatter, annotating range changes. This is shared with the
+# search_upstream_advisories PR body, which passes its source links via `from`.
 # `old` is the advisory's prior TOML frontmatter, or `nothing` for a newly-added advisory.
-function print_version_ranges(io, id, old, new)
+function print_version_ranges(io, id, old, new; from="")
     aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
     ups(t) = t === nothing ? Any[] : [u for u in asvector(get(t, "jlsec_upstreams", Any[])) if u isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
@@ -121,7 +122,7 @@ function print_version_ranges(io, id, old, new)
         println(io, indent, "- **", pkg, "** at versions: ", ranges_str(newr), was)
     end
 
-    println(io, "- ", mdcode(id), isempty(upstreams) ? " for packages:" : " for upstream project(s):")
+    println(io, "- ", mdcode(id), from, isempty(upstreams) ? " for packages:" : " for upstream project(s):")
     if isempty(upstreams)
         foreach(e -> pkgline(e, "    "), new_affected)
     else

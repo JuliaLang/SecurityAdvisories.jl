@@ -8,11 +8,26 @@ using Dates: Dates
 using DataStructures: DefaultDict, OrderedDict
 using SHA: sha256
 
+include(joinpath(@__DIR__, "diff_advisories.jl"))  # for the shared print_version_ranges renderer
+
 link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
 link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, ")")
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 isspace_or_comma(c) = isspace(c) || c == ','
+
+"""
+    print_advisory_versions(io, adv, old=nothing)
+
+Render one advisory's affected version ranges (with links to its sources) using the shared
+renderer from diff_advisories.jl, annotating changes against the previously-published TOML
+frontmatter `old` (`nothing` for newly-imported advisories).
+"""
+function print_advisory_versions(io, adv, old=nothing)
+    from = string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
+    print_version_ranges(io, adv.id, old, SecurityAdvisories.to_toml_frontmatter(adv); from)
+    println(io)
+end
 
 function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
     advisories = Advisory[]
@@ -65,6 +80,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     # Now create or update the found advisories:
     n_modified = 0
     results = Advisory[]
+    olds = Dict{String, Any}()  # id => previously-published TOML frontmatter (or nothing)
     for advisory in advisories
         filter_results && SecurityAdvisories.strip_rejected!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
@@ -84,6 +100,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         open(file, "w") do io
             SecurityAdvisories.print(io, advisory)
         end
+        olds[advisory.id] = isnothing(existing) ? nothing : SecurityAdvisories.to_toml_frontmatter(existing)
         push!(results, advisory)
     end
     n_total = length(advisories)
@@ -125,17 +142,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(aliases)))
         println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
         for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print(io, "* ")
-            print(io, "`", adv.id, "` (from:")
-            for src in adv.jlsec_sources
-                print(io, " [", src.id, "](", src.html_url, ")")
-            end
-            print(io, ") for packages: \n")
-            for pkg in SecurityAdvisories.vulnerable_packages(adv)
-                versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
-                print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
-            end
-            println(io)
+            print_advisory_versions(io, adv, get(olds, adv.id, nothing))
         end
         println(io)
     end
@@ -204,33 +211,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
 
         println(io, "\n### Advisory summaries\n")
         for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print(io, "* ")
-            print(io, "`", adv.id, "` (from:")
-            for src in adv.jlsec_sources
-                print(io, " [", src.id, "](", src.html_url, ")")
-            end
-            print(io, ")")
-            if !isempty(adv.jlsec_upstreams)
-                print(io, " for upstream project(s): \n")
-                for u in adv.jlsec_upstreams
-                    affecteds = filter(x->x.pkg in u.pkgs && SecurityAdvisories.is_vulnerable(x), adv.affected)
-                    isempty(affecteds) && continue
-                    println(io, "    * **", u.vendor_product, "** at versions: ", join("`" .* u.ranges .* "`", ", ", ", and "), ", mapping to ")
-                    pkgs = unique(x.pkg for x in affecteds)
-                    for pkg in pkgs
-                        print(io, "        * **", pkg, "** at versions: ")
-                        pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                        println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
-                    end
-                end
-            else
-                print(io, " for package(s): \n")
-                for pkg in SecurityAdvisories.vulnerable_packages(adv)
-                    versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
-                    print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
-                end
-            end
-            println(io)
+            print_advisory_versions(io, adv, get(olds, adv.id, nothing))
         end
         println(io)
     end
