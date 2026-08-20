@@ -381,6 +381,21 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
 end
 
 """
+    better_affected(a, b)
+
+Choose between two competing versions of a package's affected ranges, preferring `a`
+unless `b` is clearly better: having more ranges is generally more specific, and ranges
+with upper bounds beat unbounded ones. This is both how [`combine`](@ref) merges two
+advisories' entries and how [`used_source`](@ref) works out which source's data won.
+"""
+function better_affected(a::PackageVulnerability, b::PackageVulnerability)
+    a.ranges == b.ranges && return a
+    length(a.ranges) > length(b.ranges) && return a
+    all(has_upper_bound, a.ranges) && return a
+    return b
+end
+
+"""
     combine_severities(a, b)
 
 Combine two lists of `Severity`s, keeping only one of each `type`: the first source to claim a
@@ -456,16 +471,7 @@ function combine(a::Advisory, b::Advisory)
                 elseif b_entry === nothing
                     a.affected[a_entry]
                 else
-                    a_ranges = a.affected[a_entry].ranges
-                    b_ranges = b.affected[b_entry].ranges
-                    if length(a_ranges) > length(b_ranges)
-                        # Having more ranges is generally more specific
-                        a.affected[a_entry]
-                    elseif all(has_upper_bound, a_ranges)
-                        a.affected[a_entry]
-                    else
-                        b.affected[b_entry]
-                    end
+                    better_affected(a.affected[a_entry], b.affected[b_entry])
                 end
             end for pkg in pkgs]
         else
@@ -662,6 +668,40 @@ source_affected(t) = t === nothing ? Tuple{String,Any}[] :
                                     for u in asvector(get(s, "affected", Any[])) if u isa AbstractDict]
 
 """
+    used_source(frontmatter)
+
+Determine which source's affected components were used for the advisory's affected package
+ranges: each source's components are re-run through the version conversion and folded with
+the same [`better_affected`](@ref) choice that `combine` uses. Returns the winning source's
+id, or `nothing` when the simulation doesn't reproduce the recorded ranges (for example,
+after the component metadata improves) or when no single source won.
+"""
+function used_source(frontmatter)
+    target = Dict(string(e["pkg"]) => Set(string.(e["ranges"]))
+                  for e in asvector(get(frontmatter, "affected", Any[])) if e isa AbstractDict)
+    isempty(target) && return nothing
+    chosen = Dict{String, Tuple{String, PackageVulnerability}}() # pkg => (source id, its entry)
+    for src in asvector(get(frontmatter, "jlsec_sources", Any[]))
+        src isa AbstractDict || continue
+        components = [u for u in asvector(get(src, "affected", Any[])) if u isa AbstractDict]
+        vpvs = [(String.(split(u["vendor_product"], ":", limit=2))..., String(r))
+                for u in components if contains(string(get(u, "vendor_product", "")), ":")
+                for r in get(u, "ranges", Any[])]
+        isempty(vpvs) && continue
+        for entry in affected_julia_packages("", vpvs).affected
+            is_vulnerable(entry) || continue
+            if !haskey(chosen, entry.pkg) || better_affected(chosen[entry.pkg][2], entry) === entry
+                chosen[entry.pkg] = (string(get(src, "id", "?")), entry)
+            end
+        end
+    end
+    # The simulation must reproduce the recorded ranges, and a single source must have won
+    Dict(pkg => Set(string.(entry.ranges)) for (pkg, (_, entry)) in chosen) == target || return nothing
+    ids = unique(id for (id, _) in values(chosen))
+    return length(ids) == 1 ? only(ids) : nothing
+end
+
+"""
     print_version_ranges(io, id, old, new; from="")
 
 Render one advisory's affected packages — and the upstream components they derive from —
@@ -669,17 +709,26 @@ from its TOML frontmatter `new` as a Markdown list item, annotating range change
 the prior frontmatter `old` (`nothing` for a newly-added advisory). Extra header text (like
 the source links of [`print_advisory_versions`](@ref)) may be passed via `from`, and upstream
 components that map to none of the listed affected packages (as computed by the
-`packages_with_component` keyword) are not shown. Operating on the raw frontmatter allows
+`packages_with_component` keyword) are not shown. When several sources list components,
+only the source whose data was used (per `pick_used`, [`used_source`](@ref) by default)
+is shown, and component ranges that fail to parse are called out — they are what the
+pessimistic all-versions `*` ranges come from. Operating on the raw frontmatter allows
 rendering both freshly-imported advisories (via [`to_toml_frontmatter`](@ref)) and old
 revisions pulled from git (via `print_advisory_diff`).
 """
-function print_version_ranges(io, id, old, new; from="", packages_with_component = packages_with_upstream_component)
+function print_version_ranges(io, id, old, new; from="", packages_with_component = packages_with_upstream_component,
+                              pick_used = used_source)
     aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]
     components = [(src_id, u) for (src_id, u) in source_affected(new)
                   if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
+    if length(unique(first.(components))) > 1
+        # Several sources list components, but only one's data was used for the ranges
+        used = pick_used(new)
+        used === nothing || filter!(((src_id, _),) -> src_id == used, components)
+    end
 
     function pkgline(e, indent)
         pkg = string(get(e, "pkg", "?"))
@@ -701,7 +750,10 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
             newr = get(u, "ranges", Any[])
             oldr = get(old_components, (src_id, cpe), nothing)
             was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
-            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was)
+            unparsed = [r for r in newr if tryparse(VersionRange, string(r)) === nothing]
+            note = isempty(unparsed) ? "" : string(" — ⚠ could not parse ", ranges_str(unparsed),
+                                                   "; unparseable ranges count as all versions")
+            println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was, note)
         end
         println(io, "    - mapping to packages:")
         foreach(e -> pkgline(e, "        "), new_affected)
