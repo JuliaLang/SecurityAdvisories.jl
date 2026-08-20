@@ -131,12 +131,13 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     other = length(files) - length(mdfiles)
     added_files   = [f for (st, f, _) in mdfiles if st in ('A', 'C')]
     deleted_files = [f for (st, f, _) in mdfiles if st == 'D']
-    renamed = [(old, f) for (st, f, old) in mdfiles if st == 'R']
-    # Renamed files are diffed like modifications, old path against new
-    modified = [[(f, f) for (st, f, _) in mdfiles if st == 'M']; renamed]
+    modified = [f for (st, f, _) in mdfiles if st == 'M']
+    renamed  = [(old, f) for (st, f, old) in mdfiles if st == 'R']
+    # Renamed files are diffed just like modifications, old path against new
+    diffed_pairs = [[(f, f) for f in modified]; renamed]
 
     specs = String[]
-    for (oldf, newf) in modified
+    for (oldf, newf) in diffed_pairs
         push!(specs, "$base:$oldf")
         target === nothing || push!(specs, "$target:$newf")
     end
@@ -165,7 +166,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
         push!(version_changes, (splitext(basename(f))[1], nothing, toml))
     end
 
-    for (oldf, f) in modified
+    for (oldf, f) in diffed_pairs
         oldc, newc = blobs["$base:$oldf"], fetch_new(f)
         (oldc === nothing || newc === nothing) && (push!(parse_failures, f); continue)
         old_toml_src, old_body = split_frontmatter(oldc)
@@ -223,7 +224,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     # ------- report (GitHub-flavored markdown) -------
     println(io, "**Diff ", mdcode(base), " → ", target === nothing ? "working tree" : mdcode(tname), ":** ",
             length(mdfiles), " advisory file", length(mdfiles) == 1 ? "" : "s", " touched (",
-            length(modified) - length(renamed), " modified, ",
+            length(modified), " modified, ",
             length(added_files), " added, ", length(deleted_files), " deleted, ", length(renamed), " renamed)",
             other > 0 ? ", plus $other non-advisory file$(other == 1 ? "" : "s")" : "", ".")
     isempty(parse_failures) || println(io, "\n> ⚠️ $(length(parse_failures)) files skipped (missing/unparseable TOML fence), e.g. $(mdcode(first(parse_failures)))")

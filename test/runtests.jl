@@ -368,7 +368,7 @@ end
 
 @testset "upstream ranges normalization and serialization" begin
     VRN = VR{VersionNumber}
-    # Construction canonicalizes: the ranges are deduped and sorted by their parsed values
+    # Construction dedupes the ranges and sorts them by their parsed values
     u = UpstreamRanges(vendor_product="ffmpeg:ffmpeg",
         ranges=[">= 4.10, < 4.11", ">= 4.9, < 4.10", "< 3.4.14", "< 3.4.14"])
     @test u.ranges == ["< 3.4.14", ">= 4.9, < 4.10", ">= 4.10, < 4.11"] # numerically, not lexicographically
@@ -402,11 +402,11 @@ end
     mapped = adv("JLSEC-0000-placeholder", jlsec_sources=[test_source(imported=DateTime(2026,2,1), affected=[record(["< 2.0"])])])
     @test only(SecurityAdvisories.combine(bare, mapped).jlsec_sources).affected == [record(["< 2.0"])]
     @test only(SecurityAdvisories.combine(mapped, bare).jlsec_sources).affected == [record(["< 2.0"])]
-    # ... and `update` considers that backfill a material change worth persisting
+    # ... and `update` considers that backfill a change worth saving
     updated = SecurityAdvisories.update(bare, mapped)
     @test only(updated.jlsec_sources).affected == [record(["< 2.0"])]
     @test updated.id == "JLSEC-2025-9998"
-    # ... but a merely-newer import with the same affected components is not material
+    # ... but a merely-newer import with the same affected components is not worth saving
     refetched = adv("JLSEC-2025-9998", jlsec_sources=[test_source(imported=DateTime(2026,3,1), affected=[record(["< 2.0"])])])
     @test SecurityAdvisories.update(updated, refetched) === updated
 
@@ -417,8 +417,8 @@ end
     @test only(s for s in combined.jlsec_sources if s.id == "CVE-2025-99999").affected == [record(["< 2.0"])]
     @test only(s for s in combined.jlsec_sources if s.id == "EUVD-2025-1").affected == [record(["< 1.5"])]
 
-    # Affected components are canonically sorted at construction, so their in-memory ordering
-    # (which depends upon Dict iteration order at import time) cannot masquerade as a material change
+    # Affected components are sorted at construction, so their in-memory ordering (which
+    # depends upon Dict iteration order at import time) is never mistaken for a change
     components = [UpstreamRanges(vendor_product="v:q", ranges=["< 3.0"]), record(["< 2.0"])]
     @test test_source(affected=components).affected == test_source(affected=reverse(components)).affected
     @test adv("JLSEC-2025-9998", jlsec_sources=[test_source(affected=components)]) ≈

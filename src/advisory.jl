@@ -38,11 +38,13 @@ Sort a vector of version range strings by their parsed `VersionRange`s, falling 
 lexicographic order if any of them fail to parse.
 """
 function sort_version_ranges!(versions)
-    if all(!isnothing, tryparse.(VersionRange, versions))
-        sort!(versions, by=VersionRange)
+    parsed = tryparse.(VersionRange, versions)
+    if all(!isnothing, parsed)
+        permute!(versions, sortperm(parsed))
     else
         sort!(versions)
     end
+    return versions
 end
 
 """
@@ -162,7 +164,7 @@ end
     # The affected upstream (non-Julia) components, as UpstreamRanges
     affected::Vector{UpstreamRanges} = UpstreamRanges[]
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
-        # Canonically sort the affected components so that freshly-imported and file-parsed sources compare equal
+        # Sort the affected components so that freshly-imported and file-parsed sources compare equal
         new(id, imported, modified, published, url, html_url, fields, database_specific,
             sort!(collect(UpstreamRanges, affected), by=u->u.vendor_product))
     end
@@ -248,7 +250,7 @@ function Base.:≈(a::Advisory, b::Advisory)
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
-        # Note that a source's affected upstream components are material, but its timestamps are not
+        # A change in a source's affected upstream components matters here; its timestamps do not
         Set((src.id, src.published, src.url, src.affected) for src in a.jlsec_sources) ==
         Set((src.id, src.published, src.url, src.affected) for src in b.jlsec_sources)
 end
@@ -314,7 +316,6 @@ the association is computed with `packages_with_component` (a keyword, primarily
 """
 function recipe_update_candidates(a::Advisory; packages_with_component = packages_with_upstream_component)
     candidates = Pair{String, VersionString}[]
-    any(!isempty(src.affected) for src in a.jlsec_sources) || return candidates
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
         upstream_ranges = [tryparse(VersionRange, v)
@@ -472,7 +473,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        # Each source's affected upstream components ride along with the source entries themselves
+        # Combining the sources also combines their affected upstream components
         jlsec_sources = sources,
     )
 end
@@ -560,9 +561,10 @@ function to_toml_frontmatter(v::PackageVulnerability)
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
 function to_toml_frontmatter(u::UpstreamRanges)
-    # The `ranges` are canonically sorted at construction; serialize them verbatim
-    return OrderedDict{String,Any}(string(f) => deepcopy(getfield(u, f))
-        for f in fieldnames(UpstreamRanges) if is_populated(getfield(u, f)))
+    # The `ranges` are already sorted at construction; serialize them as-is
+    d = OrderedDict{String,Any}("vendor_product" => u.vendor_product)
+    is_populated(u.ranges) && (d["ranges"] = copy(u.ranges))
+    return d
 end
 
 sort_collection(xs) = xs
@@ -622,10 +624,9 @@ function Base.tryparse(::Type{Advisory}, s::Union{AbstractString, IO})
     end
 end
 
-# The schema-agnostic counterparts of `tryparse(Advisory, ...)` above: split an advisory
-# file into its raw TOML frontmatter and body without round-tripping through the Advisory
-# struct, so that (possibly old, possibly differently-schemed) revisions can be compared
-# field-by-field. Used by `print_advisory_diff`.
+# Split an advisory file into its raw TOML frontmatter and body — like `tryparse(Advisory, ...)`
+# above, but without the Advisory struct itself, so old revisions with different fields can
+# still be compared field-by-field. Used by `print_advisory_diff`.
 
 # Pull the contents of the first ```toml fence, and everything after it (the markdown body)
 function split_frontmatter(content::AbstractString)

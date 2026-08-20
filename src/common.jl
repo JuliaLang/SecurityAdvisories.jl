@@ -519,7 +519,7 @@ function affected_julia_packages(description, vendorproductversions)
         for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
             union!(by_cpe[cpe], keys(conversions))
         end
-        # The UpstreamRanges constructor canonically sorts and dedupes its ranges
+        # The UpstreamRanges constructor sorts and dedupes its ranges
         append!(upstreams, [UpstreamRanges(cpe, versions) for (cpe, versions) in by_cpe])
     end
     return (; affected=vulns, upstreams, upstream_type = advisory_type == "upstream" ? :upstream : :aliases)
