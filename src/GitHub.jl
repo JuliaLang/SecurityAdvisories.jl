@@ -248,8 +248,7 @@ end
 affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory))
 
 function advisory(vuln)
-    (; affected, upstreams) = affected_julia_packages(vuln)
-    upstream_type = isempty(upstreams) ? :aliases : :upstream
+    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
 
     # Aliases are in multiple places:
     aliases = String[vuln.ghsa_id]

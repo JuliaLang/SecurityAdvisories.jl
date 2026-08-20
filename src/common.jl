@@ -436,10 +436,13 @@ end
     affected_julia_packages(description, vendorproductversions)
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
-for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
-vector of the corresponding Julia `PackageVulnerability`s and — when the vulnerability was
-identified through upstream (non-Julia) components — the `UpstreamRanges` that record those
-components' originating version ranges (for the importing source's `affected` field).
+for which the vulnerability applies, return a named tuple `(; affected, upstreams, upstream_type)`
+with the vector of the corresponding Julia `PackageVulnerability`s and — when the vulnerability
+was identified through upstream (non-Julia) components — the `UpstreamRanges` that record those
+components' originating version ranges (for the importing source's `affected` field). The
+`upstream_type` names the `Advisory` field its source ids belong in: `:upstream` when the
+identification came through upstream components, and `:aliases` when the advisory names the
+Julia packages themselves (or nothing matched at all).
 """
 function affected_julia_packages(description, vendorproductversions)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
@@ -519,7 +522,7 @@ function affected_julia_packages(description, vendorproductversions)
         # The UpstreamRanges constructor canonically sorts and dedupes its ranges
         append!(upstreams, [UpstreamRanges(cpe, versions) for (cpe, versions) in by_cpe])
     end
-    return (; affected=vulns, upstreams)
+    return (; affected=vulns, upstreams, upstream_type = advisory_type == "upstream" ? :upstream : :aliases)
 end
 
 # TODO: use the above Pkg machinery for this, too

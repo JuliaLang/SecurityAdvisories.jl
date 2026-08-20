@@ -288,8 +288,7 @@ function english_description(vuln)
 end
 
 function advisory(vuln)
-    (; affected, upstreams) = affected_julia_packages(vuln)
-    upstream_type = isempty(upstreams) ? :aliases : :upstream
+    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
 
     # Severities are a little complicated
     severities = Severity[]

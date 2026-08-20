@@ -165,8 +165,7 @@ vuln_id(vuln) = get(filter(startswith("CVE-"),  split(get(vuln, :aliases, ""))),
 
 parse_euvd_datetime(str) = DateTime(str, dateformat"u d, y, H:M:S p")
 function advisory(vuln)
-    (; affected, upstreams) = affected_julia_packages(vuln)
-    upstream_type = isempty(upstreams) ? :aliases : :upstream
+    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
 
     return Advisory(;
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
