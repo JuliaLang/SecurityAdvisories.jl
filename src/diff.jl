@@ -161,7 +161,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
         toml_src, _ = split_frontmatter(newc)
         toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
         toml isa Dict || continue
-        haskey(toml, "affected") || !isempty(source_claims(toml)) || continue
+        haskey(toml, "affected") || !isempty(source_affected(toml)) || continue
         push!(version_changes, (splitext(basename(f))[1], nothing, toml))
     end
 
@@ -184,7 +184,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
         end
 
         if !isequal(get(old, "affected", nothing), get(new, "affected", nothing)) ||
-           !isequal(source_claims(old), source_claims(new))
+           !isequal(source_affected(old), source_affected(new))
             push!(version_changes, (splitext(basename(f))[1], old, new))
         end
 

@@ -48,7 +48,7 @@ end
 """
     UpstreamRanges(; vendor_product, ranges=[])
 
-Record the originating vulnerable version ranges of an upstream (non-Julia) component, as claimed
+Record the originating vulnerable version ranges of an upstream (non-Julia) component, as reported
 by the [`AdvisorySource`](@ref) whose `affected` field holds it. The component is identified by
 its CPE-like `"vendor:product"` string and its vulnerable `ranges` are kept verbatim in the
 source's own version numbers. The Julia packages that provide the component are intentionally not
@@ -159,10 +159,10 @@ end
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
     database_specific::Dict{String, Any} = Dict{String, Any}()
-    # The upstream (non-Julia) components this source claims are vulnerable, as UpstreamRanges
+    # The affected upstream (non-Julia) components, as UpstreamRanges
     affected::Vector{UpstreamRanges} = UpstreamRanges[]
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
-        # Canonically sort the claims so that freshly-imported and file-parsed sources compare equal
+        # Canonically sort the affected components so that freshly-imported and file-parsed sources compare equal
         new(id, imported, modified, published, url, html_url, fields, database_specific,
             sort!(collect(UpstreamRanges, affected), by=u->u.vendor_product))
     end
@@ -248,7 +248,7 @@ function Base.:≈(a::Advisory, b::Advisory)
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
-        # Note that a source's claimed upstream ranges are material, but its timestamps are not
+        # Note that a source's affected upstream components are material, but its timestamps are not
         Set((src.id, src.published, src.url, src.affected) for src in a.jlsec_sources) ==
         Set((src.id, src.published, src.url, src.affected) for src in b.jlsec_sources)
 end
@@ -305,12 +305,12 @@ package has no known fixed version, yet an upstream range has an exclusive upper
 bound — meaning the upstream project has published a fixed version that simply hasn't
 been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
 name without its `_jll` suffix) and the version is the largest such upstream fixed
-version across all the sources' claims, as a [`VersionString`](@ref). Ranges that don't
-identify a fixed version (unbounded, inclusively-bounded, exact, or unparseable ones)
-are simply ignored.
+version across all the sources' affected components, as a [`VersionString`](@ref).
+Ranges that don't identify a fixed version (unbounded, inclusively-bounded, exact, or
+unparseable ones) are simply ignored.
 
-Since the sources' claims do not record the Julia packages they map to, the association
-is computed with `packages_with_component` (a keyword, primarily for testing).
+Since the sources' affected components do not record the Julia packages they map to,
+the association is computed with `packages_with_component` (a keyword, primarily for testing).
 """
 function recipe_update_candidates(a::Advisory; packages_with_component = packages_with_upstream_component)
     candidates = Pair{String, VersionString}[]
@@ -472,7 +472,7 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        # Each source's claimed upstream ranges ride along with the source entries themselves
+        # Each source's affected upstream components ride along with the source entries themselves
         jlsec_sources = sources,
     )
 end
@@ -655,8 +655,8 @@ mdcode(s) = "`" * replace(s, "`" => "'", "|" => "\\|") * "`"
 
 ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
 
-# The `(source id, upstream component record)` claims held within an advisory's jlsec_sources
-source_claims(t) = t === nothing ? Tuple{String,Any}[] :
+# The `(source id, upstream component)` pairs held within an advisory's jlsec_sources' affected entries
+source_affected(t) = t === nothing ? Tuple{String,Any}[] :
     [(string(get(s, "id", "?")), u) for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict
                                     for u in asvector(get(s, "affected", Any[])) if u isa AbstractDict]
 
@@ -666,8 +666,8 @@ source_claims(t) = t === nothing ? Tuple{String,Any}[] :
 Render one advisory's affected packages — and the upstream components they derive from —
 from its TOML frontmatter `new` as a Markdown list item, annotating range changes against
 the prior frontmatter `old` (`nothing` for a newly-added advisory). Extra header text (like
-the source links of [`print_advisory_versions`](@ref)) may be passed via `from`, and claims
-about components that map to none of the listed affected packages (as computed by the
+the source links of [`print_advisory_versions`](@ref)) may be passed via `from`, and upstream
+components that map to none of the listed affected packages (as computed by the
 `packages_with_component` keyword) are not shown. Operating on the raw frontmatter allows
 rendering both freshly-imported advisories (via [`to_toml_frontmatter`](@ref)) and old
 revisions pulled from git (via `print_advisory_diff`).
@@ -677,8 +677,8 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]
-    claims = [(src_id, u) for (src_id, u) in source_claims(new)
-              if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
+    components = [(src_id, u) for (src_id, u) in source_affected(new)
+                  if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
 
     function pkgline(e, indent)
         pkg = string(get(e, "pkg", "?"))
@@ -689,16 +689,16 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
         println(io, indent, "- **", pkg, "** at versions: ", ranges_str(newr), was)
     end
 
-    println(io, "- ", mdcode(id), from, isempty(claims) ? " for packages:" : " for upstream project(s):")
-    if isempty(claims)
+    println(io, "- ", mdcode(id), from, isempty(components) ? " for packages:" : " for upstream project(s):")
+    if isempty(components)
         foreach(e -> pkgline(e, "    "), new_affected)
     else
-        old_claims = Dict{Any,Any}((src_id, string(get(u, "vendor_product", "?"))) => get(u, "ranges", Any[])
-                                   for (src_id, u) in source_claims(old))
-        for (src_id, u) in claims
+        old_components = Dict{Any,Any}((src_id, string(get(u, "vendor_product", "?"))) => get(u, "ranges", Any[])
+                                       for (src_id, u) in source_affected(old))
+        for (src_id, u) in components
             cpe = string(get(u, "vendor_product", "?"))
             newr = get(u, "ranges", Any[])
-            oldr = get(old_claims, (src_id, cpe), nothing)
+            oldr = get(old_components, (src_id, cpe), nothing)
             was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
             println(io, "    - **", cpe, "** (per ", src_id, ") at versions: ", ranges_str(newr), was)
         end
