@@ -374,8 +374,11 @@ end
     @test u.ranges == ["< 3.4.14", ">= 4.9, < 4.10", ">= 4.10, < 4.11"] # numerically, not lexicographically
     # Unparseable ranges fall back to lexicographic order
     @test UpstreamRanges(vendor_product="v:p", ranges=["who knows", "< 1.0"]).ranges == ["< 1.0", "who knows"]
-    # Malformed vendor_product identifiers (now hand-editable in advisory files) error clearly
+    # Malformed vendor_product identifiers (now hand-editable in advisory files) error clearly...
     @test_throws ArgumentError SecurityAdvisories.upstream_projects_by_cpe("no-colon-here")
+    # ... while the package association treats them as mapping to no packages, so reports
+    # and recipe updates skip the entry rather than crashing on it
+    @test isempty(SecurityAdvisories.packages_with_upstream_component("no-colon-here"))
 
     # The sources' affected components round-trip through the Markdown/TOML serialization
     adv = Advisory(id="JLSEC-2025-9999", modified=DateTime(2026,1,1), published=DateTime(2025,1,1),
@@ -467,6 +470,12 @@ using SecurityAdvisories: print_advisory_versions
     alias = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
         affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])], jlsec_sources=[test_source()])
     @test contains(render(alias), "for packages:\n    - **HTTP** at versions: `< 1.10.17`")
+
+    # Hand-authored advisories may have no sources at all
+    unsourced = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])])
+    @test contains(render(unsourced), "- `JLSEC-2025-9999` for packages:")
+    @test !contains(render(unsourced), "(from:")
 end
 
 using JSON3: JSON3

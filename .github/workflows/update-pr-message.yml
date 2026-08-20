@@ -7,7 +7,8 @@ name: Update PR message
 
 on:
   push:
-    branches-ignore: [main]
+    # The fetch-updates branch's PR carries its own field-change message; leave it alone
+    branches-ignore: [main, fetch-updates]
   workflow_dispatch:
 
 permissions:
@@ -45,9 +46,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        julia --project=. scripts/update_pr_message.jl "$(git merge-base upstream/main HEAD)" HEAD
+        julia --project=. scripts/update_pr_message.jl upstream/main HEAD
 
     - name: Update the pull request
+      # Leave the message alone when the branch no longer changes any advisories
+      # (e.g. a rejection-only branch that just edits rejected.toml)
+      if: steps.message.outputs.n_changed != '0'
       env:
         GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
         TITLE: ${{ steps.message.outputs.title }}

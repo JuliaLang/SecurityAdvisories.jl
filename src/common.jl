@@ -331,8 +331,11 @@ end
 
 Return the Julia packages whose artifacts provide the upstream component identified by the
 CPE-like `"vendor:product"` string, as computed from GeneralMetadata's component tracking.
+A malformed identifier simply maps to no packages, so reports and recipe updates skip it
+rather than erroring on a hand-edited advisory file.
 """
 function packages_with_upstream_component(vendor_product)
+    contains(vendor_product, ":") || return String[]
     return unique!(reduce(vcat, packages_with_project.(upstream_projects_by_cpe(vendor_product)); init=String[]))
 end
 
@@ -469,7 +472,7 @@ function affected_julia_packages(description, vendorproductversions)
                     pkgs[pkg]["$vendor:$product"][version] = isnothing(r) ?
                         [VersionRange{VersionNumber}("*")] : convert_versions(package_project_version_map(pkg, matched_project), r)
                 end
-                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory directly lists $pkg, but it also finds upstream components")
+                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory matches the upstream component $matched_project ($vendor:$product), but it also directly lists Julia packages")
                 advisory_type = "upstream"
             end
         else

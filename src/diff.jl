@@ -13,6 +13,7 @@
 
 # Return (status, path, old_path) triples for the files changed in the repository at `dir`;
 # `old_path` is `nothing` except for renames and copies, whose `path` is the new location.
+# A `target` of `nothing` compares against the working tree, including not-yet-tracked files.
 function changed_files(base, target; dir)
     cmd = target === nothing ? `git diff --name-status $base` : `git diff --name-status $base $target`
     files = Tuple{Char,String,Union{Nothing,String}}[]
@@ -25,7 +26,22 @@ function changed_files(base, target; dir)
             push!(files, (status, String(parts[2]), nothing))
         end
     end
+    if target === nothing
+        # `git diff` doesn't see brand-new files that haven't been added yet
+        for f in eachline(Cmd(`git ls-files --others --exclude-standard`; dir))
+            push!(files, ('A', f, nothing))
+        end
+    end
     return files
+end
+
+# Return a function that reads a path's content at the `target` revision (from the
+# already-fetched `blobs`), or from the working tree when `target` is `nothing`.
+function content_at(target, blobs; dir)
+    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
+    return f -> target === nothing ?
+        (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
+        blobs["$target:$f"]
 end
 
 # Fetch many blobs through one `git cat-file --batch` process.
@@ -149,10 +165,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
         target === nothing || push!(specs, "$target:$f")
     end
     blobs = fetch_blobs(specs; dir)
-    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
-    fetch_new(f) = target === nothing ?
-        (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
-        blobs["$target:$f"]
+    fetch_new = content_at(target, blobs; dir)
 
     scalar_counts = Dict{Tuple{Char,String},Int}()
     array_stats = Dict{String,ArrayAgg}()
@@ -304,22 +317,13 @@ TOML frontmatter (or `nothing` for new advisories), and the git status letter.
 function changed_advisories(base, target=nothing; dir=pwd())
     files = [(st, f, old) for (st, f, old) in changed_files(base, target; dir)
              if endswith(f, ".md") && startswith(f, "advisories/") && st in ('A', 'M', 'R', 'C')]
-    if target === nothing
-        # `git diff` doesn't see brand-new files that haven't been added yet
-        for f in eachline(Cmd(`git ls-files --others --exclude-standard -- advisories`; dir))
-            endswith(f, ".md") && push!(files, ('A', f, nothing))
-        end
-    end
     specs = String[]
     for (st, f, old) in files
         st in ('M', 'R') && push!(specs, "$base:$(something(old, f))")
         target === nothing || push!(specs, "$target:$f")
     end
     blobs = fetch_blobs(specs; dir)
-    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
-    fetch_new(f) = target === nothing ?
-        (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
-        blobs["$target:$f"]
+    fetch_new = content_at(target, blobs; dir)
 
     changed = []
     for (st, f, oldpath) in files
@@ -367,6 +371,7 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
     unique_pkgs = unique(Iterators.flatten(vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
+    println(io, "n_changed=", n_total)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
     println(io, "body<<BODY_EOF")
@@ -392,7 +397,7 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
     if !isempty(aliases)
         pkgs = unique(Iterators.flatten(vulnerable_packages.(aliases)))
         println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
-        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources; init=x.modified))
             print_advisory_versions(io, adv, olds[adv.id])
         end
         println(io)
@@ -406,7 +411,9 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
             if !isempty(intersect(packages_with_upstream_component(u.vendor_product),
                                   vulnerable_packages(adv))))
         vulnerable_projs = unique(Iterators.flatten(upstream_projects_by_cpe.(vulnerable_cpes)))
-        pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in vulnerable_pkgs)
+        # Only packages with component tracking have per-version metadata to show
+        tracked_pkgs = filter(pkg -> haskey(package_components(), pkg), vulnerable_pkgs)
+        pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in tracked_pkgs)
         println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
         print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
         print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
@@ -415,7 +422,7 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
         println(io)
 
         println(io, "\n### Package and upstream project information\n")
-        for pkg in vulnerable_pkgs
+        for pkg in tracked_pkgs
             pkg_projects = unique(Iterators.flatten(keys(v) for v in values(pkg_version_upstream[pkg])))
             println(io, "* ", link_pkg(pkg), "'s [artifact metadata](", meta_url(pkg), ") has upstream", length(pkg_projects) > 1 ? "s: " : ": ", join(link_proj.(pkg_projects), ", ", " and "))
             println(io, "    <details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">metadata for each version</a>:</summary>\n\n")
@@ -465,7 +472,7 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
         end
 
         println(io, "\n### Advisory summaries\n")
-        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
+        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources; init=x.modified))
             print_advisory_versions(io, adv, olds[adv.id])
         end
         println(io)

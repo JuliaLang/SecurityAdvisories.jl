@@ -721,7 +721,8 @@ Render one advisory's affected version ranges (with links to its sources) via
 frontmatter `old` (`nothing` for newly-imported advisories).
 """
 function print_advisory_versions(io, adv::Advisory, old=nothing; kw...)
-    from = string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
+    from = isempty(adv.jlsec_sources) ? "" :
+        string(" (from:", join(" [$(src.id)]($(src.html_url))" for src in adv.jlsec_sources), ")")
     print_version_ranges(io, adv.id, old, to_toml_frontmatter(adv); from, kw...)
     println(io)
 end
