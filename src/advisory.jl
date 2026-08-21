@@ -630,8 +630,8 @@ function Base.tryparse(::Type{Advisory}, s::Union{AbstractString, IO})
 end
 
 # Split an advisory file into its raw TOML frontmatter and body — like `tryparse(Advisory, ...)`
-# above, but without the Advisory struct itself, so old revisions with different fields can
-# still be compared field-by-field. Used by `print_advisory_diff`.
+# above, but without the normalizing and schema-strict Advisory struct in between, so the
+# advisory diff reports can describe the files exactly as written (see diff.jl's header).
 
 # Pull the contents of the first ```toml fence, and everything after it (the markdown body)
 function split_frontmatter(content::AbstractString)

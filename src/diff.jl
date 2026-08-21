@@ -8,8 +8,13 @@
 #     recomputed from a branch at any time. See scripts/update_pr_message.jl.
 #
 # The field comparisons deliberately work on each file's raw TOML frontmatter (via
-# `split_frontmatter`/`parse_body` in advisory.jl) rather than parsed `Advisory`s, so that
-# old revisions remain comparable even when their schema no longer round-trips.
+# `split_frontmatter`/`parse_body` in advisory.jl) rather than parsed `Advisory`s. These
+# reports describe what changed in the files, and parsing would normalize away exactly the
+# churn they exist to surface: collections are sorted and ranges canonicalized on the way
+# back out, hiding reorderings and reformattings. Parsing is also schema-strict — a field
+# the running code doesn't know drops the whole file — while the comparison must tolerate
+# revisions written by other versions of this code (a lagging bot branch diffing against a
+# newer main, or vice versa); raw frontmatter degrades to reporting the unknown field.
 
 # The concrete endpoints of a `git diff`-style revision `spec`, as `(base, target)`:
 # a lone revision compares against the working tree (a `nothing` target), "A..B"
