@@ -61,6 +61,7 @@ jobs:
         token: ${{ secrets.JLSEC_BOT_TOKEN }}
         committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
         push-to-fork: jlsec-bot/SecurityAdvisories.jl
+        commit-message: ${{ steps.identify.outputs.title }}
         title: ${{ steps.identify.outputs.title }}
         body: ${{ steps.identify.outputs.body }}
         branch: ${{ steps.identify.outputs.branch }}
