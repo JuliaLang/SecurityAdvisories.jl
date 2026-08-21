@@ -102,7 +102,6 @@ end
 function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
     (; advisories, branch, haystack) = search_advisories(input, filter_results)
     write_advisory_files(advisories, filter_results)
-    # The PR message is composed entirely from the changed files, comparing HEAD to the working tree
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     println(io, "branch=", branch)
     print_search_pr_outputs(io, "HEAD"; haystack)

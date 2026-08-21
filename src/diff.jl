@@ -1,20 +1,12 @@
 # Summarize the advisory files that changed between two git revisions of the repository,
 # in two forms:
-#   * `print_advisory_diff` reports which Advisory fields changed, including the TOML
-#     frontmatter as well as the summary/details from the markdown body. See
+#   * `print_advisory_diff` reports which Advisory fields changed. See
 #     scripts/diff_advisories.jl for the command-line interface.
 #   * `print_search_pr_outputs` composes the search workflow's pull request title, body,
-#     and recipe updates from the changed advisories alone, so the message can be
-#     recomputed from a branch at any time. See scripts/update_pr_message.jl.
+#     and recipe updates from the changed advisories. See scripts/update_pr_message.jl.
 #
-# The field comparisons deliberately work on each file's raw TOML frontmatter (via
-# `split_frontmatter`/`parse_body` in advisory.jl) rather than parsed `Advisory`s. These
-# reports describe what changed in the files, and parsing would normalize away exactly the
-# churn they exist to surface: collections are sorted and ranges canonicalized on the way
-# back out, hiding reorderings and reformattings. Parsing is also schema-strict — a field
-# the running code doesn't know drops the whole file — while the comparison must tolerate
-# revisions written by other versions of this code (a lagging bot branch diffing against a
-# newer main, or vice versa); raw frontmatter degrades to reporting the unknown field.
+# The field comparisons deliberately work on each file's raw TOML frontmatter rather than
+# parsed `Advisory`s because these reports describe what changed in the files themselves.
 
 # The concrete endpoints of a `git diff`-style revision `spec`, as `(base, target)`:
 # a lone revision compares against the working tree (a `nothing` target), "A..B"
