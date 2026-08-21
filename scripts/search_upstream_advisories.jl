@@ -10,8 +10,9 @@ isspace_or_comma(c) = isspace(c) || c == ','
 Search the upstream databases per `input`: an advisory identifier, an `upstream:<project>`
 component search, a package name, a space/comma-separated package list, or — when empty —
 a walk through the ecosystem until something turns up. Returns the found advisories (with
-aliases combined), the branch name for the results (the upstream project name, the package
-the walk landed on, or otherwise `input`), and a description of what was searched.
+aliases combined), the branch name for the results (the upstream project name when every
+finding is against one component, the package the walk landed on, or otherwise `input`),
+and a description of what was searched.
 """
 function search_advisories(input, filter_results)
     advisories = Advisory[]
@@ -35,9 +36,13 @@ function search_advisories(input, filter_results)
                 by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
             first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
         end
-        # We remove any pending PRs that jlsec-bot has already opened
+        # We remove any pending PRs that jlsec-bot has already opened, whether branched by
+        # the package name or by one of the package's upstream components
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
-        filter!(!in(SecurityAdvisories.pending_search_branches()), whole_pkg_list)
+        pending = SecurityAdvisories.pending_search_branches()
+        filter!(whole_pkg_list) do pkg
+            pkg ∉ pending && isdisjoint(SecurityAdvisories.short_project_name.(SecurityAdvisories.upstream_projects_for_package(pkg)), pending)
+        end
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
             branch = popfirst!(whole_pkg_list)
@@ -47,6 +52,7 @@ function search_advisories(input, filter_results)
         end
         haystack = "$pkg_search_count packages"
     end
+    branch = something(component_branch(advisories), branch)
 
     @info "found $(length(advisories)) advisories in $branch"
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)
@@ -59,6 +65,16 @@ function search_advisories(input, filter_results)
         @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
     return (; advisories, branch, haystack)
+end
+
+# An all-upstream find against a single component is really about that component: name the
+# branch by its project so repeated searches (and the scoped `upstream:<project>` targets)
+# share one pull request
+function component_branch(advisories)
+    (isempty(advisories) || any(SecurityAdvisories.is_direct, advisories)) && return nothing
+    projects = unique!(reduce(vcat, SecurityAdvisories.advisory_projects.(advisories); init=String[]))
+    length(projects) == 1 || return nothing
+    return SecurityAdvisories.short_project_name(only(projects))
 end
 
 """
