@@ -31,21 +31,6 @@ function purl(pkg::String)
     end
     return "pkg:julia/$pkg?uuid=$(first(uuid))"
 end
-"""
-    sort_version_ranges!(versions)
-
-Sort a vector of version range strings by their parsed `VersionRange`s, falling back to
-lexicographic order if any of them fail to parse.
-"""
-function sort_version_ranges!(versions)
-    parsed = tryparse.(VersionRange, versions)
-    if all(!isnothing, parsed)
-        permute!(versions, sortperm(parsed))
-    else
-        sort!(versions)
-    end
-    return versions
-end
 
 """
     Reference(; url, type="WEB")
@@ -146,7 +131,7 @@ end
         # Sort the affected components (and their ranges) so that freshly-imported and
         # file-parsed sources compare equal
         new(id, imported, modified, published, url, html_url, fields, database_specific,
-            OrderedDict{String, Vector{String}}(String(k) => sort_version_ranges!(unique!(collect(String, v)))
+            OrderedDict{String, Vector{String}}(String(k) => sort!(unique!(collect(String, v)))
                                                 for (k, v) in sort(collect(affected), by=String∘first)))
     end
 end
@@ -503,12 +488,7 @@ to_toml_frontmatter(v::Union{VersionNumber, VersionString, VersionRange}) = stri
 to_toml_frontmatter(x::Union{AbstractString, Integer, AbstractFloat, Bool, Dates.DateTime, Dates.Time, Dates.Date}) = x
 to_toml_frontmatter(d::AbstractDict) = OrderedDict(k=>to_toml_frontmatter_collection(v, values(d)) for (k,v) in d)
 to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in sort_collection(A)]
-# The `affected` components and their ranges are already sorted at construction; serialize
-# them as-is rather than through the generic paths (which would re-sort the range strings)
-to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) =>
-        (f === :affected ? OrderedDict{String, Any}(k => copy(v) for (k, v) in s.affected) :
-                           to_toml_frontmatter(getproperty(s, f)))
-    for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
+to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 to_toml_frontmatter_collection(x, _) = to_toml_frontmatter(x)
 function to_toml_frontmatter(a::Advisory)
     # Convert all fields to TOML with a few special cases:

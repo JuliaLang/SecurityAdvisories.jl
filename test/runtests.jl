@@ -389,12 +389,10 @@ end
 
 @testset "upstream ranges normalization and serialization" begin
     VRN = VR{VersionNumber}
-    # Source construction dedupes each component's ranges and sorts them by their parsed values
+    # Source construction dedupes and sorts each component's ranges
     ffmpeg = test_source(affected=Dict("ffmpeg:ffmpeg" =>
         [">= 4.10, < 4.11", ">= 4.9, < 4.10", "< 3.4.14", "< 3.4.14"])).affected
-    @test ffmpeg["ffmpeg:ffmpeg"] == ["< 3.4.14", ">= 4.9, < 4.10", ">= 4.10, < 4.11"] # numerically, not lexicographically
-    # Unparseable ranges fall back to lexicographic order
-    @test test_source(affected=Dict("v:p" => ["who knows", "< 1.0"])).affected["v:p"] == ["< 1.0", "who knows"]
+    @test ffmpeg["ffmpeg:ffmpeg"] == ["< 3.4.14", ">= 4.10, < 4.11", ">= 4.9, < 4.10"]
     # Malformed vendor_product identifiers (now hand-editable in advisory files) error clearly...
     @test_throws ArgumentError SecurityAdvisories.upstream_projects_by_cpe("no-colon-here")
     # ... while the package association treats them as mapping to no packages, so reports
