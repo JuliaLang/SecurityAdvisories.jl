@@ -691,6 +691,40 @@ function fetch_package_upstreams(pkg)
 end
 
 """
+    packages_updated_since(since)
+
+Return the names of the packages with at least one version registered after `since`,
+per GeneralMetadata's registration dates.
+"""
+function packages_updated_since(since::Dates.DateTime)
+    return [pkg for (pkg, info) in GeneralMetadata.metadata()
+            if maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info)) > since]
+end
+
+"""
+    packages_with_updated_advisories(since)
+
+Return the names of the Julia packages affected by upstream advisories that changed after
+`since`: modifications in GHSA and NVD, but only newly published advisories in EUVD (its
+API cannot filter by modification date).
+"""
+function packages_with_updated_advisories(since::Dates.DateTime)
+    pkgs = Set{String}()
+    for (mod, vulns) in ((GitHub, GitHub.fetch_advisories(since)),
+                         (NVD, NVD.fetch_nvd_vulnerabilities(since)),
+                         (EUVD, EUVD.fetch_vulnerabilities(since)))
+        for vuln in vulns
+            try
+                union!(pkgs, (pv.pkg for pv in mod.affected_julia_packages(vuln).affected))
+            catch ex
+                @error "Error matching a $(nameof(mod)) advisory to Julia packages" ex
+            end
+        end
+    end
+    return collect(pkgs)
+end
+
+"""
     fetch_combinations(batch)
 
 Given a batch of advisories that have been grabbed from various sources, fetch any missing aliases and combine them

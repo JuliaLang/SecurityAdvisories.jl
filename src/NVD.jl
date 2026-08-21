@@ -200,10 +200,11 @@ function fetch_cpes(cpe)
     return fetch_all_pages(NVD_CPE_API_BASE, headers, params, :products)
 end
 
-function fetch_nvd_vulnerabilities(hours::Int = DEFAULT_HOURS)
-    # Calculate time range
+fetch_nvd_vulnerabilities(hours::Int = DEFAULT_HOURS) = fetch_nvd_vulnerabilities(Dates.now(UTC) - Dates.Hour(hours))
+function fetch_nvd_vulnerabilities(since::Dates.DateTime)
     end_time = Dates.now(UTC)
-    start_time = end_time - Dates.Hour(hours)
+    # NVD limits lastModified ranges to 120 days
+    start_time = max(since, end_time - Dates.Day(120))
 
     # Format dates for NVD API (ISO 8601)
     start_date = Dates.format(start_time, "yyyy-mm-ddTHH:MM:SS.sss")*"Z"

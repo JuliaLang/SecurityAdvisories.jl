@@ -103,15 +103,15 @@ function fetch_all_pages(base_url::String, headers::Vector{Pair{String, String}}
     return all_advisories
 end
 
-function fetch_advisories(hours::Int = DEFAULT_HOURS)
-    published_since = Dates.now(UTC) - Dates.Hour(hours)
-    published_since_str = Dates.format(published_since, "yyyy-mm-ddTHH:MM:SSZ")
+fetch_advisories(hours::Int = DEFAULT_HOURS) = fetch_advisories(Dates.now(UTC) - Dates.Hour(hours))
+function fetch_advisories(since::Dates.DateTime)
+    since_str = Dates.format(since, "yyyy-mm-ddTHH:MM:SS") * "Z"
 
     base_url = "$GITHUB_API_BASE/advisories"
     headers = build_headers()
 
     params = [
-        "published" => ">=$published_since_str",
+        "modified" => ">=$since_str",
         "per_page" => "100"
     ]
 
