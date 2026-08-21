@@ -33,6 +33,6 @@ jobs:
       }}
     uses: ./.github/workflows/search-and-pr.yml
     with:
-      haystack: ${{ inputs.haystack || '' }}
+      haystack: ${{ inputs.haystack }}
       filter: ${{ inputs.filter == null || inputs.filter }}
     secrets: inherit

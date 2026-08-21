@@ -18,7 +18,8 @@ on:
 
 jobs:
   search:
-    name: ${{ inputs.haystack == '' && 'Ecosystem search' || format('Search {0}', inputs.haystack) }}
+    # The caller's job name carries the haystack context
+    name: Search
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -28,6 +29,10 @@ jobs:
 
     - name: Setup Julia
       uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - uses: julia-actions/cache@b7788abd52452d5bc033d69796e110d9906af4ab # v3.2.0
+      with:
+        delete-old-caches: 'false' # deletion needs actions:write, which the callers don't grant
 
     - name: Install Julia dependencies
       run: |

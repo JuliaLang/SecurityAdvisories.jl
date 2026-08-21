@@ -1,0 +1,79 @@
+name: Find and search packages
+
+# The reusable scoped search: identify the packages worth searching per the mode, then
+# search each one in its own job, opening one pull request per package with findings.
+# Callers must grant `contents: read` and `actions: read` and pass `secrets: inherit`.
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: 'find_search_targets.jl mode: updated-packages or updated-advisories'
+        type: string
+        required: true
+      since:
+        description: 'Consider changes after this UTC datetime (default: the last successful run)'
+        type: string
+        default: ''
+
+jobs:
+  identify-packages:
+    name: Identify packages to search
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.identify.outputs.packages }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - uses: julia-actions/cache@b7788abd52452d5bc033d69796e110d9906af4ab # v3.2.0
+      with:
+        delete-old-caches: 'false' # deletion needs actions:write, which the callers don't grant
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Determine the search window
+      id: since
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SINCE: ${{ inputs.since }}
+      run: |
+        if [[ -z "$SINCE" ]]; then
+          # The calling workflow's own last successful run; GITHUB_WORKFLOW_REF is owner/repo/.github/workflows/file.yml@ref
+          WORKFLOW_FILE="${GITHUB_WORKFLOW_REF%%@*}"
+          WORKFLOW_FILE="${WORKFLOW_FILE##*/}"
+          SINCE=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WORKFLOW_FILE/runs?status=success&per_page=1" --jq '.workflow_runs[0].run_started_at // empty')
+        fi
+        echo "since=${SINCE:-$(date -u -d '3 days ago' '+%Y-%m-%dT%H:%M:%SZ')}" >> "$GITHUB_OUTPUT"
+
+    - name: Identify packages with findings
+      id: identify
+      env:
+        MODE: ${{ inputs.mode }}
+        SINCE: ${{ steps.since.outputs.since }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        julia --project=. scripts/find_search_targets.jl "$MODE" "$SINCE"
+
+  search:
+    name: ${{ matrix.package }}
+    needs: identify-packages
+    if: needs.identify-packages.outputs.packages != '' && needs.identify-packages.outputs.packages != '[]'
+    strategy:
+      fail-fast: false
+      # Modest parallelism keeps the combined NVD request rate within its API limits
+      max-parallel: 2
+      matrix:
+        package: ${{ fromJSON(needs.identify-packages.outputs.packages) }}
+    uses: ./.github/workflows/search-and-pr.yml
+    with:
+      haystack: ${{ matrix.package }}
+    secrets: inherit
