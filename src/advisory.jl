@@ -128,8 +128,7 @@ end
     # to its vulnerable version ranges, verbatim in the source's own version numbers
     affected::OrderedDict{String, Vector{String}} = OrderedDict{String, Vector{String}}()
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
-        # Sort the fields and affected components (and their ranges) so that
-        # freshly-imported and file-parsed sources compare equal
+        # Ensure and fields and affecteds are sorted upon construction
         new(id, imported, modified, published, url, html_url, sort(collect(String, fields)), database_specific,
             OrderedDict{String, Vector{String}}(String(k) => sort!(unique!(collect(String, v)))
                                                 for (k, v) in sort(collect(affected), by=String∘first)))
@@ -216,7 +215,6 @@ function Base.:≈(a::Advisory, b::Advisory)
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
-        # A change in a source's affected upstream components matters here; its timestamps do not
         Set((src.id, src.published, src.url, src.affected) for src in a.jlsec_sources) ==
         Set((src.id, src.published, src.url, src.affected) for src in b.jlsec_sources)
 end
@@ -452,7 +450,6 @@ function combine(a::Advisory, b::Advisory)
         end,
         references = union(a.references, b.references),
         credits = union(a.credits, b.credits),
-        # Combining the sources also combines their affected upstream components
         jlsec_sources = sources,
     )
 end
@@ -503,8 +500,7 @@ function to_toml_frontmatter(a::Advisory)
     return OrderedDict{String,Any}(
         string(f) => to_toml_frontmatter(
             f == :affected ? filter(is_vulnerable, getproperty(a, f)) : # Skip (empty) non-vulnerabilities
-            # The freely-mutated id vectors sort at serialization for stable files and comparisons
-            f in (:aliases, :upstream, :related) ? sort(getproperty(a, f), by=preferred_id_sort) :
+            f in (:aliases, :upstream, :related) ? sort(getproperty(a, f), by=preferred_id_sort) : # Ensure lists of ids are sorted by preferred_id_sort
             getproperty(a, f))
         for f in fieldnames(Advisory) if
             is_populated(getproperty(a, f)) && (f ∉ (:summary, :details))) # Summary and details are not frontmatter

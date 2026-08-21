@@ -1,12 +1,3 @@
-# The goal here is to find relevant upstream advisories that have been published in an upstream
-# database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
-#
-# This runs in three fully-separate phases:
-#   1. `search_advisories` queries the upstream databases for relevant advisories
-#   2. `write_advisory_files` creates or updates the advisory files from what was found
-#   3. `SecurityAdvisories.print_search_pr_outputs` composes the pull request title and body
-#      from the state of the branch alone (the changed advisory files); it can be re-run at
-#      any time via scripts/update_pr_message.jl — for example after edits land on the branch
 using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
 using GeneralMetadata
 using Dates: Dates
