@@ -146,7 +146,7 @@ end
         # Sort the affected components (and their ranges) so that freshly-imported and
         # file-parsed sources compare equal
         new(id, imported, modified, published, url, html_url, fields, database_specific,
-            OrderedDict{String, Vector{String}}(String(k) => sort_version_ranges!(unique!(collect(String, asvector(v))))
+            OrderedDict{String, Vector{String}}(String(k) => sort_version_ranges!(unique!(collect(String, v)))
                                                 for (k, v) in sort(collect(affected), by=String∘first)))
     end
 end
@@ -650,7 +650,7 @@ ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
 # jlsec_sources' affected tables, sorted so equal contents compare equal
 source_affected(t) = t === nothing ? Tuple{String,String,Any}[] :
     sort!([(string(get(s, "id", "?")), string(vp), ranges)
-           for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict && get(s, "affected", nothing) isa AbstractDict
+           for s in get(t, "jlsec_sources", Any[]) if s isa AbstractDict && get(s, "affected", nothing) isa AbstractDict
            for (vp, ranges) in get(s, "affected", Dict())],
           by=x->(x[1], x[2]))
 
@@ -664,13 +664,13 @@ metadata improves, or when the ranges came from more than one source).
 """
 function used_source(frontmatter)
     target = Dict(string(e["pkg"]) => Set(string.(e["ranges"]))
-                  for e in asvector(get(frontmatter, "affected", Any[])) if e isa AbstractDict)
+                  for e in get(frontmatter, "affected", Any[]) if e isa AbstractDict)
     isempty(target) && return nothing
-    for src in asvector(get(frontmatter, "jlsec_sources", Any[]))
+    for src in get(frontmatter, "jlsec_sources", Any[])
         src isa AbstractDict && get(src, "affected", nothing) isa AbstractDict || continue
         vpvs = [(String.(split(string(vp), ":", limit=2))..., String(r))
                 for (vp, ranges) in src["affected"] if contains(string(vp), ":")
-                for r in asvector(ranges)]
+                for r in ranges]
         isempty(vpvs) && continue
         converted = affected_julia_packages("", vpvs).affected
         conv = Dict(e.pkg => Set(string.(e.ranges)) for e in converted if is_vulnerable(e))
@@ -696,7 +696,7 @@ revisions pulled from git (via `print_advisory_diff`).
 """
 function print_version_ranges(io, id, old, new; from="", packages_with_component = packages_with_upstream_component,
                               pick_used = used_source)
-    aff(t) = t === nothing ? Any[] : [e for e in asvector(get(t, "affected", Any[])) if e isa AbstractDict]
+    aff(t) = t === nothing ? Any[] : [e for e in get(t, "affected", Any[]) if e isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]

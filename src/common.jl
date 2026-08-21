@@ -19,8 +19,6 @@ is_populated(A::AbstractArray) = !isempty(A)
 is_populated(d::AbstractDict) = !isempty(d)
 is_populated(::Any) = true
 
-asvector(x) = x isa AbstractVector ? x : Any[x]
-
 struct VersionRange{V<:Union{VersionNumber, VersionString}}
     lb::V
     ub::V

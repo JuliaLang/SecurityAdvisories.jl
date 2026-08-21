@@ -234,11 +234,9 @@ function print_advisory_diff(io::IO, spec; dir=pwd())
             op = o_has ? (n_has ? '~' : '-') : '+'
 
             if o isa AbstractVector || n isa AbstractVector
-                ov = o_has ? asvector(o) : Any[]
-                nv = n_has ? asvector(n) : Any[]
+                ov = o isa AbstractVector ? o : Any[]
+                nv = n isa AbstractVector ? n : Any[]
                 add, drop, chg, reord = op == '~' ? array_diff(ov, nv) : (nv, ov, Tuple{Any,Any}[], false)
-                op == '+' && (drop = Any[])
-                op == '-' && (add = Any[])
                 agg = get!(ArrayAgg, array_stats, key)
                 op == '+' ? (agg.files_plus += 1) : op == '-' ? (agg.files_minus += 1) : (agg.files_tilde += 1)
                 agg.old_elems += length(ov); agg.new_elems += length(nv)
