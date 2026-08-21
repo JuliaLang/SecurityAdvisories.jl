@@ -128,9 +128,9 @@ end
     # to its vulnerable version ranges, verbatim in the source's own version numbers
     affected::OrderedDict{String, Vector{String}} = OrderedDict{String, Vector{String}}()
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
-        # Sort the affected components (and their ranges) so that freshly-imported and
-        # file-parsed sources compare equal
-        new(id, imported, modified, published, url, html_url, fields, database_specific,
+        # Sort the fields and affected components (and their ranges) so that
+        # freshly-imported and file-parsed sources compare equal
+        new(id, imported, modified, published, url, html_url, sort(collect(String, fields)), database_specific,
             OrderedDict{String, Vector{String}}(String(k) => sort!(unique!(collect(String, v)))
                                                 for (k, v) in sort(collect(affected), by=String∘first)))
     end
@@ -503,6 +503,8 @@ function to_toml_frontmatter(a::Advisory)
     return OrderedDict{String,Any}(
         string(f) => to_toml_frontmatter(
             f == :affected ? filter(is_vulnerable, getproperty(a, f)) : # Skip (empty) non-vulnerabilities
+            # The freely-mutated id vectors sort at serialization for stable files and comparisons
+            f in (:aliases, :upstream, :related) ? sort(getproperty(a, f), by=preferred_id_sort) :
             getproperty(a, f))
         for f in fieldnames(Advisory) if
             is_populated(getproperty(a, f)) && (f ∉ (:summary, :details))) # Summary and details are not frontmatter
@@ -540,7 +542,6 @@ function to_toml_frontmatter(v::PackageVulnerability)
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
 sort_collection(xs) = xs
-sort_collection(xs::Vector{String}) = sort(xs, by=preferred_id_sort)
 sort_collection(xs::Vector{Severity}) = sort(xs, by=x->(x.type, x.score))
 sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
