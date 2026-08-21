@@ -1,8 +1,6 @@
 # Re-fetch every published advisory from its upstream sources (as recorded in its
 # jlsec_sources) and update it in place if the upstream data meaningfully changed.
-using SecurityAdvisories: SecurityAdvisories, Advisory
-
-include(joinpath(@__DIR__, "diff_advisories.jl"))  # for print_advisory_diff
+using SecurityAdvisories: SecurityAdvisories, Advisory, print_advisory_diff, print_body_output
 
 isspace_or_comma(c) = isspace(c) || c == ','
 
@@ -22,16 +20,17 @@ function write_pr_outputs(n, reset_fields)
     advisory_str = n == 1 ? "advisory" : "advisories"
     println(io, "branch=fetch-updates")
     println(io, "title=[automatic] Update $n $advisory_str from upstream sources")
-    println(io, "body<<BODY_EOF")
-    print(io, "This action re-fetched the upstream sources for all published advisories and found ",
-        n, " ", advisory_str, " with significant changes.")
-    if !isempty(reset_fields)
-        print(io, " The existing values in field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
-            " were discarded and reset to their newly-fetched values, and this only saved the updates if those fields changed.")
+    body = sprint() do io
+        print(io, "This action re-fetched the upstream sources for all published advisories and found ",
+            n, " ", advisory_str, " with significant changes.")
+        if !isempty(reset_fields)
+            print(io, " The existing values in field(s) ", join("`" .* string.(reset_fields) .* "`", ", ", " and "),
+                " were discarded and reset to their newly-fetched values, and this only saved the updates if those fields changed.")
+        end
+        println(io, "\n")
+        print_advisory_diff(io, "HEAD")
     end
-    println(io, "\n")
-    print_advisory_diff(io, "HEAD")
-    println(io, "BODY_EOF")
+    print_body_output(io, body)
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end

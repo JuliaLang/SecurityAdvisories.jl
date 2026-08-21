@@ -20,6 +20,19 @@ using SecurityAdvisories.VersionStrings: VersionString as V
 end
 
 using SecurityAdvisories: VersionRange as VR, merge_ranges
+@testset "VersionRange parsing" begin
+    # EUVD writes an inclusive lower bound before the operator, with or without a comma
+    @test VR("26.0.0<36.0.3") == VR(">= 26.0.0, < 36.0.3")
+    @test VR("26.0.0, < 36.0.3") == VR(">= 26.0.0, < 36.0.3")
+    @test VR("4.2.0.Final, < 4.2.17.Final") == VR(">= 4.2.0.Final, < 4.2.17.Final")
+    @test VR("1.0.0-alpha.0, ≤ 1.0.0-alpha.20").ubinclusive
+    # But other comma-ed or operator-less shapes stay unparseable
+    @test tryparse(VR, "patch: 0:2.6.4-8.el10_2") === nothing
+    @test tryparse(VR, "25.0.0, 26.0.0, < 27.0.0") === nothing
+    @test tryparse(VR, ", < 1.0") === nothing
+    @test tryparse(VR, "1.0, 2.0") === nothing
+end
+
 @testset "VersionRange merging" begin
     @test merge_ranges(VR.(["1 < 2", "2 < 3", "3 < 4"])) == [VR("1 < 4")]
     @test merge_ranges(VR.(["1 < 2", "2 <= 4", "3 < 4"])) == [VR("1 <= 4")]
@@ -37,13 +50,32 @@ end
     desc = "An out-of-bounds read flaw was found in the CLARRV, DLARRV, SLARRV, and ZLARRV functions in lapack through version 3.10.0, as also used in OpenBLAS before version 0.3.18. Specially crafted inputs passed to these functions could cause an application using lapack to crash or possibly disclose portions of its memory."
     vpv = [("lapack_project", "lapack", "<= 3.10.0"), ("openblas_project", "openblas", "< 0.3.18"), ("julialang", "julia", "<= 1.6.3"), ("julialang", "julia", "= 1.7.0-beta1"), ("julialang", "julia", "= 1.7.0-beta2"), ("julialang", "julia", "= 1.7.0-beta3"), ("julialang", "julia", "= 1.7.0-beta4"), ("julialang", "julia", "= 1.7.0-rc1"), ("redhat", "ceph_storage", "= 2.0"), ("redhat", "ceph_storage", "= 3.0"), ("redhat", "ceph_storage", "= 4.0"), ("redhat", "ceph_storage", "= 5.0"), ("redhat", "openshift_container_storage", "= 4.0"), ("redhat", "openshift_data_foundation", "= 4.0"), ("redhat", "enterprise_linux", "= 8.0"), ("fedoraproject", "fedora", "= 34"), ("fedoraproject", "fedora", "= 35")]
 
-    matches = SecurityAdvisories.affected_julia_packages(desc, vpv)
+    (; affected, upstreams) = SecurityAdvisories.affected_julia_packages(desc, vpv)
+    matches = affected
+    # Only the tracked upstream components survive from the 17 input tuples
+    @test sort(collect(keys(upstreams))) == ["julialang:julia", "lapack_project:lapack", "openblas_project:openblas"]
     @test "julia" ∉ (x->x.pkg).(matches)
     @test "OpenBLAS_jll" in (x->x.pkg).(matches)
     @test "OpenBLAS32_jll" in (x->x.pkg).(matches)
     @test "OpenBLASHighCoreCount_jll" in (x->x.pkg).(matches)
 
     @test only(matches[(x->x.pkg).(matches) .== "OpenBLASHighCoreCount_jll"]).ranges == [SecurityAdvisories.VersionRange{VersionNumber}("*")]
+
+    # The upstream components' originating ranges are recorded alongside, verbatim
+    @test upstreams["lapack_project:lapack"] == ["<= 3.10.0"]
+    @test upstreams["openblas_project:openblas"] == ["< 0.3.18"]
+    # ... and the packages providing each component are computed, not stored
+    @test "LAPACK_jll" in SecurityAdvisories.packages_with_upstream_component("lapack_project:lapack")
+    @test "OpenBLAS_jll" in SecurityAdvisories.packages_with_upstream_component("openblas_project:openblas")
+
+    # `used_source` re-runs each source's components to find whose data made the ranges
+    dt = SecurityAdvisories.Dates.DateTime(2026, 1, 1)
+    src(id, components) = SecurityAdvisories.AdvisorySource(; id, imported=dt, modified=dt, published=dt,
+        url="https://example.com", html_url="https://example.com", affected=components)
+    adv = SecurityAdvisories.Advisory(id="JLSEC-0000-CVE-2021-4048", aliases=["CVE-2021-4048"], affected=matches,
+        jlsec_sources=[src("CVE-2021-4048", upstreams),
+                       src("EUVD-2021-1", Dict("lapack_project:lapack" => ["= 0.0.1"]))])
+    @test SecurityAdvisories.used_source(SecurityAdvisories.to_toml_frontmatter(adv)) == "CVE-2021-4048"
 end
 
 using SecurityAdvisories: convert_versions, VersionRange
@@ -308,37 +340,200 @@ end
     @test isempty(combined)
 end
 
-using SecurityAdvisories: Advisory, PackageVulnerability, VersionString, recipe_update_candidates
-using DataStructures: OrderedDict
+using SecurityAdvisories: Advisory, AdvisorySource, PackageVulnerability, VersionString, recipe_update_candidates
+using Dates: DateTime
+# A jlsec_sources entry with the required metadata; keywords (like `affected`) override the defaults
+test_source(; kw...) = AdvisorySource(; id="CVE-2025-99999", imported=DateTime(2026,1,1), modified=DateTime(2026,1,1),
+    published=DateTime(2025,1,1), url="https://example.com", html_url="https://example.com", kw...)
+
+# Run `f()` with the component maps (normally computed from GeneralMetadata and Repology
+# data) replaced by fixtures, so component-to-package associations are under test control
+function with_component_maps(f; projects, packages)
+    # Ensure the real caches are populated so they can be restored afterwards
+    SecurityAdvisories.upstream_projects_by_vendor_product("_", "_")
+    SecurityAdvisories.packages_with_project("_")
+    ups, pwp = SecurityAdvisories.UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT, SecurityAdvisories.PACKAGES_WITH_PROJECT
+    old = (ups[], pwp[])
+    ups[], pwp[] = projects, packages
+    try
+        return f()
+    finally
+        ups[], pwp[] = old
+    end
+end
 @testset "recipe update candidates" begin
     unbounded = [VR{VersionNumber}(">= 1.0.0")]
     bounded = [VR{VersionNumber}(">= 1.0.0, < 2.0.0")]
-    mapping(versions...) = Dict("vendor:product" => OrderedDict(v => [VR{VersionNumber}("*")] for v in versions))
-    jll(; kw...) = Advisory(affected=[PackageVulnerability(; pkg="Zstd_jll", ranges=unbounded, source_type="upstream", kw...)])
+    upstreams(versions...) = [test_source(affected=Dict("vendor:product" => collect(String, versions)))]
+    jll(; kw...) = Advisory(; affected=[PackageVulnerability(pkg="Zstd_jll", ranges=unbounded)], kw...)
+    candidates(adv; pkgs=["Zstd_jll"]) =
+        with_component_maps(projects=Dict(("vendor","product") => ["testproj"]),
+                            packages=Dict("testproj" => pkgs)) do
+            recipe_update_candidates(adv)
+        end
 
     # An unbounded JLL whose upstream fix version is known (an exclusive upper bound) is actionable
-    @test recipe_update_candidates(jll(source_mapping=mapping("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
     # ... using the largest fixed version across ranges, even non-semver-ish ones
-    @test recipe_update_candidates(jll(source_mapping=mapping(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
-    @test recipe_update_candidates(jll(source_mapping=mapping("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
+    @test candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
 
-    # But not when any upstream range is inclusively bounded, unbounded, exact, or unparseable
-    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("<= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("< 1.5.7", "<= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("*"))))
-    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("= 1.5.7"))))
-    @test isempty(recipe_update_candidates(jll(source_mapping=mapping("who knows"))))
+    # Ranges that don't identify a fixed version (inclusively bounded, unbounded, exact,
+    # or unparseable ones) are ignored...
+    @test isempty(candidates(jll(jlsec_sources=upstreams("<= 1.5.7"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("*"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("= 1.5.7"))))
+    @test isempty(candidates(jll(jlsec_sources=upstreams("who knows"))))
+    # ... and don't veto ranges that do — such as when a second source reports a looser range
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("*", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=[only(upstreams("< 1.5.7")),
+        test_source(id="EUVD-2025-1", affected=Dict("vendor:product" => ["*"]))])) ==
+        ["Zstd" => VersionString("1.5.7")]
     # Nor without any upstream version information at all
-    @test isempty(recipe_update_candidates(jll()))
-    @test isempty(recipe_update_candidates(jll(source_mapping=Dict{String,Any}())))
+    @test isempty(candidates(jll()))
+    @test isempty(candidates(jll(jlsec_sources=upstreams())))
+    # Nor when the upstream component belongs to some other package
+    @test isempty(candidates(jll(jlsec_sources=upstreams("< 1.5.7")); pkgs=["Other_jll"]))
 
     # Only vulnerable-and-unbounded JLL packages are considered
-    @test isempty(recipe_update_candidates(Advisory(affected=[
-        PackageVulnerability(pkg="Zstd_jll", ranges=bounded, source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
-    @test isempty(recipe_update_candidates(Advisory(affected=[
-        PackageVulnerability(pkg="Zstd_jll", ranges=VR{VersionNumber}[], source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
-    @test isempty(recipe_update_candidates(Advisory(affected=[
-        PackageVulnerability(pkg="NotAJLL", ranges=unbounded, source_type="upstream", source_mapping=mapping("< 1.5.7"))])))
+    @test isempty(candidates(Advisory(affected=[
+        PackageVulnerability(pkg="Zstd_jll", ranges=bounded)], jlsec_sources=upstreams("< 1.5.7"))))
+    @test isempty(candidates(Advisory(affected=[
+        PackageVulnerability(pkg="Zstd_jll", ranges=VR{VersionNumber}[])], jlsec_sources=upstreams("< 1.5.7"))))
+    @test isempty(candidates(Advisory(affected=[
+        PackageVulnerability(pkg="NotAJLL", ranges=unbounded)], jlsec_sources=upstreams("< 1.5.7")); pkgs=["NotAJLL"]))
+end
+
+@testset "upstream ranges normalization and serialization" begin
+    VRN = VR{VersionNumber}
+    # Source construction dedupes and sorts each component's ranges
+    ffmpeg = test_source(affected=Dict("ffmpeg:ffmpeg" =>
+        [">= 4.10, < 4.11", ">= 4.9, < 4.10", "< 3.4.14", "< 3.4.14"])).affected
+    @test ffmpeg["ffmpeg:ffmpeg"] == ["< 3.4.14", ">= 4.10, < 4.11", ">= 4.9, < 4.10"]
+    # Malformed vendor_product identifiers (now hand-editable in advisory files) error clearly...
+    @test_throws ArgumentError SecurityAdvisories.upstream_projects_by_cpe("no-colon-here")
+    # ... while the package association treats them as mapping to no packages, so reports
+    # and recipe updates skip the entry rather than crashing on it
+    @test isempty(SecurityAdvisories.packages_with_upstream_component("no-colon-here"))
+
+    # The sources' affected components round-trip through the Markdown/TOML serialization
+    adv = Advisory(id="JLSEC-2025-9999", modified=DateTime(2026,1,1), published=DateTime(2025,1,1),
+        upstream=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.2+0")]),
+                  PackageVulnerability(pkg="FFplay_jll", ranges=[VRN("< 7.1.0+0")])],
+        jlsec_sources=[test_source(affected=ffmpeg, database_specific=Dict{String,Any}("status"=>"Analyzed"))],
+        summary="Test", details="Details.")
+    serialized = sprint(print, adv)
+    @test contains(serialized, "[jlsec_sources.affected]")
+    reparsed = tryparse(Advisory, serialized)
+    @test reparsed == adv
+    @test only(reparsed.jlsec_sources).affected == ffmpeg
+end
+
+@testset "combining carries sources' upstream ranges" begin
+    VRN = VR{VersionNumber}
+    adv(id; kw...) = Advisory(; id, aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="Foo", ranges=[VRN("< 1.2.0")])], details="Details.", kw...)
+    record(ranges) = Dict("v:p" => ranges)
+
+    # A newer import of the same source replaces it, carrying its affected upstream components along
+    bare = adv("JLSEC-2025-9998", jlsec_sources=[test_source(imported=DateTime(2026,1,1))])
+    mapped = adv("JLSEC-0000-placeholder", jlsec_sources=[test_source(imported=DateTime(2026,2,1), affected=record(["< 2.0"]))])
+    @test only(SecurityAdvisories.combine(bare, mapped).jlsec_sources).affected == record(["< 2.0"])
+    @test only(SecurityAdvisories.combine(mapped, bare).jlsec_sources).affected == record(["< 2.0"])
+    # ... and `update` considers that backfill a change worth saving
+    updated = SecurityAdvisories.update(bare, mapped)
+    @test only(updated.jlsec_sources).affected == record(["< 2.0"])
+    @test updated.id == "JLSEC-2025-9998"
+    # ... but a merely-newer import with the same affected components is not worth saving
+    refetched = adv("JLSEC-2025-9998", jlsec_sources=[test_source(imported=DateTime(2026,3,1), affected=record(["< 2.0"]))])
+    @test SecurityAdvisories.update(updated, refetched) === updated
+
+    # better_affected is how `combine` picks between two sources' ranges:
+    # prefer the first unless the second is clearly better
+    ba = SecurityAdvisories.better_affected
+    entry(ranges...) = PackageVulnerability(pkg="Foo", ranges=[VRN(r) for r in ranges])
+    @test ba(entry("< 1.0.0"), entry("< 2.0.0")) == entry("< 1.0.0")               # a tie keeps the first
+    @test ba(entry(">= 1.0.0"), entry("< 1.0.0", ">= 2.0.0")) == entry("< 1.0.0", ">= 2.0.0") # more ranges are more specific
+    @test ba(entry("< 1.0.0"), entry(">= 2.0.0")) == entry("< 1.0.0")              # bounded beats unbounded
+    @test ba(entry(">= 1.0.0"), entry("< 2.0.0")) == entry("< 2.0.0")
+
+    # Different sources keep their own affected components side by side
+    other = adv("JLSEC-0000-placeholder", jlsec_sources=[test_source(id="EUVD-2025-1", affected=record(["< 1.5"]))])
+    combined = SecurityAdvisories.combine(updated, other)
+    @test length(combined.jlsec_sources) == 2
+    @test only(s for s in combined.jlsec_sources if s.id == "CVE-2025-99999").affected == record(["< 2.0"])
+    @test only(s for s in combined.jlsec_sources if s.id == "EUVD-2025-1").affected == record(["< 1.5"])
+
+    # Affected components are sorted at construction, so their in-memory ordering (which
+    # depends upon Dict iteration order at import time) is never mistaken for a change
+    components = ["v:q" => ["< 3.0"], "v:p" => ["< 2.0"]]
+    @test collect(test_source(affected=components).affected) == collect(test_source(affected=reverse(components)).affected)
+    @test adv("JLSEC-2025-9998", jlsec_sources=[test_source(affected=components)]) ≈
+          adv("JLSEC-2025-9998", jlsec_sources=[test_source(affected=reverse(components))])
+
+    # Advisories without details can still be combined
+    @test isnothing(SecurityAdvisories.combine(
+        Advisory(id="JLSEC-2025-9998", aliases=["CVE-2025-99999"]),
+        Advisory(id="JLSEC-0000-placeholder", aliases=["CVE-2025-99999"])).details)
+end
+
+using SecurityAdvisories: print_advisory_versions
+@testset "version range rendering" begin
+    VRN = VR{VersionNumber}
+    render(adv, old=nothing; kw...) =
+        with_component_maps(projects=Dict(("ffmpeg","ffmpeg") => ["ffmpeg"]),
+                            packages=Dict("ffmpeg" => ["FFMPEG_jll", "FFplay_jll"])) do
+            sprint(io -> print_advisory_versions(io, adv, old; kw...))
+        end
+    adv = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.2+0")])],
+        jlsec_sources=[test_source(affected=Dict("ffmpeg:ffmpeg" => ["< 6.1.2"]))])
+    out = render(adv)
+    @test contains(out, "- `JLSEC-2025-9999` (from: [CVE-2025-99999](https://example.com)) for upstream project(s):")
+    @test contains(out, "- **ffmpeg:ffmpeg** (per CVE-2025-99999) at versions: `< 6.1.2`")
+    @test contains(out, "- mapping to packages:")
+    @test contains(out, "- **FFMPEG_jll** at versions: `< 6.1.2+0`")
+
+    # Changes against a prior version of the advisory are annotated
+    old = SecurityAdvisories.to_toml_frontmatter(adv)
+    adv.affected = [PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.3+0")]),
+                    PackageVulnerability(pkg="FFplay_jll", ranges=[VRN("< 7.1.0+0")])]
+    out = render(adv, old)
+    @test contains(out, "- **FFMPEG_jll** at versions: `< 6.1.3+0` (was: `< 6.1.2+0`)")
+    @test contains(out, "- **FFplay_jll** at versions: `< 7.1.0+0` (newly listed)")
+
+    # Components that map to none of the listed packages are not shown
+    adv.jlsec_sources = [test_source(affected=Dict("ffmpeg:ffmpeg" => ["< 6.1.2"], "other:lib" => ["< 9.9"]))]
+    @test !contains(render(adv), "other:lib")
+    # ... and an advisory whose components all map elsewhere renders as a plain package list
+    adv.jlsec_sources = [test_source(affected=Dict("other:lib" => ["< 9.9"]))]
+    @test contains(render(adv), "for packages:\n    - **FFMPEG_jll**")
+
+    # When several sources list components, only the one whose data was used is shown
+    adv.jlsec_sources = [test_source(affected=Dict("ffmpeg:ffmpeg" => ["< 6.1.2"])),
+                         test_source(id="EUVD-2025-1", affected=Dict("ffmpeg:ffmpeg" => ["< 6.1"]))]
+    out = render(adv; pick_used = _ -> "CVE-2025-99999")
+    @test contains(out, "(per CVE-2025-99999)") && !contains(out, "(per EUVD-2025-1)")
+    # ... unless we cannot tell whose it was, in which case all are shown
+    out = render(adv; pick_used = _ -> nothing)
+    @test contains(out, "(per CVE-2025-99999)") && contains(out, "(per EUVD-2025-1)")
+
+    # Component ranges that fail to parse are called out; they are where "*" ranges come from
+    adv.jlsec_sources = [test_source(affected=Dict("ffmpeg:ffmpeg" => ["not a version range"]))]
+    @test contains(render(adv), "⚠ could not parse `not a version range`")
+
+    # Advisories without upstream components render a flat package list
+    alias = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])], jlsec_sources=[test_source()])
+    @test contains(render(alias), "for packages:\n    - **HTTP** at versions: `< 1.10.17`")
+
+    # Hand-authored advisories may have no sources at all
+    unsourced = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
+        affected=[PackageVulnerability(pkg="HTTP", ranges=[VRN("< 1.10.17")])])
+    @test contains(render(unsourced), "- `JLSEC-2025-9999` for packages:")
+    @test !contains(render(unsourced), "(from:")
 end
 
 using JSON3: JSON3
@@ -410,4 +605,33 @@ end
         entry = last(rejection)
         @test haskey(entry, "packages") && isempty(intersect(SecurityAdvisories.vulnerable_packages(adv), entry["packages"]))
     end
+end
+
+@testset "git diff revision specs" begin
+    mktempdir() do dir
+        run(Cmd(`git init -q -b main`; dir))
+        run(Cmd(`git -c user.email=t@t -c user.name=t commit -q --allow-empty -m one`; dir))
+        run(Cmd(`git -c user.email=t@t -c user.name=t commit -q --allow-empty -m two`; dir))
+        head = readchomp(Cmd(`git rev-parse HEAD`; dir))
+        ep(spec) = SecurityAdvisories.diff_endpoints(spec; dir)
+        @test ep("main") == ("main", nothing)          # lone revision → working tree
+        @test ep("v1.2.3") == ("v1.2.3", nothing)      # single dots aren't a range
+        @test ep("main..HEAD") == ("main", "HEAD")
+        @test ep("main..") == ("main", "HEAD")         # omitted endpoint means HEAD
+        @test ep("..HEAD") == ("HEAD", "HEAD")
+        @test ep("HEAD^...HEAD") == (readchomp(Cmd(`git rev-parse HEAD^`; dir)), "HEAD")
+        @test ep("HEAD...") == (head, "HEAD")          # merge-base of HEAD with itself
+    end
+end
+
+@testset "GitHub Actions body output" begin
+    print_body = SecurityAdvisories.print_body_output
+    @test sprint(print_body, "plain text\n") == "body<<BODY_EOF\nplain text\nBODY_EOF\n"
+    # A missing trailing newline is supplied so the delimiter gets its own line
+    @test sprint(print_body, "no newline") == "body<<BODY_EOF\nno newline\nBODY_EOF\n"
+    # A body line matching the delimiter cannot terminate the heredoc early
+    hostile = "details:\nBODY_EOF\ninjected=pwned\n"
+    out = sprint(print_body, hostile)
+    @test startswith(out, "body<<BODY_EOF_\n") && endswith(out, "\nBODY_EOF_\n")
+    @test contains(sprint(print_body, "BODY_EOF\nBODY_EOF_\n"), "body<<BODY_EOF__\n")
 end

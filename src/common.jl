@@ -52,7 +52,8 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
     #   ">= 0.0.1" denotes a version range with a known minimum, but no known maximum.
     #   (Undocumented) ">" is also a valid operator.
     # EUVD does something similar, albeit with unicode equivalents (≤ and maybe ≥?) and an optional
-    #   inclusive lower bound on the LHS of a less-than operator
+    #   inclusive lower bound on the LHS of a less-than operator, sometimes comma-separated:
+    #   both "26.0.0<36.0.3" and "26.0.0, < 36.0.3" denote ">= 26.0.0, < 36.0.3"
     # The special string "*" denotes all versions
     str = strip(arg)
     if str == "*"
@@ -76,9 +77,13 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
         ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, startswith(lower, r"(?:>=|≥)"), startswith(upper, r"(?:<=|≤)"))
-    elseif count(in(('<','≤')), str) == 1 && !contains(str, ",")
-        # This is an EUVD-style range, with in inclusive lower bound and an upper bound
-        lower, upper = split(str, r"\s*(?=[<≤])", limit=2, keepempty=false)
+    elseif count(in(('<','≤')), str) == 1
+        # This is an EUVD-style range, with an inclusive lower bound (optionally followed
+        # by a comma) and an upper bound
+        parts = split(str, r",?\s*(?=[<≤])", limit=2, keepempty=false)
+        length(parts) == 2 || return nothing
+        lower, upper = parts
+        contains(lower, ',') && return nothing # only the one comma before the operator is allowed
         lb = tryparse(V, strip(lower))
         isnothing(lb) && return nothing
         ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
@@ -313,10 +318,40 @@ function upstream_projects_by_vendor_product(vendor, product)
     end
     return get(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT[], (lowercase(vendor),lowercase(product)), String[])
 end
-upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)
+function upstream_projects_by_cpe(vendorproduct)
+    parts = split(vendorproduct, ":", limit=2)
+    # These identifiers now round-trip through hand-editable advisory files; be explicit about the format
+    length(parts) == 2 || throw(ArgumentError("expected a \"vendor:product\"-style identifier, got $(repr(vendorproduct))"))
+    return upstream_projects_by_vendor_product(parts...)
+end
 
+# Maps each upstream project name to the packages that provide it
+const PACKAGES_WITH_PROJECT = Ref{Dict{String, Vector{String}}}()
 function packages_with_project(proj)
-    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]
+    if !isassigned(PACKAGES_WITH_PROJECT)
+        d = Dict{String, Vector{String}}()
+        for (pkgname, versioninfo) in package_components(), verinfo in values(versioninfo)
+            for project in keys(verinfo)
+                pkgs = get!(Vector{String}, d, project)
+                pkgname in pkgs || push!(pkgs, pkgname)
+            end
+        end
+        PACKAGES_WITH_PROJECT[] = d
+    end
+    return get(PACKAGES_WITH_PROJECT[], proj, String[])
+end
+
+"""
+    packages_with_upstream_component(vendor_product)
+
+Return the Julia packages whose artifacts provide the upstream component identified by the
+CPE-like `"vendor:product"` string, as computed from GeneralMetadata's component tracking.
+A malformed identifier simply maps to no packages, so reports and recipe updates skip it
+rather than erroring on a hand-edited advisory file.
+"""
+function packages_with_upstream_component(vendor_product)
+    contains(vendor_product, ":") || return String[]
+    return unique!(reduce(vcat, packages_with_project.(upstream_projects_by_cpe(vendor_product)); init=String[]))
 end
 
 function upstream_projects_for_package(pkg)
@@ -419,7 +454,11 @@ end
     affected_julia_packages(description, vendorproductversions)
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
-for which the vulnerability applies, return the vector of the corresponding Julia `PackageVulnerability`s.
+for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
+vector of the corresponding Julia `PackageVulnerability`s and a `"vendor:product" => ranges`
+dict of the tracked upstream components that identified them (for the importing source's
+`affected` field). `upstreams` is empty when the advisory names the Julia packages directly,
+which is also how the importers decide whether the source ids are `upstream` ids or `aliases`.
 """
 function affected_julia_packages(description, vendorproductversions)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
@@ -446,7 +485,7 @@ function affected_julia_packages(description, vendorproductversions)
                     pkgs[pkg]["$vendor:$product"][version] = isnothing(r) ?
                         [VersionRange{VersionNumber}("*")] : convert_versions(package_project_version_map(pkg, matched_project), r)
                 end
-                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory directly lists $pkg, but it also finds upstream components")
+                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory matches the upstream component $matched_project ($vendor:$product), but it also directly lists Julia packages")
                 advisory_type = "upstream"
             end
         else
@@ -472,35 +511,27 @@ function affected_julia_packages(description, vendorproductversions)
             end
         end
     end
+    vulns = PackageVulnerability[]
+    for (pkg, mapping) in pkgs
+        push!(vulns, PackageVulnerability(pkg,
+            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
+    end
     if !found_match && !isempty(jlpkgs_mentioned)
         # We didn't connect any vendor/product pair with a Julia package, but there are some mentioned.
         # TODO: this could potentially do better by trying to correlate the listed versions against
         # the registered ones, but this is quite the rare case and not worth worrying too much about
         @warn "failed to match the mentioned packages to a product with a version"
         @warn "assuming that all mentioned products are vulnerable at all versions"
-        for pkg in jlpkgs_mentioned
-            pkgs[pkg]["mentioned in details"]["*"] = [VersionRange{VersionNumber}("*")]
-        end
-        advisory_type = "alias"
+        append!(vulns, [PackageVulnerability(pkg, [VersionRange{VersionNumber}("*")]) for pkg in jlpkgs_mentioned])
     end
-
-    # return pkgs
-    vulns = PackageVulnerability[]
-    for (pkg, source_mapping) in pkgs
-        # Use a better sorting if we can:
-        for (_, vs) in source_mapping
-            if all(!isnothing, tryparse.(VersionRange, keys(vs)))
-                sort!(vs, by=x->something(tryparse(SecurityAdvisories.VersionRange, x), x))
-            else
-                sort!(vs)
-            end
+    # Record the originating upstream component ranges, verbatim
+    upstreams = Dict{String, Vector{String}}()
+    if advisory_type == "upstream"
+        for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
+            union!(get!(Vector{String}, upstreams, cpe), keys(conversions))
         end
-        push!(vulns, PackageVulnerability(pkg,
-            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in source_mapping for (_,v) in map)))),
-            advisory_type,
-            source_mapping))
     end
-    return vulns
+    return (; affected=vulns, upstreams)
 end
 
 # TODO: use the above Pkg machinery for this, too

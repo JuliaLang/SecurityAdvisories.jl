@@ -1,23 +1,21 @@
-# The goal here is to find relevant upstream advisories that have been published in an upstream
-# database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
-using SecurityAdvisories: SecurityAdvisories, Advisory, NVD, EUVD, GitHub, VersionRange, package_components, PREFIX
+using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
 using GeneralMetadata
-using JSON3: JSON3
-using TOML: TOML
 using Dates: Dates
-using DataStructures: DefaultDict, OrderedDict
-using SHA: sha256
-
-link_proj(proj) = string("[",rsplit(proj, "/", limit=2)[end], "](https://", proj, ")")
-link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/packages/redirect_to_repo/", pkg, ")")
-meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 isspace_or_comma(c) = isspace(c) || c == ','
 
-function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
+"""
+    search_advisories(input, filter_results) -> (; advisories, branch, haystack)
+
+Search the upstream databases per `input`: an advisory identifier, a package name, a
+space/comma-separated package list, or — when empty — a walk through the ecosystem
+until something turns up. Returns the found advisories (with aliases combined), the
+branch name for the results (the package the walk landed on, otherwise `input`), and
+a description of what was searched.
+"""
+function search_advisories(input, filter_results)
     advisories = Advisory[]
-    info = Dict{String,Any}()
-    info["haystack"] = input
+    branch = haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif !isempty(input) && !any(isspace_or_comma, input)
@@ -38,20 +36,20 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
-            input = popfirst!(whole_pkg_list)
+            branch = popfirst!(whole_pkg_list)
             pkg_search_count += 1
-            @info "searching for $input"
+            @info "searching for $branch"
             try
-                append!(advisories, SecurityAdvisories.search_package(input, filter_results))
+                append!(advisories, SecurityAdvisories.search_package(branch, filter_results))
             catch ex
-                @error "Error searching for $input" ex
+                @error "Error searching for $branch" ex
                 empty!(advisories)
             end
         end
-        info["haystack"] = "$pkg_search_count packages"
+        haystack = "$pkg_search_count packages"
     end
 
-    @info "found $(length(advisories)) advisories in $input"
+    @info "found $(length(advisories)) advisories in $branch"
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)
     n_pre = length(advisories)
     pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
@@ -61,10 +59,17 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
         @show pre_srcs
         @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
+    return (; advisories, branch, haystack)
+end
 
-    # Now create or update the found advisories:
-    n_modified = 0
-    results = Advisory[]
+"""
+    write_advisory_files(advisories, filter_results)
+
+Create or update the advisory file for each of the `advisories`, merging each into its
+existing JLSEC advisory when there is one. When `filter_results`, reviewed-and-rejected
+packages are stripped and results that are invalid or not vulnerable are skipped.
+"""
+function write_advisory_files(advisories, filter_results)
     for advisory in advisories
         filter_results && SecurityAdvisories.strip_rejected!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
@@ -79,164 +84,18 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
             continue
         end
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
-        file = joinpath(dir, advisory.id * ".md")
-        n_modified += isfile(file)
-        open(file, "w") do io
+        open(joinpath(dir, advisory.id * ".md"), "w") do io
             SecurityAdvisories.print(io, advisory)
         end
-        push!(results, advisory)
     end
-    n_total = length(advisories)
-    n_created = n_total - n_modified
+end
 
-    # Identify unbounded JLLs whose upstream fix is known but not yet built; these
-    # are actionable via an Yggdrasil recipe update (requested in a workflow step)
-    recipe_updates = Dict{String, SecurityAdvisories.VersionString}()
-    for adv in results, (name, version) in SecurityAdvisories.recipe_update_candidates(adv)
-        recipe_updates[name] = max(get(recipe_updates, name, version), version)
-    end
-
-    # Nice logging information for the possible pull request
+function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
+    (; advisories, branch, haystack) = search_advisories(input, filter_results)
+    write_advisory_files(advisories, filter_results)
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
-    verb = n_modified > 0 && n_created == 0 ? "Update" :
-           n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
-    unique_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(results)))
-    pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
-    advisory_str = n_total == 1 ? "advisory" : "advisories"
-    println(io, "branch=", input)
-    println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
-    println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
-    println(io, "body<<BODY_EOF")
-    println(io, "This action searched `", info["haystack"], "` for advisories that pertain here. ",
-        "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", join("**" .* unique_pkgs .* "**", ", ", ", and "), ".")
-    println(io)
-
-    divide(f, x) = return (filter(f, x), filter(!f, x))
-
-    unbounded = count(any(!SecurityAdvisories.has_upper_bound, a.affected) for a in results)
-    if unbounded > 0
-        println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
-        println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
-    end
-
-    aliases, upstreams = divide(x->!isempty(x.aliases), results)
-
-    if !isempty(aliases)
-        pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(aliases)))
-        println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
-        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print(io, "* ")
-            print(io, "`", adv.id, "` (from:")
-            for src in adv.jlsec_sources
-                print(io, " [", src.id, "](", src.html_url, ")")
-            end
-            print(io, ") for packages: \n")
-            for pkg in SecurityAdvisories.vulnerable_packages(adv)
-                versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
-                print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
-            end
-            println(io)
-        end
-        println(io)
-    end
-
-    if !isempty(upstreams)
-        vulnerable_pkgs = unique(Iterators.flatten(SecurityAdvisories.vulnerable_packages.(upstreams)))
-        vulnerable_cpes = unique(Iterators.flatten(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected) for adv in upstreams))
-        vulnerable_projs = unique(Iterators.flatten(SecurityAdvisories.upstream_projects_by_cpe.(vulnerable_cpes)))
-        pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in vulnerable_pkgs)
-        println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
-        print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
-        print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
-        print(io, "(and version numbers themselves) are highly dependent on the accuracy of this metadata. ")
-        println(io, "Improvements can be made directly to GeneralMetadata.jl; it is automatically populated on a best-effort basis and manual edits are preserved.")
-        println(io)
-
-        println(io, "\n### Package and upstream project information\n")
-        for pkg in vulnerable_pkgs
-            pkg_projects = unique(Iterators.flatten(keys(v) for v in values(pkg_version_upstream[pkg])))
-            println(io, "* ", link_pkg(pkg), "'s [artifact metadata](", meta_url(pkg), ") has upstream", length(pkg_projects) > 1 ? "s: " : ": ", join(link_proj.(pkg_projects), ", ", " and "))
-            println(io, "    <details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">metadata for each version</a>:</summary>\n\n")
-
-            println(io, "    | ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
-            println(io, "    |-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
-            for (v, ups) in pkg_version_upstream[pkg]
-                println(io, "    | $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
-            end
-            println(io)
-            println(io, "    </details>\n")
-
-            last_version, last_version_info = last(pkg_version_upstream[pkg])
-            if any(x->ismissing(x) || x=="*", values(last_version_info))
-                println(io, "    * **⚠ The latest version (v$last_version) has incomplete or missing metadata**")
-            end
-            has_early_missings = false
-            has_intervening_missings = false
-            for proj in pkg_projects
-                found_first_known_version = false
-                for (v, vinfo) in pkg_version_upstream[pkg]
-                    if !haskey(vinfo, proj) || ismissing(vinfo[proj]) || isnothing(vinfo[proj])
-                        if !found_first_known_version
-                            has_early_missings = true
-                        else
-                            has_intervening_missings = true
-                        end
-                    elseif vinfo[proj] == "*"
-                        if !found_first_known_version
-                            println(io, "    * **⚠ The earliest version (v$v) with ", link_proj(proj), " is missing its version, so this will suggest _every single advisory_ every published**")
-                            found_first_known_version = true
-                            has_early_missings = true
-                        else
-                            has_intervening_missings = true
-                        end
-                    else
-                        found_first_known_version = true
-                    end
-                end
-            end
-            if has_early_missings
-                println(io, "    * The oldest versions with no metadata are not considered when searching for advisories")
-            end
-            if has_intervening_missings
-                println(io, "    * Missing version metadata between two known versions are assumed to have some value between the two known values")
-            end
-        end
-
-        println(io, "\n### Advisory summaries\n")
-        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources))
-            print(io, "* ")
-            print(io, "`", adv.id, "` (from:")
-            for src in adv.jlsec_sources
-                print(io, " [", src.id, "](", src.html_url, ")")
-            end
-            print(io, ")")
-            if any(SecurityAdvisories.is_populated(a.source_mapping) for a in adv.affected)
-                print(io, " for upstream project(s): \n")
-                projects = unique(Iterators.flatten(keys(something(a.source_mapping, Dict())) for a in adv.affected))
-                for cpe in projects
-                    versions = unique(Iterators.flatten(keys(get(something(a.source_mapping, Dict()), cpe, Dict())) for a in adv.affected))
-                    affecteds = filter(x->haskey(something(x.source_mapping, Dict()), cpe) && SecurityAdvisories.is_vulnerable(x), adv.affected)
-                    isempty(affecteds) && continue
-                    println(io, "    * **", cpe, "** at versions: ", join("`" .* versions .* "`", ", ", ", and "), ", mapping to ")
-                    pkgs = unique(x.pkg for x in affecteds)
-                    for pkg in pkgs
-                        print(io, "        * **", pkg, "** at versions: ")
-                        pkg_versions = unique(Iterators.flatten(x.ranges for x in affecteds if x.pkg == pkg))
-                        println(io, join(string.("`", pkg_versions, "`"), ", ", ", and "))
-                    end
-                end
-            else
-                print(io, " for package(s): \n")
-                for pkg in SecurityAdvisories.vulnerable_packages(adv)
-                    versions = Iterators.flatten(x.ranges for x in filter(a->a.pkg==pkg, adv.affected))
-                    print(io, "    * **", pkg, "** at versions: ", join("`" .* string.(versions) .* "`", ", ", ", and "), "\n")
-                end
-            end
-            println(io)
-        end
-        println(io)
-    end
-    println(io, "BODY_EOF")
+    println(io, "branch=", branch)
+    print_search_pr_outputs(io, "HEAD"; haystack)
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end
