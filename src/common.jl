@@ -515,22 +515,18 @@ function affected_julia_packages(description, vendorproductversions)
             end
         end
     end
+    vulns = PackageVulnerability[]
+    for (pkg, mapping) in pkgs
+        push!(vulns, PackageVulnerability(pkg,
+            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
+    end
     if !found_match && !isempty(jlpkgs_mentioned)
         # We didn't connect any vendor/product pair with a Julia package, but there are some mentioned.
         # TODO: this could potentially do better by trying to correlate the listed versions against
         # the registered ones, but this is quite the rare case and not worth worrying too much about
         @warn "failed to match the mentioned packages to a product with a version"
         @warn "assuming that all mentioned products are vulnerable at all versions"
-        for pkg in jlpkgs_mentioned
-            pkgs[pkg]["mentioned in details"]["*"] = [VersionRange{VersionNumber}("*")]
-        end
-        advisory_type = "alias"
-    end
-
-    vulns = PackageVulnerability[]
-    for (pkg, mapping) in pkgs
-        push!(vulns, PackageVulnerability(pkg,
-            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
+        append!(vulns, [PackageVulnerability(pkg, [VersionRange{VersionNumber}("*")]) for pkg in jlpkgs_mentioned])
     end
     # Record the originating upstream component ranges, verbatim
     upstreams = UpstreamRanges[]
