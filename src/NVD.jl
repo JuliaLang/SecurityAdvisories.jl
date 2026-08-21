@@ -288,7 +288,7 @@ function english_description(vuln)
 end
 
 function advisory(vuln)
-    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
+    (; affected, upstreams) = affected_julia_packages(vuln)
 
     # Severities are a little complicated
     severities = Severity[]
@@ -316,7 +316,7 @@ function advisory(vuln)
     return Advisory(;
         id = string(PREFIX, "-0000-", vuln.cve.id),
         withdrawn = (lowercase(get(vuln.cve, :vulnStatus, "")) == "rejected") ? Dates.now(Dates.UTC) : nothing,
-        upstream_type => String[vuln.cve.id],
+        (isempty(upstreams) ? :aliases : :upstream) => String[vuln.cve.id],
         # related -- nothing structured
         details = protect_identifiers(english_description(vuln)),
         severity = severities,

@@ -165,11 +165,11 @@ vuln_id(vuln) = get(filter(startswith("CVE-"),  split(get(vuln, :aliases, ""))),
 
 parse_euvd_datetime(str) = DateTime(str, dateformat"u d, y, H:M:S p")
 function advisory(vuln)
-    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
+    (; affected, upstreams) = affected_julia_packages(vuln)
 
     return Advisory(;
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
-        upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
+        (isempty(upstreams) ? :aliases : :upstream) => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
         id = string(PREFIX, "-0000-", vuln_id(vuln)),
         # related -- nothing structured
         details = protect_identifiers(get(vuln, :description, nothing)),

@@ -50,9 +50,12 @@ end
     desc = "An out-of-bounds read flaw was found in the CLARRV, DLARRV, SLARRV, and ZLARRV functions in lapack through version 3.10.0, as also used in OpenBLAS before version 0.3.18. Specially crafted inputs passed to these functions could cause an application using lapack to crash or possibly disclose portions of its memory."
     vpv = [("lapack_project", "lapack", "<= 3.10.0"), ("openblas_project", "openblas", "< 0.3.18"), ("julialang", "julia", "<= 1.6.3"), ("julialang", "julia", "= 1.7.0-beta1"), ("julialang", "julia", "= 1.7.0-beta2"), ("julialang", "julia", "= 1.7.0-beta3"), ("julialang", "julia", "= 1.7.0-beta4"), ("julialang", "julia", "= 1.7.0-rc1"), ("redhat", "ceph_storage", "= 2.0"), ("redhat", "ceph_storage", "= 3.0"), ("redhat", "ceph_storage", "= 4.0"), ("redhat", "ceph_storage", "= 5.0"), ("redhat", "openshift_container_storage", "= 4.0"), ("redhat", "openshift_data_foundation", "= 4.0"), ("redhat", "enterprise_linux", "= 8.0"), ("fedoraproject", "fedora", "= 34"), ("fedoraproject", "fedora", "= 35")]
 
-    (; affected, upstreams, upstream_type) = SecurityAdvisories.affected_julia_packages(desc, vpv)
+    (; affected, upstreams) = SecurityAdvisories.affected_julia_packages(desc, vpv)
     matches = affected
-    @test upstream_type == :upstream
+    # Only the tracked upstream components survive from the 17 input tuples (the redhat
+    # and fedora products drop out); their presence is also what marks the advisory as
+    # identified through upstream components
+    @test sort((x->x.vendor_product).(upstreams)) == ["julialang:julia", "lapack_project:lapack", "openblas_project:openblas"]
     @test "julia" ∉ (x->x.pkg).(matches)
     @test "OpenBLAS_jll" in (x->x.pkg).(matches)
     @test "OpenBLAS32_jll" in (x->x.pkg).(matches)

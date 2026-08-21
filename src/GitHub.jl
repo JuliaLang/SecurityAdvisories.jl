@@ -248,7 +248,7 @@ end
 affected_julia_packages(advisory) = SecurityAdvisories.affected_julia_packages(get(advisory, :description, ""), vendor_product_versions(advisory))
 
 function advisory(vuln)
-    (; affected, upstreams, upstream_type) = affected_julia_packages(vuln)
+    (; affected, upstreams) = affected_julia_packages(vuln)
 
     # Aliases are in multiple places:
     aliases = String[vuln.ghsa_id]
@@ -282,7 +282,7 @@ function advisory(vuln)
     return Advisory(;
         id = string(PREFIX, "-0000-", vuln.ghsa_id),
         withdrawn = exists(vuln, :withdrawn_at) ? Dates.now(Dates.UTC) : nothing,
-        upstream_type => aliases,
+        (isempty(upstreams) ? :aliases : :upstream) => aliases,
         # related -- nothing structured
         summary = get(vuln, :summary, nothing),
         details = get(vuln, :description, nothing),
