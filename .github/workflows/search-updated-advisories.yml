@@ -1,0 +1,78 @@
+name: Search for updates to applicable advisories
+
+# Walk the upstream advisories that changed since the last successful run; each one that
+# maps to a Julia package triggers a full search of that package, opening one pull
+# request per package with findings.
+
+on:
+  schedule:
+    # Run once a day
+    - cron: '30 3 */1 * *'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Consider advisories updated after this UTC datetime (default: the last successful run)'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+# Only allow one search to run at a time; queue subsequent runs
+concurrency:
+  group: search-updated-advisories
+  cancel-in-progress: false
+
+jobs:
+  identify-packages:
+    name: Identify packages with updated advisories
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.identify.outputs.packages }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Determine the search window
+      id: since
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SINCE: ${{ inputs.since || '' }}
+      run: |
+        if [[ -z "$SINCE" ]]; then
+          SINCE=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/search-updated-advisories.yml/runs?status=success&per_page=1" --jq '.workflow_runs[0].run_started_at // empty')
+        fi
+        echo "since=${SINCE:-$(date -u -d '3 days ago' '+%Y-%m-%dT%H:%M:%SZ')}" >> "$GITHUB_OUTPUT"
+
+    - name: Identify packages with findings
+      id: identify
+      env:
+        SINCE: ${{ steps.since.outputs.since }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        julia --project=. scripts/find_search_targets.jl updated-advisories "$SINCE"
+
+  search:
+    name: ${{ matrix.package }}
+    needs: identify-packages
+    if: needs.identify-packages.outputs.packages != '' && needs.identify-packages.outputs.packages != '[]'
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        package: ${{ fromJSON(needs.identify-packages.outputs.packages) }}
+    uses: ./.github/workflows/search-and-pr.yml
+    with:
+      haystack: ${{ matrix.package }}
+    secrets: inherit
