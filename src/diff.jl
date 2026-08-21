@@ -325,11 +325,9 @@ meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/bl
 """
     changed_advisories(spec; dir=pwd())
 
-Parse the advisory files that changed across the `git diff`-style revision `spec` (a lone
-revision compares against the working tree, including not-yet-tracked files; `"A..B"` and
-merge-base `"A...B"` ranges compare revisions), returning `(; advisory, old, status)`
-entries with the parsed new `Advisory`, the prior revision's TOML frontmatter (or
-`nothing` for new advisories), and the git status letter.
+Parse the advisory files that changed across the `git diff`-style revision `spec`,
+returning `(; advisory, old, status)` entries with the parsed new `Advisory`, the prior
+revision's TOML frontmatter (or `nothing` for new advisories), and the git status letter.
 """
 function changed_advisories(spec; dir=pwd())
     contents, _ = changed_advisory_contents(spec; dir)
@@ -356,9 +354,8 @@ earliest_source_time(adv) = minimum(y -> something(y.published, y.modified), adv
 
 Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and `body<<BODY_EOF`
 outputs, composed entirely from the advisory files that changed across the `git diff`-style
-revision `spec` (a lone revision compares against the working tree; `"A..B"` and merge-base
-`"A...B"` ranges compare revisions). The optional `haystack` describes what was searched to
-produce the changes; without it the body simply describes the changes themselves.
+revision `spec`. The optional `haystack` describes what was searched to produce the
+changes; without it the body simply describes the changes themselves.
 """
 function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
     changed = changed_advisories(spec; dir)

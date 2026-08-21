@@ -139,10 +139,8 @@ end
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
     database_specific::Dict{String, Any} = Dict{String, Any}()
-    # The affected upstream (non-Julia) components, mapping each CPE-like "vendor:product"
-    # identifier to that component's vulnerable version ranges, verbatim in the source's own
-    # version numbers. The Julia packages that provide each component are intentionally not
-    # recorded; they are computed from GeneralMetadata (see `packages_with_upstream_component`).
+    # The affected upstream (non-Julia) components, mapping each "vendor:product" identifier
+    # to its vulnerable version ranges, verbatim in the source's own version numbers
     affected::OrderedDict{String, Vector{String}} = OrderedDict{String, Vector{String}}()
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
         # Sort the affected components (and their ranges) so that freshly-imported and
@@ -610,8 +608,7 @@ function Base.tryparse(::Type{Advisory}, s::Union{AbstractString, IO})
 end
 
 # Split an advisory file into its raw TOML frontmatter and body — like `tryparse(Advisory, ...)`
-# above, but without the normalizing and schema-strict Advisory struct in between, so the
-# advisory diff reports can describe the files exactly as written (see diff.jl's header).
+# above, but without the Advisory struct in between. Used by the advisory diff reports.
 
 # Pull the contents of the first ```toml fence, and everything after it (the markdown body)
 function split_frontmatter(content::AbstractString)

@@ -52,9 +52,7 @@ end
 
     (; affected, upstreams) = SecurityAdvisories.affected_julia_packages(desc, vpv)
     matches = affected
-    # Only the tracked upstream components survive from the 17 input tuples (the redhat
-    # and fedora products drop out); their presence is also what marks the advisory as
-    # identified through upstream components
+    # Only the tracked upstream components survive from the 17 input tuples
     @test sort(collect(keys(upstreams))) == ["julialang:julia", "lapack_project:lapack", "openblas_project:openblas"]
     @test "julia" ∉ (x->x.pkg).(matches)
     @test "OpenBLAS_jll" in (x->x.pkg).(matches)

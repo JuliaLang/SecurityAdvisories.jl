@@ -327,7 +327,7 @@ function upstream_projects_by_cpe(vendorproduct)
     return upstream_projects_by_vendor_product(parts...)
 end
 
-# A computed dictionary that maps each upstream project name to the packages that provide it
+# Maps each upstream project name to the packages that provide it
 const PACKAGES_WITH_PROJECT = Ref{Dict{String, Vector{String}}}()
 function packages_with_project(proj)
     if !isassigned(PACKAGES_WITH_PROJECT)
@@ -458,11 +458,9 @@ end
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
 for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
 vector of the corresponding Julia `PackageVulnerability`s and a `"vendor:product" => ranges`
-dict recording the subset of the input that identified them: the tracked upstream (non-Julia)
-components with their originating version ranges verbatim (for the importing source's
-`affected` field). `upstreams` is empty when the advisory names the Julia packages
-themselves (or nothing matched at all), so its emptiness also classifies the advisory: source
-ids belong in the `upstream` field when it's populated and in `aliases` when it's not.
+dict of the tracked upstream components that identified them (for the importing source's
+`affected` field). `upstreams` is empty when the advisory names the Julia packages directly,
+which is also how the importers decide whether the source ids are `upstream` ids or `aliases`.
 """
 function affected_julia_packages(description, vendorproductversions)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
@@ -528,8 +526,7 @@ function affected_julia_packages(description, vendorproductversions)
         @warn "assuming that all mentioned products are vulnerable at all versions"
         append!(vulns, [PackageVulnerability(pkg, [VersionRange{VersionNumber}("*")]) for pkg in jlpkgs_mentioned])
     end
-    # Record the originating upstream component ranges, verbatim; the AdvisorySource
-    # constructor sorts and dedupes them when they're attached to a source
+    # Record the originating upstream component ranges, verbatim
     upstreams = Dict{String, Vector{String}}()
     if advisory_type == "upstream"
         for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
