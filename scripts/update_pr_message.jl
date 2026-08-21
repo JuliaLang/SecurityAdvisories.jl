@@ -1,7 +1,7 @@
 #!/usr/bin/env julia
 # Recompute the search workflow's pull request message from the advisory files that
-# changed on this branch, writing the `title=`, `recipe_updates=`, and `body` GitHub
-# Actions outputs. See `SecurityAdvisories.print_search_pr_outputs`.
+# changed on this branch, writing the `n_changed=`, `title=`, `recipe_updates=`, and
+# `body` GitHub Actions outputs. See `SecurityAdvisories.print_search_pr_outputs`.
 #
 # Usage:
 #   julia --project=. scripts/update_pr_message.jl <base> [<target>]

@@ -85,6 +85,7 @@ function update_advisory_files(input, filter_results)
             SecurityAdvisories.print(io, advisory)
         end
     end
+    # Note that the ecosystem walk above may have replaced `input` with the package it searched
     return (; branch=input, haystack)
 end
 

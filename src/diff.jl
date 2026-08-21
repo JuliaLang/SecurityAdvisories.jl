@@ -35,18 +35,38 @@ function changed_files(base, target; dir)
     return files
 end
 
-# Return a function that reads a path's content at the `target` revision (from the
-# already-fetched `blobs`), or from the working tree when `target` is `nothing`.
-function content_at(target, blobs; dir)
-    root = target === nothing ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
-    return f -> target === nothing ?
+# The advisory id from its file path
+advisory_id(path) = splitext(basename(path))[1]
+
+# Every advisory file changed between `base` and `target` with its contents — as
+# `(status, path, old content, new content)`, where the missing side of an added or
+# deleted file (or any unreadable content) is `nothing` — plus the number of
+# non-advisory files that also changed.
+function changed_advisory_contents(base, target; dir)
+    files = changed_files(base, target; dir)
+    mdfiles = [(st, f, old) for (st, f, old) in files if endswith(f, ".md") && startswith(f, "advisories/")]
+    specs = String[]
+    for (st, f, oldf) in mdfiles
+        st in ('M', 'R') && push!(specs, "$base:$(something(oldf, f))")
+        st == 'D' || target === nothing || push!(specs, "$target:$f")
+    end
+    blobs = fetch_blobs(specs; dir)
+    # New content comes from the fetched blobs, or the working tree when there's no target
+    root = target === nothing && !isempty(mdfiles) ? readchomp(Cmd(`git rev-parse --show-toplevel`; dir)) : ""
+    newcontent(f) = target === nothing ?
         (p = joinpath(root, f); isfile(p) ? read(p, String) : nothing) :
         blobs["$target:$f"]
+    contents = [(st, f,
+                 st in ('M', 'R') ? blobs["$base:$(something(oldf, f))"] : nothing,
+                 st == 'D' ? nothing : newcontent(f))
+                for (st, f, oldf) in mdfiles]
+    return contents, length(files) - length(mdfiles)
 end
 
 # Fetch many blobs through one `git cat-file --batch` process.
 function fetch_blobs(specs::Vector{String}; dir)
     blobs = Dict{String,Union{String,Nothing}}()
+    isempty(specs) && return blobs
     proc = open(Cmd(`git cat-file --batch`; dir), "r+")
     # Write from a separate task: writing everything up front deadlocks once
     # git's output fills the pipe buffer while we aren't reading yet.
@@ -131,6 +151,13 @@ ArrayAgg() = ArrayAgg(0, 0, 0, 0, 0, 0, 0, 0, 0)
 # Cap the per-advisory version range listing to keep huge PR bodies under GitHub's size limit
 const MAX_RANGE_DETAILS = 20
 
+# Render up to `MAX_RANGE_DETAILS` items with `f`, noting how many were elided
+function print_capped(f, io, xs)
+    foreach(f, first(xs, MAX_RANGE_DETAILS))
+    extra = length(xs) - MAX_RANGE_DETAILS
+    extra > 0 && println(io, "- …and $extra more advisories")
+end
+
 """
     print_advisory_diff(io, base, target=nothing; dir=pwd())
 
@@ -144,28 +171,12 @@ against the repository at `dir`.
 """
 function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     tname = target === nothing ? "working tree" : target
-    files = changed_files(base, target; dir)
-    isempty(files) && (println(io, "No files changed between $base and $tname."); return)
+    changed, n_other = changed_advisory_contents(base, target; dir)
+    isempty(changed) && n_other == 0 && (println(io, "No files changed between $base and $tname."); return)
 
-    mdfiles = [(st, f, old) for (st, f, old) in files if endswith(f, ".md") && startswith(f, "advisories/")]
-    other = length(files) - length(mdfiles)
-    added_files   = [f for (st, f, _) in mdfiles if st in ('A', 'C')]
-    deleted_files = [f for (st, f, _) in mdfiles if st == 'D']
-    modified = [f for (st, f, _) in mdfiles if st == 'M']
-    renamed  = [(old, f) for (st, f, old) in mdfiles if st == 'R']
-    # Renamed files are diffed just like modifications, old path against new
-    diffed_pairs = [[(f, f) for f in modified]; renamed]
-
-    specs = String[]
-    for (oldf, newf) in diffed_pairs
-        push!(specs, "$base:$oldf")
-        target === nothing || push!(specs, "$target:$newf")
-    end
-    for f in added_files
-        target === nothing || push!(specs, "$target:$f")
-    end
-    blobs = fetch_blobs(specs; dir)
-    fetch_new = content_at(target, blobs; dir)
+    statuses = first.(changed)
+    n_added, n_deleted = count(in(('A', 'C')), statuses), count(==('D'), statuses)
+    n_modified, n_renamed = count(==('M'), statuses), count(==('R'), statuses)
 
     scalar_counts = Dict{Tuple{Char,String},Int}()
     array_stats = Dict{String,ArrayAgg}()
@@ -173,24 +184,21 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     version_changes = Tuple{String,Union{Nothing,Dict},Dict}[]  # (id, old toml, new toml)
     parse_failures = String[]
 
-    for f in added_files
-        newc = fetch_new(f)
-        newc === nothing && continue
-        toml_src, _ = split_frontmatter(newc)
-        toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
-        toml isa Dict || continue
+    for (st, f, _, newc) in changed
+        st in ('A', 'C') && newc !== nothing || continue
+        toml, _ = parse_frontmatter(newc)
+        toml === nothing && continue
         haskey(toml, "affected") || !isempty(source_affected(toml)) || continue
-        push!(version_changes, (splitext(basename(f))[1], nothing, toml))
+        push!(version_changes, (advisory_id(f), nothing, toml))
     end
 
-    for (oldf, f) in diffed_pairs
-        oldc, newc = blobs["$base:$oldf"], fetch_new(f)
+    # Renamed files are diffed just like modifications, old content against new
+    for (st, f, oldc, newc) in changed
+        st in ('M', 'R') || continue
         (oldc === nothing || newc === nothing) && (push!(parse_failures, f); continue)
-        old_toml_src, old_body = split_frontmatter(oldc)
-        new_toml_src, new_body = split_frontmatter(newc)
-        old = old_toml_src === nothing ? nothing : TOML.tryparse(old_toml_src)
-        new = new_toml_src === nothing ? nothing : TOML.tryparse(new_toml_src)
-        if !(old isa Dict) || !(new isa Dict)
+        old, old_body = parse_frontmatter(oldc)
+        new, new_body = parse_frontmatter(newc)
+        if old === nothing || new === nothing
             push!(parse_failures, f)
             continue
         end
@@ -203,7 +211,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
 
         if !isequal(get(old, "affected", nothing), get(new, "affected", nothing)) ||
            !isequal(source_affected(old), source_affected(new))
-            push!(version_changes, (splitext(basename(f))[1], old, new))
+            push!(version_changes, (advisory_id(f), old, new))
         end
 
         sig = String[]
@@ -240,10 +248,10 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
 
     # ------- report (GitHub-flavored markdown) -------
     println(io, "**Diff ", mdcode(base), " → ", target === nothing ? "working tree" : mdcode(tname), ":** ",
-            length(mdfiles), " advisory file", length(mdfiles) == 1 ? "" : "s", " touched (",
-            length(modified), " modified, ",
-            length(added_files), " added, ", length(deleted_files), " deleted, ", length(renamed), " renamed)",
-            other > 0 ? ", plus $other non-advisory file$(other == 1 ? "" : "s")" : "", ".")
+            length(changed), " advisory file", length(changed) == 1 ? "" : "s", " touched (",
+            n_modified, " modified, ",
+            n_added, " added, ", n_deleted, " deleted, ", n_renamed, " renamed)",
+            n_other > 0 ? ", plus $n_other non-advisory file$(n_other == 1 ? "" : "s")" : "", ".")
     isempty(parse_failures) || println(io, "\n> ⚠️ $(length(parse_failures)) files skipped (missing/unparseable TOML fence), e.g. $(mdcode(first(parse_failures)))")
 
     if !isempty(scalar_counts)
@@ -278,18 +286,14 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
         sort!(version_changes, by=first)
         println(io, "\n### Affected version ranges\n")
         println(io, "_Advisories whose affected packages or upstream component ranges changed._\n")
-        for (id, o, n) in first(version_changes, MAX_RANGE_DETAILS)
-            print_version_ranges(io, id, o, n)
-        end
-        extra = length(version_changes) - MAX_RANGE_DETAILS
-        extra > 0 && println(io, "- …and $extra more advisories")
+        print_capped(((id, o, n),) -> print_version_ranges(io, id, o, n), io, version_changes)
     end
 
     if !isempty(signatures)
         println(io, "\n### Change signatures\n")
         println(io, "_Groups of files with identical field-change sets._\n")
         for (sig, fs) in sort!(collect(signatures), by=x->-length(x[2]))
-            ids = sort!([splitext(basename(f))[1] for f in fs])
+            ids = sort!(advisory_id.(fs))
             names = join(mdcode.(first(ids, 4)), ", ")
             length(ids) > 4 && (names *= ", and $(length(ids) - 4) more")
             println(io, "- **$(length(fs)) file$(length(fs) == 1 ? "" : "s")** ($names):")
@@ -315,38 +319,30 @@ Parse the advisory files that changed between the git revisions `base` and `targ
 TOML frontmatter (or `nothing` for new advisories), and the git status letter.
 """
 function changed_advisories(base, target=nothing; dir=pwd())
-    files = [(st, f, old) for (st, f, old) in changed_files(base, target; dir)
-             if endswith(f, ".md") && startswith(f, "advisories/") && st in ('A', 'M', 'R', 'C')]
-    specs = String[]
-    for (st, f, old) in files
-        st in ('M', 'R') && push!(specs, "$base:$(something(old, f))")
-        target === nothing || push!(specs, "$target:$f")
-    end
-    blobs = fetch_blobs(specs; dir)
-    fetch_new = content_at(target, blobs; dir)
-
+    contents, _ = changed_advisory_contents(base, target; dir)
     changed = []
-    for (st, f, oldpath) in files
-        content = fetch_new(f)
-        content === nothing && continue
-        advisory = tryparse(Advisory, content)
+    for (st, f, oldc, newc) in contents
+        st == 'D' && continue
+        newc === nothing && continue
+        advisory = tryparse(Advisory, newc)
         if advisory === nothing
             @warn "could not parse $f; leaving it out of the PR message"
             continue
         end
-        old = if st in ('M', 'R')
-            oldsrc = first(split_frontmatter(something(blobs["$base:$(something(oldpath, f))"], "")))
-            oldsrc === nothing ? nothing : TOML.tryparse(oldsrc)
-        end
-        push!(changed, (; advisory, old = old isa Dict ? old : nothing, status=st))
+        old = oldc === nothing ? nothing : first(parse_frontmatter(oldc))
+        push!(changed, (; advisory, old, status=st))
     end
     return changed
 end
 
+# The advisory's earliest source publication (or modification) date, or its own
+earliest_source_time(adv) = minimum(y -> something(y.published, y.modified), adv.jlsec_sources; init=adv.modified)
+
 """
     print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=nothing)
 
-Write the pull request `title=`, `recipe_updates=`, and `body<<BODY_EOF` outputs, composed
+Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and `body<<BODY_EOF`
+outputs, composed
 entirely from the advisory files that changed between the git revisions `base` and `target`
 (`nothing` compares against the working tree). The optional `haystack` describes what was
 searched to produce the changes; without it the body simply describes the changes themselves.
@@ -384,22 +380,19 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
     end
     println(io)
 
-    divide(f, x) = return (filter(f, x), filter(!f, x))
-
     unbounded = count(any(!has_upper_bound, a.affected) for a in results)
     if unbounded > 0
         println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
     end
 
-    aliases, upstreams = divide(x->!isempty(x.aliases), results)
+    aliases   = filter(x -> !isempty(x.aliases), results)
+    upstreams = filter(x ->  isempty(x.aliases), results)
 
     if !isempty(aliases)
         pkgs = unique(Iterators.flatten(vulnerable_packages.(aliases)))
         println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
-        for adv in sort(aliases, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources; init=x.modified))
-            print_advisory_versions(io, adv, olds[adv.id])
-        end
+        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(aliases, by=earliest_source_time))
         println(io)
     end
 
@@ -407,9 +400,14 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
         vulnerable_pkgs = unique(Iterators.flatten(vulnerable_packages.(upstreams)))
         # Only report components that still map to a vulnerable package; this skips components
         # whose packages were reviewed and rejected (and thus stripped from `affected`)
-        vulnerable_cpes = unique(u.vendor_product for adv in upstreams for src in adv.jlsec_sources for u in src.affected
-            if !isempty(intersect(packages_with_upstream_component(u.vendor_product),
-                                  vulnerable_packages(adv))))
+        vulnerable_cpes = String[]
+        for adv in upstreams
+            pkgs = Set(vulnerable_packages(adv))
+            for src in adv.jlsec_sources, u in src.affected
+                any(in(pkgs), packages_with_upstream_component(u.vendor_product)) && push!(vulnerable_cpes, u.vendor_product)
+            end
+        end
+        unique!(vulnerable_cpes)
         vulnerable_projs = unique(Iterators.flatten(upstream_projects_by_cpe.(vulnerable_cpes)))
         # Only packages with component tracking have per-version metadata to show
         tracked_pkgs = filter(pkg -> haskey(package_components(), pkg), vulnerable_pkgs)
@@ -472,9 +470,7 @@ function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=n
         end
 
         println(io, "\n### Advisory summaries\n")
-        for adv in sort(upstreams, by=x->minimum(y->something(y.published, y.modified), x.jlsec_sources; init=x.modified))
-            print_advisory_versions(io, adv, olds[adv.id])
-        end
+        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(upstreams, by=earliest_source_time))
         println(io)
     end
     println(io, "BODY_EOF")

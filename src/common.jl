@@ -327,8 +327,20 @@ function upstream_projects_by_cpe(vendorproduct)
     return upstream_projects_by_vendor_product(parts...)
 end
 
+# A computed dictionary that maps each upstream project name to the packages that provide it
+const PACKAGES_WITH_PROJECT = Ref{Dict{String, Vector{String}}}()
 function packages_with_project(proj)
-    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]
+    if !isassigned(PACKAGES_WITH_PROJECT)
+        d = Dict{String, Vector{String}}()
+        for (pkgname, versioninfo) in package_components(), verinfo in values(versioninfo)
+            for project in keys(verinfo)
+                pkgs = get!(Vector{String}, d, project)
+                pkgname in pkgs || push!(pkgs, pkgname)
+            end
+        end
+        PACKAGES_WITH_PROJECT[] = d
+    end
+    return get(PACKAGES_WITH_PROJECT[], proj, String[])
 end
 
 """

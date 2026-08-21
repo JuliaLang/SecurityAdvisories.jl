@@ -340,7 +340,6 @@ end
 end
 
 using SecurityAdvisories: Advisory, AdvisorySource, PackageVulnerability, UpstreamRanges, VersionString, recipe_update_candidates
-using DataStructures: OrderedDict
 using Dates: DateTime
 # A jlsec_sources entry with the required metadata; keywords (like `affected`) override the defaults
 test_source(; kw...) = AdvisorySource(; id="CVE-2025-99999", imported=DateTime(2026,1,1), modified=DateTime(2026,1,1),
@@ -435,7 +434,7 @@ end
     refetched = adv("JLSEC-2025-9998", jlsec_sources=[test_source(imported=DateTime(2026,3,1), affected=[record(["< 2.0"])])])
     @test SecurityAdvisories.update(updated, refetched) === updated
 
-    # better_affected is the one choice both `combine` and `used_source` make:
+    # better_affected is how `combine` picks between two sources' ranges:
     # prefer the first unless the second is clearly better
     ba = SecurityAdvisories.better_affected
     entry(ranges...) = PackageVulnerability(pkg="Foo", ranges=[VRN(r) for r in ranges])

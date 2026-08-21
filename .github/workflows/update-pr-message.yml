@@ -19,9 +19,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  update-message:
+  # Look up the PR before the expensive checkout/Julia work so branches without
+  # one (e.g. rejection-only branches with no open PR yet) cost seconds
+  find-pr:
     # The PR branches only live on the bot's fork
     if: github.repository == 'jlsec-bot/SecurityAdvisories.jl'
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.pr.outputs.number }}
+    steps:
+    - name: Find the open pull request for this branch
+      id: pr
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pr=$(gh pr list --repo JuliaLang/SecurityAdvisories.jl --head "jlsec-bot:${GITHUB_REF_NAME}" --json number --jq '.[0].number')
+        [ -z "$pr" ] && echo "No open pull request for ${GITHUB_REF_NAME}; nothing to update"
+        echo "number=$pr" >> "$GITHUB_OUTPUT"
+
+  update-message:
+    needs: find-pr
+    if: needs.find-pr.outputs.number != ''
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -36,6 +54,8 @@ jobs:
 
     - name: Setup Julia
       uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - uses: julia-actions/cache@b7788abd52452d5bc033d69796e110d9906af4ab # v3.2.0
 
     - name: Install Julia dependencies
       run: |
@@ -57,9 +77,4 @@ jobs:
         TITLE: ${{ steps.message.outputs.title }}
         BODY: ${{ steps.message.outputs.body }}
       run: |
-        pr=$(gh pr list --repo JuliaLang/SecurityAdvisories.jl --head "jlsec-bot:${GITHUB_REF_NAME}" --json number --jq '.[0].number')
-        if [ -z "$pr" ]; then
-          echo "No open pull request for ${GITHUB_REF_NAME}; nothing to update"
-          exit 0
-        fi
-        gh pr edit "$pr" --repo JuliaLang/SecurityAdvisories.jl --title "$TITLE" --body "$BODY"
+        gh pr edit "${{ needs.find-pr.outputs.number }}" --repo JuliaLang/SecurityAdvisories.jl --title "$TITLE" --body "$BODY"

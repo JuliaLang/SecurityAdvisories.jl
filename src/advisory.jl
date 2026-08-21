@@ -579,7 +579,7 @@ sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
 sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
 sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
-sort_collection(xs::Vector{UpstreamRanges}) = sort(xs, by=x->x.vendor_product)
+# Vector{UpstreamRanges} needs no sort_collection method: the AdvisorySource constructor sorts it
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
@@ -654,6 +654,14 @@ function parse_body(body::AbstractString)
     return summary, details
 end
 
+# The TOML frontmatter of an advisory file's content as a Dict (or `nothing` if it is
+# missing or unparseable), along with the markdown body that follows it
+function parse_frontmatter(content)
+    toml_src, body = split_frontmatter(content)
+    toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
+    return (toml isa Dict ? toml : nothing), body
+end
+
 ####### Markdown presentation of an advisory's version ranges
 
 # A markdown code span, safe for use in table cells
@@ -715,7 +723,7 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]
     components = [(src_id, u) for (src_id, u) in source_affected(new)
                   if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
-    if length(unique(first.(components))) > 1
+    if !allequal(first.(components))
         # Several sources list components, but only one's data was used for the ranges
         used = pick_used(new)
         used === nothing || filter!(((src_id, _),) -> src_id == used, components)
