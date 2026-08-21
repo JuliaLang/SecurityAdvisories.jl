@@ -424,8 +424,8 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
         vulnerable_cpes = String[]
         for adv in upstreams
             pkgs = Set(vulnerable_packages(adv))
-            for src in adv.jlsec_sources, u in src.affected
-                any(in(pkgs), packages_with_upstream_component(u.vendor_product)) && push!(vulnerable_cpes, u.vendor_product)
+            for src in adv.jlsec_sources, (vp, _) in src.affected
+                any(in(pkgs), packages_with_upstream_component(vp)) && push!(vulnerable_cpes, vp)
             end
         end
         unique!(vulnerable_cpes)

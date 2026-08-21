@@ -457,10 +457,10 @@ end
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
 for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
-vector of the corresponding Julia `PackageVulnerability`s and the `UpstreamRanges` recording
-the subset of the input that identified them: the tracked upstream (non-Julia) components,
-regrouped per component with their originating version ranges verbatim (for the importing
-source's `affected` field). `upstreams` is empty when the advisory names the Julia packages
+vector of the corresponding Julia `PackageVulnerability`s and a `"vendor:product" => ranges`
+dict recording the subset of the input that identified them: the tracked upstream (non-Julia)
+components with their originating version ranges verbatim (for the importing source's
+`affected` field). `upstreams` is empty when the advisory names the Julia packages
 themselves (or nothing matched at all), so its emptiness also classifies the advisory: source
 ids belong in the `upstream` field when it's populated and in `aliases` when it's not.
 """
@@ -528,15 +528,13 @@ function affected_julia_packages(description, vendorproductversions)
         @warn "assuming that all mentioned products are vulnerable at all versions"
         append!(vulns, [PackageVulnerability(pkg, [VersionRange{VersionNumber}("*")]) for pkg in jlpkgs_mentioned])
     end
-    # Record the originating upstream component ranges, verbatim
-    upstreams = UpstreamRanges[]
+    # Record the originating upstream component ranges, verbatim; the AdvisorySource
+    # constructor sorts and dedupes them when they're attached to a source
+    upstreams = Dict{String, Vector{String}}()
     if advisory_type == "upstream"
-        by_cpe = DefaultDict{String, Vector{String}}(()->String[])
         for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
-            union!(by_cpe[cpe], keys(conversions))
+            union!(get!(Vector{String}, upstreams, cpe), keys(conversions))
         end
-        # The UpstreamRanges constructor sorts and dedupes its ranges
-        append!(upstreams, [UpstreamRanges(cpe, versions) for (cpe, versions) in by_cpe])
     end
     return (; affected=vulns, upstreams)
 end

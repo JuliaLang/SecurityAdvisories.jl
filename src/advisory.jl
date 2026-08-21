@@ -48,28 +48,6 @@ function sort_version_ranges!(versions)
 end
 
 """
-    UpstreamRanges(; vendor_product, ranges=[])
-
-Record the originating vulnerable version ranges of an upstream (non-Julia) component, as reported
-by the [`AdvisorySource`](@ref) whose `affected` field holds it. The component is identified by
-its CPE-like `"vendor:product"` string and its vulnerable `ranges` are kept verbatim in the
-source's own version numbers. The Julia packages that provide the component are intentionally not
-recorded; they are computed from GeneralMetadata (see `packages_with_upstream_component`).
-"""
-@kwdef struct UpstreamRanges
-    vendor_product::String
-    ranges::Vector{String} = String[]
-    function UpstreamRanges(vendor_product, ranges)
-        new(vendor_product, sort_version_ranges!(unique!(collect(String, ranges))))
-    end
-end
-Base.convert(::Type{UpstreamRanges}, d::AbstractDict) = UpstreamRanges(; Dict(Symbol(k)=>v for (k,v) in d)...)
-function Base.:(==)(a::UpstreamRanges, b::UpstreamRanges)
-    return a.vendor_product == b.vendor_product && a.ranges == b.ranges
-end
-Base.hash(a::UpstreamRanges, h::UInt) = hash(a.vendor_product, hash(a.ranges, hash(0x43700fd0d84b71d3, h)))
-
-"""
     Reference(; url, type="WEB")
 
 Represent a URL in OSV's reference field. Assumes `"WEB"` if the type is not in OSV schema.
@@ -161,12 +139,17 @@ end
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
     database_specific::Dict{String, Any} = Dict{String, Any}()
-    # The affected upstream (non-Julia) components, as UpstreamRanges
-    affected::Vector{UpstreamRanges} = UpstreamRanges[]
+    # The affected upstream (non-Julia) components, mapping each CPE-like "vendor:product"
+    # identifier to that component's vulnerable version ranges, verbatim in the source's own
+    # version numbers. The Julia packages that provide each component are intentionally not
+    # recorded; they are computed from GeneralMetadata (see `packages_with_upstream_component`).
+    affected::OrderedDict{String, Vector{String}} = OrderedDict{String, Vector{String}}()
     function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
-        # Sort the affected components so that freshly-imported and file-parsed sources compare equal
+        # Sort the affected components (and their ranges) so that freshly-imported and
+        # file-parsed sources compare equal
         new(id, imported, modified, published, url, html_url, fields, database_specific,
-            sort!(collect(UpstreamRanges, affected), by=u->u.vendor_product))
+            OrderedDict{String, Vector{String}}(String(k) => sort_version_ranges!(unique!(collect(String, asvector(v))))
+                                                for (k, v) in sort(collect(affected), by=String∘first)))
     end
 end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
@@ -319,7 +302,7 @@ function recipe_update_candidates(a::Advisory; packages_with_component = package
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
         upstream_ranges = [tryparse(VersionRange, v)
-            for src in a.jlsec_sources for u in src.affected if vuln.pkg in packages_with_component(u.vendor_product) for v in u.ranges]
+            for src in a.jlsec_sources for (vp, ranges) in src.affected if vuln.pkg in packages_with_component(vp) for v in ranges]
         # Only ranges with exclusive upper bounds tell us the upstream's fixed version
         fixed = filter(r -> !isnothing(r) && has_upper_bound(r) && !r.ubinclusive, upstream_ranges)
         isempty(fixed) && continue
@@ -522,7 +505,12 @@ to_toml_frontmatter(v::Union{VersionNumber, VersionString, VersionRange}) = stri
 to_toml_frontmatter(x::Union{AbstractString, Integer, AbstractFloat, Bool, Dates.DateTime, Dates.Time, Dates.Date}) = x
 to_toml_frontmatter(d::AbstractDict) = OrderedDict(k=>to_toml_frontmatter_collection(v, values(d)) for (k,v) in d)
 to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in sort_collection(A)]
-to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
+# The `affected` components and their ranges are already sorted at construction; serialize
+# them as-is rather than through the generic paths (which would re-sort the range strings)
+to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) =>
+        (f === :affected ? OrderedDict{String, Any}(k => copy(v) for (k, v) in s.affected) :
+                           to_toml_frontmatter(getproperty(s, f)))
+    for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 to_toml_frontmatter_collection(x, _) = to_toml_frontmatter(x)
 function to_toml_frontmatter(a::Advisory)
     # Convert all fields to TOML with a few special cases:
@@ -565,13 +553,6 @@ function to_toml_frontmatter(v::PackageVulnerability)
     return OrderedDict("pkg" => to_toml_frontmatter(v.pkg),
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
-function to_toml_frontmatter(u::UpstreamRanges)
-    # The `ranges` are already sorted at construction; serialize them as-is
-    d = OrderedDict{String,Any}("vendor_product" => u.vendor_product)
-    is_populated(u.ranges) && (d["ranges"] = copy(u.ranges))
-    return d
-end
-
 sort_collection(xs) = xs
 sort_collection(xs::Vector{String}) = sort(xs, by=preferred_id_sort)
 sort_collection(xs::Vector{Severity}) = sort(xs, by=x->(x.type, x.score))
@@ -579,7 +560,6 @@ sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
 sort_collection(xs::Vector{Credit}) = sort(xs, by=x->[something(x.type, ""); reverse(split(x.name)); x.contact])
 sort_collection(xs::Vector{AdvisorySource}) = sort(xs, by=preferred_id_sort∘(x->x.id))
-# Vector{UpstreamRanges} needs no sort_collection method: the AdvisorySource constructor sorts it
 
 function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
@@ -669,10 +649,13 @@ mdcode(s) = "`" * replace(s, "`" => "'", "|" => "\\|") * "`"
 
 ranges_str(rs) = isempty(rs) ? "(none)" : join(mdcode.(string.(rs)), ", ")
 
-# The `(source id, upstream component)` pairs held within an advisory's jlsec_sources' affected entries
-source_affected(t) = t === nothing ? Tuple{String,Any}[] :
-    [(string(get(s, "id", "?")), u) for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict
-                                    for u in asvector(get(s, "affected", Any[])) if u isa AbstractDict]
+# The `(source id, "vendor:product", ranges)` triples held within an advisory's
+# jlsec_sources' affected tables, sorted so equal contents compare equal
+source_affected(t) = t === nothing ? Tuple{String,String,Any}[] :
+    sort!([(string(get(s, "id", "?")), string(vp), ranges)
+           for s in asvector(get(t, "jlsec_sources", Any[])) if s isa AbstractDict && get(s, "affected", nothing) isa AbstractDict
+           for (vp, ranges) in get(s, "affected", Dict())],
+          by=x->(x[1], x[2]))
 
 """
     used_source(frontmatter)
@@ -687,11 +670,10 @@ function used_source(frontmatter)
                   for e in asvector(get(frontmatter, "affected", Any[])) if e isa AbstractDict)
     isempty(target) && return nothing
     for src in asvector(get(frontmatter, "jlsec_sources", Any[]))
-        src isa AbstractDict || continue
-        vpvs = [(String.(split(u["vendor_product"], ":", limit=2))..., String(r))
-                for u in asvector(get(src, "affected", Any[]))
-                if u isa AbstractDict && contains(string(get(u, "vendor_product", "")), ":")
-                for r in get(u, "ranges", Any[])]
+        src isa AbstractDict && get(src, "affected", nothing) isa AbstractDict || continue
+        vpvs = [(String.(split(string(vp), ":", limit=2))..., String(r))
+                for (vp, ranges) in src["affected"] if contains(string(vp), ":")
+                for r in asvector(ranges)]
         isempty(vpvs) && continue
         converted = affected_julia_packages("", vpvs).affected
         conv = Dict(e.pkg => Set(string.(e.ranges)) for e in converted if is_vulnerable(e))
@@ -721,12 +703,12 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]
-    components = [(src_id, u) for (src_id, u) in source_affected(new)
-                  if any(in(packages_with_component(string(get(u, "vendor_product", "?")))), pkgs)]
+    components = [(src_id, vp, ranges) for (src_id, vp, ranges) in source_affected(new)
+                  if any(in(packages_with_component(vp)), pkgs)]
     if !allequal(first.(components))
         # Several sources list components, but only one's data was used for the ranges
         used = pick_used(new)
-        used === nothing || filter!(((src_id, _),) -> src_id == used, components)
+        used === nothing || filter!(((src_id, _, _),) -> src_id == used, components)
     end
 
     function pkgline(e, indent)
@@ -742,11 +724,9 @@ function print_version_ranges(io, id, old, new; from="", packages_with_component
     if isempty(components)
         foreach(e -> pkgline(e, "    "), new_affected)
     else
-        old_components = Dict{Any,Any}((src_id, string(get(u, "vendor_product", "?"))) => get(u, "ranges", Any[])
-                                       for (src_id, u) in source_affected(old))
-        for (src_id, u) in components
-            cpe = string(get(u, "vendor_product", "?"))
-            newr = get(u, "ranges", Any[])
+        old_components = Dict{Any,Any}((src_id, cpe) => ranges
+                                       for (src_id, cpe, ranges) in source_affected(old))
+        for (src_id, cpe, newr) in components
             oldr = get(old_components, (src_id, cpe), nothing)
             was = oldr === nothing || isequal(oldr, newr) ? "" : string(" (was: ", ranges_str(oldr), ")")
             unparsed = [r for r in newr if tryparse(VersionRange, string(r)) === nothing]
@@ -798,7 +778,7 @@ function to_osv_dict(a::Severity)
     end
     return d
 end
-function to_osv_dict(a::Union{Reference, Credit, AdvisorySource, UpstreamRanges})
+function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
 end
 function to_osv_dict(a::Advisory)
