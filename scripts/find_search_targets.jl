@@ -4,9 +4,11 @@
 #   * `updated-advisories` considers every package affected by an upstream advisory that
 #     changed after `since`
 # Each candidate is then searched (exactly as `search_upstream_advisories.jl` would) and
-# only the packages whose search finds something are emitted, as the `packages` JSON list
-# in the GitHub Actions output. The workflow re-runs the full search for each such package
-# in its own job to open one pull request per package.
+# each finding becomes a search target scoped to match its blast radius: direct advisories
+# are scoped by the package name, while upstream advisories — which name every affected
+# package — are scoped by their `upstream:<project>` component. The unique targets are
+# emitted as the `targets` JSON list in the GitHub Actions output, and the workflow
+# re-runs the full search for each one in its own job to open one pull request apiece.
 using SecurityAdvisories: SecurityAdvisories
 using JSON3: JSON3
 using Dates: Dates
@@ -22,14 +24,25 @@ function main(mode = get(ARGS, 1, ""), since_str = get(ARGS, 2, ""))
     candidates = sort!(find_candidates(mode, since))
     @info "found $(length(candidates)) candidate packages for $mode since $since" candidates
     # We remove any pending PRs that jlsec-bot has already opened
-    filter!(!in(SecurityAdvisories.pending_search_branches()), candidates)
-    packages = filter(candidates) do pkg
+    pending = SecurityAdvisories.pending_search_branches()
+    filter!(!in(pending), candidates)
+    targets = Set{String}()
+    for pkg in candidates
         @info "searching for $pkg"
-        !isempty(SecurityAdvisories.try_search_package(pkg, true))
+        for advisory in SecurityAdvisories.try_search_package(pkg, true)
+            projects = SecurityAdvisories.advisory_projects(advisory)
+            if SecurityAdvisories.is_direct(advisory) || isempty(projects)
+                push!(targets, pkg)
+            else
+                union!(targets, "upstream:" .* SecurityAdvisories.short_project_name.(projects))
+            end
+        end
     end
-    @info "found $(length(packages)) packages with search results" packages
+    # A target's search branch is its package or project name; skip those already pending
+    targets = sort!([t for t in targets if chopprefix(t, "upstream:") ∉ pending])
+    @info "found $(length(targets)) search targets" targets
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
-    println(io, "packages=", JSON3.write(packages))
+    println(io, "targets=", JSON3.write(targets))
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end

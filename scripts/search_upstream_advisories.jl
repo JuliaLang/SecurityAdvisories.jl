@@ -7,17 +7,21 @@ isspace_or_comma(c) = isspace(c) || c == ','
 """
     search_advisories(input, filter_results) -> (; advisories, branch, haystack)
 
-Search the upstream databases per `input`: an advisory identifier, a package name, a
-space/comma-separated package list, or — when empty — a walk through the ecosystem
-until something turns up. Returns the found advisories (with aliases combined), the
-branch name for the results (the package the walk landed on, otherwise `input`), and
-a description of what was searched.
+Search the upstream databases per `input`: an advisory identifier, an `upstream:<project>`
+component search, a package name, a space/comma-separated package list, or — when empty —
+a walk through the ecosystem until something turns up. Returns the found advisories (with
+aliases combined), the branch name for the results (the upstream project name, the package
+the walk landed on, or otherwise `input`), and a description of what was searched.
 """
 function search_advisories(input, filter_results)
     advisories = Advisory[]
     branch = haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
+    elseif startswith(input, "upstream:")
+        branch = String(chopprefix(input, "upstream:"))
+        @info "searching for advisories against upstream project $branch"
+        append!(advisories, SecurityAdvisories.search_component(branch, filter_results))
     elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))

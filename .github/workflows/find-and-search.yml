@@ -17,11 +17,11 @@ on:
         default: ''
 
 jobs:
-  identify-packages:
-    name: Identify packages to search
+  identify-targets:
+    name: Identify search targets
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.identify.outputs.packages }}
+      targets: ${{ steps.identify.outputs.targets }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -53,7 +53,7 @@ jobs:
         fi
         echo "since=${SINCE:-$(date -u -d '3 days ago' '+%Y-%m-%dT%H:%M:%SZ')}" >> "$GITHUB_OUTPUT"
 
-    - name: Identify packages with findings
+    - name: Identify search targets with findings
       id: identify
       env:
         MODE: ${{ inputs.mode }}
@@ -64,16 +64,16 @@ jobs:
         julia --project=. scripts/find_search_targets.jl "$MODE" "$SINCE"
 
   search:
-    name: ${{ matrix.package }}
-    needs: identify-packages
-    if: needs.identify-packages.outputs.packages != '' && needs.identify-packages.outputs.packages != '[]'
+    name: ${{ matrix.target }}
+    needs: identify-targets
+    if: needs.identify-targets.outputs.targets != '' && needs.identify-targets.outputs.targets != '[]'
     strategy:
       fail-fast: false
-      # All jobs share one NVD API key and its rate limit, so search one package at a time
+      # All jobs share one NVD API key and its rate limit, so search one target at a time
       max-parallel: 1
       matrix:
-        package: ${{ fromJSON(needs.identify-packages.outputs.packages) }}
+        target: ${{ fromJSON(needs.identify-targets.outputs.targets) }}
     uses: ./.github/workflows/search-and-pr.yml
     with:
-      haystack: ${{ matrix.package }}
+      haystack: ${{ matrix.target }}
     secrets: inherit
