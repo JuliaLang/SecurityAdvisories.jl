@@ -11,6 +11,19 @@
 # `split_frontmatter`/`parse_body` in advisory.jl) rather than parsed `Advisory`s, so that
 # old revisions remain comparable even when their schema no longer round-trips.
 
+# The concrete endpoints of a `git diff`-style revision `spec`, as `(base, target)`:
+# a lone revision compares against the working tree (a `nothing` target), "A..B"
+# compares the two revisions, and "A...B" compares B against its merge base with A.
+# As with git, an omitted range endpoint means HEAD.
+function diff_endpoints(spec; dir)
+    m = match(r"^(.*?)(\.{2,3})(.*)$", spec)
+    m === nothing && return String(spec), nothing
+    a = isempty(m[1]) ? "HEAD" : m[1]
+    b = isempty(m[3]) ? "HEAD" : m[3]
+    base = m[2] == "..." ? readchomp(Cmd(`git merge-base $a $b`; dir)) : String(a)
+    return base, String(b)
+end
+
 # Return (status, path, old_path) triples for the files changed in the repository at `dir`;
 # `old_path` is `nothing` except for renames and copies, whose `path` is the new location.
 # A `target` of `nothing` compares against the working tree, including not-yet-tracked files.
@@ -38,11 +51,12 @@ end
 # The advisory id from its file path
 advisory_id(path) = splitext(basename(path))[1]
 
-# Every advisory file changed between `base` and `target` with its contents — as
+# Every advisory file changed across the revision `spec` with its contents — as
 # `(status, path, old content, new content)`, where the missing side of an added or
 # deleted file (or any unreadable content) is `nothing` — plus the number of
 # non-advisory files that also changed.
-function changed_advisory_contents(base, target; dir)
+function changed_advisory_contents(spec; dir)
+    base, target = diff_endpoints(spec; dir)
     files = changed_files(base, target; dir)
     mdfiles = [(st, f, old) for (st, f, old) in files if endswith(f, ".md") && startswith(f, "advisories/")]
     specs = String[]
@@ -159,20 +173,21 @@ function print_capped(f, io, xs)
 end
 
 """
-    print_advisory_diff(io, base, target=nothing; dir=pwd())
+    print_advisory_diff(io, spec; dir=pwd())
 
-Print a summary of the Advisory field changes between the git revisions `base` and
-`target` to `io`; a `target` of `nothing` compares against the working tree. Scalar
+Print a summary of the Advisory field changes across the `git diff`-style revision
+`spec` to `io` — a lone revision compares against the working tree, `"A..B"` compares
+the two revisions, and `"A...B"` compares `B` against its merge base with `A`. Scalar
 fields are reported as added/removed/changed and array fields are diffed at the element
 level, with the affected version ranges of changed advisories rendered in full (via
 [`print_version_ranges`](@ref)). Renamed advisories are diffed across the rename. The
 report is GitHub-flavored markdown, suitable for a PR body, and the `git` commands run
 against the repository at `dir`.
 """
-function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
-    tname = target === nothing ? "working tree" : target
-    changed, n_other = changed_advisory_contents(base, target; dir)
-    isempty(changed) && n_other == 0 && (println(io, "No files changed between $base and $tname."); return)
+function print_advisory_diff(io::IO, spec; dir=pwd())
+    tname = contains(spec, "..") ? mdcode(spec) : string(mdcode(spec), " → working tree")
+    changed, n_other = changed_advisory_contents(spec; dir)
+    isempty(changed) && n_other == 0 && (println(io, "No files changed in $tname."); return)
 
     statuses = first.(changed)
     n_added, n_deleted = count(in(('A', 'C')), statuses), count(==('D'), statuses)
@@ -247,7 +262,7 @@ function print_advisory_diff(io::IO, base, target=nothing; dir=pwd())
     end
 
     # ------- report (GitHub-flavored markdown) -------
-    println(io, "**Diff ", mdcode(base), " → ", target === nothing ? "working tree" : mdcode(tname), ":** ",
+    println(io, "**Diff ", tname, ":** ",
             length(changed), " advisory file", length(changed) == 1 ? "" : "s", " touched (",
             n_modified, " modified, ",
             n_added, " added, ", n_deleted, " deleted, ", n_renamed, " renamed)",
@@ -311,15 +326,16 @@ link_pkg(pkg) = string("[", pkg, "](https://juliaregistries.github.io/General/pa
 meta_url(pkg) = string("https://github.com/JuliaRegistries/GeneralMetadata.jl/blob/main/metadata/", uppercase(pkg[1]), "/", pkg, ".toml")
 
 """
-    changed_advisories(base, target=nothing; dir=pwd())
+    changed_advisories(spec; dir=pwd())
 
-Parse the advisory files that changed between the git revisions `base` and `target`
-(`nothing` compares against the working tree, including not-yet-tracked files), returning
-`(; advisory, old, status)` entries with the parsed new `Advisory`, the prior revision's
-TOML frontmatter (or `nothing` for new advisories), and the git status letter.
+Parse the advisory files that changed across the `git diff`-style revision `spec` (a lone
+revision compares against the working tree, including not-yet-tracked files; `"A..B"` and
+merge-base `"A...B"` ranges compare revisions), returning `(; advisory, old, status)`
+entries with the parsed new `Advisory`, the prior revision's TOML frontmatter (or
+`nothing` for new advisories), and the git status letter.
 """
-function changed_advisories(base, target=nothing; dir=pwd())
-    contents, _ = changed_advisory_contents(base, target; dir)
+function changed_advisories(spec; dir=pwd())
+    contents, _ = changed_advisory_contents(spec; dir)
     changed = []
     for (st, f, oldc, newc) in contents
         st == 'D' && continue
@@ -339,16 +355,16 @@ end
 earliest_source_time(adv) = minimum(y -> something(y.published, y.modified), adv.jlsec_sources; init=adv.modified)
 
 """
-    print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=nothing)
+    print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
 
 Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and `body<<BODY_EOF`
-outputs, composed
-entirely from the advisory files that changed between the git revisions `base` and `target`
-(`nothing` compares against the working tree). The optional `haystack` describes what was
-searched to produce the changes; without it the body simply describes the changes themselves.
+outputs, composed entirely from the advisory files that changed across the `git diff`-style
+revision `spec` (a lone revision compares against the working tree; `"A..B"` and merge-base
+`"A...B"` ranges compare revisions). The optional `haystack` describes what was searched to
+produce the changes; without it the body simply describes the changes themselves.
 """
-function print_search_pr_outputs(io, base, target=nothing; dir=pwd(), haystack=nothing)
-    changed = changed_advisories(base, target; dir)
+function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
+    changed = changed_advisories(spec; dir)
     results = [c.advisory for c in changed]
     olds = Dict(c.advisory.id => c.old for c in changed)
     n_created = count(c.status in ('A', 'C') for c in changed)

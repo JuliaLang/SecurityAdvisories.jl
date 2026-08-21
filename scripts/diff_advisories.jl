@@ -3,33 +3,25 @@
 # across the advisory files in a commit or range, as GitHub-flavored markdown.
 #
 # Usage:
-#   julia --project=. scripts/diff_advisories.jl [<commit>]        # defaults to HEAD, diffs against <commit>^
-#   julia --project=. scripts/diff_advisories.jl <base> <target>
-#   julia --project=. scripts/diff_advisories.jl <base>..<target>
-#   julia --project=. scripts/diff_advisories.jl .                 # working tree vs HEAD
+#   julia --project=. scripts/diff_advisories.jl [<commit>]  # defaults to HEAD, diffs against <commit>^
+#   julia --project=. scripts/diff_advisories.jl <spec>      # any `git diff`-style revision spec
+#   julia --project=. scripts/diff_advisories.jl .           # working tree vs HEAD
 #
-# A target of `.` means the working tree.
+# As with `git diff`, a spec like "A..B" (or merge-base "A...B") compares two revisions
+# and a lone revision compares against the working tree — except that a lone commit is
+# taken as shorthand for "<commit>^..<commit>"; use `.` for the working tree.
 
 using SecurityAdvisories: print_advisory_diff
 
-# `nothing` as a target means the working tree
-function parse_args(args)
-    worktree(t) = t == "." ? nothing : String(t)
-    if isempty(args)
-        return "HEAD^", "HEAD"
-    elseif length(args) == 1
-        args[1] == "." && return "HEAD", nothing
-        if occursin("..", args[1])
-            base, target = split(args[1], r"\.\.+", limit=2)
-            return String(base), worktree(target)
-        end
-        return args[1] * "^", args[1]
-    elseif length(args) == 2
-        return args[1], worktree(args[2])
-    end
-    error("expected at most two revisions, got $(length(args))")
+function parse_spec(args)
+    isempty(args) && return "HEAD^..HEAD"
+    length(args) > 1 && error("expected a single git diff-style spec (like \"A..B\"), got $(length(args)) arguments")
+    spec = only(args)
+    spec == "." && return "HEAD"
+    contains(spec, "..") && return spec
+    return "$spec^..$spec"
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    print_advisory_diff(stdout, parse_args(ARGS)...)
+    print_advisory_diff(stdout, parse_spec(ARGS))
 end

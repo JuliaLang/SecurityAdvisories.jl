@@ -591,3 +591,20 @@ end
         @test haskey(entry, "packages") && isempty(intersect(SecurityAdvisories.vulnerable_packages(adv), entry["packages"]))
     end
 end
+
+@testset "git diff revision specs" begin
+    mktempdir() do dir
+        run(Cmd(`git init -q -b main`; dir))
+        run(Cmd(`git -c user.email=t@t -c user.name=t commit -q --allow-empty -m one`; dir))
+        run(Cmd(`git -c user.email=t@t -c user.name=t commit -q --allow-empty -m two`; dir))
+        head = readchomp(Cmd(`git rev-parse HEAD`; dir))
+        ep(spec) = SecurityAdvisories.diff_endpoints(spec; dir)
+        @test ep("main") == ("main", nothing)          # lone revision → working tree
+        @test ep("v1.2.3") == ("v1.2.3", nothing)      # single dots aren't a range
+        @test ep("main..HEAD") == ("main", "HEAD")
+        @test ep("main..") == ("main", "HEAD")         # omitted endpoint means HEAD
+        @test ep("..HEAD") == ("HEAD", "HEAD")
+        @test ep("HEAD^...HEAD") == (readchomp(Cmd(`git rev-parse HEAD^`; dir)), "HEAD")
+        @test ep("HEAD...") == (head, "HEAD")          # merge-base of HEAD with itself
+    end
+end

@@ -4,20 +4,16 @@
 # `body` GitHub Actions outputs. See `SecurityAdvisories.print_search_pr_outputs`.
 #
 # Usage:
-#   julia --project=. scripts/update_pr_message.jl <base> [<target>]
+#   julia --project=. scripts/update_pr_message.jl [<spec>]
 #
-# The comparison runs from the merge base of the two revisions, so an advanced `base`
-# branch doesn't count its own changes against this one. The default target is HEAD;
-# pass an empty string as the target to compare against the working tree instead.
+# The spec is any `git diff`-style revision spec. The default, "origin/main...HEAD",
+# compares against the merge base so an advanced `base` branch doesn't count its own
+# changes against this one; pass a lone revision to compare against the working tree.
 using SecurityAdvisories: print_search_pr_outputs
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    base = get(ARGS, 1, "origin/main")
-    target = get(ARGS, 2, "HEAD")
-    target = isempty(target) ? nothing : target
-    base = readchomp(`git merge-base $base $(something(target, "HEAD"))`)
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
-    print_search_pr_outputs(io, base, target)
+    print_search_pr_outputs(io, get(ARGS, 1, "origin/main...HEAD"))
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end

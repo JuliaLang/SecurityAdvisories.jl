@@ -66,7 +66,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        julia --project=. scripts/update_pr_message.jl upstream/main HEAD
+        julia --project=. scripts/update_pr_message.jl upstream/main...HEAD
 
     - name: Update the pull request
       # Leave the message alone when the branch no longer changes any advisories
