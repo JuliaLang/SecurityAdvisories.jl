@@ -1,4 +1,4 @@
-using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
+using SecurityAdvisories: SecurityAdvisories, Advisory, print_search_pr_outputs
 using GeneralMetadata
 using Dates: Dates
 
@@ -7,17 +7,22 @@ isspace_or_comma(c) = isspace(c) || c == ','
 """
     search_advisories(input, filter_results) -> (; advisories, branch, haystack)
 
-Search the upstream databases per `input`: an advisory identifier, a package name, a
-space/comma-separated package list, or — when empty — a walk through the ecosystem
-until something turns up. Returns the found advisories (with aliases combined), the
-branch name for the results (the package the walk landed on, otherwise `input`), and
-a description of what was searched.
+Search the upstream databases per `input`: an advisory identifier, an `upstream:<project>`
+component search, a package name, a space/comma-separated package list, or — when empty —
+a walk through the ecosystem until something turns up. Returns the found advisories (with
+aliases combined), the branch name for the results (the upstream project name when every
+finding is against one component, the package the walk landed on, or otherwise `input`),
+and a description of what was searched.
 """
 function search_advisories(input, filter_results)
     advisories = Advisory[]
     branch = haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
+    elseif startswith(input, "upstream:")
+        branch = String(chopprefix(input, "upstream:"))
+        @info "searching for advisories against upstream project $branch"
+        append!(advisories, SecurityAdvisories.search_component(branch, filter_results))
     elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
@@ -27,27 +32,27 @@ function search_advisories(input, filter_results)
         else
             # We take a (not totally) random walk through the ecosystem, prioritizing
             # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
-            pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
+            pkgdate = sort([(pkg, SecurityAdvisories.last_registered(info)) for (pkg, info) in GeneralMetadata.metadata()],
                 by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
             first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
         end
-        # We remove any pending PRs that jlsec-bot has already opened
+        # We remove any pending PRs that jlsec-bot has already opened, whether branched by
+        # the package name or by one of the package's upstream components
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
-        filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
+        pending = SecurityAdvisories.pending_search_branches()
+        filter!(whole_pkg_list) do pkg
+            pkg ∉ pending && isdisjoint(SecurityAdvisories.short_project_name.(SecurityAdvisories.upstream_projects_for_package(pkg)), pending)
+        end
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
             branch = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $branch"
-            try
-                append!(advisories, SecurityAdvisories.search_package(branch, filter_results))
-            catch ex
-                @error "Error searching for $branch" ex
-                empty!(advisories)
-            end
+            append!(advisories, SecurityAdvisories.try_search_package(branch, filter_results))
         end
         haystack = "$pkg_search_count packages"
     end
+    branch = something(component_branch(advisories), branch)
 
     @info "found $(length(advisories)) advisories in $branch"
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)
@@ -60,6 +65,16 @@ function search_advisories(input, filter_results)
         @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
     return (; advisories, branch, haystack)
+end
+
+# An all-upstream find against a single component is really about that component: name the
+# branch by its project so repeated searches (and the scoped `upstream:<project>` targets)
+# share one pull request
+function component_branch(advisories)
+    (isempty(advisories) || any(SecurityAdvisories.is_direct, advisories)) && return nothing
+    projects = unique!(reduce(vcat, SecurityAdvisories.advisory_projects.(advisories); init=String[]))
+    length(projects) == 1 || return nothing
+    return SecurityAdvisories.short_project_name(only(projects))
 end
 
 """

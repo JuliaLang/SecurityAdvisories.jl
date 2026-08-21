@@ -1,0 +1,30 @@
+name: Search for advisories against updated packages
+
+on:
+  schedule:
+    # Run once a day
+    - cron: '30 2 */1 * *'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Consider packages updated after this UTC datetime (default: the last successful run)'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+# Only allow one search to run at a time; queue subsequent runs
+concurrency:
+  group: search-updated-packages
+  cancel-in-progress: false
+
+jobs:
+  search-updated-packages:
+    name: Search packages updated since the last run
+    uses: ./.github/workflows/find-and-search.yml
+    with:
+      mode: updated-packages
+      since: ${{ inputs.since }}
+    secrets: inherit

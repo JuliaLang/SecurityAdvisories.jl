@@ -1,0 +1,94 @@
+name: Search and open a pull request
+
+# The reusable search: query the upstream databases per the haystack, and open a pull
+# request (on the branch the search script names) if anything was found. Callers must
+# grant `contents: read` and pass `secrets: inherit`.
+
+on:
+  workflow_call:
+    inputs:
+      haystack:
+        description: 'Advisory ID, package name, or list of package names; empty for an ecosystem walk'
+        type: string
+        default: ''
+      filter:
+        description: 'Filter results to only those that affect a Julia package or have significant updates'
+        type: boolean
+        default: true
+
+jobs:
+  search:
+    # The caller's job name carries the haystack context
+    name: Search
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - uses: julia-actions/cache@b7788abd52452d5bc033d69796e110d9906af4ab # v3.2.0
+      with:
+        delete-old-caches: 'false' # deletion needs actions:write, which the callers don't grant
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Run search script
+      id: identify
+      env:
+        HAYSTACK: ${{ inputs.haystack }}
+        FILTER: ${{ inputs.filter }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER"
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        [[ $(git ls-files --others --modified --exclude-standard) ]] && echo "changes=true" >> $GITHUB_OUTPUT || echo "no changes"
+
+    - name: Create Pull Request
+      id: create_pull_request
+      if: steps.git-check.outputs.changes == 'true'
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+      with:
+        token: ${{ secrets.JLSEC_BOT_TOKEN }}
+        committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
+        push-to-fork: jlsec-bot/SecurityAdvisories.jl
+        commit-message: ${{ steps.identify.outputs.title }}
+        title: ${{ steps.identify.outputs.title }}
+        body: ${{ steps.identify.outputs.body }}
+        branch: ${{ steps.identify.outputs.branch }}
+
+    - uses: actions/create-github-app-token@v3
+      id: urdr_token
+      with:
+        app-id: ${{ secrets.URDARBRUNNR_APP_ID }}
+        private-key: ${{ secrets.URDARBRUNNR_APP_KEY }}
+        owner: JuliaPackaging
+        repositories: Urdarbrunnr.jl
+
+    - name: Request JLL recipe updates
+      # Unbounded JLLs whose upstream fix version is known just need a new build;
+      # ask Urdarbrunnr to open the corresponding Yggdrasil recipe update PRs
+      if: >-
+        steps.git-check.outputs.changes == 'true' &&
+        steps.identify.outputs.recipe_updates != '' &&
+        steps.identify.outputs.recipe_updates != '[]'
+      env:
+        GH_TOKEN: ${{ steps.urdr_token.outputs.token }}
+        RECIPE_UPDATES: ${{ steps.identify.outputs.recipe_updates }}
+        PULL_REQUEST_URL: ${{ steps.create_pull_request.outputs.pull-request-url }}
+      run: |
+        jq -c '.[]' <<< "$RECIPE_UPDATES" | while read -r update; do
+          name=$(jq -r '.name' <<< "$update")
+          version=$(jq -r '.version' <<< "$update")
+          echo "Requesting a recipe update for $name to v$version"
+          gh workflow run update-recipe.yml --repo JuliaPackaging/Urdarbrunnr.jl -f name="$name" -f version="$version" -f context="${PULL_REQUEST_URL}"
+        done
