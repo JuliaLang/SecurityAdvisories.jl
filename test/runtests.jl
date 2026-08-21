@@ -623,3 +623,15 @@ end
         @test ep("HEAD...") == (head, "HEAD")          # merge-base of HEAD with itself
     end
 end
+
+@testset "GitHub Actions body output" begin
+    print_body = SecurityAdvisories.print_body_output
+    @test sprint(print_body, "plain text\n") == "body<<BODY_EOF\nplain text\nBODY_EOF\n"
+    # A missing trailing newline is supplied so the delimiter gets its own line
+    @test sprint(print_body, "no newline") == "body<<BODY_EOF\nno newline\nBODY_EOF\n"
+    # A body line matching the delimiter cannot terminate the heredoc early
+    hostile = "details:\nBODY_EOF\ninjected=pwned\n"
+    out = sprint(print_body, hostile)
+    @test startswith(out, "body<<BODY_EOF_\n") && endswith(out, "\nBODY_EOF_\n")
+    @test contains(sprint(print_body, "BODY_EOF\nBODY_EOF_\n"), "body<<BODY_EOF__\n")
+end

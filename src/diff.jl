@@ -462,10 +462,23 @@ end
 # The advisory's earliest source publication (or modification) date, or its own
 earliest_source_time(adv) = minimum(y -> something(y.published, y.modified), adv.jlsec_sources; init=adv.modified)
 
+# Write the multiline `body` GitHub Actions output, picking a heredoc delimiter that
+# no line of the (upstream-authored) body collides with
+function print_body_output(io, body)
+    delim = "BODY_EOF"
+    while any(==(delim), eachline(IOBuffer(body)))
+        delim *= "_"
+    end
+    println(io, "body<<", delim)
+    print(io, body)
+    endswith(body, "\n") || println(io)
+    println(io, delim)
+end
+
 """
     print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
 
-Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and `body<<BODY_EOF`
+Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and multiline `body`
 outputs, composed entirely from the advisory files that changed across the `git diff`-style
 revision `spec`. The optional `haystack` describes what was searched to produce the
 changes; without it the body simply describes the changes themselves.
@@ -493,108 +506,109 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
     println(io, "n_changed=", n_total)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
     println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
-    println(io, "body<<BODY_EOF")
-    pkgs_str = join("**" .* unique_pkgs .* "**", ", ", ", and ")
-    if haystack !== nothing
-        println(io, "This action searched `", haystack, "` for advisories that pertain here. ",
-            "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", pkgs_str, ".")
-    else
-        println(io, "This pull request changes ", n_total, " ", advisory_str, " related to the Julia package(s): ", pkgs_str, ".")
-    end
-    println(io)
-
-    unbounded = count(any(!has_upper_bound, a.affected) for a in results)
-    if unbounded > 0
-        println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
-        println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
-    end
-
-    direct    = filter(is_direct, results)
-    upstreams = filter(!is_direct, results)
-
-    if !isempty(direct)
-        pkgs = unique(Iterators.flatten(vulnerable_packages.(direct)))
-        println(io, "## $(length(direct)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
-        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(direct, by=earliest_source_time))
-        println(io)
-    end
-
-    if !isempty(upstreams)
-        vulnerable_pkgs = unique(Iterators.flatten(vulnerable_packages.(upstreams)))
-        # Only report components that still map to a vulnerable package; this skips components
-        # whose packages were reviewed and rejected (and thus stripped from `affected`)
-        vulnerable_cpes = String[]
-        for adv in upstreams
-            pkgs = Set(vulnerable_packages(adv))
-            for src in adv.jlsec_sources, (vp, _) in src.affected
-                any(in(pkgs), packages_with_upstream_component(vp)) && push!(vulnerable_cpes, vp)
-            end
+    body = sprint() do io
+        pkgs_str = join("**" .* unique_pkgs .* "**", ", ", ", and ")
+        if haystack !== nothing
+            println(io, "This action searched `", haystack, "` for advisories that pertain here. ",
+                "It identified ", n_total, " ", advisory_str, " as being related to the Julia package(s): ", pkgs_str, ".")
+        else
+            println(io, "This pull request changes ", n_total, " ", advisory_str, " related to the Julia package(s): ", pkgs_str, ".")
         end
-        unique!(vulnerable_cpes)
-        vulnerable_projs = unique(Iterators.flatten(upstream_projects_by_cpe.(vulnerable_cpes)))
-        # Only packages with component tracking have per-version metadata to show
-        tracked_pkgs = filter(pkg -> haskey(package_components(), pkg), vulnerable_pkgs)
-        pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in tracked_pkgs)
-        println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
-        print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
-        print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
-        print(io, "(and version numbers themselves) are highly dependent on the accuracy of this metadata. ")
-        println(io, "Improvements can be made directly to GeneralMetadata.jl; it is automatically populated on a best-effort basis and manual edits are preserved.")
         println(io)
 
-        println(io, "\n### Package and upstream project information\n")
-        for pkg in tracked_pkgs
-            pkg_projects = unique(Iterators.flatten(keys(v) for v in values(pkg_version_upstream[pkg])))
-            println(io, "* ", link_pkg(pkg), "'s [artifact metadata](", meta_url(pkg), ") has upstream", length(pkg_projects) > 1 ? "s: " : ": ", join(link_proj.(pkg_projects), ", ", " and "))
-            println(io, "    <details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">metadata for each version</a>:</summary>\n\n")
+        unbounded = count(any(!has_upper_bound, a.affected) for a in results)
+        if unbounded > 0
+            println(io, "### ⚠ There are $unbounded advisories with unbounded vulnerabilities")
+            println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
+        end
 
-            println(io, "    | ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
-            println(io, "    |-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
-            for (v, ups) in pkg_version_upstream[pkg]
-                println(io, "    | $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
-            end
+        direct    = filter(is_direct, results)
+        upstreams = filter(!is_direct, results)
+
+        if !isempty(direct)
+            pkgs = unique(Iterators.flatten(vulnerable_packages.(direct)))
+            println(io, "## $(length(direct)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
+            print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(direct, by=earliest_source_time))
             println(io)
-            println(io, "    </details>\n")
+        end
 
-            last_version, last_version_info = last(pkg_version_upstream[pkg])
-            if any(x->ismissing(x) || x=="*", values(last_version_info))
-                println(io, "    * **⚠ The latest version (v$last_version) has incomplete or missing metadata**")
-            end
-            has_early_missings = false
-            has_intervening_missings = false
-            for proj in pkg_projects
-                found_first_known_version = false
-                for (v, vinfo) in pkg_version_upstream[pkg]
-                    if !haskey(vinfo, proj) || ismissing(vinfo[proj]) || isnothing(vinfo[proj])
-                        if !found_first_known_version
-                            has_early_missings = true
-                        else
-                            has_intervening_missings = true
-                        end
-                    elseif vinfo[proj] == "*"
-                        if !found_first_known_version
-                            println(io, "    * **⚠ The earliest version (v$v) with ", link_proj(proj), " is missing its version, so this will suggest _every single advisory_ every published**")
-                            found_first_known_version = true
-                            has_early_missings = true
-                        else
-                            has_intervening_missings = true
-                        end
-                    else
-                        found_first_known_version = true
-                    end
+        if !isempty(upstreams)
+            vulnerable_pkgs = unique(Iterators.flatten(vulnerable_packages.(upstreams)))
+            # Only report components that still map to a vulnerable package; this skips components
+            # whose packages were reviewed and rejected (and thus stripped from `affected`)
+            vulnerable_cpes = String[]
+            for adv in upstreams
+                pkgs = Set(vulnerable_packages(adv))
+                for src in adv.jlsec_sources, (vp, _) in src.affected
+                    any(in(pkgs), packages_with_upstream_component(vp)) && push!(vulnerable_cpes, vp)
                 end
             end
-            if has_early_missings
-                println(io, "    * The oldest versions with no metadata are not considered when searching for advisories")
-            end
-            if has_intervening_missings
-                println(io, "    * Missing version metadata between two known versions are assumed to have some value between the two known values")
-            end
-        end
+            unique!(vulnerable_cpes)
+            vulnerable_projs = unique(Iterators.flatten(upstream_projects_by_cpe.(vulnerable_cpes)))
+            # Only packages with component tracking have per-version metadata to show
+            tracked_pkgs = filter(pkg -> haskey(package_components(), pkg), vulnerable_pkgs)
+            pkg_version_upstream = Dict{String, Any}(k => package_components()[k] for k in tracked_pkgs)
+            println(io, "## $(length(upstreams)) advisories affect artifacts provided by ", join(vulnerable_pkgs, ", ", " and "), "\n")
+            print(io, "These identifications depend upon accurately tracked artifact metadata in GeneralMetadata.jl. ")
+            print(io, "Packages are only listed as affected if they have such tracking, and the vulnerable status ")
+            print(io, "(and version numbers themselves) are highly dependent on the accuracy of this metadata. ")
+            println(io, "Improvements can be made directly to GeneralMetadata.jl; it is automatically populated on a best-effort basis and manual edits are preserved.")
+            println(io)
 
-        println(io, "\n### Advisory summaries\n")
-        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(upstreams, by=earliest_source_time))
-        println(io)
+            println(io, "\n### Package and upstream project information\n")
+            for pkg in tracked_pkgs
+                pkg_projects = unique(Iterators.flatten(keys(v) for v in values(pkg_version_upstream[pkg])))
+                println(io, "* ", link_pkg(pkg), "'s [artifact metadata](", meta_url(pkg), ") has upstream", length(pkg_projects) > 1 ? "s: " : ": ", join(link_proj.(pkg_projects), ", ", " and "))
+                println(io, "    <details><summary><strong>$pkg</strong> <a href=\"", meta_url(pkg), "\">metadata for each version</a>:</summary>\n\n")
+
+                println(io, "    | ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
+                println(io, "    |-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
+                for (v, ups) in pkg_version_upstream[pkg]
+                    println(io, "    | $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
+                end
+                println(io)
+                println(io, "    </details>\n")
+
+                last_version, last_version_info = last(pkg_version_upstream[pkg])
+                if any(x->ismissing(x) || x=="*", values(last_version_info))
+                    println(io, "    * **⚠ The latest version (v$last_version) has incomplete or missing metadata**")
+                end
+                has_early_missings = false
+                has_intervening_missings = false
+                for proj in pkg_projects
+                    found_first_known_version = false
+                    for (v, vinfo) in pkg_version_upstream[pkg]
+                        if !haskey(vinfo, proj) || ismissing(vinfo[proj]) || isnothing(vinfo[proj])
+                            if !found_first_known_version
+                                has_early_missings = true
+                            else
+                                has_intervening_missings = true
+                            end
+                        elseif vinfo[proj] == "*"
+                            if !found_first_known_version
+                                println(io, "    * **⚠ The earliest version (v$v) with ", link_proj(proj), " is missing its version, so this will suggest _every single advisory_ every published**")
+                                found_first_known_version = true
+                                has_early_missings = true
+                            else
+                                has_intervening_missings = true
+                            end
+                        else
+                            found_first_known_version = true
+                        end
+                    end
+                end
+                if has_early_missings
+                    println(io, "    * The oldest versions with no metadata are not considered when searching for advisories")
+                end
+                if has_intervening_missings
+                    println(io, "    * Missing version metadata between two known versions are assumed to have some value between the two known values")
+                end
+            end
+
+            println(io, "\n### Advisory summaries\n")
+            print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(upstreams, by=earliest_source_time))
+            println(io)
+        end
     end
-    println(io, "BODY_EOF")
+    print_body_output(io, body)
 end
