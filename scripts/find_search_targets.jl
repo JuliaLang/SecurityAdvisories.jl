@@ -7,7 +7,7 @@
 # only the packages whose search finds something are emitted, as the `packages` JSON list
 # in the GitHub Actions output. The workflow re-runs the full search for each such package
 # in its own job to open one pull request per package.
-using SecurityAdvisories: SecurityAdvisories, GitHub
+using SecurityAdvisories: SecurityAdvisories
 using JSON3: JSON3
 using Dates: Dates
 
@@ -22,15 +22,10 @@ function main(mode = get(ARGS, 1, ""), since_str = get(ARGS, 2, ""))
     candidates = sort!(find_candidates(mode, since))
     @info "found $(length(candidates)) candidate packages for $mode since $since" candidates
     # We remove any pending PRs that jlsec-bot has already opened
-    filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), candidates)
+    filter!(!in(SecurityAdvisories.pending_search_branches()), candidates)
     packages = filter(candidates) do pkg
         @info "searching for $pkg"
-        try
-            !isempty(SecurityAdvisories.search_package(pkg, true))
-        catch ex
-            @error "Error searching for $pkg" ex
-            false
-        end
+        !isempty(SecurityAdvisories.try_search_package(pkg, true))
     end
     @info "found $(length(packages)) packages with search results" packages
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")

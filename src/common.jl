@@ -690,6 +690,9 @@ function fetch_package_upstreams(pkg)
     return fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds)))
 end
 
+# A package's most recent version registration date, per GeneralMetadata
+last_registered(pkginfo) = maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(pkginfo))
+
 """
     packages_updated_since(since)
 
@@ -697,8 +700,7 @@ Return the names of the packages with at least one version registered after `sin
 per GeneralMetadata's registration dates.
 """
 function packages_updated_since(since::Dates.DateTime)
-    return [pkg for (pkg, info) in GeneralMetadata.metadata()
-            if maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info)) > since]
+    return [pkg for (pkg, info) in GeneralMetadata.metadata() if last_registered(info) > since]
 end
 
 """
@@ -709,10 +711,11 @@ Return the names of the Julia packages affected by upstream advisories that chan
 API cannot filter by modification date).
 """
 function packages_with_updated_advisories(since::Dates.DateTime)
+    ghsas = @async GitHub.fetch_advisories(since)
+    nvds = @async NVD.fetch_nvd_vulnerabilities(since)
+    euvds = @async EUVD.fetch_vulnerabilities(since)
     pkgs = Set{String}()
-    for (mod, vulns) in ((GitHub, GitHub.fetch_advisories(since)),
-                         (NVD, NVD.fetch_nvd_vulnerabilities(since)),
-                         (EUVD, EUVD.fetch_vulnerabilities(since)))
+    for (mod, vulns) in ((GitHub, fetch(ghsas)), (NVD, fetch(nvds)), (EUVD, fetch(euvds)))
         for vuln in vulns
             try
                 union!(pkgs, (pv.pkg for pv in mod.affected_julia_packages(vuln).affected))
@@ -722,6 +725,27 @@ function packages_with_updated_advisories(since::Dates.DateTime)
         end
     end
     return collect(pkgs)
+end
+
+"""
+    pending_search_branches()
+
+The branch names of jlsec-bot's pending pull requests; searches skip these packages.
+"""
+pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))
+
+"""
+    try_search_package(pkg, filter_results)
+
+`search_package`, but log errors and return no advisories so batch searches continue.
+"""
+function try_search_package(pkg, filter_results)
+    try
+        return search_package(pkg, filter_results)
+    catch ex
+        @error "Error searching for $pkg" ex
+        return Advisory[]
+    end
 end
 
 """

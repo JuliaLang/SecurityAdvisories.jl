@@ -1,4 +1,4 @@
-using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
+using SecurityAdvisories: SecurityAdvisories, Advisory, print_search_pr_outputs
 using GeneralMetadata
 using Dates: Dates
 
@@ -27,24 +27,19 @@ function search_advisories(input, filter_results)
         else
             # We take a (not totally) random walk through the ecosystem, prioritizing
             # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
-            pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
+            pkgdate = sort([(pkg, SecurityAdvisories.last_registered(info)) for (pkg, info) in GeneralMetadata.metadata()],
                 by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
             first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
         end
         # We remove any pending PRs that jlsec-bot has already opened
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
-        filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
+        filter!(!in(SecurityAdvisories.pending_search_branches()), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
             branch = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $branch"
-            try
-                append!(advisories, SecurityAdvisories.search_package(branch, filter_results))
-            catch ex
-                @error "Error searching for $branch" ex
-                empty!(advisories)
-            end
+            append!(advisories, SecurityAdvisories.try_search_package(branch, filter_results))
         end
         haystack = "$pkg_search_count packages"
     end

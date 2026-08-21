@@ -10,7 +10,6 @@ using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Adv
 
 # https://euvd.enisa.europa.eu/apidoc
 const API_BASE = "https://euvdservices.enisa.europa.eu/api"
-const DEFAULT_HOURS = 25
 
 # I have no idea what mismatched vendor/product lengths mean.
 # Often all products are aligned with a vendor

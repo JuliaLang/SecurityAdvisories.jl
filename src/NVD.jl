@@ -10,7 +10,6 @@ using ..SecurityAdvisories: SecurityAdvisories, exists, Severity, Advisory, Refe
 
 const NVD_API_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 const NVD_CPE_API_BASE = "https://services.nvd.nist.gov/rest/json/cpes/2.0"
-const DEFAULT_HOURS = 25
 
 struct CPE
     # "cpe:2.3:"
@@ -83,7 +82,8 @@ end
 const last_fetched = Ref{Float64}(0.0)
 
 function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
-    sleep(max(0, 6 - (time() - last_fetched[]))) # Rate limit to 6 seconds between requests
+    # NVD allows 50 requests per 30s with an API key, 5 per 30s without
+    sleep(max(0, (haskey(ENV, "NVD_API_KEY") ? 2 : 6) - (time() - last_fetched[])))
     response = HTTP.get(url, headers)
     last_fetched[] = time()
 
@@ -200,8 +200,7 @@ function fetch_cpes(cpe)
     return fetch_all_pages(NVD_CPE_API_BASE, headers, params, :products)
 end
 
-fetch_nvd_vulnerabilities(hours::Int = DEFAULT_HOURS) = fetch_nvd_vulnerabilities(Dates.now(UTC) - Dates.Hour(hours))
-function fetch_nvd_vulnerabilities(since::Dates.DateTime)
+function fetch_nvd_vulnerabilities(since::Dates.DateTime = Dates.now(UTC) - Dates.Hour(25))
     end_time = Dates.now(UTC)
     # NVD limits lastModified ranges to 120 days
     start_time = max(since, end_time - Dates.Day(120))

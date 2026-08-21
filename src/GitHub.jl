@@ -8,7 +8,6 @@ using DataStructures: OrderedDict as Dict # watch out
 using ..SecurityAdvisories: SecurityAdvisories, exists, VersionRange, VersionString, Credit, Reference, Severity, Advisory, AdvisorySource, PREFIX
 
 const GITHUB_API_BASE = "https://api.github.com"
-const DEFAULT_HOURS = 25
 
 function build_headers(; content_type="application/vnd.github+json")
     headers = [
@@ -103,8 +102,7 @@ function fetch_all_pages(base_url::String, headers::Vector{Pair{String, String}}
     return all_advisories
 end
 
-fetch_advisories(hours::Int = DEFAULT_HOURS) = fetch_advisories(Dates.now(UTC) - Dates.Hour(hours))
-function fetch_advisories(since::Dates.DateTime)
+function fetch_advisories(since::Dates.DateTime = Dates.now(UTC) - Dates.Hour(25))
     since_str = Dates.format(since, "yyyy-mm-ddTHH:MM:SS") * "Z"
 
     base_url = "$GITHUB_API_BASE/advisories"
