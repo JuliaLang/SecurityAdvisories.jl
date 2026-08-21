@@ -1,0 +1,146 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1353",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2026-27572",
+        "GHSA-243v-98vx-264h",
+        "EUVD-2026-8569"
+    ],
+    "summary": "Wasmtime can panic when adding excessive fields to a `wasi:http/types.fields` instance",
+    "details": "### Impact\n\nWasmtime's implementation of the `wasi:http/types.fields` resource is susceptible to panics when too many fields are added to the set of headers. Wasmtime's implementation in the `wasmtime-wasi-http` crate is backed by a data structure which panics when it reaches excessive capacity and this condition was not handled gracefully in Wasmtime. Panicking in a WASI implementation is a Denial of Service vector for embedders and is treated as a security vulnerability in Wasmtime.\n\n### Patches\n\nWasmtime 24.0.6, 36.0.6, 40.0.4, 41.0.4, and 42.0.0 patch this vulnerability and return a trap to the guest instead of panicking.\n\n### Workarounds\n\nThere are no known workarounds at this time, embedders are encouraged to update to a patched version of Wasmtime.\n\n### Resources\n\n  - [Limitations of `http::HeaderMap`](https://docs.rs/http/1.4.0/http/header/#limitations)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "45.0.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://docs.rs/http/1.4.0/http/header/#limitations"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-243v-98vx-264h"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/301dc7162cca51def19131019af1187f45901c0a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v24.0.6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v36.0.6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v40.0.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v41.0.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-243v-98vx-264h"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27572"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2026-0021.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "alexcrichton",
+            "contact": [
+                "https://github.com/alexcrichton"
+            ],
+            "type": "OTHER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27572",
+                "imported": "2026-08-21T20:09:02.075Z",
+                "modified": "2026-06-17T10:27:19.773Z",
+                "published": "2026-02-24T22:16:32.687Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27572",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27572",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "< 24.0.6",
+                        ">= 25.0.0, < 36.0.6",
+                        ">= 37.0.0, < 40.0.4",
+                        ">= 41.0.0, < 41.0.4"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-243v-98vx-264h",
+                "imported": "2026-08-21T20:09:07.458Z",
+                "modified": "2026-02-27T20:25:49Z",
+                "published": "2026-02-24T21:08:06Z",
+                "url": "https://api.github.com/advisories/GHSA-243v-98vx-264h",
+                "html_url": "https://github.com/advisories/GHSA-243v-98vx-264h"
+            },
+            {
+                "id": "EUVD-2026-8569",
+                "imported": "2026-08-21T20:09:03.524Z",
+                "modified": "2026-02-27T20:55:29Z",
+                "published": "2026-02-24T21:31:50Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-8569",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-8569",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "25.0.0, < 36.0.6",
+                        "37.0.0, < 40.0.4",
+                        "41.0.0, < 41.0.4",
+                        "< 24.0.6"
+                    ]
+                }
+            }
+        ]
+    }
+}

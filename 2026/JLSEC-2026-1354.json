@@ -1,0 +1,129 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1354",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2026-34941",
+        "GHSA-hx6p-xpx3-jvvv",
+        "EUVD-2026-20988"
+    ],
+    "summary": "Wasmtime: Heap OOB read in component model UTF-16 to latin1+utf16 string transcoding",
+    "details": "### Summary\n\nWasmtime contains a vulnerability where when transcoding a UTF-16 string to the latin1+utf16 component-model encoding it would incorrectly validate the byte length of the input string when performing a bounds check. Specifically the number of code units were checked instead of the byte length, which is twice the size of the code units.\n\nThis vulnerability can cause the host to read beyond the end of a WebAssembly's linear memory in an attempt to transcode nonexistent bytes. In Wasmtime's default configuration this will read unmapped memory on a guard page, terminating the process with a segfault. Wasmtime can be configured, however, without guard pages which would mean that host memory beyond the end of linear memory may be read and interpreted as UTF-16.\n\nA host segfault is a denial-of-service vulnerability in Wasmtime, and possibly being able to read beyond the end of linear memory is additionally a vulnerability. Note that reading beyond the end of linear memory requires nonstandard configuration of Wasmtime, specifically with guard pages disabled.\n\n### Impact\n\nThis is an out-of-bounds memory access. Any user running untrusted wasm components that use cross-component string passing (with UTF-16 source and latin1+utf16 destination encodings) is affected.\n\n  - With guard pages: Denial of service. The host process crashes with SIGBUS/SIGSEGV.\n  - Without guard pages: Potential information disclosure. The guest can read host memory beyond its linear memory allocation.\n\nPatches\n\nWasmtime 24.0.7, 36.0.7, 42.0.2, and 43.0.1 have been issued to fix this bug. Users are recommended to update to these patched versions of Wasmtime.\nWorkarounds\n\nThere is no workaround for this bug. Hosts are recommended to updated to a patched version of Wasmtime.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "45.0.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-hx6p-xpx3-jvvv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-hx6p-xpx3-jvvv"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34941"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2026-0093.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "deian",
+            "contact": [
+                "https://github.com/deian"
+            ],
+            "type": "OTHER"
+        },
+        {
+            "name": "shumbo",
+            "contact": [
+                "https://github.com/shumbo"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-34941",
+                "imported": "2026-08-21T20:09:02.075Z",
+                "modified": "2026-06-17T10:39:51.380Z",
+                "published": "2026-04-09T19:16:23.693Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-34941",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34941",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "< 24.0.7",
+                        ">= 25.0.0, < 36.0.7",
+                        ">= 37.0.0, < 42.0.2",
+                        ">= 43.0.0, < 43.0.1"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-hx6p-xpx3-jvvv",
+                "imported": "2026-08-21T20:09:20.906Z",
+                "modified": "2026-04-24T21:03:54Z",
+                "published": "2026-04-09T20:22:08Z",
+                "url": "https://api.github.com/advisories/GHSA-hx6p-xpx3-jvvv",
+                "html_url": "https://github.com/advisories/GHSA-hx6p-xpx3-jvvv"
+            },
+            {
+                "id": "EUVD-2026-20988",
+                "imported": "2026-08-21T20:09:03.523Z",
+                "modified": "2026-04-10T14:11:52Z",
+                "published": "2026-04-09T18:29:30Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-20988",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-20988",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "25.0.0, < 36.0.7",
+                        "37.0.0, < 42.0.2",
+                        "43.0.0, < 44.0.1",
+                        "< 24.0.7"
+                    ]
+                }
+            }
+        ]
+    }
+}

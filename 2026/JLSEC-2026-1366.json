@@ -1,0 +1,131 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1366",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2026-47261",
+        "GHSA-2r75-cxrj-cmph",
+        "EUVD-2026-37001"
+    ],
+    "summary": "wasmtime-wasi: WASI path_open(TRUNCATE) bypasses `FilePerms::WRITE` host restriction",
+    "details": "## Summary\n\nIn `wasmtime-wasi`, when a filesystem preopen is given `DirPerms::all()` and `FilePerms::READ` without `FilePerms::WRITE`,  this wasmtime-wasi enforced access control mechanism can be bypassed by using the wasip2 `descriptor.open-at` or wasip1 `path_open` interfaces by opening a file with `OpenFlags::TRUNCATE` oflag only, for example:\n\n```rust\ndir_descriptor.open_at(\n   PathFlags::empty(),\n   FILENAME,\n   OpenFlags::TRUNCATE,\n   DescriptorFlags::READ,\n)\n```\n\n```rust\nwasip1::path_open(\n    dir_fd,\n    0,\n    FILENAME,\n    wasip1::OFLAGS_TRUNC,\n    wasip1::RIGHTS_FD_READ,\n    0,\n    0\n)\n```\n\nThe root cause is that the clause that considered `OpenFlags::TRUNCATE` did not set `open_mode |= OpenMode::WRITE;`, used later in that function for the access control check against `FilePerms` for whether opening that file is permitted. With the bug corrected, these calls to `open-at` and `path_open` fail with `error-code.not-permitted` and `ERRNO_PERM` respectively.\n\nThe bug in `crates/wasi/src/filesystem.rs`, `Dir::open_at`, lines 967–969:\n\n```rust\nif oflags.contains(OpenFlags::TRUNCATE) {\n    opts.truncate(true).write(true);\n}\n```\n\nand the single line fix is:\n\n```rust\nif oflags.contains(OpenFlags::TRUNCATE) {\n    opts.truncate(true).write(true);\n    open_mode |= OpenMode::WRITE;\n}\n```\n\nOnly wasmtime-wasi embeddings that use a combination of DirPerms::MUTATE with FilePerms::READ are affected by this bug, e.g. those that use in the `WasiCtxBuilder`:\n\n```rust\nbuilder.preopened_dir(\"readonly\", \"readonly\", DirPerms::READ | DirPerms::MUTATE, FilePerms::READ);\n```\n\nIn particular, the Wasmtime project's `wasmtime-cli`'s use of wasmtime-wasi is not affected, because it always sets `FilePerms::all()` for all preopens.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "45.0.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-2r75-cxrj-cmph"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v24.0.9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v36.0.10"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v44.0.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v45.0.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-2r75-cxrj-cmph"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2026-0149.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "shumbo",
+            "contact": [
+                "https://github.com/shumbo"
+            ],
+            "type": "FINDER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-47261",
+                "imported": "2026-08-21T20:09:02.079Z",
+                "modified": "2026-06-17T16:42:08.350Z",
+                "published": "2026-06-15T21:17:11.153Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-47261",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47261",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "< 24.0.9",
+                        ">= 25.0.0, < 36.0.10",
+                        ">= 37.0.0, < 44.0.2"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-2r75-cxrj-cmph",
+                "imported": "2026-08-21T20:09:14.548Z",
+                "modified": "2026-07-08T17:35:44Z",
+                "published": "2026-06-05T15:47:02Z",
+                "url": "https://api.github.com/advisories/GHSA-2r75-cxrj-cmph",
+                "html_url": "https://github.com/advisories/GHSA-2r75-cxrj-cmph"
+            },
+            {
+                "id": "EUVD-2026-37001",
+                "imported": "2026-08-21T20:09:03.342Z",
+                "modified": "2026-06-16T12:46:04Z",
+                "published": "2026-06-15T19:47:40Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-37001",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-37001",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "25.0.0, < 36.0.10",
+                        "37.0.0, < 44.0.2",
+                        "< 24.0.9"
+                    ]
+                }
+            }
+        ]
+    }
+}

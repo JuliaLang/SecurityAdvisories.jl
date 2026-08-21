@@ -1,0 +1,154 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1349",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2025-53901",
+        "GHSA-fm79-3f68-h2fc",
+        "EUVD-2025-21918"
+    ],
+    "summary": "Wasmtime CLI is vulnerable to host panic through its fd_renumber function",
+    "details": "### Summary\n\nA bug in Wasmtime's implementation of the WASIp1 set of import functions can lead to a WebAssembly guest inducing a panic in the host (embedder).\nThe specific bug is triggered by calling `path_open` after calling `fd_renumber` with either:\n\n  - two equal argument values\n  - second argument being equal to a previously-closed file descriptor number value\n\nThe corrupt state introduced in `fd_renumber` will lead to the subsequent opening of a file descriptor to panic. This panic cannot introduce memory unsafety or allow WebAssembly to break outside of its sandbox, however. There is no possible heap corruption or memory unsafety from this panic.\n\nThis bug is in the implementation of Wasmtime's `wasmtime-wasi` crate which provides an implementation of WASIp1. The bug requires a specially crafted call to `fd_renumber` in addition to the ability to open a subsequent file descriptor. Opening a second file descriptor is only possible when a preopened directory was provided to the guest, and this is common amongst embeddings. A panic in the host is considered a denial-of-service vector for WebAssembly embedders and is thus a security issue in Wasmtime.\n\nThis bug does not affect WASIp2 and embedders using components.\n\n### Patches\n\nIn accordance with Wasmtime's [release process](https://docs.wasmtime.dev/stability-release.html) patch releases are available as 24.0.4, 33.0.2, and 34.0.2. Users of other release of Wasmtime are recommended to move to a supported release of Wasmtime.\n\n### Workarounds\n\nEmbedders who are using components or are not providing guest access to create more file descriptors (e.g. via a preopened filesystem directory) are not affected by this issue. Otherwise there is no workaround at this time and affected embeddings are recommended to update to a patched version which will not cause a panic in the host.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:N/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "39.0.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://docs.wasmtime.dev/security-what-is-considered-a-security-vulnerability.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://docs.wasmtime.dev/stability-release.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/WebAssembly/WASI/blob/e1aa1cae4dda4c1f70f23fe11e922aae92f240a8/legacy/preview1/witx/wasi_snapshot_preview1.witx#L245-L260"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-fm79-3f68-h2fc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/blob/037a6edadbc225decbea00a551aabf04203717d9/crates/wasi/src/preview1.rs#L1824-L1836"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/pull/11277"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/pull/11278"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/pull/11279"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/pull/11281"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-fm79-3f68-h2fc"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53901"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2025-0046.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "rvolosatovs",
+            "contact": [
+                "https://github.com/rvolosatovs"
+            ],
+            "type": "COORDINATOR"
+        },
+        {
+            "name": "hatoo",
+            "contact": [
+                "https://github.com/hatoo"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-53901",
+                "imported": "2026-08-21T20:09:02.027Z",
+                "modified": "2026-06-17T09:39:06.170Z",
+                "published": "2025-07-18T18:15:24.713Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-53901",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53901",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "< 24.0.4",
+                        ">= 33.0.0, < 33.0.2",
+                        ">= 34.0.0, < 34.0.2"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-fm79-3f68-h2fc",
+                "imported": "2026-08-21T20:09:15.341Z",
+                "modified": "2025-07-21T16:06:04Z",
+                "published": "2025-07-18T19:50:58Z",
+                "url": "https://api.github.com/advisories/GHSA-fm79-3f68-h2fc",
+                "html_url": "https://github.com/advisories/GHSA-fm79-3f68-h2fc"
+            },
+            {
+                "id": "EUVD-2025-21918",
+                "imported": "2026-08-21T20:09:03.526Z",
+                "modified": "2025-07-18T17:31:45Z",
+                "published": "2025-07-18T17:10:11Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-21918",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-21918",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "33.0.0, < 33.0.2",
+                        "34.0.0, < 34.0.2",
+                        "< 24.0.4"
+                    ]
+                }
+            }
+        ]
+    }
+}

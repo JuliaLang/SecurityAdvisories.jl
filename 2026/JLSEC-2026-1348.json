@@ -1,0 +1,134 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1348",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2024-51745",
+        "GHSA-c2f5-jxjv-2hh8",
+        "EUVD-2024-3231"
+    ],
+    "summary": "Wasmtime doesn't fully sandbox all the Windows device filenames",
+    "details": "### Impact\n\nWasmtime's filesystem sandbox implementation on Windows blocks access to special device filenames such as \"COM1\", \"COM2\", \"LPT0\", \"LPT1\", and so on, however it did not block access to the special device filenames which use superscript digits, such as \"COM¹\", \"COM²\", \"LPT⁰\", \"LPT¹\", and so on. Untrusted Wasm programs that are given access to any filesystem directory could bypass the sandbox and access devices through those special device filenames with superscript digits, and through them gain access peripheral devices connected to the computer, or network resources mapped to those devices. This can include modems, printers, network printers, and any other device connected to a serial or parallel port, including emulated USB serial ports.\n\n### Patches\n\nPatch releases for Wasmtime have been issued as 24.0.2, 25.0.3, and 26.0.1. Users of Wasmtime 23.0.x and prior are recommended to upgrade to one of these patched versions.\n\n### Workarounds\n\nThere are no known workarounds for this issue. Affected Windows users are recommended to upgrade.\n\n### References\n\n  - [Microsoft's documentation](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions) of the special device filenames\n  - [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1)\n  - [The original PR reporting the issue](https://github.com/bytecodealliance/cap-std/pull/371)",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "24.0.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://en.wikipedia.org/wiki/ISO/IEC_8859-1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-c2f5-jxjv-2hh8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/cap-std/pull/371"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-c2f5-jxjv-2hh8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-51745"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2024-0438.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "nathaniel-daniel",
+            "contact": [
+                "https://github.com/nathaniel-daniel"
+            ],
+            "type": "REPORTER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-51745",
+                "imported": "2026-08-21T20:09:02.026Z",
+                "modified": "2026-06-17T08:06:14.230Z",
+                "published": "2024-11-05T22:15:21.643Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-51745",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-51745",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "< 24.0.2",
+                        "= 25.0.0+rust",
+                        "= 25.0.1+rust",
+                        "= 25.0.2+rust",
+                        "= 26.0.0+rust"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-c2f5-jxjv-2hh8",
+                "imported": "2026-08-21T20:09:05.861Z",
+                "modified": "2025-05-02T12:53:57Z",
+                "published": "2024-11-05T22:18:49Z",
+                "url": "https://api.github.com/advisories/GHSA-c2f5-jxjv-2hh8",
+                "html_url": "https://github.com/advisories/GHSA-c2f5-jxjv-2hh8"
+            },
+            {
+                "id": "EUVD-2024-3231",
+                "imported": "2026-08-21T20:09:03.528Z",
+                "modified": "2024-11-05T21:28:34Z",
+                "published": "2024-11-05T21:09:43Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-3231",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-3231",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "25.0.0, < 25.0.3",
+                        "< 24.0.2",
+                        "= 26.0.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

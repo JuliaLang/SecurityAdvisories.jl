@@ -1,0 +1,138 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1351",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2026-27195",
+        "GHSA-xjhv-v822-pf94",
+        "EUVD-2026-8567"
+    ],
+    "summary": "Wasmtime is vulnerable to panic when dropping a `[Typed]Func::call_async` future",
+    "details": "The affected versions of Wasmtime can panic if the host embedder drops the future returned by `wasmtime::component::[Typed]Func::call_async` before it resolves.\n\n### Details\n\nStarting with Wasmtime 39.0.0, the `component-model-async` feature became the default, which brought with it a new implementation of `[Typed]Func::call_async` which made it capable of calling async-typed guest export functions.  However, that implementation had a bug leading to a panic under certain circumstances:\n\n 1. The host embedding calls `[Typed]Func::call_async` on a function exported by a component, polling the returned `Future` once.\n 2. The component function yields control to the async runtime (e.g. Tokio), e.g. due to a call to host function registered using `LinkerInstance::func_wrap_async` which yields, or due an epoch interruption.\n 3. The host embedding drops the `Future` after polling it once.  This leaves the component instance in a non-reenterable state since the call never had a chance to complete.\n 4. The host embedding calls `[Typed]Func::call_async` again, polling the returned `Future`.  Since the component instance cannot be entered at this point, the call traps, but not before allocating a task and thread for the call.\n 5. The host embedding ignores the trap and drops the `Future`.  This panics due to the runtime attempting to dispose of the task created above, which panics since the thread has not yet exited.\n\n### Impact\n\nWhen a host embedder using the affected versions of Wasmtime calls `wasmtime::component::[Typed]Func::call_async` on a guest export and then drops the returned future without waiting for it to resolve, and then does so again with the same component instance, Wasmtime will panic. Embeddings that have the `component-model-async` compile-time feature disabled are unaffected.\n\n### Patches\n\nWasmtime 40.0.4 and 41.0.4 have been patched to fix this issue. Versions 42.0.0 and later are not affected.\n\n### Workarounds\n\nIf an embedding is not actually using any component-model-async features then disabling the `component-model-async` Cargo feature can work around this issue. This issue can also be worked around by either ensuring every `call_async` future is awaited until it completes or refraining from using the `Store` again after dropping a not-yet-resolved `call_async` future.\n\n### Resources\n\nThis was first reported in https://bytecodealliance.zulipchat.com/#narrow/channel/206238-general/topic/Panic.20in.20Wasmtime.2041.2E0.2E3.20.28runtime.2Fconcurrent.2Fcomponent.29",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "39.0.0+0"
+                        },
+                        {
+                            "fixed": "45.0.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bytecodealliance.zulipchat.com/#narrow/channel/206238-general/topic/.E2.9C.94.20Panic.20in.20Wasmtime.2041.2E0.2E3.20.28runtime.2Fconcurrent.2Fcomponent.29/with/574438798"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-xjhv-v822-pf94"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/9e51c0d9a240a9613d279c061f82286bd11383fd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/d86b00736b9ece60b3c81e52f7a7e4cdd9f7d895"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v40.0.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v41.0.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-xjhv-v822-pf94"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27195"
+        },
+        {
+            "type": "WEB",
+            "url": "https://rustsec.org/advisories/RUSTSEC-2026-0022.html"
+        }
+    ],
+    "credits": [
+        {
+            "name": "dicej",
+            "contact": [
+                "https://github.com/dicej"
+            ],
+            "type": "OTHER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-27195",
+                "imported": "2026-08-21T20:09:02.028Z",
+                "modified": "2026-06-17T10:26:49.743Z",
+                "published": "2026-02-24T22:16:32.253Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-27195",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27195",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        ">= 39.0.0, < 40.0.4",
+                        ">= 41.0.0, < 41.0.4"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-xjhv-v822-pf94",
+                "imported": "2026-08-21T20:09:10.015Z",
+                "modified": "2026-02-27T20:24:28Z",
+                "published": "2026-02-24T20:44:46Z",
+                "url": "https://api.github.com/advisories/GHSA-xjhv-v822-pf94",
+                "html_url": "https://github.com/advisories/GHSA-xjhv-v822-pf94"
+            },
+            {
+                "id": "EUVD-2026-8567",
+                "imported": "2026-08-21T20:09:03.524Z",
+                "modified": "2026-02-24T21:36:54Z",
+                "published": "2026-02-24T21:15:20Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-8567",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-8567",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "39.0.0, < 40.0.4",
+                        "41.0.0, < 41.0.4"
+                    ]
+                }
+            }
+        ]
+    }
+}

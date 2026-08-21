@@ -1,0 +1,110 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1368",
+    "modified": "2026-08-21T20:43:33.133Z",
+    "published": "2026-08-21T20:43:33.133Z",
+    "upstream": [
+        "CVE-2026-58494",
+        "EUVD-2026-42393"
+    ],
+    "details": "Wasmtime is a runtime for WebAssembly. Prior to 24.0.11, 36.0.12, 45.0.3, and 46.0.1, wasmtime-wasi hard-link creation and renaming check directory permissions but not matching FilePerms on source and destination preopens, allowing a WASI guest with a read-only source file capability to overwrite host files exposed as FilePerms::READ through wasip1, wasip2, or wasip3 filesystem interfaces. This issue is fixed in versions 24.0.11, 36.0.12, 45.0.3, and 46.0.1.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "46.0.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Wasmtime_jll",
+                "purl": "pkg:julia/Wasmtime_jll?uuid=d20e7296-4f3e-515c-90b9-d2595a77bf72"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/5ddfd5f1ef28f2041fa07d237ad0336e167b0e0c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/7db94cdcf0c79cb3dfde884b534b653f2dd83367"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/8a250aac0962ca1364b5f16525720e9d0b39edcd"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/commit/d3ceb56ec35f39e02496eeb4e2d9c7f4fb964d9e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v24.0.11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v36.0.12"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v45.0.3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/releases/tag/v46.0.1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-4ch3-9j33-3pmj"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-58494",
+                "imported": "2026-08-21T20:09:13.758Z",
+                "modified": "2026-07-10T19:10:59.333Z",
+                "published": "2026-07-08T21:16:54Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-58494",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58494",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "EUVD-2026-42393",
+                "imported": "2026-08-21T20:09:03.341Z",
+                "modified": "2026-07-09T13:28:57Z",
+                "published": "2026-07-08T20:22:16Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-42393",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-42393",
+                "affected": {
+                    "bytecodealliance:wasmtime": [
+                        "25.0.0, < 36.0.12",
+                        "37.0.0, < 45.0.3",
+                        "46.0.0, < 46.0.1",
+                        "< 24.0.11"
+                    ]
+                }
+            }
+        ]
+    }
+}
