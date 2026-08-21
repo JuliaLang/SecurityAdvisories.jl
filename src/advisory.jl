@@ -278,14 +278,14 @@ Ranges that don't identify a fixed version (unbounded, inclusively-bounded, exac
 unparseable ones) are simply ignored.
 
 Since the sources' affected components do not record the Julia packages they map to,
-the association is computed with `packages_with_component` (a keyword, primarily for testing).
+the association is computed with [`packages_with_upstream_component`](@ref).
 """
-function recipe_update_candidates(a::Advisory; packages_with_component = packages_with_upstream_component)
+function recipe_update_candidates(a::Advisory)
     candidates = Pair{String, VersionString}[]
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
         upstream_ranges = [tryparse(VersionRange, v)
-            for src in a.jlsec_sources for (vp, ranges) in src.affected if vuln.pkg in packages_with_component(vp) for v in ranges]
+            for src in a.jlsec_sources for (vp, ranges) in src.affected if vuln.pkg in packages_with_upstream_component(vp) for v in ranges]
         # Only ranges with exclusive upper bounds tell us the upstream's fixed version
         fixed = filter(r -> !isnothing(r) && has_upper_bound(r) && !r.ubinclusive, upstream_ranges)
         isempty(fixed) && continue
@@ -666,22 +666,21 @@ Render one advisory's affected packages — and the upstream components they der
 from its TOML frontmatter `new` as a Markdown list item, annotating range changes against
 the prior frontmatter `old` (`nothing` for a newly-added advisory). Extra header text (like
 the source links of [`print_advisory_versions`](@ref)) may be passed via `from`, and upstream
-components that map to none of the listed affected packages (as computed by the
-`packages_with_component` keyword) are not shown. When several sources list components,
+components that map to none of the listed affected packages (per
+[`packages_with_upstream_component`](@ref)) are not shown. When several sources list components,
 only the source whose data was used (per `pick_used`, [`used_source`](@ref) by default)
 is shown, and component ranges that fail to parse are called out — they are what the
 pessimistic all-versions `*` ranges come from. Operating on the raw frontmatter allows
 rendering both freshly-imported advisories (via [`to_toml_frontmatter`](@ref)) and old
 revisions pulled from git (via `print_advisory_diff`).
 """
-function print_version_ranges(io, id, old, new; from="", packages_with_component = packages_with_upstream_component,
-                              pick_used = used_source)
+function print_version_ranges(io, id, old, new; from="", pick_used = used_source)
     aff(t) = t === nothing ? Any[] : [e for e in get(t, "affected", Any[]) if e isa AbstractDict]
     old_pkgs = Dict{String,Any}(string(get(e, "pkg", "?")) => get(e, "ranges", Any[]) for e in aff(old))
     new_affected = aff(new)
     pkgs = [string(get(e, "pkg", "")) for e in new_affected]
     components = [(src_id, vp, ranges) for (src_id, vp, ranges) in source_affected(new)
-                  if any(in(packages_with_component(vp)), pkgs)]
+                  if any(in(packages_with_upstream_component(vp)), pkgs)]
     if !allequal(first.(components))
         # Several sources list components, but only one's data was used for the ranges
         used = pick_used(new)

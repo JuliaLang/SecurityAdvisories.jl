@@ -345,14 +345,32 @@ using Dates: DateTime
 # A jlsec_sources entry with the required metadata; keywords (like `affected`) override the defaults
 test_source(; kw...) = AdvisorySource(; id="CVE-2025-99999", imported=DateTime(2026,1,1), modified=DateTime(2026,1,1),
     published=DateTime(2025,1,1), url="https://example.com", html_url="https://example.com", kw...)
+
+# Run `f()` with the component maps (normally computed from GeneralMetadata and Repology
+# data) replaced by fixtures, so component-to-package associations are under test control
+function with_component_maps(f; projects, packages)
+    # Ensure the real caches are populated so they can be restored afterwards
+    SecurityAdvisories.upstream_projects_by_vendor_product("_", "_")
+    SecurityAdvisories.packages_with_project("_")
+    ups, pwp = SecurityAdvisories.UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT, SecurityAdvisories.PACKAGES_WITH_PROJECT
+    old = (ups[], pwp[])
+    ups[], pwp[] = projects, packages
+    try
+        return f()
+    finally
+        ups[], pwp[] = old
+    end
+end
 @testset "recipe update candidates" begin
     unbounded = [VR{VersionNumber}(">= 1.0.0")]
     bounded = [VR{VersionNumber}(">= 1.0.0, < 2.0.0")]
     upstreams(versions...) = [test_source(affected=Dict("vendor:product" => collect(String, versions)))]
     jll(; kw...) = Advisory(; affected=[PackageVulnerability(pkg="Zstd_jll", ranges=unbounded)], kw...)
-    # The component-to-package association is computed from GeneralMetadata; inject a test double
-    candidates(adv; pkgs=["Zstd_jll"]) = recipe_update_candidates(adv;
-        packages_with_component = vp -> vp == "vendor:product" ? pkgs : String[])
+    candidates(adv; pkgs=["Zstd_jll"]) =
+        with_component_maps(projects=Dict(("vendor","product") => ["testproj"]),
+                            packages=Dict("testproj" => pkgs)) do
+            recipe_update_candidates(adv)
+        end
 
     # An unbounded JLL whose upstream fix version is known (an exclusive upper bound) is actionable
     @test candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
@@ -464,11 +482,11 @@ end
 using SecurityAdvisories: print_advisory_versions
 @testset "version range rendering" begin
     VRN = VR{VersionNumber}
-    # The component-to-package association is computed from GeneralMetadata; inject a test double
-    render(adv, old=nothing; kw...) = sprint() do io
-        print_advisory_versions(io, adv, old;
-            packages_with_component = vp -> vp == "ffmpeg:ffmpeg" ? ["FFMPEG_jll", "FFplay_jll"] : String[], kw...)
-    end
+    render(adv, old=nothing; kw...) =
+        with_component_maps(projects=Dict(("ffmpeg","ffmpeg") => ["ffmpeg"]),
+                            packages=Dict("ffmpeg" => ["FFMPEG_jll", "FFplay_jll"])) do
+            sprint(io -> print_advisory_versions(io, adv, old; kw...))
+        end
     adv = Advisory(id="JLSEC-2025-9999", aliases=["CVE-2025-99999"],
         affected=[PackageVulnerability(pkg="FFMPEG_jll", ranges=[VRN("< 6.1.2+0")])],
         jlsec_sources=[test_source(affected=Dict("ffmpeg:ffmpeg" => ["< 6.1.2"]))])
