@@ -385,8 +385,7 @@ end
 
 Choose between two competing versions of a package's affected ranges, preferring `a`
 unless `b` is clearly better: having more ranges is generally more specific, and ranges
-with upper bounds beat unbounded ones. This is both how [`combine`](@ref) merges two
-advisories' entries and how [`used_source`](@ref) works out which source's data won.
+with upper bounds beat unbounded ones.
 """
 function better_affected(a::PackageVulnerability, b::PackageVulnerability)
     a.ranges == b.ranges && return a
@@ -671,34 +670,26 @@ source_affected(t) = t === nothing ? Tuple{String,Any}[] :
     used_source(frontmatter)
 
 Determine which source's affected components were used for the advisory's affected package
-ranges: each source's components are re-run through the version conversion and folded with
-the same [`better_affected`](@ref) choice that `combine` uses. Returns the winning source's
-id, or `nothing` when the simulation doesn't reproduce the recorded ranges (for example,
-after the component metadata improves) or when no single source won.
+ranges: the first source whose components convert to exactly the recorded ranges. Returns
+its id, or `nothing` when no source's conversion matches (for example, after the component
+metadata improves, or when the ranges came from more than one source).
 """
 function used_source(frontmatter)
     target = Dict(string(e["pkg"]) => Set(string.(e["ranges"]))
                   for e in asvector(get(frontmatter, "affected", Any[])) if e isa AbstractDict)
     isempty(target) && return nothing
-    chosen = Dict{String, Tuple{String, PackageVulnerability}}() # pkg => (source id, its entry)
     for src in asvector(get(frontmatter, "jlsec_sources", Any[]))
         src isa AbstractDict || continue
-        components = [u for u in asvector(get(src, "affected", Any[])) if u isa AbstractDict]
         vpvs = [(String.(split(u["vendor_product"], ":", limit=2))..., String(r))
-                for u in components if contains(string(get(u, "vendor_product", "")), ":")
+                for u in asvector(get(src, "affected", Any[]))
+                if u isa AbstractDict && contains(string(get(u, "vendor_product", "")), ":")
                 for r in get(u, "ranges", Any[])]
         isempty(vpvs) && continue
-        for entry in affected_julia_packages("", vpvs).affected
-            is_vulnerable(entry) || continue
-            if !haskey(chosen, entry.pkg) || better_affected(chosen[entry.pkg][2], entry) === entry
-                chosen[entry.pkg] = (string(get(src, "id", "?")), entry)
-            end
-        end
+        converted = affected_julia_packages("", vpvs).affected
+        conv = Dict(e.pkg => Set(string.(e.ranges)) for e in converted if is_vulnerable(e))
+        conv == target && return string(get(src, "id", "?"))
     end
-    # The simulation must reproduce the recorded ranges, and a single source must have won
-    Dict(pkg => Set(string.(entry.ranges)) for (pkg, (_, entry)) in chosen) == target || return nothing
-    ids = unique(id for (id, _) in values(chosen))
-    return length(ids) == 1 ? only(ids) : nothing
+    return nothing
 end
 
 """
