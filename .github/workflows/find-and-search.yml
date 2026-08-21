@@ -69,8 +69,8 @@ jobs:
     if: needs.identify-packages.outputs.packages != '' && needs.identify-packages.outputs.packages != '[]'
     strategy:
       fail-fast: false
-      # Modest parallelism keeps the combined NVD request rate within its API limits
-      max-parallel: 2
+      # All jobs share one NVD API key and its rate limit, so search one package at a time
+      max-parallel: 1
       matrix:
         package: ${{ fromJSON(needs.identify-packages.outputs.packages) }}
     uses: ./.github/workflows/search-and-pr.yml

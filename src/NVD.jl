@@ -82,8 +82,9 @@ end
 const last_fetched = Ref{Float64}(0.0)
 
 function fetch_nvd_page(url::String, headers::Vector{Pair{String, String}})
-    # NVD allows 50 requests per 30s with an API key, 5 per 30s without
-    sleep(max(0, (haskey(ENV, "NVD_API_KEY") ? 2 : 6) - (time() - last_fetched[])))
+    # NVD allows 50 requests per 30s with an API key, 5 per 30s without; the keyed limit
+    # is shared across every concurrent CI job, so leave it plenty of headroom
+    sleep(max(0, (haskey(ENV, "NVD_API_KEY") ? 3 : 6) - (time() - last_fetched[])))
     response = HTTP.get(url, headers)
     last_fetched[] = time()
 
