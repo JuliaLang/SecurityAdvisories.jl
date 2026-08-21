@@ -265,6 +265,14 @@ is_vulnerable(a::Advisory) = any(is_vulnerable, a.affected)
 vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vulnerable(entry)]
 
 """
+    is_direct(advisory)
+
+Return `true` if the advisory pertains directly to Julia packages, rather than having been
+identified through upstream (non-Julia) components.
+"""
+is_direct(a::Advisory) = isempty(a.upstream)
+
+"""
     recipe_update_candidates(advisory)
 
 Return `name => version` pairs describing Yggdrasil recipe updates that could resolve

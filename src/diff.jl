@@ -509,13 +509,13 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
         println(io, "The publication of unbounded advisories is significantly more impactful and, if at all possible, should be addressed in the packages directly")
     end
 
-    aliases   = filter(x -> !isempty(x.aliases), results)
-    upstreams = filter(x ->  isempty(x.aliases), results)
+    direct    = filter(is_direct, results)
+    upstreams = filter(!is_direct, results)
 
-    if !isempty(aliases)
-        pkgs = unique(Iterators.flatten(vulnerable_packages.(aliases)))
-        println(io, "## $(length(aliases)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
-        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(aliases, by=earliest_source_time))
+    if !isempty(direct)
+        pkgs = unique(Iterators.flatten(vulnerable_packages.(direct)))
+        println(io, "## $(length(direct)) advisories directly affect packages ", join(pkgs, ", ", " and "), "\n")
+        print_capped(adv -> print_advisory_versions(io, adv, olds[adv.id]), io, sort(direct, by=earliest_source_time))
         println(io)
     end
 
