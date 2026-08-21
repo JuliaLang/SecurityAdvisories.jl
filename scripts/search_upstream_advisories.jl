@@ -1,9 +1,10 @@
 # The goal here is to find relevant upstream advisories that have been published in an upstream
 # database: GitHub's GHSA, NIST/NVD's CVE, or ESINA's EUVD.
 #
-# This runs in two fully-separate phases:
-#   1. `update_advisory_files` searches the upstream databases and writes the advisory files
-#   2. `SecurityAdvisories.print_search_pr_outputs` composes the pull request title and body
+# This runs in three fully-separate phases:
+#   1. `search_advisories` queries the upstream databases for relevant advisories
+#   2. `write_advisory_files` creates or updates the advisory files from what was found
+#   3. `SecurityAdvisories.print_search_pr_outputs` composes the pull request title and body
 #      from the state of the branch alone (the changed advisory files); it can be re-run at
 #      any time via scripts/update_pr_message.jl — for example after edits land on the branch
 using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
@@ -13,15 +14,17 @@ using Dates: Dates
 isspace_or_comma(c) = isspace(c) || c == ','
 
 """
-    update_advisory_files(input, filter_results) -> (; branch, haystack)
+    search_advisories(input, filter_results) -> (; advisories, branch, haystack)
 
-Search the upstream databases per `input` and write the new or updated advisory files.
-Returns the branch name and a description of what was searched; everything else about
-this run is left to be read back from the changed files themselves.
+Search the upstream databases per `input`: an advisory identifier, a package name, a
+space/comma-separated package list, or — when empty — a walk through the ecosystem
+until something turns up. Returns the found advisories (with aliases combined), the
+branch name for the results (the package the walk landed on, otherwise `input`), and
+a description of what was searched.
 """
-function update_advisory_files(input, filter_results)
+function search_advisories(input, filter_results)
     advisories = Advisory[]
-    haystack = input
+    branch = haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif !isempty(input) && !any(isspace_or_comma, input)
@@ -42,20 +45,20 @@ function update_advisory_files(input, filter_results)
         filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
-            input = popfirst!(whole_pkg_list)
+            branch = popfirst!(whole_pkg_list)
             pkg_search_count += 1
-            @info "searching for $input"
+            @info "searching for $branch"
             try
-                append!(advisories, SecurityAdvisories.search_package(input, filter_results))
+                append!(advisories, SecurityAdvisories.search_package(branch, filter_results))
             catch ex
-                @error "Error searching for $input" ex
+                @error "Error searching for $branch" ex
                 empty!(advisories)
             end
         end
         haystack = "$pkg_search_count packages"
     end
 
-    @info "found $(length(advisories)) advisories in $input"
+    @info "found $(length(advisories)) advisories in $branch"
     # We may have gathered advisories that are aliases of eachother (but hopefully not!)
     n_pre = length(advisories)
     pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
@@ -65,8 +68,17 @@ function update_advisory_files(input, filter_results)
         @show pre_srcs
         @show [[src.id for src in a.jlsec_sources] for a in advisories]
     end
+    return (; advisories, branch, haystack)
+end
 
-    # Now create or update the found advisories:
+"""
+    write_advisory_files(advisories, filter_results)
+
+Create or update the advisory file for each of the `advisories`, merging each into its
+existing JLSEC advisory when there is one. When `filter_results`, reviewed-and-rejected
+packages are stripped and results that are invalid or not vulnerable are skipped.
+"""
+function write_advisory_files(advisories, filter_results)
     for advisory in advisories
         filter_results && SecurityAdvisories.strip_rejected!(advisory)
         existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
@@ -85,12 +97,11 @@ function update_advisory_files(input, filter_results)
             SecurityAdvisories.print(io, advisory)
         end
     end
-    # Note that the ecosystem walk above may have replaced `input` with the package it searched
-    return (; branch=input, haystack)
 end
 
 function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
-    (; branch, haystack) = update_advisory_files(input, filter_results)
+    (; advisories, branch, haystack) = search_advisories(input, filter_results)
+    write_advisory_files(advisories, filter_results)
     # The PR message is composed entirely from the changed files, comparing HEAD to the working tree
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     println(io, "branch=", branch)
