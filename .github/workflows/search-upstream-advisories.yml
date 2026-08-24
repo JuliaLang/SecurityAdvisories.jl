@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       haystack:
-        description: 'Advisory ID, package name, or list of package names'
+        description: 'Advisory ID, package name, list of package names, or upstream project id (like repology.org/project/curl); empty for an ecosystem walk'
         type: string
         default: ''
       filter:

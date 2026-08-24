@@ -8,7 +8,7 @@ on:
   workflow_call:
     inputs:
       haystack:
-        description: 'Advisory ID, package name, or list of package names; empty for an ecosystem walk'
+        description: 'Advisory ID, package name, list of package names, or upstream project id (like repology.org/project/curl); empty for an ecosystem walk'
         type: string
         default: ''
       filter:
