@@ -69,14 +69,18 @@ There are four categories of advisory that we need to handle:
     * **discussing or affecting a Julia package**. Any of the advisory databases listed above might publish an advisory with a Julia package mentioned or explicitly listed as `affected`. Thanks to the convention of discussing packages as `Package.jl`, this can be fairly accurately targeted, even within freetext descriptions. The versions here (if there are any) correspond directly against the registered versions of the Package, and the independently-issued advisory **must** be listed as an `alias`.
     * **pertaining to an upstream package that a Julia package bundles**. There are two challenges here; we first must know what upstream projects the Julia packages bundle (and precisely which upstream versions a given Julia package version included), and then even when we know that, we need to be able to conclusively identify _those_ upstream projects in these other advisory databases. The versions listed in this independently-issued advisory are _arbitrary_ and dependent upon the upstream project itself, making range comparisons _fraught_. Because the newly issued JLSEC corresponding to this advisory contains _novel version information_ these advisories **must** be listed as `upstream`.
 
-In addition to the periodic check, NVD, EUVD, and GitHub all support fetching all advisories for a specific CPE or repository, respectively. They also support fetching a single CVE or repository at a time.
+In addition to the scheduled searches, NVD, EUVD, and GitHub all support fetching all advisories for a specific CPE or repository, respectively. They also support fetching a single CVE or repository at a time.
 
 ### Automated searching and drafting of advisories
 
 GitHub Actions enable the automatic search and import of advisories from other databases (GHSA, NVD and EUVD)
-and will open pull requests suggesting the inclusion of these new advisories. These can be triggered manually for a
-particular package (for now, ask a maintainer to do so). Once a day, SecurityAdvisories.jl will search as many
-packages as it can until it finds a package with new advisories.
+and will open pull requests suggesting the inclusion of these new advisories. Once a day, two scheduled searches run:
+one covers every package with a version registered since the last run, and the other covers every package affected
+by an upstream advisory that changed since the last run. Each opens one pull request per finding, scoped by the
+package name or — for advisories against a bundled upstream component — by its upstream project id (like
+`repology.org/project/curl`). A search can also be triggered manually (for now, ask a maintainer to do so) for an
+advisory ID, a package name or list, an upstream project id, or — with an empty haystack — a walk through the
+ecosystem until something turns up.
 
 ## References
 

@@ -1,7 +1,8 @@
-name: Find and search packages
+name: Find and search targets
 
-# The reusable scoped search: identify the packages worth searching per the mode, then
-# search each one in its own job, opening one pull request per package with findings.
+# The reusable scoped search: identify the targets worth searching per the mode — package
+# names for direct findings, upstream project ids for component findings — then search
+# each one in its own job, opening one pull request per target with findings.
 # Callers must grant `contents: read` and `actions: read` and pass `secrets: inherit`.
 
 on:

@@ -15,7 +15,8 @@ on:
 permissions:
   contents: read
 
-# Only allow one search to run at a time; queue subsequent runs
+# Only allow one manual search to run at a time; queue subsequent runs. Each search workflow has
+# its own group, so searches from different workflows may overlap against the shared NVD key
 concurrency:
   group: search-upstream-advisories
   cancel-in-progress: false

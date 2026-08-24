@@ -738,7 +738,7 @@ end
 """
     pending_search_branches()
 
-The branch names of jlsec-bot's pending pull requests; searches skip these packages.
+The branch names of jlsec-bot's pending pull requests; searches skip these packages and upstream projects.
 """
 pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))
 

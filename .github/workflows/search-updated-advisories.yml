@@ -15,14 +15,15 @@ permissions:
   contents: read
   actions: read
 
-# Only allow one search to run at a time; queue subsequent runs
+# Only allow one updated-advisories search to run at a time; queue subsequent runs. Each search workflow has
+# its own group, so searches from different workflows may overlap against the shared NVD key
 concurrency:
   group: search-updated-advisories
   cancel-in-progress: false
 
 jobs:
   search-updated-advisories:
-    name: Search packages with advisories updated since the last run
+    name: Search targets from packages with advisories updated since the last run
     uses: ./.github/workflows/find-and-search.yml
     with:
       mode: updated-advisories
