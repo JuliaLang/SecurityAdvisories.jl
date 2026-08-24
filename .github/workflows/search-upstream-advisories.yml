@@ -1,9 +1,6 @@
 name: Search for upstream advisories
 
 on:
-  schedule:
-    # Run once a day
-    - cron: '0 5 */1 * *'
   workflow_dispatch:
     inputs:
       haystack:
@@ -25,14 +22,9 @@ concurrency:
 
 jobs:
   identify-advisories:
-    name: >-
-      ${{
-        github.event_name == 'schedule' && 'Ecosystem search (scheduled)'
-        || (github.event_name == 'workflow_dispatch' && (inputs.haystack == '' || inputs.haystack == null) && 'Ecosystem search (manual)')
-        || format('Search {0}', inputs.haystack)
-      }}
+    name: ${{ inputs.haystack == '' && 'Ecosystem search' || format('Search {0}', inputs.haystack) }}
     uses: ./.github/workflows/search-and-pr.yml
     with:
       haystack: ${{ inputs.haystack }}
-      filter: ${{ inputs.filter == null || inputs.filter }}
+      filter: ${{ inputs.filter }}
     secrets: inherit
