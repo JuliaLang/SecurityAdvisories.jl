@@ -7,22 +7,21 @@ isspace_or_comma(c) = isspace(c) || c == ','
 """
     search_advisories(input, filter_results) -> (; advisories, branch, haystack)
 
-Search the upstream databases per `input`: an advisory identifier, an `upstream:<project>`
-component search, a package name, a space/comma-separated package list, or — when empty —
-a walk through the ecosystem until something turns up. Returns the found advisories (with
-aliases combined), the branch name for the results (the upstream project name when every
-finding is against one component, the package the walk landed on, or otherwise `input`),
-and a description of what was searched.
+Search the upstream databases per `input`: an advisory identifier, an upstream project id
+(like `repology.org/project/curl`), a package name, a space/comma-separated package list,
+or — when empty — a walk through the ecosystem until something turns up. Returns the
+found advisories (with aliases combined), the branch name for the results (the upstream
+project id when every finding is against one component, the package the walk landed on,
+or otherwise `input`), and a description of what was searched.
 """
 function search_advisories(input, filter_results)
     advisories = Advisory[]
     branch = haystack = input
     if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
-    elseif startswith(input, "upstream:")
-        branch = String(chopprefix(input, "upstream:"))
-        @info "searching for advisories against upstream project $branch"
-        append!(advisories, SecurityAdvisories.search_component(branch, filter_results))
+    elseif haskey(SecurityAdvisories.upstream_projects(), input)
+        @info "searching for advisories against upstream project $input"
+        append!(advisories, SecurityAdvisories.search_component(input, filter_results))
     elseif !isempty(input) && !any(isspace_or_comma, input)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
@@ -41,7 +40,7 @@ function search_advisories(input, filter_results)
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
         pending = SecurityAdvisories.pending_search_branches()
         filter!(whole_pkg_list) do pkg
-            pkg ∉ pending && isdisjoint(SecurityAdvisories.short_project_name.(SecurityAdvisories.upstream_projects_for_package(pkg)), pending)
+            pkg ∉ pending && isdisjoint(SecurityAdvisories.upstream_projects_for_package(pkg), pending)
         end
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
@@ -68,13 +67,13 @@ function search_advisories(input, filter_results)
 end
 
 # An all-upstream find against a single component is really about that component: name the
-# branch by its project so repeated searches (and the scoped `upstream:<project>` targets)
-# share one pull request
+# branch by its project id so repeated searches (and the scoped project targets) share one
+# pull request
 function component_branch(advisories)
     (isempty(advisories) || any(SecurityAdvisories.is_direct, advisories)) && return nothing
     projects = unique!(reduce(vcat, SecurityAdvisories.advisory_projects.(advisories); init=String[]))
     length(projects) == 1 || return nothing
-    return SecurityAdvisories.short_project_name(only(projects))
+    return only(projects)
 end
 
 """

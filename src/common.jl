@@ -358,18 +358,8 @@ function upstream_projects_for_package(pkg)
     return Set(Iterators.flatten(keys(verinfo) for (_, verinfo) in get(package_components(), pkg, Dict())))
 end
 
-# Upstream project ids are usually `repology.org/project/<name>`; branches and search
-# targets use the short name
-short_project_name(proj) = String(chopprefix(proj, "repology.org/project/"))
-
 function vendor_products_for_project(proj)
-    ups = upstream_projects()
-    if !haskey(ups, proj)
-        matches = filter(k -> short_project_name(k) == proj, collect(keys(ups)))
-        length(matches) == 1 || error("unknown or ambiguous upstream project: $proj")
-        proj = only(matches)
-    end
-    return unique(split(cpe, ":", limit=2) for cpe in ups[proj])
+    return unique(split(cpe, ":", limit=2) for cpe in get(upstream_projects(), proj, String[]))
 end
 
 function vendor_products_for_package(pkg)
@@ -858,7 +848,8 @@ end
 """
     search_component(proj, filter_results)
 
-Search for advisories against the components provided by the upstream project `proj`.
+Search for advisories against the components provided by the upstream project `proj`
+(an id like `repology.org/project/curl`, as tracked in GeneralMetadata).
 If `filter_results` is true, only return advisories that are new or have significant updates
 compared to existing JLSEC advisories; otherwise, return all matches.
 """

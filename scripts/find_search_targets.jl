@@ -6,9 +6,10 @@
 # Each candidate is then searched (exactly as `search_upstream_advisories.jl` would) and
 # each finding becomes a search target scoped to match its blast radius: direct advisories
 # are scoped by the package name, while upstream advisories — which name every affected
-# package — are scoped by their `upstream:<project>` component. The unique targets are
-# emitted as the `targets` JSON list in the GitHub Actions output, and the workflow
-# re-runs the full search for each one in its own job to open one pull request apiece.
+# package — are scoped by their upstream project id (like `repology.org/project/curl`).
+# The unique targets are emitted as the `targets` JSON list in the GitHub Actions output,
+# and the workflow re-runs the full search for each one in its own job to open one pull
+# request apiece.
 using SecurityAdvisories: SecurityAdvisories
 using JSON3: JSON3
 using Dates: Dates
@@ -34,12 +35,12 @@ function main(mode = get(ARGS, 1, ""), since_str = get(ARGS, 2, ""))
             if SecurityAdvisories.is_direct(advisory) || isempty(projects)
                 push!(targets, pkg)
             else
-                union!(targets, "upstream:" .* SecurityAdvisories.short_project_name.(projects))
+                union!(targets, projects)
             end
         end
     end
-    # A target's search branch is its package or project name; skip those already pending
-    targets = sort!([t for t in targets if chopprefix(t, "upstream:") ∉ pending])
+    # A target's search branch is its package name or project id; skip those already pending
+    targets = sort!([t for t in targets if t ∉ pending])
     @info "found $(length(targets)) search targets" targets
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     println(io, "targets=", JSON3.write(targets))
