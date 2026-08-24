@@ -1,0 +1,144 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1374",
+    "modified": "2026-08-24T13:43:17.899Z",
+    "published": "2026-08-24T13:43:17.899Z",
+    "upstream": [
+        "CVE-2024-47561",
+        "GHSA-r7pg-v2c8-mfg3",
+        "EUVD-2024-3126"
+    ],
+    "summary": "Apache Avro Java SDK: Arbitrary Code Execution when reading Avro Data (Java SDK)",
+    "details": "Schema parsing in the Java SDK of Apache Avro 1.11.3 and previous versions allows bad actors to execute arbitrary code.\nUsers are recommended to upgrade to version 1.11.4  or 1.12.0, which fix this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Avro_jll",
+                "purl": "pkg:julia/Avro_jll?uuid=497e9ebb-6d82-5bd4-be3d-5b7dba4508ca"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2024/10/03/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-r7pg-v2c8-mfg3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/apache/avro/commit/8f89868d29272e3afea2ff8de8c85cb81a57d900"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/apache/avro/commit/f6b3bd7e50e6e09fedddb98c61558c022ba31285"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/apache/avro/pull/2934"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/apache/avro/pull/2980"
+        },
+        {
+            "type": "WEB",
+            "url": "https://issues.apache.org/jira/browse/AVRO-3985"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.apache.org/thread/c2v7mhqnmq0jmbwxqq3r5jbj1xg43h5x"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47561"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20241011-0003"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20241011-0003/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://thehackernews.com/2024/10/critical-apache-avro-sdk-flaw-allows.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/10/03/1"
+        }
+    ],
+    "credits": [
+        {
+            "name": "dbrugman",
+            "contact": [
+                "https://github.com/dbrugman"
+            ],
+            "type": "ANALYST"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-47561",
+                "imported": "2026-08-24T05:26:54.550Z",
+                "modified": "2026-06-17T07:57:18.703Z",
+                "published": "2024-10-03T11:15:13.510Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-47561",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-47561",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "apache:avro": [
+                        "< 1.11.4"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-r7pg-v2c8-mfg3",
+                "imported": "2026-08-24T05:26:55.156Z",
+                "modified": "2025-07-10T23:19:29Z",
+                "published": "2024-10-03T12:30:48Z",
+                "url": "https://api.github.com/advisories/GHSA-r7pg-v2c8-mfg3",
+                "html_url": "https://github.com/advisories/GHSA-r7pg-v2c8-mfg3"
+            },
+            {
+                "id": "EUVD-2024-3126",
+                "imported": "2026-08-24T05:26:54.550Z",
+                "modified": "2024-10-21T08:51:22Z",
+                "published": "2024-10-03T10:23:16Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2024-3126",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2024-3126"
+            }
+        ]
+    }
+}

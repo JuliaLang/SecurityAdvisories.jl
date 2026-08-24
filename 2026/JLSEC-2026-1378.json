@@ -1,0 +1,84 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1378",
+    "modified": "2026-08-24T13:43:17.899Z",
+    "published": "2026-08-24T13:43:17.899Z",
+    "upstream": [
+        "CVE-2026-73254",
+        "EUVD-2026-63496"
+    ],
+    "details": "Mongoose is an embedded web server and network library. Prior to 7.22, an attacker who can create a file with an HTML payload in its name can trigger stored cross-site scripting when a user browses a directory served with `MG_ENABLE_DIRLIST`. The printdirentry() path called by listdir() in `src/http.c` URL-encodes the href but inserts the raw filesystem filename into the HTML link text. The browser executes the injected markup in the Mongoose origin, which can expose session data or permit actions as the victim. This issue is fixed in version 7.22.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoose_jll",
+                "purl": "pkg:julia/Mongoose_jll?uuid=0a8a3f5b-4c0e-5906-8e29-5b3fee15539c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/commit/a9df523f76f43a38bd53b4232b9cfd4c16869e71"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/pull/3611"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/releases/tag/7.22"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/security/advisories/GHSA-5g6j-m3pv-4f7g"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-73254",
+                "imported": "2026-08-23T06:20:42.739Z",
+                "modified": "2026-08-21T17:16:44.093Z",
+                "published": "2026-08-20T18:16:46.113Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-73254",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73254",
+                "database_specific": {
+                    "status": "Received"
+                }
+            },
+            {
+                "id": "EUVD-2026-63496",
+                "imported": "2026-08-23T06:20:06.544Z",
+                "modified": "2026-08-21T16:22:13Z",
+                "published": "2026-08-20T17:37:17Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-63496",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-63496",
+                "affected": {
+                    "Cesanta:Mongoose": [
+                        "< 7.22"
+                    ]
+                }
+            }
+        ]
+    }
+}

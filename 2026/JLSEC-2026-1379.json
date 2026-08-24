@@ -1,0 +1,84 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1379",
+    "modified": "2026-08-24T13:43:17.899Z",
+    "published": "2026-08-24T13:43:17.899Z",
+    "upstream": [
+        "CVE-2026-73255",
+        "EUVD-2026-63499"
+    ],
+    "details": "Mongoose is an embedded web server and network library. Prior to 7.22, an attacker who can control an SSI-enabled file can place directory traversal sequences in an #include file or #include virtual directive. The `mg_ssi()` function in `src/ssi.c` concatenates the directive argument into a filesystem path without calling `mg_path_is_sane()`, allowing an `MG_ENABLE_SSI` deployment with `ssi_pattern` configured to disclose files readable by the Mongoose process. This issue is fixed in version 7.22.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoose_jll",
+                "purl": "pkg:julia/Mongoose_jll?uuid=0a8a3f5b-4c0e-5906-8e29-5b3fee15539c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/commit/a9df523f76f43a38bd53b4232b9cfd4c16869e71"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/pull/3611"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/releases/tag/7.22"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/cesanta/mongoose/security/advisories/GHSA-h7m9-764r-7x4x"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-73255",
+                "imported": "2026-08-23T06:21:13.228Z",
+                "modified": "2026-08-20T18:16:46.313Z",
+                "published": "2026-08-20T18:16:46.313Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-73255",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73255",
+                "database_specific": {
+                    "status": "Received"
+                }
+            },
+            {
+                "id": "EUVD-2026-63499",
+                "imported": "2026-08-23T06:20:06.545Z",
+                "modified": "2026-08-20T17:40:02Z",
+                "published": "2026-08-20T17:40:02Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-63499",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-63499",
+                "affected": {
+                    "Cesanta:Mongoose": [
+                        "< 7.22"
+                    ]
+                }
+            }
+        ]
+    }
+}
