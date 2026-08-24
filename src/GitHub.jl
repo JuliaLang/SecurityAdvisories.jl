@@ -102,7 +102,7 @@ function fetch_all_pages(base_url::String, headers::Vector{Pair{String, String}}
     return all_advisories
 end
 
-function fetch_advisories(since::Dates.DateTime = Dates.now(UTC) - Dates.Hour(25))
+function fetch_advisories(since::Dates.DateTime)
     since_str = Dates.format(since, "yyyy-mm-ddTHH:MM:SS") * "Z"
 
     base_url = "$GITHUB_API_BASE/advisories"

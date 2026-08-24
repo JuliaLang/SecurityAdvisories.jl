@@ -35,13 +35,10 @@ function search_advisories(input, filter_results)
                 by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
             first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
         end
-        # We remove any pending PRs that jlsec-bot has already opened, whether branched by
-        # the package name or by one of the package's upstream components
+        # We remove any pending PRs that jlsec-bot has already opened
         # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
         pending = SecurityAdvisories.pending_search_branches()
-        filter!(whole_pkg_list) do pkg
-            pkg ∉ pending && isdisjoint(SecurityAdvisories.upstream_projects_for_package(pkg), pending)
-        end
+        filter!(pkg -> !SecurityAdvisories.is_pending(pkg, pending), whole_pkg_list)
         pkg_search_count = 0
         while isempty(advisories) && !isempty(whole_pkg_list)
             branch = popfirst!(whole_pkg_list)
@@ -71,9 +68,8 @@ end
 # pull request
 function component_branch(advisories)
     (isempty(advisories) || any(SecurityAdvisories.is_direct, advisories)) && return nothing
-    projects = unique!(reduce(vcat, SecurityAdvisories.advisory_projects.(advisories); init=String[]))
-    length(projects) == 1 || return nothing
-    return only(projects)
+    projects = unique(Iterators.flatten(SecurityAdvisories.advisory_projects.(advisories)))
+    return length(projects) == 1 ? only(projects) : nothing
 end
 
 """

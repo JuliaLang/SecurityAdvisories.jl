@@ -68,6 +68,10 @@ jobs:
 
     - uses: actions/create-github-app-token@v3
       id: urdr_token
+      if: >-
+        steps.git-check.outputs.changes == 'true' &&
+        steps.identify.outputs.recipe_updates != '' &&
+        steps.identify.outputs.recipe_updates != '[]'
       with:
         app-id: ${{ secrets.URDARBRUNNR_APP_ID }}
         private-key: ${{ secrets.URDARBRUNNR_APP_KEY }}

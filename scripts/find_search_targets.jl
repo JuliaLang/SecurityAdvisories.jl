@@ -26,7 +26,7 @@ function main(mode = get(ARGS, 1, ""), since_str = get(ARGS, 2, ""))
     @info "found $(length(candidates)) candidate packages for $mode since $since" candidates
     # We remove any pending PRs that jlsec-bot has already opened
     pending = SecurityAdvisories.pending_search_branches()
-    filter!(!in(pending), candidates)
+    filter!(pkg -> !SecurityAdvisories.is_pending(pkg, pending), candidates)
     targets = Set{String}()
     for pkg in candidates
         @info "searching for $pkg"
@@ -40,7 +40,7 @@ function main(mode = get(ARGS, 1, ""), since_str = get(ARGS, 2, ""))
         end
     end
     # A target's search branch is its package name or project id; skip those already pending
-    targets = sort!([t for t in targets if t ∉ pending])
+    targets = sort!(collect(setdiff(targets, pending)))
     @info "found $(length(targets)) search targets" targets
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     println(io, "targets=", JSON3.write(targets))

@@ -134,7 +134,7 @@ function fetch_keyword_matches(keyword)
     return fetch_all_pages(string(API_BASE, "/search"), headers, params)
 end
 
-function fetch_vulnerabilities(since::Dates.DateTime = Dates.DateTime(Dates.today() - Dates.Day(2)))
+function fetch_vulnerabilities(since::Dates.DateTime)
     headers = build_headers()
 
     # Unfortunately these are _published_ dates, not modified ones.

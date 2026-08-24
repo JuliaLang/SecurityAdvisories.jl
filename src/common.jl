@@ -742,6 +742,10 @@ The branch names of jlsec-bot's pending pull requests; searches skip these packa
 """
 pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))
 
+# Whether a search for `pkg` is already pending, whether branched by the package name or by
+# one of its upstream components
+is_pending(pkg, pending) = pkg in pending || !isdisjoint(upstream_projects_for_package(pkg), pending)
+
 """
     try_search_package(pkg, filter_results)
 
@@ -841,7 +845,7 @@ otherwise, return all matches.
 function search_package(pkg, filter_results)
     advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
     # only consider advisories that actually affect the requested package
-    filter_results && filter_search_results!(advisories, advisory -> pkg in vulnerable_packages(advisory))
+    filter_results && filter_search_results!(advisories, pkgs -> pkg in pkgs)
     return advisories
 end
 
@@ -856,17 +860,23 @@ compared to existing JLSEC advisories; otherwise, return all matches.
 function search_component(proj, filter_results)
     advisories = fetch_project_upstreams(proj)
     # only consider advisories whose components map to a vulnerable package
-    filter_results && filter_search_results!(advisories, advisory -> !isempty(vulnerable_packages(advisory)))
+    filter_results && filter_search_results!(advisories, !isempty)
     return advisories
 end
 
+"""
+    filter_search_results!(advisories, is_relevant)
+
+Keep only the advisories worth suggesting: those whose vulnerable packages satisfy
+`is_relevant(pkgs)` and that are new or significantly update an existing JLSEC advisory.
+"""
 function filter_search_results!(advisories, is_relevant)
     foreach(strip_rejected!, advisories)
     filter!(advisories) do advisory
         existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
         pkgs = vulnerable_packages(advisory)
         vuln_with_upper_bound(x) = has_upper_bound(x) && is_vulnerable(x)
-        return is_relevant(advisory) &&
+        return is_relevant(pkgs) &&
             minimum(x.published for x in advisory.jlsec_sources) > Dates.Date(2018,8,8) && # only consider advisories since Julia 1.0
             (!isnothing(existing) ? (
                 # An update to an existing advisory; only suggest it if the new one:
