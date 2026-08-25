@@ -2,7 +2,7 @@ name: Search for advisories against updated packages
 
 on:
   schedule:
-    # Run once a day
+    # Run once a day, offset 12 hours from the updated-advisories search
     - cron: '30 2 */1 * *'
   workflow_dispatch:
     inputs:
