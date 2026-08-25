@@ -44,7 +44,7 @@ function search_advisories(input, filter_results)
             branch = popfirst!(whole_pkg_list)
             pkg_search_count += 1
             @info "searching for $branch"
-            append!(advisories, SecurityAdvisories.try_search_package(branch, filter_results))
+            append!(advisories, SecurityAdvisories.try_search(SecurityAdvisories.search_package, branch, filter_results))
         end
         haystack = "$pkg_search_count packages"
     end

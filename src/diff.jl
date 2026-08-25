@@ -2,8 +2,9 @@
 # in two forms:
 #   * `print_advisory_diff` reports which Advisory fields changed. See
 #     scripts/diff_advisories.jl for the command-line interface.
-#   * `print_search_pr_outputs` composes the search workflow's pull request title, body,
-#     and recipe updates from the changed advisories. See scripts/update_pr_message.jl.
+#   * `search_pr_message` composes the search workflow's pull request title, body, and
+#     recipe updates from the changed advisories; `print_search_pr_outputs` writes them as
+#     GitHub Actions outputs. See scripts/update_pr_message.jl.
 #
 # The field comparisons deliberately work on each file's raw TOML frontmatter rather than
 # parsed `Advisory`s because these reports describe what changed in the files themselves.
@@ -479,11 +480,25 @@ end
     print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
 
 Write the pull request `n_changed=`, `title=`, `recipe_updates=`, and multiline `body`
-outputs, composed entirely from the advisory files that changed across the `git diff`-style
-revision `spec`. The optional `haystack` describes what was searched to produce the
-changes; without it the body simply describes the changes themselves.
+GitHub Actions outputs from [`search_pr_message`](@ref).
 """
 function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
+    (; n_changed, title, recipe_updates, body) = search_pr_message(spec; dir, haystack)
+    println(io, "n_changed=", n_changed)
+    println(io, "title=", title)
+    println(io, "recipe_updates=", JSON3.write(recipe_updates))
+    print_body_output(io, body)
+end
+
+"""
+    search_pr_message(spec; dir=pwd(), haystack=nothing) -> (; n_changed, title, recipe_updates, body)
+
+Compose the pull request title, body, and the recipe updates it warrants entirely from the
+advisory files that changed across the `git diff`-style revision `spec`. The optional
+`haystack` describes what was searched to produce the changes; without it the body simply
+describes the changes themselves.
+"""
+function search_pr_message(spec; dir=pwd(), haystack=nothing)
     changed = changed_advisories(spec; dir)
     results = [c.advisory for c in changed]
     olds = Dict(c.advisory.id => c.old for c in changed)
@@ -503,9 +518,8 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
     unique_pkgs = unique(Iterators.flatten(vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
     advisory_str = n_total == 1 ? "advisory" : "advisories"
-    println(io, "n_changed=", n_total)
-    println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
-    println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
+    title = "[automatic] $verb $n_total $advisory_str for $pkg_str"
+    recipe_updates = [Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]
     body = sprint() do io
         pkgs_str = join("**" .* unique_pkgs .* "**", ", ", ", and ")
         if haystack !== nothing
@@ -610,5 +624,5 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
             println(io)
         end
     end
-    print_body_output(io, body)
+    return (; n_changed=n_total, title, recipe_updates, body)
 end

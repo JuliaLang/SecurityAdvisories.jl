@@ -76,9 +76,10 @@ In addition to the scheduled searches, NVD, EUVD, and GitHub all support fetchin
 GitHub Actions enable the automatic search and import of advisories from other databases (GHSA, NVD and EUVD)
 and will open pull requests suggesting the inclusion of these new advisories. Once a day, two scheduled searches run:
 one covers every package with a version registered since the last run, and the other covers every package affected
-by an upstream advisory that changed since the last run. Each opens one pull request per finding, scoped by the
-package name or — for advisories against a bundled upstream component — by its upstream project id (like
-`repology.org/project/curl`). A search can also be triggered manually (for now, ask a maintainer to do so) for an
+by an upstream advisory that changed since the last run. Each package is searched for advisories against it
+directly, and each upstream project the packages bundle is searched exhaustively for advisories against its
+components, with one pull request per package or upstream project (like `repology.org/project/curl`) with
+findings. A search can also be triggered manually (for now, ask a maintainer to do so) for an
 advisory ID, a package name or list, an upstream project id, or — with an empty haystack — a walk through the
 ecosystem until something turns up.
 

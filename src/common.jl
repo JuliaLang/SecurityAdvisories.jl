@@ -747,15 +747,15 @@ pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvi
 is_pending(pkg, pending) = pkg in pending || !isdisjoint(upstream_projects_for_package(pkg), pending)
 
 """
-    try_search_package(pkg, filter_results)
+    try_search(search, target, filter_results)
 
-`search_package`, but log errors and return no advisories so batch searches continue.
+`search(target, filter_results)`, but log errors and return no advisories so batch searches continue.
 """
-function try_search_package(pkg, filter_results)
+function try_search(search, target, filter_results)
     try
-        return search_package(pkg, filter_results)
+        return search(target, filter_results)
     catch ex
-        @error "Error searching for $pkg" ex
+        @error "Error searching for $target" ex
         return Advisory[]
     end
 end
@@ -845,6 +845,18 @@ otherwise, return all matches.
 function search_package(pkg, filter_results)
     advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
     # only consider advisories that actually affect the requested package
+    filter_results && filter_search_results!(advisories, pkgs -> pkg in pkgs)
+    return advisories
+end
+
+"""
+    search_direct(pkg, filter_results)
+
+Search for advisories against the package `pkg` itself, leaving out those against the
+upstream components it bundles (see [`search_component`](@ref)).
+"""
+function search_direct(pkg, filter_results)
+    advisories = fetch_package_matches(pkg)
     filter_results && filter_search_results!(advisories, pkgs -> pkg in pkgs)
     return advisories
 end
