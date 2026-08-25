@@ -358,8 +358,8 @@ function upstream_projects_for_package(pkg)
     return Set(Iterators.flatten(keys(verinfo) for (_, verinfo) in get(package_components(), pkg, Dict())))
 end
 
-function vendor_products_for_package(pkg)
-    return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in get(SecurityAdvisories.upstream_projects(), proj, String[]))
+function vendor_products_for_project(proj)
+    return unique(split(cpe, ":", limit=2) for cpe in get(upstream_projects(), proj, String[]))
 end
 
 function package_project_version_map(pkg, proj)
@@ -682,13 +682,77 @@ function fetch_package_matches(pkg)
     ))
 end
 
-function fetch_package_upstreams(pkg)
-    vps = vendor_products_for_package(pkg)
+function fetch_component_matches(proj)
+    vps = vendor_products_for_project(proj)
     nvds = unique(x->x.cve.id, Iterators.flatten(NVD.fetch_cpe_matches("cpe:2.3:a:$vendor:$product") for (vendor, product) in vps))
     euvds = unique(x->x.id, Iterators.flatten(EUVD.fetch_product_matches(vendor, product) for (vendor, product) in vps))
 
     return fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds)))
 end
+
+"""
+    fetch_recent_advisories(; since)
+
+The upstream advisories that changed after `since`: modifications in GHSA and NVD, but only
+newly published advisories in EUVD (its API cannot filter by modification date). These are
+imported individually, without combining their aliases across the databases.
+"""
+function fetch_recent_advisories(; since::Dates.DateTime)
+    ghsas = @async GitHub.fetch_advisories(since)
+    nvds = @async NVD.fetch_nvd_vulnerabilities(since)
+    euvds = @async EUVD.fetch_vulnerabilities(since)
+    advisories = Advisory[]
+    for (mod, vulns) in ((GitHub, fetch(ghsas)), (NVD, fetch(nvds)), (EUVD, fetch(euvds)))
+        for vuln in vulns
+            try
+                push!(advisories, mod.advisory(vuln))
+            catch ex
+                @error "Error importing a $(nameof(mod)) advisory" ex
+            end
+        end
+    end
+    return advisories
+end
+
+# A package's most recent version registration date, per GeneralMetadata
+last_registered(pkginfo) = maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(pkginfo))
+
+"""
+    packages_updated_since(since)
+
+Return the names of the packages with at least one version registered after `since`,
+per GeneralMetadata's registration dates.
+"""
+function packages_updated_since(since::Dates.DateTime)
+    return [pkg for (pkg, info) in GeneralMetadata.metadata() if last_registered(info) > since]
+end
+
+"""
+    search_targets(advisories) -> (; packages, projects)
+
+Group a batch of advisories by the search that would flesh each out into a complete pull
+request: the direct advisories by the packages they name, and the upstream advisories by
+the projects (like `repology.org/project/curl`) of the components that identified them.
+"""
+function search_targets(advisories)
+    packages = Set{String}()
+    projects = Set{String}()
+    for adv in advisories
+        if is_direct(adv)
+            union!(packages, vulnerable_packages(adv))
+        else
+            union!(projects, (proj for src in adv.jlsec_sources for (vp, _) in src.affected for proj in upstream_projects_by_cpe(vp)))
+        end
+    end
+    return (; packages=sort!(collect(packages)), projects=sort!(collect(projects)))
+end
+
+"""
+    pending_search_branches()
+
+The branch names of jlsec-bot's pending pull requests; searches skip these packages and upstream projects.
+"""
+pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))
 
 """
     fetch_combinations(batch)
@@ -761,38 +825,54 @@ function fetch_combinations(batch)
         end
         push!(advisories, advisory)
     end
-
+    # The alias sets should be disjoint, but combine any advisories that turn out to be aliases anyway
+    n_sets = length(advisories)
+    combine_aliases!(advisories)
+    length(advisories) < n_sets && @warn "combined $(n_sets - length(advisories)) advisories through alias information!"
     return advisories
 end
 
 """
-    search_package(pkg, filter_results)
+    is_relevant(advisory)
 
-Search for advisories matching a given package name, both by directly searching for the package name and by looking for upstream components.
-If `filter_results` is true, only return advisories that are new or have significan updates compared to existing JLSEC advisories;
-otherwise, return all matches.
+Whether an advisory is worth suggesting: published since Julia 1.0 and either new — valid
+and still vulnerable after `strip_rejected!` — or a material update to its existing JLSEC
+advisory (new packages, additional upper bounds, or no longer valid).
 """
-function search_package(pkg, filter_results)
-    advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
-    if filter_results
-        foreach(strip_rejected!, advisories)
-        filter!(advisories) do advisory
-            existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-            pkgs = vulnerable_packages(advisory)
-            vuln_with_upper_bound(x) = has_upper_bound(x) && is_vulnerable(x)
-            return pkg in pkgs && # only consider advisories that actually affect the requested package
-                minimum(x.published for x in advisory.jlsec_sources) > Dates.Date(2018,8,8) && # only consider advisories since Julia 1.0
-                (!isnothing(existing) ? (
-                    # An update to an existing advisory; only suggest it if the new one:
-                    !isempty(setdiff(pkgs, vulnerable_packages(existing))) || # contains new packages
-                    count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
-                    (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
-                ) : (
-                    # A new advisory; suggest it if it's both valid and still contains some
-                    # vulnerable range after stripping reviewed-and-rejected assessments
-                    (is_valid(advisory) && is_vulnerable(advisory))
-                ))
-        end
-    end
-    return advisories
+function is_relevant(advisory)
+    existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
+    pkgs = vulnerable_packages(advisory)
+    vuln_with_upper_bound(x) = has_upper_bound(x) && is_vulnerable(x)
+    return minimum(x.published for x in advisory.jlsec_sources) > Dates.Date(2018,8,8) && # only consider advisories since Julia 1.0
+        (!isnothing(existing) ? (
+            # An update to an existing advisory; only suggest it if the new one:
+            !isempty(setdiff(pkgs, vulnerable_packages(existing))) || # contains new packages
+            count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
+            (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
+        ) : (
+            # A new advisory; suggest it if it's both valid and still contains some
+            # vulnerable range after stripping reviewed-and-rejected assessments
+            (is_valid(advisory) && is_vulnerable(advisory))
+        ))
 end
+
+# Strip reviewed-and-rejected assessments, then keep the relevant advisories
+filter_relevant!(advisories) = filter!(is_relevant, map(strip_rejected!, advisories))
+
+"""
+    search_package(pkg)
+
+The relevant advisories against the package `pkg` itself: those on its repository and those
+mentioning it by name. Advisories against the upstream components it bundles are found by
+[`search_component`](@ref) instead.
+"""
+search_package(pkg) = filter_relevant!(fetch_package_matches(pkg))
+
+"""
+    search_component(proj)
+
+The relevant advisories against the components provided by the upstream project `proj` (an
+id like `repology.org/project/curl`, as tracked in GeneralMetadata), naming every package
+that bundles them.
+"""
+search_component(proj) = filter_relevant!(fetch_component_matches(proj))

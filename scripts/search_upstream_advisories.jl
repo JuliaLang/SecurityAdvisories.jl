@@ -1,103 +1,89 @@
-using SecurityAdvisories: SecurityAdvisories, Advisory, GitHub, print_search_pr_outputs
-using GeneralMetadata
+# Search the upstream databases (GHSA, NVD, and EUVD) for advisories and commit each search's
+# findings to its own branch for a pull request apiece. A package search finds the advisories
+# against a Julia package itself, and a component search finds those against an upstream
+# project (like `repology.org/project/curl`) — naming every package that bundles it. Given a
+# `since`, the searches are those warranted by the changes after it: the recently changed
+# upstream advisories, grouped by the search that fleshes each out into a complete pull
+# request, and the recently registered packages (with the projects they bundle). Otherwise
+# the haystack names the search: an advisory id (fetched directly), an upstream project id,
+# or a package name or list — with `components`, each package along with every upstream
+# project it bundles. The committed branches are described in the JSON list written to the
+# `results` path.
+using SecurityAdvisories: SecurityAdvisories, Advisory
+using DataStructures: OrderedDict
 using Dates: Dates
 
 isspace_or_comma(c) = isspace(c) || c == ','
+is_advisory_id(s) = startswith(s, "JLSEC") || startswith(s, "CVE") || startswith(s, "EUVD") || endswith(s, r"GHSA-\w{4}-\w{4}-\w{4}")
 
 """
-    search_advisories(input, filter_results) -> (; advisories, branch, haystack)
+    targets(haystack; since, components) -> (; advisories, packages, projects)
 
-Search the upstream databases per `input`: an advisory identifier, a package name, a
-space/comma-separated package list, or — when empty — a walk through the ecosystem
-until something turns up. Returns the found advisories (with aliases combined), the
-branch name for the results (the package the walk landed on, otherwise `input`), and
-a description of what was searched.
+The advisory ids to fetch and the packages and upstream projects to search, per the module docs.
 """
-function search_advisories(input, filter_results)
-    advisories = Advisory[]
-    branch = haystack = input
-    if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
-    elseif !isempty(input) && !any(isspace_or_comma, input)
-        @info "searching for $input"
-        append!(advisories, SecurityAdvisories.search_package(input, filter_results))
+function targets(haystack; since, components)
+    advisories, packages, projects = String[], String[], String[]
+    if !isempty(since)
+        since = Dates.DateTime(chopsuffix(since, "Z"))
+        (; packages, projects) = SecurityAdvisories.search_targets(SecurityAdvisories.fetch_recent_advisories(; since))
+        registered = SecurityAdvisories.packages_updated_since(since)
+        packages = union(packages, registered)
+        projects = union(projects, SecurityAdvisories.upstream_projects_for_package.(registered)...)
+        # Skip the searches with pending PRs that jlsec-bot has already opened
+        pending = SecurityAdvisories.pending_search_branches()
+        packages, projects = setdiff(packages, pending), setdiff(projects, pending)
+        @info "searching per the changes since $since" packages projects
+    elseif isempty(haystack)
+        error("nothing to search for: give a since datetime, an advisory id, an upstream project id, or a package name or list")
+    elseif is_advisory_id(haystack)
+        advisories = [haystack]
+    elseif haskey(SecurityAdvisories.upstream_projects(), haystack)
+        projects = [haystack]
     else
-        whole_pkg_list = if any(isspace_or_comma, input)
-            split(input, isspace_or_comma, keepempty=false)
-        else
-            # We take a (not totally) random walk through the ecosystem, prioritizing
-            # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
-            pkgdate = sort([(pkg, maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(info))) for (pkg, info) in GeneralMetadata.metadata()],
-                by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
-            first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
-        end
-        # We remove any pending PRs that jlsec-bot has already opened
-        # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
-        filter!(!in(Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))), whole_pkg_list)
-        pkg_search_count = 0
-        while isempty(advisories) && !isempty(whole_pkg_list)
-            branch = popfirst!(whole_pkg_list)
-            pkg_search_count += 1
-            @info "searching for $branch"
-            try
-                append!(advisories, SecurityAdvisories.search_package(branch, filter_results))
-            catch ex
-                @error "Error searching for $branch" ex
-                empty!(advisories)
-            end
-        end
-        haystack = "$pkg_search_count packages"
+        packages = split(haystack, isspace_or_comma, keepempty=false)
+        components && (projects = union(SecurityAdvisories.upstream_projects_for_package.(packages)...))
     end
+    return (; advisories, packages, projects)
+end
 
-    @info "found $(length(advisories)) advisories in $branch"
-    # We may have gathered advisories that are aliases of eachother (but hopefully not!)
-    n_pre = length(advisories)
-    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
-    SecurityAdvisories.combine_aliases!(advisories)
-    if length(advisories) < n_pre
-        @warn "combined $(n_pre - length(advisories)) advisories through alias information!"
-        @show pre_srcs
-        @show [[src.id for src in a.jlsec_sources] for a in advisories]
+# `search(target)`, but log errors and return no advisories so the other searches continue
+function try_search(search, target)
+    try
+        return search(target)
+    catch ex
+        @error "Error searching for $target" ex
+        return Advisory[]
     end
-    return (; advisories, branch, haystack)
 end
 
 """
-    write_advisory_files(advisories, filter_results)
+    search(targets; filter_results) -> OrderedDict{String,Vector{Advisory}}
 
-Create or update the advisory file for each of the `advisories`, merging each into its
-existing JLSEC advisory when there is one. When `filter_results`, reviewed-and-rejected
-packages are stripped and results that are invalid or not vulnerable are skipped.
+The advisories found per search, keyed by its branch name. Component searches come before
+package searches so their findings take precedence over the same advisories found by package.
+Without `filter_results`, every match is returned rather than only the relevant ones.
 """
-function write_advisory_files(advisories, filter_results)
-    for advisory in advisories
-        filter_results && SecurityAdvisories.strip_rejected!(advisory)
-        existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-        if !isnothing(existing)
-            advisory = SecurityAdvisories.update(existing, advisory)
-        elseif filter_results && (!SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory))
-            if !SecurityAdvisories.is_vulnerable(advisory) && !isnothing(SecurityAdvisories.find_rejected(advisory))
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and rejected (see advisories/rejected.toml), skipping publication. Re-run with the filter disabled to import it anyway."
-            else
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
-            end
-            continue
-        end
-        dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
-        open(joinpath(dir, advisory.id * ".md"), "w") do io
-            SecurityAdvisories.print(io, advisory)
+function search((; advisories, packages, projects); filter_results)
+    fetch_advisory(id) = SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(id)])
+    search_component = filter_results ? SecurityAdvisories.search_component : SecurityAdvisories.fetch_component_matches
+    search_package = filter_results ? SecurityAdvisories.search_package : SecurityAdvisories.fetch_package_matches
+    results = OrderedDict{String,Vector{Advisory}}()
+    for (searcher, names) in ((fetch_advisory, advisories), (search_component, projects), (search_package, packages))
+        for name in sort!(collect(names))
+            @info "searching for $name"
+            results[name] = try_search(searcher, name)
         end
     end
+    return results
 end
 
-function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
-    (; advisories, branch, haystack) = search_advisories(input, filter_results)
-    write_advisory_files(advisories, filter_results)
-    io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
-    println(io, "branch=", branch)
-    print_search_pr_outputs(io, "HEAD"; haystack)
-    seekstart(io)
-    foreach(println, eachline(io)) # Also log to stdout
+# Boolean arguments default to true; only "false" turns them off
+function main(haystack = get(ARGS, 1, ""), filter_results = get(ARGS, 2, "") != "false",
+              components = get(ARGS, 3, "") != "false", since = get(ARGS, 4, ""),
+              results_path = get(ARGS, 5, "search-results.json"))
+    results = search(targets(haystack; since, components); filter_results)
+    branches = SecurityAdvisories.commit_search_branches(results)
+    SecurityAdvisories.write_search_results(results_path, branches)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
