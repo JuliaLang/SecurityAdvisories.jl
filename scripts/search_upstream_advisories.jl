@@ -1,64 +1,47 @@
-using SecurityAdvisories: SecurityAdvisories, Advisory
+# Search the upstream databases (GHSA, NVD, and EUVD) for advisories and commit each target's
+# findings to its own branch for a pull request apiece. There are two kinds of search: a
+# package search finds the advisories against a Julia package itself, and a component search
+# finds those against an upstream project (like `repology.org/project/curl`) — naming every
+# package that bundles it. Given a `since`, the targets are whatever the changes after it
+# warrant (see `SecurityAdvisories.updated_search_targets`); otherwise the haystack names
+# them: an advisory id (fetched directly), an upstream project id, or a package name or list.
+# The committed branches are described in the JSON list written to the `results` path.
+using SecurityAdvisories: SecurityAdvisories
+using DataStructures: OrderedDict
+using Dates: Dates
 
 isspace_or_comma(c) = isspace(c) || c == ','
+is_advisory_id(s) = startswith(s, "JLSEC") || startswith(s, "CVE") || startswith(s, "EUVD") || endswith(s, r"GHSA-\w{4}-\w{4}-\w{4}")
 
 """
-    search_advisories(input, filter_results) -> (; advisories, branch, haystack)
+    search(haystack, filter_results, since) -> OrderedDict{String,Vector{Advisory}}
 
-Search the upstream databases per `input`: an advisory identifier, an upstream project id
-(like `repology.org/project/curl`), a package name, or a space/comma-separated package
-list. Returns the found advisories (with aliases combined), the branch name for the
-results (the upstream project id when every finding is against one component, otherwise
-`input` with any separators dashed), and a description of what was searched.
+The advisories found per search target (which names its branch), per the module docs.
 """
-function search_advisories(input, filter_results)
-    advisories = Advisory[]
-    branch = haystack = input
-    if isempty(input)
-        error("nothing to search for: give an advisory id, upstream project id, package name, or list of packages")
-    elseif startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
-        append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
-    elseif haskey(SecurityAdvisories.upstream_projects(), input)
-        @info "searching for advisories against upstream project $input"
-        append!(advisories, SecurityAdvisories.search_component(input, filter_results))
-    elseif !isempty(input) && !any(isspace_or_comma, input)
-        @info "searching for $input"
-        append!(advisories, SecurityAdvisories.search_package(input, filter_results))
+function search(haystack, filter_results, since)
+    if !isempty(since)
+        (; packages, projects) = SecurityAdvisories.updated_search_targets(Dates.DateTime(chopsuffix(since, "Z")))
+        @info "searching the targets warranted by the changes since $since" packages projects
+        # Skip the targets with pending PRs that jlsec-bot has already opened
+        pending = SecurityAdvisories.pending_search_branches()
+        return SecurityAdvisories.search_targets(packages, projects, filter_results; pending)
+    elseif isempty(haystack)
+        error("nothing to search for: give a since datetime, an advisory id, an upstream project id, or a package name or list")
+    elseif is_advisory_id(haystack)
+        @info "fetching $haystack"
+        advisories = SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(haystack)])
+        return OrderedDict(haystack => SecurityAdvisories.combine_found!(advisories))
+    elseif haskey(SecurityAdvisories.upstream_projects(), haystack)
+        return SecurityAdvisories.search_targets(String[], [haystack], filter_results)
     else
-        pkgs = split(input, isspace_or_comma, keepempty=false)
-        branch = join(pkgs, "-")
-        for pkg in pkgs
-            @info "searching for $pkg"
-            append!(advisories, SecurityAdvisories.try_search(SecurityAdvisories.search_package, pkg, filter_results))
-        end
+        return SecurityAdvisories.search_targets(split(haystack, isspace_or_comma, keepempty=false), String[], filter_results)
     end
-    branch = something(component_branch(advisories), branch)
-
-    @info "found $(length(advisories)) advisories in $branch"
-    # We may have gathered advisories that are aliases of eachother (but hopefully not!)
-    n_pre = length(advisories)
-    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
-    SecurityAdvisories.combine_aliases!(advisories)
-    if length(advisories) < n_pre
-        @warn "combined $(n_pre - length(advisories)) advisories through alias information!"
-        @show pre_srcs
-        @show [[src.id for src in a.jlsec_sources] for a in advisories]
-    end
-    return (; advisories, branch, haystack)
 end
 
-# An all-upstream find against a single component is really about that component: name the
-# branch by its project id so repeated searches (and the scoped project targets) share one
-# pull request
-function component_branch(advisories)
-    (isempty(advisories) || any(SecurityAdvisories.is_direct, advisories)) && return nothing
-    projects = unique(Iterators.flatten(SecurityAdvisories.advisory_projects.(advisories)))
-    return length(projects) == 1 ? only(projects) : nothing
-end
-
-function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true", results_path = get(ARGS, 3, "search-results.json"))
-    (; advisories, branch, haystack) = search_advisories(input, filter_results)
-    branches = SecurityAdvisories.commit_search_branches([branch => advisories]; filter_results, haystack)
+function main(haystack = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true",
+              since = get(ARGS, 3, ""), results_path = get(ARGS, 4, "search-results.json"))
+    results = search(haystack, filter_results, since)
+    branches = SecurityAdvisories.commit_search_branches(results; filter_results)
     SecurityAdvisories.write_search_results(results_path, branches)
 end
 

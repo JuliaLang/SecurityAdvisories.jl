@@ -362,13 +362,6 @@ function vendor_products_for_project(proj)
     return unique(split(cpe, ":", limit=2) for cpe in get(upstream_projects(), proj, String[]))
 end
 
-function vendor_products_for_package(pkg)
-    return unique(Iterators.flatten(vendor_products_for_project(proj) for proj in upstream_projects_for_package(pkg)))
-end
-
-# The upstream project names whose components identified the advisory
-advisory_projects(adv) = unique!([proj for src in adv.jlsec_sources for (vp, _) in src.affected for proj in upstream_projects_by_cpe(vp)])
-
 function package_project_version_map(pkg, proj)
     d = OrderedDict{String,Any}()
     for (v, components) in package_components()[pkg]
@@ -695,8 +688,6 @@ function fetch_vendor_product_advisories(vps)
 
     return fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds)))
 end
-fetch_package_upstreams(pkg) = fetch_vendor_product_advisories(vendor_products_for_package(pkg))
-fetch_project_upstreams(proj) = fetch_vendor_product_advisories(vendor_products_for_project(proj))
 
 # A package's most recent version registration date, per GeneralMetadata
 last_registered(pkginfo) = maximum(v->get(v, "registered", typemin(Dates.DateTime)), values(pkginfo))
@@ -712,27 +703,35 @@ function packages_updated_since(since::Dates.DateTime)
 end
 
 """
-    packages_with_updated_advisories(since)
+    updated_search_targets(since) -> (; packages, projects)
 
-Return the names of the Julia packages affected by upstream advisories that changed after
-`since`: modifications in GHSA and NVD, but only newly published advisories in EUVD (its
-API cannot filter by modification date).
+The search targets warranted by the changes after `since`: a package search for each
+package with a newly registered version and for each named directly by an upstream advisory
+that changed, and a component search for each upstream project those packages bundle and for
+each identified by a changed advisory's components. The changes are modifications in GHSA
+and NVD, but only newly published advisories in EUVD (its API cannot filter by modification date).
 """
-function packages_with_updated_advisories(since::Dates.DateTime)
+function updated_search_targets(since::Dates.DateTime)
+    packages = Set(packages_updated_since(since))
+    projects = Set{String}(Iterators.flatten(upstream_projects_for_package.(packages)))
     ghsas = @async GitHub.fetch_advisories(since)
     nvds = @async NVD.fetch_nvd_vulnerabilities(since)
     euvds = @async EUVD.fetch_vulnerabilities(since)
-    pkgs = Set{String}()
     for (mod, vulns) in ((GitHub, fetch(ghsas)), (NVD, fetch(nvds)), (EUVD, fetch(euvds)))
         for vuln in vulns
             try
-                union!(pkgs, (pv.pkg for pv in mod.affected_julia_packages(vuln).affected))
+                (; affected, upstreams) = mod.affected_julia_packages(vuln)
+                if isempty(upstreams)
+                    union!(packages, (pv.pkg for pv in affected))
+                else
+                    union!(projects, Iterators.flatten(upstream_projects_by_cpe.(keys(upstreams))))
+                end
             catch ex
                 @error "Error matching a $(nameof(mod)) advisory to Julia packages" ex
             end
         end
     end
-    return collect(pkgs)
+    return (; packages=sort!(collect(packages)), projects=sort!(collect(projects)))
 end
 
 """
@@ -741,10 +740,6 @@ end
 The branch names of jlsec-bot's pending pull requests; searches skip these packages and upstream projects.
 """
 pending_search_branches() = Set(GitHub.fetch_branches("jlsec-bot", "SecurityAdvisories.jl"))
-
-# Whether a search for `pkg` is already pending, whether branched by the package name or by
-# one of its upstream components
-is_pending(pkg, pending) = pkg in pending || !isdisjoint(upstream_projects_for_package(pkg), pending)
 
 """
     try_search(search, target, filter_results)
@@ -838,25 +833,15 @@ end
 """
     search_package(pkg, filter_results)
 
-Search for advisories matching a given package name, both by directly searching for the package name and by looking for upstream components.
-If `filter_results` is true, only return advisories that are new or have significan updates compared to existing JLSEC advisories;
-otherwise, return all matches.
+Search for advisories against the package `pkg` itself: those on its repository and those
+mentioning it by name. Advisories against the upstream components it bundles are found by
+[`search_component`](@ref) instead. If `filter_results` is true, only return advisories
+that are new or have significant updates compared to existing JLSEC advisories; otherwise,
+return all matches.
 """
 function search_package(pkg, filter_results)
-    advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
-    # only consider advisories that actually affect the requested package
-    filter_results && filter_search_results!(advisories, pkgs -> pkg in pkgs)
-    return advisories
-end
-
-"""
-    search_direct(pkg, filter_results)
-
-Search for advisories against the package `pkg` itself, leaving out those against the
-upstream components it bundles (see [`search_component`](@ref)).
-"""
-function search_direct(pkg, filter_results)
     advisories = fetch_package_matches(pkg)
+    # only consider advisories that actually affect the requested package
     filter_results && filter_search_results!(advisories, pkgs -> pkg in pkgs)
     return advisories
 end
@@ -870,34 +855,43 @@ If `filter_results` is true, only return advisories that are new or have signifi
 compared to existing JLSEC advisories; otherwise, return all matches.
 """
 function search_component(proj, filter_results)
-    advisories = fetch_project_upstreams(proj)
+    advisories = fetch_vendor_product_advisories(vendor_products_for_project(proj))
     # only consider advisories whose components map to a vulnerable package
     filter_results && filter_search_results!(advisories, !isempty)
     return advisories
 end
 
 """
-    search_targets(candidates, pending) -> OrderedDict{String,Vector{Advisory}}
+    search_targets(packages, projects, filter_results; pending=Set{String}())
 
-The advisories found for each search target: the upstream projects the `candidates`
-bundle (searched once each, skipping those with `pending` branches) followed by the
-candidates themselves (for direct advisories only). Advisories found against a project
-are left out of the packages' results.
+Search for advisories against each upstream project in `projects` and each package in
+`packages`, skipping the `pending` targets, and return the advisories found per target
+(which names its branch). Advisories found against a project are left out of the
+packages' results.
 """
-function search_targets(candidates, pending)
-    projects = Set(Iterators.flatten(upstream_projects_for_package.(candidates)))
-    projects = sort!(collect(setdiff(projects, pending)))
+function search_targets(packages, projects, filter_results; pending=Set{String}())
     results = OrderedDict{String,Vector{Advisory}}()
-    for proj in projects
+    for proj in sort!(collect(setdiff(projects, pending)))
         @info "searching for advisories against upstream project $proj"
-        results[proj] = try_search(search_component, proj, true)
+        results[proj] = combine_found!(try_search(search_component, proj, filter_results))
     end
     found = Set(adv.id for advisories in values(results) for adv in advisories)
-    for pkg in candidates
+    for pkg in sort!(collect(setdiff(packages, pending)))
         @info "searching for advisories against $pkg"
-        results[pkg] = filter(adv -> adv.id ∉ found, try_search(search_direct, pkg, true))
+        results[pkg] = filter(adv -> adv.id ∉ found, combine_found!(try_search(search_package, pkg, filter_results)))
     end
     return results
+end
+
+# Combine any found advisories that turn out to be aliases of each other (but hopefully not!)
+function combine_found!(advisories)
+    n_pre = length(advisories)
+    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
+    combine_aliases!(advisories)
+    if length(advisories) < n_pre
+        @warn "combined $(n_pre - length(advisories)) advisories through alias information!" pre_srcs [[src.id for src in a.jlsec_sources] for a in advisories]
+    end
+    return advisories
 end
 
 """

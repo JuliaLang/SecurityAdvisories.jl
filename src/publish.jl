@@ -52,19 +52,19 @@ function commit_search_branch(branch, advisories, base; filter_results=true, hay
 end
 
 """
-    commit_search_branches(results; filter_results=true, haystack=nothing)
+    commit_search_branches(results; filter_results=true)
 
 Commit each `branch => advisories` pair in `results` with [`commit_search_branch`](@ref),
 starting each branch from the current commit and returning to it afterwards. Returns the
 pull request messages of the branches with changes.
 """
-function commit_search_branches(results; filter_results=true, haystack=nothing)
+function commit_search_branches(results; filter_results=true)
     base = readchomp(`git rev-parse HEAD`)
     branches = []
     for (branch, advisories) in results
         isempty(advisories) && continue
         try
-            result = commit_search_branch(branch, advisories, base; filter_results, haystack=something(haystack, branch))
+            result = commit_search_branch(branch, advisories, base; filter_results)
             isnothing(result) || push!(branches, result)
         finally
             # Leave the tree as we found it, detached from the branch so it keeps its commit
