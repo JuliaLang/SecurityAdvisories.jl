@@ -73,8 +73,8 @@ jobs:
       id: search
       env:
         HAYSTACK: ${{ inputs.haystack }}
-        FILTER: ${{ inputs.filter == null || inputs.filter }}
-        COMPONENTS: ${{ inputs.components == null || inputs.components }}
+        FILTER: ${{ inputs.filter }}
+        COMPONENTS: ${{ inputs.components }}
         SINCE: ${{ inputs.since }}
         RESULTS: ${{ runner.temp }}/search-results.json
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
