@@ -15,10 +15,10 @@ permissions:
   contents: read
   actions: read
 
-# Only allow one updated-packages search to run at a time; queue subsequent runs. Each search workflow has
-# its own group, so searches from different workflows may overlap against the shared NVD key
+# Only allow one search to run at a time across all the search workflows, which share the
+# NVD API key's rate limit; queue subsequent runs
 concurrency:
-  group: search-updated-packages
+  group: upstream-search
   cancel-in-progress: false
 
 jobs:
