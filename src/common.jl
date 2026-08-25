@@ -674,12 +674,12 @@ function fetch_product_matches(vendor, product)
 end
 
 function fetch_package_matches(pkg)
-    return combine_found!(fetch_combinations(vcat(
+    return fetch_combinations(vcat(
         GitHub.advisory.(GitHub.fetch_package_advisories(pkg)),
         NVD.advisory.(NVD.fetch_keyword_matches(pkg * ".jl")),
         # EUVD is disabled because its API rate limits are too severe to reliably ping for every package (when we know there are almost no hits)
         # unique(x->x.id, Iterators.flatten((EUVD.advisory.(EUVD.fetch_keyword_matches(pkg * ".jl")), EUVD.advisory.(EUVD.fetch_product_matches("", pkg*".jl"))))),
-    )))
+    ))
 end
 
 function fetch_component_matches(proj)
@@ -687,7 +687,7 @@ function fetch_component_matches(proj)
     nvds = unique(x->x.cve.id, Iterators.flatten(NVD.fetch_cpe_matches("cpe:2.3:a:$vendor:$product") for (vendor, product) in vps))
     euvds = unique(x->x.id, Iterators.flatten(EUVD.fetch_product_matches(vendor, product) for (vendor, product) in vps))
 
-    return combine_found!(fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds))))
+    return fetch_combinations(vcat(NVD.advisory.(nvds), EUVD.advisory.(euvds)))
 end
 
 """
@@ -710,17 +710,6 @@ function fetch_recent_advisories(; since::Dates.DateTime)
                 @error "Error importing a $(nameof(mod)) advisory" ex
             end
         end
-    end
-    return advisories
-end
-
-# Combine any found advisories that turn out to be aliases of each other (but hopefully not!)
-function combine_found!(advisories)
-    n_pre = length(advisories)
-    pre_srcs = [[src.id for src in a.jlsec_sources] for a in advisories]
-    combine_aliases!(advisories)
-    if length(advisories) < n_pre
-        @warn "combined $(n_pre - length(advisories)) advisories through alias information!" pre_srcs [[src.id for src in a.jlsec_sources] for a in advisories]
     end
     return advisories
 end
@@ -750,7 +739,7 @@ function search_targets(advisories)
     projects = Set{String}()
     for adv in advisories
         if is_direct(adv)
-            union!(packages, (pv.pkg for pv in adv.affected))
+            union!(packages, vulnerable_packages(adv))
         else
             union!(projects, (proj for src in adv.jlsec_sources for (vp, _) in src.affected for proj in upstream_projects_by_cpe(vp)))
         end
@@ -836,7 +825,10 @@ function fetch_combinations(batch)
         end
         push!(advisories, advisory)
     end
-
+    # The alias sets should be disjoint, but combine any advisories that turn out to be aliases anyway
+    n_sets = length(advisories)
+    combine_aliases!(advisories)
+    length(advisories) < n_sets && @warn "combined $(n_sets - length(advisories)) advisories through alias information!"
     return advisories
 end
 
