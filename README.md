@@ -79,8 +79,7 @@ covers every package with a version registered since the last run and every pack
 advisory that changed since then: each is searched for advisories against it directly, and each upstream project
 they bundle is searched exhaustively for advisories against its components, with one pull request per package or
 upstream project (like `repology.org/project/curl`) with findings. A search can also be triggered manually (for now, ask a maintainer to do so) for an
-advisory ID, a package name or list, an upstream project id, or — with an empty haystack — a walk through the
-ecosystem until something turns up.
+advisory ID, a package name or list, or an upstream project id.
 
 ## References
 

@@ -1,6 +1,4 @@
 using SecurityAdvisories: SecurityAdvisories, Advisory
-using GeneralMetadata
-using Dates: Dates
 
 isspace_or_comma(c) = isspace(c) || c == ','
 
@@ -8,16 +6,17 @@ isspace_or_comma(c) = isspace(c) || c == ','
     search_advisories(input, filter_results) -> (; advisories, branch, haystack)
 
 Search the upstream databases per `input`: an advisory identifier, an upstream project id
-(like `repology.org/project/curl`), a package name, a space/comma-separated package list,
-or — when empty — a walk through the ecosystem until something turns up. Returns the
-found advisories (with aliases combined), the branch name for the results (the upstream
-project id when every finding is against one component, the package the walk landed on,
-or otherwise `input`), and a description of what was searched.
+(like `repology.org/project/curl`), a package name, or a space/comma-separated package
+list. Returns the found advisories (with aliases combined), the branch name for the
+results (the upstream project id when every finding is against one component, otherwise
+`input` with any separators dashed), and a description of what was searched.
 """
 function search_advisories(input, filter_results)
     advisories = Advisory[]
     branch = haystack = input
-    if startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
+    if isempty(input)
+        error("nothing to search for: give an advisory id, upstream project id, package name, or list of packages")
+    elseif startswith(input, "JLSEC") || startswith(input, "CVE") || startswith(input, "EUVD") || endswith(input, r"GHSA-\w{4}-\w{4}-\w{4}")
         append!(advisories, SecurityAdvisories.fetch_combinations([SecurityAdvisories.fetch_advisory(input)]))
     elseif haskey(SecurityAdvisories.upstream_projects(), input)
         @info "searching for advisories against upstream project $input"
@@ -26,27 +25,12 @@ function search_advisories(input, filter_results)
         @info "searching for $input"
         append!(advisories, SecurityAdvisories.search_package(input, filter_results))
     else
-        whole_pkg_list = if any(isspace_or_comma, input)
-            split(input, isspace_or_comma, keepempty=false)
-        else
-            # We take a (not totally) random walk through the ecosystem, prioritizing
-            # JLLs and registrations in the last three days, avoiding packages for which we have active PRs
-            pkgdate = sort([(pkg, SecurityAdvisories.last_registered(info)) for (pkg, info) in GeneralMetadata.metadata()],
-                by=x->(endswith(x[1], "jll"), (Dates.now() - x[2] < Dates.Day(3)), rand()), rev=true)
-            first.(pkgdate) # shuffle!(collect(keys(GeneralMetadata.metadata())))
+        pkgs = split(input, isspace_or_comma, keepempty=false)
+        branch = join(pkgs, "-")
+        for pkg in pkgs
+            @info "searching for $pkg"
+            append!(advisories, SecurityAdvisories.try_search(SecurityAdvisories.search_package, pkg, filter_results))
         end
-        # We remove any pending PRs that jlsec-bot has already opened
-        # TODO: it'd be even better to include these and check for changes _against_ these branches because the metadata may have improved
-        pending = SecurityAdvisories.pending_search_branches()
-        filter!(pkg -> !SecurityAdvisories.is_pending(pkg, pending), whole_pkg_list)
-        pkg_search_count = 0
-        while isempty(advisories) && !isempty(whole_pkg_list)
-            branch = popfirst!(whole_pkg_list)
-            pkg_search_count += 1
-            @info "searching for $branch"
-            append!(advisories, SecurityAdvisories.try_search(SecurityAdvisories.search_package, branch, filter_results))
-        end
-        haystack = "$pkg_search_count packages"
     end
     branch = something(component_branch(advisories), branch)
 

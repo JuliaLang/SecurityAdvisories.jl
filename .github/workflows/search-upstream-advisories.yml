@@ -5,8 +5,7 @@ name: Search for upstream advisories
 # run — those with newly registered versions and those affected by changed upstream
 # advisories — each directly and each upstream project they bundle exhaustively. Manual runs
 # may do the same for a given `since`, or search a haystack: an advisory, a package or list
-# of packages, an upstream project, or (with an empty haystack) a walk through the ecosystem
-# until something turns up.
+# of packages, or an upstream project.
 
 on:
   schedule:
@@ -16,7 +15,7 @@ on:
   workflow_dispatch:
     inputs:
       haystack:
-        description: 'Advisory ID, package name, list of package names, or upstream project id (like repology.org/project/curl); empty for an ecosystem walk'
+        description: 'Advisory ID, package name, list of package names, or upstream project id (like repology.org/project/curl)'
         type: string
         default: ''
       filter:
@@ -43,7 +42,6 @@ jobs:
       ${{
         github.event_name == 'schedule' && 'Search updates since the last run'
         || (inputs.since != '' && format('Search updates since {0}', inputs.since))
-        || (inputs.haystack == '' && 'Ecosystem search')
         || format('Search {0}', inputs.haystack)
       }}
     runs-on: ubuntu-latest
