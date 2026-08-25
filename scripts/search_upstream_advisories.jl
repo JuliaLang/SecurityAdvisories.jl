@@ -1,4 +1,4 @@
-using SecurityAdvisories: SecurityAdvisories, Advisory, print_search_pr_outputs
+using SecurityAdvisories: SecurityAdvisories, Advisory
 using GeneralMetadata
 using Dates: Dates
 
@@ -72,42 +72,10 @@ function component_branch(advisories)
     return length(projects) == 1 ? only(projects) : nothing
 end
 
-"""
-    write_advisory_files(advisories, filter_results)
-
-Create or update the advisory file for each of the `advisories`, merging each into its
-existing JLSEC advisory when there is one. When `filter_results`, reviewed-and-rejected
-packages are stripped and results that are invalid or not vulnerable are skipped.
-"""
-function write_advisory_files(advisories, filter_results)
-    for advisory in advisories
-        filter_results && SecurityAdvisories.strip_rejected!(advisory)
-        existing = SecurityAdvisories.find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-        if !isnothing(existing)
-            advisory = SecurityAdvisories.update(existing, advisory)
-        elseif filter_results && (!SecurityAdvisories.is_valid(advisory) || !SecurityAdvisories.is_vulnerable(advisory))
-            if !SecurityAdvisories.is_vulnerable(advisory) && !isnothing(SecurityAdvisories.find_rejected(advisory))
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and rejected (see advisories/rejected.toml), skipping publication. Re-run with the filter disabled to import it anyway."
-            else
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
-            end
-            continue
-        end
-        dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(SecurityAdvisories.year(advisory))))
-        open(joinpath(dir, advisory.id * ".md"), "w") do io
-            SecurityAdvisories.print(io, advisory)
-        end
-    end
-end
-
-function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true")
+function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, "true")) == "true", results_path = get(ARGS, 3, "search-results.json"))
     (; advisories, branch, haystack) = search_advisories(input, filter_results)
-    write_advisory_files(advisories, filter_results)
-    io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
-    println(io, "branch=", branch)
-    print_search_pr_outputs(io, "HEAD"; haystack)
-    seekstart(io)
-    foreach(println, eachline(io)) # Also log to stdout
+    branches = SecurityAdvisories.commit_search_branches([branch => advisories]; filter_results, haystack)
+    SecurityAdvisories.write_search_results(results_path, branches)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__

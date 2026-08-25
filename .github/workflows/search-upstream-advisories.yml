@@ -1,6 +1,18 @@
 name: Search for upstream advisories
 
+# Search the upstream databases (GHSA, NVD, and EUVD) for advisories and open a pull request
+# for each finding. The scheduled runs search the packages updated since the last scheduled
+# run — those with newly registered versions and those affected by changed upstream
+# advisories — each directly and each upstream project they bundle exhaustively. Manual runs
+# may do the same for a given `since`, or search a haystack: an advisory, a package or list
+# of packages, an upstream project, or (with an empty haystack) a walk through the ecosystem
+# until something turns up.
+
 on:
+  schedule:
+    # Twice a day
+    - cron: '30 2 * * *'
+    - cron: '30 14 * * *'
   workflow_dispatch:
     inputs:
       haystack:
@@ -11,21 +23,115 @@ on:
         description: 'Filter results to only those that affect a Julia package or have significant updates'
         type: boolean
         default: true
+      since:
+        description: 'Instead of the haystack, search the packages updated after this UTC datetime'
+        type: string
+        default: ''
 
 permissions:
   contents: read
+  actions: read
 
-# Only allow one search to run at a time across all the search workflows, which share the
-# NVD API key's rate limit; queue subsequent runs
+# Only allow one search to run at a time, sharing the NVD API key's rate limit; queue subsequent runs
 concurrency:
   group: upstream-search
   cancel-in-progress: false
 
 jobs:
-  identify-advisories:
-    name: ${{ inputs.haystack == '' && 'Ecosystem search' || format('Search {0}', inputs.haystack) }}
-    uses: ./.github/workflows/search-and-pr.yml
-    with:
-      haystack: ${{ inputs.haystack }}
-      filter: ${{ inputs.filter }}
-    secrets: inherit
+  search:
+    name: >-
+      ${{
+        github.event_name == 'schedule' && 'Search updates since the last run'
+        || (inputs.since != '' && format('Search updates since {0}', inputs.since))
+        || (inputs.haystack == '' && 'Ecosystem search')
+        || format('Search {0}', inputs.haystack)
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # The search branches are pushed to a fork, which needs the history they build on
+        fetch-depth: 0
+
+    - name: Setup Julia
+      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+
+    - uses: julia-actions/cache@b7788abd52452d5bc033d69796e110d9906af4ab # v3.2.0
+      with:
+        delete-old-caches: 'false' # deletion needs actions:write
+
+    - name: Install Julia dependencies
+      run: |
+        julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+    - name: Search and commit the findings to branches
+      id: search
+      env:
+        HAYSTACK: ${{ inputs.haystack }}
+        FILTER: ${{ inputs.filter == null || inputs.filter }}
+        SINCE: ${{ inputs.since }}
+        RESULTS: ${{ runner.temp }}/search-results.json
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        git config user.name 'JLSEC[bot]'
+        git config user.email '234068973+jlsec-bot@users.noreply.github.com'
+        if [[ "$GITHUB_EVENT_NAME" == schedule || -n "$SINCE" ]]; then
+          if [[ -z "$SINCE" ]]; then
+            # This workflow's last successful scheduled run; GITHUB_WORKFLOW_REF is owner/repo/.github/workflows/file.yml@ref
+            WORKFLOW_FILE="${GITHUB_WORKFLOW_REF%%@*}"
+            WORKFLOW_FILE="${WORKFLOW_FILE##*/}"
+            SINCE=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WORKFLOW_FILE/runs?status=success&event=schedule&per_page=1" --jq '.workflow_runs[0].run_started_at // empty')
+          fi
+          julia --project=. scripts/search_updates.jl "${SINCE:-$(date -u -d '3 days ago' '+%Y-%m-%dT%H:%M:%SZ')}" "$RESULTS"
+        else
+          julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER" "$RESULTS"
+        fi
+        echo "n_branches=$(jq 'length' "$RESULTS")" >> "$GITHUB_OUTPUT"
+        echo "recipe_updates=$(jq 'any(.[]; .recipe_updates | length > 0)' "$RESULTS")" >> "$GITHUB_OUTPUT"
+
+    - uses: actions/create-github-app-token@v3
+      id: urdr_token
+      if: steps.search.outputs.recipe_updates == 'true'
+      with:
+        app-id: ${{ secrets.URDARBRUNNR_APP_ID }}
+        private-key: ${{ secrets.URDARBRUNNR_APP_KEY }}
+        owner: JuliaPackaging
+        repositories: Urdarbrunnr.jl
+
+    - name: Push the branches and open pull requests
+      if: steps.search.outputs.n_branches != '0'
+      env:
+        GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
+        URDR_TOKEN: ${{ steps.urdr_token.outputs.token }}
+        RESULTS: ${{ runner.temp }}/search-results.json
+        FORK: jlsec-bot/SecurityAdvisories.jl
+      run: |
+        gh auth setup-git
+        git remote add fork "https://github.com/$FORK.git"
+        jq -c '.[]' "$RESULTS" | while read -r result; do
+          branch=$(jq -r '.branch' <<< "$result")
+          title=$(jq -r '.title' <<< "$result")
+          jq -r '.body' <<< "$result" > "$RUNNER_TEMP/body.md"
+          # Redirect stdin so nothing here reads the list of results being looped over
+          git push -q -f fork "refs/heads/$branch:refs/heads/$branch" < /dev/null
+          url=$(gh pr list --repo "$GITHUB_REPOSITORY" --head "jlsec-bot:$branch" --state open --json url --jq '.[0].url' < /dev/null)
+          if [[ -z "$url" ]]; then
+            url=$(gh pr create --repo "$GITHUB_REPOSITORY" --head "jlsec-bot:$branch" --base main --title "$title" --body-file "$RUNNER_TEMP/body.md" < /dev/null)
+            echo "Opened $url for $branch"
+          else
+            gh pr edit --repo "$GITHUB_REPOSITORY" "$url" --title "$title" --body-file "$RUNNER_TEMP/body.md" < /dev/null
+            echo "Updated $url for $branch"
+          fi
+          # Unbounded JLLs whose upstream fix version is known just need a new build;
+          # ask Urdarbrunnr to open the corresponding Yggdrasil recipe update PRs
+          jq -c '.recipe_updates[]' <<< "$result" | while read -r update; do
+            name=$(jq -r '.name' <<< "$update")
+            version=$(jq -r '.version' <<< "$update")
+            echo "Requesting a recipe update for $name to v$version"
+            GH_TOKEN="$URDR_TOKEN" gh workflow run update-recipe.yml --repo JuliaPackaging/Urdarbrunnr.jl -f name="$name" -f version="$version" -f context="$url" < /dev/null
+          done
+        done

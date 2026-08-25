@@ -877,6 +877,30 @@ function search_component(proj, filter_results)
 end
 
 """
+    search_targets(candidates, pending) -> OrderedDict{String,Vector{Advisory}}
+
+The advisories found for each search target: the upstream projects the `candidates`
+bundle (searched once each, skipping those with `pending` branches) followed by the
+candidates themselves (for direct advisories only). Advisories found against a project
+are left out of the packages' results.
+"""
+function search_targets(candidates, pending)
+    projects = Set(Iterators.flatten(upstream_projects_for_package.(candidates)))
+    projects = sort!(collect(setdiff(projects, pending)))
+    results = OrderedDict{String,Vector{Advisory}}()
+    for proj in projects
+        @info "searching for advisories against upstream project $proj"
+        results[proj] = try_search(search_component, proj, true)
+    end
+    found = Set(adv.id for advisories in values(results) for adv in advisories)
+    for pkg in candidates
+        @info "searching for advisories against $pkg"
+        results[pkg] = filter(adv -> adv.id ∉ found, try_search(search_direct, pkg, true))
+    end
+    return results
+end
+
+"""
     filter_search_results!(advisories, is_relevant)
 
 Keep only the advisories worth suggesting: those whose vulnerable packages satisfy
