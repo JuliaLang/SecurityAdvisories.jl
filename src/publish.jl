@@ -3,26 +3,15 @@
 # committed branches to the workflow as JSON, which pushes them and opens the pull requests.
 
 """
-    write_advisory_files(advisories, filter_results)
+    write_advisory_files(advisories)
 
 Create or update the advisory file for each of the `advisories`, merging each into its
-existing JLSEC advisory when there is one. When `filter_results`, reviewed-and-rejected
-packages are stripped and results that are invalid or not vulnerable are skipped.
+existing JLSEC advisory when there is one.
 """
-function write_advisory_files(advisories, filter_results)
+function write_advisory_files(advisories)
     for advisory in advisories
-        filter_results && strip_rejected!(advisory)
         existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
-        if !isnothing(existing)
-            advisory = update(existing, advisory)
-        elseif filter_results && (!is_valid(advisory) || !is_vulnerable(advisory))
-            if !is_vulnerable(advisory) && !isnothing(find_rejected(advisory))
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) was previously reviewed and rejected (see advisories/rejected.toml), skipping publication. Re-run with the filter disabled to import it anyway."
-            else
-                @warn "Advisory $(vcat(advisory.upstream, advisory.aliases)) is not valid or not vulnerable and does not have an existing JLSEC advisory, skipping publication"
-            end
-            continue
-        end
+        isnothing(existing) || (advisory = update(existing, advisory))
         dir = mkpath(joinpath(@__DIR__, "..", "advisories", "published", string(year(advisory))))
         open(joinpath(dir, advisory.id * ".md"), "w") do io
             print(io, advisory)
@@ -31,17 +20,17 @@ function write_advisory_files(advisories, filter_results)
 end
 
 """
-    commit_search_branch(branch, advisories, base; filter_results=true, haystack=branch)
+    commit_search_branch(branch, advisories, base)
 
 Write the `advisories` to the branch `branch` (started afresh from `base`) and commit them,
 returning the pull request message as `(; branch, title, body, recipe_updates)`, or
-`nothing` when they change no advisory files. The `haystack` describes what was searched.
+`nothing` when they change no advisory files.
 """
-function commit_search_branch(branch, advisories, base; filter_results=true, haystack=branch)
+function commit_search_branch(branch, advisories, base)
     run(`git checkout -q -B $branch $base`)
-    write_advisory_files(advisories, filter_results)
+    write_advisory_files(advisories)
     run(`git add advisories`)
-    (; n_changed, title, body, recipe_updates) = search_pr_message("HEAD"; haystack)
+    (; n_changed, title, body, recipe_updates) = search_pr_message("HEAD"; haystack=branch)
     if n_changed == 0
         @info "no changes for $branch"
         return nothing
@@ -52,20 +41,25 @@ function commit_search_branch(branch, advisories, base; filter_results=true, hay
 end
 
 """
-    commit_search_branches(results; filter_results=true)
+    commit_search_branches(results)
 
 Commit each `branch => advisories` pair in `results` with [`commit_search_branch`](@ref),
-starting each branch from the current commit and returning to it afterwards. Returns the
-pull request messages of the branches with changes.
+starting each branch from the current commit and returning to it afterwards. An advisory
+committed to an earlier branch is left out of the later ones, so one search's findings
+take precedence in the order given. Returns the pull request messages of the branches
+with changes.
 """
-function commit_search_branches(results; filter_results=true)
+function commit_search_branches(results)
     base = readchomp(`git rev-parse HEAD`)
     branches = []
+    committed = Set{String}()
     for (branch, advisories) in results
+        advisories = filter(adv -> adv.id ∉ committed, advisories)
         isempty(advisories) && continue
         try
-            result = commit_search_branch(branch, advisories, base; filter_results)
+            result = commit_search_branch(branch, advisories, base)
             isnothing(result) || push!(branches, result)
+            union!(committed, adv.id for adv in advisories)
         finally
             # Leave the tree as we found it, detached from the branch so it keeps its commit
             run(`git checkout -qf $base`)
