@@ -6,7 +6,7 @@ name: Search for upstream advisories
 # package that bundles it. The scheduled runs search whatever the changes since the last
 # scheduled run warrant: new package registrations and changed upstream advisories. Manual
 # runs may do the same for a given `since`, or search a haystack: an advisory, an upstream
-# project, or a package or list of packages.
+# project, or a package or list of packages (optionally along with the upstream projects they bundle).
 
 on:
   schedule:
@@ -21,6 +21,10 @@ on:
         default: ''
       filter:
         description: 'Filter results to only those that affect a Julia package or have significant updates'
+        type: boolean
+        default: true
+      components:
+        description: 'Also search the upstream projects that the named packages bundle'
         type: boolean
         default: true
       since:
@@ -70,6 +74,7 @@ jobs:
       env:
         HAYSTACK: ${{ inputs.haystack }}
         FILTER: ${{ inputs.filter == null || inputs.filter }}
+        COMPONENTS: ${{ inputs.components == null || inputs.components }}
         SINCE: ${{ inputs.since }}
         RESULTS: ${{ runner.temp }}/search-results.json
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -85,7 +90,7 @@ jobs:
           SINCE=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$WORKFLOW_FILE/runs?status=success&event=schedule&per_page=1" --jq '.workflow_runs[0].run_started_at // empty')
           SINCE="${SINCE:-$(date -u -d '3 days ago' '+%Y-%m-%dT%H:%M:%SZ')}"
         fi
-        julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER" "$SINCE" "$RESULTS"
+        julia --project=. scripts/search_upstream_advisories.jl "$HAYSTACK" "$FILTER" "$COMPONENTS" "$SINCE" "$RESULTS"
         echo "n_branches=$(jq 'length' "$RESULTS")" >> "$GITHUB_OUTPUT"
         echo "recipe_updates=$(jq 'any(.[]; .recipe_updates | length > 0)' "$RESULTS")" >> "$GITHUB_OUTPUT"
 
