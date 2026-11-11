@@ -83,10 +83,10 @@ function _format_datetime_plain(dt::DateTime)
 end
 _format_datetime_plain(::Nothing) = "—"
 
-_display_date(adv) = _format_datetime(something(_source_published(adv), adv.published, nothing))
+_display_date(adv) = _format_datetime(something(_source_published(adv), adv.published, Some(nothing)))
 
 _display_date_inline(adv) =
-    _format_datetime_plain(something(_source_published(adv), adv.published, nothing))
+    _format_datetime_plain(something(_source_published(adv), adv.published, Some(nothing)))
 
 # HTML helpers
 
