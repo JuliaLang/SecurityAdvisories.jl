@@ -539,18 +539,19 @@ const ALL_PKGS = Pair{String,String}[]
 function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml")])
     if isempty(ALL_PKGS)
         # Julia no longer checks in a stdlib/Project.toml listing them all
-        append!(ALL_PKGS, [first(info)=>string(uuid) for (uuid, info) in Pkg.Types.stdlibs()])
+        # Collect everything first so that a failed fetch leaves the cache empty to retry
+        pkgs = [first(info)=>string(uuid) for (uuid, info) in Pkg.Types.stdlibs()]
         for (owner, repo, path) in toml_urls
             registry = TOML.parse(GitHub.fetch_file(owner, repo, path; ref=nothing))
             if haskey(registry, "packages")
-                append!(ALL_PKGS, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
+                append!(pkgs, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
             elseif haskey(registry, "deps")
-                append!(ALL_PKGS, registry["deps"])
+                append!(pkgs, registry["deps"])
             else
                 error("Unexpected Pkg toml found at github.com/$owner/$repo/$path")
             end
         end
-        unique!(sort!(ALL_PKGS))
+        append!(ALL_PKGS, unique!(sort!(pkgs)))
     end
     return ALL_PKGS
 end
