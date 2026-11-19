@@ -1,7 +1,7 @@
 {
     "schema_version": "1.8.0",
     "id": "JLSEC-2026-1169",
-    "modified": "2026-08-05T21:11:23.872Z",
+    "modified": "2026-11-19T23:39:49.459Z",
     "published": "2026-08-05T21:11:23.872Z",
     "upstream": [
         "CVE-2026-58052",
@@ -9,7 +9,7 @@
         "EUVD-2026-39972"
     ],
     "summary": "7-Zip for Windows fails to preserve the Mark-of-the-Web when extracting a crafted RAR5 archive",
-    "details": "7-Zip for Windows through 26.01 fails to preserve the Mark-of-the-Web when extracting a crafted RAR5 archive, because its guard that suppresses an archive-supplied Zone.Identifier stream matches the exact name 'Zone.Identifier' while a RAR5 STM record named ':Zone.Identifier:$DATA' is not matched and NTFS canonicalizes it to the same stream, overwriting the propagated Internet-zone marker with ZoneId=0. A second STM record named '::$DATA' overwrites the extracted file's default data stream, letting an attacker defeat SmartScreen/MotW warnings and spoof file content.",
+    "details": "7-Zip for Windows through 26.02 fails to preserve the Mark-of-the-Web when extracting a crafted RAR5 archive, because its guard that suppresses an archive-supplied Zone.Identifier stream matches the exact name 'Zone.Identifier' while a RAR5 STM record named ':Zone.Identifier:$DATA' is not matched and NTFS canonicalizes it to the same stream, overwriting the propagated Internet-zone marker with ZoneId=0. A second STM record named '::$DATA' overwrites the extracted file's default data stream, letting an attacker defeat SmartScreen/MotW warnings and spoof file content.",
     "severity": [
         {
             "type": "CVSS_V3",
@@ -30,6 +30,9 @@
                     "events": [
                         {
                             "introduced": "0"
+                        },
+                        {
+                            "fixed": "17.7.0+0"
                         }
                     ]
                 }
