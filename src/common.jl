@@ -539,9 +539,7 @@ end
 const ALL_PKGS = Pair{String,String}[]
 function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml")])
     if isempty(ALL_PKGS)
-        # Julia no longer checks in a stdlib/Project.toml listing them all, so combine
-        # this Julia's stdlibs with those of every release (including removed ones)
-        # and upcoming ones. Collect everything first so a failed fetch leaves the cache empty
+        # Combine three sources: current Julia's stdlib, HistoricalStdlibs, and the passed registry/registries
         pkgs = [first(info)=>string(uuid) for (uuid, info) in Pkg.Types.stdlibs()]
         for (_, stdlibs) in HistoricalStdlibVersions.STDLIBS_BY_VERSION
             append!(pkgs, [info.name=>string(uuid) for (uuid, info) in stdlibs])
