@@ -1,3 +1,4 @@
+import Repology
 using JSON3: JSON3
 using TOML: TOML
 using Pkg: Pkg, Registry
@@ -7,6 +8,7 @@ using DataStructures: OrderedDict, DefaultDict
 using Dates: Dates
 using TimeZones: TimeZones
 using GeneralMetadata: GeneralMetadata
+using HistoricalStdlibVersions: HistoricalStdlibVersions
 
 const PREFIX="JLSEC"
 
@@ -295,7 +297,7 @@ end
 const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
 function upstream_projects()
     isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
-    info = TOML.parse(GitHub.fetch_file("mbauman","Repology.jl","data/cpes.toml";))
+    info = Repology.cpe_data()
     projects = Set(chopprefix(x, "repology.org/project/") for x in
         Iterators.flatmap(keys, Iterators.flatmap(values, values(package_components())))
         if startswith(x, "repology.org/project/"))
@@ -536,20 +538,24 @@ end
 
 # TODO: use the above Pkg machinery for this, too
 const ALL_PKGS = Pair{String,String}[]
-function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml"),
-     ("JuliaLang", "julia", "stdlib/Project.toml")])
+function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml")])
     if isempty(ALL_PKGS)
+        # Combine three sources: current Julia's stdlib, HistoricalStdlibs, and the passed registry/registries
+        pkgs = [first(info)=>string(uuid) for (uuid, info) in Pkg.Types.stdlibs()]
+        for (_, stdlibs) in HistoricalStdlibVersions.STDLIBS_BY_VERSION
+            append!(pkgs, [info.name=>string(uuid) for (uuid, info) in stdlibs])
+        end
         for (owner, repo, path) in toml_urls
             registry = TOML.parse(GitHub.fetch_file(owner, repo, path; ref=nothing))
             if haskey(registry, "packages")
-                append!(ALL_PKGS, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
+                append!(pkgs, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
             elseif haskey(registry, "deps")
-                append!(ALL_PKGS, registry["deps"])
+                append!(pkgs, registry["deps"])
             else
                 error("Unexpected Pkg toml found at github.com/$owner/$repo/$path")
             end
         end
-        sort!(ALL_PKGS)
+        append!(ALL_PKGS, unique!(sort!(pkgs)))
     end
     return ALL_PKGS
 end
