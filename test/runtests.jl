@@ -164,6 +164,9 @@ end
         # Optional
     end
     @test_throws "no UUID" SecurityAdvisories.purl("ThisPackageDoesHopefullyNotExist")
+    # Stdlibs come from every Julia release, not just the running one
+    @test "c8ffd9c3-330d-5841-b78e-0817d7145fa1" in SecurityAdvisories.get_uuids_in_general_stdlib("MbedTLS_jll") # removed in 1.12
+    @test "ac6e5ff7-fb65-4e79-a425-ec3bc9c03011" in SecurityAdvisories.get_uuids_in_general_stdlib("JuliaSyntaxHighlighting") # added in 1.12
 end
 
 @testset "combining severities" begin
