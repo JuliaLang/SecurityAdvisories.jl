@@ -1,3 +1,4 @@
+import Repology
 using JSON3: JSON3
 using TOML: TOML
 using Pkg: Pkg, Registry
@@ -296,7 +297,7 @@ end
 const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
 function upstream_projects()
     isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
-    info = TOML.parse(GitHub.fetch_file("mbauman","Repology.jl","data/cpes.toml";))
+    info = Repology.cpe_data()
     projects = Set(chopprefix(x, "repology.org/project/") for x in
         Iterators.flatmap(keys, Iterators.flatmap(values, values(package_components())))
         if startswith(x, "repology.org/project/"))
