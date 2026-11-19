@@ -540,6 +540,19 @@ using SecurityAdvisories: print_advisory_versions
 end
 
 using JSON3: JSON3
+
+@testset "database_specific serialization order" begin
+    db = Dict{String,Any}("c" => true, "b" => [Dict("z" => 3, "y" => 2, "x" => 1)], "a" => "first")
+    adv = Advisory(aliases=["CVE-2025-99999"], jlsec_sources=[test_source(database_specific=db)])
+
+    toml = sprint(print, adv)
+    @test contains(toml, "database_specific = {a = \"first\", b = [{x = 1, y = 2, z = 3}], c = true}")
+    @test only(tryparse(Advisory, toml).jlsec_sources).database_specific == db
+
+    json = JSON3.write(SecurityAdvisories.to_osv_dict(adv))
+    @test contains(json, "\"database_specific\":{\"a\":\"first\",\"b\":[{\"x\":1,\"y\":2,\"z\":3}],\"c\":true}")
+end
+
 @testset "sometimes EUVD has no description" begin
     vuln = JSON3.read(joinpath(@__DIR__, "EUVD-2025-32379.json"))
     @test EUVD.advisory(vuln) isa SecurityAdvisories.Advisory
