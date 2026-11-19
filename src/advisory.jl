@@ -481,6 +481,12 @@ end
 
 #### IO and serialization ####
 
+sort_database_specific(d::AbstractDict) = OrderedDict(k => sort_database_specific(d[k]) for k in sort!(collect(keys(d))))
+sort_database_specific(a::AbstractArray) = map(sort_database_specific, a)
+sort_database_specific(x) = x
+
+source_field(s::AdvisorySource, f::Symbol) = f == :database_specific ? sort_database_specific(s.database_specific) : getfield(s, f)
+
 # TOML creation. The one funny thing we do here is that the JULSEC parser supports a few
 # shorthand idioms. But only do this if _all_ values in a collection can be represented
 # with such shorthands.
@@ -493,7 +499,7 @@ to_toml_frontmatter(v::Union{VersionNumber, VersionString, VersionRange}) = stri
 to_toml_frontmatter(x::Union{AbstractString, Integer, AbstractFloat, Bool, Dates.DateTime, Dates.Time, Dates.Date}) = x
 to_toml_frontmatter(d::AbstractDict) = OrderedDict(k=>to_toml_frontmatter_collection(v, values(d)) for (k,v) in d)
 to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in sort_collection(A)]
-to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
+to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(source_field(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 to_toml_frontmatter_collection(x, _) = to_toml_frontmatter(x)
 function to_toml_frontmatter(a::Advisory)
     # Convert all fields to TOML with a few special cases:
@@ -548,7 +554,7 @@ function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
     frontmatter = sprint(frontdata) do io, x
         TOML.print(io, x;
-            inline_tables=IdSet{Dict{String,Any}}(src["database_specific"] for src in get(x, "jlsec_sources", ()) if SecurityAdvisories.exists(src, "database_specific")))
+            inline_tables=IdSet{AbstractDict}(src["database_specific"] for src in get(x, "jlsec_sources", ()) if SecurityAdvisories.exists(src, "database_specific")))
     end
     # I don't think it's possible for TOML.print to output ``` on a line, but just in case:
     nticks = maximum(x->length(x.captures[1])+1, eachmatch(r"^\s*(`+)\s*$", frontmatter), init=3)
@@ -644,8 +650,11 @@ function to_osv_dict(a::Severity)
     end
     return d
 end
-function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
+function to_osv_dict(a::Union{Reference, Credit})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
+end
+function to_osv_dict(s::AdvisorySource)
+    return OrderedDict(string(f) => to_osv_dict(source_field(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 end
 function to_osv_dict(a::Advisory)
     # The only special thing we need to is `database_specific`
