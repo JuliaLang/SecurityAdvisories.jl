@@ -1,0 +1,63 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1389",
+    "modified": "2026-11-19T22:47:03.447Z",
+    "published": "2026-11-19T22:47:03.447Z",
+    "summary": "Heap buffer overflow when `read_command` on a collection fails in Mongoc.jl",
+    "details": "### Description\n\n`Mongoc.read_command(collection, command)` called the wrong libmongoc function. Its binding for\n`mongoc_collection_read_command_with_opts` called `mongoc_collection_command_simple`, which takes one\nargument fewer, so libmongoc read every argument after `read_prefs` one place early. libmongoc wrote\nits `bson_error_t` into the reply document, wrote the reply into the caller's `options` document (or\ndiscarded it when no options were given), and never filled in the error that Mongoc.jl reads, so\nthe exception thrown for a failure carried no error code or message.\n\nThe reply document is a 128-byte `bson_t` that `bson_new` allocates on the C heap. A `bson_error_t`\nis 512 bytes. When the command fails, libmongoc writes to the last byte of the error, 384 bytes past\nthe end of the allocation. A message longer than about 120 bytes also writes its text past the end.\nThe message comes from the MongoDB server or from libmongoc, and server messages can echo parts of\nthe command: the error for an unknown query operator includes the operator's name.\n\nCalls that succeeded returned an empty document instead of the reply. A call with `options`\noverwrote the caller's options document with the reply.\n\nOnly `read_command(collection, ...)` is affected. A comparison of all of the package's `ccall`s with\nthe libmongoc headers found no other wrong function or argument count.\n\n### Impact\n\nEach failing `read_command(collection, ...)` call corrupts the C heap of the Julia process. This can\ncrash the process or corrupt unrelated memory. A malicious or compromised MongoDB server controls the\ntext written past the allocation. When an application builds the command from user input, that user\ncan influence the text too. No exploit beyond heap corruption was demonstrated.\n\n### Patches\n\nFixed in Mongoc.jl 0.10.2, which calls `mongoc_collection_read_command_with_opts`. Upgrade to 0.10.2\nor later.\n\n### Workarounds\n\n`Mongoc.read_command(collection.database, command; options)` runs the same command through the\ndatabase binding, which calls the correct function.\n\n### Credits\n\nThe binding error was found and fixed by hhaensel in Mongoc.jl pull request #162. The out-of-bounds\nwrite was found while that fix was reviewed.",
+    "severity": [
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N",
+            "source": "SELF"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0.4.0"
+                        },
+                        {
+                            "fixed": "0.10.2"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Mongoc",
+                "purl": "pkg:julia/Mongoc?uuid=4fe8b98c-fc19-5c23-8ec2-168ff83495f2"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaDatabases/Mongoc.jl/commit/793615d2af2e0e103d2e92e8a3bd725cdf7de2c0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaDatabases/Mongoc.jl/pull/162"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/JuliaDatabases/Mongoc.jl/releases/tag/v0.10.2"
+        }
+    ],
+    "credits": [
+        {
+            "name": "hhaensel",
+            "contact": [
+                "https://github.com/hhaensel"
+            ],
+            "type": "REMEDIATION_DEVELOPER"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0"
+    }
+}
