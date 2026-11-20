@@ -27,8 +27,8 @@ struct VersionRange{V<:Union{VersionNumber, VersionString}}
     lbinclusive::Bool
     ubinclusive::Bool
 end
-VersionRange(x::AbstractString) = VersionRange{VersionString}(x)
-VersionRange{T}(x::AbstractString) where {T<:Union{VersionNumber, VersionString}} = something(tryparse(VersionRange{T}, x))
+VersionRange(x::AbstractString; project=nothing) = VersionRange{VersionString}(x; project)
+VersionRange{T}(x::AbstractString; project=nothing) where {T<:Union{VersionNumber, VersionString}} = something(tryparse(VersionRange{T}, x; project))
 function Base.in(x::T, r::VersionRange{T}) where {T<:Union{VersionNumber, VersionString}}
     return (r.lbinclusive ? x >= r.lb : x > r.lb) &&
            (r.ubinclusive ? x <= r.ub : x < r.ub)
@@ -41,9 +41,23 @@ function Base.:(>)(x::T, r::VersionRange{T}) where {T<:Union{VersionNumber, Vers
 end
 Base.:(==)(a::VersionRange, b::VersionRange) = (==)((a.lb, a.lbinclusive, a.ub, a.ubinclusive), (b.lb, b.lbinclusive, b.ub, b.ubinclusive))
 Base.hash(a::VersionRange, h::UInt) = hash((a.lb, a.lbinclusive, a.ub, a.ubinclusive), hash(0x80ebd9334ee9e2b1, h))
-Base.isless(a::VersionRange, b::VersionRange) = isless((a.lb, !a.lbinclusive, a.ub, a.ubinclusive), (b.lb, !b.lbinclusive, b.ub, b.ubinclusive))
-Base.tryparse(::Type{VersionRange}, x::AbstractString) = tryparse(VersionRange{VersionString}, x)
-function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
+Base.isless(a::VersionRange, b::VersionRange) =
+    bound_isless(lower_bound_tuple(a), lower_bound_tuple(b)) ||
+    (bound_equivalent(lower_bound_tuple(a), lower_bound_tuple(b)) && bound_isless(upper_bound_tuple(a), upper_bound_tuple(b)))
+Base.tryparse(::Type{VersionRange}, x::AbstractString; project=nothing) = tryparse(VersionRange{VersionString}, x; project)
+# The Repology project whose versioning scheme a `VersionString` range's bounds follow, if any
+version_project(r::VersionRange{VersionString}) = something(r.lb.project, r.ub.project, Some(nothing))
+parse_bound(::Type{VersionString}, str, project) = VersionString(str, project)
+function parse_bound(::Type{V}, str, project) where {V}
+    isnothing(project) || throw(ArgumentError("only VersionString bounds follow a project's versioning scheme"))
+    return tryparse(V, str)
+end
+"""
+    tryparse(VersionRange{V}, str; project=nothing)
+
+Parse a GitHub- or EUVD-style range. `VersionString` bounds follow the Repology `project`'s versioning scheme, if given.
+"""
+function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString; project=nothing) where {V}
     # This supports parsing both GitHub and EUVD-like range syntaxes.
     # GHSA range format is described at:
     #   https://docs.github.com/en/graphql/reference/objects#securityvulnerability
@@ -62,21 +76,21 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
         return VersionRange{V}(typemin(V), typemax(V), true, true)
     elseif startswith(str, "=")
         # An exact version number
-        v = tryparse(V, strip(chopprefix(str, "=")))
+        v = parse_bound(V, strip(chopprefix(str, "=")), project)
         isnothing(v) && return nothing
         return VersionRange{V}(v, v, true, true)
     elseif startswith(str, r"[<≤]")
         # An upper bound only, with an implicit minimum lower bound
-        ub = tryparse(V, strip(chopprefix(str, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(str, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(typemin(V), ub, true, startswith(str, r"(?:<=|≤)"))
     elseif startswith(str, r"[>≥]")
         # A lower bound that may have a comma-separated upper bound that follows
         parts = split(str, r",\s*(?=[<≤])", limit=2, keepempty=false)
         lower, upper = parts[1], get(parts, 2, string("<=",typemax(V)))
-        lb = tryparse(V, strip(chopprefix(lower, r"(?:>=|≥|>)")))
+        lb = parse_bound(V, strip(chopprefix(lower, r"(?:>=|≥|>)")), project)
         isnothing(lb) && return nothing
-        ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(upper, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, startswith(lower, r"(?:>=|≥)"), startswith(upper, r"(?:<=|≤)"))
     elseif count(in(('<','≤')), str) == 1
@@ -86,9 +100,9 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
         length(parts) == 2 || return nothing
         lower, upper = parts
         contains(lower, ',') && return nothing # only the one comma before the operator is allowed
-        lb = tryparse(V, strip(lower))
+        lb = parse_bound(V, strip(lower), project)
         isnothing(lb) && return nothing
-        ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(upper, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, true, startswith(upper, r"(?:<=|≤)"))
     end
@@ -121,12 +135,16 @@ end
 # Simple helpers for sorting correctly
 lower_bound_tuple(r::VersionRange) = (r.lb, !r.lbinclusive) # inclusive lower bounds are smaller than exclusive ones — they include a smaller version than their exclusive counterparts
 upper_bound_tuple(r::VersionRange) = (r.ub, r.ubinclusive)  # whereas inclusive upper bounds are bigger — they include a bigger version
+# Tuple comparisons break ties with `isequal`, which misses versions a project's scheme orders equally (1.0 and 1.0.0)
+version_equivalent(a, b) = !isless(a, b) && !isless(b, a)
+bound_isless((a, ai), (b, bi)) = isless(a, b) || (version_equivalent(a, b) && isless(ai, bi))
+bound_equivalent(a, b) = !bound_isless(a, b) && !bound_isless(b, a)
 function overlaps(a::VersionRange, b::VersionRange)
     smaller, bigger = a < b ? (a, b) : (b, a)
     # Ranges order by lower bound then upper bound, so the "smaller" range overlaps the "bigger" one if:
     # their lower bounds are the same, or the upper bound of the smaller one reaches into the bigger one
-    return (lower_bound_tuple(smaller) == lower_bound_tuple(bigger) ||
-            upper_bound_tuple(smaller) >= lower_bound_tuple(bigger))
+    return (bound_equivalent(lower_bound_tuple(smaller), lower_bound_tuple(bigger)) ||
+            !bound_isless(upper_bound_tuple(smaller), lower_bound_tuple(bigger)))
 end
 function merge_ranges(ranges)
     ranges = issorted(ranges) ? ranges : sort(ranges)
@@ -135,8 +153,8 @@ function merge_ranges(ranges)
     for rng in ranges
         base === nothing && (base = rng; continue) # first iteration
         # Incrementally widen `base` to "gobble up" any subsequent ranges it overlaps or _touches_ (if at least one endpoint is inclusive)
-        if overlaps(base, rng) || (base.ub == rng.lb && (base.ubinclusive || rng.lbinclusive))
-            ubtuple = max(upper_bound_tuple(base), upper_bound_tuple(rng))
+        if overlaps(base, rng) || (version_equivalent(base.ub, rng.lb) && (base.ubinclusive || rng.lbinclusive))
+            ubtuple = bound_isless(upper_bound_tuple(base), upper_bound_tuple(rng)) ? upper_bound_tuple(rng) : upper_bound_tuple(base)
             base = VersionRange(base.lb, ubtuple[1], base.lbinclusive, ubtuple[2])
         else
             push!(new_ranges, base)
@@ -261,9 +279,13 @@ function readme_for_pkg(name, uuid, version; reg=get_registry())
 end
 
 # The two primary datastructures for connecting packages with upstream projects
+
 const PACKAGE_COMPONENTS = Ref{Dict{String,Any}}()
+# (package, project) => package version => the upstream versions Repology only guessed (`provenance = "heuristic"`)
+const HEURISTIC_COMPONENTS = Ref{Dict{Tuple{String,String},Dict{String,Set{String}}}}()
 function package_components()
     isassigned(PACKAGE_COMPONENTS) && return PACKAGE_COMPONENTS[]
+    heuristics = Dict{Tuple{String,String},Dict{String,Set{String}}}()
     pkg_version_upstream = Dict{String, Any}()
     for (pkg, pkgmeta) in GeneralMetadata.metadata()
         pkg_version_upstream[pkg] = OrderedDict{String, Any}()
@@ -288,9 +310,17 @@ function package_components()
                     d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
                 end
                 pkg_version_upstream[pkg][v] = d
+                for proj_name in keys(d)
+                    infos = filter(pi -> get(pi, "project", "") == proj_name && haskey(pi, "version"), upstream_proj_info)
+                    is_guess(pi) = get(pi, "provenance", "") == "heuristic"
+                    # A version also identified by a non-heuristic source isn't a guess
+                    guessed = setdiff(Set(pi["version"] for pi in infos if is_guess(pi)), (pi["version"] for pi in infos if !is_guess(pi)))
+                    isempty(guessed) || (get!(Dict{String,Set{String}}, heuristics, (pkg, proj_name))[v] = guessed)
+                end
             end
         end
     end
+    HEURISTIC_COMPONENTS[] = heuristics
     return PACKAGE_COMPONENTS[] = pkg_version_upstream
 end
 
@@ -364,6 +394,9 @@ function vendor_products_for_package(pkg)
     return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in get(SecurityAdvisories.upstream_projects(), proj, String[]))
 end
 
+"Map each version of `pkg` to its `proj` versions that are only heuristic guesses from source URLs"
+heuristic_versions(pkg, proj) = (package_components(); get(HEURISTIC_COMPONENTS[], (pkg, proj), Dict{String,Set{String}}()))
+
 function package_project_version_map(pkg, proj)
     d = OrderedDict{String,Any}()
     for (v, components) in package_components()[pkg]
@@ -376,7 +409,8 @@ end
     convert_versions(pkg_project_map, vulnerable_range)
 
 Convert the vulnerable range from an upstream project's version numbers to the Julia packages,
-using the pkg_project_map.
+using the pkg_project_map. Upstream versions are ordered by the versioning scheme of the
+project the range's bounds were parsed with (see [`VersionString`](@ref)), if any.
 
 In practice, this uses the GeneralMetadata.jl's `package_components.toml` table and a vulnerable range from an upstream advisory.
 
@@ -386,14 +420,21 @@ versions around it.
   - Otherwise, the "*" is bounded by the known versions around it
 """
 function convert_versions(pkg_project_map, vulnerable_range)
+    # Upstream versions are compared with the versioning scheme of the range's project
+    project = version_project(vulnerable_range)
     # Standardize to VersionNumber => Union{Nothing,Missing,Vector{VersionString}} pairs:
     versionmap = sort([VersionNumber(k) =>
             isnothing(v) || (v isa AbstractVector && isempty(v)) ? nothing :
             ismissing(v) || v == "*" || (v isa AbstractVector && "*" in v) ? missing :
-            v isa AbstractString ? [VersionString(v)] :
-            v isa AbstractVector ? VersionString.(v) :
+            v isa AbstractString ? [VersionString(v, project)] :
+            v isa AbstractVector ? VersionString.(v, project) :
             error("unsupported values of type $(typeof(v)) in pkg_project_map")
         for (k,v) in pkg_project_map], by=first)
+    # An upstream version whose form the project's versioning scheme can't order (like 1.2-3 without a known
+    # meaning for the hyphen) is unknown. Ambiguous range bounds (like CVE-style 25.0.0+rust) fall back to VersionString.
+    unorderable(v) = !isnothing(project) && isnothing(Repology.vercmp(project, v.str, v.str))
+    # Like a "*" among a release's platform versions, any unorderable one makes the whole release unknown
+    versionmap = [k => (v isa AbstractVector && any(unorderable, v) ? missing : v) for (k, v) in versionmap]
 
     versions = VersionRange{VersionNumber}[]
     # Now walk through the Julia package's versions and push all applicable (potentially disjoint) ranges of versions
@@ -482,7 +523,7 @@ function affected_julia_packages(description, vendorproductversions)
             found_match = true
             for matched_project in upstream_projects
                 matched_pkgs = packages_with_project(matched_project)
-                r = tryparse(VersionRange, version)
+                r = tryparse(VersionRange, version; project=chopprefix(matched_project, "repology.org/project/"))
                 for pkg in matched_pkgs
                     pkgs[pkg]["$vendor:$product"][version] = isnothing(r) ?
                         [VersionRange{VersionNumber}("*")] : convert_versions(package_project_version_map(pkg, matched_project), r)
