@@ -214,10 +214,14 @@ function get_registry(reg=Registry.RegistrySpec(name="General", uuid = "23338594
     return Registry.RegistryInstance(name)
 end
 
+# Pkg 1.13 changed `registry_info(pkg)` to `registry_info(registry, pkg)`
+pkg_registry_info(reg, pkgentry) = applicable(Registry.registry_info, reg, pkgentry) ?
+    Registry.registry_info(reg, pkgentry) : Registry.registry_info(pkgentry)
+
 function registry_repositories(reg=get_registry())
     repos = Dict{Base.UUID, String}()
     for (uuid, pkgentry) in reg
-        repo = Registry.registry_info(pkgentry).repo
+        repo = pkg_registry_info(reg, pkgentry).repo
         isnothing(repo) && continue
         repos[uuid] = repo
     end
@@ -232,7 +236,7 @@ registry_has_package(name, reg=get_registry()) = !isempty(uuids_from_name(name, 
 
 available_versions_for_uuid(uuid) = available_versions_for_uuid(Base.UUID(uuid))
 function available_versions_for_uuid(uuid::Base.UUID, reg=get_registry())
-    version_info = Registry.registry_info(reg[uuid]).version_info
+    version_info = pkg_registry_info(reg, reg[uuid]).version_info
     return sort([version for (version, info) in version_info if !info.yanked])
 end
 
