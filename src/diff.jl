@@ -493,9 +493,10 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
 
     # Identify unbounded JLLs whose upstream fix is known but not yet built; these
     # are actionable via an Yggdrasil recipe update (requested in a workflow step)
-    recipe_updates = Dict{String, VersionString}()
+    recipe_updates = Dict{Tuple{String, Union{Nothing, String}}, VersionString}()
     for adv in results, (name, version) in recipe_update_candidates(adv)
-        recipe_updates[name] = max(get(recipe_updates, name, version), version)
+        key = (name, version.project)
+        recipe_updates[key] = max(get(recipe_updates, key, version), version)
     end
 
     verb = n_modified > 0 && n_created == 0 ? "Update" :
@@ -505,7 +506,7 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "n_changed=", n_total)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
-    println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for (name, version) in sort!(collect(recipe_updates))]))
+    println(io, "recipe_updates=", JSON3.write([Dict("name"=>name, "version"=>string(version)) for ((name, _), version) in sort!(collect(recipe_updates), by=x->(x[1][1], something(x[1][2], "")))]))
     body = sprint() do io
         pkgs_str = join("**" .* unique_pkgs .* "**", ", ", ", and ")
         if haystack !== nothing
@@ -563,8 +564,11 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
 
                 println(io, "    | ", link_pkg(pkg), " version | ", join(link_proj.(vulnerable_projs) .* " version", " | "), " |")
                 println(io, "    |-|", join(fill("-", length(vulnerable_projs)), "|"), "|")
+                heuristics = Dict(p => heuristic_versions(pkg, p) for p in vulnerable_projs)
+                mark(v, p, ups) = haskey(heuristics[p], v) ?
+                    join((x in heuristics[p][v] ? "$x ⚠" : x for x in ups), ", ") : ups
                 for (v, ups) in pkg_version_upstream[pkg]
-                    println(io, "    | $v | ", join((ups[p] for p in vulnerable_projs), " | "), " | ")
+                    println(io, "    | $v | ", join((mark(v, p, ups[p]) for p in vulnerable_projs), " | "), " | ")
                 end
                 println(io)
                 println(io, "    </details>\n")
@@ -572,6 +576,11 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
                 last_version, last_version_info = last(pkg_version_upstream[pkg])
                 if any(x->ismissing(x) || x=="*", values(last_version_info))
                     println(io, "    * **⚠ The latest version (v$last_version) has incomplete or missing metadata**")
+                end
+                for proj in intersect(pkg_projects, vulnerable_projs)
+                    n = length(heuristics[proj])
+                    n > 0 && println(io, "    * **⚠ The ", link_proj(proj), " version", n == 1 ? " of 1 release was" : "s of $n releases were",
+                        " guessed heuristically from source URLs** (marked ⚠ above); check them before trusting these ranges")
                 end
                 has_early_missings = false
                 has_intervening_missings = false

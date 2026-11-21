@@ -279,7 +279,9 @@ package has no known fixed version, yet an upstream range has an exclusive upper
 bound — meaning the upstream project has published a fixed version that simply hasn't
 been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
 name without its `_jll` suffix) and the version is the largest such upstream fixed
-version across all the sources' affected components, as a [`VersionString`](@ref).
+version across all the sources' affected components, as a [`VersionString`](@ref) of that
+upstream project. A package with fixed versions from several upstream projects gets one
+candidate per project.
 Ranges that don't identify a fixed version (unbounded, inclusively-bounded, exact, or
 unparseable ones) are simply ignored.
 
@@ -290,12 +292,22 @@ function recipe_update_candidates(a::Advisory)
     candidates = Pair{String, VersionString}[]
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
-        upstream_ranges = [tryparse(VersionRange, v)
-            for src in a.jlsec_sources for (vp, ranges) in src.affected if vuln.pkg in packages_with_upstream_component(vp) for v in ranges]
-        # Only ranges with exclusive upper bounds tell us the upstream's fixed version
-        fixed = filter(r -> !isnothing(r) && has_upper_bound(r) && !r.ubinclusive, upstream_ranges)
-        isempty(fixed) && continue
-        push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, fixed))
+        # Versions of different upstream projects can't be compared, so find the largest fixed version per project
+        fixed = Dict{String, VersionString}()
+        for src in a.jlsec_sources, (vp, ranges) in src.affected
+            contains(vp, ":") || continue
+            for proj in upstream_projects_by_cpe(vp)
+                vuln.pkg in packages_with_project(proj) || continue
+                project = chopprefix(proj, "repology.org/project/")
+                for v in ranges
+                    r = tryparse(VersionRange, v; project)
+                    # Only ranges with exclusive upper bounds tell us the upstream's fixed version
+                    !isnothing(r) && has_upper_bound(r) && !r.ubinclusive || continue
+                    fixed[project] = max(get(fixed, project, r.ub), r.ub)
+                end
+            end
+        end
+        append!(candidates, [chopsuffix(vuln.pkg, "_jll") => v for (_, v) in sort!(collect(fixed), by=first)])
     end
     return unique!(candidates)
 end

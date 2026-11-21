@@ -17,6 +17,17 @@ using SecurityAdvisories.VersionStrings: VersionString as V
     @test V("1.2.3") > V("1.2.03")
     @test V("1.2.03") < V("1.2.3-")
     @test V("1.2.3-") > V("1.2.03")
+
+    # A project's own versioning scheme takes precedence where Repology can order the versions
+    @test V("7.1.2-1") < V("7.1.2")
+    @test V("7.1.2-1", "imagemagick") > V("7.1.2", "imagemagick")
+    @test V("9.9-p1", "openssh") <= V("9.9p1", "openssh") <= V("9.9-p1", "openssh")
+    @test V("9.9-p1", "openssh") != V("9.9p1", "openssh")
+    @test V("1.0", "zlib") != V("1.0")
+    @test_throws ArgumentError V("1.0", "zlib") < V("1.0")
+    @test_throws ArgumentError V("1.0", "zlib") < V("1.0", "openssl")
+    # The extrema belong to no project
+    @test V("", "zlib") == typemin(V) < V("1.0", "zlib") < V("∞", "zlib") == typemax(V)
 end
 
 using SecurityAdvisories: VersionRange as VR, merge_ranges
@@ -43,6 +54,15 @@ end
     @test merge_ranges(VR{VersionNumber}.(["1 < 2", "2 <= 4", "3 < 4"])) == [VR{VersionNumber}("1 <= 4")]
     @test merge_ranges(VR{VersionNumber}.(["1 < 2", "2 <= 4", "3 < 4", "3 < 5"])) == [VR{VersionNumber}("1 < 5")]
     @test merge_ranges(VR{VersionNumber}.(["1 < 2", "> 2, <= 5", "3 < 5"])) == [VR{VersionNumber}("1 < 2"), VR{VersionNumber}(">2, <=5")]
+
+    # Endpoints the project's scheme orders equally (1.0 and 1.0.0) touch and merge
+    zlib(r) = VR(r; project="zlib")
+    @test SecurityAdvisories.overlaps(zlib(">= 0.5, <= 1.0"), zlib(">= 1.0.0, < 2"))
+    @test merge_ranges(zlib.([">= 0.5, <= 1.0", ">= 1.0.0, < 2"])) == [zlib(">= 0.5, < 2")]
+    @test merge_ranges(zlib.([">= 0.5, <= 1.0", ">= 0.6, < 1.0.0"])) == [zlib(">= 0.5, <= 1.0")]
+    @test merge_ranges(zlib.(["> 1.0, < 2", "= 1.0.0"])) == [zlib(">= 1.0.0, < 2")]
+    @test SecurityAdvisories.version_project(zlib("< 2")) == "zlib"
+    @test SecurityAdvisories.version_project(VR("*")) === nothing
 end
 
 # Matching; this should ideally be more isolated from GeneralMetadata.jl's package components data
@@ -123,6 +143,11 @@ using SecurityAdvisories: convert_versions, VersionRange
 
     singular = Dict{String, Any}("4.1.3+0" => missing, "4.1.3+1" => missing, "4.1.3+2" => missing, "4.1.3+3" => missing, "4.1.3+4" => missing, "4.1.3+5" => missing, "4.1.3+6" => missing, "4.1.4+0" => ["*"], "401.390.0+0" => ["*"], "401.990.0+0" => ["*"], "402.0.0+0" => missing, "402.0.1+0" => missing, "402.0.101+0" => ["*"], "402.0.102+0" => ["*"], "402.0.102+1" => ["*"], "402.0.103+0" => ["*"], "402.0.104+0" => ["*"], "402.100.100+0" => ["*"], "402.100.101+0" => ["*"], "402.100.102+0" => ["*"], "402.101.100+0" => ["*"], "402.101.200+0" => ["4.2.1p2"], "402.101.201+0" => ["4.2.1p2"], "403.0.100+0" => ["*"], "403.1.100+0" => ["*"], "403.1.200+0" => ["*"], "403.1.300+0" => ["*"], "403.100.100+0" => ["*"], "403.100.200+0" => ["*"], "403.100.300+0" => ["*"], "403.101.400+0" => ["*"], "403.101.500+0" => ["*"], "403.201.0+0" => ["4.3.2p1"], "403.201.1+0" => ["*"], "403.201.202+0" => ["4.3.2p2"], "403.202.200+0" => ["4.3.2p2"], "403.203.200+0" => ["*"], "403.203.201+0" => ["*"], "403.203.202+0" => ["*"], "403.204.400+0" => ["4.3.2p4"], "403.205.500+0" => ["4.3.2p5"], "403.206.600+0" => ["4.3.2p6"], "403.207.700+0" => ["*"], "403.208.800+0" => ["4.3.2p8"], "403.209.900+0" => ["*"], "403.210.1000+0" => ["4.3.2p10"], "403.211.1100+0" => ["*"], "403.212.1200+0" => ["*"], "403.212.1201+0" => ["*"], "403.212.1202+0" => ["*"], "403.214.1400+0" => ["4.3.2p14"], "403.216.1600+0" => ["4.3.2p16"], "403.216.1601+0" => ["*"], "403.216.1602+0" => ["*"], "403.216.1603+0" => ["*"], "404.0.100+0" => ["*"], "404.0.301+0" => ["*"], "404.0.502+0" => ["*"], "404.0.503+0" => ["*"], "404.0.504+0" => ["*"], "404.0.605+0" => ["4.4.0p6"], "404.0.606+0" => ["*"], "404.0.707+0" => ["*"], "404.0.708+0" => ["*"], "404.0.709+0" => ["*"], "404.0.710+0" => ["*"], "404.0.711+0" => ["*"], "404.1.700+0" => ["*"], "404.100.0+0" => ["*"], "404.100.100+0" => ["*"], "404.100.101+0" => ["*"], "404.100.102+0" => ["*"], "404.100.103+0" => ["*"], "404.100.104+0" => ["*"], "404.100.105+0" => ["*"], "404.100.106+0" => ["*"], "404.100.107+0" => ["*"], "404.100.108+0" => ["*"], "404.100.109+0" => ["*"], "404.100.300+0" => ["*"], "404.100.301+0" => ["*"], "404.101.300+0" => ["*"], "404.101.301+0" => ["*"], "404.101.400+0" => ["*"], "404.101.500+0" => ["*"], "404.101.501+0" => ["*"], "404.101.502+0" => ["*"], "404.101.503+0" => ["*"], "404.101.504+0" => ["*"], "404.101.505+0" => ["4.4.1p5"], "404.101.505+1" => ["4.4.1p5"], "404.101.505+2" => ["4.4.1p5"], "404.101.505+3" => ["*"])
     @test convert_versions(singular, VersionRange("< 4.3.1")) == [VersionRange{VersionNumber}("< 403.201.0+0")]
+
+    # Upstream versions follow the scheme of the range's project
+    ffmpeg = ["4.3.1+0" => "4.3", "4.3.1+2" => "4.3.1", "4.4.0+0" => "4.4"]
+    @test convert_versions(ffmpeg, VersionRange(">= 4.3.0, < 4.3.3")) == [VersionRange{VersionNumber}(">= 4.3.1+2, < 4.4.0+0")]
+    @test convert_versions(ffmpeg, VersionRange(">= 4.3.0, < 4.3.3"; project="ffmpeg")) == [VersionRange{VersionNumber}("< 4.4.0+0")]
 end
 
 # Specific support for re-interpreting GitHub's patched field:
@@ -376,10 +401,10 @@ end
         end
 
     # An unbounded JLL whose upstream fix version is known (an exclusive upper bound) is actionable
-    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7"))) == ["Zstd" => VersionString("1.5.7", "testproj")]
     # ... using the largest fixed version across ranges, even non-semver-ish ones
-    @test candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
-    @test candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10")]
+    @test candidates(jll(jlsec_sources=upstreams(">= 1.0.0, < 1.4.0", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7", "testproj")]
+    @test candidates(jll(jlsec_sources=upstreams("< 4.3.2p2", "< 4.3.2p10"))) == ["Zstd" => VersionString("4.3.2p10", "testproj")]
 
     # Ranges that don't identify a fixed version (inclusively bounded, unbounded, exact,
     # or unparseable ones) are ignored...
@@ -388,16 +413,26 @@ end
     @test isempty(candidates(jll(jlsec_sources=upstreams("= 1.5.7"))))
     @test isempty(candidates(jll(jlsec_sources=upstreams("who knows"))))
     # ... and don't veto ranges that do — such as when a second source reports a looser range
-    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
-    @test candidates(jll(jlsec_sources=upstreams("*", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7")]
+    @test candidates(jll(jlsec_sources=upstreams("< 1.5.7", "<= 1.5.7"))) == ["Zstd" => VersionString("1.5.7", "testproj")]
+    @test candidates(jll(jlsec_sources=upstreams("*", "< 1.5.7"))) == ["Zstd" => VersionString("1.5.7", "testproj")]
     @test candidates(jll(jlsec_sources=[only(upstreams("< 1.5.7")),
         test_source(id="EUVD-2025-1", affected=Dict("vendor:product" => ["*"]))])) ==
-        ["Zstd" => VersionString("1.5.7")]
+        ["Zstd" => VersionString("1.5.7", "testproj")]
     # Nor without any upstream version information at all
     @test isempty(candidates(jll()))
     @test isempty(candidates(jll(jlsec_sources=upstreams())))
     # Nor when the upstream component belongs to some other package
     @test isempty(candidates(jll(jlsec_sources=upstreams("< 1.5.7")); pkgs=["Other_jll"]))
+
+    # Fixed versions follow the upstream project's versioning scheme...
+    imagemagick = "repology.org/project/imagemagick"
+    @test with_component_maps(projects=Dict(("vendor","product") => [imagemagick]), packages=Dict(imagemagick => ["Zstd_jll"])) do
+        recipe_update_candidates(jll(jlsec_sources=upstreams("< 7.1.2-1", "< 7.1.2")))
+    end == ["Zstd" => VersionString("7.1.2-1", "imagemagick")]
+    # ... and each of a package's upstream projects gets its own candidate
+    @test with_component_maps(projects=Dict(("vendor","product") => ["a", "b"]), packages=Dict("a" => ["Zstd_jll"], "b" => ["Zstd_jll"])) do
+        recipe_update_candidates(jll(jlsec_sources=upstreams("< 1.5.7")))
+    end == ["Zstd" => VersionString("1.5.7", "a"), "Zstd" => VersionString("1.5.7", "b")]
 
     # Only vulnerable-and-unbounded JLL packages are considered
     @test isempty(candidates(Advisory(affected=[
