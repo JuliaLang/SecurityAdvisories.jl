@@ -1,5 +1,9 @@
 using SecurityAdvisories, Test, TOML
 
+module WebsiteUtils
+include(joinpath(@__DIR__, "..", "web", "utils.jl"))
+end
+
 using SecurityAdvisories.VersionStrings: VersionString as V
 @testset "VersionString comparisons" begin
     @test V("1.0.3") < V("1.0.10")
@@ -685,4 +689,22 @@ end
     out = sprint(print_body, hostile)
     @test startswith(out, "body<<BODY_EOF_\n") && endswith(out, "\nBODY_EOF_\n")
     @test contains(sprint(print_body, "BODY_EOF\nBODY_EOF_\n"), "body<<BODY_EOF__\n")
+end
+
+@testset "Website advisory Markdown" begin
+    html = WebsiteUtils._advisory_details_html(raw"""
+        Stream `:Zone.Identifier:$DATA` and text $NAME with marker [1].
+
+        ```sh
+        echo $(example) \( \) \[ \] [0] [1]
+        ```
+
+        *Emphasis* and [link](https://example.com), not a raw <tag>.
+        """)
+    @test occursin(raw"<code>:Zone.Identifier:$DATA</code>", html)
+    @test occursin(raw"text $NAME with marker [1]", html)
+    @test occursin(raw"echo $(example) \( \) \[ \] [0] [1]", html)
+    @test occursin("<em>Emphasis</em>", html)
+    @test occursin("<a href=\"https://example.com\">link</a>", html)
+    @test occursin("&lt;tag&gt;", html)
 end
