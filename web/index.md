@@ -1,8 +1,8 @@
-@def title = "Julia Security Advisories"
+@def title = "Julia Ecosystem Security Advisories"
 
 ~~~
 <div class="hero">
-  <h1 class="hero-title">Julia Security<br>Advisories</h1>
+  <h1 class="hero-title">Julia Ecosystem<br>Security Advisories</h1>
   <p class="hero-sub">The security advisory database for packages in the Julia ecosystem. Browse known vulnerabilities, check affected versions, and stay informed.</p>
 </div>
 ~~~

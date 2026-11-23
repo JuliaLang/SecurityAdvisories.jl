@@ -1,7 +1,9 @@
 module VersionStrings
 
+import Repology
+
 """
-    VersionString
+    VersionString(str, project=nothing)
 
 A not-necessarily-SemVer version string that implements version-like
 lexicographic splitting at punctuation and numeric-like comparisons
@@ -13,13 +15,23 @@ There are four special version-y things this implements:
 * The delimiters '-', '.' and '+' split parts to be compared separately
 * The delimiter '-' is considered a prerelease and _precedes_ the version to its left
 * The extrema are VersionString("") and VersionString("∞")
+
+If a Repology `project` is given, comparisons follow that project's versioning scheme
+(see `Repology.vercmp`) wherever Repology can order the two versions, and only fall
+back to the rules above where it cannot. Comparing versions of different projects is an
+error, except for the extrema, which belong to no project and compare with any version.
 """
 struct VersionString
     str::String
+    project::Union{Nothing,String}
+    VersionString(str::AbstractString, project::Union{Nothing,AbstractString}=nothing) =
+        new(str, str in ("", "∞") || isnothing(project) ? nothing : String(project))
 end
-Base.tryparse(::Type{VersionString}, str) = VersionString(str)
-Base.:(==)(a::VersionString, b::VersionString) = a.str == b.str
-Base.hash(a::VersionString, h::UInt) = hash(a.str, hash(0x30eeab00fd453583, h))
+Base.tryparse(::Type{VersionString}, str, project=nothing) = VersionString(str, project)
+Base.:(==)(a::VersionString, b::VersionString) = a.str == b.str && a.project == b.project
+# Not `<` or `==`: versions the project's scheme orders equally (1.0 and 1.0.0) satisfy inclusive bounds without being ==
+Base.:(<=)(a::VersionString, b::VersionString) = !isless(b, a)
+Base.hash(a::VersionString, h::UInt) = hash(a.str, hash(a.project, hash(0x30eeab00fd453583, h)))
 Base.Broadcast.broadcastable(a::VersionString) = Ref(a)
 
 isdelim(c::Char) = c in ('-','+','.')
@@ -48,6 +60,12 @@ function Base.isless(aver::VersionString, bver::VersionString)
     b == "∞" && return true
     b == "" && return false # These would otherwise allow empty -prereleases per below
     a == "" && return true
+    # Follow the project's own versioning scheme where Repology can decide
+    aver.project == bver.project || throw(ArgumentError("cannot compare versions of different projects: $aver and $bver"))
+    if !isnothing(aver.project)
+        c = Repology.vercmp(aver.project, a, b)
+        isnothing(c) || return c < 0
+    end
     ai = bi = 1
     while true
         # Skip to the first difference _or_ the first digit
@@ -110,6 +128,7 @@ function Base.show(io::IO, a::VersionString)
     show(io, typeof(a))
     print(io, "(")
     show(io, a.str)
+    isnothing(a.project) || (print(io, ", "); show(io, a.project))
     print(io, ")")
     return nothing
 end

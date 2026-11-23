@@ -11,73 +11,79 @@ permissions:
 
 concurrency:
   group: ${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  update-and-export:
+  publish:
+    if: github.event_name == 'push'
     permissions:
       contents: write
 
     runs-on: ubuntu-latest
 
     outputs:
-      ref: ${{ steps.set_ref.outputs.ref }}
+      ref: ${{ steps.publish.outputs.ref }}
 
-    steps:
+    steps: &export-steps
     - name: Checkout repository
-      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        # A queued run must include merges and assignments made since it was triggered.
+        ref: ${{ github.event_name == 'push' && 'refs/heads/main' || github.sha }}
+        persist-credentials: false
         fetch-depth: 0
 
-    - name: Setup Julia
-      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+    - uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+      id: julia
+      with:
+        version: '1'
+    - uses: julia-actions/cache@9353db09a0f2bbbdec6f41791918c75d37391b36 # v3.5.0
+      with:
+        cache-name: julia-cache;workload=root;julia=${{ steps.julia.outputs.julia-version }};arch=${{ runner.arch }}
+        delete-old-caches: false
+        save-always: false
 
     - name: Install Julia dependencies
       run: |
         julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
+    - name: Checkout osv-schema
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: JuliaComputing/osv-schema # temporarily use https://github.com/ossf/osv-schema/pull/669
+        ref: 6649d8ec2274a1a5f7a58e3725ae1f577d712f82
+        path: osv-schema
+        persist-credentials: false
+
     - name: Set up Go
       uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
       with:
         go-version: 'stable'
+        cache-dependency-path: osv-schema/tools/osv-linter/go.sum
 
-    - name: Install osv-linter
-      run: |
-        git clone https://github.com/ossf/osv-schema.git
-        cd ./osv-schema/tools/osv-linter
-        go build -o ../../../osv-linter ./cmd/osv
-        cd ../../..
-        rm -rf osv-schema
+    - name: Build osv-linter
+      working-directory: osv-schema/tools/osv-linter
+      run: go build -o ../../../osv-linter ./cmd/osv
 
     - name: Assign ids and timestamps
       id: assign
+      env:
+        GIT_AUTHOR_NAME: github-actions[bot]
+        GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        GIT_COMMITTER_NAME: github-actions[bot]
+        GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
       run: |
+        base=$(git rev-parse HEAD)
         julia --project=. scripts/assign_ids_and_dates.jl
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
+        echo "base=$base" >> "$GITHUB_OUTPUT"
         git add advisories
         git diff -w -U0 --cached
-        if git diff -w --cached --quiet; then
-          echo "No changes to commit."
-          echo "diff_changes=false" >> $GITHUB_OUTPUT
-        else
-          echo "diff_changes=true" >> $GITHUB_OUTPUT
+        if [[ "$GITHUB_EVENT_NAME" == push ]] && ! git diff -w --cached --quiet; then
+          title=$(sed -n 's/^title=//p' "$GITHUB_OUTPUT")
+          git commit -m "$title"
         fi
 
-    - name: Push updated advisories (to main)
-      if: ${{ steps.assign.outputs.diff_changes == 'true' && github.event_name == 'push' && github.ref_name == 'main' }}
-      run: |
-        git commit -m '${{ steps.assign.outputs.title }}'
-        git push origin main
-
-    - name: Set ref output
-      id: set_ref
-      run: |
-        echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
     - name: Export OSV
-      id: export
       run: |
         julia --project=. scripts/export_osv.jl
       env:
@@ -85,44 +91,47 @@ jobs:
 
     - name: Validate JSON
       run: |
-        output=$(./osv-linter record lint osv 2>&1 || true)
-        if [ -n "$output" ]; then
-          echo "$output"
+        if ! output=$(./osv-linter record lint osv 2>&1) || [[ -n "$output" ]]; then
+          printf '%s\n' "$output"
           exit 1
         fi
 
     - name: Prepare OSV branch
       id: prepare_osv
       env:
-        GITHUB_BRANCH: ${{ github.ref_name }}
+        GIT_AUTHOR_NAME: github-actions[bot]
+        GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        GIT_COMMITTER_NAME: github-actions[bot]
+        GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
       run: |
-        DATA_DIR=$PWD/osv
+        SOURCE=$(git rev-parse HEAD)
         REF=refs/remotes/origin/generated/osv
-        export GIT_WORK_TREE=$DATA_DIR
+        export GIT_WORK_TREE="$PWD/osv"
+        export GIT_INDEX_FILE="$RUNNER_TEMP/osv.index"
         git read-tree "$REF"
         git add --all --intent-to-add
         git diff -w -U0
         if git diff -w --quiet; then
           echo "No changes to commit."
-          echo "changes=false" >> $GITHUB_OUTPUT
+          COMMIT=$(git rev-parse "$REF")
         else
-          echo "changes=true" >> $GITHUB_OUTPUT
           git add --all
           TREE=$(git write-tree)
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          COMMIT=$(git commit-tree "$TREE" -p "$REF" -m "[automated] export $GITHUB_BRANCH@($GITHUB_SHA)")
-          echo "COMMIT=$COMMIT" >> $GITHUB_OUTPUT
+          COMMIT=$(git commit-tree "$TREE" -p "$REF" -m "[automated] export $GITHUB_REF_NAME@($SOURCE)")
         fi
+        echo "commit=$COMMIT" >> "$GITHUB_OUTPUT"
 
     - name: Confirm OSV modified timestamps
+      shell: bash
+      env:
+        OSV_COMMIT: ${{ steps.prepare_osv.outputs.commit }}
       run: |
-        for json_file in $(find ./osv -name "*.json" -type f); do
+        while IFS= read -r -d '' json_file; do
           git_path=${json_file#./osv/}
           json_time=$(jq -r '.modified' "$json_file")
           json_epoch=$(date -d "$json_time" +%s)
 
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
             # Timestamps are finalized when changes land on main, so a dry run
             # can only check that changed content comes with a newer stamp
             old_json=$(git show "origin/generated/osv:$git_path" 2>/dev/null) || continue  # newly published
@@ -133,7 +142,7 @@ jobs:
               exit 1
             fi
           else
-            git_time=$(git log -1 --first-parent --format="%cd" --date=iso-strict ${{ steps.prepare_osv.outputs.COMMIT || 'origin/generated/osv' }} -- "$git_path")
+            git_time=$(git log -1 --first-parent --format="%cd" --date=iso-strict "$OSV_COMMIT" -- "$git_path")
             git_epoch=$(date -d "$git_time" +%s)
             diff_minutes=$(( (json_epoch - git_epoch) / 60 ))
             abs_diff=${diff_minutes#-}
@@ -145,23 +154,33 @@ jobs:
               exit 1
             fi
           fi
-        done
+        done < <(find ./osv -name "*.json" -type f -print0)
 
-    - name: Push OSV branch (on main)
-      if: ${{ steps.prepare_osv.outputs.changes == 'true' && github.event_name == 'push' && github.ref_name == 'main' }}
+    - name: Publish advisories and OSV atomically
+      id: publish
+      if: github.event_name == 'push' && github.ref_name == 'main'
       env:
-        GITHUB_BRANCH: ${{ github.ref_name }}
-        COMMIT: ${{ steps.prepare_osv.outputs.COMMIT }}
-      run: |
-        git push origin $COMMIT:generated/osv
+        GH_TOKEN: ${{ github.token }}
+        GIT_CONFIG_COUNT: 1
+        GIT_CONFIG_KEY_0: credential.https://github.com.helper
+        GIT_CONFIG_VALUE_0: '!gh auth git-credential'
+        BASE: ${{ steps.assign.outputs.base }}
+        OSV_COMMIT: ${{ steps.prepare_osv.outputs.commit }}
+      run: bash scripts/publish_advisories.sh "$BASE" "$OSV_COMMIT"
+
+  update-and-export:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps: *export-steps
 
   deploy-website:
     permissions:
       contents: read
       id-token: write
       pages: write
-    needs: update-and-export
-    if: ${{ success() && github.event_name == 'push' && github.ref_name == 'main' }}
-    uses: ./.github/workflows/deploy-web.yml
+    needs: publish
+    if: needs.publish.outputs.ref != ''
+    # The same-commit relative workflow call is supported by actionlint v1.7.12; $/ is not.
+    uses: ./.github/workflows/deploy-web.yml # zizmor: ignore[self-repository]
     with:
-      ref: ${{ needs.update-and-export.outputs.ref }}
+      ref: ${{ needs.publish.outputs.ref }}

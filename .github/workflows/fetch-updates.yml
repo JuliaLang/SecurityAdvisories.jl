@@ -21,12 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        persist-credentials: false
 
-    - name: Setup Julia
-      uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # v3.0.2
+    - uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+      id: julia
+      with:
+        version: '1'
+    - uses: julia-actions/cache@9353db09a0f2bbbdec6f41791918c75d37391b36 # v3.5.0
+      with:
+        cache-name: julia-cache;workload=root;julia=${{ steps.julia.outputs.julia-version }};arch=${{ runner.arch }}
+        delete-old-caches: false
+        save-always: false
 
     - name: Install Julia dependencies
       run: |
@@ -44,11 +51,13 @@ jobs:
     - name: Check for changes
       id: git-check
       run: |
-        [[ $(git ls-files --others --modified --exclude-standard) ]] && echo "changes=true" >> $GITHUB_OUTPUT || echo "no changes"
+        if [[ -n $(git ls-files --others --modified --exclude-standard) ]]; then
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+        fi
 
     - name: Create Pull Request
       if: steps.git-check.outputs.changes == 'true'
-      uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
       with:
         token: ${{ secrets.JLSEC_BOT_TOKEN }}
         committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
@@ -56,3 +65,4 @@ jobs:
         title: ${{ steps.fetch.outputs.title }}
         body: ${{ steps.fetch.outputs.body }}
         branch: ${{ steps.fetch.outputs.branch }}
+        draft: true

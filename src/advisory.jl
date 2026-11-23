@@ -3,27 +3,22 @@ using Dates: Dates, DateTime
 using CommonMark: CommonMark
 
 """
-    PackageVulnerability(; pkgs, ranges, source_type=nothing, source_mapping=nothing)
+    PackageVulnerability(; pkg, ranges)
 
 Represent an item in OSV's `affected` array, but using ranges of `VersionRange` instead of named events.
-
-The `source_type` and `source_mapping` are a bit of *unserialized* metadata to "show the work" of doing version conversion,
-particularly of importance when the type is `"upstream"` and the version mappings are nontrivial.
 """
 @kwdef struct PackageVulnerability
     pkg::String
     ranges::Vector{VersionRange{VersionNumber}}
-    source_type::Union{Nothing, String} = nothing # or "upstream" or "alias"
-    source_mapping::Union{Nothing, AbstractDict} = nothing
 end
 function Base.convert(::Type{PackageVulnerability}, d::AbstractDict)
     PackageVulnerability(; Dict(Symbol(k)=>(Symbol(k) == :ranges ? VersionRange{VersionNumber}.(v) : v) for (k,v) in d)...)
 end
 function Base.:(==)(a::PackageVulnerability, b::PackageVulnerability)
-    return a.pkg == b.pkg && a.ranges == b.ranges && a.source_type == b.source_type && a.source_mapping == b.source_mapping
+    return a.pkg == b.pkg && a.ranges == b.ranges
 end
 function Base.hash(a::PackageVulnerability, h::UInt)
-    return hash(a.pkg, hash(a.ranges, hash(a.source_type, hash(a.source_mapping, hash(0x30652ead7d10dc57, h)))))
+    return hash(a.pkg, hash(a.ranges, hash(0x30652ead7d10dc57, h)))
 end
 is_vulnerable(v::PackageVulnerability) = !isempty(v.ranges)
 has_lower_bound(v::PackageVulnerability) = all(has_lower_bound, v.ranges)
@@ -36,6 +31,7 @@ function purl(pkg::String)
     end
     return "pkg:julia/$pkg?uuid=$(first(uuid))"
 end
+
 """
     Reference(; url, type="WEB")
 
@@ -114,15 +110,9 @@ Severity(type, score; source = nothing) = Severity(type, score, source)
 Base.convert(::Type{Severity}, s::AbstractString) = Severity(s)
 Base.convert(::Type{Severity}, d::AbstractDict) = Severity(; Dict(Symbol(k)=>v for (k,v) in d)...)
 function Base.tryparse(::Type{Severity}, score)
-    if startswith(score, r"^AV:[LAN]\/AC:[HML]\/Au:[MSN]\/C:[NPC]\/I:[NPC]\/A:[NPC]")
-        type = "CVSS_V2"
-    elseif (m = match(r"^CVSS:([34])", score); m !== nothing)
-        type = "CVSS_V$(m.captures[1])"
-    else
-        # TODO: Should this assume medium/high/critical are Ubuntu's definitions?
-        return nothing
-    end
-    return Severity(type, String(score))
+    v = CVSS.version(score)
+    v === nothing && return nothing
+    return Severity("CVSS_V$v", String(score))
 end
 
 @kwdef struct AdvisorySource
@@ -134,6 +124,15 @@ end
     html_url::String
     fields::Vector{String} = String[] # An optional subset of fields that were updated by this source (excepting alias/upstream)
     database_specific::Dict{String, Any} = Dict{String, Any}()
+    # The affected upstream (non-Julia) components, mapping each "vendor:product" identifier
+    # to its vulnerable version ranges, verbatim in the source's own version numbers
+    affected::OrderedDict{String, Vector{String}} = OrderedDict{String, Vector{String}}()
+    function AdvisorySource(id, imported, modified, published, url, html_url, fields, database_specific, affected)
+        # Ensure and fields and affecteds are sorted upon construction
+        new(id, imported, modified, published, url, html_url, sort(collect(String, fields)), database_specific,
+            OrderedDict{String, Vector{String}}(String(k) => sort!(unique!(collect(String, v)))
+                                                for (k, v) in sort(collect(affected), by=String∘first)))
+    end
 end
 Base.:(==)(a::AdvisorySource, b::AdvisorySource) = to_toml_frontmatter(a) == to_toml_frontmatter(b)
 Base.hash(a::AdvisorySource, h::UInt) = hash(to_toml_frontmatter(a), hash(0xa3a999db00b21f4d, h))
@@ -148,6 +147,16 @@ function srcid(src::AdvisorySource)
     else
         return src.id
     end
+end
+
+"""
+    unscoped_id(id)
+
+Return the plain advisory id, dropping the `owner/repo/` prefix that scopes repository GHSAs
+"""
+function unscoped_id(id)
+    m = match(r"(GHSA-\w{4}-\w{4}-\w{4})$", id)
+    return isnothing(m) ? id : String(m.captures[1])
 end
 
 """
@@ -206,8 +215,8 @@ function Base.:≈(a::Advisory, b::Advisory)
         Set((v.pkg, v.ranges) for v in a.affected) == Set((v.pkg, v.ranges) for v in b.affected) &&
         Set(a.references) == Set(b.references) &&
         Set(a.credits) == Set(b.credits) &&
-        Set((src.id, src.published, src.url) for src in a.jlsec_sources) ==
-        Set((src.id, src.published, src.url) for src in b.jlsec_sources)
+        Set((src.id, src.published, src.url, src.affected) for src in a.jlsec_sources) ==
+        Set((src.id, src.published, src.url, src.affected) for src in b.jlsec_sources)
 end
 
 """
@@ -254,25 +263,51 @@ is_vulnerable(a::Advisory) = any(is_vulnerable, a.affected)
 vulnerable_packages(a::Advisory) = [entry.pkg for entry in a.affected if is_vulnerable(entry)]
 
 """
+    is_direct(advisory)
+
+Return `true` if the advisory pertains directly to Julia packages, rather than having been
+identified through upstream (non-Julia) components.
+"""
+is_direct(a::Advisory) = isempty(a.upstream)
+
+"""
     recipe_update_candidates(advisory)
 
 Return `name => version` pairs describing Yggdrasil recipe updates that could resolve
 unbounded JLL vulnerabilities in the given advisory: cases where a vulnerable `_jll`
-package has no known fixed version, yet every upstream range has an exclusive upper
+package has no known fixed version, yet an upstream range has an exclusive upper
 bound — meaning the upstream project has published a fixed version that simply hasn't
 been built into a JLL release yet. The `name` is the Yggdrasil recipe name (the package
-name without its `_jll` suffix) and the version is the largest upstream fixed version
-as a [`VersionString`](@ref).
+name without its `_jll` suffix) and the version is the largest such upstream fixed
+version across all the sources' affected components, as a [`VersionString`](@ref) of that
+upstream project. A package with fixed versions from several upstream projects gets one
+candidate per project.
+Ranges that don't identify a fixed version (unbounded, inclusively-bounded, exact, or
+unparseable ones) are simply ignored.
+
+Since the sources' affected components do not record the Julia packages they map to,
+the association is computed with [`packages_with_upstream_component`](@ref).
 """
 function recipe_update_candidates(a::Advisory)
     candidates = Pair{String, VersionString}[]
     for vuln in a.affected
         endswith(vuln.pkg, "_jll") && is_vulnerable(vuln) && !has_upper_bound(vuln) || continue
-        is_populated(vuln.source_mapping) || continue
-        upstream_ranges = [tryparse(VersionRange, String(v)) for vmap in values(vuln.source_mapping) for v in keys(vmap)]
-        (!isempty(upstream_ranges) && all(!isnothing, upstream_ranges)) || continue
-        all(r -> has_upper_bound(r) && !r.ubinclusive, upstream_ranges) || continue
-        push!(candidates, chopsuffix(vuln.pkg, "_jll") => maximum(r -> r.ub, upstream_ranges))
+        # Versions of different upstream projects can't be compared, so find the largest fixed version per project
+        fixed = Dict{String, VersionString}()
+        for src in a.jlsec_sources, (vp, ranges) in src.affected
+            contains(vp, ":") || continue
+            for proj in upstream_projects_by_cpe(vp)
+                vuln.pkg in packages_with_project(proj) || continue
+                project = chopprefix(proj, "repology.org/project/")
+                for v in ranges
+                    r = tryparse(VersionRange, v; project)
+                    # Only ranges with exclusive upper bounds tell us the upstream's fixed version
+                    !isnothing(r) && has_upper_bound(r) && !r.ubinclusive || continue
+                    fixed[project] = max(get(fixed, project, r.ub), r.ub)
+                end
+            end
+        end
+        append!(candidates, [chopsuffix(vuln.pkg, "_jll") => v for (_, v) in sort!(collect(fixed), by=first)])
     end
     return unique!(candidates)
 end
@@ -327,6 +362,20 @@ function fetch_updates(original::Advisory; reset_fields = Symbol[])
     updates = SecurityAdvisories.fetch_advisory.(src_ids)
     advisory = Advisory(; (f => getfield(original, f) for f in fieldnames(Advisory) if f ∉ reset_fields)...)
     return foldl(combine, updates; init=advisory)
+end
+
+"""
+    better_affected(a, b)
+
+Choose between two competing versions of a package's affected ranges, preferring `a`
+unless `b` is clearly better: having more ranges is generally more specific, and ranges
+with upper bounds beat unbounded ones.
+"""
+function better_affected(a::PackageVulnerability, b::PackageVulnerability)
+    a.ranges == b.ranges && return a
+    length(a.ranges) > length(b.ranges) && return a
+    all(has_upper_bound, a.ranges) && return a
+    return b
 end
 
 """
@@ -392,7 +441,7 @@ function combine(a::Advisory, b::Advisory)
         related = union(a.related, b.related),
         summary = something(a.summary, b.summary, Some(nothing)),
         # Generally the longer details are better, but we could try to find some Markdown?
-        details = length(a.details) >= length(b.details) ? a.details : b.details,
+        details = length(something(a.details, "")) >= length(something(b.details, "")) ? a.details : b.details,
         severity = combine_severities(a.severity, b.severity),
         # Affected is the trickiest one when both exist; we want the "best" information here
         affected = if !isnothing(a.affected) && !isnothing(b.affected)
@@ -405,16 +454,7 @@ function combine(a::Advisory, b::Advisory)
                 elseif b_entry === nothing
                     a.affected[a_entry]
                 else
-                    a_ranges = a.affected[a_entry].ranges
-                    b_ranges = b.affected[b_entry].ranges
-                    if length(a_ranges) > length(b_ranges)
-                        # Having more ranges is generally more specific
-                        a.affected[a_entry]
-                    elseif all(has_upper_bound, a_ranges)
-                        a.affected[a_entry]
-                    else
-                        b.affected[b_entry]
-                    end
+                    better_affected(a.affected[a_entry], b.affected[b_entry])
                 end
             end for pkg in pkgs]
         else
@@ -453,6 +493,12 @@ end
 
 #### IO and serialization ####
 
+sort_database_specific(d::AbstractDict) = OrderedDict(k => sort_database_specific(d[k]) for k in sort!(collect(keys(d))))
+sort_database_specific(a::AbstractArray) = map(sort_database_specific, a)
+sort_database_specific(x) = x
+
+source_field(s::AdvisorySource, f::Symbol) = f == :database_specific ? sort_database_specific(s.database_specific) : getfield(s, f)
+
 # TOML creation. The one funny thing we do here is that the JULSEC parser supports a few
 # shorthand idioms. But only do this if _all_ values in a collection can be represented
 # with such shorthands.
@@ -465,13 +511,14 @@ to_toml_frontmatter(v::Union{VersionNumber, VersionString, VersionRange}) = stri
 to_toml_frontmatter(x::Union{AbstractString, Integer, AbstractFloat, Bool, Dates.DateTime, Dates.Time, Dates.Date}) = x
 to_toml_frontmatter(d::AbstractDict) = OrderedDict(k=>to_toml_frontmatter_collection(v, values(d)) for (k,v) in d)
 to_toml_frontmatter(A::AbstractArray) = [to_toml_frontmatter_collection(x, A) for x in sort_collection(A)]
-to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(getproperty(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
+to_toml_frontmatter(s::AdvisorySource) = OrderedDict(string(f) => to_toml_frontmatter(source_field(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 to_toml_frontmatter_collection(x, _) = to_toml_frontmatter(x)
 function to_toml_frontmatter(a::Advisory)
     # Convert all fields to TOML with a few special cases:
     return OrderedDict{String,Any}(
         string(f) => to_toml_frontmatter(
             f == :affected ? filter(is_vulnerable, getproperty(a, f)) : # Skip (empty) non-vulnerabilities
+            f in (:aliases, :upstream, :related) ? sort(getproperty(a, f), by=preferred_id_sort) : # Ensure lists of ids are sorted by preferred_id_sort
             getproperty(a, f))
         for f in fieldnames(Advisory) if
             is_populated(getproperty(a, f)) && (f ∉ (:summary, :details))) # Summary and details are not frontmatter
@@ -508,9 +555,7 @@ function to_toml_frontmatter(v::PackageVulnerability)
     return OrderedDict("pkg" => to_toml_frontmatter(v.pkg),
                     "ranges" => to_toml_frontmatter(v.ranges))
 end
-
 sort_collection(xs) = xs
-sort_collection(xs::Vector{String}) = sort(xs, by=preferred_id_sort)
 sort_collection(xs::Vector{Severity}) = sort(xs, by=x->(x.type, x.score))
 sort_collection(xs::Vector{PackageVulnerability}) = sort(xs, by=x->x.pkg)
 sort_collection(xs::Vector{Reference}) = sort(xs, by=x->x.url)
@@ -521,7 +566,7 @@ function Base.print(io::IO, vuln::Advisory)
     frontdata = to_toml_frontmatter(vuln)
     frontmatter = sprint(frontdata) do io, x
         TOML.print(io, x;
-            inline_tables=IdSet{Dict{String,Any}}(src["database_specific"] for src in get(x, "jlsec_sources", ()) if SecurityAdvisories.exists(src, "database_specific")))
+            inline_tables=IdSet{AbstractDict}(src["database_specific"] for src in get(x, "jlsec_sources", ()) if SecurityAdvisories.exists(src, "database_specific")))
     end
     # I don't think it's possible for TOML.print to output ``` on a line, but just in case:
     nticks = maximum(x->length(x.captures[1])+1, eachmatch(r"^\s*(`+)\s*$", frontmatter), init=3)
@@ -565,6 +610,38 @@ function Base.tryparse(::Type{Advisory}, s::Union{AbstractString, IO})
     end
 end
 
+# Split an advisory file into its raw TOML frontmatter and body — like `tryparse(Advisory, ...)`
+# above, but without the Advisory struct in between. Used by the advisory diff reports.
+
+# Pull the contents of the first ```toml fence, and everything after it (the markdown body)
+function split_frontmatter(content::AbstractString)
+    m = match(r"^(`{3,})toml\r?\n(.*?)^\1`*\r?\n?(.*)"ms, content)
+    m === nothing && return nothing, content
+    return m[2], m[3]
+end
+
+# Mirror Base.tryparse(Advisory, ...): the body is an optional leading `#` heading
+# (the summary, whitespace-normalized) followed by the details.
+function parse_body(body::AbstractString)
+    body = strip(body)
+    summary = nothing
+    m = match(r"^#+[ \t]+(.+?)[ \t#]*(\r?\n|$)", body)
+    if m !== nothing
+        summary = replace(m[1], r"\s+" => " ")
+        body = strip(body[ncodeunits(m.match)+1:end])
+    end
+    details = isempty(body) ? nothing : String(body)
+    return summary, details
+end
+
+# The TOML frontmatter of an advisory file's content as a Dict (or `nothing` if it is
+# missing or unparseable), along with the markdown body that follows it
+function parse_frontmatter(content)
+    toml_src, body = split_frontmatter(content)
+    toml = toml_src === nothing ? nothing : TOML.tryparse(toml_src)
+    return (toml isa Dict ? toml : nothing), body
+end
+
 """
     to_osv_dict(x)
 
@@ -585,8 +662,11 @@ function to_osv_dict(a::Severity)
     end
     return d
 end
-function to_osv_dict(a::Union{Reference, Credit, AdvisorySource})
+function to_osv_dict(a::Union{Reference, Credit})
     return OrderedDict(string(f) => to_osv_dict(getproperty(a, f)) for f in fieldnames(typeof(a)) if is_populated(getproperty(a, f)))
+end
+function to_osv_dict(s::AdvisorySource)
+    return OrderedDict(string(f) => to_osv_dict(source_field(s, f)) for f in fieldnames(AdvisorySource) if is_populated(getfield(s, f)))
 end
 function to_osv_dict(a::Advisory)
     # The only special thing we need to is `database_specific`

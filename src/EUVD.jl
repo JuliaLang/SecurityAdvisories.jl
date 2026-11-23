@@ -6,7 +6,7 @@ using Dates: Dates, DateTime, @dateformat_str
 using TOML: TOML
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary, PREFIX
+using ..SecurityAdvisories: SecurityAdvisories, exists, Reference, Severity, Advisory, AdvisorySource, extract_summary, protect_identifiers, PREFIX
 
 # https://euvd.enisa.europa.eu/apidoc
 const API_BASE = "https://euvdservices.enisa.europa.eu/api"
@@ -152,7 +152,7 @@ function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
 
     for vuln in vulnerabilities
-        if !isempty(affected_julia_packages(vuln))
+        if !isempty(affected_julia_packages(vuln).affected)
             push!(julia_vulnerabilities, vuln)
         end
     end
@@ -165,15 +165,14 @@ vuln_id(vuln) = get(filter(startswith("CVE-"),  split(get(vuln, :aliases, ""))),
 
 parse_euvd_datetime(str) = DateTime(str, dateformat"u d, y, H:M:S p")
 function advisory(vuln)
-    affected = affected_julia_packages(vuln)
-    upstream_type = Dict("alias"=>:aliases,"upstream"=>:upstream)[get(unique(map(x->x.source_type, affected)), 1, "alias")]
+    (; affected, upstreams) = affected_julia_packages(vuln)
 
     return Advisory(;
         # withdrawn -- not structured; it's unstructured plaintext in the description :(
-        upstream_type => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
+        (isempty(upstreams) ? :aliases : :upstream) => String[vuln.id, strip.(split(get(vuln, :aliases, ""), "\n"; keepempty=false))...],
         id = string(PREFIX, "-0000-", vuln_id(vuln)),
         # related -- nothing structured
-        details = get(vuln, :description, nothing),
+        details = protect_identifiers(get(vuln, :description, nothing)),
         severity = if exists(vuln, :baseScoreVector) && exists(vuln, :baseScoreVersion)
                 Severity[Severity(type = "CVSS_V"*vuln.baseScoreVersion[1], score = string(vuln.baseScoreVector), source = "EUVD")]
             else
@@ -188,7 +187,8 @@ function advisory(vuln)
             published = if exists(vuln, :datePublished) parse_euvd_datetime(vuln.datePublished) end,
             imported = Dates.now(Dates.UTC),
             url = string(API_BASE, "/enisaid?id=", vuln.id),
-            html_url = string("https://euvd.enisa.europa.eu/vulnerability/", vuln.id)
+            html_url = string("https://euvd.enisa.europa.eu/vulnerability/", vuln.id),
+            affected = upstreams,
             )]
         )
 end
