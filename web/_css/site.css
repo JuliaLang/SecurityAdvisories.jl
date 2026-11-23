@@ -960,10 +960,31 @@ a.pkg-tag:hover {
 
 .filter-bar {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.55rem;
   margin-bottom: 1.25rem;
-  flex-wrap: wrap;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+}
+
+/* One orthogonal toggle group per row, introduced by a small caps label */
+.filter-row {
+  display: flex;
   align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  flex: 0 0 4.6rem;
+  text-align: right;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-muted);
+  user-select: none;
 }
 
 .filter-bar input[type="text"] {
@@ -1020,7 +1041,8 @@ a.pkg-tag:hover {
 .sev-btn-medium:hover,   .sev-btn-medium.active   { background: var(--c-medium-bg);   color: var(--c-medium);   border-color: var(--c-medium); }
 .sev-btn-low:hover,      .sev-btn-low.active      { background: var(--c-low-bg);      color: var(--c-low);      border-color: var(--c-low); }
 
-.withdrawn-badge {
+.withdrawn-badge, .deprecated-badge {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: inline-block;
   padding: 0.1em 0.45em;
   border-radius: 4px;
@@ -1040,6 +1062,30 @@ a.pkg-tag:hover {
   font-size: 0.85rem;
   color: var(--c-text-muted);
   margin-left: auto;
+}
+
+/* Lead-in copy on the advisories index */
+.adv-src-desc {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: var(--c-text-secondary);
+}
+
+/* "Upstream" marker distinguishing imported advisories in list rows */
+.source-badge {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  background: var(--c-accent-subtle);
+  color: var(--c-accent);
+  border: 1px solid var(--c-accent-subtle);
+  vertical-align: middle;
+  margin-left: 0.2em;
 }
 
 .home-paths {
@@ -1097,6 +1143,34 @@ a.pkg-tag:hover {
   font-size: 0.93rem;
   line-height: 1.65;
   color: var(--c-text-secondary);
+}
+
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: 2.25rem;
+}
+
+.subnav a {
+  padding: 0 0 0.55rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.subnav a:hover {
+  color: var(--c-text);
+}
+
+.subnav a.active {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
 }
 
 .about-content {
@@ -1190,8 +1264,7 @@ a.pkg-tag:hover {
 .content-main a,
 .meta-row dd a,
 .detail-body a {
-  overflow-wrap: break-word;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .franklin-content {

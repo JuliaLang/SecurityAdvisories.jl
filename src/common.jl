@@ -1,3 +1,4 @@
+import Repology
 using JSON3: JSON3
 using TOML: TOML
 using Pkg: Pkg, Registry
@@ -7,6 +8,7 @@ using DataStructures: OrderedDict, DefaultDict
 using Dates: Dates
 using TimeZones: TimeZones
 using GeneralMetadata: GeneralMetadata
+using HistoricalStdlibVersions: HistoricalStdlibVersions
 
 const PREFIX="JLSEC"
 
@@ -25,8 +27,8 @@ struct VersionRange{V<:Union{VersionNumber, VersionString}}
     lbinclusive::Bool
     ubinclusive::Bool
 end
-VersionRange(x::AbstractString) = VersionRange{VersionString}(x)
-VersionRange{T}(x::AbstractString) where {T<:Union{VersionNumber, VersionString}} = something(tryparse(VersionRange{T}, x))
+VersionRange(x::AbstractString; project=nothing) = VersionRange{VersionString}(x; project)
+VersionRange{T}(x::AbstractString; project=nothing) where {T<:Union{VersionNumber, VersionString}} = something(tryparse(VersionRange{T}, x; project))
 function Base.in(x::T, r::VersionRange{T}) where {T<:Union{VersionNumber, VersionString}}
     return (r.lbinclusive ? x >= r.lb : x > r.lb) &&
            (r.ubinclusive ? x <= r.ub : x < r.ub)
@@ -39,9 +41,23 @@ function Base.:(>)(x::T, r::VersionRange{T}) where {T<:Union{VersionNumber, Vers
 end
 Base.:(==)(a::VersionRange, b::VersionRange) = (==)((a.lb, a.lbinclusive, a.ub, a.ubinclusive), (b.lb, b.lbinclusive, b.ub, b.ubinclusive))
 Base.hash(a::VersionRange, h::UInt) = hash((a.lb, a.lbinclusive, a.ub, a.ubinclusive), hash(0x80ebd9334ee9e2b1, h))
-Base.isless(a::VersionRange, b::VersionRange) = isless((a.lb, !a.lbinclusive, a.ub, a.ubinclusive), (b.lb, !b.lbinclusive, b.ub, b.ubinclusive))
-Base.tryparse(::Type{VersionRange}, x::AbstractString) = tryparse(VersionRange{VersionString}, x)
-function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
+Base.isless(a::VersionRange, b::VersionRange) =
+    bound_isless(lower_bound_tuple(a), lower_bound_tuple(b)) ||
+    (bound_equivalent(lower_bound_tuple(a), lower_bound_tuple(b)) && bound_isless(upper_bound_tuple(a), upper_bound_tuple(b)))
+Base.tryparse(::Type{VersionRange}, x::AbstractString; project=nothing) = tryparse(VersionRange{VersionString}, x; project)
+# The Repology project whose versioning scheme a `VersionString` range's bounds follow, if any
+version_project(r::VersionRange{VersionString}) = something(r.lb.project, r.ub.project, Some(nothing))
+parse_bound(::Type{VersionString}, str, project) = VersionString(str, project)
+function parse_bound(::Type{V}, str, project) where {V}
+    isnothing(project) || throw(ArgumentError("only VersionString bounds follow a project's versioning scheme"))
+    return tryparse(V, str)
+end
+"""
+    tryparse(VersionRange{V}, str; project=nothing)
+
+Parse a GitHub- or EUVD-style range. `VersionString` bounds follow the Repology `project`'s versioning scheme, if given.
+"""
+function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString; project=nothing) where {V}
     # This supports parsing both GitHub and EUVD-like range syntaxes.
     # GHSA range format is described at:
     #   https://docs.github.com/en/graphql/reference/objects#securityvulnerability
@@ -52,36 +68,41 @@ function Base.tryparse(::Type{VersionRange{V}}, arg::AbstractString) where {V}
     #   ">= 0.0.1" denotes a version range with a known minimum, but no known maximum.
     #   (Undocumented) ">" is also a valid operator.
     # EUVD does something similar, albeit with unicode equivalents (≤ and maybe ≥?) and an optional
-    #   inclusive lower bound on the LHS of a less-than operator
+    #   inclusive lower bound on the LHS of a less-than operator, sometimes comma-separated:
+    #   both "26.0.0<36.0.3" and "26.0.0, < 36.0.3" denote ">= 26.0.0, < 36.0.3"
     # The special string "*" denotes all versions
     str = strip(arg)
     if str == "*"
         return VersionRange{V}(typemin(V), typemax(V), true, true)
     elseif startswith(str, "=")
         # An exact version number
-        v = tryparse(V, strip(chopprefix(str, "=")))
+        v = parse_bound(V, strip(chopprefix(str, "=")), project)
         isnothing(v) && return nothing
         return VersionRange{V}(v, v, true, true)
     elseif startswith(str, r"[<≤]")
         # An upper bound only, with an implicit minimum lower bound
-        ub = tryparse(V, strip(chopprefix(str, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(str, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(typemin(V), ub, true, startswith(str, r"(?:<=|≤)"))
     elseif startswith(str, r"[>≥]")
         # A lower bound that may have a comma-separated upper bound that follows
         parts = split(str, r",\s*(?=[<≤])", limit=2, keepempty=false)
         lower, upper = parts[1], get(parts, 2, string("<=",typemax(V)))
-        lb = tryparse(V, strip(chopprefix(lower, r"(?:>=|≥|>)")))
+        lb = parse_bound(V, strip(chopprefix(lower, r"(?:>=|≥|>)")), project)
         isnothing(lb) && return nothing
-        ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(upper, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, startswith(lower, r"(?:>=|≥)"), startswith(upper, r"(?:<=|≤)"))
-    elseif count(in(('<','≤')), str) == 1 && !contains(str, ",")
-        # This is an EUVD-style range, with in inclusive lower bound and an upper bound
-        lower, upper = split(str, r"\s*(?=[<≤])", limit=2, keepempty=false)
-        lb = tryparse(V, strip(lower))
+    elseif count(in(('<','≤')), str) == 1
+        # This is an EUVD-style range, with an inclusive lower bound (optionally followed
+        # by a comma) and an upper bound
+        parts = split(str, r",?\s*(?=[<≤])", limit=2, keepempty=false)
+        length(parts) == 2 || return nothing
+        lower, upper = parts
+        contains(lower, ',') && return nothing # only the one comma before the operator is allowed
+        lb = parse_bound(V, strip(lower), project)
         isnothing(lb) && return nothing
-        ub = tryparse(V, strip(chopprefix(upper, r"(?:<=|≤|<)")))
+        ub = parse_bound(V, strip(chopprefix(upper, r"(?:<=|≤|<)")), project)
         isnothing(ub) && return nothing
         return VersionRange{V}(lb, ub, true, startswith(upper, r"(?:<=|≤)"))
     end
@@ -114,12 +135,16 @@ end
 # Simple helpers for sorting correctly
 lower_bound_tuple(r::VersionRange) = (r.lb, !r.lbinclusive) # inclusive lower bounds are smaller than exclusive ones — they include a smaller version than their exclusive counterparts
 upper_bound_tuple(r::VersionRange) = (r.ub, r.ubinclusive)  # whereas inclusive upper bounds are bigger — they include a bigger version
+# Tuple comparisons break ties with `isequal`, which misses versions a project's scheme orders equally (1.0 and 1.0.0)
+version_equivalent(a, b) = !isless(a, b) && !isless(b, a)
+bound_isless((a, ai), (b, bi)) = isless(a, b) || (version_equivalent(a, b) && isless(ai, bi))
+bound_equivalent(a, b) = !bound_isless(a, b) && !bound_isless(b, a)
 function overlaps(a::VersionRange, b::VersionRange)
     smaller, bigger = a < b ? (a, b) : (b, a)
     # Ranges order by lower bound then upper bound, so the "smaller" range overlaps the "bigger" one if:
     # their lower bounds are the same, or the upper bound of the smaller one reaches into the bigger one
-    return (lower_bound_tuple(smaller) == lower_bound_tuple(bigger) ||
-            upper_bound_tuple(smaller) >= lower_bound_tuple(bigger))
+    return (bound_equivalent(lower_bound_tuple(smaller), lower_bound_tuple(bigger)) ||
+            !bound_isless(upper_bound_tuple(smaller), lower_bound_tuple(bigger)))
 end
 function merge_ranges(ranges)
     ranges = issorted(ranges) ? ranges : sort(ranges)
@@ -128,8 +153,8 @@ function merge_ranges(ranges)
     for rng in ranges
         base === nothing && (base = rng; continue) # first iteration
         # Incrementally widen `base` to "gobble up" any subsequent ranges it overlaps or _touches_ (if at least one endpoint is inclusive)
-        if overlaps(base, rng) || (base.ub == rng.lb && (base.ubinclusive || rng.lbinclusive))
-            ubtuple = max(upper_bound_tuple(base), upper_bound_tuple(rng))
+        if overlaps(base, rng) || (version_equivalent(base.ub, rng.lb) && (base.ubinclusive || rng.lbinclusive))
+            ubtuple = bound_isless(upper_bound_tuple(base), upper_bound_tuple(rng)) ? upper_bound_tuple(rng) : upper_bound_tuple(base)
             base = VersionRange(base.lb, ubtuple[1], base.lbinclusive, ubtuple[2])
         else
             push!(new_ranges, base)
@@ -158,6 +183,26 @@ function osv_events(rng::VersionRange)
     return events
 end
 
+# Truncate `flat` to at most `limit` characters, backing the cut off so it
+# never splits a word or an inline `code span`, and append "..."
+function truncate_at_boundary(flat, limit=100)
+    length(flat) <= limit && return flat
+    cut = nextind(flat, 0, limit)
+    # Don't end inside a `code span`: with an odd number of backticks before
+    # the cut, we're mid-span, so back off to just before its opening backtick
+    if isodd(count(==('`'), SubString(flat, 1, cut)))
+        op = findprev('`', flat, cut)
+        op !== nothing && op > 1 && (cut = prevind(flat, op))
+    end
+    # Don't end mid-word: back off to the last space before the cut
+    nxt = nextind(flat, cut)
+    if nxt <= lastindex(flat) && flat[nxt] != ' '
+        sp = findprev(' ', flat, cut)
+        sp !== nothing && sp > 1 && (cut = prevind(flat, sp))
+    end
+    return string(rstrip(SubString(flat, 1, cut)), "...")
+end
+
 function extract_summary(description)
     N = lastindex(description)
     double_newline = something(findfirst("\n\n", description), N:N)[1]
@@ -168,10 +213,11 @@ function extract_summary(description)
     flat_description = replace(description, r"\s+"=>" ")
     summary_end = findfirst(". ", flat_description)
     if summary_end !== nothing && summary_end[1] < 100
-        flat_description[1:prevind(flat_description, summary_end[1])]
-    else
-        flat_description[1:min(thisind(flat_description, 100), end)] * "..."
+        sentence = flat_description[1:prevind(flat_description, summary_end[1])]
+        # A ". " inside a `code span` isn't a sentence end; fall through if so
+        iseven(count(==('`'), sentence)) && return sentence
     end
+    return truncate_at_boundary(flat_description, 100)
 end
 
 function get_registry(reg=Registry.RegistrySpec(name="General", uuid = "23338594-aafe-5451-b93e-139f81909106"); depot=Pkg.depots1())
@@ -186,10 +232,14 @@ function get_registry(reg=Registry.RegistrySpec(name="General", uuid = "23338594
     return Registry.RegistryInstance(name)
 end
 
+# Pkg 1.13 changed `registry_info(pkg)` to `registry_info(registry, pkg)`
+pkg_registry_info(reg, pkgentry) = applicable(Registry.registry_info, reg, pkgentry) ?
+    Registry.registry_info(reg, pkgentry) : Registry.registry_info(pkgentry)
+
 function registry_repositories(reg=get_registry())
     repos = Dict{Base.UUID, String}()
     for (uuid, pkgentry) in reg
-        repo = Registry.registry_info(pkgentry).repo
+        repo = pkg_registry_info(reg, pkgentry).repo
         isnothing(repo) && continue
         repos[uuid] = repo
     end
@@ -204,7 +254,7 @@ registry_has_package(name, reg=get_registry()) = !isempty(uuids_from_name(name, 
 
 available_versions_for_uuid(uuid) = available_versions_for_uuid(Base.UUID(uuid))
 function available_versions_for_uuid(uuid::Base.UUID, reg=get_registry())
-    version_info = Registry.registry_info(reg[uuid]).version_info
+    version_info = pkg_registry_info(reg, reg[uuid]).version_info
     return sort([version for (version, info) in version_info if !info.yanked])
 end
 
@@ -233,9 +283,13 @@ function readme_for_pkg(name, uuid, version; reg=get_registry())
 end
 
 # The two primary datastructures for connecting packages with upstream projects
+
 const PACKAGE_COMPONENTS = Ref{Dict{String,Any}}()
+# (package, project) => package version => the upstream versions Repology only guessed (`provenance = "heuristic"`)
+const HEURISTIC_COMPONENTS = Ref{Dict{Tuple{String,String},Dict{String,Set{String}}}}()
 function package_components()
     isassigned(PACKAGE_COMPONENTS) && return PACKAGE_COMPONENTS[]
+    heuristics = Dict{Tuple{String,String},Dict{String,Set{String}}}()
     pkg_version_upstream = Dict{String, Any}()
     for (pkg, pkgmeta) in GeneralMetadata.metadata()
         pkg_version_upstream[pkg] = OrderedDict{String, Any}()
@@ -260,16 +314,24 @@ function package_components()
                     d[proj_name] = unique(get(pi, "version", "*") for pi in upstream_proj_info if get(pi, "project", "") == proj_name)
                 end
                 pkg_version_upstream[pkg][v] = d
+                for proj_name in keys(d)
+                    infos = filter(pi -> get(pi, "project", "") == proj_name && haskey(pi, "version"), upstream_proj_info)
+                    is_guess(pi) = get(pi, "provenance", "") == "heuristic"
+                    # A version also identified by a non-heuristic source isn't a guess
+                    guessed = setdiff(Set(pi["version"] for pi in infos if is_guess(pi)), (pi["version"] for pi in infos if !is_guess(pi)))
+                    isempty(guessed) || (get!(Dict{String,Set{String}}, heuristics, (pkg, proj_name))[v] = guessed)
+                end
             end
         end
     end
+    HEURISTIC_COMPONENTS[] = heuristics
     return PACKAGE_COMPONENTS[] = pkg_version_upstream
 end
 
 const UPSTREAM_PROJECTS = Ref{Dict{String,Any}}()
 function upstream_projects()
     isassigned(UPSTREAM_PROJECTS) && return UPSTREAM_PROJECTS[]
-    info = TOML.parse(GitHub.fetch_file("mbauman","Repology.jl","data/cpes.toml";))
+    info = Repology.cpe_data()
     projects = Set(chopprefix(x, "repology.org/project/") for x in
         Iterators.flatmap(keys, Iterators.flatmap(values, values(package_components())))
         if startswith(x, "repology.org/project/"))
@@ -292,10 +354,40 @@ function upstream_projects_by_vendor_product(vendor, product)
     end
     return get(UPSTREAM_PROJECTS_BY_VENDOR_PRODUCT[], (lowercase(vendor),lowercase(product)), String[])
 end
-upstream_projects_by_cpe(vendorproduct) = upstream_projects_by_vendor_product(split(vendorproduct, ":", limit=2)...)
+function upstream_projects_by_cpe(vendorproduct)
+    parts = split(vendorproduct, ":", limit=2)
+    # These identifiers now round-trip through hand-editable advisory files; be explicit about the format
+    length(parts) == 2 || throw(ArgumentError("expected a \"vendor:product\"-style identifier, got $(repr(vendorproduct))"))
+    return upstream_projects_by_vendor_product(parts...)
+end
 
+# Maps each upstream project name to the packages that provide it
+const PACKAGES_WITH_PROJECT = Ref{Dict{String, Vector{String}}}()
 function packages_with_project(proj)
-    return [pkgname for (pkgname,versioninfo) in package_components() if any(v->haskey(v, proj), values(versioninfo))]
+    if !isassigned(PACKAGES_WITH_PROJECT)
+        d = Dict{String, Vector{String}}()
+        for (pkgname, versioninfo) in package_components(), verinfo in values(versioninfo)
+            for project in keys(verinfo)
+                pkgs = get!(Vector{String}, d, project)
+                pkgname in pkgs || push!(pkgs, pkgname)
+            end
+        end
+        PACKAGES_WITH_PROJECT[] = d
+    end
+    return get(PACKAGES_WITH_PROJECT[], proj, String[])
+end
+
+"""
+    packages_with_upstream_component(vendor_product)
+
+Return the Julia packages whose artifacts provide the upstream component identified by the
+CPE-like `"vendor:product"` string, as computed from GeneralMetadata's component tracking.
+A malformed identifier simply maps to no packages, so reports and recipe updates skip it
+rather than erroring on a hand-edited advisory file.
+"""
+function packages_with_upstream_component(vendor_product)
+    contains(vendor_product, ":") || return String[]
+    return unique!(reduce(vcat, packages_with_project.(upstream_projects_by_cpe(vendor_product)); init=String[]))
 end
 
 function upstream_projects_for_package(pkg)
@@ -305,6 +397,9 @@ end
 function vendor_products_for_package(pkg)
     return unique(split(cpe, ":", limit=2) for proj in upstream_projects_for_package(pkg) for cpe in get(SecurityAdvisories.upstream_projects(), proj, String[]))
 end
+
+"Map each version of `pkg` to its `proj` versions that are only heuristic guesses from source URLs"
+heuristic_versions(pkg, proj) = (package_components(); get(HEURISTIC_COMPONENTS[], (pkg, proj), Dict{String,Set{String}}()))
 
 function package_project_version_map(pkg, proj)
     d = OrderedDict{String,Any}()
@@ -318,7 +413,8 @@ end
     convert_versions(pkg_project_map, vulnerable_range)
 
 Convert the vulnerable range from an upstream project's version numbers to the Julia packages,
-using the pkg_project_map.
+using the pkg_project_map. Upstream versions are ordered by the versioning scheme of the
+project the range's bounds were parsed with (see [`VersionString`](@ref)), if any.
 
 In practice, this uses the GeneralMetadata.jl's `package_components.toml` table and a vulnerable range from an upstream advisory.
 
@@ -328,14 +424,21 @@ versions around it.
   - Otherwise, the "*" is bounded by the known versions around it
 """
 function convert_versions(pkg_project_map, vulnerable_range)
+    # Upstream versions are compared with the versioning scheme of the range's project
+    project = version_project(vulnerable_range)
     # Standardize to VersionNumber => Union{Nothing,Missing,Vector{VersionString}} pairs:
     versionmap = sort([VersionNumber(k) =>
             isnothing(v) || (v isa AbstractVector && isempty(v)) ? nothing :
             ismissing(v) || v == "*" || (v isa AbstractVector && "*" in v) ? missing :
-            v isa AbstractString ? [VersionString(v)] :
-            v isa AbstractVector ? VersionString.(v) :
+            v isa AbstractString ? [VersionString(v, project)] :
+            v isa AbstractVector ? VersionString.(v, project) :
             error("unsupported values of type $(typeof(v)) in pkg_project_map")
         for (k,v) in pkg_project_map], by=first)
+    # An upstream version whose form the project's versioning scheme can't order (like 1.2-3 without a known
+    # meaning for the hyphen) is unknown. Ambiguous range bounds (like CVE-style 25.0.0+rust) fall back to VersionString.
+    unorderable(v) = !isnothing(project) && isnothing(Repology.vercmp(project, v.str, v.str))
+    # Like a "*" among a release's platform versions, any unorderable one makes the whole release unknown
+    versionmap = [k => (v isa AbstractVector && any(unorderable, v) ? missing : v) for (k, v) in versionmap]
 
     versions = VersionRange{VersionNumber}[]
     # Now walk through the Julia package's versions and push all applicable (potentially disjoint) ranges of versions
@@ -398,7 +501,11 @@ end
     affected_julia_packages(description, vendorproductversions)
 
 Given some advisory's description an an array of 3-tuples (vendor, product, versionrange)
-for which the vulnerability applies, return the vector of the corresponding Julia `PackageVulnerability`s.
+for which the vulnerability applies, return a named tuple `(; affected, upstreams)` with the
+vector of the corresponding Julia `PackageVulnerability`s and a `"vendor:product" => ranges`
+dict of the tracked upstream components that identified them (for the importing source's
+`affected` field). `upstreams` is empty when the advisory names the Julia packages directly,
+which is also how the importers decide whether the source ids are `upstream` ids or `aliases`.
 """
 function affected_julia_packages(description, vendorproductversions)
     pkgs = DefaultDict{String, Any}(()->DefaultDict{String, Any}(()->OrderedDict{String, Any}()))
@@ -420,12 +527,12 @@ function affected_julia_packages(description, vendorproductversions)
             found_match = true
             for matched_project in upstream_projects
                 matched_pkgs = packages_with_project(matched_project)
-                r = tryparse(VersionRange, version)
+                r = tryparse(VersionRange, version; project=chopprefix(matched_project, "repology.org/project/"))
                 for pkg in matched_pkgs
                     pkgs[pkg]["$vendor:$product"][version] = isnothing(r) ?
                         [VersionRange{VersionNumber}("*")] : convert_versions(package_project_version_map(pkg, matched_project), r)
                 end
-                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory directly lists $pkg, but it also finds upstream components")
+                isnothing(advisory_type) || @assert(advisory_type == "upstream", "advisory matches the upstream component $matched_project ($vendor:$product), but it also directly lists Julia packages")
                 advisory_type = "upstream"
             end
         else
@@ -451,53 +558,49 @@ function affected_julia_packages(description, vendorproductversions)
             end
         end
     end
+    vulns = PackageVulnerability[]
+    for (pkg, mapping) in pkgs
+        push!(vulns, PackageVulnerability(pkg,
+            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in mapping for (_,v) in map))))))
+    end
     if !found_match && !isempty(jlpkgs_mentioned)
         # We didn't connect any vendor/product pair with a Julia package, but there are some mentioned.
         # TODO: this could potentially do better by trying to correlate the listed versions against
         # the registered ones, but this is quite the rare case and not worth worrying too much about
         @warn "failed to match the mentioned packages to a product with a version"
         @warn "assuming that all mentioned products are vulnerable at all versions"
-        for pkg in jlpkgs_mentioned
-            pkgs[pkg]["mentioned in details"]["*"] = [VersionRange{VersionNumber}("*")]
-        end
-        advisory_type = "alias"
+        append!(vulns, [PackageVulnerability(pkg, [VersionRange{VersionNumber}("*")]) for pkg in jlpkgs_mentioned])
     end
-
-    # return pkgs
-    vulns = PackageVulnerability[]
-    for (pkg, source_mapping) in pkgs
-        # Use a better sorting if we can:
-        for (_, vs) in source_mapping
-            if all(!isnothing, tryparse.(VersionRange, keys(vs)))
-                sort!(vs, by=x->something(tryparse(SecurityAdvisories.VersionRange, x), x))
-            else
-                sort!(vs)
-            end
+    # Record the originating upstream component ranges, verbatim
+    upstreams = Dict{String, Vector{String}}()
+    if advisory_type == "upstream"
+        for (pkg, mapping) in pkgs, (cpe, conversions) in mapping
+            union!(get!(Vector{String}, upstreams, cpe), keys(conversions))
         end
-        push!(vulns, PackageVulnerability(pkg,
-            merge_ranges(sort(collect(Iterators.flatten(v for (proj,map) in source_mapping for (_,v) in map)))),
-            advisory_type,
-            source_mapping))
     end
-    return vulns
+    return (; affected=vulns, upstreams)
 end
 
 # TODO: use the above Pkg machinery for this, too
 const ALL_PKGS = Pair{String,String}[]
-function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml"),
-     ("JuliaLang", "julia", "stdlib/Project.toml")])
+function all_pkgs(toml_urls = [("JuliaRegistries", "General", "Registry.toml")])
     if isempty(ALL_PKGS)
+        # Combine three sources: current Julia's stdlib, HistoricalStdlibs, and the passed registry/registries
+        pkgs = [first(info)=>string(uuid) for (uuid, info) in Pkg.Types.stdlibs()]
+        for (_, stdlibs) in HistoricalStdlibVersions.STDLIBS_BY_VERSION
+            append!(pkgs, [info.name=>string(uuid) for (uuid, info) in stdlibs])
+        end
         for (owner, repo, path) in toml_urls
             registry = TOML.parse(GitHub.fetch_file(owner, repo, path; ref=nothing))
             if haskey(registry, "packages")
-                append!(ALL_PKGS, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
+                append!(pkgs, [info["name"]=>uuid for (uuid, info) in registry["packages"]])
             elseif haskey(registry, "deps")
-                append!(ALL_PKGS, registry["deps"])
+                append!(pkgs, registry["deps"])
             else
                 error("Unexpected Pkg toml found at github.com/$owner/$repo/$path")
             end
         end
-        sort!(ALL_PKGS)
+        append!(ALL_PKGS, unique!(sort!(pkgs)))
     end
     return ALL_PKGS
 end
@@ -655,7 +758,7 @@ function fetch_combinations(batch)
     known_ids = Set{String}(Iterators.flatten((Iterators.flatten(a.aliases for a in batch), Iterators.flatten(a.upstream for a in batch))))
     while !isempty(known_ids)
         id = pop!(known_ids)
-        if !haskey(sources, id)
+        if !any(k -> unscoped_id(k) == unscoped_id(id), keys(sources))
             try
                 # This may fail, most notably if we got a repository GHSA that's not in the global GHSA DB
                 # or an ID from a database that we don't yet support fetching from. That's ok; it'll still appear
@@ -694,8 +797,13 @@ function fetch_combinations(batch)
     advisories = Advisory[]
     for alias_set in alias_sets
         # Now combine the advisories within each alias set into a single advisory in our preferred order
-        # Note that we may not have fetched an advisory for all the aliases
-        ids = sort(collect(intersect(alias_set, keys(sources))), by=preferred_id_sort)
+        # Note that we may not have fetched an advisory for all the aliases, and that repo-scoped
+        # source ids (owner/repo/GHSA-xxxx) match their plain GHSA aliases
+        ids = sort(filter(id -> any(a -> unscoped_id(a) == unscoped_id(id), alias_set), collect(keys(sources))), by=preferred_id_sort)
+        if isempty(ids)
+            @warn "no fetched advisories correspond to an alias set; skipping it" alias_set
+            continue
+        end
         start_id = popfirst!(ids)
         advisory = sources[start_id]
         for id in ids
@@ -718,6 +826,7 @@ otherwise, return all matches.
 function search_package(pkg, filter_results)
     advisories = vcat(fetch_package_matches(pkg), fetch_package_upstreams(pkg))
     if filter_results
+        foreach(strip_rejected!, advisories)
         filter!(advisories) do advisory
             existing = find_existing_jlsec(advisory.id, vcat(advisory.upstream, advisory.aliases))
             pkgs = vulnerable_packages(advisory)
@@ -730,7 +839,8 @@ function search_package(pkg, filter_results)
                     count(vuln_with_upper_bound, advisory.affected) > count(vuln_with_upper_bound, existing.affected) || # sets additional upper bounds
                     (!is_valid(advisory) && is_valid(existing)) # or is no longer valid
                 ) : (
-                    # A new advisory; suggest it if it's both valid and contains some vulnerable range
+                    # A new advisory; suggest it if it's both valid and still contains some
+                    # vulnerable range after stripping reviewed-and-rejected assessments
                     (is_valid(advisory) && is_vulnerable(advisory))
                 ))
         end

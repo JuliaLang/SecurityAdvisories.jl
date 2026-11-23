@@ -6,7 +6,7 @@ using Dates
 using TOML: TOML
 using DataStructures: OrderedDict as Dict # watch out
 
-using ..SecurityAdvisories: SecurityAdvisories, exists, Severity, Advisory, Reference, Credit, AdvisorySource, extract_summary, PREFIX
+using ..SecurityAdvisories: SecurityAdvisories, exists, Severity, Advisory, Reference, Credit, AdvisorySource, extract_summary, protect_identifiers, PREFIX
 
 const NVD_API_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 const NVD_CPE_API_BASE = "https://services.nvd.nist.gov/rest/json/cpes/2.0"
@@ -268,7 +268,7 @@ function filter_julia_vulnerabilities(vulnerabilities)
     julia_vulnerabilities = []
 
     for vuln in vulnerabilities
-        if !isempty(affected_julia_packages(vuln))
+        if !isempty(affected_julia_packages(vuln).affected)
             push!(julia_vulnerabilities, vuln)
         end
     end
@@ -288,8 +288,7 @@ function english_description(vuln)
 end
 
 function advisory(vuln)
-    affected = affected_julia_packages(vuln)
-    upstream_type = Dict("alias"=>:aliases,"upstream"=>:upstream)[get(unique(map(x->x.source_type, affected)), 1, "alias")]
+    (; affected, upstreams) = affected_julia_packages(vuln)
 
     # Severities are a little complicated
     severities = Severity[]
@@ -317,9 +316,9 @@ function advisory(vuln)
     return Advisory(;
         id = string(PREFIX, "-0000-", vuln.cve.id),
         withdrawn = (lowercase(get(vuln.cve, :vulnStatus, "")) == "rejected") ? Dates.now(Dates.UTC) : nothing,
-        upstream_type => String[vuln.cve.id],
+        (isempty(upstreams) ? :aliases : :upstream) => String[vuln.cve.id],
         # related -- nothing structured
-        details = english_description(vuln),
+        details = protect_identifiers(english_description(vuln)),
         severity = severities,
         affected = affected,
         references = [Reference(url=ref.url) for ref in get(vuln.cve, :references, []) if haskey(ref, :url)],
@@ -332,6 +331,7 @@ function advisory(vuln)
             url = string(NVD_API_BASE, "?cveId=", vuln.cve.id),
             html_url = string("https://nvd.nist.gov/vuln/detail/", vuln.cve.id),
             database_specific = db,
+            affected = upstreams,
             )]
         )
 end

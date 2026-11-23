@@ -1,4 +1,5 @@
-using SecurityAdvisories: SecurityAdvisories
+using CommonMark: CommonMark
+using SecurityAdvisories: SecurityAdvisories, CVSS
 using Dates
 
 const ADVISORIES_DIR = joinpath(@__DIR__, "..", "advisories", "published")
@@ -83,10 +84,10 @@ function _format_datetime_plain(dt::DateTime)
 end
 _format_datetime_plain(::Nothing) = "—"
 
-_display_date(adv) = _format_datetime(something(_source_published(adv), adv.published, nothing))
+_display_date(adv) = _format_datetime(something(_source_published(adv), adv.published, Some(nothing)))
 
 _display_date_inline(adv) =
-    _format_datetime_plain(something(_source_published(adv), adv.published, nothing))
+    _format_datetime_plain(something(_source_published(adv), adv.published, Some(nothing)))
 
 # HTML helpers
 
@@ -105,91 +106,63 @@ end
 
 _advisory_url(adv) = "/advisories/$(adv.id)/"
 
+_is_upstream(adv) = !isempty(adv.upstream)
+
 _advisory_file_path(adv) =
     "advisories/published/$(SecurityAdvisories.year(adv))/$(adv.id).md"
 
-# CVSS v3 base score calculation
-# The SecurityAdvisories.jl package stores CVSS vectors as strings but
-# does not compute numeric scores.  We implement the CVSS v3.x
-# specification here for rendering severity badges in the web UI.
+# Severity display selection
 
-const _AV  = Dict('N' => 0.85, 'A' => 0.62, 'L' => 0.55, 'P' => 0.20)
-const _AC  = Dict('L' => 0.77, 'H' => 0.44)
-const _PRU = Dict('N' => 0.85, 'L' => 0.62, 'H' => 0.27)
-const _PRC = Dict('N' => 0.85, 'L' => 0.68, 'H' => 0.50)
-const _UI  = Dict('N' => 0.85, 'R' => 0.62)
-const _CIA = Dict('N' => 0.0,  'L' => 0.22, 'H' => 0.56)
-
-function _cvss3_base_score(vector::AbstractString)::Union{Nothing,Float64}
-    m = Dict{String,Char}()
-    for part in split(vector, '/')
-        kv = split(part, ':')
-        length(kv) == 2 && (m[kv[1]] = first(kv[2]))
-    end
-    av = get(_AV, get(m, "AV", ' '), nothing)
-    ac = get(_AC, get(m, "AC", ' '), nothing)
-    sc = get(m, "S", 'U') == 'C'
-    pr = get(sc ? _PRC : _PRU, get(m, "PR", ' '), nothing)
-    ui = get(_UI, get(m, "UI", ' '), nothing)
-    c  = get(_CIA, get(m, "C", ' '), nothing)
-    i  = get(_CIA, get(m, "I", ' '), nothing)
-    a  = get(_CIA, get(m, "A", ' '), nothing)
-    any(isnothing, (av, ac, pr, ui, c, i, a)) && return nothing
-    iss = 1.0 - (1.0 - c) * (1.0 - i) * (1.0 - a)
-    impact = sc ? 7.52(iss - 0.029) - 3.25(iss - 0.02)^15 : 6.42iss
-    impact <= 0 && return 0.0
-    exploit = 8.22 * av * ac * pr * ui
-    base = sc ? min(1.08(impact + exploit), 10.0) : min(impact + exploit, 10.0)
-    ceil(base * 10) / 10
+# We choose to display the highest-version CVSS score (and if more than one, the highest score)
+function _display_severity(adv)
+    isempty(adv.severity) && return nothing
+    rank(sev) = (something(CVSS.version(sev.score), -1), something(CVSS.score(sev.score), -1.0))
+    sev = argmax(rank, adv.severity)
+    (sev, CVSS.version(sev.score), CVSS.score(sev.score))
 end
 
-function _severity_label(score::Float64)
-    score >= 9.0 && return ("Critical", "critical")
+function _severity_label(score::Float64, version::Int)
+    # CVSS v2 defines no qualitative scale; use NVD's convention with only Low/Medium/High
+    version != 2 && score >= 9.0 && return ("Critical", "critical")
     score >= 7.0 && return ("High", "high")
     score >= 4.0 && return ("Medium", "medium")
-    score >= 0.1 && return ("Low", "low")
+    (version == 2 || score >= 0.1) && return ("Low", "low")
     ("None", "info")
 end
 
-function _severity_badge(adv)
-    isempty(adv.severity) && return ""
-    sev = first(adv.severity)
-    if startswith(sev.type, "CVSS_V3") || startswith(sev.type, "CVSS_V4")
-        score = _cvss3_base_score(sev.score)
-        if score !== nothing
-            label, cls = _severity_label(score)
-            return """<span class="severity-badge severity-$cls" title="$(_escape(sev.score))">$label $(round(score; digits=1))</span>"""
-        end
-    end
-    """<span class="severity-badge severity-info" title="$(_escape(sev.score))">$(sev.type)</span>"""
+_severity_badge(adv) = _severity_badge(_display_severity(adv))
+function _severity_badge(disp::Union{Nothing,Tuple})
+    disp === nothing && return ""
+    sev, version, score = disp
+    score === nothing &&
+        return """<span class="severity-badge severity-info" title="$(_escape(sev.score))">$(sev.type)</span>"""
+    label, cls = _severity_label(score, version)
+    """<span class="severity-badge severity-$cls" title="$(_escape(sev.score))">$label $(round(score; digits=1))</span>"""
 end
 
-function _severity_class(adv)
-    isempty(adv.severity) && return ""
-    sev = first(adv.severity)
-    score = _cvss3_base_score(sev.score)
-    score === nothing ? "" : last(_severity_label(score))
-end
+_severity_class(adv) = _severity_class(_display_severity(adv))
+_severity_class(disp::Union{Nothing,Tuple}) =
+    disp === nothing || disp[3] === nothing ? "" : last(_severity_label(disp[3], disp[2]))
 
-# Alias / cross-reference rendering
-
-function _aliases_html(adv)
+function _idlinks_html(ids)
     io = IOBuffer()
     seen = Set{String}()
-    for alias in Iterators.flatten((adv.aliases, adv.upstream))
-        alias in seen && continue
-        push!(seen, alias)
-        url = if startswith(alias, "CVE-")
-            "https://nvd.nist.gov/vuln/detail/$alias"
-        elseif startswith(alias, "GHSA-")
-            "https://github.com/advisories/$alias"
+    for id in ids
+        id in seen && continue
+        push!(seen, id)
+        url = if startswith(id, "CVE-")
+            "https://nvd.nist.gov/vuln/detail/$id"
+        elseif startswith(id, "GHSA-")
+            "https://github.com/advisories/$id"
+        elseif startswith(id, "EUVD-")
+            "https://euvd.enisa.europa.eu/vulnerability/$id"
         else
             nothing
         end
         if url !== nothing
-            write(io, """<a href="$(_escape(url))">$(_escape(alias))</a> """)
+            write(io, """<a href="$(_escape(url))">$(_escape(id))</a> """)
         else
-            write(io, "$(_escape(alias)) ")
+            write(io, "$(_escape(id)) ")
         end
     end
     String(take!(io))
@@ -200,13 +173,14 @@ end
 # keep list-item markup consistent.
 
 function _write_advisory_row(io::IOBuffer, adv;
-        extra_attrs::String="", summary_len::Int=90)
+        extra_attrs::String="", summary_len::Int=90, show_source::Bool=false,
+        badge::String=_severity_badge(adv))
     summary = something(adv.summary, "No summary available")
-    badge = _severity_badge(adv)
     withdrawn_badge = adv.withdrawn !== nothing ? """<span class="withdrawn-badge">Withdrawn</span>""" : ""
+    source_badge = (show_source && _is_upstream(adv)) ? """<span class="source-badge">Upstream</span>""" : ""
     write(io, """<a href="$(_advisory_url(adv))" class="advisory-item"$extra_attrs>""")
     write(io, """<span class="advisory-id">$(adv.id)</span>""")
-    write(io, """<span class="advisory-badge">$badge$withdrawn_badge</span>""")
+    write(io, """<span class="advisory-badge">$badge$withdrawn_badge$source_badge</span>""")
     write(io, """<span class="advisory-summary">$(_escape(_truncate(summary, summary_len)))</span>""")
     write(io, """<span class="advisory-meta">$(_display_date_inline(adv))</span>""")
     write(io, "</a>")
@@ -233,7 +207,7 @@ function hfun_recent_advisories()
     io = IOBuffer()
     write(io, """<div class="advisory-list">""")
     for adv in @view advs[1:n]
-        _write_advisory_row(io, adv)
+        _write_advisory_row(io, adv; show_source=true)
     end
     write(io, "</div>")
     String(take!(io))
@@ -243,53 +217,76 @@ function hfun_all_advisories()
     advs = load_all_advisories()
     io = IOBuffer()
 
-    write(io, """<div class="filter-bar">""")
-    write(io, """<input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()">""")
-    write(io, """<div class="sev-btns" id="adv-sev-btns">""")
-    write(io, """<button class="sev-btn active" data-sev="">All</button>""")
+    write(io, """<p class="adv-src-desc">All published security advisories for packages in the Julia ecosystem &mdash; both authored directly for Julia packages and imported for upstream components (like artifacts) incorporated into them.</p>""")
+
+    write(io, """<div class="filter-bar" id="adv-filter-bar">""")
+    write(io, """<div class="filter-row"><input type="text" id="adv-filter-text" placeholder="Filter by ID, summary, or package…" oninput="filterAdvisories()"><span class="filter-count" id="adv-filter-count"></span></div>""")
+    write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+    write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Advisory type"><span class="filter-label">Type</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="direct" title="Advisories authored directly for packages in the Julia ecosystem">Direct</button>""")
+    write(io, """<button class="sev-btn active" data-key="upstream" title="Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL)">Upstream</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
     for sev in ("critical", "high", "medium", "low")
-        write(io, """<button class="sev-btn sev-btn-$sev" data-sev="$sev">$(uppercasefirst(sev))</button>""")
+        write(io, """<button class="sev-btn sev-btn-$sev active" data-key="$sev" title="$(uppercasefirst(sev))-severity advisories">$(uppercasefirst(sev))</button>""")
     end
-    write(io, "</div>")
-    write(io, """<span class="filter-count" id="adv-filter-count"></span>""")
+    write(io, """<button class="sev-btn active" data-key="unknown" title="Advisories without a CVSS score">Unknown</button>""")
+    write(io, "</div></div>")
     write(io, "</div>")
 
     write(io, """<div class="advisory-list" id="advisory-list">""")
     for adv in advs
-        sev_cls = _severity_class(adv)
+        disp = _display_severity(adv)
+        src = _is_upstream(adv) ? "upstream" : "direct"
         pkgs_str = join(SecurityAdvisories.vulnerable_packages(adv), " ")
         summary = something(adv.summary, "No summary available")
-        attrs = """ data-severity="$sev_cls" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
-        _write_advisory_row(io, adv; extra_attrs=attrs)
+        attrs = """ data-severity="$(_severity_key(adv))" data-fixed="$(Int(_adv_fixed(adv)))" data-source="$src" data-pkgs="$(_escape(pkgs_str))" data-summary="$(_escape(lowercase(summary)))" """
+        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
 
     write(io, """
 <script>
+// Every filter button is an independent toggle and all start enabled:
+// deselect a property to hide advisories having it.  The deselected set
+// syncs to a ?hide= query parameter for deep-linking, e.g.
+// /advisories/?hide=fixed,upstream,low
 (function(){
-  var btns = document.querySelectorAll('#adv-sev-btns .sev-btn');
-  btns.forEach(function(btn){
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#adv-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
     btn.addEventListener('click', function(){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
+      btn.classList.toggle('active');
       filterAdvisories();
     });
   });
 })();
 function filterAdvisories(){
   var text = document.getElementById('adv-filter-text').value.toLowerCase();
-  var activeBtn = document.querySelector('#adv-sev-btns .sev-btn.active');
-  var sev = activeBtn ? activeBtn.getAttribute('data-sev') : '';
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#adv-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
+  var url = new URL(location);
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
+  history.replaceState(null, '', url);
   var items = document.querySelectorAll('#advisory-list .advisory-item');
   var shown = 0;
   items.forEach(function(el){
     var id = el.querySelector('.advisory-id').textContent.toLowerCase();
     var summary = el.getAttribute('data-summary') || '';
     var pkgs = (el.getAttribute('data-pkgs') || '').toLowerCase();
-    var elSev = el.getAttribute('data-severity') || '';
+    var s = el.getAttribute('data-severity') || 'unknown';
+    var f = el.getAttribute('data-fixed') === '1' ? 'fixed' : 'unfixed';
+    var src = el.getAttribute('data-source') || 'direct';
     var matchText = !text || id.includes(text) || summary.includes(text) || pkgs.includes(text);
-    var matchSev = !sev || elSev === sev;
-    if(matchText && matchSev){ el.style.display=''; shown++; }
+    if(matchText && sel[s] && sel[f] && sel[src]){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.getElementById('adv-filter-count').textContent = shown + ' of ' + items.length;
@@ -299,20 +296,71 @@ filterAdvisories();
     String(take!(io))
 end
 
+# A vulnerability is "fixed" only when every range has an exclusive upper
+# bound (the OSV `fixed` event); an inclusive `last_affected` bound or an
+# unbounded range means no fixed release is known.
+_has_fix(v::SecurityAdvisories.PackageVulnerability) =
+    all(r -> SecurityAdvisories.has_upper_bound(r) && !r.ubinclusive, v.ranges)
+
+# Filter-toggle keys shared by the advisories/packages pages: an advisory's
+# fix status (fixed only when every vulnerable package range has one) and
+# its severity class ("unknown" when there's no CVSS score).
+_adv_fixed(a) = all(_has_fix(v) for v in a.affected if SecurityAdvisories.is_vulnerable(v))
+_severity_key(a) = (cls = _severity_class(a); isempty(cls) ? "unknown" : cls)
+
+# The subset of `pkgs` marked deprecated in the General registry, signalled
+# by a `[metadata.deprecated]` table in the package's Package.toml. Read the
+# raw file because older versions of Pkg don't expose it in PkgInfo.
+function _deprecated_packages(pkgs)
+    reg = SecurityAdvisories.get_registry()
+    deprecated = Set{String}()
+    for pkg in pkgs
+        uuids = SecurityAdvisories.uuids_from_name(pkg, reg)
+        isempty(uuids) && continue
+        entry = reg[first(uuids)]
+        d = SecurityAdvisories.Registry.parsefile(
+            reg.in_memory_registry, entry.registry_path, joinpath(entry.path, "Package.toml"))
+        meta = get(d, "metadata", nothing)
+        meta isa AbstractDict && haskey(meta, "deprecated") && push!(deprecated, pkg)
+    end
+    return deprecated
+end
+
 function hfun_package_index()
     advs = load_all_advisories()
     pkg_counts = Dict{String,Int}()
+    # pkg => severity class => [fix-available, no-fix] advisory counts;
+    # advisories without a CVSS score land in the "unknown" class
+    pkg_sevs = Dict{String,Dict{String,Vector{Int}}}()
     for a in advs
-        for pkg in SecurityAdvisories.vulnerable_packages(a)
-            pkg_counts[pkg] = get(pkg_counts, pkg, 0) + 1
+        cls = _severity_key(a)
+        for v in a.affected
+            SecurityAdvisories.is_vulnerable(v) || continue
+            pkg_counts[v.pkg] = get(pkg_counts, v.pkg, 0) + 1
+            counts = get!(get!(pkg_sevs, v.pkg, Dict{String,Vector{Int}}()), cls, [0, 0])
+            counts[_has_fix(v) ? 1 : 2] += 1
         end
     end
     sorted = sort(collect(pkg_counts); by=x -> lowercase(first(x)))
+    deprecated = _deprecated_packages(keys(pkg_counts))
 
     io = IOBuffer()
-    write(io, """<div class="filter-bar">""")
-    write(io, """<input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()">""")
-    write(io, """<span class="filter-count" id="pkg-filter-count"></span>""")
+    write(io, """<div class="filter-bar" id="pkg-filter-bar">""")
+    write(io, """<div class="filter-row"><input type="text" id="pkg-filter" placeholder="Filter packages…" oninput="filterPackages()"><span class="filter-count" id="pkg-filter-count"></span></div>""")
+    write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+    write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
+    for sev in ("critical", "high", "medium", "low")
+        write(io, """<button class="sev-btn sev-btn-$sev active" data-key="$sev" title="$(uppercasefirst(sev))-severity advisories">$(uppercasefirst(sev))</button>""")
+    end
+    write(io, """<button class="sev-btn active" data-key="unknown" title="Advisories without a CVSS score">Unknown</button>""")
+    write(io, "</div></div>")
+    write(io, """<div class="filter-row" role="group" aria-label="Registry status"><span class="filter-label">Registry</span><div class="sev-btns">""")
+    write(io, """<button class="sev-btn active" data-key="nondeprecated" title="Packages not marked deprecated in the General registry">Active</button>""")
+    write(io, """<button class="sev-btn active" data-key="deprecated" title="Packages marked deprecated in the General registry">Deprecated</button>""")
+    write(io, "</div></div>")
     write(io, "</div>")
 
     letters_available = Set([uppercase(string(first(pkg))) for (pkg, _) in sorted])
@@ -337,8 +385,11 @@ function hfun_package_index()
             write(io, """<div class="pkg-alpha-section" data-letter="$letter">""")
             write(io, """<div class="pkg-alpha-heading" id="letter-$letter">$letter</div>""")
         end
-        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))">""")
-        write(io, """<span class="pkg-list-name">$(_escape(pkg))</span>""")
+        sevs = pkg_sevs[pkg]
+        sevs_json = "{" * join(("\"$k\":[$(v[1]),$(v[2])]" for (k, v) in sevs), ",") * "}"
+        write(io, """<a href="/packages/$(_escape(pkg))/" class="pkg-list-item" data-pkg="$(_escape(lowercase(pkg)))" data-deprecated="$(Int(pkg in deprecated))" data-sevs='$sevs_json'>""")
+        dep_badge = pkg in deprecated ? """ <span class="deprecated-badge">Deprecated</span>""" : ""
+        write(io, """<span class="pkg-list-name">$(_escape(pkg))$dep_badge</span>""")
         write(io, """<span class="pkg-list-count">$count</span>""")
         write(io, "</a>")
     end
@@ -347,13 +398,53 @@ function hfun_package_index()
 
     write(io, """
 <script>
+// Every filter button is an independent toggle and all start enabled:
+// deselect a property to hide packages whose advisories have it.  The
+// deselected set syncs to a ?hide= query parameter for deep-linking,
+// e.g. /packages/?hide=fixed,low,deprecated
+(function(){
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      filterPackages();
+    });
+  });
+})();
 function filterPackages(){
   var text = document.getElementById('pkg-filter').value.toLowerCase();
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
+  var url = new URL(location);
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
+  history.replaceState(null, '', url);
   var items = document.querySelectorAll('.pkg-list-item');
   var shown = 0;
   items.forEach(function(el){
     var name = el.getAttribute('data-pkg') || '';
-    if(!text || name.includes(text)){ el.style.display=''; shown++; }
+    var deprecated = el.getAttribute('data-deprecated') === '1';
+    var sevs = {};
+    try { sevs = JSON.parse(el.getAttribute('data-sevs') || '{}'); } catch(e) {}
+    // The count badge tallies the advisories still selected: each severity
+    // class holds [fix-available, no-fix] counts, and a package with no
+    // selected advisories is hidden.
+    var badge = 0;
+    ['critical','high','medium','low','unknown'].forEach(function(s){
+      if(!sel[s]) return;
+      var c = sevs[s] || [0, 0];
+      if(sel.fixed) badge += c[0];
+      if(sel.unfixed) badge += c[1];
+    });
+    var matchText = !text || name.includes(text);
+    var matchDep = deprecated ? sel.deprecated : sel.nondeprecated;
+    el.querySelector('.pkg-list-count').textContent = badge;
+    if(matchText && matchDep && badge > 0){ el.style.display=''; shown++; }
     else { el.style.display='none'; }
   });
   document.querySelectorAll('.pkg-alpha-section').forEach(function(sec){
@@ -370,6 +461,12 @@ filterPackages();
     String(take!(io))
 end
 
+function _advisory_details_html(details)
+    parser = CommonMark.Parser()
+    CommonMark.disable!(parser, [CommonMark.HtmlBlockRule(), CommonMark.HtmlInlineRule()])
+    return CommonMark.html(parser(details); safe=true)
+end
+
 function hfun_advisory_detail()
     id = locvar(:advisory_id)
     id === nothing && return "<p>Advisory not found.</p>"
@@ -381,7 +478,8 @@ function hfun_advisory_detail()
 
     fpath = _advisory_file_path(adv)
     summary = something(adv.summary, adv.id)
-    badge = _severity_badge(adv)
+    disp = _display_severity(adv)
+    badge = _severity_badge(disp)
 
     write(io, """<div class="advisory-detail-header">""")
     write(io, """<span class="advisory-id-large">$(adv.id)</span> $badge""")
@@ -409,9 +507,8 @@ function hfun_advisory_detail()
         write(io, """<div class="meta-row"><dt>Withdrawn</dt><dd>$(_format_datetime(adv.withdrawn))</dd></div>""")
     end
 
-    if !isempty(adv.severity)
-        sev = first(adv.severity)
-        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(_escape(sev.score))</code></dd></div>""")
+    if disp !== nothing
+        write(io, """<div class="meta-row"><dt>Severity</dt><dd><code>$(_escape(disp[1].score))</code></dd></div>""")
     end
 
     vuln_entries = filter(SecurityAdvisories.is_vulnerable, adv.affected)
@@ -425,16 +522,21 @@ function hfun_advisory_detail()
         write(io, "</dd></div>")
     end
 
-    aliases_str = _aliases_html(adv)
+    aliases_str = _idlinks_html(adv.aliases)
     if !isempty(strip(aliases_str))
-        write(io, """<div class="meta-row"><dt>Aliases / Upstream</dt><dd>$aliases_str</dd></div>""")
+        write(io, """<div class="meta-row"><dt>Aliases</dt><dd>$aliases_str</dd></div>""")
+    end
+
+    upstream_str = _idlinks_html(adv.upstream)
+    if !isempty(strip(upstream_str))
+        write(io, """<div class="meta-row"><dt>Upstream</dt><dd>$upstream_str</dd></div>""")
     end
 
     write(io, "</dl>")
 
     if adv.details !== nothing
         write(io, """<div class="detail-body">""")
-        write(io, Franklin.fd2html(adv.details; internal=true))
+        write(io, _advisory_details_html(adv.details))
         write(io, "</div>")
     end
 
@@ -457,11 +559,96 @@ function hfun_package_advisories()
         any(v -> v.pkg == pkg && SecurityAdvisories.is_vulnerable(v), a.affected)
     end
     io = IOBuffer()
-    write(io, """<div class="advisory-list">""")
+
+    # Independent fix-status, source, and severity toggles (all enabled by
+    # default; deselect a property to hide advisories having it).  The fix
+    # group is always offered and reflects only this package's affected
+    # ranges (an advisory may be fixed here while other packages it covers
+    # are not); the others appear only when multiple of their values are
+    # actually present.  The deselected set syncs to a `?hide=` parameter.
+    _pkg_fixed(a) = all(_has_fix(v) for v in a.affected
+                        if v.pkg == pkg && SecurityAdvisories.is_vulnerable(v))
+    present = [c for c in ("critical", "high", "medium", "low", "unknown")
+               if any(a -> _severity_key(a) == c, filtered)]
+    show_fix = !isempty(filtered)
+    show_src = length(unique(_is_upstream.(filtered))) > 1
+    show_sev = length(present) > 1
+    if show_fix || show_src || show_sev
+        write(io, """<div class="filter-bar" id="pkg-adv-filter-bar">""")
+        write(io, """<div class="filter-row"><span class="filter-count" id="pkg-adv-filter-count"></span></div>""")
+        if show_fix
+            write(io, """<div class="filter-row" role="group" aria-label="Fix status"><span class="filter-label">Fix</span><div class="sev-btns">""")
+            write(io, """<button class="sev-btn active" data-key="fixed" title="Advisories with a fixed release available">Available</button>""")
+            write(io, """<button class="sev-btn active" data-key="unfixed" title="Advisories with no fixed release">Not available</button>""")
+            write(io, "</div></div>")
+        end
+        if show_src
+            write(io, """<div class="filter-row" role="group" aria-label="Advisory type"><span class="filter-label">Type</span><div class="sev-btns">""")
+            write(io, """<button class="sev-btn active" data-key="direct" title="Advisories authored directly for packages in the Julia ecosystem">Direct</button>""")
+            write(io, """<button class="sev-btn active" data-key="upstream" title="Advisories for upstream components (like artifacts) incorporated into a Julia package (like a JLL)">Upstream</button>""")
+            write(io, "</div></div>")
+        end
+        if show_sev
+            write(io, """<div class="filter-row" role="group" aria-label="Severity"><span class="filter-label">Severity</span><div class="sev-btns">""")
+            for sev in present
+                label = sev == "unknown" ? "Unknown" : uppercasefirst(sev)
+                color = sev == "unknown" ? "" : " sev-btn-$sev"
+                write(io, """<button class="sev-btn$color active" data-key="$sev">$label</button>""")
+            end
+            write(io, "</div></div>")
+        end
+        write(io, "</div>")
+    end
+
+    write(io, """<div class="advisory-list" id="pkg-advisory-list">""")
     for adv in filtered
-        _write_advisory_row(io, adv)
+        disp = _display_severity(adv)
+        src = _is_upstream(adv) ? "upstream" : "direct"
+        attrs = """ data-severity="$(_severity_key(adv))" data-fixed="$(Int(_pkg_fixed(adv)))" data-source="$src" """
+        _write_advisory_row(io, adv; extra_attrs=attrs, show_source=true, badge=_severity_badge(disp))
     end
     write(io, "</div>")
     isempty(filtered) && write(io, "<p>No advisories found for $(_escape(pkg)).</p>")
+
+    if show_fix || show_src || show_sev
+        write(io, """
+<script>
+(function(){
+  var params = new URLSearchParams(location.search);
+  var hidden = (params.get('hide') || '').split(',');
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    if(hidden.indexOf(btn.getAttribute('data-key')) >= 0) btn.classList.remove('active');
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      filterPackageAdvisories();
+    });
+  });
+})();
+function filterPackageAdvisories(){
+  var sel = {}, hidden = [];
+  document.querySelectorAll('#pkg-adv-filter-bar .sev-btn').forEach(function(btn){
+    var key = btn.getAttribute('data-key');
+    sel[key] = btn.classList.contains('active');
+    if(!sel[key]) hidden.push(key);
+  });
+  var url = new URL(location);
+  if(hidden.length) url.searchParams.set('hide', hidden.join(',')); else url.searchParams.delete('hide');
+  history.replaceState(null, '', url);
+  var items = document.querySelectorAll('#pkg-advisory-list .advisory-item');
+  var shown = 0;
+  items.forEach(function(el){
+    var s = el.getAttribute('data-severity') || 'unknown';
+    var f = el.getAttribute('data-fixed') === '1' ? 'fixed' : 'unfixed';
+    var src = el.getAttribute('data-source') || 'direct';
+    // A property whose toggle group isn't rendered is always selected.
+    var ok = (s in sel ? sel[s] : true) && (f in sel ? sel[f] : true) && (src in sel ? sel[src] : true);
+    if(ok){ el.style.display=''; shown++; }
+    else { el.style.display='none'; }
+  });
+  document.getElementById('pkg-adv-filter-count').textContent = shown + ' of ' + items.length;
+}
+filterPackageAdvisories();
+</script>""")
+    end
     String(take!(io))
 end
