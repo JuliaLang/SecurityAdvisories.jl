@@ -1,0 +1,151 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1391",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2023-31484"
+    ],
+    "details": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/04/29/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/04/29/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/03/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/03/3"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/03/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/03/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/07/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2023/05/07/2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/andk/cpanpm/pull/175"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/andk/cpanpm/pull/175"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/10/msg00017.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BM6UW55CNFUTNGD5ZRKGUKKKFDJGMFHL/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/BM6UW55CNFUTNGD5ZRKGUKKKFDJGMFHL/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LEGCEOKFJVBJ2QQ6S2H4NAEWTUERC7SB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/LEGCEOKFJVBJ2QQ6S2H4NAEWTUERC7SB/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://metacpan.org/dist/CPAN/changes"
+        },
+        {
+            "type": "WEB",
+            "url": "https://metacpan.org/dist/CPAN/changes"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240621-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20240621-0007/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/04/18/14"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2023/04/18/14"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-31484",
+                "imported": "2026-11-21T08:11:19.198Z",
+                "modified": "2026-06-17T05:57:05.020Z",
+                "published": "2023-04-29T00:15:09Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-31484",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-31484",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "perl:perl": [
+                        "< 5.38.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

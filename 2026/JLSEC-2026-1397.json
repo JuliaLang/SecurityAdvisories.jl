@@ -1,0 +1,75 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1397",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2026-13221"
+    ],
+    "details": "Perl versions before 5.40.5-RC1, from 5.41.0 before 5.42.3-RC1, from 5.43.0 before 5.43.10 produce silently incorrect regular expression matches when an alternation of more than 65535 fixed string branches is compiled into a trie in `Perl_study_chunk`.\n\nWhen such branches are combined into a trie, the delta between the first branch and the shared tail is stored in a 16-bit field. A branch count above 65535 overflows the field, and the trie's match decision table is truncated with no warning or error.\n\nA pattern of this shape produces false positive matches (matching strings it should not) and false negative matches (failing to match strings it should). When such a pattern gates an access or filtering decision, the result is wrong.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/07/13/5"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-457936.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/03f74bbbd3a68350d926ee93d56ee4808c28c4c7.patch"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/issues/23388"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-13221",
+                "imported": "2026-11-21T08:11:19.205Z",
+                "modified": "2026-11-10T13:18:25.890Z",
+                "published": "2026-07-13T17:16:48.923Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-13221",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13221",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "perl:perl": [
+                        "<= 5.43.9"
+                    ]
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,158 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1396",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2025-40909",
+        "GHSA-jpf5-526x-c5hw",
+        "EUVD-2025-16506"
+    ],
+    "summary": "Perl threads have a working directory race condition where file operations may target unintended...",
+    "details": "Perl threads have a working directory race condition where file operations may target unintended paths.\n\nIf a directory handle is open at thread creation, the process-wide current working directory is temporarily changed in order to clone that handle for the new thread, which is visible from any third (or more) thread already running.\n\nThis may lead to unintended operations such as loading code or accessing files from unexpected locations, which a local attacker may be able to exploit.\n\nThe bug was introduced in commit 11a11ecf4bea72b17d250cfb43c897be1341861e and released in Perl version 5.13.6",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/Sep/53"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/Sep/54"
+        },
+        {
+            "type": "WEB",
+            "url": "http://seclists.org/fulldisclosure/2025/Sep/55"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/05/23/1"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/05/30/4"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/06/02/2"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/06/02/5"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/06/02/6"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/06/02/7"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2025/06/03/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1098226"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/11a11ecf4bea72b17d250cfb43c897be1341861e"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/918bfff86ca8d6d4e4ec5b30994451e0bd74aba9.patch"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/issues/10387"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/issues/23010"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jpf5-526x-c5hw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2026/04/msg00018.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40909"
+        },
+        {
+            "type": "WEB",
+            "url": "https://perldoc.perl.org/5.14.0/perl5136delta#Directory-handles-not-copied-to-threads"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2025/05/22/2"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-40909",
+                "imported": "2026-11-21T08:11:23.157Z",
+                "modified": "2026-06-17T09:22:16.320Z",
+                "published": "2025-05-30T13:15:22.350Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-40909",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40909",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-jpf5-526x-c5hw",
+                "imported": "2026-11-21T08:11:54.696Z",
+                "modified": "2026-04-18T15:34:15Z",
+                "published": "2025-05-30T15:30:30Z",
+                "url": "https://api.github.com/advisories/GHSA-jpf5-526x-c5hw",
+                "html_url": "https://github.com/advisories/GHSA-jpf5-526x-c5hw"
+            },
+            {
+                "id": "EUVD-2025-16506",
+                "imported": "2026-11-21T08:11:20.392Z",
+                "modified": "2026-04-18T14:15:40Z",
+                "published": "2025-05-30T12:20:11Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-16506",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-16506",
+                "affected": {
+                    "perl:perl": [
+                        "5.13.6 <5.41.13"
+                    ]
+                }
+            }
+        ]
+    }
+}

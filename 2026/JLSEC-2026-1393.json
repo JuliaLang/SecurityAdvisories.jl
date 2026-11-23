@@ -1,0 +1,135 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1393",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2023-47038"
+    ],
+    "details": "A vulnerability was found in perl 5.30.0 through 5.38.0. This issue occurs when a crafted regular expression is compiled by perl, which can allow an attacker controlled byte buffer overflow in a heap allocated buffer.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:2228"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:2228"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:3128"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2024:3128"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2023-47038"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2023-47038"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1056746"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1056746"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2249523"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2249523"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/12c313ce49b36160a7ca2e9b07ad5bd92ee4a010"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/7047915eef37fccd93e7cd985c29fe6be54650b6"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/ff1f9f59360afeebd6f75ca1502f5c3ebf077da3"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/aquasecurity/trivy/discussions/8400"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/GNEEWAACXQCEEAKSG7XX2D5YDRWLCIZJ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/UMDZZ4SCEW6FRWZDMXGAKZ35THTAWFG6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://perldoc.perl.org/perl5382delta#CVE-2023-47038-Write-past-buffer-end-via-illegal-user-defined-Unicode-property"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ubuntu.com/security/CVE-2023-47100"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/security/cve/CVE-2023-47100.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-47038",
+                "imported": "2026-11-21T08:11:19.203Z",
+                "modified": "2026-06-17T06:32:01.100Z",
+                "published": "2023-12-18T14:15:08.933Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-47038",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47038",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "perl:perl": [
+                        ">= 5.30.0, <= 5.38.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

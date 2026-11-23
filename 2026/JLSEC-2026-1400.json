@@ -1,0 +1,71 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1400",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2026-8376"
+    ],
+    "details": "Perl versions before 5.40.5-RC1, from 5.41.0 before 5.42.3-RC1, from 5.43.0 before 5.43.11 have a heap buffer overflow when compiling regular expressions with a repeated fixed string on 32-bit builds.\n\n`Perl_study_chunk` in `regcomp_study.c` checked the size of the joined substring buffer in characters rather than bytes. For a quantified fixed substring with a large minimum count, the byte length mincount * l could overflow `SSize_t`, producing an undersized SvGROW allocation; the subsequent copy writes past the end of the buffer.\n\nA caller that compiles an attacker-controlled regular expression on a 32-bit perl build triggers a heap buffer overflow at compile time.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/05/26/1"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-457936.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/commit/5e7f119eb2bb1181be908701f22bf7068e722f1c.patch"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-8376",
+                "imported": "2026-11-21T08:11:19.205Z",
+                "modified": "2026-11-10T13:19:41.447Z",
+                "published": "2026-05-26T00:16:57.150Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-8376",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8376",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "perl:perl": [
+                        "<= 5.43.10"
+                    ]
+                }
+            }
+        ]
+    }
+}

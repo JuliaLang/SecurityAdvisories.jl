@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1390",
+    "modified": "2026-11-23T15:17:06.961Z",
+    "published": "2026-11-23T15:17:06.961Z",
+    "upstream": [
+        "CVE-2022-48522"
+    ],
+    "details": "In Perl 5.34.0, function `S_find_uninit_var` in sv.c has a stack-based crash that can lead to remote code execution or local privilege escalation.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "5.34.0+0"
+                        },
+                        {
+                            "fixed": "5.34.1+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Perl_jll",
+                "purl": "pkg:julia/Perl_jll?uuid=83958c19-0796-5285-893e-a1267f8ec499"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-398330.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/blob/79a7b254d85a10b65126ad99bf10e70480569d68/sv.c#L16336-L16345"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/Perl/perl5/blob/79a7b254d85a10b65126ad99bf10e70480569d68/sv.c#L16336-L16345"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230915-0008/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20230915-0008/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-48522",
+                "imported": "2026-11-21T08:11:19.203Z",
+                "modified": "2026-10-14T19:16:56.413Z",
+                "published": "2023-08-22T19:16:31.153Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-48522",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-48522",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "perl:perl": [
+                        "= 5.34.0-"
+                    ]
+                }
+            }
+        ]
+    }
+}
