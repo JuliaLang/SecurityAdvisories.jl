@@ -3,6 +3,38 @@
 # id, with optional `aliases`, `packages`, and `reason` fields; a rejection only
 # applies to the packages it lists. See CONTRIBUTING.md for details.
 
+[CVE-2021-43618]
+packages = ["GCCBootstrap_jll", "LibStdCxx_jll"]
+reason = "Affects 32-bit GMP builds. All GCCBootstrap_jll archives ship x86_64 host compilers, even those with 32-bit targets. LibStdCxx_jll ships only x86_64 C++ runtime artifacts, not GMP. Reviewed in #456."
+
+[CVE-2020-21490]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the MicroBlaze disassembler; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35342]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the TI C4x disassembler; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35494]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the TI C4x disassembler; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35493]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the PEF object format; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35495]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the PEF object format; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35496]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the PEF object format; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
+[CVE-2020-35507]
+packages = ["GCCBootstrap_jll"]
+reason = "Affects the PEF object format; the Binutils 2.38 artifacts are fixed, and the older 2.29.1 AArch64 artifact does not support that backend. Reviewed in #456."
+
 [CVE-2010-0207]
 aliases = ["GHSA-3274-8h4c-g6q9", "EUVD-2010-0238"]
 packages = ["Poppler_jll"]
