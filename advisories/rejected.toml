@@ -28,6 +28,24 @@ reason = "These packages do not build or redistribute the vulnerable `*ARRV` fam
 packages = ["MbedTLS_jll"]
 reason = "Only applies when TLS 1.3 is enabled, per the Debian security team; MbedTLS_jll ships the 2.x series, which does not support TLS 1.3. Reviewed in #202 and #465."
 
+[CVE-2023-0664]
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects the Windows QEMU Guest Agent installer, which neither package ships. Reviewed in #446."
+
+[CVE-2024-7730]
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects virtio-snd code introduced in QEMU 8.2; both packages currently ship QEMU 7.2.9 or earlier. Reviewed in #446."
+
+[CVE-2025-54566]
+aliases = ["GHSA-399m-rf4f-w5x4", "EUVD-2025-22566"]
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "The affected code was introduced in QEMU 10.0; both packages currently ship QEMU 7.2.9 or earlier. Reviewed in #446."
+
+[CVE-2025-54567]
+aliases = ["GHSA-c2q6-w8rj-wvhw", "EUVD-2025-22565"]
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "The affected code was introduced in QEMU 10.0; both packages currently ship QEMU 7.2.9 or earlier. Reviewed in #446."
+
 [CVE-2025-25468]
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master branch for a few days; no FFmpeg release contains it. Reviewed in #399."
