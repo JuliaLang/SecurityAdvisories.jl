@@ -41,6 +41,90 @@ aliases = ["GHSA-399m-rf4f-w5x4", "EUVD-2025-22566"]
 packages = ["Qemu_jll", "Qemu_static_jll"]
 reason = "The affected code was introduced in QEMU 10.0; both packages currently ship QEMU 7.2.9 or earlier. Reviewed in #446."
 
+[CVE-2021-20255]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2022-2962]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2022-3165]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2022-3872]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2022-4144]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-1386]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-1544]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-2861]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-3019]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-3180]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-3255]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-3301]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-3354]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-42467]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-5088]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-6683]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2023-6693]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2024-24474]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2024-26327]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2024-26328]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
+[CVE-2024-3447]
+packages = ["Qemu_static_jll"]
+reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+
 [CVE-2025-54567]
 aliases = ["GHSA-c2q6-w8rj-wvhw", "EUVD-2025-22565"]
 packages = ["Qemu_jll", "Qemu_static_jll"]
