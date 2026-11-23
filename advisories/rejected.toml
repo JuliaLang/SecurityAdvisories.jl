@@ -1493,3 +1493,7 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-35093]
+packages = ["libinput_jll"]
+reason = "Affects libinput's Lua plugin system, which first appears in the libinput 1.30 series (`lua-plugins` meson option); libinput_jll's releases (1.18.0, 1.28.1) predate it and are built without Lua. Reviewed in #434."
