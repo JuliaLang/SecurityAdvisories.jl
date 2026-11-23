@@ -40,6 +40,11 @@ reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
 
+[CVE-2026-70606]
+aliases = ["GHSA-r4w5-6pfg-jxp5"]
+packages = ["Electron_jll"]
+reason = "Electron's advisory starts at 40.0.0-alpha.1; all currently registered Electron_jll builds ship Electron 38.2.0. Reviewed in #447."
+
 # Protobuf uses a large monorepo for all its bindings and advisories are tagged against
 # the entire monorepo but often just affect a single language binding
 [CVE-2021-22569]
