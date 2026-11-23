@@ -1,0 +1,111 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1403",
+    "modified": "2026-11-23T18:42:52.937Z",
+    "published": "2026-11-23T18:42:52.937Z",
+    "upstream": [
+        "CVE-2026-91200",
+        "GHSA-67r3-rpfh-8h3r",
+        "EUVD-2026-78209"
+    ],
+    "summary": "DevSpace through 6.3.21 fails to reject parent-directory segments in tar entry names from the in...",
+    "details": "DevSpace through 6.3.21 fails to reject parent-directory segments in tar entry names from the in-pod sync stream. Attackers operating a malicious container can stream tar entries with traversal sequences to write arbitrary files on the developer workstation, enabling code execution.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "devspace_jll",
+                "purl": "pkg:julia/devspace_jll?uuid=f3d103f0-1a5c-5786-832a-e5a97cefde2e"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-67r3-rpfh-8h3r"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/devspace-sh/devspace"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/devspace-sh/devspace/blob/7f272dcf90653fa9b42bc4347f7f3f9a52b0e8b5/pkg/devspace/sync/tar.go#L68-L82"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/devspace-sh/devspace/blob/7f272dcf90653fa9b42bc4347f7f3f9a52b0e8b5/pkg/devspace/sync/util.go#L9-L11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/devspace-sh/devspace/issues/3290"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91200"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/devspace-through-6.3.21-path-traversal-via-tar-extraction"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-91200",
+                "imported": "2026-11-23T05:15:49.706Z",
+                "modified": "2026-09-23T17:17:47.790Z",
+                "published": "2026-09-14T23:19:00.630Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-91200",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91200",
+                "database_specific": {
+                    "status": "Deferred"
+                }
+            },
+            {
+                "id": "GHSA-67r3-rpfh-8h3r",
+                "imported": "2026-11-23T05:15:49.980Z",
+                "modified": "2026-09-15T00:31:22Z",
+                "published": "2026-09-15T00:31:15Z",
+                "url": "https://api.github.com/advisories/GHSA-67r3-rpfh-8h3r",
+                "html_url": "https://github.com/advisories/GHSA-67r3-rpfh-8h3r"
+            },
+            {
+                "id": "EUVD-2026-78209",
+                "imported": "2026-11-23T05:15:43.442Z",
+                "modified": "2026-09-24T14:22:17Z",
+                "published": "2026-09-14T22:10:57Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-78209",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-78209",
+                "affected": {
+                    "devspace:devspace": [
+                        "0 ≤6.3.21"
+                    ]
+                }
+            }
+        ]
+    }
+}
