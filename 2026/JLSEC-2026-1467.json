@@ -1,0 +1,115 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1467",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2022-2085"
+    ],
+    "details": "A NULL pointer dereference vulnerability was found in Ghostscript, which occurs when it tries to render a large number of bits in memory. When allocating a buffer device, it relies on an `init_device_procs` defined for the device that uses it as a prototype that depends upon the number of bits per pixel. For bpp > 64, `mem_x_device` is used and does not have an `init_device_procs` defined. This flaw allows an attacker to parse a large number of bits (more than 64 bits per pixel), which triggers a NULL pointer dereference flaw, causing an application to crash.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "9.55.0+0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://git.ghostscript.com/?p=ghostpdl.git%3Bh=ae1061d948d88667bdf51d47d918c4684d0f67df"
+        },
+        {
+            "type": "WEB",
+            "url": "http://git.ghostscript.com/?p=ghostpdl.git%3Bh=ae1061d948d88667bdf51d47d918c4684d0f67df"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=704945"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=704945"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2095261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2095261"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ERSZX5LKDWAHZWJYBMP2E2UHOPUCDEGV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/ERSZX5LKDWAHZWJYBMP2E2UHOPUCDEGV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202211-11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202211-11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-03"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-03"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-2085",
+                "imported": "2026-11-21T07:19:18.290Z",
+                "modified": "2026-06-17T04:41:15.310Z",
+                "published": "2022-06-16T18:15:10.190Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-2085",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-2085",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "= 9.55.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

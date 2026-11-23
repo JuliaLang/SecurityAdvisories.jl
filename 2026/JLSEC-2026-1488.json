@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1488",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2024-46956"
+    ],
+    "details": "An issue was discovered in `psi/zfile.c` in Artifex Ghostscript before 10.04.0. Out-of-bounds data access in filenameforall can lead to arbitrary code execution.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=707895"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=f4151f12db32cd3ed26c24327de714bf2c3ed6ca"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ArtifexSoftware/ghostpdl/blob/master/doc/News.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/11/msg00023.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/support/update/announcement/2024/suse-su-20243942-1/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-46956",
+                "imported": "2026-11-21T07:19:18.296Z",
+                "modified": "2026-06-17T07:56:15.587Z",
+                "published": "2024-11-10T22:15:12.943Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-46956",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-46956",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.04.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,99 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1463",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2020-36403"
+    ],
+    "details": "HTSlib through 1.10.2 allows out-of-bounds write access in `vcf_parse_format` (called from `vcf_parse` and `vcf_read`).",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "1.14.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "htslib_jll",
+                "purl": "pkg:julia/htslib_jll?uuid=f06fe41e-9474-5571-8c61-5634d2b2700c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24097"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=24097"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/google/oss-fuzz-vulns/blob/main/vulns/htslib/OSV-2020-955.yaml"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/google/oss-fuzz-vulns/blob/main/vulns/htslib/OSV-2020-955.yaml"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/commit/dcd4b7304941a8832fba2d0fc4c1e716e7a4e72c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/commit/dcd4b7304941a8832fba2d0fc4c1e716e7a4e72c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/pull/1447"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/pull/1447"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2020-36403",
+                "imported": "2026-11-21T07:36:38.072Z",
+                "modified": "2026-06-17T03:15:25.253Z",
+                "published": "2021-07-01T03:15:07.893Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2020-36403",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2020-36403",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "htslib:htslib": [
+                        "<= 1.10.2"
+                    ]
+                }
+            }
+        ]
+    }
+}

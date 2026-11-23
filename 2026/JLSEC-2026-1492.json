@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1492",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2025-27833"
+    ],
+    "details": "An issue was discovered in Artifex Ghostscript before 10.05.0. A buffer overflow occurs for a long TTF font name to `pdf/pdf_fmap.c`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=708259"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-27833",
+                "imported": "2026-11-21T07:19:18.297Z",
+                "modified": "2026-06-17T09:04:18.490Z",
+                "published": "2025-03-25T21:15:42.683Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-27833",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27833",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.05.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

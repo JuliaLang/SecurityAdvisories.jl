@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1496",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2025-27837"
+    ],
+    "details": "An issue was discovered in Artifex Ghostscript before 10.05.0. Access to arbitrary files can occur through a truncated path with invalid UTF-8 characters, for `base/gp_mswin.c` and `base/winrtsup.cpp`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=708238"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-27837",
+                "imported": "2026-11-21T07:19:18.298Z",
+                "modified": "2026-06-17T09:04:19.083Z",
+                "published": "2025-03-25T21:15:43.250Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-27837",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27837",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.05.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

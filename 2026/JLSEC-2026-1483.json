@@ -1,0 +1,82 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1483",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2024-46951"
+    ],
+    "details": "An issue was discovered in `psi/zcolor.c` in Artifex Ghostscript before 10.04.0. An unchecked Implementation pointer in Pattern color space could lead to arbitrary code execution.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=707991"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=f49812186baa7d1362880673408a6fbe8719b4f8"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/ArtifexSoftware/ghostpdl/blob/master/doc/News.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2024/11/msg00023.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.suse.com/support/update/announcement/2024/suse-su-20243942-1/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-46951",
+                "imported": "2026-11-21T07:19:18.295Z",
+                "modified": "2026-06-17T07:56:14.797Z",
+                "published": "2024-11-10T21:15:14.880Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-46951",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-46951",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.04.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

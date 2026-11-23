@@ -1,0 +1,86 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1479",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2024-29511"
+    ],
+    "details": "Artifex Ghostscript before 10.03.1, when Tesseract is used for OCR, has a directory traversal issue that allows arbitrary file reading (and writing of error messages to arbitrary files) via OCRLanguage. For example, exploitation can use `debug_file` `/tmp/out` and `user_patterns_file` `/etc/passwd`.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=707510"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=707510"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git%3Ba=commitdiff%3Bh=3d4cfdc1a44"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git%3Ba=commitdiff%3Bh=3d4cfdc1a44"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/07/03/7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2024/07/03/7"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2024-29511",
+                "imported": "2026-11-21T07:19:18.294Z",
+                "modified": "2026-06-17T07:22:53.943Z",
+                "published": "2024-07-03T19:15:03.430Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2024-29511",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-29511",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.03.1"
+                    ]
+                }
+            }
+        ]
+    }
+}

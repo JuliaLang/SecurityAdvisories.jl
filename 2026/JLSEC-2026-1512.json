@@ -1,0 +1,78 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1512",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2026-31970"
+    ],
+    "details": "HTSlib is a library for reading and writing bioinformatics file formats. GZI files are used to index block-compressed GZIP [BGZF] files.  In the GZI loading function, `bgzf_index_load_hfile()`, it was possible to trigger an integer overflow, leading to an under- or zero-sized buffer being allocated to store the index.  Sixteen zero bytes would then be written to this buffer, and, depending on the result of the overflow the rest of the file may also be loaded into the buffer as well.  If the function did attempt to load the data, it would eventually fail due to not reading the expected number of records, and then try to free the overflowed heap buffer. Exploiting this bug causes a heap buffer overflow. If a user opens a file crafted to exploit this issue, it could lead to the program crashing, or overwriting of data and heap structures in ways not expected by the program.  It may be possible to use this to obtain arbitrary code execution. Versions 1.23.1, 1.22.2 and 1.21.1 include fixes for this issue. The easiest work-around is to discard any `.gzi` index files from untrusted sources, and use the `bgzip -r` option to recreate them.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "htslib_jll",
+                "purl": "pkg:julia/htslib_jll?uuid=f06fe41e-9474-5571-8c61-5634d2b2700c"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://www.openwall.com/lists/oss-security/2026/03/18/9"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/commit/6dd0d7d0e9e7e2e173a28969e624db8bc8bb5828"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/samtools/htslib/security/advisories/GHSA-p345-84hx-fq6q"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-31970",
+                "imported": "2026-11-21T07:36:38.110Z",
+                "modified": "2026-06-17T10:34:51.893Z",
+                "published": "2026-03-18T20:16:21.980Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-31970",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31970",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "htslib:htslib": [
+                        "< 1.21",
+                        "= 1.23",
+                        ">= 1.22, < 1.22.2"
+                    ]
+                }
+            }
+        ]
+    }
+}

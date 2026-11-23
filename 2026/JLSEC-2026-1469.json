@@ -1,0 +1,130 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1469",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2023-36664"
+    ],
+    "details": "Artifex Ghostscript before 10.01.2 mishandles permission validation for pipe devices (with the %pipe% prefix or the | pipe character prefix).",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "10.8.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://artifex.com/blog/security-vulnerability-fixed-in-ghostscript-10.01.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=706761"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugs.ghostscript.com/show_bug.cgi?id=706761"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git%3Ba=commit%3Bh=0974e4f2ac0005d3731e0b5c13ebc7e965540f4d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git%3Ba=commit%3Bh=505eab7782b429017eb434b2b95120855f2b0e3c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=0974e4f2ac0005d3731e0b5c13ebc7e965540f4d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=505eab7782b429017eb434b2b95120855f2b0e3c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/2ICXN5VPF3WJCYKMPSYER5KHTPJXSTJZ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/5EWMEK2UPCUU3ZLL7VASE5CEHDQY4VKV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/2ICXN5VPF3WJCYKMPSYER5KHTPJXSTJZ/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/5EWMEK2UPCUU3ZLL7VASE5CEHDQY4VKV/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security-tracker.debian.org/tracker/CVE-2023-36664"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-03"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202309-03"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5446"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2023/dsa-5446"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.kroll.com/en/publications/cyber/ghostscript-cve-2023-36664-remote-code-execution-vulnerability"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2023-36664",
+                "imported": "2026-11-21T07:19:18.291Z",
+                "modified": "2026-08-28T16:16:49.093Z",
+                "published": "2023-06-25T22:15:21.463Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2023-36664",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36664",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "< 10.01.2"
+                    ]
+                }
+            }
+        ]
+    }
+}

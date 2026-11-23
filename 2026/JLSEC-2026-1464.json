@@ -1,0 +1,94 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1464",
+    "modified": "2026-11-23T20:39:51.905Z",
+    "published": "2026-11-23T20:39:51.905Z",
+    "upstream": [
+        "CVE-2021-3781"
+    ],
+    "details": "A trivial sandbox (enabled with the `-dSAFER` option) escape flaw was found in the ghostscript interpreter by injecting a specially crafted pipe command. This flaw allows a specially crafted document to execute arbitrary commands on the system in the context of the ghostscript interpreter. The highest threat from this vulnerability is to confidentiality, integrity, as well as system availability.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "9.55.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Ghostscript_jll",
+                "purl": "pkg:julia/Ghostscript_jll?uuid=61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2002271"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2002271"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ghostscript.com/CVE-2021-3781.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://ghostscript.com/CVE-2021-3781.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202211-11"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202211-11"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-3781",
+                "imported": "2026-11-21T07:19:18.289Z",
+                "modified": "2026-06-17T04:05:45.050Z",
+                "published": "2022-02-16T19:15:08.817Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-3781",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3781",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "artifex:ghostscript": [
+                        "= 9.50",
+                        "= 9.52",
+                        "= 9.53.3",
+                        "= 9.54.0"
+                    ]
+                }
+            }
+        ]
+    }
+}
