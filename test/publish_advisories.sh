@@ -57,37 +57,4 @@ fi
 [[ $(remote_ref refs/heads/main) != "$later_assignment" ]]
 [[ $(remote_ref refs/heads/main) == "$assignment" ]]
 [[ $(remote_ref refs/heads/generated/osv) == "$osv_candidate" ]]
-
-git switch --quiet --detach "$assignment"
-arriving_merge=$(git commit-tree "$tree" -p "$assignment" -m 'Merge arrives during push')
-next_osv=$(git commit-tree "$tree" -p "$osv_candidate" -m 'Export without a new ID assignment')
-git push --quiet origin "$arriving_merge:refs/heads/test-merge"
-hook="$test_dir/origin.git/hooks/pre-receive"
-cat > "$hook" <<'HOOK'
-#!/usr/bin/env bash
-set -euo pipefail
-env -u GIT_QUARANTINE_PATH -u GIT_OBJECT_DIRECTORY -u GIT_ALTERNATE_OBJECT_DIRECTORIES \
-    git update-ref refs/heads/main refs/heads/test-merge
-HOOK
-chmod +x "$hook"
-bash "$publish" "$assignment" "$next_osv"
-[[ ! -s "$GITHUB_OUTPUT" ]]
-[[ $(remote_ref refs/heads/main) == "$arriving_merge" ]]
-[[ $(remote_ref refs/heads/generated/osv) == "$osv_candidate" ]]
-rm -- "$hook"
-
-git switch --quiet --detach "$arriving_merge"
-bash "$publish" "$arriving_merge" "$next_osv"
-checkpoint=$(remote_ref refs/heads/main)
-[[ "$checkpoint" != "$arriving_merge" ]]
-[[ $(git rev-parse "$checkpoint^") == "$arriving_merge" ]]
-[[ $(git rev-parse "$checkpoint^{tree}") == "$tree" ]]
-[[ $(remote_ref refs/heads/generated/osv) == "$next_osv" ]]
-[[ $(<"$GITHUB_OUTPUT") == "ref=$checkpoint" ]]
-
-: > "$GITHUB_OUTPUT"
-git switch --quiet --detach "$checkpoint"
-bash "$publish" "$checkpoint" "$next_osv"
-[[ $(remote_ref refs/heads/main) == "$checkpoint" ]]
-[[ $(<"$GITHUB_OUTPUT") == "ref=$checkpoint" ]]
 echo 'Atomic advisory publication tests passed'

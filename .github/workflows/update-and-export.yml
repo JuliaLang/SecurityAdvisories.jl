@@ -158,10 +158,6 @@ jobs:
       id: publish
       if: github.event_name == 'push' && github.ref_name == 'main'
       env:
-        GIT_AUTHOR_NAME: github-actions[bot]
-        GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
-        GIT_COMMITTER_NAME: github-actions[bot]
-        GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
         GH_TOKEN: ${{ github.token }}
         GIT_CONFIG_COUNT: 1
         GIT_CONFIG_KEY_0: credential.https://github.com.helper
