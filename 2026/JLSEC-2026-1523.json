@@ -1,0 +1,138 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1523",
+    "modified": "2026-11-23T20:59:40.419Z",
+    "published": "2026-11-23T20:59:40.419Z",
+    "upstream": [
+        "CVE-2025-69647"
+    ],
+    "details": "GNU Binutils thru 2.45.1 readelf contains a denial-of-service vulnerability when processing a crafted binary with malformed DWARF loclists data. A logic flaw in the DWARF parsing code can cause readelf to repeatedly print the same table output without making forward progress, resulting in an unbounded output loop that never terminates unless externally interrupted. A local attacker can trigger this behavior by supplying a malicious input file, causing excessive CPU and I/O usage and preventing readelf from completing its analysis.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.46.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Binutils_jll",
+                "purl": "pkg:julia/Binutils_jll?uuid=489e263e-5428-50b0-a723-147a141b401e"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCToolchain_jll",
+                "purl": "pkg:julia/GCCToolchain_jll?uuid=d52b11df-85af-5689-9826-d972373ea583"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "arm_binutils_jll",
+                "purl": "pkg:julia/arm_binutils_jll?uuid=59abdd74-cdb7-53ea-acab-ed1c8628de13"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "avr_binutils_jll",
+                "purl": "pkg:julia/avr_binutils_jll?uuid=89a19a88-f0c6-5ede-9587-7a2c5ccf09c7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=33640"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=455446bbdc8675f34808187de2bbad4682016ff7"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-69647",
+                "imported": "2026-11-21T07:09:05.330Z",
+                "modified": "2026-06-17T10:00:48.057Z",
+                "published": "2026-03-09T15:15:50.740Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-69647",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69647",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "<= 2.45.1"
+                    ]
+                }
+            }
+        ]
+    }
+}

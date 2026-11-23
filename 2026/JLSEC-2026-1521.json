@@ -1,0 +1,239 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1521",
+    "modified": "2026-11-23T20:59:40.419Z",
+    "published": "2026-11-23T20:59:40.419Z",
+    "upstream": [
+        "CVE-2025-5245",
+        "GHSA-h92g-mrpv-x8v2",
+        "EUVD-2025-28432"
+    ],
+    "summary": "A vulnerability classified as critical has been found in GNU Binutils up to 2.44. This affects...",
+    "details": "A vulnerability classified as critical has been found in GNU Binutils up to 2.44. This affects the function `debug_type_samep` of the file `/binutils/debug.c` of the component objdump. The manipulation leads to memory corruption. Local access is required to approach this attack. The exploit has been disclosed to the public and may be used. It is recommended to apply a patch to fix this issue.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:S/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.45.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Binutils_jll",
+                "purl": "pkg:julia/Binutils_jll?uuid=489e263e-5428-50b0-a723-147a141b401e"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "arm_binutils_jll",
+                "purl": "pkg:julia/arm_binutils_jll?uuid=59abdd74-cdb7-53ea-acab-ed1c8628de13"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "avr_binutils_jll",
+                "purl": "pkg:julia/avr_binutils_jll?uuid=89a19a88-f0c6-5ede-9587-7a2c5ccf09c7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-082556.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://cert-portal.siemens.com/productcert/html/ssa-265688.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-h92g-mrpv-x8v2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5245"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/attachment.cgi?id=16004"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=32829"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=6c3458a8b7ee7d39f070c7b2350851cb2110c65a"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.310347"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.310347"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.584635"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-5245",
+                "imported": "2026-11-21T07:09:04.778Z",
+                "modified": "2026-10-15T02:18:09.283Z",
+                "published": "2025-05-27T15:15:36.057Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-5245",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5245",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "< 2.45"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-h92g-mrpv-x8v2",
+                "imported": "2026-11-21T07:09:16.349Z",
+                "modified": "2026-05-12T15:31:58Z",
+                "published": "2025-05-27T15:31:28Z",
+                "url": "https://api.github.com/advisories/GHSA-h92g-mrpv-x8v2",
+                "html_url": "https://github.com/advisories/GHSA-h92g-mrpv-x8v2"
+            },
+            {
+                "id": "EUVD-2025-28432",
+                "imported": "2026-11-21T07:09:06.648Z",
+                "modified": "2026-10-15T01:02:12Z",
+                "published": "2025-05-27T14:31:12Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-28432",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-28432",
+                "affected": {
+                    "GNU:Binutils": [
+                        "2.0",
+                        "2.1",
+                        "2.10",
+                        "2.11",
+                        "2.12",
+                        "2.13",
+                        "2.14",
+                        "2.15",
+                        "2.16",
+                        "2.17",
+                        "2.18",
+                        "2.19",
+                        "2.2",
+                        "2.20",
+                        "2.21",
+                        "2.22",
+                        "2.23",
+                        "2.24",
+                        "2.25",
+                        "2.26",
+                        "2.27",
+                        "2.28",
+                        "2.29",
+                        "2.3",
+                        "2.30",
+                        "2.31",
+                        "2.32",
+                        "2.33",
+                        "2.34",
+                        "2.35",
+                        "2.36",
+                        "2.37",
+                        "2.38",
+                        "2.39",
+                        "2.4",
+                        "2.40",
+                        "2.41",
+                        "2.42",
+                        "2.43",
+                        "2.44",
+                        "2.5",
+                        "2.6",
+                        "2.7",
+                        "2.8",
+                        "2.9"
+                    ]
+                }
+            }
+        ]
+    }
+}

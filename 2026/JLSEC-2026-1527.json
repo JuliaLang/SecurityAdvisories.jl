@@ -1,0 +1,162 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1527",
+    "modified": "2026-11-23T20:59:40.419Z",
+    "published": "2026-11-23T20:59:40.419Z",
+    "upstream": [
+        "CVE-2026-6846"
+    ],
+    "details": "A flaw was found in binutils. A heap-buffer-overflow vulnerability exists when processing a specially crafted XCOFF (Extended Common Object File Format) object file during linking. A local attacker could trick a user into processing this malicious file, which could lead to arbitrary code execution, allowing the attacker to run unauthorized commands, or cause a denial of service, making the system unavailable.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.47.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Binutils_jll",
+                "purl": "pkg:julia/Binutils_jll?uuid=489e263e-5428-50b0-a723-147a141b401e"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCToolchain_jll",
+                "purl": "pkg:julia/GCCToolchain_jll?uuid=d52b11df-85af-5689-9826-d972373ea583"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "arm_binutils_jll",
+                "purl": "pkg:julia/arm_binutils_jll?uuid=59abdd74-cdb7-53ea-acab-ed1c8628de13"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "avr_binutils_jll",
+                "purl": "pkg:julia/avr_binutils_jll?uuid=89a19a88-f0c6-5ede-9587-7a2c5ccf09c7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:33527"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:33527"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2026:39022"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-6846"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/security/cve/CVE-2026-6846"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2460006"
+        },
+        {
+            "type": "WEB",
+            "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2460006"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-6846.json"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-6846",
+                "imported": "2026-11-21T07:09:05.334Z",
+                "modified": "2026-11-05T00:17:24.457Z",
+                "published": "2026-04-22T09:16:27.607Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-6846",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6846",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "<= 2.46"
+                    ]
+                }
+            }
+        ]
+    }
+}

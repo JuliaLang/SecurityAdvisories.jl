@@ -1,0 +1,230 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1519",
+    "modified": "2026-11-23T20:59:40.419Z",
+    "published": "2026-11-23T20:59:40.419Z",
+    "upstream": [
+        "CVE-2025-0840",
+        "GHSA-c5qp-mx9f-m5c7",
+        "EUVD-2025-1889"
+    ],
+    "summary": "A vulnerability, which was classified as problematic, was found in GNU Binutils up to 2.43. This...",
+    "details": "A vulnerability, which was classified as problematic, was found in GNU Binutils up to 2.43. This affects the function `disassemble_bytes` of the file `binutils/objdump.c`. The manipulation of the argument buf leads to stack-based buffer overflow. It is possible to initiate the attack remotely. The complexity of an attack is rather high. The exploitability is told to be difficult. The exploit has been disclosed to the public and may be used. Upgrading to version 2.44 is able to address this issue. The identifier of the patch is baac6c221e9d69335bf41366a1c7d87d8ab2f893. It is recommended to upgrade the affected component.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:H/Au:N/C:P/I:P/A:P",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.44.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Binutils_jll",
+                "purl": "pkg:julia/Binutils_jll?uuid=489e263e-5428-50b0-a723-147a141b401e"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "arm_binutils_jll",
+                "purl": "pkg:julia/arm_binutils_jll?uuid=59abdd74-cdb7-53ea-acab-ed1c8628de13"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "avr_binutils_jll",
+                "purl": "pkg:julia/avr_binutils_jll?uuid=89a19a88-f0c6-5ede-9587-7a2c5ccf09c7"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-c5qp-mx9f-m5c7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0840"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/attachment.cgi?id=15882"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=32560"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=baac6c221e9d69335bf41366a1c7d87d8ab2f893"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?ctiid.293997"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.293997"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?submit.485255"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.gnu.org/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2025-0840",
+                "imported": "2026-11-21T07:09:04.766Z",
+                "modified": "2026-06-17T08:27:14.277Z",
+                "published": "2025-01-29T20:15:35.007Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-0840",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0840",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "< 2.44"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-c5qp-mx9f-m5c7",
+                "imported": "2026-11-21T07:09:18.042Z",
+                "modified": "2025-03-04T15:32:51Z",
+                "published": "2025-01-29T21:31:24Z",
+                "url": "https://api.github.com/advisories/GHSA-c5qp-mx9f-m5c7",
+                "html_url": "https://github.com/advisories/GHSA-c5qp-mx9f-m5c7"
+            },
+            {
+                "id": "EUVD-2025-1889",
+                "imported": "2026-11-21T07:09:06.662Z",
+                "modified": "2025-02-12T19:51:13Z",
+                "published": "2025-01-29T20:00:11Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2025-1889",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2025-1889",
+                "affected": {
+                    "GNU:Binutils": [
+                        "2.0",
+                        "2.1",
+                        "2.10",
+                        "2.11",
+                        "2.12",
+                        "2.13",
+                        "2.14",
+                        "2.15",
+                        "2.16",
+                        "2.17",
+                        "2.18",
+                        "2.19",
+                        "2.2",
+                        "2.20",
+                        "2.21",
+                        "2.22",
+                        "2.23",
+                        "2.24",
+                        "2.25",
+                        "2.26",
+                        "2.27",
+                        "2.28",
+                        "2.29",
+                        "2.3",
+                        "2.30",
+                        "2.31",
+                        "2.32",
+                        "2.33",
+                        "2.34",
+                        "2.35",
+                        "2.36",
+                        "2.37",
+                        "2.38",
+                        "2.39",
+                        "2.4",
+                        "2.40",
+                        "2.41",
+                        "2.42",
+                        "2.43",
+                        "2.5",
+                        "2.6",
+                        "2.7",
+                        "2.8",
+                        "2.9"
+                    ]
+                }
+            }
+        ]
+    }
+}
