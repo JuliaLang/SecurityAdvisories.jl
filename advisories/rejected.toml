@@ -36,6 +36,16 @@ reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master br
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master before commit d5873be; no FFmpeg release contains it. Reviewed in #399."
 
+[CVE-2025-1148]
+aliases = ["GHSA-gqj6-fppc-vr34", "EUVD-2025-2023"]
+packages = ["Binutils_jll"]
+reason = "Affects the GNU ld executable; the Binutils_jll recipe for Binutils 2.43 builds with --disable-ld. Reviewed in #455."
+
+[CVE-2026-90828]
+aliases = ["GHSA-fx9g-rhcq-63jg", "EUVD-2026-78171"]
+packages = ["Binutils_jll"]
+reason = "Affects the GNU ld executable; the Binutils_jll recipe for Binutils 2.47 builds with --disable-ld. Reviewed in #455."
+
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
