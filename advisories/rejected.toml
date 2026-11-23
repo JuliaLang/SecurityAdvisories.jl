@@ -58,20 +58,20 @@ packages = ["Qemu_static_jll"]
 reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2022-4144]
-packages = ["Qemu_static_jll"]
-reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects QXL, which Qemu_jll does not build without SPICE. Qemu_static_jll builds only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-1386]
-packages = ["Qemu_static_jll"]
-reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects the 9p passthrough server; Qemu_jll builds without VirtFS and Qemu_static_jll builds only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-1544]
-packages = ["Qemu_static_jll"]
-reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects VMware PVRDMA, which Qemu_jll does not build. Qemu_static_jll builds only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-2861]
-packages = ["Qemu_static_jll"]
-reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects the 9p passthrough server; Qemu_jll builds without VirtFS and Qemu_static_jll builds only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-3019]
 packages = ["Qemu_static_jll"]
@@ -90,8 +90,8 @@ packages = ["Qemu_static_jll"]
 reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-3354]
-packages = ["Qemu_static_jll"]
-reason = "Affects QEMU system emulation, which Qemu_static_jll excludes by building only Linux user-mode emulators. Reviewed in #446."
+packages = ["Qemu_jll", "Qemu_static_jll"]
+reason = "Affects TLS handshakes in QEMU's VNC server; Qemu_jll builds without GnuTLS. Qemu_static_jll builds only Linux user-mode emulators. Reviewed in #446."
 
 [CVE-2023-42467]
 packages = ["Qemu_static_jll"]
