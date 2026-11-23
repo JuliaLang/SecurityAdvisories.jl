@@ -1516,3 +1516,591 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-107660]
+packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
+reason = "FFMPEG_jll and FFMPEG_nogpl_jll do not build the Mbed TLS backend. FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107675]
+packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
+reason = "FFMPEG_jll and FFMPEG_nogpl_jll do not build the libssh SFTP backend. FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107676]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107677]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107678]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107695]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107696]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107697]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-107698]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120210]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120243]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120244]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120245]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120246]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-120247]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125064]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125065]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125066]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125067]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125068]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125069]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125070]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125071]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125072]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125073]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125095]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125096]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125097]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125098]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125099]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125100]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125101]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125102]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125103]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125104]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125170]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125171]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125172]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125173]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125174]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125175]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125176]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125177]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125178]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125179]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125180]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125181]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125182]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125183]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125184]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125185]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125186]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125187]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125188]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125189]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125190]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125191]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125192]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125193]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125194]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125195]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125196]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125197]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125198]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125199]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125200]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125201]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125202]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125203]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125204]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125205]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125206]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125207]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125208]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125209]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125210]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125211]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125212]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125213]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125214]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125215]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125216]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125217]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125218]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125219]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125220]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125221]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125222]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125223]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125224]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125225]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125226]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125227]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125228]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125229]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125230]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125231]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125232]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125233]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125234]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125235]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125236]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125237]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125238]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125239]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125240]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125241]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125242]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125243]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125244]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125245]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125246]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125247]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125248]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125249]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125250]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125251]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125252]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125253]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125254]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125255]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125256]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125257]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125258]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125259]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125260]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125261]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125262]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125263]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125264]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125265]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125266]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125267]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125268]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125269]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-125270]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-133519]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-30754]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-52295]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-52296]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-52297]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-75141]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-75142]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-75145]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-75146]
+packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
+reason = "FFMPEG_jll and FFMPEG_nogpl_jll do not enable libxml2, which is required to build the DASH demuxer. FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-75147]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
+
+[CVE-2026-96611]
+packages = ["FFplay_jll"]
+reason = "FFplay_jll ships only the player; the affected code is supplied by the separate FFMPEG_jll dependency."
