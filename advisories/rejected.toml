@@ -46,6 +46,11 @@ aliases = ["GHSA-fx9g-rhcq-63jg", "EUVD-2026-78171"]
 packages = ["Binutils_jll"]
 reason = "Affects the GNU ld executable; the Binutils_jll recipe for Binutils 2.47 builds with --disable-ld. Reviewed in #455."
 
+[CVE-2025-11840]
+aliases = ["GHSA-jp92-pqpq-f69p", "EUVD-2025-34771"]
+packages = ["Binutils_jll"]
+reason = "Affects ldmisc.c in the GNU ld executable; the Binutils_jll recipe for Binutils 2.45 builds with --disable-ld. Reviewed in #455."
+
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
