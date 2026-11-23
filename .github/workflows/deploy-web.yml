@@ -9,22 +9,28 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: read
-  id-token: write
-  pages: write
+permissions: {}
 
 jobs:
-  deploy:
+  build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
 
       - uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+        id: julia
         with:
           version: '1'
+      - uses: julia-actions/cache@9353db09a0f2bbbdec6f41791918c75d37391b36 # v3.5.0
+        with:
+          cache-name: julia-cache;workload=web;julia=${{ steps.julia.outputs.julia-version }};arch=${{ runner.arch }}
+          delete-old-caches: false
+          save-always: false
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -33,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd web
-          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.instantiate(); Pkg.add("NodeJS"); using NodeJS; run(`$(npm_cmd()) install highlight.js`);'
+          julia --project=. -e 'using Pkg; Pkg.develop(path=".."); Pkg.add("NodeJS"); using NodeJS; run(`$(npm_cmd()) install highlight.js`);'
 
       - name: Pre-generate advisory pages
         run: |
@@ -52,13 +58,26 @@ jobs:
           nofollow: true
 
       - name: Build search index
-        run: npx pagefind --site web/__site
+        run: npx --yes pagefind@1.6.0 --site web/__site
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: web/__site
 
+  deploy:
+    needs: build
+    permissions:
+      id-token: write
+      pages: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
