@@ -1,3 +1,4 @@
+using CommonMark: CommonMark
 using SecurityAdvisories: SecurityAdvisories, CVSS
 using Dates
 
@@ -308,9 +309,8 @@ _adv_fixed(a) = all(_has_fix(v) for v in a.affected if SecurityAdvisories.is_vul
 _severity_key(a) = (cls = _severity_class(a); isempty(cls) ? "unknown" : cls)
 
 # The subset of `pkgs` marked deprecated in the General registry, signalled
-# by a `[metadata.deprecated]` table in the package's Package.toml.  Pkg's
-# parsed PkgInfo doesn't surface this table until Julia 1.14, so read the
-# raw file through the registry's (possibly in-memory) file access.
+# by a `[metadata.deprecated]` table in the package's Package.toml. Read the
+# raw file because older versions of Pkg don't expose it in PkgInfo.
 function _deprecated_packages(pkgs)
     reg = SecurityAdvisories.get_registry()
     deprecated = Set{String}()
@@ -319,7 +319,7 @@ function _deprecated_packages(pkgs)
         isempty(uuids) && continue
         entry = reg[first(uuids)]
         d = SecurityAdvisories.Registry.parsefile(
-            entry.in_memory_registry, entry.registry_path, joinpath(entry.path, "Package.toml"))
+            reg.in_memory_registry, entry.registry_path, joinpath(entry.path, "Package.toml"))
         meta = get(d, "metadata", nothing)
         meta isa AbstractDict && haskey(meta, "deprecated") && push!(deprecated, pkg)
     end
@@ -461,6 +461,12 @@ filterPackages();
     String(take!(io))
 end
 
+function _advisory_details_html(details)
+    parser = CommonMark.Parser()
+    CommonMark.disable!(parser, [CommonMark.HtmlBlockRule(), CommonMark.HtmlInlineRule()])
+    return CommonMark.html(parser(details); safe=true)
+end
+
 function hfun_advisory_detail()
     id = locvar(:advisory_id)
     id === nothing && return "<p>Advisory not found.</p>"
@@ -530,7 +536,7 @@ function hfun_advisory_detail()
 
     if adv.details !== nothing
         write(io, """<div class="detail-body">""")
-        write(io, Franklin.fd2html(adv.details; internal=true))
+        write(io, _advisory_details_html(adv.details))
         write(io, "</div>")
     end
 
