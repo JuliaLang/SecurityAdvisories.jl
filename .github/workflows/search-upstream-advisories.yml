@@ -71,6 +71,7 @@ jobs:
         title: ${{ steps.identify.outputs.title }}
         body: ${{ steps.identify.outputs.body }}
         branch: ${{ steps.identify.outputs.branch }}
+        draft: true
 
     - uses: actions/create-github-app-token@v3
       id: urdr_token
