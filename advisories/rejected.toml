@@ -40,6 +40,11 @@ reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
 
+[CVE-2026-85091]
+aliases = ["GHSA-g5fp-32jq-cfw2", "EUVD-2026-70301"]
+packages = ["Openresty_jll", "fmusim_jll"]
+reason = "Openresty_jll statically links zlib compression code but does not ship the affected gzip write functions. Older fmusim_jll builds compile only minizip sources and link to Zlib_jll separately; fmusim_jll 0.15.0 uses zlib-rs instead. Reviewed in #712."
+
 # Protobuf uses a large monorepo for all its bindings and advisories are tagged against
 # the entire monorepo but often just affect a single language binding
 [CVE-2021-22569]
