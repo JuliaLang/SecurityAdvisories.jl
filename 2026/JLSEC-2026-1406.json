@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1406",
+    "modified": "2026-11-23T19:26:16.010Z",
+    "published": "2026-11-23T19:26:16.010Z",
+    "upstream": [
+        "CVE-2026-117610"
+    ],
+    "details": "libexpat through 2.9.0 contains a NULL pointer dereference vulnerability in externalEntityInitProcessor2() in `lib/xmlparse.c` that mishandles the `XML_TOK_NONE` token from empty input. Attackers who control stream chunking can force an empty non-final first parse on an external entity subparser, causing a later parse to crash the application.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.10.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "Expat_jll",
+                "purl": "pkg:julia/Expat_jll?uuid=2e619515-83b5-522b-bb60-26c02a35a201"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/blob/a76b1174c1ea52abb639a4c69d52b630a8a106a2/expat/lib/xmlparse.c#L3468-L3510"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/commit/7b0d50e4b1d16fafd55876260701e04279a7489d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/libexpat/libexpat/pull/1444"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/libexpat-through-2.9.0-null-pointer-dereference-via-external-entity-subparser"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-117610",
+                "imported": "2026-11-21T02:24:58.543Z",
+                "modified": "2026-11-05T16:17:35.787Z",
+                "published": "2026-10-28T03:17:12.777Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-117610",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-117610",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "libexpat_project:libexpat": [
+                        "<= 2.9.0"
+                    ]
+                }
+            }
+        ]
+    }
+}
