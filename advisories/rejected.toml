@@ -20,6 +20,30 @@ reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Ker
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
 
+[CVE-2023-0809]
+aliases = ["GHSA-v9xr-r3xx-x9gc", "EUVD-2023-12814"]
+packages = ["mosquitto_client_jll"]
+reason = "Affects the Mosquitto broker; mosquitto_client_jll builds with WITH_BROKER=OFF and does not ship the broker. Reviewed in #527."
+
+[CVE-2023-28366]
+packages = ["mosquitto_client_jll"]
+reason = "Affects the Mosquitto broker; mosquitto_client_jll builds with WITH_BROKER=OFF and does not ship the broker. Reviewed in #527."
+
+[CVE-2023-3592]
+aliases = ["GHSA-p7q8-377q-px25", "EUVD-2023-44242"]
+packages = ["mosquitto_client_jll"]
+reason = "Affects the Mosquitto broker; mosquitto_client_jll builds with WITH_BROKER=OFF and does not ship the broker. Reviewed in #527."
+
+[CVE-2024-3935]
+aliases = ["GHSA-r5mw-c5jc-r788", "EUVD-2024-32502"]
+packages = ["mosquitto_client_jll"]
+reason = "Affects the Mosquitto broker; mosquitto_client_jll builds with WITH_BROKER=OFF and does not ship the broker. Reviewed in #527."
+
+[CVE-2024-8376]
+aliases = ["GHSA-72qw-2vp3-gvg9", "EUVD-2024-49133"]
+packages = ["mosquitto_client_jll"]
+reason = "Affects the Mosquitto broker; mosquitto_client_jll builds with WITH_BROKER=OFF and does not ship the broker. Reviewed in #527."
+
 [CVE-2021-4048]
 packages = ["SLICOT_jll", "ReferenceBLAS32_jll", "ReferenceBLAS_jll"]
 reason = "These packages do not build or redistribute the vulnerable `*ARRV` family. Ref https://github.com/JuliaPackaging/Yggdrasil/blob/31d7ae44c2fc697b3d53d08dd6b02c69d46b69bd/S/SLICOT/build_tarballs.jl#L30-L31 and https://github.com/JuliaPackaging/Yggdrasil/blob/fc9bcdfd56ec869e741bc4c7e1866c287bfbfd01/R/ReferenceBLAS/common.jl#L48-52"
