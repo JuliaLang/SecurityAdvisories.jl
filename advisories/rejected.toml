@@ -12,6 +12,10 @@ reason = "This 2010-era xpdf infinite loop was fixed long before any Poppler_jll
 packages = ["Kerberos_krb5_jll"]
 reason = "Fixed in krb5 1.17, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
 
+[CVE-2019-5068]
+packages = ["Rusticl_jll"]
+reason = "Affects Mesa's X11/GLX implementation, which Rusticl_jll does not build (glx=disabled). Reviewed in #515."
+
 [CVE-2018-5709]
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
