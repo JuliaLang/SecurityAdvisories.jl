@@ -39,6 +39,34 @@ reason = "Fixed in krb5 1.17, predating the earliest krb5 packaged as Kerberos_k
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
 
+[CVE-2023-29932]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29933]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29934]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29935]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29939]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29941]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
+[CVE-2023-29942]
+packages = ["LLVMLibUnwind_jll", "SPIRV_LLVM_Backend_jll"]
+reason = "Affects MLIR, which neither the LLVM libunwind build nor the native LLVM SPIR-V backend build ships. Reviewed in #536."
+
 [CVE-2018-5710]
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
