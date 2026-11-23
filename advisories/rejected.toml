@@ -1568,3 +1568,28 @@ reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP
 aliases = ["EUVD-2026-121636", "GHSA-q8c3-jq6j-fc5f"]
 packages = ["AppBundler", "Openresty_jll"]
 reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-63073]
+aliases = ["GHSA-826x-qg76-xqjx", "EUVD-2026-65483"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_msg_check_update) is not linked into the published GNU or musl binaries; the CMP logging helpers that are linked do not include it. Reviewed in #685."
+
+[CVE-2026-63074]
+aliases = ["GHSA-2q27-mpm9-44m4", "EUVD-2026-65484"]
+packages = ["Openresty_jll"]
+reason = "Neither affected release links the affected CMP function (ossl_cmp_msg_check_update) or ships a separate OpenSSL library. Reviewed in #685."
+
+[CVE-2026-63076]
+aliases = ["GHSA-r3hf-pf7x-wgqg", "EUVD-2026-65487"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_calc_protection) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-75805]
+aliases = ["GHSA-gpg3-m652-f2vc", "EUVD-2026-89010"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP client revocation API (OSSL_CMP_exec_RR_ses) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-107496]
+aliases = ["EUVD-2026-121711", "GHSA-vv67-6crp-mvmp"]
+packages = ["Openresty_jll"]
+reason = "The published binaries do not link the affected CMS encryption entry points CMS_encrypt or CMS_encrypt_ex, and the artifacts do not ship a separate OpenSSL library or CLI."
