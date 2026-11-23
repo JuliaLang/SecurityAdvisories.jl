@@ -1,0 +1,88 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1424",
+    "modified": "2026-11-23T20:01:46.351Z",
+    "published": "2026-11-23T20:01:46.351Z",
+    "upstream": [
+        "CVE-2026-53792",
+        "EUVD-2026-58100"
+    ],
+    "details": "rsync before 3.5.0 contains an out-of-bounds read vulnerability in the sender-side block matching logic that allows a malicious receiver to trigger memory access before the start of an allocated buffer by sending a crafted checksum block with a length of zero. Attackers can send a specially crafted checksum set containing a zero-length block to cause a negative offset calculation during delta computation, resulting in an out-of-bounds read of file data buffer memory on the sender side.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.5.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "rsync_jll",
+                "purl": "pkg:julia/rsync_jll?uuid=191d6b87-264a-55f5-a0e2-c8fbce9a1ce0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-cg57-rp9g-56hw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/rsync-out-of-bounds-read-via-zero-length-checksum-block"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-53792",
+                "imported": "2026-11-21T02:56:04.994Z",
+                "modified": "2026-11-06T16:00:43.863Z",
+                "published": "2026-08-13T15:19:43.527Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-53792",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53792",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "samba:rsync": [
+                        "< 3.5.0"
+                    ]
+                }
+            },
+            {
+                "id": "EUVD-2026-58100",
+                "imported": "2026-11-21T02:56:06.499Z",
+                "modified": "2026-08-14T16:50:09Z",
+                "published": "2026-08-13T14:38:30Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-58100",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-58100"
+            }
+        ]
+    }
+}

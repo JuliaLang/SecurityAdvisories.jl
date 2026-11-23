@@ -1,0 +1,118 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1415",
+    "modified": "2026-11-23T20:01:46.351Z",
+    "published": "2026-11-23T20:01:46.351Z",
+    "upstream": [
+        "CVE-2026-119741",
+        "GHSA-56w4-j8c7-xvrw",
+        "EUVD-2026-115914"
+    ],
+    "summary": "rsync through 3.5.1 contains a denial of service vulnerability in the delta-transfer sender's...",
+    "details": "rsync before 3.5.2 contains a denial of service vulnerability in the delta-transfer sender's `hash_search()` in match.c that allows malicious receivers to trigger unbounded strong-checksum work at consecutive offsets. Unauthenticated attackers pulling from a public daemon module can supply weak checksums colliding with consecutive rolling windows plus non-matching strong checksums, exhausting sender CPU across concurrent connections.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        },
+        {
+            "type": "CVSS_V4",
+            "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "3.5.2+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "rsync_jll",
+                "purl": "pkg:julia/rsync_jll?uuid=191d6b87-264a-55f5-a0e2-c8fbce9a1ce0"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/blob/a7404a9a633cff28ee1602f328b9c3fa69cdbd04/testsuite/hashsearch-collision-skip_test.py"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/commit/a7404a9a633cff28ee1602f328b9c3fa69cdbd04"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/pull/1132"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.2"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-56w4-j8c7-xvrw"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119741"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.vulncheck.com/advisories/rsync-through-3.5.1-denial-of-service-via-hash-search-checksum-collisions"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-119741",
+                "imported": "2026-11-21T02:56:05.002Z",
+                "modified": "2026-11-16T22:18:14.377Z",
+                "published": "2026-11-03T16:17:21.940Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-119741",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119741",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "samba:rsync": [
+                        "<= 3.5.1"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-56w4-j8c7-xvrw",
+                "imported": "2026-11-21T02:56:15.490Z",
+                "modified": "2026-11-20T05:17:21Z",
+                "published": "2026-11-03T18:31:01Z",
+                "url": "https://api.github.com/advisories/GHSA-56w4-j8c7-xvrw",
+                "html_url": "https://github.com/advisories/GHSA-56w4-j8c7-xvrw"
+            },
+            {
+                "id": "EUVD-2026-115914",
+                "imported": "2026-11-21T02:56:06.324Z",
+                "modified": "2026-11-16T22:05:25Z",
+                "published": "2026-11-03T15:26:27Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-115914",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-115914"
+            }
+        ]
+    }
+}

@@ -1,0 +1,106 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1453",
+    "modified": "2026-11-23T20:01:46.351Z",
+    "published": "2026-11-23T20:01:46.351Z",
+    "upstream": [
+        "CVE-2026-86142",
+        "GHSA-499q-6rmh-w6p7",
+        "EUVD-2026-71835"
+    ],
+    "summary": "In libxml2 before 2.15.4, there is a heap-based buffer overflow in xmlXPtrEvalXPtrPart because of...",
+    "details": "In libxml2 before 2.15.4, there is a heap-based buffer overflow in xmlXPtrEvalXPtrPart because of xmlXPtrEval xpointer length saturation.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        },
+                        {
+                            "fixed": "2.15.4+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "XML2_jll",
+                "purl": "pkg:julia/XML2_jll?uuid=02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/GNOME/libxml2/commit/6b3a736c0edc74ceec3d82f5252499d7911b3a58"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/GNOME/libxml2/compare/v2.15.3...v2.15.4"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-499q-6rmh-w6p7"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.gnome.org/GNOME/libxml2/-/work_items/1113"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86142"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-86142",
+                "imported": "2026-11-21T02:48:25.319Z",
+                "modified": "2026-09-15T19:35:48.663Z",
+                "published": "2026-09-05T05:17:13.133Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-86142",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86142",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "xmlsoft:libxml2": [
+                        "< 2.15.4"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-499q-6rmh-w6p7",
+                "imported": "2026-11-21T02:48:31.779Z",
+                "modified": "2026-09-05T06:32:44Z",
+                "published": "2026-09-05T06:32:37Z",
+                "url": "https://api.github.com/advisories/GHSA-499q-6rmh-w6p7",
+                "html_url": "https://github.com/advisories/GHSA-499q-6rmh-w6p7"
+            },
+            {
+                "id": "EUVD-2026-71835",
+                "imported": "2026-11-21T02:48:26.177Z",
+                "modified": "2026-09-14T13:50:49Z",
+                "published": "2026-09-05T04:29:33Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-71835",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-71835",
+                "affected": {
+                    "xmlsoft:libxml2": [
+                        "0 <2.15.4"
+                    ]
+                }
+            }
+        ]
+    }
+}
