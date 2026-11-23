@@ -3,6 +3,29 @@
 # id, with optional `aliases`, `packages`, and `reason` fields; a rejection only
 # applies to the packages it lists. See CONTRIBUTING.md for details.
 
+[CVE-2022-4415]
+packages = ["systemd_jll"]
+reason = "Affects systemd-coredump, which systemd_jll does not ship. Reviewed in #475."
+
+[CVE-2025-4598]
+packages = ["LinuxKernelHeaders_jll", "systemd_jll"]
+reason = "LinuxKernelHeaders_jll does not ship a running kernel, and systemd_jll does not ship systemd-coredump. Reviewed in #475."
+
+[CVE-2026-29111]
+aliases = ["GHSA-gx6q-6f99-m764"]
+packages = ["systemd_jll"]
+reason = "Affects the systemd service manager, which systemd_jll does not ship. Reviewed in #475."
+
+[CVE-2026-40225]
+aliases = ["GHSA-vpfq-8p5f-jcqx"]
+packages = ["systemd_jll"]
+reason = "Affects the udev daemon, which systemd_jll does not ship. The JLL ships libudev. Reviewed in #475."
+
+[CVE-2026-40226]
+aliases = ["GHSA-9mj4-rrc3-gjcx"]
+packages = ["systemd_jll"]
+reason = "Affects systemd-nspawn, which systemd_jll does not ship. Reviewed in #475."
+
 [CVE-2010-0207]
 aliases = ["GHSA-3274-8h4c-g6q9", "EUVD-2010-0238"]
 packages = ["Poppler_jll"]
@@ -1525,3 +1548,26 @@ reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped
 [CVE-2026-34447]
 packages = ["ONNX_jll", "ONNX_static_jll"]
 reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped by ONNX_jll and ONNX_static_jll) external tensor data is loaded only by the Python package, which these JLLs don't ship; the C++ checker only verifies that a `location` key exists and never opens the file. Reviewed in #360."
+
+[CVE-2022-39028]
+packages = ["telnet_jll"]
+reason = "Affects telnetd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2026-24061]
+aliases = ["GHSA-pf97-p8ff-fj35", "EUVD-2026-3688"]
+packages = ["telnet_jll"]
+reason = "Affects telnetd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2026-28372]
+aliases = ["GHSA-j682-47rx-fxrp", "EUVD-2026-9000"]
+packages = ["telnet_jll"]
+reason = "Affects telnetd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2026-32746]
+aliases = ["EUVD-2026-12065"]
+packages = ["telnet_jll"]
+reason = "Affects telnetd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2023-40303]
+packages = ["telnet_jll"]
+reason = "Affects ftpd, rcp, rlogin, rsh, rshd and uucpd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
