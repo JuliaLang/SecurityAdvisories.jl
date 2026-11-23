@@ -1493,3 +1493,263 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-38593]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2021-45930]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Tools_jll", "Qt6Base_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2022-25255]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-32573]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-32762]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-32763]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-33285]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-34410]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-37369]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-38197]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-43114]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2023-51714]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2024-25580]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2024-36048]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "Qt Network Authorization is not built by these packages."
+
+[CVE-2024-39936]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-10728]
+aliases = ["EUVD-2025-32487", "GHSA-x6f6-j278-6544"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-10729]
+aliases = ["EUVD-2025-32489", "GHSA-cprv-rgr4-v7vh"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-12385]
+aliases = ["EUVD-2025-201103", "GHSA-x9vj-67g7-457m"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-14575]
+aliases = ["EUVD-2025-209891", "GHSA-f8w9-p7h4-f9jm"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-14576]
+aliases = ["EUVD-2025-209594", "GHSA-4hpm-v49g-rq7q"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-23050]
+aliases = ["EUVD-2025-37272", "GHSA-pj6p-fx56-wq5h"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "These packages do not build the affected Qt Bluetooth module."
+
+[CVE-2025-30348]
+aliases = ["EUVD-2025-7261", "GHSA-hc3c-6xqp-r265"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-3512]
+aliases = ["EUVD-2025-10735", "GHSA-794f-v4rm-x7r5"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-4211]
+aliases = ["EUVD-2025-28000", "GHSA-8cgq-rf3m-gjm4"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-5455]
+aliases = ["EUVD-2025-16625", "GHSA-5cfg-qhv9-4842"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2025-5991]
+aliases = ["EUVD-2025-18092", "GHSA-xv5c-vg59-hj7x"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "The issue was specific to upstream Qt 6.9.0; none of these packages shipped that version of Qt Network."
+
+[CVE-2025-5992]
+aliases = ["EUVD-2025-21120", "GHSA-45wh-m547-4rh9"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-100140]
+aliases = ["EUVD-2026-115135", "GHSA-7695-pqx4-vc24"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-101201]
+aliases = ["EUVD-2026-104838", "GHSA-7cv7-2mxj-57c6"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-103645]
+aliases = ["EUVD-2026-125217", "GHSA-c62h-jfxc-cpph"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-103653]
+aliases = ["EUVD-2026-115724", "GHSA-hj4c-cp68-82hw"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "These packages do not build the Qt CoAP module."
+
+[CVE-2026-105924]
+aliases = ["EUVD-2026-113895", "GHSA-xcm5-mmcf-jwvm"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-105925]
+aliases = ["EUVD-2026-126182", "GHSA-x4rw-337w-q28j"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-105946]
+aliases = ["EUVD-2026-110615", "GHSA-99v5-r742-mrm9"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-107157]
+aliases = ["EUVD-2026-109801", "GHSA-mx6g-jjx2-8wfm"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-107457]
+aliases = ["EUVD-2026-115111", "GHSA-g94w-7rpc-xf8m"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "These packages do not build the Qt MQTT module."
+
+[CVE-2026-107472]
+aliases = ["EUVD-2026-110622", "GHSA-v47w-qwhq-fc6f"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-107479]
+aliases = ["EUVD-2026-116890", "GHSA-q929-xhmp-hf8w"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-107590]
+aliases = ["EUVD-2026-110826", "GHSA-6m7p-vvj6-5527"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-11573]
+aliases = ["EUVD-2026-72717", "GHSA-m72v-p257-4w4p"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Positioning_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-13326]
+aliases = ["EUVD-2026-75974", "GHSA-83vf-f8f4-pj48"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "These packages do not build the affected Qt NFC module."
+
+[CVE-2026-15037]
+aliases = ["EUVD-2026-48254", "GHSA-7xx4-xq65-r6v3"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-16762]
+aliases = ["EUVD-2026-108655", "GHSA-3gxv-qxph-7hg3"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-19248]
+aliases = ["EUVD-2026-80223", "GHSA-j2w2-j66p-cjg6"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-6210]
+aliases = ["EUVD-2026-27681", "GHSA-mh4x-qpf6-hr3q"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-76151]
+aliases = ["EUVD-2026-80385", "GHSA-32mm-x94q-6h38"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-78253]
+aliases = ["EUVD-2026-85238", "GHSA-cpqc-q57w-7c2q"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-79616]
+aliases = ["EUVD-2026-85183", "GHSA-mfr5-m9x8-wvjw"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-79680]
+aliases = ["EUVD-2026-85846", "GHSA-wc8f-vjgx-jxrw"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "These packages do not build the affected standalone Qt VNC Server module."
+
+[CVE-2026-8168]
+aliases = ["EUVD-2026-104329", "GHSA-4f98-277j-6qvj"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-82292]
+aliases = ["EUVD-2026-124324", "GHSA-3pjh-ff5g-h85m"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-9499]
+aliases = ["EUVD-2026-46257", "GHSA-8cm2-5hwv-mhv9"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-95620]
+aliases = ["EUVD-2026-108708", "GHSA-qcfg-4m2w-6vm7"]
+packages = ["Qt65Compat_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-96432]
+aliases = ["EUVD-2026-109779", "GHSA-8hqc-789f-9chh"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
+
+[CVE-2026-97845]
+aliases = ["EUVD-2026-124396", "GHSA-qm3v-vpq6-gc2v"]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
