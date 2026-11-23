@@ -1493,3 +1493,15 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-14670]
+packages = ["LibPQ_jll"]
+reason = "LibPQ_jll does not build or ship PostgreSQL's PL/Perl extension."
+
+[CVE-2026-14677]
+packages = ["LibPQ_jll"]
+reason = "LibPQ_jll does not build or ship PostgreSQL's PL/Perl or PL/Tcl extensions."
+
+[CVE-2026-16238]
+packages = ["LibPQ_jll"]
+reason = "The PostgreSQL vendor advisory limits affected versions to PostgreSQL 18 before 18.6. LibPQ_jll does not ship PostgreSQL 18."
