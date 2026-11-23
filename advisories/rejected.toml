@@ -1498,6 +1498,29 @@ reason = "Affects Keras HDF5 model loading in the Python layer, which is not shi
 packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll"]
 reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
 
+[CVE-2022-25634]
+packages = ["Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll"]
+reason = "These packages do not ship the affected Qt Windows platform plugin."
+
+[CVE-2023-24607]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Declarative_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Wayland_jll", "Qt_jll"]
+reason = "The affected ODBC plugin is absent from non-Windows Qt artifacts. Where shipped in the Windows artifacts, MinGW uses a two-byte SQLWCHAR (or a one-byte SQLCHAR without Unicode), not the affected four-byte SQLTCHAR."
+
+[CVE-2025-5683]
+aliases = ["EUVD-2025-16968", "GHSA-5mw2-w8pc-m6p6"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "The affected Qt Image Formats ICNS plugin (qicns) is absent from the published Qt 6 artifacts."
+
+[CVE-2025-6338]
+aliases = ["EUVD-2025-34743", "GHSA-m4hj-jpxf-jhjp"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "These packages do not ship the affected Qt Network Schannel TLS backend. The older Qt Windows artifacts use OpenSSL or do not ship a TLS backend."
+
+[CVE-2026-105923]
+aliases = ["EUVD-2026-107159", "GHSA-fqj5-mj9g-cmjj"]
+packages = ["Qt65Compat_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "These packages do not ship the affected Qt Base QTriangulator implementation. Qt6Declarative_jll supplies the VectorImage QML type, not the vulnerable code."
+
 [CVE-2021-45930]
 packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Tools_jll", "Qt6Base_jll"]
 reason = "The rejected Qt packages do not ship the affected Qt module in the affected upstream versions."
