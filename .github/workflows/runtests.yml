@@ -32,19 +32,29 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+      - uses: ./.github/actions/setup-julia-depot # zizmor: ignore[self-repository]
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: julia-actions/cache@9353db09a0f2bbbdec6f41791918c75d37391b36 # v3.5.0
-        with:
-          delete-old-caches: false
-          save-always: false
+          workload: test
       - uses: julia-actions/julia-runtest@6e050c8013b833b1195105ff2fce9cd802f53271 # v1.12.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test atomic publication
         run: bash test/publish_advisories.sh
+
+  website:
+    name: Website build (Julia 1.12)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-julia-depot # zizmor: ignore[self-repository]
+        with:
+          version: '1.12'
+          workload: web
       - name: Check the website builds without warnings
         run: |
           cd web

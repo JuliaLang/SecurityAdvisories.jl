@@ -1,0 +1,57 @@
+name: Set up Julia and its depot cache
+description: Restore a compatible depot and let the default branch refresh it weekly
+inputs:
+  version:
+    description: Julia release or version range
+    default: '1'
+  arch:
+    description: Julia target architecture
+    default: x64
+  workload:
+    description: Dependency environment (root, test, or web)
+    default: root
+runs:
+  using: composite
+  steps:
+    - uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+      id: julia
+      with:
+        version: ${{ inputs.version }}
+        arch: ${{ inputs.arch }}
+
+    - name: Set portable compilation target and depot cache keys
+      id: keys
+      shell: bash
+      env:
+        JULIA_VERSION: ${{ steps.julia.outputs.julia-version }}
+        JULIA_ARCH: ${{ inputs.arch }}
+        WORKLOAD: ${{ inputs.workload }}
+        PROJECTS: ${{ inputs.workload == 'web' && hashFiles('Project.toml', 'web/Project.toml') || hashFiles('Project.toml') }}
+      run: |
+        echo 'JULIA_CPU_TARGET=generic' >> "$GITHUB_ENV"
+        prefix="julia-depot-v1-${ImageOS:-$RUNNER_OS}-$JULIA_ARCH-$JULIA_VERSION-$WORKLOAD-"
+        {
+          echo "primary=$prefix$PROJECTS-$(date -u +%G-W%V)"
+          echo "project=$prefix$PROJECTS-"
+          echo "workload=$prefix"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Cache the Julia depot on the default branch
+      if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with: &depot
+        path: |
+          ~/.julia/artifacts
+          ~/.julia/compiled
+          ~/.julia/packages
+          ~/.julia/registries
+          ~/.julia/scratchspaces
+        key: ${{ steps.keys.outputs.primary }}
+        restore-keys: |
+          ${{ steps.keys.outputs.project }}
+          ${{ steps.keys.outputs.workload }}
+
+    - name: Restore the Julia depot without saving
+      if: github.ref != format('refs/heads/{0}', github.event.repository.default_branch) || (github.event_name != 'push' && github.event_name != 'schedule' && github.event_name != 'workflow_dispatch')
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with: *depot
