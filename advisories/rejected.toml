@@ -1493,3 +1493,7 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-111497]
+packages = ["Arrow_jll"]
+reason = "Arrow_jll does not vendor Brotli: it is built with ARROW_WITH_BROTLI against the separate brotli_jll dependency, which carries this advisory itself. Reviewed in #419."
