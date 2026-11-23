@@ -1493,3 +1493,30 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+# curl advisories rejected for builds that do not enable the affected features.
+
+[CVE-2026-107928]
+aliases = ["GHSA-4c9f-c4pg-phw4", "EUVD-2026-105357"]
+packages = ["CURL_jll", "LibCURL_jll"]
+reason = "Requires the GnuTLS backend, which neither JLL builds or redistributes."
+
+[CVE-2026-13608]
+aliases = ["GHSA-3968-82gf-vhpr", "EUVD-2026-72164"]
+packages = ["CURL_jll", "LibCURL_jll"]
+reason = "Requires the OpenLDAP backend; the Yggdrasil builds disable LDAP and LDAPS."
+
+[CVE-2026-82208]
+aliases = ["GHSA-8rq8-f59m-9cjg", "EUVD-2026-72152"]
+packages = ["CURL_jll", "LibCURL_jll"]
+reason = "Requires the wolfSSL backend, which neither JLL builds or redistributes."
+
+[CVE-2026-82209]
+aliases = ["GHSA-3hpw-4mfr-9f85", "EUVD-2026-72153"]
+packages = ["CURL_jll", "LibCURL_jll"]
+reason = "Requires libpsl support, which neither JLL enables."
+
+[CVE-2026-87866]
+aliases = ["GHSA-wq9f-qmpx-2cc8", "EUVD-2026-105314"]
+packages = ["CURL_jll", "LibCURL_jll"]
+reason = "Requires the wolfSSL backend, which neither JLL builds or redistributes."
