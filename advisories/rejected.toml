@@ -1516,3 +1516,11 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-4206]
+packages = ["Qemu_jll"]
+reason = "Affects the QXL display device; every Qemu_jll build (4.1.0 through 7.2.9) is configured without SPICE (no spice-server dependency; the 6.2.0 x86_64 binary reports 'spice support is disabled' and lacks QXL device properties), and QXL depends on SPICE. Qemu_static_jll is Linux user-mode only. Reviewed in #409."
+
+[CVE-2021-4207]
+packages = ["Qemu_jll"]
+reason = "Affects the QXL display device; every Qemu_jll build (4.1.0 through 7.2.9) is configured without SPICE (no spice-server dependency; the 6.2.0 x86_64 binary reports 'spice support is disabled' and lacks QXL device properties), and QXL depends on SPICE. Qemu_static_jll is Linux user-mode only. Reviewed in #409."
