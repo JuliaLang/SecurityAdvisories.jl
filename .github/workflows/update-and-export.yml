@@ -42,13 +42,17 @@ jobs:
       with:
         go-version: 'stable'
 
-    - name: Install osv-linter
-      run: |
-        git clone https://github.com/ossf/osv-schema.git
-        cd ./osv-schema/tools/osv-linter
-        go build -o ../../../osv-linter ./cmd/osv
-        cd ../../..
-        rm -rf osv-schema
+    - name: Checkout osv-schema
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: JuliaComputing/osv-schema # temporarily use https://github.com/ossf/osv-schema/pull/669
+        ref: 6649d8ec2274a1a5f7a58e3725ae1f577d712f82
+        path: osv-schema
+        persist-credentials: false
+
+    - name: Build osv-linter
+      working-directory: osv-schema/tools/osv-linter
+      run: go build -o ../../../osv-linter ./cmd/osv
 
     - name: Assign ids and timestamps
       id: assign
