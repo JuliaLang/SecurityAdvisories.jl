@@ -1493,3 +1493,67 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2021-23839]
+aliases = ["GHSA-rh82-fhxg-rxx8", "EUVD-2021-10767"]
+packages = ["Openresty_jll"]
+reason = "OpenSSL says the TLS server issue requires SSLv2 support compiled in. None of the eight matching artifacts contains the SSLv2 protocol implementation. The generic RSA padding helper is present, but its presence does not establish a shipped SSLv2 path. Reviewed in #685."
+
+[CVE-2023-44487]
+packages = ["Openresty_jll"]
+reason = "None of the released OpenResty GNU or musl binaries (including i686 where published) contains the nginx HTTP/2 module, and none ships it as a module. This is an existing false positive exposed by the review. Reviewed in #685."
+
+[CVE-2025-9231]
+aliases = ["GHSA-9mrx-mqmg-gwj9", "EUVD-2025-31728"]
+packages = ["Openresty_jll"]
+reason = "OpenSSL 1.0.2, 1.1.1 and 3.0 are unaffected. OpenResty's only 3.5 build uses 3.5.5, after the 3.5.4 fix. Reviewed in #685."
+
+[CVE-2025-9232]
+aliases = ["GHSA-76r2-c3cg-f5r9", "EUVD-2025-31727"]
+packages = ["Openresty_jll"]
+reason = "OpenSSL 1.0.2 and 1.1.1 are unaffected. OpenResty's later builds bundle OpenSSL 3.0.15 and 3.5.5, outside the affected intervals. Reviewed in #685."
+
+[CVE-2026-54875]
+aliases = ["GHSA-q4gq-r6f8-q6q9", "EUVD-2026-89006"]
+packages = ["Openresty_jll"]
+reason = "The CNA limits this SM2 implementation issue to AArch64 and RISC-V; the sole matching OpenResty release publishes x86_64 only. Reviewed in #685."
+
+[CVE-2026-63073]
+aliases = ["GHSA-826x-qg76-xqjx", "EUVD-2026-65483"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_msg_check_update) is not linked into the published GNU or musl binaries; the CMP logging helpers that are linked do not include it. Reviewed in #685."
+
+[CVE-2026-63074]
+aliases = ["GHSA-2q27-mpm9-44m4", "EUVD-2026-65484"]
+packages = ["Openresty_jll"]
+reason = "Neither affected release links the affected CMP function (ossl_cmp_msg_check_update) or ships a separate OpenSSL library. Reviewed in #685."
+
+[CVE-2026-63076]
+aliases = ["GHSA-r3hf-pf7x-wgqg", "EUVD-2026-65487"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_calc_protection) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-75805]
+aliases = ["GHSA-gpg3-m652-f2vc", "EUVD-2026-89010"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP client revocation API (OSSL_CMP_exec_RR_ses) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-85091]
+aliases = ["GHSA-g5fp-32jq-cfw2", "EUVD-2026-70301"]
+packages = ["Openresty_jll", "fmusim_jll"]
+reason = "Openresty_jll: zlib is statically linked, but only selected objects are used: all 16 published OpenResty binaries lack the affected gz-writing functions and none ships a separate libz. The presence of deflate alone is not sufficient. fmusim_jll: The 0.0.39 and 0.0.39001 recipes compile only minizip IO/unzip sources from the tracked tree, not the affected gzwrite.c. The older executable uses a separately resolved Zlib_jll; 0.15.0 no longer uses that source or dependency. Reviewed in #685."
+
+[CVE-2026-89157]
+aliases = ["GHSA-797w-fgfq-r75v", "EUVD-2026-75943"]
+packages = ["Openresty_jll"]
+reason = "The issue affects only 32-bit platforms. The OpenResty builds containing PCRE2 are x86_64 only and do not link the affected conversion API. Reviewed in #685."
+
+[CVE-2026-89158]
+aliases = ["GHSA-9v67-x694-f2jr", "EUVD-2026-75944"]
+packages = ["Openresty_jll"]
+reason = "The issue requires a 32-bit platform and the 32-bit code-unit library. The OpenResty builds containing PCRE2 are x86_64 only and link the 8-bit implementation. Reviewed in #685."
+
+[CVE-2026-89162]
+aliases = ["GHSA-mv4q-849q-vg78", "EUVD-2026-75947"]
+packages = ["Openresty_jll"]
+reason = "Neither its GNU nor musl executable links pcre2_serialize_encode_8, and neither ships a separate PCRE2 library. Reviewed in #685."
