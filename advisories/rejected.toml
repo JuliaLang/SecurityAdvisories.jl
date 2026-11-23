@@ -1493,3 +1493,35 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-28500]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects only the ONNX Python package; ONNX_jll and ONNX_static_jll ship only the C++ libraries (libonnx, libonnx_proto, onnxifi). Reviewed in #360."
+
+[CVE-2026-34445]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects only the ONNX Python package; ONNX_jll and ONNX_static_jll ship only the C++ libraries (libonnx, libonnx_proto, onnxifi). Reviewed in #360."
+
+[CVE-2026-34446]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects only the ONNX Python package; ONNX_jll and ONNX_static_jll ship only the C++ libraries (libonnx, libonnx_proto, onnxifi). Reviewed in #360."
+
+[CVE-2026-49114]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects only the ONNX Python package; ONNX_jll and ONNX_static_jll ship only the C++ libraries (libonnx, libonnx_proto, onnxifi). Reviewed in #360."
+
+[CVE-2022-25882]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped by ONNX_jll and ONNX_static_jll) external tensor data is loaded only by the Python package, which these JLLs don't ship; the C++ checker only verifies that a `location` key exists and never opens the file. Reviewed in #360."
+
+[CVE-2024-27318]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped by ONNX_jll and ONNX_static_jll) external tensor data is loaded only by the Python package, which these JLLs don't ship; the C++ checker only verifies that a `location` key exists and never opens the file. Reviewed in #360."
+
+[CVE-2026-27489]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped by ONNX_jll and ONNX_static_jll) external tensor data is loaded only by the Python package, which these JLLs don't ship; the C++ checker only verifies that a `location` key exists and never opens the file. Reviewed in #360."
+
+[CVE-2026-34447]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "External-data path traversal: in ONNX 1.10.2 (the only version shipped by ONNX_jll and ONNX_static_jll) external tensor data is loaded only by the Python package, which these JLLs don't ship; the C++ checker only verifies that a `location` key exists and never opens the file. Reviewed in #360."
