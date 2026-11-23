@@ -36,6 +36,16 @@ reason = "This memory leak in libavutil/mem.c only existed on FFmpeg's master br
 packages = ["FFMPEG_jll", "FFMPEG_nogpl_jll", "FFplay_jll"]
 reason = "This memory leak in libavutil/iamf.c only affected FFmpeg's git master before commit d5873be; no FFmpeg release contains it. Reviewed in #399."
 
+[CVE-2025-6141]
+aliases = ["GHSA-wfwf-ggr2-rpjf", "EUVD-2025-18429"]
+packages = ["GCCBootstrap_jll"]
+reason = "The build recipe lists ncurses as a source, but GCCBootstrap_jll does not distribute the ncurses library or tools. Reviewed in #713."
+
+[CVE-2025-69720]
+aliases = ["GHSA-9952-mrqj-h4jh", "EUVD-2025-208879"]
+packages = ["GCCBootstrap_jll"]
+reason = "The build recipe lists ncurses as a source, but GCCBootstrap_jll does not distribute infocmp. Reviewed in #713."
+
 [CVE-2026-13595]
 packages = ["Libuuid_jll"]
 reason = "Libuuid_jll does not build or distribute the vulnerable libblkid library"
