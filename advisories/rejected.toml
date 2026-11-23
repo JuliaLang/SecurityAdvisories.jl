@@ -1493,3 +1493,8 @@ reason = "Affects TensorFlow Serving, a separate product that shares no code wit
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
+
+[CVE-2026-85091]
+aliases = ["GHSA-g5fp-32jq-cfw2", "EUVD-2026-70301"]
+packages = ["Openresty_jll", "fmusim_jll"]
+reason = "Neither ships the vulnerable gzip file-writing code (gzwrite/gz_vacate). Openresty_jll links zlib 1.3.2 statically into nginx, but only the deflate/inflate functions; the gz* file API is not in the binary. fmusim_jll links the shared Zlib_jll in 0.0.39 and 0.0.39001 (covered by the Zlib_jll entry) and does not link zlib at all in 0.15.0. Reviewed in #692."
