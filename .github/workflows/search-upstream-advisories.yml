@@ -36,10 +36,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        persist-credentials: false
 
     - name: Setup Julia
       uses: julia-actions/setup-julia@da908477b5db94c10ffce8cfea9f2b3b9d5db687 # v3.0.3
+
+    - uses: julia-actions/cache@9353db09a0f2bbbdec6f41791918c75d37391b36 # v3.5.0
+      with:
+        delete-old-caches: false
+        save-always: false
 
     - name: Install Julia dependencies
       run: |
@@ -58,7 +63,9 @@ jobs:
     - name: Check for changes
       id: git-check
       run: |
-        [[ $(git ls-files --others --modified --exclude-standard) ]] && echo "changes=true" >> $GITHUB_OUTPUT || echo "no changes"
+        if [[ -n $(git ls-files --others --modified --exclude-standard) ]]; then
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+        fi
 
     - name: Create Pull Request
       id: create_pull_request
@@ -71,22 +78,25 @@ jobs:
         title: ${{ steps.identify.outputs.title }}
         body: ${{ steps.identify.outputs.body }}
         branch: ${{ steps.identify.outputs.branch }}
+        draft: true
 
-    - uses: actions/create-github-app-token@v3
+    # Unbounded JLLs whose upstream fix version is known just need a new build;
+    # ask Urdarbrunnr to open the corresponding Yggdrasil recipe update PRs
+    - uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
       id: urdr_token
+      if: >-
+        steps.git-check.outputs.changes == 'true' &&
+        steps.identify.outputs.recipe_updates != '' &&
+        steps.identify.outputs.recipe_updates != '[]'
       with:
         app-id: ${{ secrets.URDARBRUNNR_APP_ID }}
         private-key: ${{ secrets.URDARBRUNNR_APP_KEY }}
         owner: JuliaPackaging
         repositories: Urdarbrunnr.jl
+        permission-actions: write
 
     - name: Request JLL recipe updates
-      # Unbounded JLLs whose upstream fix version is known just need a new build;
-      # ask Urdarbrunnr to open the corresponding Yggdrasil recipe update PRs
-      if: >-
-        steps.git-check.outputs.changes == 'true' &&
-        steps.identify.outputs.recipe_updates != '' &&
-        steps.identify.outputs.recipe_updates != '[]'
+      if: steps.urdr_token.outcome == 'success'
       env:
         GH_TOKEN: ${{ steps.urdr_token.outputs.token }}
         RECIPE_UPDATES: ${{ steps.identify.outputs.recipe_updates }}

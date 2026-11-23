@@ -16,11 +16,13 @@ jobs:
     name: Delete merged fork branches
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
       FORK: jlsec-bot/SecurityAdvisories.jl
       BASE: ${{ github.repository }}
     steps:
     - name: Delete fork branches with merged PRs
+      shell: bash
+      env:
+        GH_TOKEN: ${{ secrets.JLSEC_BOT_TOKEN }}
       run: |
         default_branch=$(gh api "repos/$FORK" --jq .default_branch)
         gh api --paginate "repos/$FORK/branches" --jq '.[].name' | while read -r branch; do
