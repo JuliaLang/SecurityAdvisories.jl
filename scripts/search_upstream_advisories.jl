@@ -95,7 +95,7 @@ function main(input = get(ARGS, 1, ""), filter_results = lowercase(get(ARGS, 2, 
     write_advisory_files(advisories, filter_results)
     io = open(get(ENV, "GITHUB_OUTPUT", tempname()), "a+")
     println(io, "branch=", branch)
-    print_search_pr_outputs(io, "HEAD"; haystack)
+    print_search_pr_outputs(io, "HEAD"; haystack, branch)
     seekstart(io)
     foreach(println, eachline(io)) # Also log to stdout
 end
