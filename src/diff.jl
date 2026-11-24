@@ -503,6 +503,10 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
     unique_pkgs = unique(Iterators.flatten(vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
+    # Add a reference to the haystack when we omit package names
+    if haystack !== nothing && length(unique_pkgs) > 3
+        pkg_str = string(pkg_str, " related to ", haystack)
+    end
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "n_changed=", n_total)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
