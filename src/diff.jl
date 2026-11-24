@@ -483,7 +483,7 @@ outputs, composed entirely from the advisory files that changed across the `git 
 revision `spec`. The optional `haystack` describes what was searched to produce the
 changes; without it the body simply describes the changes themselves.
 """
-function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
+function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing, branch=nothing)
     changed = changed_advisories(spec; dir)
     results = [c.advisory for c in changed]
     olds = Dict(c.advisory.id => c.old for c in changed)
@@ -503,6 +503,10 @@ function print_search_pr_outputs(io, spec; dir=pwd(), haystack=nothing)
            n_modified == 0 && n_created > 0 ? "Publish" : "Publish and update"
     unique_pkgs = unique(Iterators.flatten(vulnerable_packages.(results)))
     pkg_str = length(unique_pkgs) <= 3 ? join(unique_pkgs, ", ", " and ") : "$(length(unique_pkgs)) packages"
+    # Add a reference to the branch name when we omit package names
+    if branch !== nothing && length(unique_pkgs) > 3
+        pkg_str = string(pkg_str, " related to ", branch)
+    end
     advisory_str = n_total == 1 ? "advisory" : "advisories"
     println(io, "n_changed=", n_total)
     println(io, "title=[automatic] $verb $n_total $advisory_str for $pkg_str")
