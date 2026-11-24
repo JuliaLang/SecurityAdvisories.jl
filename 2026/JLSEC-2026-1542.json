@@ -1,0 +1,115 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1542",
+    "modified": "2026-11-24T18:35:00.826Z",
+    "published": "2026-11-24T18:35:00.826Z",
+    "upstream": [
+        "CVE-2021-45078"
+    ],
+    "details": "In `GCCBootstrap_jll` `9.4.0+0`, the affected target artifact is `aarch64-linux-gnu` (AArch64 Linux with glibc), which ships Binutils 2.29.1. The other target artifacts ship Binutils 2.38 and are outside the affected upstream range.\n\n`stab_xcoff_builtin_type` in stabs.c in GNU Binutils through 2.37 allows attackers to cause a denial of service (heap-based buffer overflow) or possibly have unspecified other impact, as demonstrated by an out-of-bounds write. NOTE: this issue exists because of an incorrect fix for CVE-2018-12699.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "9.4.0+0"
+                        },
+                        {
+                            "last_affected": "9.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UQBH244M5PV6S6UMHUTCVCWFZDX7Y4M6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UQBH244M5PV6S6UMHUTCVCWFZDX7Y4M6/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UUHLDDT3HH7YEY6TX7IJRGPJUTNNVEL3/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.fedoraproject.org/archives/list/package-announce%40lists.fedoraproject.org/message/UUHLDDT3HH7YEY6TX7IJRGPJUTNNVEL3/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202208-30"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202208-30"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220107-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20220107-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=28694"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=28694"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git%3Bh=161e87d12167b1e36193385485c1f6ce92f74f02"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git%3Bh=161e87d12167b1e36193385485c1f6ce92f74f02"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-45078",
+                "imported": "2026-11-21T06:44:04.523Z",
+                "modified": "2026-06-17T04:13:08.150Z",
+                "published": "2021-12-15T20:15:08.797Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45078",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45078",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "<= 2.37"
+                    ]
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,123 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1537",
+    "modified": "2026-11-24T18:35:00.826Z",
+    "published": "2026-11-24T18:35:00.826Z",
+    "upstream": [
+        "CVE-2018-1000876"
+    ],
+    "details": "In `GCCBootstrap_jll` `9.4.0+0`, the affected target artifact is `aarch64-linux-gnu` (AArch64 Linux with glibc), which ships Binutils 2.29.1. The other target artifacts ship Binutils 2.38 and are outside the affected upstream range.\n\nbinutils version 2.32 and earlier contains a Integer Overflow vulnerability in objdump, `bfd_get_dynamic_reloc_upper_bound`,`bfd_canonicalize_dynamic_reloc` that can result in Integer overflow trigger heap overflow. Successful exploitation allows execution of arbitrary code.. This attack appear to be exploitable via Local. This vulnerability appears to have been fixed in after commit 3a551c7a1b80fca579461774860574eabfd7f18f.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:L/AC:L/Au:N/C:P/I:P/A:P",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "9.4.0+0"
+                        },
+                        {
+                            "last_affected": "9.4.0+0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "GCCBootstrap_jll",
+                "purl": "pkg:julia/GCCBootstrap_jll?uuid=7627cfbf-f290-59f7-b5e8-595c7b62b918"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-10/msg00072.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-10/msg00072.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://lists.opensuse.org/opensuse-security-announce/2019-11/msg00008.html"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/106304"
+        },
+        {
+            "type": "WEB",
+            "url": "http://www.securityfocus.com/bid/106304"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:2075"
+        },
+        {
+            "type": "WEB",
+            "url": "https://access.redhat.com/errata/RHSA-2019:2075"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=23994"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/bugzilla/show_bug.cgi?id=23994"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git%3Bh=3a551c7a1b80fca579461774860574eabfd7f18f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git%3Bh=3a551c7a1b80fca579461774860574eabfd7f18f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4336-1/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://usn.ubuntu.com/4336-1/"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2018-1000876",
+                "imported": "2026-11-21T06:44:04.455Z",
+                "modified": "2026-06-17T01:33:14.090Z",
+                "published": "2018-12-20T17:29:01.033Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2018-1000876",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1000876",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "gnu:binutils": [
+                        "< 2.32"
+                    ]
+                }
+            }
+        ]
+    }
+}
