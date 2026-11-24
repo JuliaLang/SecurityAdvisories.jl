@@ -1,0 +1,105 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1558",
+    "modified": "2026-11-24T23:54:51.769Z",
+    "published": "2026-11-24T23:54:51.769Z",
+    "upstream": [
+        "CVE-2026-50292",
+        "GHSA-jcq8-v68h-2c44",
+        "EUVD-2026-34302"
+    ],
+    "summary": "In libinput before 1.30.4 and 1.31.x before 1.31.3, libinput-device-group unescaped phys output...",
+    "details": "In libinput before 1.30.4 and 1.31.x before 1.31.3, libinput-device-group unescaped phys output can inject udev properties leading to arbitrary root code execution",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "libinput_jll",
+                "purl": "pkg:julia/libinput_jll?uuid=36db933b-70db-51c0-b978-0f229ee0e533"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-jcq8-v68h-2c44"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/libinput/libinput/-/commit/76f0d8a7f57e2868882864b4611281f12f704b55"
+        },
+        {
+            "type": "WEB",
+            "url": "https://gitlab.freedesktop.org/libinput/libinput/-/work_items/1296"
+        },
+        {
+            "type": "WEB",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50292"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.openwall.com/lists/oss-security/2026/06/04/5"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-50292",
+                "imported": "2026-11-21T07:23:50.435Z",
+                "modified": "2026-07-22T20:10:00.127Z",
+                "published": "2026-06-04T18:16:32.530Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-50292",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50292",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "freedesktop:libinput": [
+                        "< 1.30.4",
+                        ">= 1.31.0, < 1.31.3"
+                    ]
+                }
+            },
+            {
+                "id": "GHSA-jcq8-v68h-2c44",
+                "imported": "2026-11-21T07:23:52.731Z",
+                "modified": "2026-06-04T18:30:39Z",
+                "published": "2026-06-04T18:30:33Z",
+                "url": "https://api.github.com/advisories/GHSA-jcq8-v68h-2c44",
+                "html_url": "https://github.com/advisories/GHSA-jcq8-v68h-2c44"
+            },
+            {
+                "id": "EUVD-2026-34302",
+                "imported": "2026-11-21T07:23:51.464Z",
+                "modified": "2026-06-04T18:12:18Z",
+                "published": "2026-06-04T16:41:36Z",
+                "url": "https://euvdservices.enisa.europa.eu/api/enisaid?id=EUVD-2026-34302",
+                "html_url": "https://euvd.enisa.europa.eu/vulnerability/EUVD-2026-34302",
+                "affected": {
+                    "Freedesktop:libinput": [
+                        "0 <1.30.4",
+                        "1.31.0 <1.31.3"
+                    ]
+                }
+            }
+        ]
+    }
+}
