@@ -1,0 +1,120 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1549",
+    "modified": "2026-11-24T23:20:50.052Z",
+    "published": "2026-11-24T23:20:50.052Z",
+    "upstream": [
+        "CVE-2021-0129"
+    ],
+    "details": "Improper access control in BlueZ may allow an authenticated user to potentially enable information disclosure via adjacent access.\n\n[Intel's advisory](https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00517.html) identifies separate BlueZ userspace and Linux kernel fixes. The JLL range covers the userspace component only.",
+    "severity": [
+        {
+            "type": "CVSS_V2",
+            "score": "AV:A/AC:L/Au:S/C:P/I:N/A:N",
+            "source": "NVD"
+        },
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "BlueZ_jll",
+                "purl": "pkg:julia/BlueZ_jll?uuid=471b5b61-da80-5748-8755-67d5084d21f2"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00019.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00019.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00020.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://lists.debian.org/debian-lts-announce/2021/06/msg00022.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-16"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.gentoo.org/glsa/202209-16"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210716-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://security.netapp.com/advisory/ntap-20210716-0002/"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4951"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.debian.org/security/2021/dsa-4951"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00517.html"
+        },
+        {
+            "type": "WEB",
+            "url": "https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00517.html"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2021-0129",
+                "imported": "2026-11-21T06:14:56.725Z",
+                "modified": "2026-06-17T03:29:16.833Z",
+                "published": "2021-06-09T20:15:08.830Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-0129",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2021-0129",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "bluez:bluez": [
+                        "< 5.57"
+                    ]
+                }
+            }
+        ]
+    }
+}

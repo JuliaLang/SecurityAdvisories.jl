@@ -1,0 +1,75 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1553",
+    "modified": "2026-11-24T23:20:50.052Z",
+    "published": "2026-11-24T23:20:50.052Z",
+    "upstream": [
+        "CVE-2022-3637"
+    ],
+    "details": "J-Link RTT support in the BlueZ userspace `btmon` utility can crash in `jlink_init` in `monitor/jlink.c`. The identifier of this vulnerability is VDB-211936.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "source": "NVD"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "BlueZ_jll",
+                "purl": "pkg:julia/BlueZ_jll?uuid=471b5b61-da80-5748-8755-67d5084d21f2"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=1d6cfb8e625a944010956714c1802bc1e1fc6c4f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=1d6cfb8e625a944010956714c1802bc1e1fc6c4f"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.211936"
+        },
+        {
+            "type": "WEB",
+            "url": "https://vuldb.com/?id.211936"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-3637",
+                "imported": "2026-11-21T06:14:56.727Z",
+                "modified": "2026-06-17T04:59:55.800Z",
+                "published": "2022-10-21T11:15:09.700Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-3637",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3637",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "bluez:bluez": [
+                        "< 5.65"
+                    ]
+                }
+            }
+        ]
+    }
+}
