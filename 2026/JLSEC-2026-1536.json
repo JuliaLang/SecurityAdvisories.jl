@@ -1,0 +1,93 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1536",
+    "modified": "2026-11-24T14:32:15.197Z",
+    "published": "2026-11-24T14:32:15.197Z",
+    "upstream": [
+        "CVE-2026-44512",
+        "GHSA-hwpq-hmq9-wj77"
+    ],
+    "details": "The ONNX C++ version converter shipped by both JLLs can crash while adapting a malformed Upsample node. The Python API described by the upstream advisory wraps the same C++ converter. The upstream affected versions are 1.9.0 and later, before the fix in 1.22.0.",
+    "severity": [
+        {
+            "type": "CVSS_V3",
+            "score": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+            "source": "CNA"
+        }
+    ],
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ONNX_jll",
+                "purl": "pkg:julia/ONNX_jll?uuid=4df3ec0b-c10b-5542-9400-16acb2a6b670"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ONNX_static_jll",
+                "purl": "pkg:julia/ONNX_static_jll?uuid=23524693-fba5-5b56-a3e3-2a280dc54396"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/commit/cd310408165ad47c3cd7eb2b86cb5b80aa2e4fdf"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/pull/7813"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/releases/tag/v1.22.0"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/security/advisories/GHSA-hwpq-hmq9-wj77"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2026-44512",
+                "imported": "2026-11-21T08:00:43.250Z",
+                "modified": "2026-07-13T17:02:01.533Z",
+                "published": "2026-07-08T20:16:49.913Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-44512",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44512",
+                "database_specific": {
+                    "status": "Analyzed"
+                },
+                "affected": {
+                    "linuxfoundation:onnx": [
+                        ">= 1.9.0, < 1.22.0"
+                    ]
+                }
+            }
+        ]
+    }
+}

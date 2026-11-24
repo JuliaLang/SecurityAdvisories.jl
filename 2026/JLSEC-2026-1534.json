@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.8.0",
+    "id": "JLSEC-2026-1534",
+    "modified": "2026-11-24T14:32:15.197Z",
+    "published": "2026-11-24T14:32:15.197Z",
+    "upstream": [
+        "CVE-2022-25882",
+        "GHSA-ffxj-547x-5j7c"
+    ],
+    "summary": "ONNX C++ checker permits external-data paths outside the model directory",
+    "details": "Before ONNX 1.13.0, the C++ tensor checker does not confine the external-data location to the model directory. Both JLLs ship this checker. It checks whether the referenced file exists, but does not load its contents; the JLLs do not ship the Python external-data loader or ONNX Runtime.",
+    "affected": [
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ONNX_jll",
+                "purl": "pkg:julia/ONNX_jll?uuid=4df3ec0b-c10b-5542-9400-16acb2a6b670"
+            }
+        },
+        {
+            "ranges": [
+                {
+                    "type": "SEMVER",
+                    "events": [
+                        {
+                            "introduced": "0"
+                        }
+                    ]
+                }
+            ],
+            "package": {
+                "ecosystem": "Julia",
+                "name": "ONNX_static_jll",
+                "purl": "pkg:julia/ONNX_static_jll?uuid=23524693-fba5-5b56-a3e3-2a280dc54396"
+            }
+        }
+    ],
+    "references": [
+        {
+            "type": "WEB",
+            "url": "https://github.com/advisories/GHSA-ffxj-547x-5j7c"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/commit/f369b0e859024095d721f1d1612da5a8fa38988d"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/issues/3991"
+        },
+        {
+            "type": "WEB",
+            "url": "https://github.com/onnx/onnx/pull/4400"
+        }
+    ],
+    "database_specific": {
+        "license": "CC-BY-4.0",
+        "sources": [
+            {
+                "id": "CVE-2022-25882",
+                "imported": "2026-11-24T00:48:54.759Z",
+                "modified": "2026-06-17T04:34:26.243Z",
+                "published": "2023-01-26T21:15:31.333Z",
+                "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25882",
+                "html_url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25882",
+                "database_specific": {
+                    "status": "Modified"
+                },
+                "affected": {
+                    "linuxfoundation:onnx": [
+                        "< 1.13.0"
+                    ]
+                }
+            }
+        ]
+    }
+}
