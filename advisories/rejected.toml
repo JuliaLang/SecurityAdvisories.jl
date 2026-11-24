@@ -1571,6 +1571,106 @@ aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
 
+[CVE-2025-9231]
+aliases = ["EUVD-2025-31728", "GHSA-9mrx-mqmg-gwj9"]
+packages = ["Openresty_jll"]
+reason = "Older Openresty builds embed an OpenSSL version outside the affected branches or before the affected patch release; the 3.5.5 build includes the fix."
+
+[CVE-2025-9232]
+aliases = ["EUVD-2025-31727", "GHSA-76r2-c3cg-f5r9"]
+packages = ["Openresty_jll"]
+reason = "Older Openresty builds embed an OpenSSL version outside the affected branches or before the affected patch release; the 3.5.5 build includes the fix."
+
+[CVE-2026-107494]
+aliases = ["EUVD-2026-128601", "GHSA-9x26-7724-x23j"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-124709]
+aliases = ["EUVD-2026-126928", "GHSA-v2xh-2vwr-xq7g"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-14456]
+aliases = ["EUVD-2026-57919", "GHSA-9x89-v382-mjh7"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-18798]
+aliases = ["EUVD-2026-65480", "GHSA-3j55-qf57-hqc2"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-35191]
+aliases = ["EUVD-2026-89002", "GHSA-5p85-47cf-3663"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-42772]
+aliases = ["EUVD-2026-89003", "GHSA-5r49-x3jp-qp9h"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-54873]
+aliases = ["EUVD-2026-89005", "GHSA-8jj8-6qjx-8659"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-54875]
+aliases = ["EUVD-2026-89006", "GHSA-q4gq-r6f8-q6q9"]
+packages = ["Openresty_jll"]
+reason = "The package does not ship the affected OpenSSL version on an affected architecture."
+
+[CVE-2026-63075]
+aliases = ["EUVD-2026-65485", "GHSA-cj75-r57j-r5v8"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-75804]
+aliases = ["EUVD-2026-89009", "GHSA-gjmh-wx93-r4pw"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-84784]
+aliases = ["EUVD-2026-89015", "GHSA-4fx9-95x6-pq4q"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-88822]
+aliases = ["EUVD-2026-121591", "GHSA-m2vh-6qf5-47p9"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-95691]
+aliases = ["EUVD-2026-121636", "GHSA-q8c3-jq6j-fc5f"]
+packages = ["AppBundler", "Openresty_jll"]
+reason = "The affected OpenSSL code is QUIC-only; Openresty does not enable HTTP/3 in the embedded build and AppBundler uses its pinned CLI only for MSIX certificate operations."
+
+[CVE-2026-63073]
+aliases = ["GHSA-826x-qg76-xqjx", "EUVD-2026-65483"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_msg_check_update) is not linked into the published GNU or musl binaries; the CMP logging helpers that are linked do not include it. Reviewed in #685."
+
+[CVE-2026-63074]
+aliases = ["GHSA-2q27-mpm9-44m4", "EUVD-2026-65484"]
+packages = ["Openresty_jll"]
+reason = "Neither affected release links the affected CMP function (ossl_cmp_msg_check_update) or ships a separate OpenSSL library. Reviewed in #685."
+
+[CVE-2026-63076]
+aliases = ["GHSA-r3hf-pf7x-wgqg", "EUVD-2026-65487"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP implementation (ossl_cmp_calc_protection) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-75805]
+aliases = ["GHSA-gpg3-m652-f2vc", "EUVD-2026-89010"]
+packages = ["Openresty_jll"]
+reason = "The affected CMP client revocation API (OSSL_CMP_exec_RR_ses) is not linked into either release’s GNU or musl binaries. Reviewed in #685."
+
+[CVE-2026-107496]
+aliases = ["EUVD-2026-121711", "GHSA-vv67-6crp-mvmp"]
+packages = ["Openresty_jll"]
+reason = "The published binaries do not link the affected CMS encryption entry points CMS_encrypt or CMS_encrypt_ex, and the artifacts do not ship a separate OpenSSL library or CLI."
+
 [CVE-2026-28500]
 aliases = ["GHSA-hqmj-h5c6-369m"]
 packages = ["ONNX_jll", "ONNX_static_jll"]
