@@ -78,6 +78,11 @@ jobs:
         committer: JLSEC[bot] <234068973+jlsec-bot@users.noreply.github.com>
         push-to-fork: jlsec-bot/SecurityAdvisories.jl
         title: ${{ steps.identify.outputs.title }}
+        commit-message: |
+          ${{ steps.identify.outputs.title }}
+
+          `julia --project=. scripts/search_upstream_advisories.jl "${{ inputs.haystack || steps.identify.outputs.branch }}" "${{ inputs.filter == null || inputs.filter }}"`
+          ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         body: ${{ steps.identify.outputs.body }}
         branch: ${{ steps.identify.outputs.branch }}
         draft: true
