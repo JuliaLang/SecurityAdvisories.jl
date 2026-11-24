@@ -1517,6 +1517,41 @@ aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects Keras HDF5 model loading in the Python layer, which is not shipped with the six standalone XLA tools that XLA_Tools_jll builds from TensorFlow 2.2.1 (XLA core plus the interpreter backend only). Reviewed in #615."
 
+[CVE-2026-28500]
+aliases = ["GHSA-hqmj-h5c6-369m"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects the onnx.hub.load Python API, which neither JLL ships. Reviewed in #360."
+
+[CVE-2026-34445]
+aliases = ["GHSA-538c-55jv-c5g9"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects the Python ExternalDataInfo class, which neither JLL ships. Reviewed in #360."
+
+[CVE-2026-34446]
+aliases = ["GHSA-cmw6-hcpp-c6jp"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects external-data reads through the Python onnx.load API, which neither JLL ships. Reviewed in #360."
+
+[CVE-2026-49114]
+aliases = ["GHSA-q56x-g2fj-4rj6"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects writes through the Python save_external_data helper, which neither JLL ships. Reviewed in #360."
+
+[CVE-2024-27318]
+aliases = ["GHSA-whh8-fjgc-qp73"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Bypasses external-data path validation introduced in ONNX 1.13.0. The shipped 1.10.2 and 1.11.0 C++ builds predate that validation and do not ship the Python loader. The original checker issue is tracked separately as CVE-2022-25882. Reviewed in #360."
+
+[CVE-2026-27489]
+aliases = ["GHSA-3r9x-f23j-gc73"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects later external-data path resolution and loading. The shipped 1.10.2 and 1.11.0 C++ builds lack the resolver and do not load external tensor contents. Reviewed in #360."
+
+[CVE-2026-34447]
+aliases = ["GHSA-p433-9wv8-28xj"]
+packages = ["ONNX_jll", "ONNX_static_jll"]
+reason = "Affects resolve_external_data_location as used by the Python external-data loader. The shipped 1.10.2 and 1.11.0 C++ builds lack the resolver and do not load external tensor contents. Reviewed in #360."
+
 [CVE-2022-39028]
 packages = ["telnet_jll"]
 reason = "Affects telnetd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
