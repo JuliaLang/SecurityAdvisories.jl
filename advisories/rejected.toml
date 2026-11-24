@@ -75,6 +75,18 @@ reason = "This 2010-era xpdf infinite loop was fixed long before any Poppler_jll
 packages = ["Kerberos_krb5_jll"]
 reason = "Fixed in krb5 1.17, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
 
+[CVE-2022-33064]
+packages = ["libsndfile_jll"]
+reason = "The reported cue accesses are within the dynamically allocated array. Upstream fixed fixed-size-array indexing that triggered UBSan, not the claimed write past the allocation (https://github.com/libsndfile/libsndfile/pull/1168). Reviewed in #534."
+
+[CVE-2024-50613]
+packages = ["libsndfile_jll"]
+reason = "The released artifacts do not ship the optional MPEG encoder implicated in this advisory. Reviewed in #534."
+
+[CVE-2025-56226]
+packages = ["libsndfile_jll"]
+reason = "The released artifacts do not ship the optional MPEG encoder implicated in this advisory. Reviewed in #534."
+
 [CVE-2018-5709]
 packages = ["Kerberos_krb5_jll"]
 reason = "Affects krb5 through 1.16, predating the earliest krb5 packaged as Kerberos_krb5_jll (1.19.3). It only matched because NVD folds the '5' of krb5 into its version numbers, preventing a bounded mapping. Reviewed in #354."
