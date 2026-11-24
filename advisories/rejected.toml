@@ -1628,3 +1628,7 @@ reason = "Affects telnetd; every telnet_jll build is configured with --disable-s
 [CVE-2023-40303]
 packages = ["telnet_jll"]
 reason = "Affects ftpd, rcp, rlogin, rsh, rshd and uucpd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2026-6069]
+packages = ["NASM_jll"]
+reason = "The upstream report (netwide-assembler/nasm#217) does not apply to the shipped ndisasm executable. In every registered build, ndisasm is the only disasm() caller and provides a buffer large enough for its output; the reported case used a custom caller. The JLL does not ship a callable disassembler library. Reviewed in #720."
