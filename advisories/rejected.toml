@@ -3,6 +3,14 @@
 # id, with optional `aliases`, `packages`, and `reason` fields; a rejection only
 # applies to the packages it lists. See CONTRIBUTING.md for details.
 
+[CVE-2018-20671]
+packages = ["GCCBootstrap_jll"]
+reason = "The Binutils 2.29.1 objdump delegates debug section allocation to BFD and does not use the section-size-plus-one allocation implicated in PR24005. The other artifacts ship Binutils 2.38, which includes the fix. Reviewed in #456."
+
+[CVE-2021-37322]
+packages = ["GCCBootstrap_jll"]
+reason = "Upstream bug 99188 confirms the c++filt issue was fixed in Binutils 2.27. The artifacts ship Binutils 2.29.1 or 2.38. Reviewed in #456."
+
 [CVE-2021-43618]
 packages = ["GCCBootstrap_jll", "LibStdCxx_jll"]
 reason = "Affects 32-bit GMP builds. All GCCBootstrap_jll archives ship x86_64 host compilers, even those with 32-bit targets. LibStdCxx_jll ships only x86_64 C++ runtime artifacts, not GMP. Reviewed in #456."
