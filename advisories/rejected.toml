@@ -1632,3 +1632,13 @@ reason = "Affects telnetd; every telnet_jll build is configured with --disable-s
 [CVE-2023-40303]
 packages = ["telnet_jll"]
 reason = "Affects ftpd, rcp, rlogin, rsh, rshd and uucpd; every telnet_jll build is configured with --disable-servers --disable-clients --enable-telnet and ships only the telnet client. Reviewed in #358."
+
+[CVE-2025-15569]
+aliases = ["GHSA-8qc5-j3h9-pmjh", "EUVD-2025-207353"]
+packages = ["MuPDF_jll"]
+reason = "Affects the standalone Windows viewer, which MuPDF_jll does not build or ship; its only executable is mutool. Reviewed in #726."
+
+[CVE-2026-92413]
+aliases = ["GHSA-pxvr-c538-2crq", "EUVD-2026-80896"]
+packages = ["MuPDF_jll"]
+reason = "Affects external PDF stream handling on the upstream development branch. The sole registered MuPDF_jll build (1.28.6+0) uses the upstream 1.28.6 release, whose pdf_open_filter does not contain that code path. Reviewed in #726."
