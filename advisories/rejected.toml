@@ -1566,6 +1566,35 @@ aliases = ["GHSA-h488-5g2w-vhxr", "EUVD-2025-13642"]
 packages = ["XLA_Tools_jll"]
 reason = "Affects TensorFlow Serving, a separate product that shares no code with the XLA tools built by XLA_Tools_jll. Reviewed in #615."
 
+[CVE-2021-23839]
+aliases = ["GHSA-rh82-fhxg-rxx8", "EUVD-2021-10767"]
+packages = ["Openresty_jll"]
+reason = "OpenSSL says the TLS server issue requires SSLv2 support compiled in. None of the eight matching artifacts contains the SSLv2 protocol implementation. The generic RSA padding helper is present, but its presence does not establish a shipped SSLv2 path. Reviewed in #685."
+
+[CVE-2023-44487]
+packages = ["Openresty_jll"]
+reason = "None of the released OpenResty GNU or musl binaries (including i686 where published) contains the nginx HTTP/2 module, and none ships it as a module. This is an existing false positive exposed by the review. Reviewed in #685."
+
+[CVE-2026-85091]
+aliases = ["GHSA-g5fp-32jq-cfw2", "EUVD-2026-70301"]
+packages = ["Openresty_jll", "fmusim_jll"]
+reason = "Openresty_jll: zlib is statically linked, but only selected objects are used: all 16 published OpenResty binaries lack the affected gz-writing functions and none ships a separate libz. The presence of deflate alone is not sufficient. fmusim_jll: The 0.0.39 and 0.0.39001 recipes compile only minizip IO/unzip sources from the tracked tree, not the affected gzwrite.c. The older executable uses a separately resolved Zlib_jll; 0.15.0 no longer uses that source or dependency. Reviewed in #685."
+
+[CVE-2026-89157]
+aliases = ["GHSA-797w-fgfq-r75v", "EUVD-2026-75943"]
+packages = ["Openresty_jll"]
+reason = "The issue affects only 32-bit platforms. The OpenResty builds containing PCRE2 are x86_64 only and do not link the affected conversion API. Reviewed in #685."
+
+[CVE-2026-89158]
+aliases = ["GHSA-9v67-x694-f2jr", "EUVD-2026-75944"]
+packages = ["Openresty_jll"]
+reason = "The issue requires a 32-bit platform and the 32-bit code-unit library. The OpenResty builds containing PCRE2 are x86_64 only and link the 8-bit implementation. Reviewed in #685."
+
+[CVE-2026-89162]
+aliases = ["GHSA-mv4q-849q-vg78", "EUVD-2026-75947"]
+packages = ["Openresty_jll"]
+reason = "Neither its GNU nor musl executable links pcre2_serialize_encode_8, and neither ships a separate PCRE2 library. Reviewed in #685."
+
 [CVE-2026-2492]
 aliases = ["GHSA-9xmv-j327-gw5g", "EUVD-2026-7768"]
 packages = ["XLA_Tools_jll"]
