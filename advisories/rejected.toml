@@ -66,6 +66,26 @@ aliases = ["GHSA-9mj4-rrc3-gjcx"]
 packages = ["systemd_jll"]
 reason = "Affects systemd-nspawn, which systemd_jll does not ship. Reviewed in #475."
 
+[CVE-2026-103653]
+aliases = ["EUVD-2026-115724", "GHSA-hj4c-cp68-82hw"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "Affects the Qt CoAP module (qtcoap), which none of these packages builds; Qt_jll's Qt 5.15 qt-everywhere source does not include it. Reviewed in #727."
+
+[CVE-2026-107457]
+aliases = ["EUVD-2026-115111", "GHSA-g94w-7rpc-xf8m"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "Affects the Qt MQTT module (qtmqtt), which none of these packages builds; Qt_jll's Qt 5.15 qt-everywhere source does not include it. Reviewed in #727."
+
+[CVE-2026-13326]
+aliases = ["EUVD-2026-75974", "GHSA-83vf-f8f4-pj48"]
+packages = ["Qt5Base_jll", "Qt5Charts_jll", "Qt5Declarative_jll", "Qt5QuickControls2_jll", "Qt5QuickControls_jll", "Qt5Svg_jll", "Qt5Tools_jll", "Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll", "Qt_jll"]
+reason = "Affects Qt NFC in the Qt Connectivity module (qtconnectivity), which none of these packages builds; Qt_jll configures with -skip qtconnectivity. Reviewed in #727."
+
+[CVE-2026-79680]
+aliases = ["EUVD-2026-85846", "GHSA-wc8f-vjgx-jxrw"]
+packages = ["Qt65Compat_jll", "Qt6Base_jll", "Qt6Charts_jll", "Qt6Declarative_jll", "Qt6Graphs_jll", "Qt6Positioning_jll", "Qt6Quick3D_jll", "Qt6QuickTimeline_jll", "Qt6ShaderTools_jll", "Qt6Svg_jll", "Qt6Tools_jll", "Qt6Wayland_jll", "Qt6WebChannel_jll", "Qt6WebSockets_jll"]
+reason = "Affects the commercial Qt VNC Server module (tqtc-qtvncserver), which none of these packages builds. Qt6Base_jll's qvnc platform plugin is separate code. Reviewed in #727."
+
 [CVE-2010-0207]
 aliases = ["GHSA-3274-8h4c-g6q9", "EUVD-2010-0238"]
 packages = ["Poppler_jll"]
